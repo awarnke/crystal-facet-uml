@@ -7,9 +7,6 @@
 void btn_clear_callback( GtkButton* button, gpointer data ) {
     TRACE_BEGIN();
 
-    gui_textedit_t (*this_) = (gui_textedit_t*) data;
-    /*TRACE_DEBUG("clear\n");*/
-
     TRACE_END();
 }
 

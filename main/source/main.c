@@ -1,4 +1,4 @@
-/* Program: crystal_facet_uml; Author: Andreas Warnke; License: Apache 2.0 */
+/* File: main.c; Author: Andreas Warnke; License: Apache 2.0 */
 
 #include "gui_main.h"
 #include "trace.h"
@@ -14,7 +14,7 @@ int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     int exit_code = 0;
 
-    TRACE_INFO("Handling GUI...");
+    TRACE_INFO("starting GUI...");
     gui_main(argc, argv);
 
     TRACE_END_ERR(exit_code);

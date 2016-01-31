@@ -10,11 +10,34 @@
 
 #define LOG_OUT_STREAM stdout
 
+/*!
+ *  \brief logs an error string
+ */
 #define LOG_ERROR(x) { const char *string_test = x; fprintf(LOG_OUT_STREAM,"ERR : %s\n",string_test); }
+
+/*!
+ *  \brief logs an error string and an integer
+ */
 #define LOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"ERR : %s %i\n",string_test,int_test); }
+
+/*!
+ *  \brief logs a warning string
+ */
 #define LOG_WARNING(x) { const char *string_test = x; fprintf(LOG_OUT_STREAM,"WARN: %s\n",string_test); }
+
+/*!
+ *  \brief logs a warning string and an integer
+ */
 #define LOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"WARN: %s %i\n",string_test,int_test); }
+
+/*!
+ *  \brief logs an event string
+ */
 #define LOG_EVENT(x) { const char *string_test = x; fprintf(LOG_OUT_STREAM,"EVT : %s\n",string_test); }
+
+/*!
+ *  \brief logs an event string and an integer
+ */
 #define LOG_EVENT_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"EVT : %s %i\n",string_test,int_test); }
 
 #endif  /* LOG_H */

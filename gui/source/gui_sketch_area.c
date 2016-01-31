@@ -48,15 +48,11 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     int x;
     int y;
     GdkModifierType state;
-    if ( evt->is_hint ) {
-        /* deprecated */
-        gdk_window_get_pointer( evt->window, &x, &y, &state );
-    }
-    else {
-        x = (int) evt->x;
-        y = (int) evt->y;
-        state = (GdkModifierType) evt->state;
-    }
+    
+    x = (int) evt->x;
+    y = (int) evt->y;
+    state = (GdkModifierType) evt->state;
+    
     TRACE_INFO_INT_INT("x/y",x,y);
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {

@@ -8,13 +8,19 @@
 
 #include <gtk/gtk.h>
 
-/**
- *  initializes the gui
+/*!
+ *  \brief initializes the main window
  */
 void gui_main_window_init();
 
+/*!
+ *  \brief callback that is executed when the main window is destroyed
+ */
 void gui_main_window_destroy_event(GtkWidget *widget, gpointer data);
 
+/*!
+ *  \brief callback that is executed when the main window is requeted to be deleted
+ */
 gboolean gui_main_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
 
 #endif  /* GUI_INIT_H */

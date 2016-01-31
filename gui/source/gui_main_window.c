@@ -23,8 +23,6 @@ static GtkWidget *clear;
 
 static GtkWidget *characterEntry;
 
-static gui_textedit_t gui_textedit = GUI_TEXTEDIT( gui_textedit, NULL, NULL );
-
 void gui_main_window_init () {
     TRACE_BEGIN();
  
@@ -51,7 +49,7 @@ void gui_main_window_init () {
     toolbar = gtk_toolbar_new ();
 
     sketcharea = gtk_drawing_area_new();
-    gtk_widget_set_size_request(sketcharea, 1080, 640);
+    gtk_widget_set_size_request(sketcharea, 1080, 600);
     gtk_widget_set_events( sketcharea, GDK_LEAVE_NOTIFY_MASK 
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand (sketcharea, TRUE);
@@ -80,11 +78,11 @@ void gui_main_window_init () {
     g_signal_connect(G_OBJECT(window), "delete_event", G_CALLBACK(gui_main_window_delete_event), NULL);
     g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gui_main_window_destroy_event), NULL);
     g_signal_connect (G_OBJECT (sketcharea), "draw", G_CALLBACK (gui_sketch_area_draw_callback), NULL);    
-    g_signal_connect( G_OBJECT(sketcharea), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &gui_textedit );
-    g_signal_connect(G_OBJECT(clear), "clicked", G_CALLBACK(btn_clear_callback), &gui_textedit );
+    g_signal_connect( G_OBJECT(sketcharea), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), NULL );
+    g_signal_connect( G_OBJECT(sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), NULL );
+    g_signal_connect( G_OBJECT(sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), NULL );
+    g_signal_connect( G_OBJECT(sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), NULL );
+    g_signal_connect(G_OBJECT(clear), "clicked", G_CALLBACK(btn_clear_callback), NULL );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 

@@ -8,14 +8,29 @@
 
 #include <gtk/gtk.h>
 
-/**
- *  redraws the sketch_area widget
+/*!
+ *  \brief callback that redraws the sketch_area widget
  */
 gboolean gui_sketch_area_draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data);
 
+/*!
+ *  \brief callback that informs that the mouse cursor left the sketch_area widget 
+ */
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data );
+
+/*!
+ *  \brief callback that informs that the mouse cursor moved on the sketch_area widget 
+ */
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data );
+
+/*!
+ *  \brief callback that informs that the mouse button was pressed on the sketch_area widget 
+ */
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
+
+/*!
+ *  \brief callback that informs that the mouse button was released on the sketch_area widget 
+ */
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
 
 #endif  /* GUI_SKETCH_AREA_H */
