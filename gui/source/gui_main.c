@@ -1,8 +1,8 @@
-/* File: gui/gui_main.c;.c Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_main.c;.c Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
 #include "gui_main.h"
 #include "gui_init.h"
-#include "util/trace.h"
+#include "trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdlib.h>

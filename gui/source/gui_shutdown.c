@@ -1,8 +1,8 @@
-/* File: gui/gui_shutdown.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_shutdown.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
 #include "gui_shutdown.h"
+#include "trace.h"
 #include <gtk/gtk.h>
-#include "util/trace.h"
 
 void gui_window_destroy_event(GtkWidget *widget, gpointer data)
 {

@@ -1,7 +1,7 @@
-/* File: gui/gui_sketcharea.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_sketcharea.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
 #include "gui_sketcharea.h"
-#include "util/trace.h"
+#include "trace.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

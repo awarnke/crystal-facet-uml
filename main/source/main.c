@@ -1,7 +1,7 @@
-/* Program: gFontCharacterViewer; Author: Andreas Warnke; License: Apache 2.0 */
+/* Program: crystal_facet_uml; Author: Andreas Warnke; License: Apache 2.0 */
 
-#include "gui/gui_main.h"
-#include "util/trace.h"
+#include "gui_main.h"
+#include "trace.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>

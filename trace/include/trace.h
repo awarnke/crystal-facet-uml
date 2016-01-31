@@ -1,4 +1,4 @@
-/* File: util/trace.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: trace.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
 #ifndef TRACE_H
 #define TRACE_H
