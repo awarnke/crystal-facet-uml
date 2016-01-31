@@ -1,19 +1,23 @@
-/* File: gui_main.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_main_window.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
-#ifndef GUI_RUN_H
-#define GUI_RUN_H
+#ifndef GUI_INIT_H
+#define GUI_INIT_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
 
 #include <gtk/gtk.h>
 
-/*!
- * \brief initializes the gui widgets
+/**
+ *  initializes the gui
  */
-void gui_main (int argc, char *argv[]);
+void gui_main_window_init();
 
-#endif  /* GUI_RUN_H */
+void gui_main_window_destroy_event(GtkWidget *widget, gpointer data);
+
+gboolean gui_main_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
+
+#endif  /* GUI_INIT_H */
 
 
 /*

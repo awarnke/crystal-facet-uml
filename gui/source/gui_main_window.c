@@ -1,10 +1,9 @@
-/* File: gui_init.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_main_window.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
 
-#include "gui_init.h"
+#include "gui_main_window.h"
 #include "gui_textedit.h"
-#include "gui_sketcharea.h"
+#include "gui_sketch_area.h"
 #include "trace.h"
-#include "gui_shutdown.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -26,11 +25,11 @@ static GtkWidget *characterEntry;
 
 static gui_textedit_t gui_textedit = GUI_TEXTEDIT( gui_textedit, NULL, NULL );
 
-void gui_init () {
+void gui_main_window_init () {
     TRACE_BEGIN();
  
     window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW(window), "s t o n e u m l");
+    gtk_window_set_title(GTK_WINDOW(window), "crystal facet uml");
     gtk_widget_set_size_request(window, 1080, 660);
     g_signal_connect_swapped(G_OBJECT(window), "destroy", G_CALLBACK (gtk_main_quit), NULL);
     
@@ -78,14 +77,13 @@ void gui_init () {
    
     TRACE_INFO("GTK+ Widgets are added to containers.");
     
-    g_signal_connect(G_OBJECT(window), "delete_event", G_CALLBACK(gui_window_delete_event), NULL);
-    g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gui_window_destroy_event), NULL);
-    //g_signal_connect(G_OBJECT(sketcharea), "expose_event", G_CALLBACK(gui_sketcharea_expose_event_callback), sketcharea );
-    g_signal_connect (G_OBJECT (sketcharea), "draw", G_CALLBACK (gui_sketcharea_draw_callback), NULL);    
-    g_signal_connect( G_OBJECT(sketcharea), "motion_notify_event", G_CALLBACK(gui_sketcharea_mouse_motion_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "button_press_event", G_CALLBACK(gui_sketcharea_button_press_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "button_release_event", G_CALLBACK(gui_sketcharea_button_release_callback), &gui_textedit );
-    g_signal_connect( G_OBJECT(sketcharea), "leave_notify_event", G_CALLBACK(gui_sketcharea_leave_notify_callback), &gui_textedit );
+    g_signal_connect(G_OBJECT(window), "delete_event", G_CALLBACK(gui_main_window_delete_event), NULL);
+    g_signal_connect(G_OBJECT(window), "destroy", G_CALLBACK(gui_main_window_destroy_event), NULL);
+    g_signal_connect (G_OBJECT (sketcharea), "draw", G_CALLBACK (gui_sketch_area_draw_callback), NULL);    
+    g_signal_connect( G_OBJECT(sketcharea), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), &gui_textedit );
+    g_signal_connect( G_OBJECT(sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), &gui_textedit );
+    g_signal_connect( G_OBJECT(sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &gui_textedit );
+    g_signal_connect( G_OBJECT(sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &gui_textedit );
     g_signal_connect(G_OBJECT(clear), "clicked", G_CALLBACK(btn_clear_callback), &gui_textedit );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
@@ -97,3 +95,36 @@ void gui_init () {
 }
 
 
+void gui_main_window_destroy_event(GtkWidget *widget, gpointer data)
+{
+    TRACE_BEGIN();
+    
+    gtk_main_quit();
+    
+    TRACE_END();
+}
+
+gboolean gui_main_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data)
+{
+    TRACE_BEGIN();
+    
+    TRACE_END();
+    return FALSE;  /* return false to trigger destroy event */
+}
+
+
+/*
+Copyright 2016-2016 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
