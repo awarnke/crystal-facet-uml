@@ -6,11 +6,13 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "gui_sketch_area.h"
 #include <gtk/gtk.h>
 
 struct gui_main_window_struct {
     GtkWidget *window;
     GtkWidget *sketcharea;
+    gui_sketch_area_t sketcharea_data;
     GtkWidget *layout;
 
     GtkWidget *toolbar;

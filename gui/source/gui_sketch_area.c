@@ -6,26 +6,40 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 
+void gui_sketch_area_init ( gui_sketch_area_t *this_ )
+{
+    TRACE_BEGIN();
+    TRACE_END();
+}
+
+void gui_sketch_area_destroy ( gui_sketch_area_t *this_ )
+{
+    TRACE_BEGIN();
+    TRACE_END();
+}
+
 gboolean gui_sketch_area_draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
 {
-  guint width, height;
-  GdkRGBA color;
+    TRACE_BEGIN();
+    guint width, height;
+    GdkRGBA color;
 
-  width = gtk_widget_get_allocated_width (widget);
-  height = gtk_widget_get_allocated_height (widget);
-  cairo_arc (cr,
+    width = gtk_widget_get_allocated_width (widget);
+    height = gtk_widget_get_allocated_height (widget);
+    cairo_arc (cr,
              width / 2.0, height / 2.0,
              MIN (width, height) / 2.3,
              0.0, 2.0 * G_PI);
 
-  gtk_style_context_get_color (gtk_widget_get_style_context (widget),
+    gtk_style_context_get_color (gtk_widget_get_style_context (widget),
                                0,
                                &color);
-  gdk_cairo_set_source_rgba (cr, &color);
+    gdk_cairo_set_source_rgba (cr, &color);
 
-  cairo_fill (cr);
+    cairo_fill (cr);
 
-  return FALSE;
+    TRACE_END();
+    return FALSE;
 }
 
 

@@ -9,9 +9,28 @@
 #include <gtk/gtk.h>
 
 /*!
+ *  \brief data which is liked to the sketch area widget
+ */
+struct gui_sketch_area_struct {
+    
+};
+
+typedef struct gui_sketch_area_struct gui_sketch_area_t;
+
+/*!
+ *  \brief initializes the gui_sketch_area_t struct
+ */
+void gui_sketch_area_init ( gui_sketch_area_t *this_ );
+
+/*!
+ *  \brief destroys the gui_sketch_area_t struct
+ */
+void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
+
+/*!
  *  \brief callback that redraws the sketch_area widget
  */
-gboolean gui_sketch_area_draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data);
+gboolean gui_sketch_area_draw_callback ( GtkWidget *widget, cairo_t *cr, gpointer data );
 
 /*!
  *  \brief callback that informs that the mouse cursor left the sketch_area widget 

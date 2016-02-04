@@ -40,6 +40,7 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
+    gui_sketch_area_init( &((*this_).sketcharea_data) );
  
     (*this_).layout = gtk_grid_new();
     gtk_widget_set_size_request((*this_).layout, 1080, 640);
@@ -61,8 +62,8 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
    
     TRACE_INFO("GTK+ Widgets are added to containers.");
     
-    g_signal_connect( G_OBJECT((*this_).window), "delete_event", G_CALLBACK(gui_main_window_delete_event_callback), NULL);
-    g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), NULL);
+    g_signal_connect( G_OBJECT((*this_).window), "delete_event", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "draw", G_CALLBACK (gui_sketch_area_draw_callback), NULL);    
     g_signal_connect( G_OBJECT((*this_).sketcharea), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), NULL );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), NULL );
@@ -79,16 +80,18 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
 }
 
 
-void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data)
+void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data )
 {
     TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
     
+    gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gtk_main_quit();
     
     TRACE_END();
 }
 
-gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data)
+gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data )
 {
     TRACE_BEGIN();
     
