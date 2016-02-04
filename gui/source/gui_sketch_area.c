@@ -9,12 +9,18 @@
 void gui_sketch_area_init ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
+    
+    data_database_init( &((*this_).database) );
+    
     TRACE_END();
 }
 
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
+    
+    data_database_destroy( &((*this_).database) );
+    
     TRACE_END();
 }
 

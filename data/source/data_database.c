@@ -2,7 +2,45 @@
 
 #include "data_database.h"
 #include "trace.h"
+#include "log.h"
 
+void data_database_init ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+    
+    (*this_).db_file_name = "crystal_facet_uml_default.db";
+    
+    sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
+    if ( sqlite_err ) 
+    {
+        LOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
+        (*this_).is_open = false;
+    }
+    else
+    {
+        (*this_).is_open = true;
+    }
+    
+    TRACE_END();
+}
+
+void data_database_destroy ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+
+    (*this_).db_file_name = "";
+    (*this_).is_open = false;
+
+    sqlite_err = sqlite3_close( (*this_).db );
+    if ( sqlite_err ) 
+    {
+        LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+    }
+
+    TRACE_END();
+}
 
 
 /*

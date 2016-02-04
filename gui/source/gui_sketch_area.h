@@ -6,13 +6,14 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_database.h"
 #include <gtk/gtk.h>
 
 /*!
  *  \brief data which is liked to the sketch area widget
  */
 struct gui_sketch_area_struct {
-    
+    data_database_t database;
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;

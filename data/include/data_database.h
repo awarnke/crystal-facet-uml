@@ -8,12 +8,25 @@
 
 #include <stdio.h>
 #include <sqlite3.h>
+#include <stdbool.h>
 
 struct data_database_struct {
     sqlite3 *db;
+    char* db_file_name;
+    bool is_open;
 };
 
 typedef struct data_database_struct data_database_t;
+
+/*!
+ *  \brief initializes the data_database_t struct
+ */
+void data_database_init ( data_database_t *this_ );
+
+/*!
+ *  \brief destroys the data_database_t struct
+ */
+void data_database_destroy ( data_database_t *this_ );
 
 
 #endif  /* DATA_DATABASE_H */

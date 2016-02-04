@@ -36,12 +36,12 @@ void gui_main_window_init( gui_main_window_t *this_ );
 /*!
  *  \brief callback that is executed when the main window is destroyed
  */
-void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data);
+void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data );
 
 /*!
  *  \brief callback that is executed when the main window is requeted to be deleted
  */
-gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data);
+gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 
