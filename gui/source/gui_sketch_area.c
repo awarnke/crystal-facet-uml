@@ -1,4 +1,4 @@
-/* File: gui_sketch_area.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_sketch_area.c; Copyright and License: see below */
 
 #include "gui_sketch_area.h"
 #include "trace.h"

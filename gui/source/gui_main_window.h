@@ -1,29 +1,47 @@
-/* File: gui_main_window.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_main_window.h; Copyright and License: see below */
 
-#ifndef GUI_INIT_H
-#define GUI_INIT_H
+#ifndef GUI_MAIN_WINDOW_H
+#define GUI_MAIN_WINDOW_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
 
 #include <gtk/gtk.h>
 
+struct gui_main_window_struct {
+    GtkWidget *window;
+    GtkWidget *sketcharea;
+    GtkWidget *layout;
+
+    GtkWidget *toolbar;
+    GtkToolItem *tool_navigate;
+    GtkToolItem *tool_edit;
+    GtkToolItem *tool_new_obj;
+    GtkToolItem *tool_new_view;
+
+    GtkWidget *clear;
+
+    GtkWidget *characterEntry;
+};
+
+typedef struct gui_main_window_struct gui_main_window_t;
+
 /*!
  *  \brief initializes the main window
  */
-void gui_main_window_init();
+void gui_main_window_init( gui_main_window_t *this_ );
 
 /*!
  *  \brief callback that is executed when the main window is destroyed
  */
-void gui_main_window_destroy_event(GtkWidget *widget, gpointer data);
+void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data);
 
 /*!
  *  \brief callback that is executed when the main window is requeted to be deleted
  */
-gboolean gui_main_window_delete_event(GtkWidget *widget, GdkEvent *event, gpointer data);
+gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data);
 
-#endif  /* GUI_INIT_H */
+#endif  /* GUI_MAIN_WINDOW_H */
 
 
 /*

@@ -1,11 +1,11 @@
-/* File: gui_textedit.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_textedit.h; Copyright and License: see below */
 
 #ifndef GUI_TEXTEDIT_H
 #define GUI_TEXTEDIT_H
 
 #include <gtk/gtk.h>
 
-void btn_clear_callback( GtkButton* button, gpointer data );
+void gui_textedit_clear_btn_callback( GtkButton* button, gpointer data );
 
 #endif  /* GUI_TEXTEDIT_H */
 

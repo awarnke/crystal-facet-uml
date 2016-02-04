@@ -1,19 +1,22 @@
-/* File: gui_main.h; Copyright and License: see below */
+/* File: data_database.h; Copyright and License: see below */
 
-#ifndef GUI_MAIN_H
-#define GUI_MAIN_H
+#ifndef DATA_DATABASE_H
+#define DATA_DATABASE_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include <gtk/gtk.h>
+#include <stdio.h>
+#include <sqlite3.h>
 
-/*!
- * \brief initializes the gui widgets
- */
-void gui_main (int argc, char *argv[]);
+struct data_database_struct {
+    sqlite3 *db;
+};
 
-#endif  /* GUI_MAIN_H */
+typedef struct data_database_struct data_database_t;
+
+
+#endif  /* DATA_DATABASE_H */
 
 
 /*

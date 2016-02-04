@@ -1,4 +1,4 @@
-/* File: gui_main.c;.c Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_main.c; Copyright and License: see below */
 
 #include "gui_main.h"
 #include "gui_main_window.h"
@@ -9,12 +9,13 @@
 
 void gui_main (int argc, char *argv[]) {
     TRACE_BEGIN();
+    gui_main_window_t the_window;
 
     TRACE_INFO("initializing gui thread...");
 
     gtk_init(&argc, &argv);
     
-    gui_main_window_init();
+    gui_main_window_init( &the_window );
 
     gtk_main();
 

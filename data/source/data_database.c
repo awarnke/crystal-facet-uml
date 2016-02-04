@@ -1,19 +1,8 @@
-/* File: gui_main.h; Copyright and License: see below */
+/* File: data_database.c; Copyright and License: see below */
 
-#ifndef GUI_MAIN_H
-#define GUI_MAIN_H
+#include "data_database.h"
+#include "trace.h"
 
-/* public file for the doxygen documentation: */
-/*! \file */
-
-#include <gtk/gtk.h>
-
-/*!
- * \brief initializes the gui widgets
- */
-void gui_main (int argc, char *argv[]);
-
-#endif  /* GUI_MAIN_H */
 
 
 /*

@@ -1,4 +1,4 @@
-/* File: trace.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: trace.c; Copyright and License: see below */
 
 #include "trace.h"
 #include <stdio.h>

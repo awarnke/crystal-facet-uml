@@ -1,4 +1,4 @@
-/* File: gui_sketch_area.h; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_sketch_area.h; Copyright and License: see below */
 
 #ifndef GUI_SKETCH_AREA_H
 #define GUI_SKETCH_AREA_H

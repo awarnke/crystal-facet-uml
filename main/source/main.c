@@ -1,4 +1,4 @@
-/* File: main.c; Author: Andreas Warnke; License: Apache 2.0 */
+/* File: main.c; Copyright and License: see below */
 
 #include "gui_main.h"
 #include "trace.h"

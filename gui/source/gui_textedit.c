@@ -1,10 +1,10 @@
-/* File: gui_textedit.c; Copyright 2016-2016: Andreas Warnke; License: Apache 2.0 */
+/* File: gui_textedit.c; Copyright and License: see below */
 
 #include "gui_textedit.h"
 #include "trace.h"
 #include <gtk/gtk.h>
 
-void btn_clear_callback( GtkButton* button, gpointer data ) {
+void gui_textedit_clear_btn_callback( GtkButton* button, gpointer data ) {
     TRACE_BEGIN();
 
     TRACE_END();
