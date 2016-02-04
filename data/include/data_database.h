@@ -10,6 +10,9 @@
 #include <sqlite3.h>
 #include <stdbool.h>
 
+/*!
+ *  \brief all data attributes needed for the database functions
+ */
 struct data_database_struct {
     sqlite3 *db;
     char* db_file_name;
