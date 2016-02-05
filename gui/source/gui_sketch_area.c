@@ -1,12 +1,13 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
 #include "gui_sketch_area.h"
+#include "gui_diagram_painter.h"
 #include "trace.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
 
-void gui_sketch_area_init ( gui_sketch_area_t *this_ )
+void gui_sketch_area_init( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
     
@@ -15,7 +16,7 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_area_destroy ( gui_sketch_area_t *this_ )
+void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
     
@@ -24,26 +25,67 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
-gboolean gui_sketch_area_draw_callback (GtkWidget *widget, cairo_t *cr, gpointer data)
+static const gint RATIO_WIDTH = 36;
+static const gint RATIO_HEIGHT = 24;
+
+gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
     guint width, height;
     GdkRGBA color;
+    gui_sketch_area_t *this_ = data;
+    gint paper_left, paper_top, paper_width, paper_height;
 
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
-    cairo_arc (cr,
-             width / 2.0, height / 2.0,
-             MIN (width, height) / 2.3,
-             0.0, 2.0 * G_PI);
-
-    gtk_style_context_get_color (gtk_widget_get_style_context (widget),
-                               0,
-                               &color);
-    gdk_cairo_set_source_rgba (cr, &color);
-
-    cairo_fill (cr);
-
+    
+    if (( width < 48 )||( height < 48 )) {
+        /* window is too small, output a dark-grey rectangle */
+	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, 0, 0, width, height );
+        cairo_fill (cr);
+    }
+    else 
+    {
+        if ( width * RATIO_HEIGHT > height * RATIO_WIDTH )
+	{
+	    paper_top = 10;
+	    paper_height = height - 20;
+	    paper_width = ( height * RATIO_WIDTH ) / RATIO_HEIGHT;
+	    paper_left = ( width - paper_width ) / 2;
+	}
+        else
+	{
+	    paper_left = 10;
+	    paper_width = width - 20;
+	    paper_height = ( width * RATIO_HEIGHT ) / RATIO_WIDTH;
+	    paper_top = ( height - paper_height ) / 2;
+	}
+      
+        /* draw border */
+	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, 0, 0, width, paper_top );
+        cairo_fill (cr);
+        cairo_rectangle ( cr, 0, paper_top+paper_height, width, height-paper_top-paper_height );
+        cairo_fill (cr);
+        cairo_rectangle ( cr, 0, paper_top, paper_left, paper_height );
+        cairo_fill (cr);
+        cairo_rectangle ( cr, paper_left+paper_width, paper_top, width-paper_left-paper_width, paper_height );
+        cairo_fill (cr);
+      
+	/* draw paper */
+	cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
+        cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
+        cairo_fill (cr);
+	
+	/* draw the current diagram */
+	cairo_save (cr);
+        cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
+	cairo_clip (cr);
+	gui_diagram_painter_draw ( &((*this_).database), 0, cr );
+	/*cairo_reset_clip (cr);*/
+	cairo_restore (cr);
+    }
     TRACE_END();
     return FALSE;
 }
@@ -52,6 +94,7 @@ gboolean gui_sketch_area_draw_callback (GtkWidget *widget, cairo_t *cr, gpointer
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
 
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
     }
@@ -64,6 +107,7 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
 
     int x;
     int y;
@@ -86,6 +130,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
 
     if ( evt->button == 1 ) {
         TRACE_INFO("press");
@@ -98,6 +143,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
 
     if ( evt->button == 1 ) {
         TRACE_INFO("release");

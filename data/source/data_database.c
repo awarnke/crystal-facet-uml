@@ -8,7 +8,8 @@ static const char *DATA_DATABASE_CREATE_METAOBJECT_TABLE = "CREATE TABLE IF NOT 
                                                         "maintype INTEGER, stereotype TEXT, name TEXT, description TEXT );";
 static const char *DATA_DATABASE_CREATE_METAASSOCIATION_TABLE = "CREATE TABLE IF NOT EXISTS metaassociations ( id INTEGER PRIMARY KEY ASC, "
                                                         "type INTEGER, from_metaobject_id INTEGER, to_metaobject_id INTEGER, name TEXT, "
-							"FOREIGN KEY(from_metaobject_id) REFERENCES metaobjects(id), FOREIGN KEY(to_metaobject_id) REFERENCES metaobjects(id) );";
+							"FOREIGN KEY(from_metaobject_id) REFERENCES metaobjects(id), "
+							"FOREIGN KEY(to_metaobject_id) REFERENCES metaobjects(id) );";
 static const char *DATA_DATABASE_CREATE_METAATTRIBUTE_TABLE = "CREATE TABLE IF NOT EXISTS metaattributes ( id INTEGER PRIMARY KEY ASC, "
                                                         "metaobject_id INTEGER, key TEXT, value TEXT );";
 static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE = "CREATE TABLE IF NOT EXISTS diagrams ( id INTEGER PRIMARY KEY ASC, "
@@ -16,7 +17,8 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE = "CREATE TABLE IF NOT EXI
 							"FOREIGN KEY(parent_id) REFERENCES diagrams(id) );";
 static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE = "CREATE TABLE IF NOT EXISTS diagram_elements ( id INTEGER PRIMARY KEY ASC, "
                                                         "diagram_id INTEGER, metaobject_id INTEGER, "
-							"FOREIGN KEY(diagram_id) REFERENCES diagrams(id), FOREIGN KEY(metaobject_id) REFERENCES metaobjects(id) );";
+							"FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
+							"FOREIGN KEY(metaobject_id) REFERENCES metaobjects(id) );";
 
 /*!
  *  \brief initializes the tables in the database if not yet existant
