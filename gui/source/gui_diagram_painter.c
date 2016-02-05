@@ -9,14 +9,14 @@ void gui_diagram_painter_draw ( data_database_t *db, int32_t diagram_id, cairo_t
 {
     TRACE_BEGIN();
     TRACE_INFO_INT("drawing diagram id",diagram_id);
-/*
+
     double left, top, right, bottom;
     
     cairo_clip_extents ( cr, &left, &top, &right, &bottom );
 
     TRACE_INFO_INT( "w", (int)(right-left) );
     TRACE_INFO_INT( "h", (int)(bottom-top) );
-  */  
+    
     TRACE_END();
 }
 

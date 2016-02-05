@@ -5,7 +5,7 @@
 #include "trace.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-#include <stdio.h>
+#include <stdint.h>
 
 void gui_sketch_area_init( gui_sketch_area_t *this_ )
 {
@@ -109,12 +109,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
 
-    int x;
-    int y;
+    int32_t x;
+    int32_t y;
     GdkModifierType state;
     
-    x = (int) evt->x;
-    y = (int) evt->y;
+    x = (int32_t) evt->x;
+    y = (int32_t) evt->y;
     state = (GdkModifierType) evt->state;
     
     TRACE_INFO_INT_INT("x/y",x,y);

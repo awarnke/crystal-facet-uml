@@ -7,7 +7,6 @@
 /*! \file */
 
 #include "data_database.h"
-#include "trace.h"
 #include <cairo.h>
 #include <stdint.h>
 
