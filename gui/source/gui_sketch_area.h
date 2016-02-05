@@ -8,12 +8,19 @@
 
 #include "data_database.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief data which is liked to the sketch area widget
  */
 struct gui_sketch_area_struct {
     data_database_t database;
+    bool mark_active;
+    int32_t mark_start_x;
+    int32_t mark_start_y;
+    int32_t mark_end_x;
+    int32_t mark_end_y;
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;

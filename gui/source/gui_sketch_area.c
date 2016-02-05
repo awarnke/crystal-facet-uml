@@ -12,6 +12,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_ )
     TRACE_BEGIN();
     
     data_database_init( &((*this_).database) );
+    (*this_).mark_active = false;
     
     TRACE_END();
 }
@@ -73,7 +74,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_rectangle ( cr, paper_left+paper_width, paper_top, width-paper_left-paper_width, paper_height );
         cairo_fill (cr);
       
-	/* draw paper */
+        /* draw paper */
 	cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
         cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
         cairo_fill (cr);
@@ -85,11 +86,68 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 	gui_diagram_painter_draw ( &((*this_).database), 0, cr );
 	/*cairo_reset_clip (cr);*/
 	cairo_restore (cr);
+        
+        /* draw marking line */
+        if ( (*this_).mark_active )
+        {
+            gint left, right, top, bottom;
+            if ( (*this_).mark_start_x < (*this_).mark_end_x )
+            {
+                left = (*this_).mark_start_x;
+                right = (*this_).mark_end_x;
+            }
+            else
+            {
+                left = (*this_).mark_end_x;
+                right = (*this_).mark_start_x;
+            }
+            if ( (*this_).mark_start_y < (*this_).mark_end_y )
+            {
+                top = (*this_).mark_start_y;
+                bottom = (*this_).mark_end_y;
+            }
+            else
+            {
+                top = (*this_).mark_end_y;
+                bottom = (*this_).mark_start_y;
+            }
+            cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
+            cairo_rectangle ( cr, left, top, right-left, bottom-top );
+            cairo_fill (cr);
+        }
     }
     TRACE_END();
     return FALSE;
 }
 
+static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
+static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
+{
+    gint left, right, top, bottom;
+    if ( (*this_).mark_start_x < (*this_).mark_end_x )
+    {
+        left = (*this_).mark_start_x;
+        right = (*this_).mark_end_x;
+    }
+    else
+    {
+        left = (*this_).mark_end_x;
+        right = (*this_).mark_start_x;
+    }
+    if ( (*this_).mark_start_y < (*this_).mark_end_y )
+    {
+        top = (*this_).mark_start_y;
+        bottom = (*this_).mark_end_y;
+    }
+    else
+    {
+        top = (*this_).mark_end_y;
+        bottom = (*this_).mark_start_y;
+    }
+    
+    /* mark dirty rect */
+    gtk_widget_queue_draw_area( widget, left, top, right-left, bottom-top );
+}
 
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
@@ -118,9 +176,22 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     state = (GdkModifierType) evt->state;
     
     TRACE_INFO_INT_INT("x/y",x,y);
+
+    if ( (*this_).mark_active )
+    {
+        /* mark dirty rect */
+        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        
+        (*this_).mark_end_x = x;
+        (*this_).mark_end_y = y;
+        
+        /* mark dirty rect */
+        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+    }
+    
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
-        TRACE_INFO_INT("    btn",state);
+        TRACE_INFO("    GDK_BUTTON1_MASK");
     }
 
     TRACE_END();
@@ -134,6 +205,21 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
     if ( evt->button == 1 ) {
         TRACE_INFO("press");
+
+        int32_t x;
+        int32_t y;
+        x = (int32_t) evt->x;
+        y = (int32_t) evt->y;
+        TRACE_INFO_INT_INT("x/y",x,y);
+        
+        (*this_).mark_active = true;
+        (*this_).mark_start_x = x;
+        (*this_).mark_start_y = y;
+        (*this_).mark_end_x = x;
+        (*this_).mark_end_y = y;
+        
+        /* mark dirty rect */
+        gui_sketch_area_queue_draw_mark_area( widget, this_ );
     }
 
     TRACE_END();
@@ -147,6 +233,17 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
     if ( evt->button == 1 ) {
         TRACE_INFO("release");
+
+        int32_t x;
+        int32_t y;
+        x = (int32_t) evt->x;
+        y = (int32_t) evt->y;
+        TRACE_INFO_INT_INT("x/y",x,y);
+
+        (*this_).mark_active = false;
+        
+        /* mark dirty rect */
+        gui_sketch_area_queue_draw_mark_area( widget, this_ );
     }
 
     TRACE_END();

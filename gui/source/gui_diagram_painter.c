@@ -16,7 +16,7 @@ void gui_diagram_painter_draw ( data_database_t *db, int32_t diagram_id, cairo_t
 
     TRACE_INFO_INT( "w", (int)(right-left) );
     TRACE_INFO_INT( "h", (int)(bottom-top) );
-    
+
     TRACE_END();
 }
 
