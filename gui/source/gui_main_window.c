@@ -9,7 +9,8 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_main_window_init ( gui_main_window_t *this_ ) {
+void gui_main_window_init ( gui_main_window_t *this_ )
+{
     TRACE_BEGIN();
  
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
@@ -33,6 +34,7 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
     
     (*this_).toolbar = gtk_toolbar_new ();
+    gui_sketch_tools_init( &((*this_).sketchtools_data) );
 
     (*this_).sketcharea = gtk_drawing_area_new();
     gtk_widget_set_size_request((*this_).sketcharea, 1080, 600);
@@ -40,7 +42,7 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
-    gui_sketch_area_init( &((*this_).sketcharea_data) );
+    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data) );
  
     (*this_).layout = gtk_grid_new();
     gtk_widget_set_size_request((*this_).layout, 1080, 640);
@@ -83,13 +85,22 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
     TRACE_END();
 }
 
+void gui_main_window_destroy( gui_main_window_t *this_ )
+{
+    TRACE_BEGIN();
+    
+    gui_sketch_area_destroy( &((*this_).sketcharea_data) );
+    gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
+    
+    TRACE_END();
+}
 
 void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data )
 {
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
     
-    gui_sketch_area_destroy( &((*this_).sketcharea_data) );
+    gui_main_window_destroy( this_ );
     gtk_main_quit();
     
     TRACE_END();

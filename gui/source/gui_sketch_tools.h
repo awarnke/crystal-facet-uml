@@ -5,21 +5,41 @@
 
 #include <gtk/gtk.h>
 
-enum gui_sketch_tools_tool {
-    GUI_SKETCH_TOOLS_NAVIGATE = 0,
+/*!
+ *  \brief enumberation on tools
+ */
+enum gui_sketch_tools_tool_enum {
+    GUI_SKETCH_TOOLS_NAVIGATE,
     GUI_SKETCH_TOOLS_EDIT,
     GUI_SKETCH_TOOLS_CREATE_DIAGRAM,
     GUI_SKETCH_TOOLS_CREATE_OBJECT,
 };
 
+typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
+
 /*!
  *  \brief data which is liked to the sketch area widget
  */
 struct gui_sketch_tools_struct {
-    enum gui_sketch_tools_tool selected_tool;
+    gui_sketch_tools_tool_t selected_tool;
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
+
+/*!
+ *  \brief initializes the gui_sketch_tools_t struct
+ */
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief destroys the gui_sketch_tools_t struct
+ */
+void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief gets the selected tool
+ */
+static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected ( gui_sketch_tools_t *this_ );
 
 /*!
  *  \brief callback that informs that the tool button was pressed 
@@ -40,6 +60,8 @@ void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer da
  *  \brief callback that informs that the tool button was pressed 
  */
 void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data );
+
+#include "gui_sketch_tools.inl"
 
 #endif  /* GUI_SKETCH_TOOLS_H */
 

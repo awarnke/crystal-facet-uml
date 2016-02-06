@@ -4,9 +4,27 @@
 #include "trace.h"
 #include <gtk/gtk.h>
 
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
+    
+    (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
+    
+    TRACE_END();
+}
+
+void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
+    TRACE_END();
+}
+
 void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_tools_t *sketchtool = data;
+    
+    (*sketchtool).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
     
     TRACE_END();
 }
@@ -14,6 +32,9 @@ void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
 void gui_sketch_tools_edit_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_tools_t *sketchtool = data;
+    
+    (*sketchtool).selected_tool = GUI_SKETCH_TOOLS_EDIT;
     
     TRACE_END();
 }
@@ -21,6 +42,9 @@ void gui_sketch_tools_edit_btn_callback( GtkWidget* button, gpointer data )
 void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_tools_t *sketchtool = data;
+    
+    (*sketchtool).selected_tool = GUI_SKETCH_TOOLS_CREATE_OBJECT;
     
     TRACE_END();
 }
@@ -28,6 +52,9 @@ void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer da
 void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
+    gui_sketch_tools_t *sketchtool = data;
+    
+    (*sketchtool).selected_tool = GUI_SKETCH_TOOLS_CREATE_DIAGRAM;
     
     TRACE_END();
 }

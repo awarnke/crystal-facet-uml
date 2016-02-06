@@ -3,16 +3,18 @@
 #include "gui_sketch_area.h"
 #include "gui_diagram_painter.h"
 #include "trace.h"
+#include "log.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
 
-void gui_sketch_area_init( gui_sketch_area_t *this_ )
+void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools )
 {
     TRACE_BEGIN();
     
     data_database_init( &((*this_).database) );
     (*this_).mark_active = false;
+    (*this_).tools = tools;
     
     TRACE_END();
 }
@@ -244,6 +246,28 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        
+        /* do action */
+        gui_sketch_tools_tool_t selected_tool;
+        selected_tool = gui_sketch_tools_get_selected( (*this_).tools );
+        switch ( selected_tool ) 
+        {
+            case GUI_SKETCH_TOOLS_NAVIGATE:
+                TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+                break;
+            case GUI_SKETCH_TOOLS_EDIT:
+                TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+                break;
+            default:
+                LOG_ERROR("selected_tool is out of range");
+                break;
+        }
     }
 
     TRACE_END();

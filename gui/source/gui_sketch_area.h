@@ -7,6 +7,7 @@
 /*! \file */
 
 #include "data_database.h"
+#include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -21,6 +22,7 @@ struct gui_sketch_area_struct {
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
+    gui_sketch_tools_t *tools;
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
@@ -28,7 +30,7 @@ typedef struct gui_sketch_area_struct gui_sketch_area_t;
 /*!
  *  \brief initializes the gui_sketch_area_t struct
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_ );
+void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct

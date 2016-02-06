@@ -36,6 +36,11 @@ typedef struct gui_main_window_struct gui_main_window_t;
 void gui_main_window_init( gui_main_window_t *this_ );
 
 /*!
+ *  \brief destroys the main window
+ */
+void gui_main_window_destroy( gui_main_window_t *this_ );
+
+/*!
  *  \brief callback that is executed when the main window is destroyed
  */
 void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data );
