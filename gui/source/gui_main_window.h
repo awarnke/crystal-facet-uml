@@ -7,12 +7,14 @@
 /*! \file */
 
 #include "gui_sketch_area.h"
+#include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
 
 struct gui_main_window_struct {
     GtkWidget *window;
     GtkWidget *sketcharea;
     gui_sketch_area_t sketcharea_data;
+    gui_sketch_tools_t sketchtools_data;
     GtkWidget *layout;
 
     GtkWidget *toolbar;

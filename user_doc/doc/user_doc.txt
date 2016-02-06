@@ -1,0 +1,15 @@
+/*!
+ *  \mainpage
+ * 
+ *  \image html crystal_facet_uml.png
+ *  \image latex crystal_facet_uml.png "" width=5cm
+ *
+ *  crystal_facet_uml is a uml diagram drawing tool
+ *  \li that creates a set of consistent uml diagrams.
+ *  
+ *  \image html screenshot_1.png
+ *  \image latex screenshot_1.png "" width=15cm
+ *
+ *  \author (c) 2016-2016 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ */
+

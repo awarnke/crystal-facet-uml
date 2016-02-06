@@ -30,7 +30,7 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_new_obj));
     
     (*this_).tool_new_view = gtk_radio_tool_button_new( group );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New View");
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
     
     (*this_).toolbar = gtk_toolbar_new ();
 
@@ -70,7 +70,11 @@ void gui_main_window_init ( gui_main_window_t *this_ ) {
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).clear), "clicked", G_CALLBACK(gui_textedit_clear_btn_callback), NULL );
-
+    g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
+    
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
     gtk_widget_show_all((*this_).window);

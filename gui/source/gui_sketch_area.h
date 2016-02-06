@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 /*!
- *  \brief data which is liked to the sketch area widget
+ *  \brief data which is linked to the sketch area widget
  */
 struct gui_sketch_area_struct {
     data_database_t database;

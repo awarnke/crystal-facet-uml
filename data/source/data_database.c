@@ -72,7 +72,7 @@ void data_database_init ( data_database_t *this_ )
     TRACE_BEGIN();
     int sqlite_err;
     
-    (*this_).db_file_name = "crystal_facet_uml_default.db";
+    (*this_).db_file_name = "crystal_facet_uml_default.cfu.sqlite3";
     
     sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
     if ( SQLITE_OK != sqlite_err ) 
