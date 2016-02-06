@@ -164,7 +164,7 @@ void data_database_init ( data_database_t *this_ )
     TRACE_BEGIN();
     int sqlite_err;
     
-    (*this_).db_file_name = "crystal_facet_uml_default.cfu.sqlite3";
+    (*this_).db_file_name = "crystal_facet_uml_default.cfu.sqlite3";  /* to be replaced by a file chooser */
     
     sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
     if ( SQLITE_OK != sqlite_err ) 
