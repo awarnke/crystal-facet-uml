@@ -18,7 +18,7 @@ enum gui_sketch_tools_tool_enum {
 typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
 
 /*!
- *  \brief data which is linked to the sketch area widget
+ *  \brief attributes of the sketch area widget
  */
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;

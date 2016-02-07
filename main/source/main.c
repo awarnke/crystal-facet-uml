@@ -20,9 +20,9 @@ int main (int argc, char *argv[]) {
     TRACE_INFO("starting DB...");
     data_database_init( &database );
     
-    TRACE_INFO("starting GUI...");
+    TRACE_INFO("running GUI...");
     gui_main( argc, argv, &database );
-    TRACE_INFO("stopping GUI...");
+    TRACE_INFO("GUI stopped.");
     
     TRACE_INFO("stopping DB...");
     data_database_destroy( &database );
