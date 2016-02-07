@@ -1,11 +1,14 @@
 /* File: main.c; Copyright and License: see below */
 
 #include "gui_main.h"
+#include "data_database.h"
 #include "trace.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+
+static data_database_t database;
 
 /*!
  *  \brief main starts the gui
@@ -14,9 +17,16 @@ int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     int exit_code = 0;
 
+    TRACE_INFO("starting DB...");
+    data_database_init( &database );
+    
     TRACE_INFO("starting GUI...");
-    gui_main(argc, argv);
-
+    gui_main( argc, argv, &database );
+    TRACE_INFO("stopping GUI...");
+    
+    TRACE_INFO("stopping DB...");
+    data_database_destroy( &database );
+    
     TRACE_END_ERR(exit_code);
     return exit_code;
 }

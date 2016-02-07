@@ -6,12 +6,13 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_database.h"
 #include <gtk/gtk.h>
 
 /*!
  * \brief initializes the gui widgets
  */
-void gui_main (int argc, char *argv[]);
+void gui_main ( int argc, char *argv[], data_database_t *database );
 
 #endif  /* GUI_MAIN_H */
 

@@ -6,10 +6,14 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_database.h"
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
 
+/*!
+ *  \brief attributes of the main window
+ */
 struct gui_main_window_struct {
     GtkWidget *window;
     GtkWidget *sketcharea;
@@ -33,7 +37,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
 /*!
  *  \brief initializes the main window
  */
-void gui_main_window_init( gui_main_window_t *this_ );
+void gui_main_window_init( gui_main_window_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the main window

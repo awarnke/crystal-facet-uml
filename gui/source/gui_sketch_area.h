@@ -17,7 +17,7 @@
  *  \brief data which is linked to the sketch area widget
  */
 struct gui_sketch_area_struct {
-    data_database_t database;
+    data_database_t *database;
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;
@@ -32,7 +32,7 @@ typedef struct gui_sketch_area_struct gui_sketch_area_t;
 /*!
  *  \brief initializes the gui_sketch_area_t struct
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools );
+void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, data_database_t *database );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct

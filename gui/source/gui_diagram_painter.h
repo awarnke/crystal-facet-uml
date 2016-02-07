@@ -10,6 +10,9 @@
 #include <cairo.h>
 #include <stdint.h>
 
+/*!
+ *  \brief attributes of the diagram painter
+ */
 struct gui_diagram_painter_struct {
     void *dummy;
 };

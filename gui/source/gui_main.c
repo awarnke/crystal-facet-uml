@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void gui_main (int argc, char *argv[]) {
+void gui_main ( int argc, char *argv[], data_database_t *database ) {
     TRACE_BEGIN();
     gui_main_window_t the_window;
 
@@ -15,7 +15,7 @@ void gui_main (int argc, char *argv[]) {
 
     gtk_init(&argc, &argv);
     
-    gui_main_window_init( &the_window );
+    gui_main_window_init( &the_window, database );
 
     gtk_main();
 
