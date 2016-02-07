@@ -15,6 +15,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools )
     data_database_init( &((*this_).database) );
     (*this_).mark_active = false;
     (*this_).tools = tools;
+    gui_diagram_painter_init( &((*this_).painter) );
     
     TRACE_END();
 }
@@ -23,6 +24,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
     
+    gui_diagram_painter_destroy( &((*this_).painter) );
     data_database_destroy( &((*this_).database) );
     
     TRACE_END();
@@ -85,7 +87,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 	cairo_save (cr);
         cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
 	cairo_clip (cr);
-	gui_diagram_painter_draw ( &((*this_).database), 0, cr );
+        gui_diagram_painter_draw ( &((*this_).painter), &((*this_).database), 0, cr );
 	/*cairo_reset_clip (cr);*/
 	cairo_restore (cr);
         
@@ -249,7 +251,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
-        selected_tool = gui_sketch_tools_get_selected( (*this_).tools );
+        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
         switch ( selected_tool ) 
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:

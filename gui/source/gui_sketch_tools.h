@@ -39,7 +39,7 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ );
 /*!
  *  \brief gets the selected tool
  */
-static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected ( gui_sketch_tools_t *this_ );
+static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ );
 
 /*!
  *  \brief callback that informs that the tool button was pressed 

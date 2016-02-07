@@ -1,6 +1,6 @@
 /* File: gui_sketch_tools.inl; Copyright and License: see below */
 
-static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected ( gui_sketch_tools_t *this_ )
+static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ )
 {
     return (*this_).selected_tool;
 }

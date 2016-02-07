@@ -10,10 +10,26 @@
 #include <cairo.h>
 #include <stdint.h>
 
+struct gui_diagram_painter_struct {
+    void *dummy;
+};
+
+typedef struct gui_diagram_painter_struct gui_diagram_painter_t;
+
+/*!
+ *  \brief initializes the painter
+ */
+void gui_diagram_painter_init( gui_diagram_painter_t *this_ );
+
+/*!
+ *  \brief destroys the painter
+ */
+void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ );
+
 /*!
  * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
  */
-void gui_diagram_painter_draw ( data_database_t *db, int32_t diagram_id, cairo_t *cr );
+void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int32_t diagram_id, cairo_t *cr );
 
 #endif  /* GUI_DIAGRAM_PAINTER_H */
 

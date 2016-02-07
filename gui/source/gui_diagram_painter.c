@@ -5,7 +5,21 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void gui_diagram_painter_draw ( data_database_t *db, int32_t diagram_id, cairo_t *cr )
+void gui_diagram_painter_init( gui_diagram_painter_t *this_ )
+{
+    TRACE_BEGIN();
+    
+    TRACE_END();
+}
+
+void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ )
+{
+    TRACE_BEGIN();
+    
+    TRACE_END();
+}
+
+void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int32_t diagram_id, cairo_t *cr )
 {
     TRACE_BEGIN();
     TRACE_INFO_INT("drawing diagram id",diagram_id);
