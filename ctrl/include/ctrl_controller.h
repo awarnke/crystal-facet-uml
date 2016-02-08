@@ -8,6 +8,7 @@
 
 #include "ctrl_classifier.h"
 #include "ctrl_diagram.h"
+#include "data_database.h"
 
 /*!
  *  \brief all data attributes needed for the diagram functions
@@ -15,6 +16,7 @@
 struct ctrl_controller_struct {
     ctrl_classifier_t classifiers;
     ctrl_diagram_t diagrams;
+    data_database_t *database;
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;
@@ -22,7 +24,7 @@ typedef struct ctrl_controller_struct ctrl_controller_t;
 /*!
  *  \brief initializes the ctrl_controller_t struct
  */
-void ctrl_controller_init ( ctrl_controller_t *this_ );
+void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the ctrl_controller_t struct
