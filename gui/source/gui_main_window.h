@@ -7,6 +7,7 @@
 /*! \file */
 
 #include "data_database.h"
+#include "ctrl_controller.h"
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
@@ -37,7 +38,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
 /*!
  *  \brief initializes the main window
  */
-void gui_main_window_init( gui_main_window_t *this_, data_database_t *database );
+void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database );
 
 /*!
  *  \brief destroys the main window

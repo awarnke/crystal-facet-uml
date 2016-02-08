@@ -8,13 +8,14 @@
 #include <gtk/gtk.h>
 #include <stdint.h>
 
-void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, data_database_t *database )
+void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_t *database )
 {
     TRACE_BEGIN();
     
     (*this_).mark_active = false;
     (*this_).tools = tools;
     (*this_).database = database;
+    (*this_).controller = controller;
     gui_diagram_painter_init( &((*this_).painter) );
     
     TRACE_END();

@@ -27,7 +27,7 @@ int main (int argc, char *argv[]) {
     ctrl_controller_init( &controller, &database );
     
     TRACE_INFO("running GUI...");
-    gui_main( argc, argv, &database );
+    gui_main( argc, argv, &controller, &database );
     TRACE_INFO("GUI stopped.");
     
     TRACE_INFO("destroying controller...");

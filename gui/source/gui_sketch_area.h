@@ -7,6 +7,7 @@
 /*! \file */
 
 #include "data_database.h"
+#include "ctrl_controller.h"
 #include "gui_diagram_painter.h"
 #include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
@@ -18,6 +19,7 @@
  */
 struct gui_sketch_area_struct {
     data_database_t *database;
+    ctrl_controller_t *controller;
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;
@@ -32,7 +34,7 @@ typedef struct gui_sketch_area_struct gui_sketch_area_t;
 /*!
  *  \brief initializes the gui_sketch_area_t struct
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, data_database_t *database );
+void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_t *database );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct

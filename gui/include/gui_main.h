@@ -7,12 +7,13 @@
 /*! \file */
 
 #include "data_database.h"
+#include "ctrl_controller.h"
 #include <gtk/gtk.h>
 
 /*!
  * \brief initializes the gui widgets
  */
-void gui_main ( int argc, char *argv[], data_database_t *database );
+void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database );
 
 #endif  /* GUI_MAIN_H */
 

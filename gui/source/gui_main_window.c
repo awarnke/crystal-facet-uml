@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_main_window_init ( gui_main_window_t *this_, data_database_t *database )
+void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database )
 {
     TRACE_BEGIN();
  
@@ -41,7 +41,7 @@ void gui_main_window_init ( gui_main_window_t *this_, data_database_t *database 
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
-    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), database );
+    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, database );
  
     (*this_).layout = gtk_grid_new();
     gtk_widget_set_size_request((*this_).layout, 1080, 640);
