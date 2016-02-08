@@ -2,6 +2,7 @@
 
 #include "gui_main.h"
 #include "data_database.h"
+#include "ctrl_controller.h"
 #include "trace.h"
 #include <sys/types.h>
 #include <unistd.h>
@@ -9,6 +10,7 @@
 #include <signal.h>
 
 static data_database_t database;
+static ctrl_controller_t controller;
 
 /*!
  *  \brief main starts the gui
@@ -21,9 +23,15 @@ int main (int argc, char *argv[]) {
     data_database_init( &database );
     data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );
     
+    TRACE_INFO("initializing controller...");
+    ctrl_controller_init( &controller, &database );
+    
     TRACE_INFO("running GUI...");
     gui_main( argc, argv, &database );
     TRACE_INFO("GUI stopped.");
+    
+    TRACE_INFO("destroying controller...");
+    ctrl_controller_destroy( &controller );
     
     TRACE_INFO("stopping DB...");
     data_database_close( &database );
