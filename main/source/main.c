@@ -19,12 +19,14 @@ int main (int argc, char *argv[]) {
 
     TRACE_INFO("starting DB...");
     data_database_init( &database );
+    data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );
     
     TRACE_INFO("running GUI...");
     gui_main( argc, argv, &database );
     TRACE_INFO("GUI stopped.");
     
     TRACE_INFO("stopping DB...");
+    data_database_close( &database );
     data_database_destroy( &database );
     
     TRACE_END_ERR(exit_code);

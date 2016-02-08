@@ -15,7 +15,7 @@
  */
 struct data_database_struct {
     sqlite3 *db;
-    char* db_file_name;
+    const char* db_file_name; /* non-const pointer to const string */
     bool is_open;
 };
 
@@ -25,6 +25,16 @@ typedef struct data_database_struct data_database_t;
  *  \brief initializes the data_database_t struct
  */
 void data_database_init ( data_database_t *this_ );
+
+/*!
+ *  \brief opens a database file
+ */
+void data_database_open ( data_database_t *this_, const char* db_file_path );
+
+/*!
+ *  \brief closes the current database file
+ */
+void data_database_close ( data_database_t *this_ );
 
 /*!
  *  \brief destroys the data_database_t struct

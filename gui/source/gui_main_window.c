@@ -16,7 +16,6 @@ void gui_main_window_init ( gui_main_window_t *this_, data_database_t *database 
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml");
     gtk_widget_set_size_request((*this_).window, 1080, 660);
-    g_signal_connect_swapped(G_OBJECT((*this_).window), "destroy", G_CALLBACK (gtk_main_quit), NULL);
     
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");

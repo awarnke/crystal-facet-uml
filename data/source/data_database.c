@@ -162,20 +162,61 @@ static void data_database_initialize_tables( sqlite3 *db )
 void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    
+    (*this_).db_file_name = "";
+    (*this_).is_open = false;
+    
+    TRACE_END();
+}
+
+void data_database_open ( data_database_t *this_, const char* db_file_path )
+{
+    TRACE_BEGIN();
     int sqlite_err;
     
-    (*this_).db_file_name = "crystal_facet_uml_default.cfu.sqlite3";  /* to be replaced by a file chooser */
+    if ( (*this_).is_open )
+    {
+        LOG_WARNING("data_database_open called on database that was not closed.");
+        data_database_close( this_ );
+    }
+
+    (*this_).db_file_name = db_file_path;
     
     sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
     if ( SQLITE_OK != sqlite_err ) 
     {
         LOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
+        LOG_ERROR_STR( "sqlite3_open() failed:", (*this_).db_file_name );
         (*this_).is_open = false;
     }
     else
     {
         (*this_).is_open = true;
-	data_database_initialize_tables( (*this_).db );
+        data_database_initialize_tables( (*this_).db );
+    }
+    
+    TRACE_END();
+}
+
+void data_database_close ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+    
+    if ( (*this_).is_open )
+    {
+        (*this_).db_file_name = "";
+        (*this_).is_open = false;
+        
+        sqlite_err = sqlite3_close( (*this_).db );
+        if ( SQLITE_OK != sqlite_err ) 
+        {
+            LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+        }
+    }
+    else
+    {
+        LOG_WARNING("data_database_close called on database that was not open.");
     }
     
     TRACE_END();
@@ -184,15 +225,10 @@ void data_database_init ( data_database_t *this_ )
 void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    int sqlite_err;
-
-    (*this_).db_file_name = "";
-    (*this_).is_open = false;
-
-    sqlite_err = sqlite3_close( (*this_).db );
-    if ( SQLITE_OK != sqlite_err ) 
+    
+    if ( (*this_).is_open )
     {
-        LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+        data_database_close( this_ );
     }
 
     TRACE_END();
