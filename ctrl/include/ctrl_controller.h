@@ -31,6 +31,17 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
  */
 void ctrl_controller_destroy ( ctrl_controller_t *this_ );
 
+/*!
+ *  \brief gets the classifier controller
+ */
+static inline ctrl_classifier_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ );
+
+/*!
+ *  \brief gets the diagram controller
+ */
+static inline ctrl_diagram_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ );
+
+#include "ctrl_controller.inl"
 
 #endif  /* CTRL_CONTROLLER_H */
 

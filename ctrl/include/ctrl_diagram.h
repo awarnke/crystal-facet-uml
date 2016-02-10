@@ -6,6 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_database.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -13,7 +14,7 @@
  *  \brief all data attributes needed for the diagram functions
  */
 struct ctrl_diagram_struct {
-    bool is_open;
+    data_database_t *database;
 };
 
 typedef struct ctrl_diagram_struct ctrl_diagram_t;
@@ -21,7 +22,7 @@ typedef struct ctrl_diagram_struct ctrl_diagram_t;
 /*!
  *  \brief initializes the ctrl_diagram_t struct
  */
-void ctrl_diagram_init ( ctrl_diagram_t *this_ );
+void ctrl_diagram_init ( ctrl_diagram_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the ctrl_diagram_t struct

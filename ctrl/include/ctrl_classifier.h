@@ -6,6 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_database.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -13,7 +14,7 @@
  *  \brief all data attributes needed for the classifier functions
  */
 struct ctrl_classifier_struct {
-    bool is_open;
+    data_database_t *database;
 };
 
 typedef struct ctrl_classifier_struct ctrl_classifier_t;
@@ -21,7 +22,7 @@ typedef struct ctrl_classifier_struct ctrl_classifier_t;
 /*!
  *  \brief initializes the ctrl_classifier_t struct
  */
-void ctrl_classifier_init ( ctrl_classifier_t *this_ );
+void ctrl_classifier_init ( ctrl_classifier_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the ctrl_classifier_t struct
