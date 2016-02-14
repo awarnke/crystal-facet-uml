@@ -6,15 +6,19 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_diagram_type.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief all data attributes needed for the diagram functions
  */
 struct data_diagram_struct {
-    bool is_valid;
+    int32_t id;
+    int32_t parent_id;
+    data_diagram_type_t diagram_type;
 };
 
 typedef struct data_diagram_struct data_diagram_t;

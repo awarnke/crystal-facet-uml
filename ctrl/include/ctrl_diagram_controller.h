@@ -8,6 +8,7 @@
 
 #include "data_database.h"
 #include "data_diagram_type.h"
+#include "data_diagram.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -34,7 +35,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
 /*!
  *  \brief creates a new diagram
  */
-void ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_Type, const char* diagram_name );
+int32_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name );
 
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */

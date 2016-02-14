@@ -6,8 +6,6 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include <stdbool.h>
-
 /*!
  *  \brief enumeration of all diagram types
  */
