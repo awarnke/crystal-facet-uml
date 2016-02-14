@@ -1,10 +1,10 @@
-/* File: ctrl_diagram.c; Copyright and License: see below */
+/* File: ctrl_classifier_controller.c; Copyright and License: see below */
 
-#include "ctrl_diagram.h"
+#include "ctrl_classifier_controller.h"
 #include "trace.h"
 #include "log.h"
 
-void ctrl_diagram_init ( ctrl_diagram_t *this_, data_database_t *database )
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     
@@ -13,7 +13,7 @@ void ctrl_diagram_init ( ctrl_diagram_t *this_, data_database_t *database )
     TRACE_END();
 }
 
-void ctrl_diagram_destroy ( ctrl_diagram_t *this_ )
+void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
     TRACE_BEGIN();
     

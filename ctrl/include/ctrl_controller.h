@@ -6,16 +6,16 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include "ctrl_classifier.h"
-#include "ctrl_diagram.h"
+#include "ctrl_classifier_controller.h"
+#include "ctrl_diagram_controller.h"
 #include "data_database.h"
 
 /*!
- *  \brief all data attributes needed for the diagram functions
+ *  \brief all data attributes needed for the controller functions
  */
 struct ctrl_controller_struct {
-    ctrl_classifier_t classifiers;
-    ctrl_diagram_t diagrams;
+    ctrl_classifier_controller_t classifiers;
+    ctrl_diagram_controller_t diagrams;
     data_database_t *database;
 };
 
@@ -34,12 +34,12 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ );
 /*!
  *  \brief gets the classifier controller
  */
-static inline ctrl_classifier_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ );
+static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ );
 
 /*!
  *  \brief gets the diagram controller
  */
-static inline ctrl_diagram_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ );
+static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ );
 
 #include "ctrl_controller.inl"
 

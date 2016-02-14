@@ -15,7 +15,7 @@
 static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE = 
     "CREATE TABLE IF NOT EXISTS classifiers ( "
         "id INTEGER PRIMARY KEY ASC, "
-        "maintype INTEGER, "
+        "main_type INTEGER, "
         "stereotype TEXT, "
         "name TEXT, "
         "description TEXT, "
@@ -66,6 +66,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
         "parent_id INTEGER, "
         "type INTEGER, "
         "name TEXT, "
+        "list_order INTEGER, "
         "FOREIGN KEY(parent_id) REFERENCES diagrams(id) "
     ");";
     

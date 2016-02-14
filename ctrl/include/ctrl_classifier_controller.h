@@ -1,7 +1,7 @@
-/* File: ctrl_classifier.h; Copyright and License: see below */
+/* File: ctrl_classifier_controller.h; Copyright and License: see below */
 
-#ifndef CTRL_CLASSIFIER_H
-#define CTRL_CLASSIFIER_H
+#ifndef CTRL_CLASSIFIER_CONTROLLER_H
+#define CTRL_CLASSIFIER_CONTROLLER_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
@@ -13,24 +13,24 @@
 /*!
  *  \brief all data attributes needed for the classifier functions
  */
-struct ctrl_classifier_struct {
+struct ctrl_classifier_controller_struct {
     data_database_t *database;
 };
 
-typedef struct ctrl_classifier_struct ctrl_classifier_t;
+typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
 
 /*!
- *  \brief initializes the ctrl_classifier_t struct
+ *  \brief initializes the ctrl_classifier_controller_t struct
  */
-void ctrl_classifier_init ( ctrl_classifier_t *this_, data_database_t *database );
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database );
 
 /*!
- *  \brief destroys the ctrl_classifier_t struct
+ *  \brief destroys the ctrl_classifier_controller_t struct
  */
-void ctrl_classifier_destroy ( ctrl_classifier_t *this_ );
+void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 
 
-#endif  /* CTRL_CLASSIFIER_H */
+#endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 
 
 /*

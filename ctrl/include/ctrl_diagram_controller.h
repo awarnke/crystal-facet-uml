@@ -1,7 +1,7 @@
-/* File: ctrl_diagram.h; Copyright and License: see below */
+/* File: ctrl_diagram_controller.h; Copyright and License: see below */
 
-#ifndef CTRL_DIAGRAM_H
-#define CTRL_DIAGRAM_H
+#ifndef CTRL_DIAGRAM_CONTROLLER_H
+#define CTRL_DIAGRAM_CONTROLLER_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
@@ -13,24 +13,24 @@
 /*!
  *  \brief all data attributes needed for the diagram functions
  */
-struct ctrl_diagram_struct {
+struct ctrl_diagram_controller_struct {
     data_database_t *database;
 };
 
-typedef struct ctrl_diagram_struct ctrl_diagram_t;
+typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
 
 /*!
- *  \brief initializes the ctrl_diagram_t struct
+ *  \brief initializes the ctrl_diagram_controller_t struct
  */
-void ctrl_diagram_init ( ctrl_diagram_t *this_, data_database_t *database );
+void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database );
 
 /*!
- *  \brief destroys the ctrl_diagram_t struct
+ *  \brief destroys the ctrl_diagram_controller_t struct
  */
-void ctrl_diagram_destroy ( ctrl_diagram_t *this_ );
+void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
 
 
-#endif  /* CTRL_DIAGRAM_H */
+#endif  /* CTRL_DIAGRAM_CONTROLLER_H */
 
 
 /*

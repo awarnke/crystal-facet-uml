@@ -1,11 +1,11 @@
 /* File: ctrl_controller.inl; Copyright and License: see below */
 
-static inline ctrl_classifier_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ )
+static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ )
 {
     return &((*this_).classifiers);
 }
 
-static inline ctrl_diagram_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ )
+static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ )
 {
     return &((*this_).diagrams);
 }

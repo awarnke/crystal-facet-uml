@@ -10,8 +10,8 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     
     /* init member attributes */
     (*this_).database = database;
-    ctrl_classifier_init ( &((*this_).classifiers), database );
-    ctrl_diagram_init ( &((*this_).diagrams), database );
+    ctrl_classifier_controller_init ( &((*this_).classifiers), database );
+    ctrl_diagram_controller_init ( &((*this_).diagrams), database );
     
     TRACE_END();
 }
@@ -21,8 +21,8 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     TRACE_BEGIN();
     
     /* destroy member attributes */
-    ctrl_diagram_destroy ( &((*this_).diagrams) );
-    ctrl_classifier_destroy ( &((*this_).classifiers) );
+    ctrl_diagram_controller_destroy ( &((*this_).diagrams) );
+    ctrl_classifier_controller_destroy ( &((*this_).classifiers) );
     
     TRACE_END();
 }
