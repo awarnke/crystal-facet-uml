@@ -7,8 +7,10 @@
 /*! \file */
 
 #include "data_database.h"
+#include "data_diagram_type.h"
 #include <stdio.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief all data attributes needed for the diagram functions
@@ -28,6 +30,11 @@ void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_datab
  *  \brief destroys the ctrl_diagram_controller_t struct
  */
 void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
+
+/*!
+ *  \brief creates a new diagram
+ */
+void ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_Type, const char* diagram_name );
 
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */
