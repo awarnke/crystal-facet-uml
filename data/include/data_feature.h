@@ -1,7 +1,7 @@
-/* File: data_property.h; Copyright and License: see below */
+/* File: data_feature.h; Copyright and License: see below */
 
-#ifndef DATA_PROPERTY_H
-#define DATA_PROPERTY_H
+#ifndef DATA_FEATURE_H
+#define DATA_FEATURE_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
@@ -9,28 +9,31 @@
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
- *  \brief all data attributes needed for the property functions
+ *  \brief all data attributes needed for the feature and property functions
+ * 
+ *  \see http://www.uml-diagrams.org/uml-core.html#feature
  */
-struct data_property_struct {
+struct data_feature_struct {
     bool is_valid;
 };
 
-typedef struct data_property_struct data_property_t;
+typedef struct data_feature_struct data_feature_t;
 
 /*!
- *  \brief initializes the data_property_t struct
+ *  \brief initializes the data_feature_t struct
  */
-void data_property_init ( data_property_t *this_ );
+void data_feature_init ( data_feature_t *this_ );
 
 /*!
- *  \brief destroys the data_property_t struct
+ *  \brief destroys the data_feature_t struct
  */
-void data_property_destroy ( data_property_t *this_ );
+void data_feature_destroy ( data_feature_t *this_ );
 
 
-#endif  /* DATA_PROPERTY_H */
+#endif  /* DATA_FEATURE_H */
 
 
 /*

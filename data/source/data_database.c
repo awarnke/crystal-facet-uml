@@ -44,11 +44,11 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
 /*!
  *  \brief string constant to create an sql database table
  * 
- *  This table contains instances of attributes (which are properties).
+ *  This table contains instances of attributes (which are properties which are features).
  *  \see http://www.omg.org/spec/UML/
  */
-static const char *DATA_DATABASE_CREATE_PROPERTYINSTANCE_TABLE = 
-    "CREATE TABLE IF NOT EXISTS properties ( "
+static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE = 
+    "CREATE TABLE IF NOT EXISTS features ( "
         "id INTEGER PRIMARY KEY ASC, "
         "classifier_id INTEGER, "
         "key TEXT, "
@@ -118,10 +118,10 @@ static void data_database_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
     
-    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_PROPERTYINSTANCE_TABLE, NULL, NULL, &error_msg );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_PROPERTYINSTANCE_TABLE );
+        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
     }
     if ( error_msg != NULL )
