@@ -15,7 +15,6 @@
 enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_UNSPECIFIED = 0,
     DATA_CLASSIFIER_TYPE_BLOCK = 90,
-    DATA_CLASSIFIER_TYPE_NOTE = 91,
     DATA_CLASSIFIER_TYPE_FEATURE = 98,
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,
     DATA_CLASSIFIER_TYPE_UML_ACTOR = 100,
@@ -31,6 +30,7 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_UML_CLASS = 125,
     DATA_CLASSIFIER_TYPE_UML_OBJECT = 126,
     DATA_CLASSIFIER_TYPE_UML_ARTIFACT = 127,
+    DATA_CLASSIFIER_TYPE_UML_COMMENT = 130, /* this is a note-text */
 };
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
