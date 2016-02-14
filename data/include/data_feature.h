@@ -12,7 +12,7 @@
 #include <stdint.h>
 
 /*!
- *  \brief all data attributes needed for the feature and property functions
+ *  \brief all data attributes needed for the feature (property or operation) functions
  * 
  *  \see http://www.uml-diagrams.org/uml-core.html#feature
  */

@@ -20,6 +20,11 @@
 struct gui_sketch_area_struct {
     data_database_t *database;
     ctrl_controller_t *controller;
+    bool paper_visible;
+    int32_t paper_left;
+    int32_t paper_top;
+    int32_t paper_width;
+    int32_t paper_height;
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;

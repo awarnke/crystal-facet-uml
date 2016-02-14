@@ -12,6 +12,8 @@
 
 /*!
  *  \brief all data attributes needed for the relationship functions
+ * 
+ *  \see http://www.uml-diagrams.org/uml-core.html#relationship
  */
 struct data_relationship_struct {
     bool is_valid;

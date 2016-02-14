@@ -20,6 +20,15 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     TRACE_END();
 }
 
+int32_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name )
+{
+    TRACE_BEGIN();
+
+    TRACE_INFO_INT( "creating diagram to parent", parent_diagram_id );
+    
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

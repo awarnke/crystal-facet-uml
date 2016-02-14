@@ -16,6 +16,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).tools = tools;
     (*this_).database = database;
     (*this_).controller = controller;
+    (*this_).paper_visible = false;
     gui_diagram_painter_init( &((*this_).painter) );
     
     TRACE_END();
@@ -39,53 +40,57 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     guint width, height;
     GdkRGBA color;
     gui_sketch_area_t *this_ = data;
-    gint paper_left, paper_top, paper_width, paper_height;
 
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
     
     if (( width < 48 )||( height < 48 )) {
         /* window is too small, output a dark-grey rectangle */
+        
+        (*this_).paper_visible = false;
+        
 	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, height );
         cairo_fill (cr);
     }
     else 
     {
+        (*this_).paper_visible = true;
+        
         if ( width * RATIO_HEIGHT > height * RATIO_WIDTH )
 	{
-	    paper_top = 10;
-	    paper_height = height - 20;
-	    paper_width = ( height * RATIO_WIDTH ) / RATIO_HEIGHT;
-	    paper_left = ( width - paper_width ) / 2;
+            (*this_).paper_top = 10;
+            (*this_).paper_height = height - 20;
+            (*this_).paper_width = ( height * RATIO_WIDTH ) / RATIO_HEIGHT;
+            (*this_).paper_left = ( width - (*this_).paper_width ) / 2;
 	}
         else
 	{
-	    paper_left = 10;
-	    paper_width = width - 20;
-	    paper_height = ( width * RATIO_HEIGHT ) / RATIO_WIDTH;
-	    paper_top = ( height - paper_height ) / 2;
+            (*this_).paper_left = 10;
+            (*this_).paper_width = width - 20;
+            (*this_).paper_height = ( width * RATIO_HEIGHT ) / RATIO_WIDTH;
+            (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
 	}
       
         /* draw border */
 	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-        cairo_rectangle ( cr, 0, 0, width, paper_top );
+        cairo_rectangle ( cr, 0, 0, width, (*this_).paper_top );
         cairo_fill (cr);
-        cairo_rectangle ( cr, 0, paper_top+paper_height, width, height-paper_top-paper_height );
+        cairo_rectangle ( cr, 0, (*this_).paper_top+(*this_).paper_height, width, height-(*this_).paper_top-(*this_).paper_height );
         cairo_fill (cr);
-        cairo_rectangle ( cr, 0, paper_top, paper_left, paper_height );
+        cairo_rectangle ( cr, 0, (*this_).paper_top, (*this_).paper_left, (*this_).paper_height );
         cairo_fill (cr);
-        cairo_rectangle ( cr, paper_left+paper_width, paper_top, width-paper_left-paper_width, paper_height );
+        cairo_rectangle ( cr, (*this_).paper_left+(*this_).paper_width, (*this_).paper_top, width-(*this_).paper_left-(*this_).paper_width, (*this_).paper_height );
         cairo_fill (cr);
       
         /* draw paper */
 	cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-        cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
+        cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
         cairo_fill (cr);
 	
 	/* draw the current diagram */
 	cairo_save (cr);
-        cairo_rectangle ( cr, paper_left, paper_top, paper_width, paper_height );
+        cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
 	cairo_clip (cr);
         gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 0, cr );
 	/*cairo_reset_clip (cr);*/
@@ -261,7 +266,16 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+                    
+                    ctrl_diagram_controller_t *diag_control;
+                    diag_control = ctrl_controller_get_diagram_control ( (*this_).controller );
+                    
+                    int32_t new_diag_id;
+                    new_diag_id = ctrl_diagram_controller_create_diagram ( diag_control, /*parent_diagram_id*/ 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, "Hello World." );
+                    
+                }   
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
