@@ -12,6 +12,9 @@
 
 /*!
  *  \brief all data attributes needed for the classifier functions
+ *
+ *  \see https://en.wikipedia.org/wiki/Classifier_%28UML%29
+ *  \see http://www.uml-diagrams.org/classifier.html
  */
 struct data_classifier_struct {
     bool is_valid;

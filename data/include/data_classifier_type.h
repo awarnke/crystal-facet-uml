@@ -8,6 +8,9 @@
 
 /*!
  *  \brief enumeration of all classifier types
+ *
+ *  \see https://en.wikipedia.org/wiki/Classifier_%28UML%29
+ *  \see http://www.uml-diagrams.org/classifier.html
  */
 enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_UNSPECIFIED = 0,
@@ -27,6 +30,7 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_UML_PACKAGE = 124,
     DATA_CLASSIFIER_TYPE_UML_CLASS = 125,
     DATA_CLASSIFIER_TYPE_UML_OBJECT = 126,
+    DATA_CLASSIFIER_TYPE_UML_ARTIFACT = 127,
 };
 
 typedef enum data_classifier_type_enum data_classifier_type_t;
