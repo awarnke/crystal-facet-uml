@@ -7,6 +7,8 @@
 /*! \file */
 
 #include "data_database.h"
+#include "data_database_writer.h"
+#include "data_database_reader.h"
 #include "data_diagram_type.h"
 #include "data_diagram.h"
 #include <stdio.h>
@@ -18,6 +20,8 @@
  */
 struct ctrl_diagram_controller_struct {
     data_database_t *database;
+    data_database_writer_t db_writer;
+    data_database_reader_t db_reader;
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;

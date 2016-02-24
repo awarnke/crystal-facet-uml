@@ -200,7 +200,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
-        TRACE_INFO("    GDK_BUTTON1_MASK");
+        TRACE_INFO("GDK_BUTTON1_MASK");
     }
 
     TRACE_END();

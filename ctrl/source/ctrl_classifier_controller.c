@@ -9,6 +9,8 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data
     TRACE_BEGIN();
     
     (*this_).database = database;
+    data_database_writer_init( &((*this_).db_writer), database );
+    data_database_reader_init( &((*this_).db_reader), database );
     
     TRACE_END();
 }
@@ -16,6 +18,9 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data
 void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
     TRACE_BEGIN();
+
+    data_database_writer_destroy( &((*this_).db_writer) );
+    data_database_reader_destroy( &((*this_).db_reader) );
     
     TRACE_END();
 }

@@ -7,9 +7,11 @@
 /*! \file */
 
 #include "data_database.h"
+#include "data_diagram.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
+#include <stdint.h>
 
 /*!
  *  \brief all data attributes needed for the database functions
@@ -29,6 +31,13 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_t 
  *  \brief destroys the data_database_writer_t struct
  */
 void data_database_writer_destroy ( data_database_writer_t *this_ );
+
+/*!
+ *  \brief creates a new view and returns its id
+ *
+ *  \return id of the newly created diagram
+ */
+int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
 
 #endif  /* DATA_DATABASE_WRITER_H */

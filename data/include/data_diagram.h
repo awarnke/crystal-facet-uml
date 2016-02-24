@@ -24,15 +24,30 @@ struct data_diagram_struct {
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
+ *  \brief constants for new diagram id and uninitialized diagram ids
+ */
+enum data_diagram_id_enum {
+    DATA_DIAGRAM_ID_ROOT_ID = 0,
+    DATA_DIAGRAM_ID_UNINITIALIZED_ID = -1,
+    DATA_DIAGRAM_ID_NEW_ID = -2,
+};
+
+/*!
+ *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_NEW_ID
+ */
+static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name );
+
+/*!
  *  \brief initializes the data_diagram_t struct
  */
-void data_diagram_init ( data_diagram_t *this_ );
+static inline void data_diagram_init ( data_diagram_t *this_, int32_t diagram_id, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name );
 
 /*!
  *  \brief destroys the data_diagram_t struct
  */
-void data_diagram_destroy ( data_diagram_t *this_ );
+static inline void data_diagram_destroy ( data_diagram_t *this_ );
 
+#include "data_diagram.inl"
 
 #endif  /* DATA_DIAGRAM_H */
 

@@ -21,6 +21,15 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
+int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram )
+{
+    TRACE_BEGIN();
+    int32_t result = 0;
+    
+    TRACE_END();
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
