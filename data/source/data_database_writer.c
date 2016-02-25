@@ -14,12 +14,20 @@ static const char *DATA_DATABASE_WRITER_BEGIN_TRANSACTION =
     "BEGIN TRANSACTION;";
     
 /*!
-    *  \brief string constant to commit a transaction
-    * 
-    *  \see http://sqlite.org/lang.html
-    */
+ *  \brief string constant to commit a transaction
+ * 
+ *  \see http://sqlite.org/lang.html
+ */
 static const char *DATA_DATABASE_WRITER_COMMIT_TRANSACTION = 
     "COMMIT TRANSACTION;";
+    
+/*!
+ *  \brief string constant to insert a diagram
+ * 
+ *  \see http://sqlite.org/lang.html
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX = 
+    "INSERT INTO diagrams (parent_id,type,name,list_order) VALUES (-1,2,\"Hello\",42);";
     
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
@@ -58,6 +66,8 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
+
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX );
     
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
