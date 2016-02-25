@@ -92,6 +92,7 @@ static void data_database_initialize_tables( sqlite3 *db )
     int sqlite_err;
     char *error_msg = NULL;
     
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -105,6 +106,7 @@ static void data_database_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
     
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -118,6 +120,7 @@ static void data_database_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
     
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -131,6 +134,7 @@ static void data_database_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
     
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAM_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -144,6 +148,7 @@ static void data_database_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
     
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -183,6 +188,7 @@ void data_database_open ( data_database_t *this_, const char* db_file_path )
 
     (*this_).db_file_name = db_file_path;
     
+    LOG_EVENT_STR( "sqlite3_open:", (*this_).db_file_name );
     sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
     if ( SQLITE_OK != sqlite_err ) 
     {
@@ -206,14 +212,15 @@ void data_database_close ( data_database_t *this_ )
     
     if ( (*this_).is_open )
     {
-        (*this_).db_file_name = "";
-        (*this_).is_open = false;
-        
+        LOG_EVENT_STR( "sqlite3_close:", (*this_).db_file_name );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err ) 
         {
             LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
         }
+        
+        (*this_).db_file_name = "";
+        (*this_).is_open = false;
     }
     else
     {

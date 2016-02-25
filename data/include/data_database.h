@@ -41,6 +41,12 @@ void data_database_close ( data_database_t *this_ );
  */
 void data_database_destroy ( data_database_t *this_ );
 
+/*!
+ *  \brief returns a pointer to the sqlite database
+ */
+static inline sqlite3 *data_database_get_database ( data_database_t *this_ );
+
+#include "data_database.inl"
 
 #endif  /* DATA_DATABASE_H */
 

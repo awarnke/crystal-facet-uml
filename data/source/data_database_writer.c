@@ -3,8 +3,24 @@
 #include "data_database_writer.h"
 #include "trace.h"
 #include "log.h"
+#include <sqlite3.h>
 
-
+/*!
+ *  \brief string constant to start a transaction
+ * 
+ *  \see http://sqlite.org/lang.html
+ */
+static const char *DATA_DATABASE_WRITER_BEGIN_TRANSACTION = 
+    "BEGIN TRANSACTION;";
+    
+/*!
+    *  \brief string constant to commit a transaction
+    * 
+    *  \see http://sqlite.org/lang.html
+    */
+static const char *DATA_DATABASE_WRITER_COMMIT_TRANSACTION = 
+    "COMMIT TRANSACTION;";
+    
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -25,6 +41,37 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
 {
     TRACE_BEGIN();
     int32_t result = 0;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database( (*this_).database );
+    
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err ) 
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    if ( error_msg != NULL )
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+    
+    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err ) 
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    if ( error_msg != NULL )
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
     
     TRACE_END();
     return result;

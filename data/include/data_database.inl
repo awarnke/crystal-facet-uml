@@ -1,26 +1,9 @@
-/* File: data_database_reader.c; Copyright and License: see below */
+/* File: data_database.inl; Copyright and License: see below */
 
-#include "data_database_reader.h"
-#include "trace.h"
-#include "log.h"
-#include <sqlite3.h>
-
-void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
+static inline sqlite3 *data_database_get_database ( data_database_t *this_ )
 {
-    TRACE_BEGIN();
-    
-    (*this_).database = database;
-    
-    TRACE_END();
+    return (*this_).db;
 }
-
-void data_database_reader_destroy ( data_database_reader_t *this_ )
-{
-    TRACE_BEGIN();
-    
-    TRACE_END();
-}
-
 
 /*
 Copyright 2016-2016 Andreas Warnke

@@ -1,4 +1,4 @@
-/* File: data:diagram.inl; Copyright and License: see below */
+/* File: data_diagram.inl; Copyright and License: see below */
 
 static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name )
 {
