@@ -1,9 +1,9 @@
-#ifndef UTF8_STRING_H_
-#define UTF8_STRING_H_
+#ifndef UTF8STRING_H_
+#define UTF8STRING_H_
 
 /*!
- *  \file utf8_string.h
- *  \brief utf8_string provides functions to search and compare c-strings.
+ *  \file utf8string.h
+ *  \brief utf8string provides functions to search and compare c-strings.
  * 
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
@@ -12,8 +12,8 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "util/string/utf8_code_point.h"
-#include "util/string/utf8_string_buf.h"
+#include "util/string/utf8codepoint.h"
+#include "util/string/utf8stringbuf.h"
 
 #ifdef __cplusplus
 extern "C" {
@@ -33,7 +33,7 @@ extern "C" {
  * \param this_ The string object
  * \return Size of the string. This is always positive, never 0.
  */
-static inline unsigned int utf8_string_get_size( const char *this_ );
+static inline unsigned int utf8string_get_size( const char *this_ );
 
 /*!
  * \brief Gets the length of the string.
@@ -43,7 +43,7 @@ static inline unsigned int utf8_string_get_size( const char *this_ );
  * \param this_ A string object
  * \return Length of the string in bytes (not in utf-8 code-points)
  */
-static inline unsigned int utf8_string_get_length( const char *this_ );
+static inline unsigned int utf8string_get_length( const char *this_ );
 
 /*!
  * \brief Checks if two strings are equal.
@@ -54,7 +54,7 @@ static inline unsigned int utf8_string_get_length( const char *this_ );
  * \param that Another 0-terminated c string. In case of NULL, this function returns 0.
  * \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8_string_equals_str( const char *this_, const char *that );
+static inline int utf8string_equals_str( const char *this_, const char *that );
 
 /*!
  * \brief Checks if two strings are equal.
@@ -64,7 +64,7 @@ static inline int utf8_string_equals_str( const char *this_, const char *that );
  * \param that A string buffer object
  * \return 1 if the strings are equal, 0 if not.
  */
-static inline int utf8_string_equals_buf( const char *this_, const utf8_string_buf_t that );
+static inline int utf8string_equals_buf( const char *this_, const utf8stringbuf_t that );
 
 /*!
  * \brief Checks if the region equals the given string.
@@ -75,7 +75,7 @@ static inline int utf8_string_equals_buf( const char *this_, const utf8_string_b
  * \param that A 0-terminated c string. In case of NULL, this function returns 0.
  * \return 1 if the region equals the given string, 0 if not.
  */
-static inline int utf8_string_equals_region_str( const char *this_, int start, const char *that );
+static inline int utf8string_equals_region_str( const char *this_, int start, const char *that );
 
 /*!
  * \brief Checks if the region equals the given string.
@@ -86,7 +86,7 @@ static inline int utf8_string_equals_region_str( const char *this_, int start, c
  * \param that A string buffer object
  * \return 1 if the region equals the given string, 0 if not.
  */
-static inline int utf8_string_equals_region_buf( const char *this_, int start, const utf8_string_buf_t that );
+static inline int utf8string_equals_region_buf( const char *this_, int start, const utf8stringbuf_t that );
 
 /*!
  * \brief Checks if the string buffer starts with the specified characters.
@@ -96,7 +96,7 @@ static inline int utf8_string_equals_region_buf( const char *this_, int start, c
  * \param that A 0-terminated c string. In case of NULL, this function returns 0.
  * \return 1 if the string starts with the characters in that, 0 if not.
  */
-static inline int utf8_string_starts_with_str( const char *this_, const char *that );
+static inline int utf8string_starts_with_str( const char *this_, const char *that );
 
 /*!
  * \brief Checks if the string buffer starts with the specified characters.
@@ -106,7 +106,7 @@ static inline int utf8_string_starts_with_str( const char *this_, const char *th
  * \param that A string buffer object.
  * \return 1 if the string starts with the characters in that, 0 if not.
  */
-static inline int utf8_string_starts_with_buf( const char *this_, const utf8_string_buf_t that );
+static inline int utf8string_starts_with_buf( const char *this_, const utf8stringbuf_t that );
 
 /*!
  * \brief Checks if the string buffer ends with the specified characters.
@@ -116,7 +116,7 @@ static inline int utf8_string_starts_with_buf( const char *this_, const utf8_str
  * \param that A 0-terminated c string. In case of NULL, this function returns 0.
  * \return 1 if the string ends with the characters in that, 0 if not.
  */
-static inline int utf8_string_ends_with_str( const char *this_, const char *that );
+static inline int utf8string_ends_with_str( const char *this_, const char *that );
 
 /*!
  * \brief Checks if the string buffer ends with the specified characters.
@@ -126,14 +126,14 @@ static inline int utf8_string_ends_with_str( const char *this_, const char *that
  * \param that A string buffer object.
  * \return 1 if the string ends with the characters in that, 0 if not.
  */
-static inline int utf8_string_ends_with_buf( const char *this_, const utf8_string_buf_t that );
+static inline int utf8string_ends_with_buf( const char *this_, const utf8stringbuf_t that );
 
 /*!
  * \brief Searches a pattern within a string
  * 
  * Example:
  * \code
- *     utf8_string_find_first_buf( "hasta la vista", utf8_string_buf( "sta" ));
+ *     utf8string_find_first_buf( "hasta la vista", utf8stringbuf( "sta" ));
  * \endcode
  * will return index 2.
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen   
@@ -142,7 +142,7 @@ static inline int utf8_string_ends_with_buf( const char *this_, const utf8_strin
  * \return Index of the first occurrence within the string. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_first_buf( const char *this_, const utf8_string_buf_t pattern );
+static inline int utf8string_find_first_buf( const char *this_, const utf8stringbuf_t pattern );
 
 /*!
  * \brief Searches a pattern within a string
@@ -152,14 +152,14 @@ static inline int utf8_string_find_first_buf( const char *this_, const utf8_stri
  * \return Index of the first occurrence within the string. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_first_str( const char *this_, const char *pattern );
+static inline int utf8string_find_first_str( const char *this_, const char *pattern );
 
 /*!
  * \brief Searches a pattern within a string starting at the end
  * 
  * Example:
  * \code
- *     utf8_string_find_last_buf( "hasta la vista", utf8_string_buf( "sta" ));
+ *     utf8string_find_last_buf( "hasta la vista", utf8stringbuf( "sta" ));
  * \endcode
  * will return index 11.
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [ ]medium   [x]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen   
@@ -168,7 +168,7 @@ static inline int utf8_string_find_first_str( const char *this_, const char *pat
  * \return Index of the first occurrence within the string. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_last_buf( const char *this_, const utf8_string_buf_t pattern );
+static inline int utf8string_find_last_buf( const char *this_, const utf8stringbuf_t pattern );
 
 /*!
  * \brief Searches a pattern within a string starting at the end
@@ -178,14 +178,14 @@ static inline int utf8_string_find_last_buf( const char *this_, const utf8_strin
  * \return Index of the first occurrence within the string. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_last_str( const char *this_, const char *pattern );
+static inline int utf8string_find_last_str( const char *this_, const char *pattern );
 
 /*!
  * \brief Searches a pattern within a string
  * 
  * Example:
  * \code
- *     utf8_string_find_next_buf( "hasta la vista", utf8_string_buf( "sta" ), 3);
+ *     utf8string_find_next_buf( "hasta la vista", utf8stringbuf( "sta" ), 3);
  * \endcode
  * will return index 11.
  * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n*m), n:strlen, m:patternlen   
@@ -195,7 +195,7 @@ static inline int utf8_string_find_last_str( const char *this_, const char *patt
  * \return Index of the next occurrence within the string equal or greater than start_index. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_next_buf( const char *this_, const utf8_string_buf_t pattern, int start_index );
+static inline int utf8string_find_next_buf( const char *this_, const utf8stringbuf_t pattern, int start_index );
 
 /*!
  * \brief Searches a pattern within a string
@@ -206,7 +206,7 @@ static inline int utf8_string_find_next_buf( const char *this_, const utf8_strin
  * \return Index of the next occurrence within the string equal or greater than start_index. 
  *         -1 if there is no match.
  */
-static inline int utf8_string_find_next_str( const char *this_, const char *pattern, int start_index );
+static inline int utf8string_find_next_str( const char *this_, const char *pattern, int start_index );
 
 /*!
  * \brief Gets the code point at a given byte index.
@@ -214,16 +214,16 @@ static inline int utf8_string_find_next_str( const char *this_, const char *patt
  * \param this_ The 0-terminated string object
  * \param byte_index index where to read the character from.
  * \return A unicode codepoint.
- *         utf8_code_point_is_valid will state 0 if there is an illegal byte-sequence within the string
+ *         utf8codepoint_is_valid will state 0 if there is an illegal byte-sequence within the string
  *         or if byte_index is out of range.
  *         The terminating zero of a string is a valid character.
  */
-static inline utf8_code_point_t utf8_string_get_char_at( const char *this_, unsigned int byte_index );
+static inline utf8codepoint_t utf8string_get_char_at( const char *this_, unsigned int byte_index );
 
 #ifdef __cplusplus
 }
 #endif
 
-#include "util/string/utf8_string.inl"
+#include "util/string/utf8string.inl"
 
-#endif /*UTF8_STRING_H_*/
+#endif /*UTF8STRING_H_*/

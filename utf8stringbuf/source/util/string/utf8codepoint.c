@@ -1,18 +1,18 @@
 /*!
- *  \file utf8_code_point.c
+ *  \file utf8codepoint.c
  * 
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */ 
 
-#include "util/string/utf8_code_point.h"
+#include "util/string/utf8codepoint.h"
 
-/* UTF8_CODE_POINT_INVAL_CHAR is a constant, may be stored in a read-only memory page */
-const utf8_code_point_t UTF8_CODE_POINT_INVAL_CHAR = { UTF8_CODE_POINT_INVALID_LEN, 0x0, };
+/* UTF8CODEPOINT_INVAL_CHAR is a constant, may be stored in a read-only memory page */
+const utf8codepoint_t UTF8CODEPOINT_INVAL_CHAR = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
 
 /* function to initialize an code point from a multi-byte character, non-inline */
-utf8_code_point_t utf8_code_point_private_init_from_multi_byte( const char *that, unsigned int max_size ) {
-    utf8_code_point_t result = { UTF8_CODE_POINT_INVALID_LEN, 0x0, };
+utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size ) {
+    utf8codepoint_t result = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
     if ( max_size >= 1 ) {
         unsigned char firstByte = (unsigned char) (that[0]);
         unsigned int byte_length = 

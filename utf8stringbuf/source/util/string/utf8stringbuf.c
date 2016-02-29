@@ -1,36 +1,36 @@
 /*!
- *  \file utf8_string_buf.c
+ *  \file utf8stringbuf.c
  * 
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */ 
 
 #include <inttypes.h>
-#include "util/string/utf8_string_buf.h"
+#include "util/string/utf8stringbuf.h"
 
-/* utf8_string_buf_private_empty_buf is constantly 0, but may be overwritten by a 0 - therefore stored in a read-writeable memory page */
-char utf8_string_buf_private_empty_buf[1] = "";
+/* utf8stringbuf_private_empty_buf is constantly 0, but may be overwritten by a 0 - therefore stored in a read-writeable memory page */
+char utf8stringbuf_private_empty_buf[1] = "";
 
-const char *utf8_string_buf_private_format_signed_64_bit_int = "%" PRIi64;
+const char *utf8stringbuf_private_format_signed_64_bit_int = "%" PRIi64;
 
-const char *utf8_string_buf_private_format_64_bit_hex = "%" PRIx64;
+const char *utf8stringbuf_private_format_64_bit_hex = "%" PRIx64;
 
 /*!
- *  \fn utf8_string_buf_private_write_char( char *destination, unsigned int max_size, const uint32_t source )
+ *  \fn utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source )
  *  \private
  */
 /* function to write a code point as utf8, returns the number of bytes written or an error code */
-static inline int utf8_string_buf_private_write_char( char *destination, unsigned int max_size, const uint32_t source );
+static inline int utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source );
 
 /* utf8 sequences longer or equal 2 bytes start with a byte with 2 highest bits set: 0xc0 */
 /* utf8 sequences longer or equal 3 bytes start with a byte with 3 highest bits set: 0xe0 */
 /* utf8 sequences longer or equal 4 bytes start with a byte with 4 highest bits set: 0xf0 */
 /* utf8 sequences longer or equal 5 bytes start with a byte with 5 highest bits set: 0xf8 */
 /* utf8 sequences longer or equal 6 bytes start with a byte with 6 highest bits set: 0xfc */
-static const char utf8_string_buf_private_pattern_to_detect_half_utf8_sequences[7] = { 0, 0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
+static const char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[7] = { 0, 0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
 
 /* Note: There is some magic in the design of utf8 which makes the implementation of this function quite short */
-unsigned int utf8_string_buf_private_make_null_termination( utf8_string_buf_t this_ ) {
+unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this_ ) {
     unsigned int truncatedLength;
     int clearAtEnd = 1;
     
@@ -38,7 +38,7 @@ unsigned int utf8_string_buf_private_make_null_termination( utf8_string_buf_t th
         if ( searchBackwards > this_.size ) {
             break;
         }
-        char pattern = utf8_string_buf_private_pattern_to_detect_half_utf8_sequences[searchBackwards];
+        char pattern = utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[searchBackwards];
         if ( ( this_.buf[this_.size-searchBackwards] & pattern ) == pattern ) {
             clearAtEnd = searchBackwards;
             break;
@@ -51,100 +51,100 @@ unsigned int utf8_string_buf_private_make_null_termination( utf8_string_buf_t th
     return truncatedLength;
 }
 
-utf8_error_t utf8_string_buf_copy_region_from_buf( utf8_string_buf_t this_, const utf8_string_buf_t that, int start, int length ) {
-    utf8_error_t result;
+utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, const utf8stringbuf_t that, int start, int length ) {
+    utf8error_t result;
     if (( start < 0 ) || ( length < 0 )) {
         this_.buf[0] = '\0';
-        result = UTF8_ERROR_OUT_OF_RANGE;
+        result = UTF8ERROR_OUT_OF_RANGE;
     }
     else {
-        int thatLen = utf8_string_buf_get_length( that );
+        int thatLen = utf8stringbuf_get_length( that );
         if ( start > thatLen ) {
             this_.buf[0] = '\0';
-            result = UTF8_ERROR_OUT_OF_RANGE;
+            result = UTF8ERROR_OUT_OF_RANGE;
         }
         else if ( start+length > thatLen ) {
             strncpy( this_.buf, &(that.buf[start]), this_.size );
             utf8_string_buf_private_make_null_termination( this_ );
-            result = UTF8_ERROR_OUT_OF_RANGE;
+            result = UTF8ERROR_OUT_OF_RANGE;
         }
         else {
             if ( length >= this_.size ) {
                 memcpy( this_.buf, &(that.buf[start]), this_.size-1);
                 utf8_string_buf_private_make_null_termination( this_ );
-                result = UTF8_ERROR_TRUNCATED;
+                result = UTF8ERROR_TRUNCATED;
             }
             else {
                 memcpy( this_.buf, &(that.buf[start]), length );
                 this_.buf[length] = '\0';
-                result = UTF8_ERROR_SUCCESS;
+                result = UTF8ERROR_SUCCESS;
             }
         }
     }
     return result;
 }
 
-utf8_error_t utf8_string_buf_copy_region_from_str( utf8_string_buf_t this_, const char *that, int start, int length ) {
-    utf8_error_t result;
+utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const char *that, int start, int length ) {
+    utf8error_t result;
     if (( start < 0 ) || ( length < 0 )) {
         this_.buf[0] = '\0';
-        result = UTF8_ERROR_OUT_OF_RANGE;
+        result = UTF8ERROR_OUT_OF_RANGE;
     }
     else if ( that == NULL ) {
         this_.buf[0] = '\0';
-        result = UTF8_ERROR_NULL_PARAM;
+        result = UTF8ERROR_NULL_PARAM;
     }
     else {
         int thatLen = strlen( that );
         if ( start > thatLen ) {
             this_.buf[0] = '\0';
-            result = UTF8_ERROR_OUT_OF_RANGE;
+            result = UTF8ERROR_OUT_OF_RANGE;
         }
         else if ( start+length > thatLen ) {
             strncpy( this_.buf, &(that[start]), this_.size );
             utf8_string_buf_private_make_null_termination( this_ );
-            result = UTF8_ERROR_OUT_OF_RANGE;
+            result = UTF8ERROR_OUT_OF_RANGE;
         }
         else {
             if ( length >= this_.size ) {
                 memcpy( this_.buf, &(that[start]), this_.size-1);
                 utf8_string_buf_private_make_null_termination( this_ );
-                result = UTF8_ERROR_TRUNCATED;
+                result = UTF8ERROR_TRUNCATED;
             }
             else {
                 memcpy( this_.buf, &(that[start]), length );
                 this_.buf[length] = '\0';
-                result = UTF8_ERROR_SUCCESS;
+                result = UTF8ERROR_SUCCESS;
             }
         }
     }
     return result;
 }
 
-utf8_error_t utf8_string_buf_append_char( utf8_string_buf_t this_, const uint32_t appendix ) {
+utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix ) {
     int result;
-    unsigned int start = utf8_string_buf_get_length( this_ );
-    int appendLen = utf8_string_buf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix );
+    unsigned int start = utf8stringbuf_get_length( this_ );
+    int appendLen = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix );
     if ( appendLen >= 0 ) {
         this_.buf[start+appendLen] = '\0';
-        result = UTF8_ERROR_SUCCESS;
+        result = UTF8ERROR_SUCCESS;
     }
     else {
-        result = (utf8_error_t) appendLen;
+        result = (utf8error_t) appendLen;
     }
     return result;
 }
 
-utf8_error_t utf8_string_buf_append_wstr( utf8_string_buf_t this_, const wchar_t *appendix ) {
-    int result = UTF8_ERROR_NULL_PARAM;
+utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix ) {
+    int result = UTF8ERROR_NULL_PARAM;
     if ( appendix != NULL ) {
-        unsigned int start = utf8_string_buf_get_length( this_ );
-        result = UTF8_ERROR_SUCCESS;
+        unsigned int start = utf8stringbuf_get_length( this_ );
+        result = UTF8ERROR_SUCCESS;
         for( ; appendix[0]!=L'\0'; appendix = &(appendix[1]) ) {
-            int appendLen = utf8_string_buf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix[0] );
+            int appendLen = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix[0] );
             if ( appendLen < 0 ) {
-                result = (utf8_error_t) appendLen;
-                if ( result == UTF8_ERROR_TRUNCATED ) {
+                result = (utf8error_t) appendLen;
+                if ( result == UTF8ERROR_TRUNCATED ) {
                     break;
                 }
             }
@@ -155,8 +155,8 @@ utf8_error_t utf8_string_buf_append_wstr( utf8_string_buf_t this_, const wchar_t
     return result;
 }
 
-static inline int utf8_string_buf_private_write_char( char *destination, unsigned int max_size, const uint32_t source ) {
-    int result = UTF8_ERROR_TRUNCATED;
+static inline int utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source ) {
+    int result = UTF8ERROR_TRUNCATED;
     if ( source <= 0x7ff ) {
         if ( source <= 0x7f ) {
             /* 1 byte character */
@@ -224,7 +224,7 @@ static inline int utf8_string_buf_private_write_char( char *destination, unsigne
                 }
                 else {
                     /* note: utf8 can not encode more than 31 bits per character. */
-                    result = UTF8_ERROR_NOT_A_CODEPOINT;
+                    result = UTF8ERROR_NOT_A_CODEPOINT;
                 }
             }
         }
@@ -232,15 +232,15 @@ static inline int utf8_string_buf_private_write_char( char *destination, unsigne
     return result;
 }
 
-utf8_error_t utf8_string_buf_private_replace_region_by_str( utf8_string_buf_t this_, unsigned int this_Length, int start, int length, const char *replacement ) {
-    utf8_error_t result = UTF8_ERROR_OUT_OF_RANGE;
+utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_, unsigned int this_Length, int start, int length, const char *replacement ) {
+    utf8error_t result = UTF8ERROR_OUT_OF_RANGE;
     if (( start >= 0 ) && ( start <= this_Length ) && ( length >= 0 )) {
-        result = UTF8_ERROR_SUCCESS;
+        result = UTF8ERROR_SUCCESS;
         unsigned int replaceLen = ( replacement == NULL ) ? (0) : ( strlen(replacement) );
         if (( start + length ) > this_Length ) {
             /* length value was too big. update this; success is 0 */
             length = this_Length - start;
-            result = UTF8_ERROR_OUT_OF_RANGE;
+            result = UTF8ERROR_OUT_OF_RANGE;
         }
         int tailLen = this_Length - start - length;
         if ( length > replaceLen ) {
@@ -253,11 +253,11 @@ utf8_error_t utf8_string_buf_private_replace_region_by_str( utf8_string_buf_t th
             else if ( ( start + replaceLen ) < this_.size ) {
                 tailLen = this_.size - start - replaceLen - 1;
                 memmove( &(this_.buf[start+replaceLen]), &(this_.buf[start+length]), tailLen );
-                result = UTF8_ERROR_TRUNCATED;
+                result = UTF8ERROR_TRUNCATED;
             }
             else {
                 replaceLen = this_.size - start - 1;
-                result = UTF8_ERROR_TRUNCATED;
+                result = UTF8ERROR_TRUNCATED;
             }
         }
         else {
@@ -268,26 +268,26 @@ utf8_error_t utf8_string_buf_private_replace_region_by_str( utf8_string_buf_t th
             memcpy ( &(this_.buf[start]), replacement, replaceLen );
         }
         /* terminate string */
-        if ( result != UTF8_ERROR_SUCCESS ) {
+        if ( result != UTF8ERROR_SUCCESS ) {
             utf8_string_buf_private_make_null_termination( this_ );
         }
     }
     return result;
 }
 
-utf8_error_t utf8_string_buf_replace_all( const utf8_string_buf_t this_, const char * const * patterns_and_replacements ) {
-    utf8_error_t result = UTF8_ERROR_NULL_PARAM;
+utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char * const * patterns_and_replacements ) {
+    utf8error_t result = UTF8ERROR_NULL_PARAM;
     
     /* count input patterns */
     int maxPatternIdx = 0;
     if ( patterns_and_replacements != NULL ) {
-        result = UTF8_ERROR_SUCCESS;
+        result = UTF8ERROR_SUCCESS;
         for ( maxPatternIdx = 0; patterns_and_replacements[maxPatternIdx] != NULL; maxPatternIdx += 2 ) {
         };
     }
 
     /* search patterns */
-    unsigned int thisLen = utf8_string_buf_get_length( this_ );
+    unsigned int thisLen = utf8stringbuf_get_length( this_ );
     for ( int index = 0; index < thisLen; index ++ ) {
         int matchingPatternIdx = -1;
         unsigned int remainingLength = thisLen-index;
@@ -316,11 +316,11 @@ utf8_error_t utf8_string_buf_replace_all( const utf8_string_buf_t this_, const c
             if ( replacement != NULL ) {
                 replaceLen = strlen(replacement);
             }
-            utf8_error_t replaceErr;
+            utf8error_t replaceErr;
             replaceErr = utf8_string_buf_private_replace_region_by_str( this_, thisLen, index, patternLen, replacement );
-            if ( replaceErr != UTF8_ERROR_SUCCESS ) {
-                result = UTF8_ERROR_TRUNCATED;
-                thisLen = utf8_string_buf_get_length( this_ );
+            if ( replaceErr != UTF8ERROR_SUCCESS ) {
+                result = UTF8ERROR_TRUNCATED;
+                thisLen = utf8stringbuf_get_length( this_ );
             }
             else {
                 thisLen = thisLen - patternLen + replaceLen;            
@@ -334,9 +334,9 @@ utf8_error_t utf8_string_buf_replace_all( const utf8_string_buf_t this_, const c
 
 static const int SIZE_OF_TERM0 = 1; /*!< Size of the terminating zero */
 
-utf8_string_2_tuple_t utf8_string_buf_split_in_2( utf8_string_buf_t this_, int start2 ) {
-    utf8_string_2_tuple_t result;
-    unsigned int length = utf8_string_buf_get_length( this_ );
+utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 ) {
+    utf8string2tuple_t result;
+    unsigned int length = utf8stringbuf_get_length( this_ );
 
     /* zero all trailing data, otherwise joins will not work */
     memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
@@ -349,7 +349,7 @@ utf8_string_2_tuple_t utf8_string_buf_split_in_2( utf8_string_buf_t this_, int s
             this_.buf[newStart2-SIZE_OF_TERM0] = '\0';
             result.first = this_.buf;
             result.second = &(this_.buf[start2+1]);
-            result.error = UTF8_ERROR_SUCCESS;
+            result.error = UTF8ERROR_SUCCESS;
         }
         else {
             /* we need to truncate */
@@ -361,7 +361,7 @@ utf8_string_2_tuple_t utf8_string_buf_split_in_2( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart2]), &(this_.buf[start2]), secondLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
             }
             this_.buf[start2] = '\0';  /* at the end of the first string, always write a terminating zero */
             /*
@@ -371,7 +371,7 @@ utf8_string_2_tuple_t utf8_string_buf_split_in_2( utf8_string_buf_t this_, int s
             */
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
-            result.error = UTF8_ERROR_TRUNCATED;
+            result.error = UTF8ERROR_TRUNCATED;
         
         }
     }
@@ -379,15 +379,15 @@ utf8_string_2_tuple_t utf8_string_buf_split_in_2( utf8_string_buf_t this_, int s
         /* out of range */
         result.first = this_.buf;
         result.second = &(this_.buf[length]);
-        result.error = UTF8_ERROR_OUT_OF_RANGE;
+        result.error = UTF8ERROR_OUT_OF_RANGE;
     }
     
     return result;
 }
 
-utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int start2, int start3 ) {
-    utf8_string_3_tuple_t result;
-    unsigned int length = utf8_string_buf_get_length( this_ );
+utf8string3tuple_t utf8stringbuf_split_in_3( utf8stringbuf_t this_, int start2, int start3 ) {
+    utf8string3tuple_t result;
+    unsigned int length = utf8stringbuf_get_length( this_ );
     
     /* zero all trailing data, otherwise joins will not work */
     memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
@@ -404,7 +404,7 @@ utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int s
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
-            result.error = UTF8_ERROR_SUCCESS;
+            result.error = UTF8ERROR_SUCCESS;
         }
         else {
             /* we need to truncate */
@@ -416,7 +416,7 @@ utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart3]), &(this_.buf[start3]), thirdLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
             }
             int secondLen = newStart3 - SIZE_OF_TERM0 - newStart2;
             if ( secondLen < 0 ) {
@@ -428,7 +428,7 @@ utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart2]), &(this_.buf[start2]), secondLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
             }
             this_.buf[start2] = '\0';  /* at the end of the first string, always write a terminating zero */
             /*
@@ -439,7 +439,7 @@ utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int s
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
-            result.error = UTF8_ERROR_TRUNCATED;
+            result.error = UTF8ERROR_TRUNCATED;
         }
     }
     else {
@@ -447,15 +447,15 @@ utf8_string_3_tuple_t utf8_string_buf_split_in_3( utf8_string_buf_t this_, int s
         result.first = this_.buf;
         result.second = &(this_.buf[length]);
         result.third = &(this_.buf[length]);
-        result.error = UTF8_ERROR_OUT_OF_RANGE;
+        result.error = UTF8ERROR_OUT_OF_RANGE;
     }
     
     return result;
 }
 
-utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int start2, int start3, int start4 ) {
-    utf8_string_4_tuple_t result;
-    unsigned int length = utf8_string_buf_get_length( this_ );
+utf8string4tuple_t utf8stringbuf_split_in_4( utf8stringbuf_t this_, int start2, int start3, int start4 ) {
+    utf8string4tuple_t result;
+    unsigned int length = utf8stringbuf_get_length( this_ );
     
     /* zero all trailing data, otherwise joins will not work */
     memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
@@ -476,7 +476,7 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
             result.fourth = &(this_.buf[newStart4]);
-            result.error = UTF8_ERROR_SUCCESS;
+            result.error = UTF8ERROR_SUCCESS;
         }
         else {
             /* we need to truncate */
@@ -488,7 +488,7 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart4]), &(this_.buf[start4]), fourthLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( fourthLen+SIZE_OF_TERM0, &(this_.buf[newStart4])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( fourthLen+SIZE_OF_TERM0, &(this_.buf[newStart4])) );
             }
             int thirdLen = newStart4 - SIZE_OF_TERM0 - newStart3;
             if ( thirdLen < 0 ) {
@@ -500,7 +500,7 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart3]), &(this_.buf[start3]), thirdLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
             }
             int secondLen = newStart3 - SIZE_OF_TERM0 - newStart2;
             if ( secondLen < 0 ) {
@@ -512,7 +512,7 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart2]), &(this_.buf[start2]), secondLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
             }
             this_.buf[start2] = '\0';  /* at the end of the first string, always write a terminating zero */
             /*
@@ -524,7 +524,7 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
             result.fourth = &(this_.buf[newStart4]);
-            result.error = UTF8_ERROR_TRUNCATED;
+            result.error = UTF8ERROR_TRUNCATED;
         }
     }
     else {
@@ -533,15 +533,15 @@ utf8_string_4_tuple_t utf8_string_buf_split_in_4( utf8_string_buf_t this_, int s
         result.second = &(this_.buf[length]);
         result.third = &(this_.buf[length]);
         result.fourth = &(this_.buf[length]);
-        result.error = UTF8_ERROR_OUT_OF_RANGE;
+        result.error = UTF8ERROR_OUT_OF_RANGE;
     }
     
     return result;
 }
 
-utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int start2, int start3, int start4, int start5 ) {
-    utf8_string_5_tuple_t result;
-    unsigned int length = utf8_string_buf_get_length( this_ );
+utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int start2, int start3, int start4, int start5 ) {
+    utf8string5tuple_t result;
+    unsigned int length = utf8stringbuf_get_length( this_ );
     
     /* zero all trailing data, otherwise joins will not work */
     memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
@@ -566,7 +566,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             result.third = &(this_.buf[newStart3]);
             result.fourth = &(this_.buf[newStart4]);
             result.fifth = &(this_.buf[newStart5]);
-            result.error = UTF8_ERROR_SUCCESS;
+            result.error = UTF8ERROR_SUCCESS;
         }
         else {
             /* we need to truncate */
@@ -578,7 +578,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart5]), &(this_.buf[start5]), fifthLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( fifthLen+SIZE_OF_TERM0, &(this_.buf[newStart5])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( fifthLen+SIZE_OF_TERM0, &(this_.buf[newStart5])) );
             }
             int fourthLen = newStart5 - SIZE_OF_TERM0 - newStart4;
             if ( fourthLen < 0 ) {
@@ -590,7 +590,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart4]), &(this_.buf[start4]), fourthLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( fourthLen+SIZE_OF_TERM0, &(this_.buf[newStart4])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( fourthLen+SIZE_OF_TERM0, &(this_.buf[newStart4])) );
             }
             int thirdLen = newStart4 - SIZE_OF_TERM0 - newStart3;
             if ( thirdLen < 0 ) {
@@ -602,7 +602,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart3]), &(this_.buf[start3]), thirdLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( thirdLen+SIZE_OF_TERM0, &(this_.buf[newStart3])) );
             }
             int secondLen = newStart3 - SIZE_OF_TERM0 - newStart2;
             if ( secondLen < 0 ) {
@@ -614,7 +614,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             }
             else {
                 memmove( &(this_.buf[newStart2]), &(this_.buf[start2]), secondLen );
-                utf8_string_buf_private_make_null_termination( utf8_string_buf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
+                utf8_string_buf_private_make_null_termination( utf8stringbuf_init( secondLen+SIZE_OF_TERM0, &(this_.buf[newStart2])) );
             }
             this_.buf[start2] = '\0';  /* at the end of the first string, always write a terminating zero */
             /*
@@ -627,7 +627,7 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
             result.third = &(this_.buf[newStart3]);
             result.fourth = &(this_.buf[newStart4]);
             result.fifth = &(this_.buf[newStart5]);
-            result.error = UTF8_ERROR_TRUNCATED;
+            result.error = UTF8ERROR_TRUNCATED;
         }
     }
     else {
@@ -637,13 +637,13 @@ utf8_string_5_tuple_t utf8_string_buf_split_in_5( utf8_string_buf_t this_, int s
         result.third = &(this_.buf[length]);
         result.fourth = &(this_.buf[length]);
         result.fifth = &(this_.buf[length]);
-        result.error = UTF8_ERROR_OUT_OF_RANGE;
+        result.error = UTF8ERROR_OUT_OF_RANGE;
     }
     
     return result;
 }
 
-void utf8_string_buf_join( utf8_string_buf_t this_ ) {
+void utf8stringbuf_join( utf8stringbuf_t this_ ) {
     /* search first terminating zero, start from there. */
     unsigned int currentReadPos = strlen( this_.buf );
     unsigned int currentWritePos = currentReadPos;
