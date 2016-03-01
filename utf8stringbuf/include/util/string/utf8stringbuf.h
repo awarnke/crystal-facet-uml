@@ -630,7 +630,7 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
  * \return UTF8ERROR_SUCCESS in case of success: All bytes have been inserted.  
  *         UTF8ERROR_OUT_OF_RANGE in case of illegal ranges or UTF8ERROR_TRUNCATED in case of truncation.
  */
-static inline utf8error_t utf8stringbuf_insertBuf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
+static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
 
 /*!
  * \brief Splits a string buffer into two substrings

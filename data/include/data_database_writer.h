@@ -8,16 +8,24 @@
 
 #include "data_database.h"
 #include "data_diagram.h"
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <pthread.h>
 
 /*!
  *  \brief all data attributes needed for the database functions
  */
 struct data_database_writer_struct {
     data_database_t *database;
+    
+    pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
+    utf8stringbuf_t private_temp_stringbuf;
+    utf8stringbuf_t private_sql_stringbuf;
+    char private_temp_buffer[8192];
+    char private_sql_buffer[8192];
 };
 
 typedef struct data_database_writer_struct data_database_writer_t;
