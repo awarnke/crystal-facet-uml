@@ -21,6 +21,11 @@
 #define LOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"ERR : %s %i\n",string_test,int_test); }
 
 /*!
+ *  \brief logs an error string and a hexadecimal integer
+ */
+#define LOG_ERROR_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(LOG_OUT_STREAM,"ERR : %s %x\n",string_test,int_test); }
+
+/*!
  *  \brief logs an error string and an information string
  */
 #define LOG_ERROR_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(LOG_OUT_STREAM,"ERR : %s %s\n",string_test,string2_test); }
@@ -36,6 +41,11 @@
 #define LOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"WARN: %s %i\n",string_test,int_test); }
 
 /*!
+ *  \brief logs a warning string and a hexadecimal integer
+ */
+#define LOG_WARNING_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(LOG_OUT_STREAM,"WARN: %s %x\n",string_test,int_test); }
+
+/*!
  *  \brief logs a warning string and an information string
  */
 #define LOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(LOG_OUT_STREAM,"WARN: %s %s\n",string_test,string2_test); }
@@ -49,6 +59,11 @@
  *  \brief logs an event string and an integer
  */
 #define LOG_EVENT_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(LOG_OUT_STREAM,"EVT : %s %i\n",string_test,int_test); }
+
+/*!
+ *  \brief logs an event string and a hexadecimal integer
+ */
+#define LOG_EVENT_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(LOG_OUT_STREAM,"EVT : %s %x\n",string_test,int_test); }
 
 /*!
  *  \brief logs an event string and an information string

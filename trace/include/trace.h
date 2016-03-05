@@ -30,8 +30,18 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i %i\n",TRACE_INDENT,string_test,int_test,int_test2); }
 
 /*!
+ *  \brief traces a string and a hexadecimal integer
+ */
+#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s %x\n",TRACE_INDENT,string_test,int_test); }
+
+/*!
+ *  \brief traces a string and and an information string
+ */
+#define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT,string_test,string2_test); }
+
+/*!
  *  \brief traces a function start
- * 
+ *
  *  Note: For every TRACE_BEGIN, one TRACE_END shall be called to create a nicely indented trace output
  */
 #define TRACE_BEGIN() { fprintf(TRACE_OUT_STREAM,"%s%s [begin]\n",TRACE_INDENT,__func__); trace_indent_depth++; }

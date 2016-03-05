@@ -394,7 +394,7 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, 0, insert );
 }
 
-static inline utf8error_t utf8stringbuf_insertBuf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert ) {
+static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, 0, insert.buf );
 }

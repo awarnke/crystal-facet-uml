@@ -123,7 +123,7 @@ extern "C" {
  * 
  *  \invariant size must not be zero. 
  *             buf points to an array of size bytes.
- *             The array must be valid and null-terminated and located on a writeable memory page (non-const). 
+ *             The array shall be valid and null-terminated and located on a writeable memory page (non-const). 
  */
 struct utf8stringbuf_struct {
     unsigned int size;
@@ -151,8 +151,8 @@ static inline utf8stringbuf_t utf8stringbuf( char *that );
  * 
  * Use \link utf8stringbuf_clear(utf8stringbuf_t) utf8stringbuf_clear \endlink to empty the string buffer.
  * \note Performance-Rating: [x]single-operation   [ ]fast   [ ]medium   [ ]slow ;   Performance-Class: O(1)   
- * \param size size of the buf array. 
- * \param buf pointer to a non-const byte array
+ * \param size size of the buf array. size shall be greater or equal 1.
+ * \param buf pointer to a non-const byte array. buf must not be NULL.
  * \return A valid utf8stringbuf_t struct. Even if buf or size were NULL.
  */
 static inline utf8stringbuf_t utf8stringbuf_init( unsigned int size, char *buf );
@@ -164,7 +164,7 @@ static inline utf8stringbuf_t utf8stringbuf_init( unsigned int size, char *buf )
  * \n
  * This function may be called on an uninitialized buffer that possibly is not null-terminated.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:size   
- * \param this_ The string buffer object to be cleared
+ * \param this_ The string buffer object to be cleared.
  */
 static inline void utf8stringbuf_clear( utf8stringbuf_t this_ );
 
@@ -408,7 +408,7 @@ static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t t
  * the copied string gets truncated. This function ensures, that 
  * truncation does not split an utf8 code-point in half.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen   
- * \param this_ The destination string buffer
+ * \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  * \param original The source string buffer. The buffers of this_ and original must not overlap!
  * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied. 
  *         UTF8ERROR_TRUNCATED in case of truncation.
@@ -421,8 +421,9 @@ static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const u
  * If the source string does not fit into the destination buffer,
  * the copied string gets truncated. This function ensures, that 
  * truncation does not split an utf8 code-point in half.
+ * 
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen   
- * \param this_ The destination string buffer
+ * \param this_ The destination string buffer. It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  * \param original The 0-terminated source string. The buffers of this_ and original must not overlap!
  *                 NULL will cause the destination to be the empty string.
  * \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied. 
@@ -440,7 +441,7 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
  * \n
  * This function does not check, that the provided range in the source string is a valid utf8 sequence.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen   
- * \param this_ The destination string buffer
+ * \param this_ The destination string buffer.  It is valid to provide an uninitialized buffer that possibly is not null-terminated.
  * \param that The source string buffer. The buffers of this_ and that must not overlap!
  * \param start Start index within the source string, from which to copy. 0 is the index of the first byte. 
  * \param length Length in bytes to be copied.
@@ -459,7 +460,7 @@ extern utf8error_t utf8stringbuf_copy_region_from_buf( utf8stringbuf_t this_, co
  * \n
  * This function does not check, that the provided range in the source string is a valid utf8 sequence.
  * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen   
- * \param this_ The destination string buffer
+ * \param this_ The destination string buffer.  It is valid to provide an uninitialized string buffer that possibly is not null-terminated.
  * \param that The 0-terminated source string. The buffers of this_ and that must not overlap!
  * \param start Start index within the source string, from which to copy. 0 is the index of the first byte. 
  * \param length Length in bytes to be copied.

@@ -7,10 +7,19 @@
 /*! \file */
 
 #include "data_diagram_type.h"
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
+
+/*!
+ *  \brief constants for max string sizes
+ */
+enum data_diagram_max_sizes {
+    DATA_DIAGRAM_MAX_NAME_SIZE = 32,
+    DATA_DIAGRAM_MAX_NAME_LENGTH = 31,
+};
 
 /*!
  *  \brief all data attributes needed for the diagram functions
@@ -19,6 +28,8 @@ struct data_diagram_struct {
     int32_t id;
     int32_t parent_id;
     data_diagram_type_t diagram_type;
+    utf8stringbuf_t name;
+    char private_name_buffer[DATA_DIAGRAM_MAX_NAME_SIZE];
 };
 
 typedef struct data_diagram_struct data_diagram_t;
@@ -34,11 +45,15 @@ enum data_diagram_id_enum {
 
 /*!
  *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_NEW_ID
+ * 
+ *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
 static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name );
 
 /*!
  *  \brief initializes the data_diagram_t struct
+ * 
+ *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
 static inline void data_diagram_init ( data_diagram_t *this_, int32_t diagram_id, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name );
 

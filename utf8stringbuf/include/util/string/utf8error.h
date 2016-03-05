@@ -18,14 +18,19 @@ extern "C" {
  *
  *  Enumeration for success and error states. All errors are negative, positive values are reserved for 
  *  byte-lengths or index-values in case of success. 
+ *  
+ *  To be able to collect multiple errors over several statements,
+ *  e.g. { strerr |= utf8stringbuf_copy_str(...);  strerr |= utf8stringbuf_append_str(...); },
+ *  and evaluate multiple errors only once at the end, the pattern for values is
+ *  0xfffff020 where all unused higher bits are set and only one of the lower 3*4=12 bits is set.
  */
 enum utf8error_enum { 
     UTF8ERROR_SUCCESS = 0, /*!< success, there was no error */
-    UTF8ERROR_NOT_FOUND = -1, /*!< pattern not found */
-    UTF8ERROR_NULL_PARAM = -2, /*!< NULL was provided as parameter instead of a valid pointer */
-    UTF8ERROR_OUT_OF_RANGE = -3, /*!< some integer parameter was out of range */
-    UTF8ERROR_TRUNCATED = -4, /*!< the resulting string did not fit into the buffer, the string was truncated */
-    UTF8ERROR_NOT_A_CODEPOINT = -5, /*!< a codepoint was out of range: only 0x00000000 to 0x7fffffff are valid in utf8 */
+    UTF8ERROR_NOT_FOUND = (~(0x0ffe)), /*!< pattern not found */
+    UTF8ERROR_NULL_PARAM = (~(0x0ffd)), /*!< NULL was provided as parameter instead of a valid pointer */
+    UTF8ERROR_OUT_OF_RANGE = (~(0x0ffb)), /*!< some integer parameter was out of range */
+    UTF8ERROR_TRUNCATED = (~(0x0ff7)), /*!< the resulting string did not fit into the buffer, the string was truncated */
+    UTF8ERROR_NOT_A_CODEPOINT = (~(0x0fef)), /*!< a codepoint was out of range: only 0x00000000 to 0x7fffffff are valid in utf8 */
 };
 
 /*!
