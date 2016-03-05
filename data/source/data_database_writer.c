@@ -25,12 +25,22 @@ static const char *DATA_DATABASE_WRITER_COMMIT_TRANSACTION =
  *  \brief prefix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX =
-    "INSERT INTO diagrams (parent_id,type,name,list_order) VALUES (";
+    "INSERT INTO diagrams (parent_id,type,name,description,list_order) VALUES (";
 
 /*!
  *  \brief value separator string constant to insert a diagram
  */
-static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR = "-1,2,\"Hello\",42";
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR = ",";
+
+/*!
+ *  \brief string start marker string constant to insert a diagram
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START = "\'";
+
+/*!
+ *  \brief string end marker string constant to insert a diagram
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END = "\'";
 
 /*!
  *  \brief postfix string constant to insert a diagram
@@ -48,8 +58,7 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
     "\x0d", "\\r",
     "\x0e", "\\b",
     "\x1a", "\\z",
-    "\"", "\\\"",
-    "'", "\\'",
+    "'", "''",
     "\\", "\\\\",
     NULL,
 };
@@ -97,10 +106,34 @@ static void data_database_private_build_create_diagram_command ( data_database_w
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-    utf8stringbuf_clear( (*this_).private_temp_stringbuf );
-
     strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).diagram_type );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*diagram).name );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*diagram).description );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -141,8 +174,19 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
     }
 
     data_database_private_build_create_diagram_command( this_, diagram );
-
     LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+    sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    if ( error_msg != NULL )
+    {
+        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );

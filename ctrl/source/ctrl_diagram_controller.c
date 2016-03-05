@@ -7,21 +7,21 @@
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
-    
+
     (*this_).database = database;
     data_database_writer_init( &((*this_).db_writer), database );
     data_database_reader_init( &((*this_).db_reader), database );
-    
+
     TRACE_END();
 }
 
 void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 {
     TRACE_BEGIN();
-    
+
     data_database_writer_destroy( &((*this_).db_writer) );
     data_database_reader_destroy( &((*this_).db_reader) );
-    
+
     TRACE_END();
 }
 
@@ -30,14 +30,14 @@ int32_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this
     TRACE_BEGIN();
     data_diagram_t to_be_created;
     int32_t result;
-    
-    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name );
-    
+
+    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "Hello World\nThis is the first \"diagram\" record!" );
+
     TRACE_INFO_INT( "creating diagram to parent", parent_diagram_id );
     result = data_database_writer_create_diagram( &((*this_).db_writer) ,&to_be_created );
-    
+
     data_diagram_destroy( &to_be_created );
-    
+
     TRACE_END();
     return result;
 }
