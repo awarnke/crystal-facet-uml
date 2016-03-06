@@ -152,7 +152,7 @@ static void data_database_writer_private_build_create_diagram_command ( data_dat
     TRACE_END();
 }
 
-data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64* out_new_id )
+data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
 {
     TRACE_BEGIN();
     int64_t result = DATA_DIAGRAM_ID_UNINITIALIZED_ID;

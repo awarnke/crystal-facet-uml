@@ -6,6 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "ctrl_error.h"
 #include "data_database.h"
 #include "data_database_writer.h"
 #include "data_database_reader.h"
@@ -41,7 +42,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *
  *  \return id of the newly created object
  */
-int32_t ctrl_classifier_controller_create_object_in_diagram ( ctrl_classifier_controller_t *this_, int32_t parent_diagram_id, data_classifier_type_t object_type, const char* object_name );
+ctrl_error_t ctrl_classifier_controller_create_object_in_diagram ( ctrl_classifier_controller_t *this_, int32_t parent_diagram_id, data_classifier_type_t object_type, const char* object_name, int64_t* out_new_id );
 
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */

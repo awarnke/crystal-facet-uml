@@ -278,8 +278,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     ctrl_diagram_controller_t *diag_control;
                     diag_control = ctrl_controller_get_diagram_control ( (*this_).controller );
 
-                    int32_t new_diag_id;
-                    new_diag_id = ctrl_diagram_controller_create_diagram ( diag_control, /*parent_diagram_id*/ 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, "Hello World." );
+                    int64_t new_diag_id;
+                    ctrl_error_t c_result;
+                    c_result = ctrl_diagram_controller_create_diagram ( diag_control, /*parent_diagram_id*/ 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, "Hello World.", &new_diag_id );
 
                 }
                 break;
