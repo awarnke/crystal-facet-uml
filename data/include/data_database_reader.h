@@ -8,6 +8,7 @@
 
 #include "data_database.h"
 #include "data_diagram.h"
+#include "data_error.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -43,7 +44,7 @@ void data_database_reader_destroy ( data_database_reader_t *this_ );
  *  \param out_diagram the diagram read from the database (in case of success)
  *  \return 0 in case of success, a negative value in case of error.
  */
-int data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
+data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
 
 /*!
  *  \brief reads all child-diagrams from the database
@@ -54,7 +55,7 @@ int data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int6
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \return 0 in case of success, a negative value in case of error.
  */
-int data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] );
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] );
 
 #endif  /* DATA_DATABASE_READER_H */
 

@@ -8,6 +8,7 @@
 
 #include "data_database.h"
 #include "data_diagram.h"
+#include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
@@ -44,9 +45,10 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  *  \brief creates a new view and returns its id
  *
  *  \param diagram data of the new diagram record to be created.
+ *  \param out_new_id storage, where the id of the newly created record is stored.
  *  \return id of the newly created diagram - or DATA_DIAGRAM_ID_UNINITIALIZED_ID in case of an error
  */
-int64_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram );
+data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64* out_new_id );
 
 
 #endif  /* DATA_DATABASE_WRITER_H */

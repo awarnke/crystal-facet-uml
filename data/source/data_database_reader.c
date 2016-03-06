@@ -136,10 +136,10 @@ void data_database_reader_destroy ( data_database_reader_t *this_ )
     TRACE_END();
 }
 
-int data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
+data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
-    int result = -1;
+    data_error_t result = -1;
     int sqlite_err;
     static const int FIRST_SQL_BIND_PARAM = 1;
     int perr;
