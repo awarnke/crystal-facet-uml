@@ -222,10 +222,10 @@ int data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int6
     return result;
 }
 
-int32_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, data_diagram_t (*out_diagram)[] )
+int data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] )
 {
     TRACE_BEGIN();
-    int32_t result = 0;
+    int result = 0;
 
     TRACE_END_ERR( result );
     return result;
