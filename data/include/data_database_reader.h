@@ -12,12 +12,16 @@
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
+#include <pthread.h>
 
 /*!
  *  \brief all data attributes needed for the database functions
  */
 struct data_database_reader_struct {
-    data_database_t *database;
+    data_database_t *database;  /*!< pointer to external database */
+    pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
+    sqlite3_stmt *private_prepared_query_diagram_by_id;
+    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
 };
 
 typedef struct data_database_reader_struct data_database_reader_t;
@@ -38,16 +42,17 @@ void data_database_reader_destroy ( data_database_reader_t *this_ );
  *  \param out_diagram the diagram read from the database (in case of success)
  *  \return 0 in case of success, a negative value in case of error.
  */
-int32_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int32_t id, data_diagram_t *out_diagram );
+int data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
 
 /*!
  *  \brief reads all child-diagrams from the database
  *
  *  \param parent_id id of the parent diagram
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \return 0 or a positive number in case of success, a negative value in case of error. in case of success, this is the number of child-diagrams.
  */
-int32_t data_database_reader_get_diagrams_of_parent_id ( data_database_reader_t *this_, int32_t parent_id, int32_t max_out_array_size, data_diagram_t (*out_diagram)[] );
+int32_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, data_diagram_t (*out_diagram)[] );
 
 #endif  /* DATA_DATABASE_READER_H */
 

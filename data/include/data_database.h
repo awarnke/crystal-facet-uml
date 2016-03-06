@@ -6,7 +6,6 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
 

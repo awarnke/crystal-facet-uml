@@ -56,6 +56,11 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
  */
 #define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=%i\n",TRACE_INDENT,__func__,int_test); }}
 
+/*!
+ *  \brief ensures to flush all data
+ */
+#define TRACE_FLUSH() { fflush(TRACE_OUT_STREAM); }
+
 #endif  /* TRACE_H */
 
 

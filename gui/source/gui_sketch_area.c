@@ -11,23 +11,29 @@
 void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_t *database )
 {
     TRACE_BEGIN();
-    
+
     (*this_).mark_active = false;
     (*this_).tools = tools;
     (*this_).database = database;
     (*this_).controller = controller;
     (*this_).paper_visible = false;
+    data_database_reader_init( &((*this_).db_reader), database );
     gui_diagram_painter_init( &((*this_).painter) );
-    
+
+    data_diagram_t my_diag;
+    int err= data_database_reader_get_diagram_by_id ( &((*this_).db_reader), /*id*/ 5 , &my_diag );
+
+
     TRACE_END();
 }
 
 void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
-    
+
     gui_diagram_painter_destroy( &((*this_).painter) );
-    
+    data_database_reader_destroy( &((*this_).db_reader) );
+
     TRACE_END();
 }
 
@@ -43,20 +49,20 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
-    
+
     if (( width < 48 )||( height < 48 )) {
         /* window is too small, output a dark-grey rectangle */
-        
+
         (*this_).paper_visible = false;
-        
+
 	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, height );
         cairo_fill (cr);
     }
-    else 
+    else
     {
         (*this_).paper_visible = true;
-        
+
         if ( width * RATIO_HEIGHT > height * RATIO_WIDTH )
 	{
             (*this_).paper_top = 10;
@@ -71,7 +77,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
             (*this_).paper_height = ( width * RATIO_HEIGHT ) / RATIO_WIDTH;
             (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
 	}
-      
+
         /* draw border */
 	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, (*this_).paper_top );
@@ -82,12 +88,12 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
         cairo_rectangle ( cr, (*this_).paper_left+(*this_).paper_width, (*this_).paper_top, width-(*this_).paper_left-(*this_).paper_width, (*this_).paper_height );
         cairo_fill (cr);
-      
+
         /* draw paper */
 	cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
         cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
         cairo_fill (cr);
-	
+
 	/* draw the current diagram */
 	cairo_save (cr);
         cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
@@ -95,7 +101,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 0, cr );
 	/*cairo_reset_clip (cr);*/
 	cairo_restore (cr);
-        
+
         /* draw marking line */
         if ( (*this_).mark_active )
         {
@@ -153,7 +159,7 @@ static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_
         top = (*this_).mark_end_y;
         bottom = (*this_).mark_start_y;
     }
-    
+
     /* mark dirty rect */
     gtk_widget_queue_draw_area( widget, left, top, right-left, bottom-top );
 }
@@ -179,25 +185,25 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     int32_t x;
     int32_t y;
     GdkModifierType state;
-    
+
     x = (int32_t) evt->x;
     y = (int32_t) evt->y;
     state = (GdkModifierType) evt->state;
-    
+
     TRACE_INFO_INT_INT("x/y",x,y);
 
     if ( (*this_).mark_active )
     {
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
-        
+
         (*this_).mark_end_x = x;
         (*this_).mark_end_y = y;
-        
+
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
     }
-    
+
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
         TRACE_INFO("GDK_BUTTON1_MASK");
@@ -220,13 +226,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         x = (int32_t) evt->x;
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT("x/y",x,y);
-        
+
         (*this_).mark_active = true;
         (*this_).mark_start_x = x;
         (*this_).mark_start_y = y;
         (*this_).mark_end_x = x;
         (*this_).mark_end_y = y;
-        
+
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
     }
@@ -250,14 +256,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         TRACE_INFO_INT_INT("x/y",x,y);
 
         (*this_).mark_active = false;
-        
+
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
-        
+
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
         selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
-        switch ( selected_tool ) 
+        switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
                 TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
@@ -268,14 +274,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
                 {
                     TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
-                    
+
                     ctrl_diagram_controller_t *diag_control;
                     diag_control = ctrl_controller_get_diagram_control ( (*this_).controller );
-                    
+
                     int32_t new_diag_id;
                     new_diag_id = ctrl_diagram_controller_create_diagram ( diag_control, /*parent_diagram_id*/ 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, "Hello World." );
-                    
-                }   
+
+                }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");

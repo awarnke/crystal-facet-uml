@@ -18,8 +18,9 @@
  *  \brief attributes of the sketch area widget
  */
 struct gui_sketch_area_struct {
-    data_database_t *database;
-    ctrl_controller_t *controller;
+    data_database_t *database;  /*!< pointer to external database */
+    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    ctrl_controller_t *controller;  /*!< pointer to external controller */
     bool paper_visible;
     int32_t paper_left;
     int32_t paper_top;
@@ -30,8 +31,8 @@ struct gui_sketch_area_struct {
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
-    gui_sketch_tools_t *tools;
-    gui_diagram_painter_t painter;
+    gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
+    gui_diagram_painter_t painter;  /*!< own instance of a diagram painter */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
@@ -52,22 +53,22 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 gboolean gui_sketch_area_draw_callback ( GtkWidget *widget, cairo_t *cr, gpointer data );
 
 /*!
- *  \brief callback that informs that the mouse cursor left the sketch_area widget 
+ *  \brief callback that informs that the mouse cursor left the sketch_area widget
  */
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data );
 
 /*!
- *  \brief callback that informs that the mouse cursor moved on the sketch_area widget 
+ *  \brief callback that informs that the mouse cursor moved on the sketch_area widget
  */
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data );
 
 /*!
- *  \brief callback that informs that the mouse button was pressed on the sketch_area widget 
+ *  \brief callback that informs that the mouse button was pressed on the sketch_area widget
  */
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
 
 /*!
- *  \brief callback that informs that the mouse button was released on the sketch_area widget 
+ *  \brief callback that informs that the mouse button was released on the sketch_area widget
  */
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
 

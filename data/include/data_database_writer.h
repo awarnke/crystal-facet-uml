@@ -19,7 +19,7 @@
  *  \brief all data attributes needed for the database functions
  */
 struct data_database_writer_struct {
-    data_database_t *database;
+    data_database_t *database;  /*!< pointer to external database */
 
     pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
     utf8stringbuf_t private_temp_stringbuf;

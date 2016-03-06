@@ -70,7 +70,7 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
  */
 static void data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
-/* !
+/*   !
  * \brief callback to trace database results
  */
 /*
@@ -85,6 +85,7 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_t 
     (*this_).database = database;
     (*this_).private_temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
     (*this_).private_sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
+
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )
     {
@@ -229,7 +230,7 @@ int64_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
 static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
 {
     TRACE_BEGIN();
-    int result;
+    int result = 0;
 
     TRACE_INFO_INT( "num:", num );
 

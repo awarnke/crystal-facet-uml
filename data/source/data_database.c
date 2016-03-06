@@ -3,6 +3,7 @@
 #include "data_database.h"
 #include "trace.h"
 #include "log.h"
+#include <unistd.h>
 
 /*!
  *  \brief string constant to create an sql database table
@@ -221,7 +222,20 @@ void data_database_close ( data_database_t *this_ )
         {
             LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
         }
-        
+
+        if ( SQLITE_BUSY == sqlite_err )
+        {
+            /* retry */
+            sleep (1);
+
+            LOG_EVENT_STR( "sqlite3_close_v2:", (*this_).db_file_name );
+            sqlite_err = sqlite3_close_v2( (*this_).db );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                LOG_ERROR_INT( "sqlite3_close_v2() failed:", sqlite_err );
+            }
+        }
+
         (*this_).db_file_name = "";
         (*this_).is_open = false;
     }

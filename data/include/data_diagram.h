@@ -27,8 +27,8 @@ enum data_diagram_max_sizes {
  *  \brief all data attributes needed for the diagram functions
  */
 struct data_diagram_struct {
-    int32_t id;
-    int32_t parent_id;
+    int64_t id;
+    int64_t parent_id;
     data_diagram_type_t diagram_type;
     utf8stringbuf_t name;
     char private_name_buffer[DATA_DIAGRAM_MAX_NAME_SIZE];
@@ -53,19 +53,30 @@ enum data_diagram_id_enum {
  *
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
-static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
+static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
+
+/*!
+ *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_UNINITIALIZED_ID; all other values are zero.
+ *
+ */
+static inline void data_diagram_init_empty ( data_diagram_t *this_ );
 
 /*!
  *  \brief initializes the data_diagram_t struct
  *
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
-static inline void data_diagram_init ( data_diagram_t *this_, int32_t diagram_id, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
+static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
 
 /*!
  *  \brief destroys the data_diagram_t struct
  */
 static inline void data_diagram_destroy ( data_diagram_t *this_ );
+
+/*!
+ *  \brief prints the data_diagram_t struct to the trace output
+ */
+static inline void data_diagram_trace ( data_diagram_t *this_ );
 
 #include "data_diagram.inl"
 

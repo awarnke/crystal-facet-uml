@@ -14,9 +14,9 @@
  *  \brief all data attributes needed for the controller functions
  */
 struct ctrl_controller_struct {
-    ctrl_classifier_controller_t classifiers;
-    ctrl_diagram_controller_t diagrams;
-    data_database_t *database;
+    ctrl_classifier_controller_t classifiers;  /*!< own instance of a classifier controller */
+    ctrl_diagram_controller_t diagrams;  /*!< own instance of a diagram controller */
+    data_database_t *database;  /*!< pointer to external database */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;

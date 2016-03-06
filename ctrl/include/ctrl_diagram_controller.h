@@ -19,9 +19,9 @@
  *  \brief all data attributes needed for the diagram functions
  */
 struct ctrl_diagram_controller_struct {
-    data_database_t *database;
-    data_database_writer_t db_writer;
-    data_database_reader_t db_reader;
+    data_database_t *database;  /*!< pointer to external database */
+    data_database_writer_t db_writer;  /*!< own instance of a database writer */
+    data_database_reader_t db_reader;  /*!< own instance of a database reader */
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;

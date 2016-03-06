@@ -1,8 +1,9 @@
 /* File: data_diagram.inl; Copyright and License: see below */
 
 #include "log.h"
+#include "trace.h"
 
-static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
+static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
 {
     utf8error_t strerr;
 
@@ -27,7 +28,21 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int32_t parent
     (*this_).list_order = 0;
 }
 
-static inline void data_diagram_init ( data_diagram_t *this_, int32_t diagram_id, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
+static inline void data_diagram_init_empty ( data_diagram_t *this_ )
+{
+    (*this_).id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
+    (*this_).parent_id = 0;
+    (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
+
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    utf8stringbuf_clear( (*this_).name );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    utf8stringbuf_clear( (*this_).description );
+
+    (*this_).list_order = 0;
+}
+
+static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
 {
     utf8error_t strerr;
 
@@ -52,6 +67,17 @@ static inline void data_diagram_destroy ( data_diagram_t *this_ )
     utf8stringbuf_clear( (*this_).name );
 
     utf8stringbuf_clear( (*this_).description );
+}
+
+static inline void data_diagram_trace ( data_diagram_t *this_ )
+{
+    TRACE_INFO( "data_diagram_t" );
+    TRACE_INFO_INT( "- id:", (*this_).id );
+    TRACE_INFO_INT( "- parent_id:", (*this_).parent_id );
+    TRACE_INFO_INT( "- diagram_type:", (*this_).diagram_type );
+    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
+    TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
 /*
