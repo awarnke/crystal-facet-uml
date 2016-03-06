@@ -20,7 +20,7 @@
  */
 struct data_database_writer_struct {
     data_database_t *database;
-    
+
     pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
     utf8stringbuf_t private_temp_stringbuf;
     utf8stringbuf_t private_sql_stringbuf;
@@ -43,9 +43,10 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
 /*!
  *  \brief creates a new view and returns its id
  *
- *  \return id of the newly created diagram
+ *  \param diagram data of the new diagram record to be created.
+ *  \return id of the newly created diagram - or DATA_DIAGRAM_ID_UNINITIALIZED_ID in case of an error
  */
-int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram );
+int64_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
 
 #endif  /* DATA_DATABASE_WRITER_H */

@@ -68,7 +68,14 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
  *
  *  \param diagram diagram to be created.
  */
-static void data_database_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
+static void data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
+
+/* !
+ * \brief callback to trace database results
+ */
+/*
+static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b );
+*/
 
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
@@ -101,7 +108,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
-static void data_database_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
+static void data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -144,10 +151,10 @@ static void data_database_private_build_create_diagram_command ( data_database_w
     TRACE_END();
 }
 
-int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram )
+int64_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
-    int32_t result = 0;
+    int64_t result = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
     int sqlite_err;
     char *error_msg = NULL;
     sqlite3 *db = data_database_get_database( (*this_).database );
@@ -173,7 +180,7 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
         error_msg = NULL;
     }
 
-    data_database_private_build_create_diagram_command( this_, diagram );
+    data_database_writer_private_build_create_diagram_command( this_, diagram );
     LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
     sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
@@ -186,6 +193,12 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
         LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
+    }
+
+    if ( SQLITE_OK == sqlite_err )
+    {
+        result = sqlite3_last_insert_rowid(db);
+        LOG_EVENT_INT( "sqlite3_last_insert_rowid():", result );
     }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
@@ -212,6 +225,18 @@ int32_t data_database_writer_create_diagram ( data_database_writer_t *this_, con
     return result;
 }
 
+/*
+static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
+{
+    TRACE_BEGIN();
+    int result;
+
+    TRACE_INFO_INT( "num:", num );
+
+    TRACE_END();
+    return result;
+}
+*/
 
 /*
 Copyright 2016-2016 Andreas Warnke
