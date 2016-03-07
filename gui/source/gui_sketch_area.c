@@ -135,6 +135,8 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
             cairo_fill (cr);
         }
     }
+
+    TRACE_TIMESTAMP();
     TRACE_END();
     return FALSE;
 }
@@ -176,6 +178,7 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
     }
 
+    TRACE_TIMESTAMP();
     TRACE_END();
     return TRUE;
 }
@@ -241,6 +244,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
     }
 
+    TRACE_TIMESTAMP();
     TRACE_END();
     return TRUE;
 }
@@ -297,6 +301,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
     }
 
+    TRACE_TIMESTAMP();
     TRACE_END();
     return TRUE;
 }

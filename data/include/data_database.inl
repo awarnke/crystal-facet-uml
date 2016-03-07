@@ -5,6 +5,7 @@ static inline sqlite3 *data_database_get_database ( data_database_t *this_ )
     return (*this_).db;
 }
 
+
 /*
 Copyright 2016-2016 Andreas Warnke
 

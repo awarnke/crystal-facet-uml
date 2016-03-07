@@ -10,6 +10,7 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control ( c
     return &((*this_).diagrams);
 }
 
+
 /*
 Copyright 2016-2016 Andreas Warnke
 

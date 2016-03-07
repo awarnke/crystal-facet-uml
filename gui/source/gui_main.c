@@ -9,6 +9,7 @@
 
 void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database ) {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     gui_main_window_t the_window;
 
     /* the second window is just for keeping in mind the MVC pattern */
@@ -23,9 +24,11 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
     /* the second window is just for keeping in mind the MVC pattern */
     gui_main_window_init( &the_window2, controller, database );
 
+    TRACE_TIMESTAMP();
     gtk_main();
     gtk_main(); /* once for every window: closing 1 window will end 1 main loop */
 
+    TRACE_TIMESTAMP();
     TRACE_END();
 }
 

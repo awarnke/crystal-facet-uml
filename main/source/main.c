@@ -17,26 +17,32 @@ static ctrl_controller_t controller;
  */
 int main (int argc, char *argv[]) {
     TRACE_BEGIN();
+    TRACE_TIMESTAMP();
     int exit_code = 0;
 
     TRACE_INFO("starting DB...");
     data_database_init( &database );
     data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );
-    
+
+    TRACE_TIMESTAMP();
     TRACE_INFO("initializing controller...");
     ctrl_controller_init( &controller, &database );
-    
+
+    TRACE_TIMESTAMP();
     TRACE_INFO("running GUI...");
     gui_main( argc, argv, &controller, &database );
     TRACE_INFO("GUI stopped.");
-    
+
+    TRACE_TIMESTAMP();
     TRACE_INFO("destroying controller...");
     ctrl_controller_destroy( &controller );
-    
+
+    TRACE_TIMESTAMP();
     TRACE_INFO("stopping DB...");
     data_database_close( &database );
     data_database_destroy( &database );
-    
+
+    TRACE_TIMESTAMP();
     TRACE_END_ERR(exit_code);
     return exit_code;
 }

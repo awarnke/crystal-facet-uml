@@ -50,7 +50,6 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
 
-
 #endif  /* DATA_DATABASE_WRITER_H */
 
 

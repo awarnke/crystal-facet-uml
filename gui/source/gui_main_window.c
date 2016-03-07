@@ -102,6 +102,7 @@ void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data )
     gui_main_window_destroy( this_ );
     gtk_main_quit();
 
+    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
@@ -109,6 +110,7 @@ gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *even
 {
     TRACE_BEGIN();
 
+    TRACE_TIMESTAMP();
     TRACE_END();
     return FALSE;  /* return false to trigger destroy event */
 }

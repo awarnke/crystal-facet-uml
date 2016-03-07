@@ -7,6 +7,7 @@
 /*! \file */
 
 #include <stdio.h>
+#include <time.h>
 
 #define TRACE_OUT_STREAM stdout
 #define TRACE_INDENT_MAX (16)
@@ -60,6 +61,11 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
  *  \brief ensures to flush all data
  */
 #define TRACE_FLUSH() { fflush(TRACE_OUT_STREAM); }
+
+/*!
+ *  \brief traces a timestamp
+ */
+#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%i %s]\n",TRACE_INDENT,tp.tv_sec,tp.tv_nsec,(err!=0)?"?":"sec"); }
 
 #endif  /* TRACE_H */
 

@@ -80,6 +80,7 @@ static inline void data_diagram_trace ( data_diagram_t *this_ )
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
+
 /*
 Copyright 2016-2016 Andreas Warnke
 
