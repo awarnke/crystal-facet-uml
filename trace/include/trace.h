@@ -58,14 +58,16 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT,__func__,int_test); }}
 
 /*!
- *  \brief ensures to flush all data
+ *  \brief ensures to flush all data.
+ *
+ *  Call this macro before fork() or when you expect a process crash (e.g. SIGSEGV).
  */
 #define TRACE_FLUSH() { fflush(TRACE_OUT_STREAM); }
 
 /*!
  *  \brief traces a timestamp
  */
-#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%i %s]\n",TRACE_INDENT,tp.tv_sec,tp.tv_nsec,(err!=0)?"?":"sec"); }
+#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT,tp.tv_sec,(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
 
 #endif  /* TRACE_H */
 
