@@ -70,13 +70,6 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
  */
 static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
-/*   !
- * \brief callback to trace database results
- */
-/*
-static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b );
-*/
-
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -236,18 +229,6 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     return result;
 }
 
-/*
-static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
-{
-    TRACE_BEGIN();
-    int result = 0;
-
-    TRACE_INFO_INT( "num:", num );
-
-    TRACE_END();
-    return result;
-}
-*/
 
 /*
 Copyright 2016-2016 Andreas Warnke

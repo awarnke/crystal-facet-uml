@@ -48,13 +48,6 @@ static const int RESULT_COLUMN_DESCRIPTION = 4;
  */
 static const int RESULT_COLUMN_LIST_ORDER = 5;
 
-/*    !
- * \brief callback to trace database results
- */
-/*
- s tatic data_error_t* data_database_reader_private_trace_sql_result( void *my_data, int num, char** a, char** b );
-*/
-
 void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -175,8 +168,8 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     sqlite_err = sqlite3_step( prepared_statement );
     if ( SQLITE_ROW != sqlite_err )
     {
-        LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
+        LOG_ERROR( "sqlite3_step() did not find a row." );
+        result |= DATA_ERROR_DB_STRUCTURE;
     }
 
     if ( SQLITE_ROW == sqlite_err )
@@ -213,10 +206,6 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         (*out_diagram).list_order = sqlite3_column_int( prepared_statement, RESULT_COLUMN_LIST_ORDER );
 
         data_diagram_trace( out_diagram );
-    }
-    else
-    {
-        result |= DATA_ERROR_DB_STRUCTURE;
     }
 
     sqlite_err = sqlite3_step( prepared_statement );
@@ -324,7 +313,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
         if ( SQLITE_DONE == sqlite_err )
         {
             TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
-            result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
 
@@ -339,18 +327,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     return result;
 }
 
-/*
- s tatic data_error_t* data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
-{
-    TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
-
-    TRACE_INFO_INT( "num:", num );
-
-    TRACE_END_ERR( result );
-    return result;
-}
-*/
 
 /*
 Copyright 2016-2016 Andreas Warnke
