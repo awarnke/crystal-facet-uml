@@ -46,7 +46,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
 
     data_diagram_destroy( &to_be_created );
 
-    TRACE_END();
+    TRACE_END_ERR( result );
     return result;
 }
 

@@ -46,7 +46,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  *
  *  \param diagram data of the new diagram record to be created.
  *  \param out_new_id storage, where the id of the newly created record is stored.
- *  \return id of the newly created diagram - or DATA_DIAGRAM_ID_UNINITIALIZED_ID in case of an error
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
 

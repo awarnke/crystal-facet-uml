@@ -6,17 +6,22 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_error.h"
+
 /*!
  *  \brief error constants which explain errors which occurred in the ctrl module
  *
- *  \note to allow easy converstion from data_error_t, this is a superset of data_error_t.
+ *  \note to allow easy conversion from data_error_t, this is a superset of data_error_t.
  */
 enum ctrl_error_enum {
-    CTRL_ERROR_NONE = 0,  /*!< success */
-    CTRL_ERROR_NO_DB = -1,  /*!< database not open/loaded */
-    CTRL_ERROR_DB_STRUCTURE = -2,  /*!< the structure of the database is corrupted */
-    CTRL_ERROR_STRING_BUFFER_EXCEEDED = -5,  /*!< a string does not fit to the string storage buffer */
-    CTRL_ERROR_ARRAY_BUFFER_EXCEEDED = -6,  /*!< a set ob objects does not fit to the array storage buffer */
+    CTRL_ERROR_NONE = DATA_ERROR_NONE,  /*!< success */
+    CTRL_ERROR_NO_DB = DATA_ERROR_NO_DB,  /*!< database not open/loaded */
+    CTRL_ERROR_DB_STRUCTURE = DATA_ERROR_DB_STRUCTURE,  /*!< the structure of the database is corrupted */
+    CTRL_ERROR_STRING_BUFFER_EXCEEDED = DATA_ERROR_STRING_BUFFER_EXCEEDED,  /*!< a string does not fit to the string storage buffer */
+    CTRL_ERROR_ARRAY_BUFFER_EXCEEDED = DATA_ERROR_ARRAY_BUFFER_EXCEEDED,  /*!< a set ob objects does not fit to the array storage buffer */
+    CTRL_ERROR_AT_MUTEX = DATA_ERROR_AT_MUTEX,  /*!< unexpected internal error at mutex */
+    CTRL_ERROR_AT_DB = DATA_ERROR_AT_DB,  /*!< unexpected internal error at database */
+    CTRL_ERROR_MASK = DATA_ERROR_MASK,  /*!< a mask to filter error bits after collecting possibly multiple errors */
 };
 
 typedef enum ctrl_error_enum ctrl_error_t;

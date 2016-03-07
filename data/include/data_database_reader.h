@@ -42,7 +42,7 @@ void data_database_reader_destroy ( data_database_reader_t *this_ );
  *
  *  \param id the diagram to be read from the database
  *  \param out_diagram the diagram read from the database (in case of success)
- *  \return 0 in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
 
@@ -53,7 +53,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \param out_diagram array of diagrams read from the database (in case of success)
- *  \return 0 in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] );
 

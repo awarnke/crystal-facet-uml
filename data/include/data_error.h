@@ -8,13 +8,21 @@
 
 /*!
  *  \brief error constants which explain errors which occurred in the data module
+ *
+ *  To be able to collect multiple errors over several statements,
+ *  and evaluate multiple errors only once at the end of a block, the pattern for values is
+ *  0xff000020 where all unused higher bits are set and only one of the lower 6*4=24 bits is set.
+ *
  */
 enum data_error_enum {
-    DATA_ERROR_NONE = 0,  /*!< success */
-    DATA_ERROR_NO_DB = -1,  /*!< database not open/loaded */
-    DATA_ERROR_DB_STRUCTURE = -2,  /*!< the structure of the database is corrupted */
-    DATA_ERROR_STRING_BUFFER_EXCEEDED = -5,  /*!< a string does not fit to the string storage buffer */
-    DATA_ERROR_ARRAY_BUFFER_EXCEEDED = -6,  /*!< a set ob objects does not fit to the array storage buffer */
+    DATA_ERROR_NONE = (0x00),  /*!< success */
+    DATA_ERROR_NO_DB = (~(0x00fffffe)),  /*!< database not open/loaded */
+    DATA_ERROR_DB_STRUCTURE = (~(0x00fffffd)),  /*!< the structure of the database is corrupted */
+    DATA_ERROR_STRING_BUFFER_EXCEEDED = (~(0x00fffffb)),  /*!< a string does not fit to the string storage buffer */
+    DATA_ERROR_ARRAY_BUFFER_EXCEEDED = (~(0x00fffff7)),  /*!< a set ob objects does not fit to the array storage buffer */
+    DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< unexpected internal error at mutex */
+    DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< unexpected internal error at database */
+    DATA_ERROR_MASK = (0x00ffffff),  /*!< a mask to filter error bits after collecting possibly multiple errors */
 };
 
 typedef enum data_error_enum data_error_t;

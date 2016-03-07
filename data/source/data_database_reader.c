@@ -48,10 +48,12 @@ static const int RESULT_COLUMN_DESCRIPTION = 4;
  */
 static const int RESULT_COLUMN_LIST_ORDER = 5;
 
-/*!
+/*    !
  * \brief callback to trace database results
  */
-static int data_database_reader_private_trace_sql_result( void *my_data, int num, char** a, char** b );
+/*
+ s tatic data_error_t* data_database_reader_private_trace_sql_result( void *my_data, int num, char** a, char** b );
+*/
 
 void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
@@ -139,7 +141,7 @@ void data_database_reader_destroy ( data_database_reader_t *this_ )
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
-    data_error_t result = -1;
+    data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     static const int FIRST_SQL_BIND_PARAM = 1;
     int perr;
@@ -148,99 +150,207 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
-    sqlite_err = sqlite3_reset( (*this_).private_prepared_query_diagram_by_id );
+    sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagram_by_id;
+
+    sqlite_err = sqlite3_reset( prepared_statement );
     if ( SQLITE_OK != sqlite_err )
     {
         LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
 
     TRACE_INFO_STR( "sqlite3_bind_int():", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
     TRACE_INFO_INT( "sqlite3_bind_int():", id );
-    sqlite_err = sqlite3_bind_int( (*this_).private_prepared_query_diagram_by_id, FIRST_SQL_BIND_PARAM, id );
+    sqlite_err = sqlite3_bind_int( prepared_statement, FIRST_SQL_BIND_PARAM, id );
     if ( SQLITE_OK != sqlite_err )
     {
         LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
 
     TRACE_INFO( "sqlite3_step()" );
-    sqlite_err = sqlite3_step( (*this_).private_prepared_query_diagram_by_id );
+    sqlite_err = sqlite3_step( prepared_statement );
     if ( SQLITE_ROW != sqlite_err )
     {
         LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
 
     if ( SQLITE_ROW == sqlite_err )
     {
-        result = 0;
         data_diagram_init_empty(out_diagram);
-        (*out_diagram).id = sqlite3_column_int64( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_ID );
-        (*out_diagram).parent_id = sqlite3_column_int64( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_PARENT_ID );
-        (*out_diagram).diagram_type = sqlite3_column_int( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_TYPE );
+        (*out_diagram).id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_ID );
+        (*out_diagram).parent_id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_PARENT_ID );
+        (*out_diagram).diagram_type = sqlite3_column_int( prepared_statement, RESULT_COLUMN_TYPE );
         {
             const char* sqlite_stringresult;
             int length;
             utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-            sqlite_stringresult = sqlite3_column_text( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_NAME );
+            sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
             strerr = utf8stringbuf_copy_str( (*out_diagram).name, sqlite_stringresult );
             if ( strerr != UTF8ERROR_SUCCESS )
             {
                 LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                length = sqlite3_column_bytes( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_NAME );
+                length = sqlite3_column_bytes( prepared_statement, RESULT_COLUMN_NAME );
                 LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
+                result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
             }
 
-            sqlite_stringresult = sqlite3_column_text( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_DESCRIPTION );
+            sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
             strerr = utf8stringbuf_copy_str( (*out_diagram).description, sqlite_stringresult );
             if ( strerr != UTF8ERROR_SUCCESS )
             {
                 LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                length = sqlite3_column_bytes( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_DESCRIPTION );
+                length = sqlite3_column_bytes( prepared_statement, RESULT_COLUMN_DESCRIPTION );
                 LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
+                result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
             }
         }
-        (*out_diagram).list_order = sqlite3_column_int( (*this_).private_prepared_query_diagram_by_id, RESULT_COLUMN_LIST_ORDER );
+        (*out_diagram).list_order = sqlite3_column_int( prepared_statement, RESULT_COLUMN_LIST_ORDER );
 
         data_diagram_trace( out_diagram );
     }
+    else
+    {
+        result |= DATA_ERROR_DB_STRUCTURE;
+    }
 
-    sqlite_err = sqlite3_step( (*this_).private_prepared_query_diagram_by_id );
+    sqlite_err = sqlite3_step( prepared_statement );
     if ( SQLITE_DONE != sqlite_err )
     {
         LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+        result |= DATA_ERROR_DB_STRUCTURE;
     }
 
     perr = pthread_mutex_unlock ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-int data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] )
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] )
 {
     TRACE_BEGIN();
-    int result = 0;
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    static const int FIRST_SQL_BIND_PARAM = 1;
+    int perr;
+
+    perr = pthread_mutex_lock ( &((*this_).private_lock) );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
+    }
+
+    sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
+
+    sqlite_err = sqlite3_reset( prepared_statement );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    TRACE_INFO_STR( "sqlite3_bind_int():", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
+    TRACE_INFO_INT( "sqlite3_bind_int():", parent_id );
+    sqlite_err = sqlite3_bind_int( prepared_statement, FIRST_SQL_BIND_PARAM, parent_id );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    sqlite_err = SQLITE_ROW;
+    for ( int32_t row_count = 0; (SQLITE_ROW == sqlite_err) && (row_count <= max_out_array_size); row_count ++ )
+    {
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+        {
+            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if (( SQLITE_ROW == sqlite_err )&&(row_count < max_out_array_size))
+        {
+            data_diagram_t *current_diag = &((*out_diagram)[row_count]);
+            data_diagram_init_empty(current_diag);
+            (*current_diag).id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_ID );
+            (*current_diag).parent_id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_PARENT_ID );
+            (*current_diag).diagram_type = sqlite3_column_int( prepared_statement, RESULT_COLUMN_TYPE );
+            {
+                const char* sqlite_stringresult;
+                int length;
+                utf8error_t strerr = UTF8ERROR_SUCCESS;
+
+                sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
+                strerr = utf8stringbuf_copy_str( (*current_diag).name, sqlite_stringresult );
+                if ( strerr != UTF8ERROR_SUCCESS )
+                {
+                    LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+                    length = sqlite3_column_bytes( prepared_statement, RESULT_COLUMN_NAME );
+                    LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
+                    result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+                }
+
+                sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
+                strerr = utf8stringbuf_copy_str( (*current_diag).description, sqlite_stringresult );
+                if ( strerr != UTF8ERROR_SUCCESS )
+                {
+                    LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
+                    length = sqlite3_column_bytes( prepared_statement, RESULT_COLUMN_DESCRIPTION );
+                    LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
+                    result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+                }
+            }
+            (*current_diag).list_order = sqlite3_column_int( prepared_statement, RESULT_COLUMN_LIST_ORDER );
+
+            data_diagram_trace( current_diag );
+        }
+        if (( SQLITE_ROW == sqlite_err )&&(row_count >= max_out_array_size))
+        {
+            LOG_ERROR_INT( "out_diagram[] full:", (row_count+1) );
+            result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        }
+        if ( SQLITE_DONE == sqlite_err )
+        {
+            TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+    }
+
+    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
+    }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-static int data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
+/*
+ s tatic data_error_t* data_database_writer_private_trace_sql_result( void *my_data, int num, char** a, char** b )
 {
     TRACE_BEGIN();
-    int result = 0;
+    data_error_t result = DATA_ERROR_NONE;
 
     TRACE_INFO_INT( "num:", num );
 
-    TRACE_END();
+    TRACE_END_ERR( result );
     return result;
 }
+*/
 
 /*
 Copyright 2016-2016 Andreas Warnke

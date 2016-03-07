@@ -21,8 +21,12 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     gui_diagram_painter_init( &((*this_).painter) );
 
     data_diagram_t my_diag;
-    int err= data_database_reader_get_diagram_by_id ( &((*this_).db_reader), /*id*/ 5 , &my_diag );
+    data_error_t err;
+    err= data_database_reader_get_diagram_by_id ( &((*this_).db_reader), /*id*/ 5 , &my_diag );
 
+    data_diagram_t diags[7];
+    int32_t count;
+    err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
 
     TRACE_END();
 }

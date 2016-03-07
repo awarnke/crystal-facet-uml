@@ -32,7 +32,7 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a string and a hexadecimal integer
  */
-#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s %x\n",TRACE_INDENT,string_test,int_test); }
+#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT,string_test,int_test); }
 
 /*!
  *  \brief traces a string and and an information string
@@ -54,7 +54,7 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=%i\n",TRACE_INDENT,__func__,int_test); }}
+#define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT,__func__,int_test); }}
 
 /*!
  *  \brief ensures to flush all data

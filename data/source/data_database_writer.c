@@ -68,7 +68,7 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
  *
  *  \param diagram diagram to be created.
  */
-static void data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
+static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
 /*   !
  * \brief callback to trace database results
@@ -109,10 +109,11 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
-static void data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
+static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
 
     strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
@@ -147,15 +148,18 @@ static void data_database_writer_private_build_create_diagram_command ( data_dat
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
 {
     TRACE_BEGIN();
-    int64_t result = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
+    int64_t new_id;
+    data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
     sqlite3 *db = data_database_get_database( (*this_).database );
@@ -165,6 +169,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
@@ -173,6 +178,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -181,13 +187,14 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
         error_msg = NULL;
     }
 
-    data_database_writer_private_build_create_diagram_command( this_, diagram );
+    result |= data_database_writer_private_build_create_diagram_command( this_, diagram );
     LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
     sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -198,8 +205,9 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 
     if ( SQLITE_OK == sqlite_err )
     {
-        result = sqlite3_last_insert_rowid(db);
-        LOG_EVENT_INT( "sqlite3_last_insert_rowid():", result );
+        new_id = sqlite3_last_insert_rowid(db);
+        LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
+        *out_new_id = new_id;
     }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
@@ -208,6 +216,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -220,9 +229,10 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
     return result;
 }
 
