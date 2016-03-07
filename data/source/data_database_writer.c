@@ -53,13 +53,7 @@ static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX = ");";
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
  */
 const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
-    "\x09", "\\t",
-    "\x0a", "\\n",
-    "\x0d", "\\r",
-    "\x0e", "\\b",
-    "\x1a", "\\z",
     "'", "''",
-    "\\", "\\\\",
     NULL,
 };
 

@@ -33,7 +33,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_error_t data_result;
     int64_t new_id;
 
-    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "Hello World\nThis is the first \"diagram\" record!" );
+    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "Hello World\nThis is the first \'diagram\' record!" );
 
     TRACE_INFO_INT( "creating diagram to parent", parent_diagram_id );
     data_result = data_database_writer_create_diagram( &((*this_).db_writer), &to_be_created, &new_id );
