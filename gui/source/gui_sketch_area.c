@@ -18,15 +18,13 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).controller = controller;
     (*this_).paper_visible = false;
     data_database_reader_init( &((*this_).db_reader), database );
-    gui_diagram_painter_init( &((*this_).painter) );
+    gui_diagram_painter_init( &((*this_).painter), &((*this_).db_reader) );
 
-    data_diagram_t my_diag;
-    data_error_t err;
-    err= data_database_reader_get_diagram_by_id ( &((*this_).db_reader), /*id*/ 5 , &my_diag );
-
+    /* just a test */
+    data_error_t db_err;
     data_diagram_t diags[7];
     int32_t count;
-    err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
+    db_err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
 
     TRACE_END();
 }
@@ -102,7 +100,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 	cairo_save (cr);
         cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
 	cairo_clip (cr);
-        gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 0, cr );
+        gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr );
 	/*cairo_reset_clip (cr);*/
 	cairo_restore (cr);
 
@@ -167,7 +165,8 @@ static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_
     }
 
     /* mark dirty rect */
-    gtk_widget_queue_draw_area( widget, left, top, right-left, bottom-top );
+    static const double BORDER = 1.0;
+    gtk_widget_queue_draw_area( widget, left-BORDER, top-BORDER, right-left+BORDER+BORDER, bottom-top+BORDER+BORDER );
 }
 
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )

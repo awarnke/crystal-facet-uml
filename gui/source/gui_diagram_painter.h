@@ -7,6 +7,8 @@
 /*! \file */
 
 #include "data_database.h"
+#include "data_diagram.h"
+#include "data_database_reader.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -14,7 +16,8 @@
  *  \brief attributes of the diagram painter
  */
 struct gui_diagram_painter_struct {
-    void *dummy;
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    data_diagram_t private_current_diagram;  /*!< memory location where to store the diagram record */
 };
 
 typedef struct gui_diagram_painter_struct gui_diagram_painter_t;
@@ -22,7 +25,7 @@ typedef struct gui_diagram_painter_struct gui_diagram_painter_t;
 /*!
  *  \brief initializes the painter
  */
-void gui_diagram_painter_init( gui_diagram_painter_t *this_ );
+void gui_diagram_painter_init( gui_diagram_painter_t *this_, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the painter
@@ -32,7 +35,7 @@ void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ );
 /*!
  * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
  */
-void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int32_t diagram_id, cairo_t *cr );
+void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr );
 
 #endif  /* GUI_DIAGRAM_PAINTER_H */
 
