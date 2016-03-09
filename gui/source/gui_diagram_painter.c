@@ -21,7 +21,7 @@ void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ )
     TRACE_END();
 }
 
-void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr )
+void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
     TRACE_INFO_INT("drawing diagram id",diagram_id);
@@ -29,9 +29,17 @@ void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *d
     double left, top, right, bottom;
     double width, height;
 
+#if 0
     cairo_clip_extents ( cr, &left, &top, &right, &bottom );
     width = right-left;
     height = bottom-top;
+#endif
+    left = geometry_rectangle_get_left ( &destination );
+    top = geometry_rectangle_get_top ( &destination );
+    right = geometry_rectangle_get_right ( &destination );
+    bottom = geometry_rectangle_get_bottom ( &destination );
+    width = geometry_rectangle_get_width ( &destination );
+    height = geometry_rectangle_get_height ( &destination );
 
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );

@@ -2,6 +2,7 @@
 
 #include "gui_sketch_area.h"
 #include "gui_diagram_painter.h"
+#include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
 #include "log.h"
 #include <gdk/gdk.h>
@@ -97,12 +98,18 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
 	/* draw the current diagram */
+#if 0
 	cairo_save (cr);
         cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
 	cairo_clip (cr);
-        gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr );
+#endif
+        geometry_rectangle_t destination;
+        geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
+        gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr, destination );
+#if 0
 	/*cairo_reset_clip (cr);*/
 	cairo_restore (cr);
+#endif
 
         /* draw marking line */
         if ( (*this_).mark_active )

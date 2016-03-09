@@ -9,6 +9,7 @@
 #include "data_database.h"
 #include "data_diagram.h"
 #include "data_database_reader.h"
+#include "util/geometry/geometry_rectangle.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -35,7 +36,7 @@ void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ );
 /*!
  * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
  */
-void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr );
+void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination );
 
 #endif  /* GUI_DIAGRAM_PAINTER_H */
 
