@@ -9,6 +9,7 @@
 #include "data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
+#include "pencil_input_data.h"
 #include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -32,6 +33,7 @@ struct gui_sketch_area_struct {
     int32_t mark_end_x;
     int32_t mark_end_y;
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
+    pencil_input_data_t painter_input_data;
     pencil_diagram_painter_t painter;  /*!< own instance of a diagram painter */
 };
 

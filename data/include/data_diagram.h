@@ -43,7 +43,6 @@ typedef struct data_diagram_struct data_diagram_t;
  *  \brief constants for new diagram id and uninitialized diagram ids
  */
 enum data_diagram_id_enum {
-    DATA_DIAGRAM_ID_ROOT_ID = 0,
     DATA_DIAGRAM_ID_UNINITIALIZED_ID = -1,
     DATA_DIAGRAM_ID_NEW_ID = -2,
 };

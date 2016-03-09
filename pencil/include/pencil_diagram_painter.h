@@ -6,10 +6,9 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include "data_database.h"
-#include "data_diagram.h"
-#include "data_database_reader.h"
+#include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "data_diagram.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -17,8 +16,6 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_painter_struct {
-    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    data_diagram_t private_current_diagram;  /*!< memory location where to store the diagram record */
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
@@ -26,7 +23,7 @@ typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
 /*!
  *  \brief initializes the painter
  */
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, data_database_reader_t *db_reader );
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
@@ -36,7 +33,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
 /*!
  * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
  */
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination );
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination );
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

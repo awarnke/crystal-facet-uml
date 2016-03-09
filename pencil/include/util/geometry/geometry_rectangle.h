@@ -58,7 +58,7 @@ static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_
  */
 static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ );
 
-#include "geometry_rectangle.inl"
+#include "util/geometry/geometry_rectangle.inl"
 
 #endif  /* GEOMETRY_RECTANGLE_H */
 

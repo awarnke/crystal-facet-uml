@@ -5,11 +5,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, data_database_reader_t *db_reader )
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
 {
     TRACE_BEGIN();
-
-    (*this_).db_reader = db_reader;
 
     TRACE_END();
 }
@@ -21,10 +19,9 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination )
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
-    TRACE_INFO_INT("drawing diagram id",diagram_id);
 
     double left, top, right, bottom;
     double width, height;
@@ -39,12 +36,11 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_databas
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
 
-    {
-        data_diagram_t my_diag;
-        data_error_t db_err;
-        db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &((*this_).private_current_diagram) );
 
-        if ( DATA_ERROR_NONE == db_err ) {
+    {
+        data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
+        TRACE_INFO_INT("drawing diagram id",(*diag).id);
+        if ( (*diag).id != DATA_DIAGRAM_ID_UNINITIALIZED_ID ) {
 
             /* draw border line */
             cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
@@ -59,7 +55,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_databas
             cairo_stroke (cr);
 
             cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
-            cairo_show_text ( cr, utf8stringbuf_get_string( (*this_).private_current_diagram.name ) );
+            cairo_show_text ( cr, utf8stringbuf_get_string( (*diag).name ) );
         }
         else
         {

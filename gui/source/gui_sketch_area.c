@@ -19,7 +19,8 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).controller = controller;
     (*this_).paper_visible = false;
     data_database_reader_init( &((*this_).db_reader), database );
-    pencil_diagram_painter_init( &((*this_).painter), &((*this_).db_reader) );
+    pencil_input_data_init( &((*this_).painter_input_data) );
+    pencil_diagram_painter_init( &((*this_).painter) );
 
     /* just a test */
     data_error_t db_err;
@@ -35,6 +36,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     TRACE_BEGIN();
 
     pencil_diagram_painter_destroy( &((*this_).painter) );
+    pencil_input_data_destroy( &((*this_).painter_input_data) );
     data_database_reader_destroy( &((*this_).db_reader) );
 
     TRACE_END();
@@ -98,9 +100,10 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
 	/* draw the current diagram */
+        pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-        pencil_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr, destination );
+        pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
 
         /* draw marking line */
         if ( (*this_).mark_active )
