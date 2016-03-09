@@ -1,7 +1,7 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
 #include "gui_sketch_area.h"
-#include "gui_diagram_painter.h"
+#include "pencil_diagram_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
 #include "log.h"
@@ -19,7 +19,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).controller = controller;
     (*this_).paper_visible = false;
     data_database_reader_init( &((*this_).db_reader), database );
-    gui_diagram_painter_init( &((*this_).painter), &((*this_).db_reader) );
+    pencil_diagram_painter_init( &((*this_).painter), &((*this_).db_reader) );
 
     /* just a test */
     data_error_t db_err;
@@ -34,7 +34,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_diagram_painter_destroy( &((*this_).painter) );
+    pencil_diagram_painter_destroy( &((*this_).painter) );
     data_database_reader_destroy( &((*this_).db_reader) );
 
     TRACE_END();
@@ -98,18 +98,9 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
 	/* draw the current diagram */
-#if 0
-	cairo_save (cr);
-        cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-	cairo_clip (cr);
-#endif
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-        gui_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr, destination );
-#if 0
-	/*cairo_reset_clip (cr);*/
-	cairo_restore (cr);
-#endif
+        pencil_diagram_painter_draw ( &((*this_).painter), (*this_).database, 1, cr, destination );
 
         /* draw marking line */
         if ( (*this_).mark_active )

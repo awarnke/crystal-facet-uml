@@ -1,11 +1,11 @@
-/* File: gui_diagram_painter.c; Copyright and License: see below */
+/* File: pencil_diagram_painter.c; Copyright and License: see below */
 
-#include "gui_diagram_painter.h"
+#include "pencil_diagram_painter.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void gui_diagram_painter_init( gui_diagram_painter_t *this_, data_database_reader_t *db_reader )
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
 
@@ -14,14 +14,14 @@ void gui_diagram_painter_init( gui_diagram_painter_t *this_, data_database_reade
     TRACE_END();
 }
 
-void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ )
+void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination )
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
     TRACE_INFO_INT("drawing diagram id",diagram_id);
@@ -29,11 +29,6 @@ void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *d
     double left, top, right, bottom;
     double width, height;
 
-#if 0
-    cairo_clip_extents ( cr, &left, &top, &right, &bottom );
-    width = right-left;
-    height = bottom-top;
-#endif
     left = geometry_rectangle_get_left ( &destination );
     top = geometry_rectangle_get_top ( &destination );
     right = geometry_rectangle_get_right ( &destination );

@@ -1,7 +1,7 @@
-/* File: gui_diagram_painter.h; Copyright and License: see below */
+/* File: pencil_diagram_painter.h; Copyright and License: see below */
 
-#ifndef GUI_DIAGRAM_PAINTER_H
-#define GUI_DIAGRAM_PAINTER_H
+#ifndef PENCIL_DIAGRAM_PAINTER_H
+#define PENCIL_DIAGRAM_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*! \file */
@@ -16,29 +16,29 @@
 /*!
  *  \brief attributes of the diagram painter
  */
-struct gui_diagram_painter_struct {
+struct pencil_diagram_painter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_diagram_t private_current_diagram;  /*!< memory location where to store the diagram record */
 };
 
-typedef struct gui_diagram_painter_struct gui_diagram_painter_t;
+typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
 
 /*!
  *  \brief initializes the painter
  */
-void gui_diagram_painter_init( gui_diagram_painter_t *this_, data_database_reader_t *db_reader );
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the painter
  */
-void gui_diagram_painter_destroy( gui_diagram_painter_t *this_ );
+void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
 
 /*!
  * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
  */
-void gui_diagram_painter_draw ( gui_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination );
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, data_database_t *db, int64_t diagram_id, cairo_t *cr, geometry_rectangle_t destination );
 
-#endif  /* GUI_DIAGRAM_PAINTER_H */
+#endif  /* PENCIL_DIAGRAM_PAINTER_H */
 
 
 /*
