@@ -21,9 +21,10 @@
 struct gui_main_window_struct {
     GtkWidget *window;
     GtkWidget *sketcharea;
-    gui_sketch_area_t sketcharea_data;
-    gui_sketch_tools_t sketchtools_data;
+    gui_sketch_area_t sketcharea_data;  /*!< own instance of gui_sketch_area_t */
+    gui_sketch_tools_t sketchtools_data;  /*!< own instance of gui_sketch_tools_t */
     GtkWidget *layout;
+    data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
 
     GtkWidget *toolbar;
     GtkToolItem *tool_navigate;

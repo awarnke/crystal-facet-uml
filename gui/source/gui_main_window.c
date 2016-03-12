@@ -80,7 +80,8 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
-    data_change_notifier_add_listener( data_database_get_notifier_ptr( database ), G_OBJECT((*this_).sketcharea) );
+    (*this_).data_notifier = data_database_get_notifier_ptr( database );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at data module.");
 
@@ -93,6 +94,10 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 void gui_main_window_destroy( gui_main_window_t *this_ )
 {
     TRACE_BEGIN();
+
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
+
+    TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
