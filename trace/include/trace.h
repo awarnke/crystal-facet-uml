@@ -39,6 +39,11 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT,string_test,int_test); }
 
 /*!
+ *  \brief traces a string and a pointer
+ */
+#define TRACE_INFO_PTR(x,p) { const char *string_test = x; const void *ptr_test = p; fprintf(TRACE_OUT_STREAM,"%s%s @:%x\n",TRACE_INDENT,string_test,ptr_test); }
+
+/*!
  *  \brief traces a string and and an information string
  */
 #define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT,string_test,string2_test); }

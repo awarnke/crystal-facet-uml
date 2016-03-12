@@ -22,6 +22,9 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     pencil_input_data_init( &((*this_).painter_input_data) );
     pencil_diagram_painter_init( &((*this_).painter) );
 
+    /* load data to be drawn */
+    pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
+
     /* just a test */
     data_error_t db_err;
     data_diagram_t diags[7];
@@ -100,7 +103,6 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
 	/* draw the current diagram */
-        pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
         pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
@@ -254,6 +256,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
 
+    TRACE_INFO_PTR( "gui_sketch_area_t", data );
+    TRACE_FLUSH();
+
     if ( evt->button == 1 ) {
         TRACE_INFO("release");
 
@@ -306,17 +311,22 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     return TRUE;
 }
 
-void gui_sketch_area_data_changed_callback( GtkWidget *widget, gpointer data )
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
     guint width;
     guint height;
 
-    width = gtk_widget_get_allocated_width (widget);
-    height = gtk_widget_get_allocated_height (widget);
+    TRACE_INFO_PTR( "gui_sketch_area_t", data );
+    TRACE_FLUSH();
+
+    /* load data to be drawn */
+    pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
 
     /* mark dirty rect */
+    width = gtk_widget_get_allocated_width (widget);
+    height = gtk_widget_get_allocated_height (widget);
     gtk_widget_queue_draw_area( widget, 0, 0, width, height );
 
     TRACE_END();

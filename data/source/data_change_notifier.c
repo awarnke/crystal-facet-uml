@@ -33,7 +33,7 @@ void data_change_notifier_init ( data_change_notifier_t *this_ )
             g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE,
             1,
-            G_TYPE_POINTER
+            G_TYPE_POINTER /* more data in future */
         );
         data_change_notifier_glib_signal_initialized = true;
         TRACE_INFO_INT( "g_signal_new(\"cfu_data_changed\") returned new signal id", data_change_notifier_glib_signal_id );
@@ -65,7 +65,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_ )
     for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
         TRACE_INFO_INT( "g_signal_emit to listener", pos );
-        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0 );
+        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, NULL /* more data in future */ );
     }
 
     TRACE_END();
