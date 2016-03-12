@@ -4,7 +4,10 @@
 #define TRACE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Prints traces to a byte stream
+ */
 
 #include <stdio.h>
 #include <time.h>

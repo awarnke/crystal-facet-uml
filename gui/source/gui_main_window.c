@@ -4,6 +4,7 @@
 #include "gui_textedit.h"
 #include "gui_sketch_area.h"
 #include "trace.h"
+#include "data_change_notifier.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -70,6 +71,7 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).clear), "clicked", G_CALLBACK(gui_textedit_clear_btn_callback), NULL );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
@@ -77,6 +79,10 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
+
+    data_change_notifier_add_listener( data_database_get_notifier_ptr( database ), G_OBJECT((*this_).sketcharea) );
+
+    TRACE_INFO("GTK+ Widgets are registered as listeners at data module.");
 
     gtk_widget_show_all((*this_).window);
 

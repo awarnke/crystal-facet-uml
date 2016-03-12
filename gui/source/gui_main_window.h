@@ -4,7 +4,10 @@
 #define GUI_MAIN_WINDOW_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Displays a main window and reacts on user events
+ */
 
 #include "data_database.h"
 #include "ctrl_controller.h"

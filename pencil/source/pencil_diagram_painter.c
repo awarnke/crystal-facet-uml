@@ -36,7 +36,6 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
 
-
     {
         data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
         TRACE_INFO_INT("drawing diagram id",(*diag).id);

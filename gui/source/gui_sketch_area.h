@@ -74,6 +74,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
  */
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
 
+/*!
+ *  \brief callback that informs that the displayed data changed
+ */
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, gpointer data );
+
 #endif  /* GUI_SKETCH_AREA_H */
 
 

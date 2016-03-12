@@ -57,7 +57,7 @@ void data_database_reader_init ( data_database_reader_t *this_, data_database_t 
     sqlite3 *db;
 
     (*this_).database = database;
-    db = data_database_get_database ( database );
+    db = data_database_get_database_ptr ( database );
 
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )

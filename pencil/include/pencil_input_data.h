@@ -4,7 +4,10 @@
 #define PENCIL_INPUT_DATA_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Loads all input data for the pencil_diagram_painter from the database
+ */
 
 #include "data_diagram.h"
 #include "data_database_reader.h"

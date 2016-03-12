@@ -4,7 +4,10 @@
 #define CTRL_ERROR_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Notifies errors in the ctrl module
+ */
 
 #include "data_error.h"
 

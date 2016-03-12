@@ -4,7 +4,10 @@
 #define PENCIL_DIAGRAM_PAINTER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Renders a diagram and its contents into a cairo drawing context
+ */
 
 #include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"

@@ -4,7 +4,10 @@
 #define GEOMETRY_RECTANGLE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Stores coordinates of a rectangle
+ */
 
 /*!
  *  \brief attributes of a rectangle

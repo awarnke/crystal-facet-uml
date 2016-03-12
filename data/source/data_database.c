@@ -175,6 +175,7 @@ void data_database_init ( data_database_t *this_ )
 
     (*this_).db_file_name = "";
     (*this_).is_open = false;
+    data_change_notifier_init ( &((*this_).notifier) );
 
     TRACE_END();
 }
@@ -255,6 +256,7 @@ void data_database_destroy ( data_database_t *this_ )
     {
         data_database_close( this_ );
     }
+    data_change_notifier_destroy( &((*this_).notifier) );
 
     TRACE_END();
 }

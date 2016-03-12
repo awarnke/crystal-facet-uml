@@ -4,7 +4,10 @@
 #define LOG_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Prints error and event logs to a byte stream
+ */
 
 #include <stdio.h>
 

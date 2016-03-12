@@ -149,7 +149,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database( (*this_).database );
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
     int perr;
 
     perr = pthread_mutex_lock ( &((*this_).private_lock) );
@@ -218,6 +218,8 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
         LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
         result |= DATA_ERROR_AT_MUTEX;
     }
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
     TRACE_END_ERR( result );
     return result;

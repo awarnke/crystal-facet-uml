@@ -4,8 +4,11 @@
 #define DATA_DATABASE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*! \file
+ *  \brief Opens and closes a database.
+ */
 
+#include "data_change_notifier.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 
@@ -16,6 +19,7 @@ struct data_database_struct {
     sqlite3 *db;
     const char* db_file_name; /* non-const pointer to const string */
     bool is_open;
+    data_change_notifier_t notifier;  /*!< sends notifications at changes to the database */
 };
 
 typedef struct data_database_struct data_database_t;
@@ -43,7 +47,12 @@ void data_database_destroy ( data_database_t *this_ );
 /*!
  *  \brief returns a pointer to the sqlite database
  */
-static inline sqlite3 *data_database_get_database ( data_database_t *this_ );
+static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ );
+
+/*!
+ *  \brief returns a pointer to the data_change_notifier_t
+ */
+static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ );
 
 #include "data_database.inl"
 

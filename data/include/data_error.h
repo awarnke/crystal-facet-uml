@@ -4,7 +4,10 @@
 #define DATA_ERROR_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Notifies errors in the data module
+ */
 
 /*!
  *  \brief error constants which explain errors which occurred in the data module
@@ -20,6 +23,7 @@ enum data_error_enum {
     DATA_ERROR_DB_STRUCTURE = (~(0x00fffffd)),  /*!< the structure of the database is corrupted */
     DATA_ERROR_STRING_BUFFER_EXCEEDED = (~(0x00fffffb)),  /*!< a string does not fit to the string storage buffer */
     DATA_ERROR_ARRAY_BUFFER_EXCEEDED = (~(0x00fffff7)),  /*!< a set ob objects does not fit to the array storage buffer */
+    DATA_ERROR_INVALID_REQUEST = (~(0x00ffffef)),  /*!< function call not allowed or parameters wrong */
     DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< unexpected internal error at mutex */
     DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< unexpected internal error at database */
     DATA_ERROR_MASK = (0x00ffffff),  /*!< a mask to filter error bits after collecting possibly multiple errors */

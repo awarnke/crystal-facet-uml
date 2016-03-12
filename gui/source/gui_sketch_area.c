@@ -306,6 +306,22 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     return TRUE;
 }
 
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
+    guint width;
+    guint height;
+
+    width = gtk_widget_get_allocated_width (widget);
+    height = gtk_widget_get_allocated_height (widget);
+
+    /* mark dirty rect */
+    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

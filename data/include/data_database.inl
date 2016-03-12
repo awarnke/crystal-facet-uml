@@ -1,8 +1,13 @@
 /* File: data_database.inl; Copyright and License: see below */
 
-static inline sqlite3 *data_database_get_database ( data_database_t *this_ )
+static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
 {
     return (*this_).db;
+}
+
+static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ )
+{
+    return &((*this_).notifier);
 }
 
 
