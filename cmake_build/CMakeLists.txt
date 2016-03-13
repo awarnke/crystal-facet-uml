@@ -42,12 +42,27 @@ LINK_DIRECTORIES(/usr/lib/)
 LINK_DIRECTORIES(/usr/lib64/)
 SET(crystal_facet_uml_BINARY_DIR ../bin)
 SET(crystal_facet_uml_SOURCE_DIR ..)
-FILE(GLOB mySource ../gui/source/*.c ../main/source/*.c ../trace/source/*.c ../ctrl/source/*.c ../data/source/*.c ../sqlite/source/sqlite3.c ../utf8stringbuf/source/util/string/*.c ../pencil/source/*.c)
-FILE(GLOB myHeaders ../gui/source/*.h ../gui/include/*.h ../trace/include/*.h ../log/include/*.h ../ctrl/include/*.h ../data/include/*.h ../sqlite/include/sqlite3.h ../utf8stringbuf/include/util/string/*.h  ../pencil/include/*.h)
+FILE(GLOB commonSource ../gui/source/*.c ../trace/source/*.c ../ctrl/source/*.c ../data/source/*.c ../sqlite/source/sqlite3.c ../utf8stringbuf/source/util/string/*.c ../pencil/source/*.c)
+FILE(GLOB commonHeaders ../gui/source/*.h ../gui/include/*.h ../trace/include/*.h ../log/include/*.h ../ctrl/include/*.h ../data/include/*.h ../sqlite/include/sqlite3.h ../utf8stringbuf/include/util/string/*.h  ../pencil/include/*.h)
+FILE(GLOB appSource ../main/source/*.c)
+FILE(GLOB appHeaders )
+FILE(GLOB utestSource ../main/unittest/*.c ../embunit/embUnit/*.c ../embunit/textui.c ../data/unittest/*.c)
+FILE(GLOB utestHeaders ../embunit/embUnit/*.h ../embUnit/textui/*.h)
 
-ADD_EXECUTABLE(crystal_facet_uml ${mySource} ${myHeaders})
+LIST(APPEND applicationSource ${commonSource} ${appSource})
+LIST(APPEND appicationHeaders ${commonHeaders} ${appHeaders})
+ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
 TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype pthread dl)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
+
+INCLUDE_DIRECTORIES(../embunit)
+INCLUDE_DIRECTORIES(../data/unittest)
+
+LIST(APPEND unittestSource ${commonSource} ${utestSource})
+LIST(APPEND unittestHeaders ${commonHeaders} ${utestHeaders})
+ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype pthread dl)
+SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 
 

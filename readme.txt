@@ -1,7 +1,7 @@
 
 crystal_facet_uml
 is a uml drawing tool
-based on glib, gdk, gtk, sqlite, embunit, utf8stringbuf
+based on glib, gdk, gtk, cairo, sqlite, embunit, utf8stringbuf
 
 How to build?
 --
@@ -13,6 +13,7 @@ How to run?
 --
 ./crystal_facet_uml
 
+Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
 Author: Andreas Warnke
 Copyright: Apache 2.0 License
 Note: This program contains code from other projects with different licenses.
