@@ -92,7 +92,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
 
         /* if not a duplicate */
         if ( ! duplicate ) {
-            if ( (*this_).num_listeners + 1 < DATA_CHANGE_NOTIFIER_MAX_LISTENERS )
+            if ( (*this_).num_listeners + 1 <= DATA_CHANGE_NOTIFIER_MAX_LISTENERS )
             {
                 (*this_).listener_array[(*this_).num_listeners] = new_listener;  /* possibly increases reference count */
                 (*this_).num_listeners ++;

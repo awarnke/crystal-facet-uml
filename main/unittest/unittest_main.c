@@ -10,12 +10,14 @@
 int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
+    TRACE_INFO( "--------------------" );
     int exit_code = 0;
 
     TestRunner_start();
     TestRunner_runTest(data_change_notifier_test_get_list());
     TestRunner_end();
 
+    TRACE_INFO( "--------------------" );
     TRACE_TIMESTAMP();
     TRACE_END_ERR( exit_code );
     return exit_code;
