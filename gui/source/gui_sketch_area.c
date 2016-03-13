@@ -334,8 +334,23 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
     guint width;
     guint height;
 
-    /* load data to be drawn */
+    /* load/reload data to be drawn */
     pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
+
+    /* mark dirty rect */
+    width = gtk_widget_get_allocated_width (widget);
+    height = gtk_widget_get_allocated_height (widget);
+    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+
+    TRACE_END();
+}
+
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
+    guint width;
+    guint height;
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);

@@ -79,6 +79,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
  */
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpointer data );
 
+/*!
+ *  \brief callback that informs that the chosen tool changed
+ */
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data );
+
 #endif  /* GUI_SKETCH_AREA_H */
 
 

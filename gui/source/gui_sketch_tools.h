@@ -22,9 +22,12 @@ typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
  */
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;
+    GObject *listener;
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
+
+extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the gui_sketch_tools_t struct
@@ -60,6 +63,16 @@ void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer da
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief sets the listener
+ */
+static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GObject *listener );
+
+/*!
+ *  \brief removes the listener
+ */
+static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ );
 
 #include "gui_sketch_tools.inl"
 

@@ -21,6 +21,7 @@ void data_change_notifier_init ( data_change_notifier_t *this_ )
     (*this_).num_listeners = 0;
     memset( (*this_).listener_array, '\0', sizeof( (*this_).listener_array ) );
 
+    /* define a new signal */
     if ( ! data_change_notifier_glib_signal_initialized )
     {
         data_change_notifier_glib_signal_id = g_signal_new (

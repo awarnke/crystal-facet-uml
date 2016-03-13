@@ -5,6 +5,16 @@ static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_s
     return (*this_).selected_tool;
 }
 
+static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GObject *listener )
+{
+    (*this_).listener = listener;
+}
+
+static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ )
+{
+    (*this_).listener = NULL;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
