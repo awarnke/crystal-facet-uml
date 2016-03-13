@@ -13,6 +13,7 @@
 #include "ctrl_controller.h"
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"
+#include "gui_resources.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -42,7 +43,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
 /*!
  *  \brief initializes the main window
  */
-void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database );
+void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, gui_resources_t *res );
 
 /*!
  *  \brief destroys the main window

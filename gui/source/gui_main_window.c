@@ -10,7 +10,9 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database )
+
+
+void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, gui_resources_t *res )
 {
     TRACE_BEGIN();
 
@@ -32,6 +34,9 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 
     (*this_).tool_new_view = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
+
+    GtkWidget *tool_create_diagram_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_diagram( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), tool_create_diagram_icon);
 
     (*this_).toolbar = gtk_toolbar_new ();
     gui_sketch_tools_init( &((*this_).sketchtools_data) );

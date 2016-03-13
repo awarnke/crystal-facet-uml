@@ -48,7 +48,7 @@ FILE(GLOB utestSource ../main/unittest/*.c ../embunit/embUnit/*.c ../embunit/tex
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
 ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
-TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype pthread dl)
+TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 INCLUDE_DIRECTORIES(../embunit)
@@ -56,7 +56,7 @@ INCLUDE_DIRECTORIES(../data/unittest)
 
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype pthread dl)
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl)
 SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 

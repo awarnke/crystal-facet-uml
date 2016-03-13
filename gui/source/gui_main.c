@@ -10,23 +10,29 @@
 void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database ) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
-    gui_main_window_t the_window;
+    static gui_main_window_t the_window;
 
     /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_t the_window2;
+    static gui_main_window_t the_window2;
+
+    static gui_resources_t gui_resources;
 
     TRACE_INFO("initializing gui thread...");
 
     gtk_init(&argc, &argv);
 
-    gui_main_window_init( &the_window, controller, database );
+    gui_resources_init( &gui_resources );
+
+    gui_main_window_init( &the_window, controller, database, &gui_resources );
 
     /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_init( &the_window2, controller, database );
+    gui_main_window_init( &the_window2, controller, database, &gui_resources );
 
     TRACE_TIMESTAMP();
     gtk_main();
     gtk_main(); /* once for every window: closing 1 window will end 1 main loop */
+
+    gui_resources_destroy( &gui_resources );
 
     TRACE_TIMESTAMP();
     TRACE_END();
