@@ -70,19 +70,38 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     else
     {
         (*this_).paper_visible = true;
+        int32_t border = 10;
 
-        if ( width * RATIO_HEIGHT > height * RATIO_WIDTH )
+        gui_sketch_tools_tool_t selected_tool;
+        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+        switch ( selected_tool )
+        {
+            case GUI_SKETCH_TOOLS_NAVIGATE:
+                border = height / 3;
+                break;
+            case GUI_SKETCH_TOOLS_EDIT:
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+                break;
+            default:
+                LOG_ERROR("selected_tool is out of range");
+                break;
+        }
+
+        if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
 	{
-            (*this_).paper_top = 10;
-            (*this_).paper_height = height - 20;
-            (*this_).paper_width = ( height * RATIO_WIDTH ) / RATIO_HEIGHT;
+            (*this_).paper_top = border;
+            (*this_).paper_height = height - 2*border;
+            (*this_).paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
             (*this_).paper_left = ( width - (*this_).paper_width ) / 2;
 	}
         else
 	{
-            (*this_).paper_left = 10;
-            (*this_).paper_width = width - 20;
-            (*this_).paper_height = ( width * RATIO_HEIGHT ) / RATIO_WIDTH;
+            (*this_).paper_left = border;
+            (*this_).paper_width = width - 2*border;
+            (*this_).paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
             (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
 	}
 
@@ -256,9 +275,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
 
-    TRACE_INFO_PTR( "gui_sketch_area_t", data );
-    TRACE_FLUSH();
-
     if ( evt->button == 1 ) {
         TRACE_INFO("release");
 
@@ -317,9 +333,6 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
     gui_sketch_area_t *this_ = data;
     guint width;
     guint height;
-
-    TRACE_INFO_PTR( "gui_sketch_area_t", data );
-    TRACE_FLUSH();
 
     /* load data to be drawn */
     pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );

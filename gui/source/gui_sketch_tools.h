@@ -42,22 +42,22 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ );
 static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ );
 
 /*!
- *  \brief callback that informs that the tool button was pressed 
+ *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
- *  \brief callback that informs that the tool button was pressed 
+ *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_edit_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
- *  \brief callback that informs that the tool button was pressed 
+ *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
- *  \brief callback that informs that the tool button was pressed 
+ *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data );
 
