@@ -11,6 +11,9 @@
  */
 struct gui_resources_struct {
     GdkPixbuf *tool_create_diagram;
+    GdkPixbuf *tool_navigate;
+    GdkPixbuf *tool_create_object;
+    GdkPixbuf *tool_edit;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -29,6 +32,21 @@ void gui_resources_destroy ( gui_resources_t *this_ );
  *  \brief gets the tool_create_diagram
  */
 static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the tool_navigate
+ */
+static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the tool_create_object
+ */
+static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the tool_edit
+ */
+static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

@@ -7,19 +7,58 @@
 
 /* ugly code: including a c file */
 #include "resources/tool_create_diagram.c"
+#include "resources/tool_navigate.c"
+#include "resources/tool_create_object.c"
+#include "resources/tool_edit.c"
 
 void gui_resources_init ( gui_resources_t *this_ )
 {
     TRACE_BEGIN();
 
     (*this_).tool_create_diagram = gdk_pixbuf_new_from_data(
-        &(gimp_image.pixel_data[0]),
+        &(tool_create_diagram.pixel_data[0]),
         GDK_COLORSPACE_RGB,
-        false,
+        true /* alpha */,
         8,
-        gimp_image.width,
-        gimp_image.height,
-        gimp_image.width * gimp_image.bytes_per_pixel,
+        tool_create_diagram.width,
+        tool_create_diagram.height,
+        tool_create_diagram.width * tool_create_diagram.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).tool_navigate = gdk_pixbuf_new_from_data(
+        &(tool_navigate.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        tool_navigate.width,
+        tool_navigate.height,
+        tool_navigate.width * tool_navigate.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).tool_create_object = gdk_pixbuf_new_from_data(
+        &(tool_create_object.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        tool_create_object.width,
+        tool_create_object.height,
+        tool_create_object.width * tool_create_object.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).tool_edit = gdk_pixbuf_new_from_data(
+        &(tool_edit.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        tool_edit.width,
+        tool_edit.height,
+        tool_edit.width * tool_edit.bytes_per_pixel,
         NULL,
         NULL
     );

@@ -28,9 +28,13 @@ struct gui_main_window_struct {
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
 
     GtkWidget *toolbar;
+    GtkWidget *tool_navigate_icon;
     GtkToolItem *tool_navigate;
+    GtkWidget *tool_edit_icon;
     GtkToolItem *tool_edit;
+    GtkWidget *tool_new_obj_icon;
     GtkToolItem *tool_new_obj;
+    GtkWidget *tool_new_view_icon;
     GtkToolItem *tool_new_view;
 
     GtkWidget *clear;

@@ -5,6 +5,21 @@ static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t
     return (*this_).tool_create_diagram;
 }
 
+static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ )
+{
+    return (*this_).tool_navigate;
+}
+
+static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t *this_ )
+{
+    return (*this_).tool_create_object;
+}
+
+static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
+{
+    return (*this_).tool_edit;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
