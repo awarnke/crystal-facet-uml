@@ -6,6 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "util/shape/shape_int_rectangle.h"
 #include "data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
@@ -48,6 +49,16 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools,
  *  \brief destroys the gui_sketch_area_t struct
  */
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
+
+/*!
+ *  \brief draws the navigation table
+ */
+void gui_sketch_area_private_draw_navigation_table ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr );
+
+/*!
+ *  \brief draws a single diagram
+ */
+void gui_sketch_area_private_draw_single_diagram ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr );
 
 /*!
  *  \brief callback that redraws the sketch_area widget

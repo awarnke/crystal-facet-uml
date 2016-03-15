@@ -45,9 +45,6 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
-static const gint RATIO_WIDTH = 36;
-static const gint RATIO_HEIGHT = 24;
-
 gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
@@ -69,96 +66,130 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     }
     else
     {
+        shape_int_rectangle_t bounds;
+        shape_int_rectangle_init( &bounds, 0.0d, 0.0d, (double) width, (double) height );
         (*this_).paper_visible = true;
-        int32_t border = 10;
 
         gui_sketch_tools_tool_t selected_tool;
         selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
-                border = height / 3;
+                gui_sketch_area_private_draw_navigation_table( this_, bounds, cr );
                 break;
             case GUI_SKETCH_TOOLS_EDIT:
+                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
                 break;
             default:
                 LOG_ERROR("selected_tool is out of range");
                 break;
         }
 
-        if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
-	{
-            (*this_).paper_top = border;
-            (*this_).paper_height = height - 2*border;
-            (*this_).paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
-            (*this_).paper_left = ( width - (*this_).paper_width ) / 2;
-	}
-        else
-	{
-            (*this_).paper_left = border;
-            (*this_).paper_width = width - 2*border;
-            (*this_).paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
-            (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
-	}
-
-        /* draw border */
-	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-        cairo_rectangle ( cr, 0, 0, width, (*this_).paper_top );
-        cairo_fill (cr);
-        cairo_rectangle ( cr, 0, (*this_).paper_top+(*this_).paper_height, width, height-(*this_).paper_top-(*this_).paper_height );
-        cairo_fill (cr);
-        cairo_rectangle ( cr, 0, (*this_).paper_top, (*this_).paper_left, (*this_).paper_height );
-        cairo_fill (cr);
-        cairo_rectangle ( cr, (*this_).paper_left+(*this_).paper_width, (*this_).paper_top, width-(*this_).paper_left-(*this_).paper_width, (*this_).paper_height );
-        cairo_fill (cr);
-
-        /* draw paper */
-	cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-        cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-        cairo_fill (cr);
-
-	/* draw the current diagram */
-        geometry_rectangle_t destination;
-        geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-        pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
-
-        /* draw marking line */
-        if ( (*this_).mark_active )
-        {
-            gint left, right, top, bottom;
-            if ( (*this_).mark_start_x < (*this_).mark_end_x )
-            {
-                left = (*this_).mark_start_x;
-                right = (*this_).mark_end_x;
-            }
-            else
-            {
-                left = (*this_).mark_end_x;
-                right = (*this_).mark_start_x;
-            }
-            if ( (*this_).mark_start_y < (*this_).mark_end_y )
-            {
-                top = (*this_).mark_start_y;
-                bottom = (*this_).mark_end_y;
-            }
-            else
-            {
-                top = (*this_).mark_end_y;
-                bottom = (*this_).mark_start_y;
-            }
-            cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
-            cairo_rectangle ( cr, left, top, right-left, bottom-top );
-            cairo_fill (cr);
-        }
     }
 
     TRACE_TIMESTAMP();
     TRACE_END();
     return FALSE;
+}
+
+static const gint RATIO_WIDTH = 36;
+static const gint RATIO_HEIGHT = 24;
+
+void gui_sketch_area_private_draw_navigation_table ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr )
+{
+    TRACE_BEGIN();
+
+    shape_int_rectangle_t parent_bounds;
+    shape_int_rectangle_t self_bounds;
+    shape_int_rectangle_t children_bounds;
+
+
+    bounds.top += bounds.height/3;
+    bounds.height = bounds.height/3;
+    gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
+
+    TRACE_END();
+}
+
+void gui_sketch_area_private_draw_single_diagram ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    int32_t border = 10.0d;
+    int32_t width = shape_int_rectangle_get_width( &bounds );
+    int32_t height = shape_int_rectangle_get_height( &bounds );
+
+    if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
+    {
+        (*this_).paper_top = border;
+        (*this_).paper_height = height - 2*border;
+        (*this_).paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
+        (*this_).paper_left = ( width - (*this_).paper_width ) / 2;
+    }
+    else
+    {
+        (*this_).paper_left = border;
+        (*this_).paper_width = width - 2*border;
+        (*this_).paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
+        (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
+    }
+
+    /* draw border */
+    cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+    cairo_rectangle ( cr, 0, 0, width, (*this_).paper_top );
+    cairo_fill (cr);
+    cairo_rectangle ( cr, 0, (*this_).paper_top+(*this_).paper_height, width, height-(*this_).paper_top-(*this_).paper_height );
+    cairo_fill (cr);
+    cairo_rectangle ( cr, 0, (*this_).paper_top, (*this_).paper_left, (*this_).paper_height );
+    cairo_fill (cr);
+    cairo_rectangle ( cr, (*this_).paper_left+(*this_).paper_width, (*this_).paper_top, width-(*this_).paper_left-(*this_).paper_width, (*this_).paper_height );
+    cairo_fill (cr);
+
+    /* draw paper */
+    cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
+    cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
+    cairo_fill (cr);
+
+    /* draw the current diagram */
+    geometry_rectangle_t destination;
+    geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
+    pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
+
+    /* draw marking line */
+    if ( (*this_).mark_active )
+    {
+        gint left, right, top, bottom;
+        if ( (*this_).mark_start_x < (*this_).mark_end_x )
+        {
+            left = (*this_).mark_start_x;
+            right = (*this_).mark_end_x;
+        }
+        else
+        {
+            left = (*this_).mark_end_x;
+            right = (*this_).mark_start_x;
+        }
+        if ( (*this_).mark_start_y < (*this_).mark_end_y )
+        {
+            top = (*this_).mark_start_y;
+            bottom = (*this_).mark_end_y;
+        }
+        else
+        {
+            top = (*this_).mark_end_y;
+            bottom = (*this_).mark_start_y;
+        }
+        cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
+        cairo_rectangle ( cr, left, top, right-left, bottom-top );
+        cairo_fill (cr);
+    }
+
+    TRACE_END();
 }
 
 static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
