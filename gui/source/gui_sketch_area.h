@@ -4,13 +4,16 @@
 #define GUI_SKETCH_AREA_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*! \file
+ *  \brief Loads data to be drawn, layouts sketch cards, reacts on user input
+ */
 
 #include "util/shape/shape_int_rectangle.h"
 #include "data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_input_data.h"
+#include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -23,19 +26,13 @@ struct gui_sketch_area_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    bool paper_visible;
-    int32_t paper_left;
-    int32_t paper_top;
-    int32_t paper_width;
-    int32_t paper_height;
+    gui_sketch_card_t card;  /*!< own instance of a card object that draws a diagram */
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
-    pencil_input_data_t painter_input_data;
-    pencil_diagram_painter_t painter;  /*!< own instance of a diagram painter */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;

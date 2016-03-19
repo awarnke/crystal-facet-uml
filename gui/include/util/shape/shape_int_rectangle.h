@@ -29,6 +29,11 @@ typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, int32_t width, int32_t height );
 
 /*!
+ *  \brief destroys the shape_int_rectangle_t struct
+ */
+static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ );
+
+/*!
  *  \brief gets the shape_int_rectangle_t
  */
 static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ );
@@ -39,12 +44,14 @@ static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this
 static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the right coordinates of shape_int_rectangle_t
+ *  \return left + width. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
 static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the bottom coordinate of shape_int_rectangle_t
+ *  \return top + height. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
 static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *this_ );
 

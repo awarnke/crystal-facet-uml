@@ -80,6 +80,41 @@ static inline void data_diagram_trace ( data_diagram_t *this_ )
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
+static inline int64_t data_diagram_get_id ( data_diagram_t *this_ )
+{
+    return (*this_).id;
+}
+
+static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ )
+{
+    return (*this_).parent_id;
+}
+
+static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ )
+{
+    return (*this_).diagram_type;
+}
+
+static inline utf8stringbuf_t data_diagram_get_name ( data_diagram_t *this_ )
+{
+    return (*this_).name;
+}
+
+static inline utf8stringbuf_t data_diagram_get_description ( data_diagram_t *this_ )
+{
+    return (*this_).description;
+}
+
+static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ )
+{
+    return (*this_).list_order;
+}
+
+static inline bool data_diagram_is_valid ( data_diagram_t *this_ )
+{
+    return ( DATA_DIAGRAM_ID_UNINITIALIZED_ID != (*this_).id );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

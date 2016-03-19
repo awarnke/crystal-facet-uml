@@ -17,13 +17,11 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).tools = tools;
     (*this_).database = database;
     (*this_).controller = controller;
-    (*this_).paper_visible = false;
     data_database_reader_init( &((*this_).db_reader), database );
-    pencil_input_data_init( &((*this_).painter_input_data) );
-    pencil_diagram_painter_init( &((*this_).painter) );
+    gui_sketch_card_init( &((*this_).card) );
 
     /* load data to be drawn */
-    pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
+    gui_sketch_card_load_data( &((*this_).card), 1, &((*this_).db_reader) );
 
     /* just a test */
     data_error_t db_err;
@@ -38,8 +36,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_diagram_painter_destroy( &((*this_).painter) );
-    pencil_input_data_destroy( &((*this_).painter_input_data) );
+    gui_sketch_card_destroy( &((*this_).card) );
     data_database_reader_destroy( &((*this_).db_reader) );
 
     TRACE_END();
@@ -58,8 +55,6 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     if (( width < 48 )||( height < 48 )) {
         /* window is too small, output a dark-grey rectangle */
 
-        (*this_).paper_visible = false;
-
 	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, height );
         cairo_fill (cr);
@@ -68,7 +63,6 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     {
         shape_int_rectangle_t bounds;
         shape_int_rectangle_init( &bounds, 0.0d, 0.0d, (double) width, (double) height );
-        (*this_).paper_visible = true;
 
         gui_sketch_tools_tool_t selected_tool;
         selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
@@ -98,17 +92,66 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     return FALSE;
 }
 
+enum gui_sketch_area_layout_enum {
+    GUI_SKETCH_AREA_LAYOUT_VERTICAL = 0,
+    GUI_SKETCH_AREA_LAYOUT_HORIZONTAL = 1,
+};
+typedef enum gui_sketch_area_layout_enum gui_sketch_area_layout_t;
+
 static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 
 void gui_sketch_area_private_draw_navigation_table ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
-
     shape_int_rectangle_t parent_bounds;
     shape_int_rectangle_t self_bounds;
     shape_int_rectangle_t children_bounds;
+    gui_sketch_area_layout_t layout_type;
 
+    int32_t width = shape_int_rectangle_get_width( &bounds );
+    int32_t height = shape_int_rectangle_get_height( &bounds );
+    int32_t left = shape_int_rectangle_get_left( &bounds );
+    int32_t top = shape_int_rectangle_get_top( &bounds );
+    layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
+
+    if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
+    {
+        int32_t max_top_heigth = ( height * 2 ) / 3;
+        int32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
+        if ( preferred_top_height > max_top_heigth )
+        {
+            preferred_top_height = max_top_heigth;
+        }
+        shape_int_rectangle_init(
+            &parent_bounds,
+            left,
+            top,
+            (width*2)/5,
+            preferred_top_height
+        );
+        shape_int_rectangle_init(
+            &self_bounds,
+            left+(width*2)/5,
+            top,
+            (width*3)/5,
+            preferred_top_height
+        );
+        shape_int_rectangle_init(
+            &children_bounds,
+            left,
+            top+preferred_top_height,
+            width,
+            height-preferred_top_height
+        );
+
+        cairo_set_source_rgba( cr, 0.7, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, shape_int_rectangle_get_left( &parent_bounds ), shape_int_rectangle_get_top( &parent_bounds ), shape_int_rectangle_get_width( &parent_bounds ), shape_int_rectangle_get_height( &parent_bounds ) );
+        cairo_fill (cr);
+    }
+    else
+    {
+    }
 
     bounds.top += bounds.height/3;
     bounds.height = bounds.height/3;
@@ -124,41 +167,41 @@ void gui_sketch_area_private_draw_single_diagram ( gui_sketch_area_t *this_, sha
     int32_t width = shape_int_rectangle_get_width( &bounds );
     int32_t height = shape_int_rectangle_get_height( &bounds );
 
+    int32_t paper_top;
+    int32_t paper_height;
+    int32_t paper_width;
+    int32_t paper_left;
+
     if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
     {
-        (*this_).paper_top = border;
-        (*this_).paper_height = height - 2*border;
-        (*this_).paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
-        (*this_).paper_left = ( width - (*this_).paper_width ) / 2;
+        paper_top = border;
+        paper_height = height - 2*border;
+        paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
+        paper_left = ( width - paper_width ) / 2;
     }
     else
     {
-        (*this_).paper_left = border;
-        (*this_).paper_width = width - 2*border;
-        (*this_).paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
-        (*this_).paper_top = ( height - (*this_).paper_height ) / 2;
+        paper_left = border;
+        paper_width = width - 2*border;
+        paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
+        paper_top = ( height - paper_height ) / 2;
     }
 
     /* draw border */
     cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-    cairo_rectangle ( cr, 0, 0, width, (*this_).paper_top );
+    cairo_rectangle ( cr, 0, 0, width, paper_top );
     cairo_fill (cr);
-    cairo_rectangle ( cr, 0, (*this_).paper_top+(*this_).paper_height, width, height-(*this_).paper_top-(*this_).paper_height );
+    cairo_rectangle ( cr, 0, paper_top+paper_height, width, height-paper_top-paper_height );
     cairo_fill (cr);
-    cairo_rectangle ( cr, 0, (*this_).paper_top, (*this_).paper_left, (*this_).paper_height );
+    cairo_rectangle ( cr, 0, paper_top, paper_left, paper_height );
     cairo_fill (cr);
-    cairo_rectangle ( cr, (*this_).paper_left+(*this_).paper_width, (*this_).paper_top, width-(*this_).paper_left-(*this_).paper_width, (*this_).paper_height );
-    cairo_fill (cr);
-
-    /* draw paper */
-    cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-    cairo_rectangle ( cr, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
+    cairo_rectangle ( cr, paper_left+paper_width, paper_top, width-paper_left-paper_width, paper_height );
     cairo_fill (cr);
 
-    /* draw the current diagram */
-    geometry_rectangle_t destination;
-    geometry_rectangle_init( &destination, (*this_).paper_left, (*this_).paper_top, (*this_).paper_width, (*this_).paper_height );
-    pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
+    shape_int_rectangle_t card_bounds;
+    shape_int_rectangle_init( &card_bounds, paper_left, paper_top, paper_width, paper_height );
+    gui_sketch_card_set_bounds( &((*this_).card), card_bounds );
+    gui_sketch_card_draw( &((*this_).card), cr );
 
     /* draw marking line */
     if ( (*this_).mark_active )
@@ -366,7 +409,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
     guint height;
 
     /* load/reload data to be drawn */
-    pencil_input_data_load( &((*this_).painter_input_data), 1, &((*this_).db_reader) );
+    gui_sketch_card_load_data( &((*this_).card), 1, &((*this_).db_reader) );
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);

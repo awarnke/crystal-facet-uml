@@ -10,6 +10,10 @@ static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int3
     (*this_).height = height;
 }
 
+static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ )
+{
+}
+
 static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ )
 {
     return (*this_).left;

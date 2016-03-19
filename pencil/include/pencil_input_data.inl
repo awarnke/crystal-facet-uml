@@ -5,6 +5,16 @@ static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_d
     return &((*this_).diagram);
 }
 
+static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ )
+{
+    return data_diagram_is_valid( &((*this_).diagram) );
+}
+
+static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
+{
+    data_diagram_init_empty( &((*this_).diagram) );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

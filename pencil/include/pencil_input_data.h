@@ -13,6 +13,7 @@
 #include "data_database_reader.h"
 #include <cairo.h>
 #include <stdint.h>
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of the pencil_input_data_t
@@ -42,6 +43,16 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
  * \brief gets the address of the diagram within the painter input data
  */
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
+
+/*!
+ * \brief checks if the diagram data is valid
+ */
+static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
+
+/*!
+ * \brief invalidates the diagram data
+ */
+static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
 
 #include "pencil_input_data.inl"
 

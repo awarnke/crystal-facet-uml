@@ -77,6 +77,41 @@ static inline void data_diagram_destroy ( data_diagram_t *this_ );
  */
 static inline void data_diagram_trace ( data_diagram_t *this_ );
 
+/*!
+ *  \brief gets the attribute id
+ */
+static inline int64_t data_diagram_get_id ( data_diagram_t *this_ );
+
+/*!
+ *  \brief gets the attribute parent_id
+ */
+static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ );
+
+/*!
+ *  \brief gets the attribute diagram_type
+ */
+static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ );
+
+/*!
+ *  \brief gets the attribute name
+ */
+static inline utf8stringbuf_t data_diagram_get_name ( data_diagram_t *this_ );
+
+/*!
+ *  \brief gets the attribute description
+ */
+static inline utf8stringbuf_t data_diagram_get_description ( data_diagram_t *this_ );
+
+/*!
+ *  \brief gets the attribute list_order
+ */
+static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
+
+/*!
+ *  \brief checks if attribute id is not DATA_DIAGRAM_ID_UNINITIALIZED_ID
+ */
+static inline bool data_diagram_is_valid ( data_diagram_t *this_ );
+
 #include "data_diagram.inl"
 
 #endif  /* DATA_DIAGRAM_H */

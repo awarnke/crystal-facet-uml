@@ -3,6 +3,11 @@
 #ifndef GUI_SKETCH_TOOLS_H
 #define GUI_SKETCH_TOOLS_H
 
+/* public file for the doxygen documentation: */
+/*! \file
+ *  \brief Informs the listener on the currently selected tool
+ */
+
 #include <gtk/gtk.h>
 
 /*!
