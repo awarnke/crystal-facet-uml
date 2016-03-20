@@ -18,7 +18,7 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml");
-    gtk_widget_set_size_request((*this_).window, 1080, 660);
+    gtk_widget_set_size_request((*this_).window, 810, 600);
 
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");
@@ -47,7 +47,6 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gui_sketch_tools_init( &((*this_).sketchtools_data) );
 
     (*this_).sketcharea = gtk_drawing_area_new();
-    /*gtk_widget_set_size_request((*this_).sketcharea, 1080, 600);*/
     gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
@@ -55,7 +54,6 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, database );
 
     (*this_).layout = gtk_grid_new();
-    /*gtk_widget_set_size_request((*this_).layout, 1080, 640);*/
 
     (*this_).clear = gtk_button_new_with_label( "clear" );
     (*this_).characterEntry = gtk_entry_new();

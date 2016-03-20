@@ -20,13 +20,21 @@
 #include <stdint.h>
 
 /*!
+ *  \brief constants of gui_sketch_area_t
+ */
+enum gui_sketch_area_const_enum {
+    GUI_SKETCH_AREA_CONST_MAX_CARDS = 32,  /*!< maximum number of diagrams to be shown in one single window */
+};
+
+/*!
  *  \brief attributes of the sketch area widget
  */
 struct gui_sketch_area_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_sketch_card_t card;  /*!< own instance of a card object that draws a diagram */
+    gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
+    int32_t card_num;
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;
@@ -48,14 +56,20 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools,
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 
 /*!
- *  \brief draws the navigation table
+ *  \brief loads the cards to be shown
+ *  \param main_card_id id of the main card to be shown or DATA_DIAGRAM_ID_UNINITIALIZED_ID for root diagram
  */
-void gui_sketch_area_private_draw_navigation_table ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr );
+void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 
 /*!
- *  \brief draws a single diagram
+ *  \brief layouts the cards in the sketch area widget
  */
-void gui_sketch_area_private_draw_single_diagram ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr );
+void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds );
+
+/*!
+ *  \brief draws all diagrams
+ */
+void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
  *  \brief callback that redraws the sketch_area widget

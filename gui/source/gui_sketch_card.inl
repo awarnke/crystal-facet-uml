@@ -11,6 +11,11 @@ static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ )
     pencil_input_data_invalidate( &((*this_).painter_input_data) );
 }
 
+static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ )
+{
+    return pencil_input_data_is_valid( &((*this_).painter_input_data) );
+}
+
 static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ )
 {
     return (*this_).bounds;

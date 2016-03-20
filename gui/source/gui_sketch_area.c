@@ -18,16 +18,9 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).database = database;
     (*this_).controller = controller;
     data_database_reader_init( &((*this_).db_reader), database );
-    gui_sketch_card_init( &((*this_).card) );
+    (*this_).card_num = 0;
 
-    /* load data to be drawn */
-    gui_sketch_card_load_data( &((*this_).card), 1, &((*this_).db_reader) );
-
-    /* just a test */
-    data_error_t db_err;
-    data_diagram_t diags[7];
-    int32_t count;
-    db_err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
+    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
 
     TRACE_END();
 }
@@ -36,7 +29,13 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_sketch_card_destroy( &((*this_).card) );
+    /* destroy all cards */
+    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_destroy( &((*this_).cards[idx]) );
+    }
+    (*this_).card_num = 0;
+
     data_database_reader_destroy( &((*this_).db_reader) );
 
     TRACE_END();
@@ -45,7 +44,8 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
-    guint width, height;
+    guint width;
+    guint height;
     GdkRGBA color;
     gui_sketch_area_t *this_ = data;
 
@@ -62,34 +62,48 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     else
     {
         shape_int_rectangle_t bounds;
-        shape_int_rectangle_init( &bounds, 0.0d, 0.0d, (double) width, (double) height );
-
-        gui_sketch_tools_tool_t selected_tool;
-        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
-        switch ( selected_tool )
-        {
-            case GUI_SKETCH_TOOLS_NAVIGATE:
-                gui_sketch_area_private_draw_navigation_table( this_, bounds, cr );
-                break;
-            case GUI_SKETCH_TOOLS_EDIT:
-                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
-                break;
-            case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
-                break;
-            case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
-                break;
-            default:
-                LOG_ERROR("selected_tool is out of range");
-                break;
-        }
-
+        shape_int_rectangle_init( &bounds, 0, 0, width, height );
+        gui_sketch_area_private_layout_cards( this_, bounds );
+        gui_sketch_area_private_draw_cards( this_, bounds, cr );
     }
 
     TRACE_TIMESTAMP();
     TRACE_END();
     return FALSE;
+}
+
+void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id )
+{
+    TRACE_BEGIN();
+
+    /* destroy all old cards */
+    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_destroy( &((*this_).cards[idx]) );
+    }
+    (*this_).card_num = 0;
+
+    /* load data to be drawn */
+    gui_sketch_card_init( &((*this_).cards[0]) );
+    gui_sketch_card_load_data( &((*this_).cards[0]), 1, &((*this_).db_reader) );
+    (*this_).card_num = 1;
+
+    gui_sketch_tools_tool_t selected_tool;
+    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
+    {
+        gui_sketch_card_init( &((*this_).cards[1]) );
+        gui_sketch_card_load_data( &((*this_).cards[1]), 1, &((*this_).db_reader) );
+        (*this_).card_num = 2;
+    }
+
+    /* just a test */
+    data_error_t db_err;
+    data_diagram_t diags[7];
+    int32_t count;
+    db_err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
+
+    TRACE_END();
 }
 
 enum gui_sketch_area_layout_enum {
@@ -101,107 +115,104 @@ typedef enum gui_sketch_area_layout_enum gui_sketch_area_layout_t;
 static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 
-void gui_sketch_area_private_draw_navigation_table ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr )
+void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds )
 {
     TRACE_BEGIN();
-    shape_int_rectangle_t parent_bounds;
-    shape_int_rectangle_t self_bounds;
-    shape_int_rectangle_t children_bounds;
-    gui_sketch_area_layout_t layout_type;
 
-    int32_t width = shape_int_rectangle_get_width( &bounds );
-    int32_t height = shape_int_rectangle_get_height( &bounds );
-    int32_t left = shape_int_rectangle_get_left( &bounds );
-    int32_t top = shape_int_rectangle_get_top( &bounds );
-    layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
+    int32_t width = shape_int_rectangle_get_width( &area_bounds );
+    int32_t height = shape_int_rectangle_get_height( &area_bounds );
+    int32_t left = shape_int_rectangle_get_left( &area_bounds );
+    int32_t top = shape_int_rectangle_get_top( &area_bounds );
 
-    if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
+    gui_sketch_tools_tool_t selected_tool;
+    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+
+    for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
     {
-        int32_t max_top_heigth = ( height * 2 ) / 3;
-        int32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
-        if ( preferred_top_height > max_top_heigth )
+        if ( ! gui_sketch_card_is_valid( &((*this_).cards[card_idx]) ))
         {
-            preferred_top_height = max_top_heigth;
+            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
         }
-        shape_int_rectangle_init(
-            &parent_bounds,
-            left,
-            top,
-            (width*2)/5,
-            preferred_top_height
-        );
-        shape_int_rectangle_init(
-            &self_bounds,
-            left+(width*2)/5,
-            top,
-            (width*3)/5,
-            preferred_top_height
-        );
-        shape_int_rectangle_init(
-            &children_bounds,
-            left,
-            top+preferred_top_height,
-            width,
-            height-preferred_top_height
-        );
+        else /* ==gui_sketch_card_is_valid */ if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool+1202 )
+        {
+            gui_sketch_area_layout_t layout_type;
+            layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
 
-        cairo_set_source_rgba( cr, 0.7, 0.3, 0.3, 1.0 );
-        cairo_rectangle ( cr, shape_int_rectangle_get_left( &parent_bounds ), shape_int_rectangle_get_top( &parent_bounds ), shape_int_rectangle_get_width( &parent_bounds ), shape_int_rectangle_get_height( &parent_bounds ) );
-        cairo_fill (cr);
-    }
-    else
-    {
-    }
+            if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
+            {
+                int32_t max_top_heigth = ( height * 2 ) / 3;
+                int32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
+                if ( preferred_top_height > max_top_heigth )
+                {
+                    preferred_top_height = max_top_heigth;
+                }
 
-    bounds.top += bounds.height/3;
-    bounds.height = bounds.height/3;
-    gui_sketch_area_private_draw_single_diagram( this_, bounds, cr );
+            }
+            else
+            {
+            }
+
+            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
+            shape_int_rectangle_t card_bounds;
+            shape_int_rectangle_init( &card_bounds, 12, 12, 640, 480 );
+            gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+        }
+        else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE */
+        {
+            static const int32_t border = 10;
+            int32_t paper_top;
+            int32_t paper_height;
+            int32_t paper_width;
+            int32_t paper_left;
+
+            if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
+            {
+                paper_top = top + border;
+                paper_height = height - 2*border;
+                paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
+                paper_left = left + ( width - paper_width ) / 2;
+            }
+            else
+            {
+                paper_left = left + border;
+                paper_width = width - 2*border;
+                paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
+                paper_top = top + ( height - paper_height ) / 2;
+            }
+
+            if ( card_idx == 0 )
+            {
+                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
+                shape_int_rectangle_t card_bounds;
+                shape_int_rectangle_init( &card_bounds, paper_left, paper_top, paper_width, paper_height );
+                gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+            }
+            else
+            {
+                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
+            }
+        }
+    }
 
     TRACE_END();
 }
 
-void gui_sketch_area_private_draw_single_diagram ( gui_sketch_area_t *this_, shape_int_rectangle_t bounds, cairo_t *cr )
+void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
-    int32_t border = 10.0d;
-    int32_t width = shape_int_rectangle_get_width( &bounds );
-    int32_t height = shape_int_rectangle_get_height( &bounds );
+    int32_t width = shape_int_rectangle_get_width( &area_bounds );
+    int32_t height = shape_int_rectangle_get_height( &area_bounds );
 
-    int32_t paper_top;
-    int32_t paper_height;
-    int32_t paper_width;
-    int32_t paper_left;
-
-    if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
-    {
-        paper_top = border;
-        paper_height = height - 2*border;
-        paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
-        paper_left = ( width - paper_width ) / 2;
-    }
-    else
-    {
-        paper_left = border;
-        paper_width = width - 2*border;
-        paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
-        paper_top = ( height - paper_height ) / 2;
-    }
-
-    /* draw border */
+    /* draw background */
     cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-    cairo_rectangle ( cr, 0, 0, width, paper_top );
-    cairo_fill (cr);
-    cairo_rectangle ( cr, 0, paper_top+paper_height, width, height-paper_top-paper_height );
-    cairo_fill (cr);
-    cairo_rectangle ( cr, 0, paper_top, paper_left, paper_height );
-    cairo_fill (cr);
-    cairo_rectangle ( cr, paper_left+paper_width, paper_top, width-paper_left-paper_width, paper_height );
+    cairo_rectangle ( cr, 0, 0, width, height );
     cairo_fill (cr);
 
-    shape_int_rectangle_t card_bounds;
-    shape_int_rectangle_init( &card_bounds, paper_left, paper_top, paper_width, paper_height );
-    gui_sketch_card_set_bounds( &((*this_).card), card_bounds );
-    gui_sketch_card_draw( &((*this_).card), cr );
+    /* draw all cards */
+    for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
+    {
+        gui_sketch_card_draw( &((*this_).cards[card_idx]), cr );
+    }
 
     /* draw marking line */
     if ( (*this_).mark_active )
@@ -409,7 +420,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
     guint height;
 
     /* load/reload data to be drawn */
-    gui_sketch_card_load_data( &((*this_).card), 1, &((*this_).db_reader) );
+    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);

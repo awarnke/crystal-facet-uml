@@ -49,6 +49,11 @@ static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t 
 static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ );
 
 /*!
+ *  \brief gets the valid info from the diagram
+ */
+static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ );
+
+/*!
  *  \brief gets the bounds rectangle
  */
 static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ );
