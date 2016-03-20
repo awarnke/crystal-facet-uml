@@ -9,6 +9,7 @@
  *  \brief Stores integer coordinates of a rectangle
  */
 
+#include "util/shape/shape_alignment.h"
 #include <stdint.h>
 
 /*!
@@ -17,8 +18,8 @@
 struct shape_int_rectangle_struct {
     int32_t left;
     int32_t top;
-    int32_t width;
-    int32_t height;
+    uint32_t width;
+    uint32_t height;
 };
 
 typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
@@ -26,7 +27,7 @@ typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
 /*!
  *  \brief initializes the shape_int_rectangle_t struct
  */
-static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, int32_t width, int32_t height );
+static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height );
 
 /*!
  *  \brief destroys the shape_int_rectangle_t struct
@@ -58,12 +59,25 @@ static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *th
 /*!
  *  \brief gets the shape_int_rectangle_t
  */
-static inline int32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ );
+static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the shape_int_rectangle_t
  */
-static inline int32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ );
+static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ );
+
+/*!
+ *  \brief shrinks the rectangle by border
+ *  \param border number of pixels to be shrinked. use negative values to expand.
+ */
+static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t *this_, int32_t border );
+
+/*!
+ *  \brief shrinks the rectangle to be of specified width to height ratio
+ *  \param ratio_width example width to specify the ratio
+ *  \param ratio_height example height to specify the ratio
+ */
+static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align );
 
 /*!
  *  \brief prints the shape_int_rectangle_t struct to the trace output

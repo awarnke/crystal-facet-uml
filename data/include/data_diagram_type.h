@@ -31,7 +31,6 @@ enum data_diagram_type_enum {
 
 typedef enum data_diagram_type_enum data_diagram_type_t;
 
-
 #endif  /* DATA_DIAGRAM_TYPE_H */
 
 

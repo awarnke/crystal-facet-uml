@@ -95,6 +95,12 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
         gui_sketch_card_init( &((*this_).cards[1]) );
         gui_sketch_card_load_data( &((*this_).cards[1]), 1, &((*this_).db_reader) );
         (*this_).card_num = 2;
+        gui_sketch_card_init( &((*this_).cards[2]) );
+        gui_sketch_card_load_data( &((*this_).cards[2]), 1, &((*this_).db_reader) );
+        (*this_).card_num = 3;
+        gui_sketch_card_init( &((*this_).cards[3]) );
+        gui_sketch_card_load_data( &((*this_).cards[3]), 1, &((*this_).db_reader) );
+        (*this_).card_num = 4;
     }
 
     /* just a test */
@@ -114,18 +120,59 @@ typedef enum gui_sketch_area_layout_enum gui_sketch_area_layout_t;
 
 static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
+static const gint BORDER = 10;
+static const gint HALF_BORDER = 5;
 
 void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds )
 {
     TRACE_BEGIN();
 
-    int32_t width = shape_int_rectangle_get_width( &area_bounds );
-    int32_t height = shape_int_rectangle_get_height( &area_bounds );
-    int32_t left = shape_int_rectangle_get_left( &area_bounds );
-    int32_t top = shape_int_rectangle_get_top( &area_bounds );
-
     gui_sketch_tools_tool_t selected_tool;
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+
+    /* pre-calculate numbers needed in case of GUI_SKETCH_TOOLS_NAVIGATE */
+    uint32_t width = shape_int_rectangle_get_width( &area_bounds );
+    uint32_t height = shape_int_rectangle_get_height( &area_bounds );
+    int32_t left = shape_int_rectangle_get_left( &area_bounds );
+    int32_t top = shape_int_rectangle_get_top( &area_bounds );
+    gui_sketch_area_layout_t layout_type;
+    layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
+    int32_t children_top;
+    uint32_t children_height;
+    uint32_t parent_width;
+    uint32_t parent_height;
+    uint32_t self_width;
+    uint32_t self_height;
+    int32_t self_left;
+    int32_t self_top;
+    if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
+    {
+        uint32_t max_top_heigth = ( height * 2 ) / 3;
+        uint32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
+        if ( preferred_top_height > max_top_heigth )
+        {
+            preferred_top_height = max_top_heigth;
+        }
+        children_top = top + preferred_top_height;
+        children_height = height - preferred_top_height;
+        parent_width = ( width * 4 ) / 10;
+        parent_height = preferred_top_height;
+        self_width = width - parent_width;
+        self_height = preferred_top_height;
+        self_left = left + parent_width;
+        self_top = top;
+    }
+    else
+    {
+        parent_width = width;
+        parent_height = ( height * 2 ) / 10;
+        self_width = width;
+        self_left = left;
+        self_top = top + parent_height;
+        self_height = ( height * 4 ) / 10;
+        children_top = self_top + self_height;
+        children_height = height - self_height - parent_height;
+    }
 
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
     {
@@ -133,59 +180,44 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
         {
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
         }
-        else /* ==gui_sketch_card_is_valid */ if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool+1202 )
+        else /* ==gui_sketch_card_is_valid */ if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
         {
-            gui_sketch_area_layout_t layout_type;
-            layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
+            shape_int_rectangle_t card_bounds;
 
-            if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
+            if ( card_idx == 0 )  /* self */
             {
-                int32_t max_top_heigth = ( height * 2 ) / 3;
-                int32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
-                if ( preferred_top_height > max_top_heigth )
-                {
-                    preferred_top_height = max_top_heigth;
-                }
-
+                shape_int_rectangle_init( &card_bounds, self_left, self_top, self_width, self_height );
+                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+            }
+            else if ( card_idx == 1 )  /* parent */
+            {
+                shape_int_rectangle_init( &card_bounds, left, top, parent_width, parent_height );
+                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
             }
             else
             {
+                int current_child = card_idx-2;
+                int max_children = (*this_).card_num-2;
+                shape_int_rectangle_init( &card_bounds, left+(width*current_child)/max_children, children_top, width/max_children, children_height );
+                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
             }
 
-            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
-            shape_int_rectangle_t card_bounds;
-            shape_int_rectangle_init( &card_bounds, 12, 12, 640, 480 );
             gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
         }
         else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE */
         {
-            static const int32_t border = 10;
-            int32_t paper_top;
-            int32_t paper_height;
-            int32_t paper_width;
-            int32_t paper_left;
-
-            if ( (width-2*border) * RATIO_HEIGHT > (height-2*border) * RATIO_WIDTH )
-            {
-                paper_top = top + border;
-                paper_height = height - 2*border;
-                paper_width = ( (height-2*border) * RATIO_WIDTH ) / RATIO_HEIGHT;
-                paper_left = left + ( width - paper_width ) / 2;
-            }
-            else
-            {
-                paper_left = left + border;
-                paper_width = width - 2*border;
-                paper_height = ( (width-2*border) * RATIO_HEIGHT ) / RATIO_WIDTH;
-                paper_top = top + ( height - paper_height ) / 2;
-            }
-
             if ( card_idx == 0 )
             {
-                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
                 shape_int_rectangle_t card_bounds;
-                shape_int_rectangle_init( &card_bounds, paper_left, paper_top, paper_width, paper_height );
+                card_bounds = area_bounds;
+                shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
                 gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
             }
             else
             {
@@ -436,6 +468,9 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     gui_sketch_area_t *this_ = data;
     guint width;
     guint height;
+
+    /* load/reload data to be drawn - depending on the tool, other data may be needed */
+    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);

@@ -35,26 +35,29 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr )
 {
     TRACE_BEGIN();
 
-    int32_t left;
-    int32_t top;
-    int32_t width;
-    int32_t height;
+    if ( (*this_).visible )
+    {
+        int32_t left;
+        int32_t top;
+        int32_t width;
+        int32_t height;
 
-    left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-    /* draw paper */
-    cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
-    cairo_rectangle ( cr, left, top, width, height );
-    cairo_fill (cr);
+        /* draw paper */
+        cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
+        cairo_rectangle ( cr, left, top, width, height );
+        cairo_fill (cr);
 
-    /* draw the current diagram */
-    geometry_rectangle_t destination;
-    geometry_rectangle_init( &destination, left, top, width, height );
-    pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
-
+        /* draw the current diagram */
+        geometry_rectangle_t destination;
+        geometry_rectangle_init( &destination, left, top, width, height );
+        pencil_diagram_painter_draw ( &((*this_).painter), &((*this_).painter_input_data), cr, destination );
+    }
+    
     TRACE_END();
 }
 

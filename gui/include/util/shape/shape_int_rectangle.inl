@@ -2,7 +2,7 @@
 
 #include "trace.h"
 
-static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, int32_t width, int32_t height )
+static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height )
 {
     (*this_).left = left;
     (*this_).top = top;
@@ -34,14 +34,91 @@ static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *th
     return (*this_).top + (*this_).height;
 }
 
-static inline int32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ )
+static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ )
 {
     return (*this_).width;
 }
 
-static inline int32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ )
+static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ )
 {
     return (*this_).height;
+}
+
+static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t *this_, int32_t border )
+{
+    int32_t double_border;
+    double_border = 2 * border;
+    if ( double_border > (*this_).width )
+    {
+        (*this_).left += ((*this_).width/2);  /* take the h-center of the old rectangle */
+        (*this_).width = 0;
+    }
+    else
+    {
+        (*this_).left += border;
+        (*this_).width -= double_border;
+    }
+    if ( double_border > (*this_).height )
+    {
+        (*this_).top += ((*this_).height/2);  /* take the v-middle of the old rectangle */
+        (*this_).height = 0;
+    }
+    else
+    {
+        (*this_).top += border;
+        (*this_).height -= double_border;
+    }
+}
+
+/*!
+ *  \brief shrinks the rectangle to be of specified width to height ratio
+ *  \param width example width to specify the ratio
+ *  \param height example height to specify the ratio
+ */
+static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align )
+{
+    if ( (*this_).width * ratio_height == (*this_).height * ratio_width )
+    {
+        /* nothing to do - and the case for the div by 0 problem of ratio_width==0 and ratio_height==0 */
+    }
+    else if ( (*this_).width * ratio_height > (*this_).height * ratio_width )
+    {
+        /* the rectangle needs to shrink at left and/or right */
+        uint32_t new_width;
+        new_width = ( (*this_).height * ratio_width ) / ratio_height;
+        switch ( align & SHAPE_ALIGNMENT_HORIZONTAL_MASK )
+        {
+            case SHAPE_ALIGNMENT_HORIZONTAL_LEFT:
+                break;
+            case SHAPE_ALIGNMENT_HORIZONTAL_RIGHT:
+                (*this_).left += ((*this_).width - new_width);
+                break;
+            case SHAPE_ALIGNMENT_HORIZONTAL_UNSPECIFIED: /* and */
+            case SHAPE_ALIGNMENT_HORIZONTAL_CENTER: /* and */
+            default:
+                (*this_).left += ( ((*this_).width - new_width)/2 );
+        }
+        (*this_).width = new_width;
+    }
+    else
+    {
+        /* the rectangle needs to shrink at top and/or bottom */
+        uint32_t new_height;
+        new_height = ( (*this_).width * ratio_height ) / ratio_width;
+        switch ( align & SHAPE_ALIGNMENT_VERTICAL_MASK )
+        {
+            case SHAPE_ALIGNMENT_VERTICAL_TOP:
+                break;
+            case SHAPE_ALIGNMENT_VERTICAL_BOTTOM:
+                (*this_).top += ((*this_).height - new_height);
+                break;
+            case SHAPE_ALIGNMENT_VERTICAL_UNSPECIFIED: /* and */
+            case SHAPE_ALIGNMENT_VERTICAL_MIDDLE: /* and */
+            default:
+                (*this_).top += ( ((*this_).height - new_height)/2 );
+        }
+        (*this_).height = new_height;
+    }
 }
 
 static inline void shape_int_rectangle_trace ( shape_int_rectangle_t *this_ )
