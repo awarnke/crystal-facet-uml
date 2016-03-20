@@ -44,6 +44,13 @@ static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *t
     return (*this_).height;
 }
 
+static inline bool shape_int_rectangle_contains ( shape_int_rectangle_t *this_, int32_t x, int32_t y )
+{
+    bool result;
+    result = ( x >= (*this_).left )&&( y >= (*this_).top )&&( x < (*this_).left+(*this_).width )&&( y < (*this_).top+(*this_).height );
+    return result;
+}
+
 static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t *this_, int32_t border )
 {
     int32_t double_border;

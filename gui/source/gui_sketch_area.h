@@ -10,6 +10,7 @@
 
 #include "util/shape/shape_int_rectangle.h"
 #include "data_database.h"
+#include "data_diagram.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_input_data.h"
@@ -24,6 +25,9 @@
  */
 enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_MAX_CARDS = 32,  /*!< maximum number of diagrams to be shown in one single window */
+    GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
+    GUI_SKETCH_AREA_CONST_SELECTED_CARD = 0,  /*!< index of the card showing the currently selected diagram */
+    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 30,  /*!< maximum size of temporary diagram buffer */
 };
 
 /*!
@@ -41,6 +45,7 @@ struct gui_sketch_area_struct {
     int32_t mark_end_x;
     int32_t mark_end_y;
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
+    data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
@@ -62,6 +67,11 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 
 /*!
+ *  \brief re-loads the cards to be shown
+ */
+void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ );
+
+/*!
  *  \brief layouts the cards in the sketch area widget
  */
 void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds );
@@ -70,6 +80,16 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
  *  \brief draws all diagrams
  */
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
+
+/*!
+ *  \brief gets the currently selected diagram
+ */
+static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ );
+
+/*!
+ *  \brief gets the currently selected diagram id
+ */
+static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief callback that redraws the sketch_area widget
@@ -105,6 +125,8 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
  *  \brief callback that informs that the chosen tool changed
  */
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data );
+
+#include "gui_sketch_area.inl"
 
 #endif  /* GUI_SKETCH_AREA_H */
 

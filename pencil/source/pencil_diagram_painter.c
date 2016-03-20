@@ -39,7 +39,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
     {
         data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
         TRACE_INFO_INT("drawing diagram id",(*diag).id);
-        if ( (*diag).id != DATA_DIAGRAM_ID_UNINITIALIZED_ID ) {
+        if ( data_diagram_is_valid(diag) ) {
 
             /* draw border line */
             cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );

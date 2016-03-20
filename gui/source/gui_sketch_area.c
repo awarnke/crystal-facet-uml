@@ -75,6 +75,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id )
 {
     TRACE_BEGIN();
+    data_error_t db_err;
 
     /* destroy all old cards */
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -83,31 +84,108 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     }
     (*this_).card_num = 0;
 
+    /* determine diagram id of root diagram */
+    if ( DATA_DIAGRAM_ID_UNINITIALIZED_ID == main_diagram_id )
+    {
+        /* load all without parent */
+        int32_t count;
+        db_err = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+                                                                 DATA_DIAGRAM_ID_UNINITIALIZED_ID,
+                                                                 GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
+                                                                 &count,
+                                                                 &((*this_).private_temp_diagram_buf) );
+        if ( DATA_ERROR_NONE != db_err )
+        {
+            LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+        }
+        else if ( count > 1 )
+        {
+            LOG_ERROR_INT( "more than one root diagram exists!", count );
+        }
+        else if ( count < 1 )
+        {
+            LOG_WARNING( "no root diagram exists!" );
+        }
+        else
+        {
+            main_diagram_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[0]) );
+            TRACE_INFO_INT( "main_diagram_id:", main_diagram_id );
+        }
+
+        /* cleanup */
+        if ( DATA_ERROR_NONE == db_err )
+        {
+            for ( int index = 0; index < count; index ++ )
+            {
+                data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
+            }
+        }
+    }
+
     /* load data to be drawn */
-    gui_sketch_card_init( &((*this_).cards[0]) );
-    gui_sketch_card_load_data( &((*this_).cards[0]), 1, &((*this_).db_reader) );
+    gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]) );
+    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, &((*this_).db_reader) );
     (*this_).card_num = 1;
 
     gui_sketch_tools_tool_t selected_tool;
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
     if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
     {
-        gui_sketch_card_init( &((*this_).cards[1]) );
-        gui_sketch_card_load_data( &((*this_).cards[1]), 1, &((*this_).db_reader) );
+        /* determine ids */
+        int64_t selected_diagram_id;
+        int64_t parent_diagram_id;
+        data_diagram_t *selected_diag;
+        selected_diag = gui_sketch_area_get_selected_diagram_ptr( this_ );
+        selected_diagram_id = data_diagram_get_id( selected_diag );
+        TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+        parent_diagram_id = data_diagram_get_parent_id( selected_diag );
+        TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
+
+        /* load parent if there is any */
+        gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
+        gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, &((*this_).db_reader) );
         (*this_).card_num = 2;
-        gui_sketch_card_init( &((*this_).cards[2]) );
-        gui_sketch_card_load_data( &((*this_).cards[2]), 1, &((*this_).db_reader) );
-        (*this_).card_num = 3;
-        gui_sketch_card_init( &((*this_).cards[3]) );
-        gui_sketch_card_load_data( &((*this_).cards[3]), 1, &((*this_).db_reader) );
-        (*this_).card_num = 4;
+
+        /* load all children */
+        int32_t c_count;
+        db_err = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+                                                                 selected_diagram_id,
+                                                                 GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
+                                                                 &c_count,
+                                                                 &((*this_).private_temp_diagram_buf) );
+        if ( DATA_ERROR_NONE != db_err )
+        {
+            LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+        }
+        else
+        {
+            for ( int index = 0; index < c_count; index ++ )
+            {
+                int64_t current_child_id;
+                current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
+                gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
+                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, &((*this_).db_reader) );
+                (*this_).card_num ++;
+                /* cleanup */
+                data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
+            }
+        }
     }
 
-    /* just a test */
-    data_error_t db_err;
-    data_diagram_t diags[7];
-    int32_t count;
-    db_err = data_database_reader_get_diagrams_by_parent_id ( &((*this_).db_reader), /*parent_id*/ 0 , 7, &count, &diags );
+    TRACE_END();
+}
+
+void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* determine currently selected id */
+    int64_t selected_diagram_id;
+    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+    /* reload diagram data */
+    gui_sketch_area_private_load_cards( this_, selected_diagram_id );
 
     TRACE_END();
 }
@@ -194,7 +272,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             {
                 shape_int_rectangle_init( &card_bounds, left, top, parent_width, parent_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_LEFT );
             }
             else
             {
@@ -380,6 +458,61 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
         /* mark dirty rect */
         gui_sketch_area_queue_draw_mark_area( widget, this_ );
+
+        /* do action */
+        gui_sketch_tools_tool_t selected_tool;
+        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+        switch ( selected_tool )
+        {
+            case GUI_SKETCH_TOOLS_NAVIGATE:
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+
+                    /* search selected diagram */
+                    int64_t clicked_diagram_id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
+                    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+                    {
+                        gui_sketch_card_t *card;
+                        card = &((*this_).cards[idx]);
+                        shape_int_rectangle_t card_bounds;
+                        card_bounds = gui_sketch_card_get_bounds( card );
+                        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
+                        {
+                            data_diagram_t *selected_diag;
+                            selected_diag = gui_sketch_card_get_diagram_ptr( card );
+                            clicked_diagram_id = data_diagram_get_id( selected_diag );
+                            TRACE_INFO_INT( "clicked_diagram_id:", clicked_diagram_id );
+                        }
+                    }
+
+                    /* load diagram */
+                    if ( DATA_DIAGRAM_ID_UNINITIALIZED_ID != clicked_diagram_id )
+                    {
+                        /* load/reload data to be drawn */
+                        gui_sketch_area_private_load_cards( this_, clicked_diagram_id );
+
+                        /* mark dirty rect */
+                        guint width;
+                        guint height;
+                        width = gtk_widget_get_allocated_width (widget);
+                        height = gtk_widget_get_allocated_height (widget);
+                        gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+                    }
+                }
+                break;
+            case GUI_SKETCH_TOOLS_EDIT:
+                TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+                break;
+            case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+                break;
+            default:
+                LOG_ERROR("selected_tool is out of range");
+                break;
+        }
     }
 
     TRACE_TIMESTAMP();
@@ -421,13 +554,30 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 {
                     TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
 
+                    int64_t selected_diagram_id;
+                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
                     ctrl_diagram_controller_t *diag_control;
                     diag_control = ctrl_controller_get_diagram_control ( (*this_).controller );
 
+                    char* new_name;
+                    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
+                    new_name = NAMES[(x+y)&0x07];
+
                     int64_t new_diag_id;
                     ctrl_error_t c_result;
-                    c_result = ctrl_diagram_controller_create_diagram ( diag_control, /*parent_diagram_id*/ 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, "Hello World.", &new_diag_id );
+                    c_result = ctrl_diagram_controller_create_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
 
+                    /* load/reload data to be drawn */
+                    gui_sketch_area_private_load_cards( this_, new_diag_id );
+
+                    /* mark dirty rect */
+                    guint width;
+                    guint height;
+                    width = gtk_widget_get_allocated_width (widget);
+                    height = gtk_widget_get_allocated_height (widget);
+                    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
@@ -452,7 +602,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
     guint height;
 
     /* load/reload data to be drawn */
-    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
+    gui_sketch_area_private_reload_cards( this_ );
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);
@@ -470,7 +620,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     guint height;
 
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
-    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
+    gui_sketch_area_private_reload_cards( this_ );
 
     /* mark dirty rect */
     width = gtk_widget_get_allocated_width (widget);

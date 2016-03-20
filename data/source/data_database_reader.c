@@ -259,8 +259,9 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
         result |= DATA_ERROR_AT_DB;
     }
 
+    *out_diagram_count = 0;
     sqlite_err = SQLITE_ROW;
-    for ( int32_t row_count = 0; (SQLITE_ROW == sqlite_err) && (row_count <= max_out_array_size); row_count ++ )
+    for ( int32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
     {
         TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
@@ -269,9 +270,10 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
-        if (( SQLITE_ROW == sqlite_err )&&(row_count < max_out_array_size))
+        if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
         {
-            data_diagram_t *current_diag = &((*out_diagram)[row_count]);
+            *out_diagram_count = row_index+1;
+            data_diagram_t *current_diag = &((*out_diagram)[row_index]);
             data_diagram_init_empty(current_diag);
             (*current_diag).id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_ID );
             (*current_diag).parent_id = sqlite3_column_int64( prepared_statement, RESULT_COLUMN_PARENT_ID );
@@ -305,9 +307,9 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 
             data_diagram_trace( current_diag );
         }
-        if (( SQLITE_ROW == sqlite_err )&&(row_count >= max_out_array_size))
+        if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
         {
-            LOG_ERROR_INT( "out_diagram[] full:", (row_count+1) );
+            LOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
             result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
         }
         if ( SQLITE_DONE == sqlite_err )

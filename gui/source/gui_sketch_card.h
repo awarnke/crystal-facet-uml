@@ -78,6 +78,11 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
  */
 void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr );
 
+/*!
+ * \brief gets the address of the diagram within the painter input data of gui_sketch_card_t
+ */
+static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
+
 #include "gui_sketch_card.inl"
 
 #endif  /* GUI_SKETCH_CARD_H */

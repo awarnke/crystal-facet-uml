@@ -36,6 +36,11 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
     (*this_).visible = visible;
 }
 
+static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ )
+{
+    return pencil_input_data_get_diagram_ptr( &((*this_).painter_input_data) );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

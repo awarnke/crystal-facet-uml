@@ -11,6 +11,7 @@
 
 #include "util/shape/shape_alignment.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of a rectangle
@@ -35,12 +36,12 @@ static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int3
 static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the left coordinate of shape_int_rectangle_t
  */
 static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the top coordinate of shape_int_rectangle_t
  */
 static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_ );
 
@@ -57,14 +58,17 @@ static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *thi
 static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the width of shape_int_rectangle_t
  */
 static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ );
 
 /*!
- *  \brief gets the shape_int_rectangle_t
+ *  \brief gets the height of shape_int_rectangle_t
+ *  \param x a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
+ *  \param y a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
+ *  \return true if the pixel to the bottom-right of the denoted coordinate is within the rectangle.
  */
-static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ );
+static inline bool shape_int_rectangle_contains ( shape_int_rectangle_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief shrinks the rectangle by border
