@@ -3,9 +3,40 @@
 #ifndef GUI_TEXTEDIT_H
 #define GUI_TEXTEDIT_H
 
+/* public file for the doxygen documentation: */
+/*! \file
+ *  \brief Provides data to editing widgets and reacts on user events
+ */
+
 #include <gtk/gtk.h>
 
-void gui_textedit_clear_btn_callback( GtkButton* button, gpointer data );
+/*!
+ *  \brief attributes of the gui_textedit_t
+ */
+struct gui_textedit_struct {
+    GtkListStore *diagram_types;
+    GtkListStore *classifier_types;
+    GtkListStore *relationship_types;
+};
+
+typedef struct gui_textedit_struct gui_textedit_t;
+
+/*!
+ *  \brief initializes the gui_textedit_t struct
+ */
+void gui_textedit_init ( gui_textedit_t *this_ );
+
+/*!
+ *  \brief destroys the gui_textedit_t struct
+ */
+void gui_textedit_destroy ( gui_textedit_t *this_ );
+
+/*!
+ *  \brief gets the diagram_types attribute
+ */
+static inline GtkTreeModel *gui_textedit_get_diagram_types_ptr ( gui_textedit_t *this_ );
+
+#include "gui_textedit.inl"
 
 #endif  /* GUI_TEXTEDIT_H */
 

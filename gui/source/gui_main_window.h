@@ -14,6 +14,7 @@
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"
 #include "gui_resources.h"
+#include "gui_textedit.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -26,6 +27,7 @@ struct gui_main_window_struct {
     gui_sketch_tools_t sketchtools_data;  /*!< own instance of gui_sketch_tools_t */
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
+    gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
 
     GtkWidget *toolbar;
     GtkWidget *tool_navigate_icon;
@@ -37,9 +39,10 @@ struct gui_main_window_struct {
     GtkWidget *tool_new_view_icon;
     GtkToolItem *tool_new_view;
 
-    GtkWidget *clear;
-
-    GtkWidget *characterEntry;
+    GtkWidget *name_entry;
+    GtkWidget *description_text_view;
+    GtkWidget *type_combo_box;
+    GtkWidget *stereotype_combo_box_text;
 };
 
 typedef struct gui_main_window_struct gui_main_window_t;

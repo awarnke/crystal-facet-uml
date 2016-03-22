@@ -55,8 +55,12 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 
     (*this_).layout = gtk_grid_new();
 
-    (*this_).clear = gtk_button_new_with_label( "clear" );
-    (*this_).characterEntry = gtk_entry_new();
+    gui_textedit_init( &((*this_).text_editor) );
+    GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
+    (*this_).name_entry = gtk_entry_new();
+    (*this_).description_text_view = gtk_text_view_new ();
+    (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
+    (*this_).stereotype_combo_box_text = gtk_combo_box_text_new();
 
     TRACE_INFO("GTK+ Widgets are created.");
 
@@ -64,10 +68,13 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
+    /* gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 3, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 3, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).clear, 0, 2, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).characterEntry, 1, 2, 2, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_combo_box_text, 0, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 1, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 0, 3, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
@@ -81,7 +88,6 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).clear), "clicked", G_CALLBACK(gui_textedit_clear_btn_callback), NULL );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
