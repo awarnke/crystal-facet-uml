@@ -60,6 +60,10 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     (*this_).name_entry = gtk_entry_new();
     (*this_).description_text_view = gtk_text_view_new ();
     (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
+    GtkCellRenderer *column;
+    column = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 0, NULL);
     (*this_).stereotype_combo_box_text = gtk_combo_box_text_new();
 
     TRACE_INFO("GTK+ Widgets are created.");
@@ -118,6 +122,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
+    gui_textedit_destroy( &((*this_).text_editor) );
 
     TRACE_END();
 }

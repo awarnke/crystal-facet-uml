@@ -50,6 +50,9 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 {
     TRACE_BEGIN();
 
+    g_object_unref((*this_).diagram_types);
+    (*this_).diagram_types = NULL;
+
     TRACE_END();
 }
 
