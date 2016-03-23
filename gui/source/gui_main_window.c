@@ -10,15 +10,19 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-
-
 void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, gui_resources_t *res )
 {
     TRACE_BEGIN();
 
+    /* init window */
+
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml");
     gtk_widget_set_size_request((*this_).window, 810, 600);
+
+    (*this_).layout = gtk_grid_new();
+
+    /* init tools */
 
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");
@@ -46,6 +50,8 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     (*this_).toolbar = gtk_toolbar_new ();
     gui_sketch_tools_init( &((*this_).sketchtools_data) );
 
+    /* init sketch area */
+
     (*this_).sketcharea = gtk_drawing_area_new();
     gtk_widget_set_events( (*this_).sketcharea, GDK_LEAVE_NOTIFY_MASK
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
@@ -53,18 +59,22 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
     gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, database );
 
-    (*this_).layout = gtk_grid_new();
+    /* init text edit widgets */
 
     gui_textedit_init( &((*this_).text_editor) );
     GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
-    (*this_).name_entry = gtk_entry_new();
-    (*this_).description_text_view = gtk_text_view_new ();
     (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
     GtkCellRenderer *column;
     column = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 0, NULL);
-    (*this_).stereotype_combo_box_text = gtk_combo_box_text_new();
+    (*this_).name_entry = gtk_entry_new();
+    (*this_).description_text_view = gtk_text_view_new ();
+    (*this_).stereotype_entry = gtk_entry_new();
+    (*this_).edit_commit_button = gtk_button_new();
+    (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
+    gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
+    gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
 
     TRACE_INFO("GTK+ Widgets are created.");
 
@@ -73,12 +83,13 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
     /* gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 3, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 3, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_combo_box_text, 0, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 4, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 0, 2, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 1, 2, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 2, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 0, 3, 3, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
@@ -96,6 +107,11 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_textedit_description_focus_lost_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 

@@ -20,6 +20,11 @@ static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
     return (*this_).tool_edit;
 }
 
+static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ )
+{
+    return (*this_).edit_commit;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

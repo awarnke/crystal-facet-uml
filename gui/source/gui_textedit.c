@@ -3,6 +3,7 @@
 #include "gui_textedit.h"
 #include "trace.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 void gui_textedit_init ( gui_textedit_t *this_ )
 {
@@ -52,6 +53,44 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     g_object_unref((*this_).diagram_types);
     (*this_).diagram_types = NULL;
+
+    TRACE_END();
+}
+
+gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+}
+
+void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
+{
+    TRACE_BEGIN();
 
     TRACE_END();
 }

@@ -14,6 +14,7 @@ struct gui_resources_struct {
     GdkPixbuf *tool_navigate;
     GdkPixbuf *tool_create_object;
     GdkPixbuf *tool_edit;
+    GdkPixbuf *edit_commit;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -47,6 +48,11 @@ static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t 
  *  \brief gets the tool_edit
  */
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_commit
+ */
+static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

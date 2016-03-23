@@ -42,7 +42,9 @@ struct gui_main_window_struct {
     GtkWidget *name_entry;
     GtkWidget *description_text_view;
     GtkWidget *type_combo_box;
-    GtkWidget *stereotype_combo_box_text;
+    GtkWidget *stereotype_entry;
+    GtkWidget *edit_commit_icon;
+    GtkWidget *edit_commit_button;
 };
 
 typedef struct gui_main_window_struct gui_main_window_t;

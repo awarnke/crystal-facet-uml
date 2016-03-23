@@ -36,6 +36,31 @@ void gui_textedit_destroy ( gui_textedit_t *this_ );
  */
 static inline GtkTreeModel *gui_textedit_get_diagram_types_ptr ( gui_textedit_t *this_ );
 
+/*!
+ *  \brief callback that informs that the focus of a widget is lost
+ */
+gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the focus of a widget is lost
+ */
+gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the focus of a widget is lost
+ */
+gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the type in the combo box changed
+ */
+void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the commit button was pressed
+ */
+void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data );
+
 #include "gui_textedit.inl"
 
 #endif  /* GUI_TEXTEDIT_H */

@@ -10,6 +10,7 @@
 #include "resources/tool_navigate.c"
 #include "resources/tool_create_object.c"
 #include "resources/tool_edit.c"
+#include "resources/edit_commit.c"
 
 void gui_resources_init ( gui_resources_t *this_ )
 {
@@ -59,6 +60,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         tool_edit.width,
         tool_edit.height,
         tool_edit.width * tool_edit.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_commit = gdk_pixbuf_new_from_data(
+        &(edit_commit.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_commit.width,
+        edit_commit.height,
+        edit_commit.width * edit_commit.bytes_per_pixel,
         NULL,
         NULL
     );
