@@ -9,7 +9,7 @@
  */
 
 #include "util/shape/shape_int_rectangle.h"
-#include "data_database.h"
+#include "data_database_reader.h"
 #include "data_diagram.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
@@ -34,8 +34,7 @@ enum gui_sketch_area_const_enum {
  *  \brief attributes of the sketch area widget
  */
 struct gui_sketch_area_struct {
-    data_database_t *database;  /*!< pointer to external database */
-    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
     int32_t card_num;
@@ -46,14 +45,17 @@ struct gui_sketch_area_struct {
     int32_t mark_end_y;
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
+    GObject *listener;  /*!< pointer to listener on selecting objects */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
 
+extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
+
 /*!
  *  \brief initializes the gui_sketch_area_t struct
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_t *database );
+void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct
@@ -125,6 +127,16 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
  *  \brief callback that informs that the chosen tool changed
  */
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data );
+
+/*!
+ *  \brief sets the listener
+ */
+static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, GObject *listener );
+
+/*!
+ *  \brief removes the listener
+ */
+static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_ );
 
 #include "gui_sketch_area.inl"
 

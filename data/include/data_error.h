@@ -31,7 +31,6 @@ enum data_error_enum {
 
 typedef enum data_error_enum data_error_t;
 
-
 #endif  /* DATA_ERROR_H */
 
 

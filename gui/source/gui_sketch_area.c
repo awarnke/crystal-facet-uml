@@ -8,19 +8,44 @@
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
+#include <stdbool.h>
 
-void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_t *database )
+static bool gui_sketch_area_glib_signal_initialized = false;
+static guint gui_sketch_area_glib_signal_id = 0;
+const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
+
+void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
 
     (*this_).mark_active = false;
     (*this_).tools = tools;
-    (*this_).database = database;
+    (*this_).db_reader = db_reader;
     (*this_).controller = controller;
-    data_database_reader_init( &((*this_).db_reader), database );
     (*this_).card_num = 0;
+    (*this_).listener = NULL;
 
     gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
+
+    /* define a new signal */
+    if ( ! gui_sketch_area_glib_signal_initialized )
+    {
+        gui_sketch_area_glib_signal_id = g_signal_new (
+            GUI_SKETCH_AREA_GLIB_SIGNAL_NAME,
+            G_TYPE_OBJECT,
+            G_SIGNAL_RUN_FIRST,
+            0,
+            NULL,
+            NULL,
+            g_cclosure_marshal_VOID__POINTER,
+            G_TYPE_NONE,
+            2,
+            G_TYPE_INT, /* data_table_t */
+            G_TYPE_INT64 /* id of the object */
+        );
+        gui_sketch_area_glib_signal_initialized = true;
+        TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_sketch_area_glib_signal_id );
+    }
 
     TRACE_END();
 }
@@ -35,8 +60,6 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
         gui_sketch_card_destroy( &((*this_).cards[idx]) );
     }
     (*this_).card_num = 0;
-
-    data_database_reader_destroy( &((*this_).db_reader) );
 
     TRACE_END();
 }
@@ -89,7 +112,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     {
         /* load all without parent */
         int32_t count;
-        db_err = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+        db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                  DATA_DIAGRAM_ID_UNINITIALIZED_ID,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
                                                                  &count,
@@ -124,7 +147,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
 
     /* load data to be drawn */
     gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]) );
-    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, &((*this_).db_reader) );
+    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
 
     gui_sketch_tools_tool_t selected_tool;
@@ -143,12 +166,12 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
 
         /* load parent if there is any */
         gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
-        gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, &((*this_).db_reader) );
+        gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, (*this_).db_reader );
         (*this_).card_num = 2;
 
         /* load all children */
         int32_t c_count;
-        db_err = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+        db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                  selected_diagram_id,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
                                                                  &c_count,
@@ -164,7 +187,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                 int64_t current_child_id;
                 current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
                 gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, &((*this_).db_reader) );
+                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
                 (*this_).card_num ++;
                 /* cleanup */
                 data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
@@ -618,6 +641,25 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     gui_sketch_area_t *this_ = data;
     guint width;
     guint height;
+
+    switch ( tool )
+    {
+        case GUI_SKETCH_TOOLS_NAVIGATE:
+            TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+            break;
+        case GUI_SKETCH_TOOLS_EDIT:
+            TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+            break;
+        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+            TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+            break;
+        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+            TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+            break;
+        default:
+            LOG_ERROR("selected_tool is out of range");
+            break;
+    }
 
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
     gui_sketch_area_private_reload_cards( this_ );

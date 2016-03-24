@@ -10,7 +10,7 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, gui_resources_t *res )
+void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, data_database_reader_t *db_reader, gui_resources_t *res )
 {
     TRACE_BEGIN();
 
@@ -57,11 +57,11 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
-    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, database );
+    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, db_reader );
 
     /* init text edit widgets */
 
-    gui_textedit_init( &((*this_).text_editor) );
+    gui_textedit_init( &((*this_).text_editor), controller, db_reader );
     GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
     (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
     GtkCellRenderer *column;
@@ -112,12 +112,14 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).edit_commit_button), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_set_listener( &((*this_).sketchtools_data), G_OBJECT((*this_).sketcharea) );
+    gui_sketch_area_set_listener( &((*this_).sketcharea_data), G_OBJECT((*this_).edit_commit_button) );
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at data module.");
 
@@ -131,6 +133,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 {
     TRACE_BEGIN();
 
+    gui_sketch_area_remove_listener( &((*this_).sketcharea_data) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_remove_listener( &((*this_).sketchtools_data) );
 
@@ -161,7 +164,7 @@ gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *even
 
     TRACE_TIMESTAMP();
     TRACE_END();
-    return FALSE;  /* return false to trigger destroy event */
+    return false;  /* return false to trigger destroy event */
 }
 
 

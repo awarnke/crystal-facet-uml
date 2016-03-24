@@ -5,7 +5,7 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-/* ugly code: including a c file */
+/* including resource files */
 #include "resources/tool_create_diagram.c"
 #include "resources/tool_navigate.c"
 #include "resources/tool_create_object.c"

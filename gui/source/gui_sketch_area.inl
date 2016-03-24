@@ -16,6 +16,15 @@ static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_
     return selected_diagram_id;
 }
 
+static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, GObject *listener )
+{
+    (*this_).listener = listener;
+}
+
+static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_ )
+{
+    (*this_).listener = NULL;
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

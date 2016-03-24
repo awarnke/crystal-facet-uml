@@ -28,6 +28,8 @@ struct gui_main_window_struct {
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
+    data_database_t *database;  /*!< pointer to external database */
+    data_database_reader_t db_reader;  /*!< own instance of a database reader */
 
     GtkWidget *toolbar;
     GtkWidget *tool_navigate_icon;
@@ -52,7 +54,7 @@ typedef struct gui_main_window_struct gui_main_window_t;
 /*!
  *  \brief initializes the main window
  */
-void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, gui_resources_t *res );
+void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, data_database_reader_t *db_reader, gui_resources_t *res );
 
 /*!
  *  \brief destroys the main window

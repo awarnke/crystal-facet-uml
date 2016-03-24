@@ -5,44 +5,49 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void gui_textedit_init ( gui_textedit_t *this_ )
+void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
-    GtkTreeIter iter;
 
-    (*this_).diagram_types = gtk_list_store_new( 1, G_TYPE_STRING );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "LIST", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "BLOCK_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "REQUIREMENT_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_USE_CASE_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_ACTIVITY_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_STATE_MACHINE_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_SEQUENCE_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMMUNICATION_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_INTERACTION_OVERVIEW_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_TIMING_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_DEPLOYMENT_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMPONENT_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMPOSITE_STRUCTURE_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_PACKAGE_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_CLASS_DIAGRAM", -1 );
-    gtk_list_store_append( (*this_).diagram_types, &iter);
-    gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_PROFILE_DIAGRAM", -1 );
+    (*this_).db_reader = db_reader;
+    (*this_).controller = controller;
+
+    {
+        GtkTreeIter iter;
+        (*this_).diagram_types = gtk_list_store_new( 1, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "LIST", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "BLOCK_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "REQUIREMENT_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_USE_CASE_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_ACTIVITY_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_STATE_MACHINE_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_SEQUENCE_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMMUNICATION_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_INTERACTION_OVERVIEW_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_TIMING_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_DEPLOYMENT_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMPONENT_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_COMPOSITE_STRUCTURE_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_PACKAGE_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_CLASS_DIAGRAM", -1 );
+        gtk_list_store_append( (*this_).diagram_types, &iter);
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, "UML_PROFILE_DIAGRAM", -1 );
+    }
 
     TRACE_END();
 }
@@ -89,6 +94,13 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
 }
 
 void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+}
+
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_table_t table, int64_t id, gpointer user_data )
 {
     TRACE_BEGIN();
 

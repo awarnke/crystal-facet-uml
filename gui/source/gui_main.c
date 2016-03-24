@@ -2,6 +2,8 @@
 
 #include "gui_main.h"
 #include "gui_main_window.h"
+#include "data_database.h"
+#include "data_database_reader.h"
 #include "trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -17,21 +19,25 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
 
     static gui_resources_t gui_resources;
 
+    static data_database_reader_t db_reader;
+
     TRACE_INFO("initializing gui thread...");
 
     gtk_init(&argc, &argv);
 
     gui_resources_init( &gui_resources );
+    data_database_reader_init( &db_reader, database );
 
-    gui_main_window_init( &the_window, controller, database, &gui_resources );
+    gui_main_window_init( &the_window, controller, database, &db_reader, &gui_resources );
 
     /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_init( &the_window2, controller, database, &gui_resources );
+    gui_main_window_init( &the_window2, controller, database, &db_reader, &gui_resources );
 
     TRACE_TIMESTAMP();
     gtk_main();
     gtk_main(); /* once for every window: closing 1 window will end 1 main loop */
 
+    data_database_reader_destroy( &db_reader );
     gui_resources_destroy( &gui_resources );
 
     TRACE_TIMESTAMP();

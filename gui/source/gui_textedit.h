@@ -8,12 +8,18 @@
  *  \brief Provides data to editing widgets and reacts on user events
  */
 
+#include "data_database_reader.h"
+#include "ctrl_controller.h"
+#include "data_table.h"
 #include <gtk/gtk.h>
 
 /*!
  *  \brief attributes of the gui_textedit_t
  */
 struct gui_textedit_struct {
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    ctrl_controller_t *controller;  /*!< pointer to external controller */
+
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;
     GtkListStore *relationship_types;
@@ -24,7 +30,7 @@ typedef struct gui_textedit_struct gui_textedit_t;
 /*!
  *  \brief initializes the gui_textedit_t struct
  */
-void gui_textedit_init ( gui_textedit_t *this_ );
+void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the gui_textedit_t struct
@@ -50,6 +56,11 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
  *  \brief callback that informs that the focus of a widget is lost
  */
 gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_table_t table, int64_t id, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the type in the combo box changed
