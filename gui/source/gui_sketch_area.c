@@ -43,7 +43,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
             g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE,
             1/*2*/,
-            /*G_TYPE_INT,*/ /* data_table_t */
+            G_TYPE_INT, /* data_table_t */
             G_TYPE_INT64 /* id of the object */
         );
         gui_sketch_area_glib_signal_initialized = true;
@@ -688,7 +688,7 @@ void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_tab
     if ( (*this_).listener != NULL )
     {
         TRACE_INFO( "g_signal_emit to listener" );
-        g_signal_emit( (*this_).listener, gui_sketch_area_glib_signal_id, 0, /*table,*/ id );
+        g_signal_emit( (*this_).listener, gui_sketch_area_glib_signal_id, 0, table, id );
     }
 
     TRACE_END();
