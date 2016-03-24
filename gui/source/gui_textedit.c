@@ -100,9 +100,11 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
     TRACE_END();
 }
 
-void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_table_t table, int64_t id, gpointer user_data )
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, /*data_table_t table,*/ int64_t id, gpointer user_data )
 {
     TRACE_BEGIN();
+
+    TRACE_INFO_INT( "id:", id );
 
     TRACE_END();
 }

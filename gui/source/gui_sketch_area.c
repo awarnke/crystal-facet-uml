@@ -3,6 +3,7 @@
 #include "gui_sketch_area.h"
 #include "pencil_diagram_painter.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "data_table.h"
 #include "trace.h"
 #include "log.h"
 #include <gdk/gdk.h>
@@ -13,6 +14,8 @@
 static bool gui_sketch_area_glib_signal_initialized = false;
 static guint gui_sketch_area_glib_signal_id = 0;
 const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
+
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
 
 void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader )
 {
@@ -39,8 +42,8 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
             NULL,
             g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE,
-            2,
-            G_TYPE_INT, /* data_table_t */
+            1/*2*/,
+            /*G_TYPE_INT,*/ /* data_table_t */
             G_TYPE_INT64 /* id of the object */
         );
         gui_sketch_area_glib_signal_initialized = true;
@@ -514,6 +517,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         /* load/reload data to be drawn */
                         gui_sketch_area_private_load_cards( this_, clicked_diagram_id );
 
+                        /* notify listener */
+                        gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, clicked_diagram_id );
+
                         /* mark dirty rect */
                         guint width;
                         guint height;
@@ -595,6 +601,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* load/reload data to be drawn */
                     gui_sketch_area_private_load_cards( this_, new_diag_id );
 
+                    /* notify listener */
+                    gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, new_diag_id );
+
                     /* mark dirty rect */
                     guint width;
                     guint height;
@@ -668,6 +677,19 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
     gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+
+    TRACE_END();
+}
+
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id )
+{
+    TRACE_BEGIN();
+
+    if ( (*this_).listener != NULL )
+    {
+        TRACE_INFO( "g_signal_emit to listener" );
+        g_signal_emit( (*this_).listener, gui_sketch_area_glib_signal_id, 0, /*table,*/ id );
+    }
 
     TRACE_END();
 }
