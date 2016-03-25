@@ -167,27 +167,27 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
     switch ( data_id_get_table(id) )
     {
         case DATA_TABLE_VOID:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
         case DATA_TABLE_CLASSIFIER:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            break;
-        case DATA_TABLE_FEATURE:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            break;
-        case DATA_TABLE_RELATIONSHIP:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            break;
-        case DATA_TABLE_DIAGRAMELEMENT:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            break;
-        case DATA_TABLE_DIAGRAM:
             {
-                gtk_widget_hide( GTK_WIDGET ( widget ) );
+                gtk_widget_show( GTK_WIDGET ( widget ) );
             }
             break;
+        case DATA_TABLE_FEATURE:
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            break;
+        case DATA_TABLE_RELATIONSHIP:
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            break;
+        case DATA_TABLE_DIAGRAMELEMENT:
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            break;
+        case DATA_TABLE_DIAGRAM:
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            break;
         default:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
     }
 
