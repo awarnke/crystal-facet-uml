@@ -27,7 +27,10 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     (*this_).card_num = 0;
-    (*this_).listener = NULL;
+    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
+    {
+        (*this_).listener[index] = NULL;
+    }
 
     gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
 
@@ -63,6 +66,12 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
         gui_sketch_card_destroy( &((*this_).cards[idx]) );
     }
     (*this_).card_num = 0;
+
+    /* reset all listeners */
+    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
+    {
+        (*this_).listener[index] = NULL;
+    }
 
     TRACE_END();
 }
@@ -685,13 +694,16 @@ void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_tab
 {
     TRACE_BEGIN();
 
-    if ( (*this_).listener != NULL )
-    {
-        data_id_t full_id;
-        data_id_init( &full_id, table, id );
+    data_id_t full_id;
+    data_id_init( &full_id, table, id );
 
-        TRACE_INFO( "g_signal_emit to listener" );
-        g_signal_emit( (*this_).listener, gui_sketch_area_glib_signal_id, 0, &full_id );
+    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
+    {
+        if ( (*this_).listener != NULL )
+        {
+            TRACE_INFO_INT( "g_signal_emit to listener", index );
+            g_signal_emit( (*this_).listener[index], gui_sketch_area_glib_signal_id, 0, &full_id );
+        }
     }
 
     TRACE_END();

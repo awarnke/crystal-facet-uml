@@ -112,14 +112,20 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).edit_commit_button), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).description_text_view), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).type_combo_box), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_selected_object_changed_callback), &((*this_).text_editor) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_set_listener( &((*this_).sketchtools_data), G_OBJECT((*this_).sketcharea) );
-    gui_sketch_area_set_listener( &((*this_).sketcharea_data), G_OBJECT((*this_).edit_commit_button) );
+    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 0, G_OBJECT((*this_).name_entry) );
+    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 1, G_OBJECT((*this_).description_text_view) );
+    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 2, G_OBJECT((*this_).stereotype_entry) );
+    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 3, G_OBJECT((*this_).type_combo_box) );
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at data module.");
 
@@ -133,7 +139,10 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_sketch_area_remove_listener( &((*this_).sketcharea_data) );
+    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 0 );
+    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 1 );
+    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 2 );
+    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 3 );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_remove_listener( &((*this_).sketchtools_data) );
 

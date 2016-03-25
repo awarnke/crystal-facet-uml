@@ -20,6 +20,8 @@ struct gui_textedit_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
 
+    data_diagram_t private_diagram_cache;  /*!< own instance of a diagram chace */
+
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;
     GtkListStore *relationship_types;
@@ -60,7 +62,22 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
 /*!
  *  \brief callback that informs that another object was selected
  */
-void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_textedit_description_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the type in the combo box changed

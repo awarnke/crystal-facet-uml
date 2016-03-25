@@ -16,14 +16,20 @@ static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_
     return selected_diagram_id;
 }
 
-static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, GObject *listener )
+static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener )
 {
-    (*this_).listener = listener;
+    if ( index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS )
+    {
+        (*this_).listener[index] = listener;
+    }
 }
 
-static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_ )
+static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index )
 {
-    (*this_).listener = NULL;
+    if ( index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS )
+    {
+        (*this_).listener[index] = NULL;
+    }
 }
 
 /*

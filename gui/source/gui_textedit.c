@@ -12,6 +12,7 @@ void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, d
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    data_diagram_init_empty( &((*this_).private_diagram_cache) );
 
     {
         GtkTreeIter iter;
@@ -57,6 +58,8 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_diagram_destroy( &((*this_).private_diagram_cache) );
+    
     g_object_unref((*this_).diagram_types);
     (*this_).diagram_types = NULL;
 
@@ -101,7 +104,34 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
     TRACE_END();
 }
 
-void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    data_id_trace( id );
+
+    TRACE_END();
+}
+
+void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    data_id_trace( id );
+
+    TRACE_END();
+}
+
+void gui_textedit_description_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+
+    data_id_trace( id );
+
+    TRACE_END();
+}
+
+void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
 

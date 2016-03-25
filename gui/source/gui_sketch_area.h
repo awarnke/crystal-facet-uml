@@ -28,6 +28,7 @@ enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
     GUI_SKETCH_AREA_CONST_SELECTED_CARD = 0,  /*!< index of the card showing the currently selected diagram */
     GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 30,  /*!< maximum size of temporary diagram buffer */
+    GUI_SKETCH_AREA_CONST_MAX_LISTENERS = 4,  /*!< maximum number of listeners */
 };
 
 /*!
@@ -45,7 +46,7 @@ struct gui_sketch_area_struct {
     int32_t mark_end_y;
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
-    GObject *listener;  /*!< pointer to listener on selecting objects */
+    GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
@@ -64,7 +65,7 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief loads the cards to be shown
- *  \param main_card_id id of the main card to be shown or DATA_DIAGRAM_ID_UNINITIALIZED_ID for root diagram
+ *  \param main_diagram_id id of the main diagram to be shown or DATA_DIAGRAM_ID_UNINITIALIZED_ID for root diagram
  */
 void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 
@@ -129,14 +130,16 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data );
 
 /*!
- *  \brief sets the listener
+ *  \brief sets a listener in the listener array
+ *  \param index index in the array where to add the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
  */
-static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, GObject *listener );
+static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener );
 
 /*!
- *  \brief removes the listener
+ *  \brief removes a listener from the listener array
+ *  \param index index in the array where to remove the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
  */
-static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_ );
+static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index );
 
 #include "gui_sketch_area.inl"
 

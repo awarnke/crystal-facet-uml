@@ -1,21 +1,21 @@
 /*!
  *  \page cfu-architecture-page crystal facet uml architecture
- *  
+ *
  *  \image html crystal_facet_uml.png
  *  \image latex crystal_facet_uml.png "" width=5cm
- * 
+ *
  *  \section cfu-ifactors Influence Factors
  *
  *  This section describes the problem space: requirements and expected environment.
  *
  *  \subsection cfu-if-gen Generator
- * 
+ *
  *  This subsection lists factors that influence the idl to target code generator.
- * 
+ *
  *  \section cfu-ddec Design Decisions
  *
  *  This section describes the taken design decisions: alternatives and rationales for decisions.
- * 
+ *
  *  \subsection cfu-cli Design decisions on interfaces
  *
  *  - __data storage__
@@ -39,11 +39,12 @@
  *      .
  *      Decision: (A3) is taken, most future-proof in case the database becomes large
  *      \n DEC-101
- * 
+ *  .
+ *
  *  \section cfu-solution Solution
  *
  *  This section describes the selected solution: deployment, static and dynamic behaviour.
- * 
+ *
  *
  *  \subsection cfu-static-views Static Views
  *
@@ -66,7 +67,7 @@
  *          - __glib, gdk, gtk, cairo__
  *      .
  *  .
- *  \section cfu-arc-apx Appendix 
+ *  \section cfu-arc-apx Appendix
  *  \author (c) 2016-2016 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
  */
 
