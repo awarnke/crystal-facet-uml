@@ -16,8 +16,6 @@ static bool gui_sketch_area_glib_signal_initialized = false;
 static guint gui_sketch_area_glib_signal_id = 0;
 const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
-
 void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
@@ -391,36 +389,6 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     TRACE_END();
 }
 
-static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
-static inline void gui_sketch_area_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
-{
-    gint left, right, top, bottom;
-    if ( (*this_).mark_start_x < (*this_).mark_end_x )
-    {
-        left = (*this_).mark_start_x;
-        right = (*this_).mark_end_x;
-    }
-    else
-    {
-        left = (*this_).mark_end_x;
-        right = (*this_).mark_start_x;
-    }
-    if ( (*this_).mark_start_y < (*this_).mark_end_y )
-    {
-        top = (*this_).mark_start_y;
-        bottom = (*this_).mark_end_y;
-    }
-    else
-    {
-        top = (*this_).mark_end_y;
-        bottom = (*this_).mark_start_y;
-    }
-
-    /* mark dirty rect */
-    static const double BORDER = 1.0;
-    gtk_widget_queue_draw_area( widget, left-BORDER, top-BORDER, right-left+BORDER+BORDER, bottom-top+BORDER+BORDER );
-}
-
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
     TRACE_BEGIN();
@@ -453,13 +421,13 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     if ( (*this_).mark_active )
     {
         /* mark dirty rect */
-        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
         (*this_).mark_end_x = x;
         (*this_).mark_end_y = y;
 
         /* mark dirty rect */
-        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
     }
 
     if ( (state & GDK_BUTTON1_MASK) != 0 )
@@ -492,7 +460,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         (*this_).mark_end_y = y;
 
         /* mark dirty rect */
-        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
@@ -575,7 +543,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         (*this_).mark_active = false;
 
         /* mark dirty rect */
-        gui_sketch_area_queue_draw_mark_area( widget, this_ );
+        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
@@ -597,7 +565,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
                     ctrl_diagram_controller_t *diag_control;
-                    diag_control = ctrl_controller_get_diagram_control ( (*this_).controller );
+                    diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                     char* new_name;
                     static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};

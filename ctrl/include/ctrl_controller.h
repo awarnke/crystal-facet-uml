@@ -34,12 +34,12 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ );
 /*!
  *  \brief gets the classifier controller
  */
-static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control ( ctrl_controller_t *this_ );
+static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control_ptr ( ctrl_controller_t *this_ );
 
 /*!
  *  \brief gets the diagram controller
  */
-static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control ( ctrl_controller_t *this_ );
+static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 
 #include "ctrl_controller.inl"
 

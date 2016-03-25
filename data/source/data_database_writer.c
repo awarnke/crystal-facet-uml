@@ -57,13 +57,6 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
     NULL,
 };
 
-/*!
- *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param diagram diagram to be created.
- */
-static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
-
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();

@@ -79,6 +79,11 @@ static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GO
  */
 static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ );
 
+/*!
+ *  \brief notifies the listener
+ */
+void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
+
 #include "gui_sketch_tools.inl"
 
 #endif  /* GUI_SKETCH_TOOLS_H */

@@ -9,8 +9,6 @@ static bool gui_sketch_tools_glib_signal_initialized = false;
 static guint gui_sketch_tools_glib_signal_id = 0;
 const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
-void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
-
 void gui_sketch_tools_init ( gui_sketch_tools_t *this_ )
 {
     TRACE_BEGIN();

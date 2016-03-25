@@ -95,12 +95,12 @@ static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ 
 /*!
  *  \brief gets the attribute name
  */
-static inline utf8stringbuf_t data_diagram_get_name ( data_diagram_t *this_ );
+static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute description
  */
-static inline utf8stringbuf_t data_diagram_get_description ( data_diagram_t *this_ );
+static inline const char *data_diagram_get_description_ptr ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute list_order

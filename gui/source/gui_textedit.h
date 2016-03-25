@@ -89,6 +89,14 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
  */
 void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data );
 
+/*!
+ *  \brief loads an object into cache.
+ *
+ *  \param id identifier of the object to be loaded
+ *  \param force_reload if false, the cache is only updated if the wrong object was cached before.
+ */
+void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload );
+
 #include "gui_textedit.inl"
 
 #endif  /* GUI_TEXTEDIT_H */

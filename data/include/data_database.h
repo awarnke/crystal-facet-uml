@@ -54,6 +54,11 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
  */
 static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ );
 
+/*!
+ *  \brief initializes the tables in the database if not yet existant
+ */
+static void data_database_private_initialize_tables( sqlite3 *db );
+
 #include "data_database.inl"
 
 #endif  /* DATA_DATABASE_H */

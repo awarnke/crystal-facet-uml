@@ -39,10 +39,19 @@
  *  All files shall follow object-oriented design patterns in the following way:
  *  - Each header file declares one main type, a struct or enumeration, with the same name as the file (prepended by _t).
  *    \n This type is used like a class.
- *  - All function names are prefixed by this main type name.
+ *  .
+ *
+ *  \section cfu-methods Attributes and Methods
+ *
+ *  - All function names are prefixed by the main type name.
  *  - The first parameter of each function is a pointer to an instance of the main type.
  *    \n This first parameter must not be NULL and needs not be checked for NULL.
  *  - Functions that shall not be accessed from outside are in-fixed by "_private_".
+ *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
+ *    \n To achieve good runtime-performance, these may be declared as "static inline".
+ *  - Functions that expose pointers or accessors to internal data shall be post-fixed by "_ptr".
+ *    \n Care needs to be taken when changing internal data from outside
+ *    and when reading data from outside while it may change.
  *  .
  *
  *  \subsection cfu-lifecycle Constructors and Descructors, Copy-Constructors

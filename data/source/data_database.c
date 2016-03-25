@@ -86,11 +86,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE =
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id) "
     ");";
 
-/*!
- *  \brief initializes the tables in the database if not yet existant
- */
-static void data_database_initialize_tables( sqlite3 *db );
-static void data_database_initialize_tables( sqlite3 *db )
+static void data_database_private_initialize_tables( sqlite3 *db )
 {
     TRACE_BEGIN();
     int sqlite_err;
@@ -204,7 +200,7 @@ void data_database_open ( data_database_t *this_, const char* db_file_path )
     else
     {
         (*this_).is_open = true;
-        data_database_initialize_tables( (*this_).db );
+        data_database_private_initialize_tables( (*this_).db );
     }
 
     TRACE_END();

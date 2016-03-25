@@ -11,6 +11,7 @@
 #include "util/shape/shape_int_rectangle.h"
 #include "data_database_reader.h"
 #include "data_diagram.h"
+#include "data_table.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_input_data.h"
@@ -85,6 +86,11 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
+ *  \brief queues the currently marked widget area for redrawing
+ */
+static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
+
+/*!
  *  \brief gets the currently selected diagram
  */
 static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ );
@@ -140,6 +146,11 @@ static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsi
  *  \param index index in the array where to remove the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
  */
 static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index );
+
+/*!
+ *  \brief notifies all listeners
+ */
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
 
 #include "gui_sketch_area.inl"
 
