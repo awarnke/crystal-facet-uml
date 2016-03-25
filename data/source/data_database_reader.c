@@ -183,7 +183,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
             int length;
             utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-            sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
+            sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
             strerr = utf8stringbuf_copy_str( (*out_diagram).name, sqlite_stringresult );
             if ( strerr != UTF8ERROR_SUCCESS )
             {
@@ -193,7 +193,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
                 result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
             }
 
-            sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
+            sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
             strerr = utf8stringbuf_copy_str( (*out_diagram).description, sqlite_stringresult );
             if ( strerr != UTF8ERROR_SUCCESS )
             {
@@ -283,7 +283,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                 int length;
                 utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-                sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
+                sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_COLUMN_NAME );
                 strerr = utf8stringbuf_copy_str( (*current_diag).name, sqlite_stringresult );
                 if ( strerr != UTF8ERROR_SUCCESS )
                 {
@@ -293,7 +293,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                     result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
                 }
 
-                sqlite_stringresult = sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
+                sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_COLUMN_DESCRIPTION );
                 strerr = utf8stringbuf_copy_str( (*current_diag).description, sqlite_stringresult );
                 if ( strerr != UTF8ERROR_SUCCESS )
                 {

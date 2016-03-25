@@ -40,9 +40,16 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
 /*!
  *  \brief creates a new diagram
  *
- *  \return id of the newly created diagram
+ *  \param out_new_id id of the newly created diagram
  */
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id );
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id );
+
+/*!
+ *  \brief updates a diagram attribute
+ *
+ *  \return error id in case of error
+ */
+ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_, int64_t diagram_id, const char* diagram_name );
 
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */

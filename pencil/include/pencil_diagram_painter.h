@@ -19,6 +19,7 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_painter_struct {
+    void *dummy;
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;

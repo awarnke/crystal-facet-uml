@@ -73,6 +73,11 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
 
+    const char* text;
+    text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
+
+    TRACE_INFO_STR( "text:", text );
+
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
@@ -83,6 +88,18 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    GtkTextBuffer *buffer;
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
+
+    GtkTextIter start;
+    GtkTextIter end;
+    gtk_text_buffer_get_start_iter ( buffer, &start );
+    gtk_text_buffer_get_end_iter ( buffer, &end );
+
+    const char* text;
+    text = gtk_text_buffer_get_text ( buffer, &start, &end, false );
+
+    TRACE_INFO_STR( "text:", text );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -94,6 +111,11 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+
+    const char* text;
+    text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
+
+    TRACE_INFO_STR( "text:", text );
 
     TRACE_TIMESTAMP();
     TRACE_END();

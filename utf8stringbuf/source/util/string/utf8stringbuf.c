@@ -1,9 +1,9 @@
 /*!
  *  \file utf8stringbuf.c
- * 
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */ 
+ */
 
 #include <inttypes.h>
 #include "util/string/utf8stringbuf.h"
@@ -27,13 +27,13 @@ static inline int utf8stringbuf_private_write_char( char *destination, unsigned 
 /* utf8 sequences longer or equal 4 bytes start with a byte with 4 highest bits set: 0xf0 */
 /* utf8 sequences longer or equal 5 bytes start with a byte with 5 highest bits set: 0xf8 */
 /* utf8 sequences longer or equal 6 bytes start with a byte with 6 highest bits set: 0xfc */
-static const char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[7] = { 0, 0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
+static const unsigned char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[7] = { 0, 0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
 
 /* Note: There is some magic in the design of utf8 which makes the implementation of this function quite short */
 unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this_ ) {
     unsigned int truncatedLength;
     int clearAtEnd = 1;
-    
+
     for ( int searchBackwards = 2; searchBackwards <= 6; searchBackwards ++ ) {
         if ( searchBackwards > this_.size ) {
             break;
@@ -44,7 +44,7 @@ unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this
             break;
         }
     }
-    
+
     truncatedLength = this_.size - clearAtEnd;
     /* this_.buf[truncatedLength] = '\0'; */ /* Note: some functions like splitIn2 require complete zeroed trailings */
     memset( &(this_.buf[truncatedLength]), '\0', clearAtEnd );
@@ -277,7 +277,7 @@ utf8error_t utf8_string_buf_private_replace_region_by_str( utf8stringbuf_t this_
 
 utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char * const * patterns_and_replacements ) {
     utf8error_t result = UTF8ERROR_NULL_PARAM;
-    
+
     /* count input patterns */
     int maxPatternIdx = 0;
     if ( patterns_and_replacements != NULL ) {
@@ -323,12 +323,12 @@ utf8error_t utf8stringbuf_replace_all( const utf8stringbuf_t this_, const char *
                 thisLen = utf8stringbuf_get_length( this_ );
             }
             else {
-                thisLen = thisLen - patternLen + replaceLen;            
+                thisLen = thisLen - patternLen + replaceLen;
             }
             index = index + replaceLen - 1;
         }
     }
-    
+
     return result;
 }
 
@@ -339,7 +339,7 @@ utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 )
     unsigned int length = utf8stringbuf_get_length( this_ );
 
     /* zero all trailing data, otherwise joins will not work */
-    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
+    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 );
 
     if (( 0 <= start2 )&&( start2 <= length )) {
         int newStart2 = start2+SIZE_OF_TERM0;
@@ -372,7 +372,7 @@ utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 )
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.error = UTF8ERROR_TRUNCATED;
-        
+
         }
     }
     else {
@@ -381,16 +381,16 @@ utf8string2tuple_t utf8stringbuf_split_in_2( utf8stringbuf_t this_, int start2 )
         result.second = &(this_.buf[length]);
         result.error = UTF8ERROR_OUT_OF_RANGE;
     }
-    
+
     return result;
 }
 
 utf8string3tuple_t utf8stringbuf_split_in_3( utf8stringbuf_t this_, int start2, int start3 ) {
     utf8string3tuple_t result;
     unsigned int length = utf8stringbuf_get_length( this_ );
-    
+
     /* zero all trailing data, otherwise joins will not work */
-    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
+    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 );
 
     if (( 0 <= start2 )&&( start2 <= start3 )&&( start3 <= length )) {
         int newStart2 = start2+SIZE_OF_TERM0;
@@ -435,7 +435,7 @@ utf8string3tuple_t utf8stringbuf_split_in_3( utf8stringbuf_t this_, int start2, 
             printf("\nFIRST=%i SECOND=%i THIRD=%i \\0=%i TRAIL=%i [size=%i] -> FIRST=%i \\0=%i SECOND=%i \\0=%i THIRD=%i \\0=%i [size=%i]",
                     start2, start3-start2, length-start3, SIZE_OF_TERM0, this_.size-length-SIZE_OF_TERM0, this_.size,
                     start2, newStart2-start2, secondLen, (int)(newStart3!=newStart2), thirdLen, SIZE_OF_TERM0, this_.size  );
-            */    
+            */
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
@@ -449,16 +449,16 @@ utf8string3tuple_t utf8stringbuf_split_in_3( utf8stringbuf_t this_, int start2, 
         result.third = &(this_.buf[length]);
         result.error = UTF8ERROR_OUT_OF_RANGE;
     }
-    
+
     return result;
 }
 
 utf8string4tuple_t utf8stringbuf_split_in_4( utf8stringbuf_t this_, int start2, int start3, int start4 ) {
     utf8string4tuple_t result;
     unsigned int length = utf8stringbuf_get_length( this_ );
-    
+
     /* zero all trailing data, otherwise joins will not work */
-    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
+    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 );
 
     if (( 0 <= start2 )&&( start2 <= start3 )&&( start3 <= start4 )&&( start4 <= length )) {
         int newStart2 = start2+SIZE_OF_TERM0;
@@ -519,7 +519,7 @@ utf8string4tuple_t utf8stringbuf_split_in_4( utf8stringbuf_t this_, int start2, 
             printf("\nFIRST=%i SECOND=%i THIRD=%i FOURTH=%i \\0=%i TRAIL=%i [size=%i] -> FIRST=%i \\0=%i SECOND=%i \\0=%i THIRD=%i \\0=%i FOURTH=%i \\0=%i [size=%i]",
                     start2, start3-start2, start4-start3, length-start4, SIZE_OF_TERM0, this_.size-length-SIZE_OF_TERM0, this_.size,
                     start2, newStart2-start2, secondLen, (int)(newStart3!=newStart2), thirdLen, (int)(newStart4!=newStart3), fourthLen, SIZE_OF_TERM0, this_.size  );
-            */    
+            */
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
@@ -535,16 +535,16 @@ utf8string4tuple_t utf8stringbuf_split_in_4( utf8stringbuf_t this_, int start2, 
         result.fourth = &(this_.buf[length]);
         result.error = UTF8ERROR_OUT_OF_RANGE;
     }
-    
+
     return result;
 }
 
 utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int start2, int start3, int start4, int start5 ) {
     utf8string5tuple_t result;
     unsigned int length = utf8stringbuf_get_length( this_ );
-    
+
     /* zero all trailing data, otherwise joins will not work */
-    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 ); 
+    memset( &(this_.buf[length+SIZE_OF_TERM0]), '\0', this_.size - length - SIZE_OF_TERM0 );
 
     if (( 0 <= start2 )&&( start2 <= start3 )&&( start3 <= start4 )&&( start4 <= start5 )&&( start5 <= length )) {
         int newStart2 = start2+SIZE_OF_TERM0;
@@ -621,7 +621,7 @@ utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int start2, 
             printf("\nFIRST=%i SECOND=%i THIRD=%i FOURTH=%i FIFTH=%i \\0=%i TRAIL=%i [size=%i] -> FIRST=%i \\0=%i SECOND=%i \\0=%i THIRD=%i \\0=%i FOURTH=%i \\0=%i FIFTH=%i \\0=%i [size=%i]",
                     start2, start3-start2, start4-start3, start5-start4, length-start5, SIZE_OF_TERM0, this_.size-length-SIZE_OF_TERM0, this_.size,
                     start2, newStart2-start2, secondLen, (int)(newStart3!=newStart2), thirdLen, (int)(newStart4!=newStart3), fourthLen, (int)(newStart5!=newStart4), fifthLen, SIZE_OF_TERM0, this_.size  );
-            */    
+            */
             result.first = this_.buf;
             result.second = &(this_.buf[newStart2]);
             result.third = &(this_.buf[newStart3]);
@@ -639,7 +639,7 @@ utf8string5tuple_t utf8stringbuf_split_in_5( utf8stringbuf_t this_, int start2, 
         result.fifth = &(this_.buf[length]);
         result.error = UTF8ERROR_OUT_OF_RANGE;
     }
-    
+
     return result;
 }
 
@@ -648,7 +648,7 @@ void utf8stringbuf_join( utf8stringbuf_t this_ ) {
     unsigned int currentReadPos = strlen( this_.buf );
     unsigned int currentWritePos = currentReadPos;
     unsigned int confirmedLength = currentReadPos;
-    
+
     /* copy all characters except the zeroes */
     for ( ; currentReadPos < this_.size; currentReadPos ++ ) {
         char buf = this_.buf[currentReadPos];
@@ -660,7 +660,7 @@ void utf8stringbuf_join( utf8stringbuf_t this_ ) {
             currentWritePos ++;
         }
     }
-    
+
     /* set all trailing characters to 0 */
     memset( &(this_.buf[confirmedLength]), '\0', this_.size - confirmedLength );
 }

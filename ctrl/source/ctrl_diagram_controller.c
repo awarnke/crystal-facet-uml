@@ -25,7 +25,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int32_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id )
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id )
 {
     TRACE_BEGIN();
     data_diagram_t to_be_created;
@@ -33,7 +33,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_error_t data_result;
     int64_t new_id;
 
-    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "Hello World\nThis is the first \'diagram\' record!" );
+    data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "" );
 
     TRACE_INFO_INT( "creating diagram to parent", parent_diagram_id );
     data_result = data_database_writer_create_diagram( &((*this_).db_writer), &to_be_created, &new_id );
