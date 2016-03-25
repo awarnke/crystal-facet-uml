@@ -25,6 +25,7 @@ struct gui_textedit_struct {
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;
     GtkListStore *relationship_types;
+    GtkListStore *feature_types;
 };
 
 typedef struct gui_textedit_struct gui_textedit_t;

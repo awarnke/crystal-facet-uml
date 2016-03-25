@@ -10,8 +10,14 @@
  */
 
 #include <stdio.h>
+#include <stdlib.h>
 
 #define LOG_OUT_STREAM stdout
+
+/*!
+ *  \brief logs an error if the argument is false, and terminates the program
+ */
+#define LOG_ASSERT(x) { if (!(x)) { fprintf(LOG_OUT_STREAM,"\nERR : ASSERTION %s FAILED AT %s:%i\n",#x,__FILE__,__LINE__); exit(-1); } }
 
 /*!
  *  \brief logs an error string

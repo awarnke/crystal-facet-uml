@@ -67,7 +67,7 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     GtkCellRenderer *column;
     column = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 0, NULL);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
     (*this_).name_entry = gtk_entry_new();
     (*this_).description_text_view = gtk_text_view_new ();
     (*this_).stereotype_entry = gtk_entry_new();
