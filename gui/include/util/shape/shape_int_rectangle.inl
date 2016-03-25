@@ -77,11 +77,6 @@ static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t 
     }
 }
 
-/*!
- *  \brief shrinks the rectangle to be of specified width to height ratio
- *  \param width example width to specify the ratio
- *  \param height example height to specify the ratio
- */
 static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align )
 {
     if ( (*this_).width * ratio_height == (*this_).height * ratio_width )

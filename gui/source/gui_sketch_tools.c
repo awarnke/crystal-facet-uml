@@ -28,7 +28,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_ )
             0,
             NULL,
             NULL,
-            g_cclosure_marshal_VOID__POINTER,
+            g_cclosure_marshal_VOID__INT,
             G_TYPE_NONE,
             1,
             G_TYPE_INT /* gui_sketch_tools_tool_t */

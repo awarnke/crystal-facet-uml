@@ -10,7 +10,7 @@
 
 #include "data_database_reader.h"
 #include "ctrl_controller.h"
-#include "data_table.h"
+#include "data_id.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -60,7 +60,7 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
 /*!
  *  \brief callback that informs that another object was selected
  */
-void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_table_t table, int64_t id, gpointer user_data );
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the type in the combo box changed
