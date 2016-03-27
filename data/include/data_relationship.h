@@ -12,7 +12,7 @@
 
 /*!
  *  \brief all data attributes needed for the relationship functions
- * 
+ *
  *  \see http://www.uml-diagrams.org/uml-core.html#relationship
  */
 struct data_relationship_struct {
@@ -23,11 +23,15 @@ typedef struct data_relationship_struct data_relationship_t;
 
 /*!
  *  \brief initializes the data_relationship_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_relationship_init ( data_relationship_t *this_ );
 
 /*!
  *  \brief destroys the data_relationship_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_relationship_destroy ( data_relationship_t *this_ );
 

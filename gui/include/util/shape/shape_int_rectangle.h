@@ -27,43 +27,59 @@ typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
 
 /*!
  *  \brief initializes the shape_int_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height );
 
 /*!
  *  \brief destroys the shape_int_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the left coordinate of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the top coordinate of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the right coordinates of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  *  \return left + width. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
 static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the bottom coordinate of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  *  \return top + height. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
 static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the width of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the height of shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  *  \param x a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  *  \param y a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  *  \return true if the pixel to the bottom-right of the denoted coordinate is within the rectangle.
@@ -72,12 +88,16 @@ static inline bool shape_int_rectangle_contains ( shape_int_rectangle_t *this_, 
 
 /*!
  *  \brief shrinks the rectangle by border
+ *
+ *  \param this_ pointer to own object attributes
  *  \param border number of pixels to be shrinked. use negative values to expand.
  */
 static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t *this_, int32_t border );
 
 /*!
  *  \brief shrinks the rectangle to be of specified width to height ratio
+ *
+ *  \param this_ pointer to own object attributes
  *  \param ratio_width example width to specify the ratio
  *  \param ratio_height example height to specify the ratio
  */
@@ -85,6 +105,8 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
 
 /*!
  *  \brief prints the shape_int_rectangle_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void shape_int_rectangle_trace ( shape_int_rectangle_t *this_ );
 

@@ -53,11 +53,15 @@ typedef struct gui_main_window_struct gui_main_window_t;
 
 /*!
  *  \brief initializes the main window
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, data_database_reader_t *db_reader, gui_resources_t *res );
 
 /*!
  *  \brief destroys the main window
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_main_window_destroy( gui_main_window_t *this_ );
 

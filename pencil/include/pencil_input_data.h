@@ -26,31 +26,43 @@ typedef struct pencil_input_data_struct pencil_input_data_t;
 
 /*!
  *  \brief initializes the painter input data
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_input_data_init( pencil_input_data_t *this_ );
 
 /*!
  *  \brief destroys the painter input data
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_input_data_destroy( pencil_input_data_t *this_ );
 
 /*!
  *  \brief fetches the painter input data from the database
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
- * \brief gets the address of the diagram within the painter input data
+ *  \brief gets the address of the diagram within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
 
 /*!
- * \brief checks if the diagram data is valid
+ *  \brief checks if the diagram data is valid
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
 
 /*!
- * \brief invalidates the diagram data
+ *  \brief invalidates the diagram data
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
 

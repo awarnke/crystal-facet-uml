@@ -21,11 +21,15 @@ typedef struct data_diagramelement_struct data_diagramelement_t;
 
 /*!
  *  \brief initializes the data_diagramelement_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_diagramelement_init ( data_diagramelement_t *this_ );
 
 /*!
  *  \brief destroys the data_diagramelement_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_diagramelement_destroy ( data_diagramelement_t *this_ );
 

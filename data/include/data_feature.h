@@ -13,7 +13,7 @@
 
 /*!
  *  \brief all data attributes needed for the feature (property or operation) functions
- * 
+ *
  *  \see http://www.uml-diagrams.org/uml-core.html#feature
  */
 struct data_feature_struct {
@@ -24,11 +24,15 @@ typedef struct data_feature_struct data_feature_t;
 
 /*!
  *  \brief initializes the data_feature_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_feature_init ( data_feature_t *this_ );
 
 /*!
  *  \brief destroys the data_feature_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_feature_destroy ( data_feature_t *this_ );
 

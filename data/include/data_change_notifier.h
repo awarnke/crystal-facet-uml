@@ -35,22 +35,29 @@ extern const char *DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the data_change_notifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_change_notifier_init ( data_change_notifier_t *this_ );
 
 /*!
  *  \brief destroys the data_change_notifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_change_notifier_destroy ( data_change_notifier_t *this_ );
 
 /*!
  *  \brief notifies on changes to the database
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_change_notifier_emit_signal ( data_change_notifier_t *this_ );
 
 /*!
  *  \brief adds an object as listener
  *
+ *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if too many listeners are registered,
  *          DATA_ERROR_INVALID_REQUEST if the object was already a listener or data_change_notifier_t not initialized.
@@ -60,6 +67,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
 /*!
  *  \brief removes an object as listener
  *
+ *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
  */

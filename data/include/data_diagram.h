@@ -50,6 +50,7 @@ enum data_diagram_id_enum {
 /*!
  *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_NEW_ID
  *
+ *  \param this_ pointer to own object attributes
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
 static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
@@ -57,58 +58,78 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
 /*!
  *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_UNINITIALIZED_ID; all other values are zero.
  *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_diagram_init_empty ( data_diagram_t *this_ );
 
 /*!
  *  \brief initializes the data_diagram_t struct
  *
+ *  \param this_ pointer to own object attributes
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  */
 static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
 
 /*!
  *  \brief destroys the data_diagram_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_diagram_destroy ( data_diagram_t *this_ );
 
 /*!
  *  \brief prints the data_diagram_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_diagram_trace ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute id
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int64_t data_diagram_get_id ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute parent_id
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute diagram_type
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute name
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute description
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline const char *data_diagram_get_description_ptr ( data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute list_order
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
 
 /*!
  *  \brief checks if attribute id is not DATA_DIAGRAM_ID_UNINITIALIZED_ID
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline bool data_diagram_is_valid ( data_diagram_t *this_ );
 

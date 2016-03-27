@@ -26,16 +26,22 @@ typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
 
 /*!
  *  \brief initializes the painter
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
 
 /*!
- * \brief draws the chosen diagram contents into the clip area of the cairo drawing context
+ *  \brief draws the chosen diagram contents into the clip area of the cairo drawing context
+ *
+ *  \param this_ pointer to own object attributes
  */
 void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination );
 

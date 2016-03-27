@@ -24,11 +24,15 @@ typedef struct data_classifier_struct data_classifier_t;
 
 /*!
  *  \brief initializes the data_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_classifier_init ( data_classifier_t *this_ );
 
 /*!
  *  \brief destroys the data_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_classifier_destroy ( data_classifier_t *this_ );
 

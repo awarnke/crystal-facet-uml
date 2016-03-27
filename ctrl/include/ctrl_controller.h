@@ -23,21 +23,29 @@ typedef struct ctrl_controller_struct ctrl_controller_t;
 
 /*!
  *  \brief initializes the ctrl_controller_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the ctrl_controller_t struct
+ * 
+ *  \param this_ pointer to own object attributes
  */
 void ctrl_controller_destroy ( ctrl_controller_t *this_ );
 
 /*!
  *  \brief gets the classifier controller
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_control_ptr ( ctrl_controller_t *this_ );
 
 /*!
  *  \brief gets the diagram controller
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 

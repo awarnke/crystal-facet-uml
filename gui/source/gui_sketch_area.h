@@ -56,47 +56,65 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the gui_sketch_area_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief loads the cards to be shown
+ *
+ *  \param this_ pointer to own object attributes
  *  \param main_diagram_id id of the main diagram to be shown or DATA_DIAGRAM_ID_UNINITIALIZED_ID for root diagram
  */
 void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 
 /*!
  *  \brief re-loads the cards to be shown
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief layouts the cards in the sketch area widget
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds );
 
 /*!
  *  \brief draws all diagrams
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
  *  \brief queues the currently marked widget area for redrawing
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
 
 /*!
  *  \brief gets the currently selected diagram
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief gets the currently selected diagram id
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_t *this_ );
 
@@ -137,18 +155,24 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
 
 /*!
  *  \brief sets a listener in the listener array
+ *
+ *  \param this_ pointer to own object attributes
  *  \param index index in the array where to add the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
  */
 static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener );
 
 /*!
  *  \brief removes a listener from the listener array
+ *
+ *  \param this_ pointer to own object attributes
  *  \param index index in the array where to remove the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
  */
 static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index );
 
 /*!
  *  \brief notifies all listeners
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
 

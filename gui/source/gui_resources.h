@@ -21,36 +21,50 @@ typedef struct gui_resources_struct gui_resources_t;
 
 /*!
  *  \brief initializes the gui_resources_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_resources_init ( gui_resources_t *this_ );
 
 /*!
  *  \brief destroys the gui_resources_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_resources_destroy ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_create_diagram
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_navigate
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_create_object
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_edit
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_commit
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
 

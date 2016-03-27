@@ -24,26 +24,36 @@ typedef struct data_id_struct data_id_t;
 
 /*!
  *  \brief initializes the data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id );
 
 /*!
  *  \brief destroys the data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_id_destroy ( data_id_t *this_ );
 
 /*!
  *  \brief gets the table of data_id_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline data_table_t data_id_get_table ( data_id_t *this_ );
 
 /*!
  *  \brief gets the row_id of data_id_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline int64_t data_id_get_row_id ( data_id_t *this_ );
 
 /*!
  *  \brief prints the data_id_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_id_trace ( data_id_t *this_ );
 

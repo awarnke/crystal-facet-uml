@@ -33,17 +33,22 @@ typedef struct data_database_writer_struct data_database_writer_t;
 
 /*!
  *  \brief initializes the data_database_writer_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_writer_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_writer_destroy ( data_database_writer_t *this_ );
 
 /*!
  *  \brief creates a new view and returns its id
  *
+ *  \param this_ pointer to own object attributes
  *  \param diagram data of the new diagram record to be created.
  *  \param out_new_id storage, where the id of the newly created record is stored.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
@@ -53,6 +58,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 /*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
+ *  \param this_ pointer to own object attributes
  *  \param diagram diagram to be created.
  */
 static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );

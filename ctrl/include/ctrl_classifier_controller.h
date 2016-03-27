@@ -29,17 +29,22 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
 
 /*!
  *  \brief initializes the ctrl_classifier_controller_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the ctrl_classifier_controller_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 
 /*!
  *  \brief creates a new classifier or package or other object and attaches it to a diagram
  *
+ *  \param this_ pointer to own object attributes
  *  \return id of the newly created object
  */
 ctrl_error_t ctrl_classifier_controller_create_object_in_diagram ( ctrl_classifier_controller_t *this_, int32_t parent_diagram_id, data_classifier_type_t object_type, const char* object_name, int64_t* out_new_id );

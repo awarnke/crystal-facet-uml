@@ -13,7 +13,6 @@
  *  \brief database table in which an object is stored
  *
  *  A data_table_t and an id allow to uniquely specify any object in the database
- *
  */
 enum data_table_enum {
     DATA_TABLE_VOID = 0,  /*!< no table selected */

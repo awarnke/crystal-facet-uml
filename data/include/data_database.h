@@ -26,31 +26,43 @@ typedef struct data_database_struct data_database_t;
 
 /*!
  *  \brief initializes the data_database_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_init ( data_database_t *this_ );
 
 /*!
  *  \brief opens a database file
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_open ( data_database_t *this_, const char* db_file_path );
 
 /*!
  *  \brief closes the current database file
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_close ( data_database_t *this_ );
 
 /*!
  *  \brief destroys the data_database_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void data_database_destroy ( data_database_t *this_ );
 
 /*!
  *  \brief returns a pointer to the sqlite database
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ );
 
 /*!
  *  \brief returns a pointer to the data_change_notifier_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ );
 

@@ -32,16 +32,22 @@ typedef struct gui_textedit_struct gui_textedit_t;
 
 /*!
  *  \brief initializes the gui_textedit_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the gui_textedit_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_textedit_destroy ( gui_textedit_t *this_ );
 
 /*!
  *  \brief gets the diagram_types attribute
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline GtkTreeModel *gui_textedit_get_diagram_types_ptr ( gui_textedit_t *this_ );
 
@@ -93,6 +99,7 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 /*!
  *  \brief loads an object into cache.
  *
+ *  \param this_ pointer to own object attributes
  *  \param id identifier of the object to be loaded
  *  \param force_reload if false, the cache is only updated if the wrong object was cached before.
  */

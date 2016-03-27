@@ -23,41 +23,57 @@ typedef struct geometry_rectangle_struct geometry_rectangle_t;
 
 /*!
  *  \brief initializes the geometry_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_left ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_top ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_right ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_bottom ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_width ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief prints the geometry_rectangle_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ );
 

@@ -36,16 +36,22 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the gui_sketch_tools_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_tools_init ( gui_sketch_tools_t *this_ );
 
 /*!
  *  \brief destroys the gui_sketch_tools_t struct
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ );
 
 /*!
  *  \brief gets the selected tool
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ );
 
@@ -71,16 +77,22 @@ void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer d
 
 /*!
  *  \brief sets the listener
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GObject *listener );
 
 /*!
  *  \brief removes the listener
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ );
 
 /*!
  *  \brief notifies the listener
+ *
+ *  \param this_ pointer to own object attributes
  */
 void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
 
