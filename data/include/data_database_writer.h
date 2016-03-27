@@ -46,7 +46,7 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_t 
 void data_database_writer_destroy ( data_database_writer_t *this_ );
 
 /*!
- *  \brief creates a new view and returns its id
+ *  \brief creates a new diagram and returns its id
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram data of the new diagram record to be created.
@@ -54,6 +54,36 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
+
+/*!
+ *  \brief updates the diagram attribute: description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_description new description text of the diagram
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description );
+
+/*!
+ *  \brief updates the diagram attribute: name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_name new name of the diagram
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name );
+
+/*!
+ *  \brief updates the diagram attribute: diagram_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_type new diagram_type of the diagram
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
 
 /*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.

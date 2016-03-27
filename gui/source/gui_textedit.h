@@ -20,7 +20,8 @@ struct gui_textedit_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
 
-    data_diagram_t private_diagram_cache;  /*!< own instance of a diagram chace */
+    data_id_t selected_object_id;  /*!< id of the object which is currently edited */
+    data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
 
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;

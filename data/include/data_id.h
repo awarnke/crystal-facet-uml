@@ -11,6 +11,7 @@
 
 #include "data_table.h"
 #include <stdint.h>
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of a data_id_t
@@ -28,6 +29,13 @@ typedef struct data_id_struct data_id_t;
  *  \param this_ pointer to own object attributes
  */
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id );
+
+/*!
+ *  \brief initializes the data_id_t struct to void
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_id_init_void ( data_id_t *this_ );
 
 /*!
  *  \brief destroys the data_id_t struct
@@ -56,6 +64,14 @@ static inline int64_t data_id_get_row_id ( data_id_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void data_id_trace ( data_id_t *this_ );
+
+/*!
+ *  \brief checks if two data_id_t objects are equal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to other object attributes
+ */
+static inline bool data_id_equals ( data_id_t *this_, data_id_t *that );
 
 #include "data_id.inl"
 

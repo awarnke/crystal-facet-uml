@@ -8,6 +8,12 @@ static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t 
     (*this_).row_id = row_id;
 }
 
+static inline void data_id_init_void ( data_id_t *this_ )
+{
+    (*this_).table = DATA_TABLE_VOID;
+    (*this_).row_id = -1;
+}
+
 static inline void data_id_destroy ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
@@ -52,6 +58,11 @@ static inline void data_id_trace ( data_id_t *this_ )
             break;
     }
     TRACE_INFO_INT( "- row_id:", (*this_).row_id );
+}
+
+static inline bool data_id_equals ( data_id_t *this_, data_id_t *that )
+{
+    return (( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ));
 }
 
 

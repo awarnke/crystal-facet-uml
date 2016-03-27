@@ -218,6 +218,42 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     return result;
 }
 
+data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

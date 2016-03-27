@@ -35,14 +35,12 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
 
     data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "" );
 
-    TRACE_INFO_INT( "creating diagram to parent", parent_diagram_id );
     data_result = data_database_writer_create_diagram( &((*this_).db_writer), &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result ) {
+    if ( DATA_ERROR_NONE == data_result )
+    {
         *out_new_id = new_id;
     }
-    else {
-        result = (ctrl_error_t) data_result;
-    }
+    result = (ctrl_error_t) data_result;
 
     data_diagram_destroy( &to_be_created );
 
@@ -54,7 +52,10 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
 
+    data_result = data_database_writer_update_diagram_description( &((*this_).db_writer), diagram_id, new_diagram_description );
+    result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -64,7 +65,10 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
 
+    data_result = data_database_writer_update_diagram_name( &((*this_).db_writer), diagram_id, new_diagram_name );
+    result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;
@@ -74,7 +78,10 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
 
+    data_result = data_database_writer_update_diagram_type( &((*this_).db_writer), diagram_id, new_diagram_type );
+    result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
     return result;

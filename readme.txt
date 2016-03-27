@@ -16,5 +16,5 @@ How to run?
 Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
 Author: Andreas Warnke
 Copyright: Apache 2.0 License
-Note: This program contains code from other projects with different licenses.
+Note: This program contains code from other projects with different licenses (see license.txt).
 

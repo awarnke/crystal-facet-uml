@@ -4,6 +4,7 @@
 #include "util/gtk_helper/gtk_helper_tree_model.h"
 #include "trace.h"
 #include "data_table.h"
+#include "data_id.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -14,6 +15,7 @@ void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, d
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
+    data_id_init_void( &((*this_).selected_object_id) );
 
     {
         GtkTreeIter iter;
@@ -59,6 +61,7 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_id_destroy( &((*this_).selected_object_id) );
     data_diagram_destroy( &((*this_).private_diagram_cache) );
 
     g_object_unref((*this_).diagram_types);
@@ -77,6 +80,41 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
     text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
 
     TRACE_INFO_STR( "text:", text );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+            LOG_WARNING( "no object selected where name can be updated." );
+            break;
+        case DATA_TABLE_CLASSIFIER:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_FEATURE:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_RELATIONSHIP:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_DIAGRAMELEMENT:
+            LOG_WARNING( "no object selected where name can be updated." );
+            break;
+        case DATA_TABLE_DIAGRAM:
+            {
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                }
+            }
+            break;
+        default:
+            LOG_ERROR( "invalid data in data_id_t." );
+            break;
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -101,6 +139,41 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
 
     TRACE_INFO_STR( "text:", text );
 
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+            LOG_WARNING( "no object selected where description can be updated." );
+            break;
+        case DATA_TABLE_CLASSIFIER:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_FEATURE:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_RELATIONSHIP:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_DIAGRAMELEMENT:
+            LOG_WARNING( "no object selected where description can be updated." );
+            break;
+        case DATA_TABLE_DIAGRAM:
+            {
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    LOG_ERROR_HEX( "update description failed:", ctrl_err );
+                }
+            }
+            break;
+        default:
+            LOG_ERROR( "invalid data in data_id_t." );
+            break;
+    }
+
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
@@ -116,6 +189,32 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
     text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
 
     TRACE_INFO_STR( "text:", text );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+            LOG_WARNING( "no object selected where stereotype can be updated." );
+            break;
+        case DATA_TABLE_CLASSIFIER:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_FEATURE:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_RELATIONSHIP:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_DIAGRAMELEMENT:
+            LOG_WARNING( "no object selected where stereotype can be updated." );
+            break;
+        case DATA_TABLE_DIAGRAM:
+            LOG_WARNING( "no object selected where stereotype can be updated." );
+            break;
+        default:
+            LOG_ERROR( "invalid data in data_id_t." );
+            break;
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -134,6 +233,41 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
     diag_type = gtk_helper_tree_model_get_id( GTK_TREE_MODEL( (*this_).diagram_types ), 0, index );
 
     TRACE_INFO_INT( "diag_type:", diag_type );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+            LOG_WARNING( "no object selected where name can be updated." );
+            break;
+        case DATA_TABLE_CLASSIFIER:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_FEATURE:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_RELATIONSHIP:
+            LOG_ERROR( "not yet implemented." );
+            break;
+        case DATA_TABLE_DIAGRAMELEMENT:
+            LOG_WARNING( "no object selected where name can be updated." );
+            break;
+        case DATA_TABLE_DIAGRAM:
+            {
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), diag_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                }
+            }
+            break;
+        default:
+            LOG_ERROR( "invalid data in data_id_t." );
+            break;
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -182,6 +316,7 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
             }
             break;
         default:
+            LOG_ERROR( "invalid data in data_id_t." );
             gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
             break;
     }
@@ -223,6 +358,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
             gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
         default:
+            LOG_ERROR( "invalid data in data_id_t." );
             gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
     }
@@ -269,6 +405,7 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
             }
             break;
         default:
+            LOG_ERROR( "invalid data in data_id_t." );
             gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
             break;
     }
@@ -309,6 +446,7 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
             }
             break;
         default:
+            LOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -319,6 +457,11 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
 void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload )
 {
     TRACE_BEGIN();
+
+    if ( ! data_id_equals( &((*this_).selected_object_id), &id ) )
+    {
+        force_reload = true;
+    }
 
     switch ( data_id_get_table(&id) )
     {
@@ -353,9 +496,11 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             }
             break;
         default:
+            LOG_ERROR( "invalid data in data_id_t." );
             data_diagram_init_empty( &((*this_).private_diagram_cache) );
             break;
     }
+    (*this_).selected_object_id = id;
 
     TRACE_END();
 }
