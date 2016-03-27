@@ -14,6 +14,13 @@
 #include <stdbool.h>
 
 /*!
+ *  \brief constants related to data_id_t
+ */
+enum data_id_const_enum {
+    DATA_ID_CONST_VOID_ID = -1,  /*!< invalid id */
+};
+
+/*!
  *  \brief attributes of a data_id_t
  */
 struct data_id_struct {

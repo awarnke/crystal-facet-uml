@@ -1,6 +1,7 @@
 /* File: data_database_writer.c; Copyright and License: see below */
 
 #include "data_database_writer.h"
+#include "data_id.h"
 #include "trace.h"
 #include "log.h"
 #include <sqlite3.h>
@@ -89,7 +90,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
-static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
+data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -135,7 +136,7 @@ static data_error_t data_database_writer_private_build_create_diagram_command ( 
     return( result );
 }
 
-data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
+data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
 {
     TRACE_BEGIN();
     int64_t new_id;
@@ -167,12 +168,11 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
         error_msg = NULL;
     }
 
-    result |= data_database_writer_private_build_create_diagram_command( this_, diagram );
-    LOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
-    sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), NULL, NULL, &error_msg );
+    LOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+    sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        LOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
@@ -183,11 +183,18 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
         error_msg = NULL;
     }
 
-    if ( SQLITE_OK == sqlite_err )
+    if ( fetch_new_id )
     {
-        new_id = sqlite3_last_insert_rowid(db);
-        LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
-        *out_new_id = new_id;
+        if ( SQLITE_OK == sqlite_err )
+        {
+            new_id = sqlite3_last_insert_rowid(db);
+            LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
+            *out_new_id = new_id;
+        }
+    }
+    else
+    {
+        *out_new_id = DATA_ID_CONST_VOID_ID;
     }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
@@ -218,12 +225,27 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     return result;
 }
 
+data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_build_create_diagram_command( this_, diagram );
+
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), true, out_new_id );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    
+
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
     TRACE_END_ERR( result );

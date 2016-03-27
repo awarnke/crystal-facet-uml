@@ -91,7 +91,18 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param diagram diagram to be created.
  */
-static data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
+data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
+
+/*!
+ *  \brief executes a single SQL command
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_statement statement to be created.
+ *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned
+ *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise
+ */
+data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id );
 
 #endif  /* DATA_DATABASE_WRITER_H */
 
