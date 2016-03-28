@@ -169,6 +169,8 @@ void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
 
+    TRACE_INFO_STR( "sqlite3_libversion", sqlite3_libversion() );
+
     (*this_).db_file_name = "";
     (*this_).is_open = false;
     data_change_notifier_init ( &((*this_).notifier) );

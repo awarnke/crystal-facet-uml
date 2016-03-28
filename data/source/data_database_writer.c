@@ -34,19 +34,49 @@ static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX =
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR = ",";
 
 /*!
- *  \brief string start marker string constant to insert a diagram
+ *  \brief string start marker string constant to insert/update a diagram
  */
-static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START = "\'";
+static const char *DATA_DATABASE_WRITER_STRING_VALUE_START = "\'";
 
 /*!
- *  \brief string end marker string constant to insert a diagram
+ *  \brief string end marker string constant to insert/update a diagram
  */
-static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END = "\'";
+static const char *DATA_DATABASE_WRITER_STRING_VALUE_END = "\'";
 
 /*!
  *  \brief postfix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to update a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_PREFIX = "UPDATE diagrams SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_TYPE = "type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_NAME = "name=";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief infix string constant to update a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a diagram
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX = " ;";
 
 /*!
  *  \brief translation table to encode strings for usage in string literals
@@ -102,29 +132,120 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).diagram_type );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*diagram).name );
         strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
 
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_START );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
     {
         /* prepare temp buf */
         strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*diagram).description );
         strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_STRING_END );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_NAME );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).private_temp_stringbuf, new_diagram_name );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_DESCRIPTION );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).private_temp_stringbuf, new_diagram_description );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_TYPE );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, new_diagram_type );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -183,7 +304,7 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
         error_msg = NULL;
     }
 
-    if ( fetch_new_id )
+    if ( fetch_new_id && ( NULL != out_new_id ))
     {
         if ( SQLITE_OK == sqlite_err )
         {
@@ -191,10 +312,6 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
             LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
             *out_new_id = new_id;
         }
-    }
-    else
-    {
-        *out_new_id = DATA_ID_CONST_VOID_ID;
     }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
@@ -245,6 +362,9 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
+    result |= data_database_writer_private_build_update_diagram_description_cmd( this_, diagram_id, new_diagram_description );
+
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -257,6 +377,9 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
+    result |= data_database_writer_private_build_update_diagram_name_cmd( this_, diagram_id, new_diagram_name );
+
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -269,6 +392,9 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
+    result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
+
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 

@@ -94,6 +94,33 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
 /*!
+ *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_name new name of the diagram
+ */
+data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name );
+
+/*!
+ *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_description new description of the diagram
+ */
+data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description );
+
+/*!
+ *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_type new type of the diagram
+ */
+data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
+
+/*!
  *  \brief executes a single SQL command
  *
  *  \param this_ pointer to own object attributes
