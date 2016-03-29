@@ -5,6 +5,7 @@
 #include "trace.h"
 #include "data_table.h"
 #include "data_id.h"
+#include "util/string/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -101,13 +102,18 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
             break;
         case DATA_TABLE_DIAGRAM:
             {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                const char* unchanged_text;
+                unchanged_text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
+                if ( ! utf8string_equals_str( text, unchanged_text ) )
                 {
-                    LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    ctrl_diagram_controller_t *diag_ctrl;
+                    diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    }
                 }
             }
             break;
@@ -159,13 +165,18 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
             break;
         case DATA_TABLE_DIAGRAM:
             {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                const char* unchanged_text;
+                unchanged_text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
+                if ( ! utf8string_equals_str( text, unchanged_text ) )
                 {
-                    LOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    ctrl_diagram_controller_t *diag_ctrl;
+                    diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update description failed:", ctrl_err );
+                    }
                 }
             }
             break;
@@ -254,13 +265,18 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
             break;
         case DATA_TABLE_DIAGRAM:
             {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), diag_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                data_diagram_type_t unchanged_type;
+                unchanged_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
+                if ( diag_type != unchanged_type )
                 {
-                    LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                    ctrl_diagram_controller_t *diag_ctrl;
+                    diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), diag_type );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                    }
                 }
             }
             break;

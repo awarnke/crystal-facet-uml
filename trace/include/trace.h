@@ -18,6 +18,8 @@ extern __thread int trace_indent_depth;
 extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INDENT (&(trace_indent_pattern[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
+#if 1  /* SWITCH */
+
 /*!
  *  \brief traces a string
  */
@@ -76,6 +78,69 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
  *  \brief traces a timestamp
  */
 #define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT,tp.tv_sec,(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
+
+#else  /* SWITCH */
+
+/*!
+ *  \brief traces a string
+ */
+#define TRACE_INFO(x) {}
+
+/*!
+ *  \brief traces a string and an integer
+ */
+#define TRACE_INFO_INT(x,i) {}
+
+/*!
+ *  \brief traces a string and two integers
+ */
+#define TRACE_INFO_INT_INT(x,i,j) {}
+
+/*!
+ *  \brief traces a string and a hexadecimal integer
+ */
+#define TRACE_INFO_HEX(x,i) {}
+
+/*!
+ *  \brief traces a string and a pointer
+ */
+#define TRACE_INFO_PTR(x,p) {}
+
+/*!
+ *  \brief traces a string and and an information string
+ */
+#define TRACE_INFO_STR(x,s) {}
+
+/*!
+ *  \brief traces a function start
+ *
+ *  Note: For every TRACE_BEGIN, one TRACE_END shall be called to create a nicely indented trace output
+ */
+#define TRACE_BEGIN() {}
+
+/*!
+ *  \brief traces a function return
+ */
+#define TRACE_END() {}
+
+/*!
+ *  \brief traces a function return and an error code if the error does not equal 0
+ */
+#define TRACE_END_ERR(e) {}
+
+/*!
+ *  \brief ensures to flush all data.
+ *
+ *  Call this macro before fork() or when you expect a process crash (e.g. SIGSEGV).
+ */
+#define TRACE_FLUSH() {}
+
+/*!
+ *  \brief traces a timestamp
+ */
+#define TRACE_TIMESTAMP() {}
+
+#endif  /* SWITCH */
 
 #endif  /* TRACE_H */
 
