@@ -76,10 +76,14 @@ static void create_read_modify_read(void)
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
+    /* create a record */
+
     diagram_id = -1;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( -1 != diagram_id );
+
+    /* read this record */
 
     data_diagram_init_empty( &(read_diagrams[0]) );
     data_err = data_database_reader_get_diagram_by_id ( &db_reader, diagram_id, &(read_diagrams[0]) );
@@ -90,6 +94,8 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
 
+    /* modify this record */
+
     ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, diagram_id, "'new' diagram\ndescription" );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
@@ -98,6 +104,8 @@ static void create_read_modify_read(void)
 
     ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, diagram_id, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* search several records, result array too small */
 
     data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 0, &read_diagrams_count, &read_diagrams );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
@@ -108,6 +116,8 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
 
+    /* search several records, result array sufficient */
+    
     data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 2, &read_diagrams_count, &read_diagrams );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, read_diagrams_count );
