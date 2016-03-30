@@ -1,28 +1,32 @@
-/* File: unittest_main.c; Copyright and License: see below */
+/* File: ctrl_diagram_controller_test.c; Copyright and License: see below */
 
-#include "data_change_notifier_test.h"
 #include "ctrl_diagram_controller_test.h"
-#include "trace.h"
-#include <embUnit/embUnit.h>
+#include "ctrl_diagram_controller.h"
 
-/*!
- *  \brief main runs the unit tests
- */
-int main (int argc, char *argv[]) {
-    TRACE_BEGIN();
-    TRACE_TIMESTAMP();
-    TRACE_INFO( "--------------------" );
-    int exit_code = 0;
+static void set_up(void);
+static void tear_down(void);
+static void test1(void);
 
-    TestRunner_start();
-    TestRunner_runTest( data_change_notifier_test_get_list() );
-    TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
-    TestRunner_end();
+TestRef ctrl_diagram_controller_test_get_list(void)
+{
+    EMB_UNIT_TESTFIXTURES(fixtures) {
+        new_TestFixture("test1",test1),
+    };
+    EMB_UNIT_TESTCALLER(result,"ctrl_diagram_controller_test",set_up,tear_down,fixtures);
 
-    TRACE_INFO( "--------------------" );
-    TRACE_TIMESTAMP();
-    TRACE_END_ERR( exit_code );
-    return exit_code;
+    return (TestRef)&result;
+}
+
+static void set_up(void)
+{
+}
+
+static void tear_down(void)
+{
+}
+
+static void test1(void)
+{
 }
 
 

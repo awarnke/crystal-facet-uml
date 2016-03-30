@@ -7,6 +7,7 @@
 /*! \file */
 
 #include "data_diagram_type.h"
+#include "data_id.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
@@ -40,15 +41,14 @@ struct data_diagram_struct {
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
- *  \brief constants for new diagram id and uninitialized diagram ids
+ *  \brief constant for void id
  */
 enum data_diagram_id_enum {
-    DATA_DIAGRAM_ID_UNINITIALIZED_ID = -1,
-    DATA_DIAGRAM_ID_NEW_ID = -2,
+    DATA_DIAGRAM_ID_VOID_ID = DATA_ID_CONST_VOID_ID,
 };
 
 /*!
- *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_NEW_ID
+ *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
@@ -56,7 +56,7 @@ enum data_diagram_id_enum {
 static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
 
 /*!
- *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_UNINITIALIZED_ID; all other values are zero.
+ *  \brief initializes the data_diagram_t struct with id and parent_id DATA_DIAGRAM_ID_VOID_ID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
@@ -127,7 +127,7 @@ static inline const char *data_diagram_get_description_ptr ( data_diagram_t *thi
 static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
 
 /*!
- *  \brief checks if attribute id is not DATA_DIAGRAM_ID_UNINITIALIZED_ID
+ *  \brief checks if attribute id is not DATA_DIAGRAM_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  */

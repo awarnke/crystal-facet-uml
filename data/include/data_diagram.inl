@@ -7,7 +7,7 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
 {
     utf8error_t strerr;
 
-    (*this_).id = DATA_DIAGRAM_ID_NEW_ID;
+    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
@@ -30,8 +30,8 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
-    (*this_).parent_id = 0;
+    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).parent_id = DATA_DIAGRAM_ID_VOID_ID;
     (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -60,8 +60,8 @@ static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
-    (*this_).parent_id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
+    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).parent_id = DATA_DIAGRAM_ID_VOID_ID;
     (*this_).diagram_type = 0;
 
     utf8stringbuf_clear( (*this_).name );
@@ -112,7 +112,7 @@ static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ )
 
 static inline bool data_diagram_is_valid ( data_diagram_t *this_ )
 {
-    return ( DATA_DIAGRAM_ID_UNINITIALIZED_ID != (*this_).id );
+    return ( DATA_DIAGRAM_ID_VOID_ID != (*this_).id );
 }
 
 

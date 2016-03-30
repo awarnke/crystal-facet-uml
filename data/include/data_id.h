@@ -80,6 +80,13 @@ static inline void data_id_trace ( data_id_t *this_ );
  */
 static inline bool data_id_equals ( data_id_t *this_, data_id_t *that );
 
+/*!
+ *  \brief checks if data_id has a valid table and a valid row
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline bool data_id_is_valid ( data_id_t *this_ );
+
 #include "data_id.inl"
 
 #endif  /* DATA_ID_H */

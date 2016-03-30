@@ -1,6 +1,7 @@
 /* File: data_id.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include "log.h"
 
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id )
 {
@@ -63,6 +64,11 @@ static inline void data_id_trace ( data_id_t *this_ )
 static inline bool data_id_equals ( data_id_t *this_, data_id_t *that )
 {
     return (( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ));
+}
+
+static inline bool data_id_is_valid ( data_id_t *this_ )
+{
+    return (( DATA_ID_CONST_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
 }
 
 

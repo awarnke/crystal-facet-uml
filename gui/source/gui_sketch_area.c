@@ -30,7 +30,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
         (*this_).listener[index] = NULL;
     }
 
-    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_UNINITIALIZED_ID );
+    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_VOID_ID );
 
     /* define a new signal */
     if ( ! gui_sketch_area_glib_signal_initialized )
@@ -118,12 +118,12 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     (*this_).card_num = 0;
 
     /* determine diagram id of root diagram */
-    if ( DATA_DIAGRAM_ID_UNINITIALIZED_ID == main_diagram_id )
+    if ( DATA_DIAGRAM_ID_VOID_ID == main_diagram_id )
     {
         /* load all without parent */
         int32_t count;
         db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                 DATA_DIAGRAM_ID_UNINITIALIZED_ID,
+                                                                 DATA_DIAGRAM_ID_VOID_ID,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
                                                                  &count,
                                                                  &((*this_).private_temp_diagram_buf) );
@@ -472,7 +472,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
 
                     /* search selected diagram */
-                    int64_t clicked_diagram_id = DATA_DIAGRAM_ID_UNINITIALIZED_ID;
+                    int64_t clicked_diagram_id = DATA_DIAGRAM_ID_VOID_ID;
                     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
                     {
                         gui_sketch_card_t *card;
@@ -489,7 +489,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     }
 
                     /* load diagram */
-                    if ( DATA_DIAGRAM_ID_UNINITIALIZED_ID != clicked_diagram_id )
+                    if ( DATA_DIAGRAM_ID_VOID_ID != clicked_diagram_id )
                     {
                         /* load/reload data to be drawn */
                         gui_sketch_area_private_load_cards( this_, clicked_diagram_id );

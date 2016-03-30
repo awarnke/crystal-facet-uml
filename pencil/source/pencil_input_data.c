@@ -27,13 +27,22 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 {
     TRACE_BEGIN();
 
-    data_error_t db_err;
-    db_err= data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
-    if ( DATA_ERROR_NONE != db_err )
+    if ( DATA_DIAGRAM_ID_VOID_ID == diagram_id )
     {
-        /* error at loading */
+        /* re-init */
         data_diagram_destroy( &((*this_).diagram) );
         data_diagram_init_empty( &((*this_).diagram) );
+    }
+    else
+    {
+        data_error_t db_err;
+        db_err= data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
+        if ( DATA_ERROR_NONE != db_err )
+        {
+            /* error at loading */
+            data_diagram_destroy( &((*this_).diagram) );
+            data_diagram_init_empty( &((*this_).diagram) );
+        }
     }
 
     TRACE_END();
