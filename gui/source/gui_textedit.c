@@ -249,7 +249,7 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
-            LOG_WARNING( "no object selected where name can be updated." );
+            LOG_WARNING( "no object selected where type can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
             LOG_ERROR( "not yet implemented." );
@@ -261,7 +261,7 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
             LOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            LOG_WARNING( "no object selected where name can be updated." );
+            LOG_WARNING( "no object selected where type can be updated." );
             break;
         case DATA_TABLE_DIAGRAM:
             {
