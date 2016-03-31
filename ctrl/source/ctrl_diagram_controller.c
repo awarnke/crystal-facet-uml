@@ -38,11 +38,52 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_result = data_database_writer_create_diagram( &((*this_).db_writer), &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
-        *out_new_id = new_id;
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
     }
     result = (ctrl_error_t) data_result;
 
     data_diagram_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_diagram_t root_diag_buf[1];
+
+    /* load all without parent */
+    int32_t count;
+    data_result = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+                                                                  DATA_DIAGRAM_ID_VOID_ID,
+                                                                  1,
+                                                                  &count,
+                                                                  &(root_diag_buf) );
+    if ( DATA_ERROR_NONE != data_result )
+    {
+        result = (ctrl_error_t) data_result;
+    }
+    else
+    {
+        if ( 0 == count )
+        {
+            /* no root diagram exists */
+            result = ctrl_diagram_controller_create_diagram( this_, DATA_DIAGRAM_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
+        }
+        else
+        {
+            if ( NULL != out_new_id )
+            {
+                *out_new_id = DATA_DIAGRAM_ID_VOID_ID;
+            }
+        }
+    }
 
     TRACE_END_ERR( result );
     return result;

@@ -28,6 +28,10 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
     gui_resources_init( &gui_resources );
     data_database_reader_init( &db_reader, database );
 
+    ctrl_diagram_controller_t *diag_control;
+    diag_control = ctrl_controller_get_diagram_control_ptr ( controller );
+    ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
+
     gui_main_window_init( &the_window, controller, database, &db_reader, &gui_resources );
 
     /* the second window is just for keeping in mind the MVC pattern */
