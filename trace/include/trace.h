@@ -18,7 +18,7 @@ extern __thread int trace_indent_depth;
 extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INDENT (&(trace_indent_pattern[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
-#if 0  /* SWITCH */
+#if 1  /* SWITCH, 1: on, 0: off */
 
 /*!
  *  \brief traces a string

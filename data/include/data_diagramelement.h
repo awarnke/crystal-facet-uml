@@ -35,6 +35,7 @@ void data_diagramelement_init ( data_diagramelement_t *this_ );
  */
 void data_diagramelement_destroy ( data_diagramelement_t *this_ );
 
+#include "data_diagramelement.inl"
 
 #endif  /* DATA_DIAGRAMELEMENT_H */
 

@@ -55,6 +55,7 @@ void data_relationship_init ( data_relationship_t *this_ );
  */
 void data_relationship_destroy ( data_relationship_t *this_ );
 
+#include "data_relationship.inl"
 
 #endif  /* DATA_RELATIONSHIP_H */
 

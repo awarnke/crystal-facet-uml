@@ -57,6 +57,7 @@ void data_feature_init ( data_feature_t *this_ );
  */
 void data_feature_destroy ( data_feature_t *this_ );
 
+#include "data_feature.inl"
 
 #endif  /* DATA_FEATURE_H */
 

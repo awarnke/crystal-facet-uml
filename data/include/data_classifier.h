@@ -59,6 +59,7 @@ void data_classifier_init ( data_classifier_t *this_ );
  */
 void data_classifier_destroy ( data_classifier_t *this_ );
 
+#include "data_classifier.inl"
 
 #endif  /* DATA_CLASSIFIER_H */
 
