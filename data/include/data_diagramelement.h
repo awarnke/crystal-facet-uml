@@ -14,7 +14,9 @@
  *  \brief all data attributes needed for the diagramelement functions
  */
 struct data_diagramelement_struct {
-    bool is_valid;
+    int64_t id;
+    int64_t classifier_id;
+    int64_t diagram_id;
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;

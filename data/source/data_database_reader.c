@@ -10,13 +10,13 @@
  *  \brief predefined search statement find a diagram by id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
-    "SELECT id,parent_id,type,name,description,list_order FROM diagrams WHERE id=?;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE id=?;";
 
 /*!
  *  \brief predefined search statement find diagrams by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

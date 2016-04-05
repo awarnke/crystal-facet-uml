@@ -6,9 +6,21 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_relationship_type.h"
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
+
+/*!
+ *  \brief constants for max string sizes
+ */
+enum data_relationship_max_enum {
+    DATA_RELATIONSHIP_MAX_NAME_SIZE = 32,
+    DATA_RELATIONSHIP_MAX_NAME_LENGTH = 31,
+    DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE = 1024,
+    DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,
+};
 
 /*!
  *  \brief all data attributes needed for the relationship functions
@@ -16,7 +28,15 @@
  *  \see http://www.uml-diagrams.org/uml-core.html#relationship
  */
 struct data_relationship_struct {
-    bool is_valid;
+    int64_t id;
+    data_relationship_type_t main_type;
+    int64_t from_classifier_id;
+    int64_t to_classifier_id;
+    utf8stringbuf_t name;
+    char private_name_buffer[DATA_RELATIONSHIP_MAX_NAME_SIZE];
+    utf8stringbuf_t description;
+    char private_description_buffer[DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE];
+    int32_t list_order;
 };
 
 typedef struct data_relationship_struct data_relationship_t;

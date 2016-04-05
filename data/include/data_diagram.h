@@ -17,7 +17,7 @@
 /*!
  *  \brief constants for max string sizes
  */
-enum data_diagram_max_sizes {
+enum data_diagram_max_enum {
     DATA_DIAGRAM_MAX_NAME_SIZE = 32,
     DATA_DIAGRAM_MAX_NAME_LENGTH = 31,
     DATA_DIAGRAM_MAX_DESCRIPTION_SIZE = 1024,

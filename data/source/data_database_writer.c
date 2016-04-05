@@ -26,7 +26,7 @@ static const char *DATA_DATABASE_WRITER_COMMIT_TRANSACTION =
  *  \brief prefix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX =
-    "INSERT INTO diagrams (parent_id,type,name,description,list_order) VALUES (";
+    "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order) VALUES (";
 
 /*!
  *  \brief value separator string constant to insert a diagram
@@ -56,7 +56,7 @@ static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_PREFIX = "UPDATE diagrams
 /*!
  *  \brief field name string constant to be used for updating a diagram
  */
-static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_TYPE = "type=";
+static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_COL_TYPE = "diagram_type=";
 
 /*!
  *  \brief field name string constant to be used for updating a diagram

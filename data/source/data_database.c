@@ -33,7 +33,7 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
 static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
     "CREATE TABLE IF NOT EXISTS relationships ( "
         "id INTEGER PRIMARY KEY ASC, "
-        "type INTEGER, "
+        "main_type INTEGER, "
         "from_classifier_id INTEGER, "
         "to_classifier_id INTEGER, "
         "name TEXT, "
@@ -67,7 +67,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
     "CREATE TABLE IF NOT EXISTS diagrams ( "
         "id INTEGER PRIMARY KEY ASC, "
         "parent_id INTEGER, "
-        "type INTEGER, "
+        "diagram_type INTEGER, "
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "

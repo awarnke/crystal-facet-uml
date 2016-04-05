@@ -6,10 +6,23 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
+
+/*!
+ *  \brief constants for max string sizes
+ */
+enum data_feature_max_enum {
+    DATA_FEATURE_MAX_KEY_SIZE = 32,
+    DATA_FEATURE_MAX_KEY_LENGTH = 31,
+    DATA_FEATURE_MAX_VALUE_SIZE = 256,
+    DATA_FEATURE_MAX_VALUE_LENGTH = 255,
+    DATA_FEATURE_MAX_DESCRIPTION_SIZE = 1024,
+    DATA_FEATURE_MAX_DESCRIPTION_LENGTH = 1023,
+};
 
 /*!
  *  \brief all data attributes needed for the feature (property or operation) functions
@@ -17,7 +30,15 @@
  *  \see http://www.uml-diagrams.org/uml-core.html#feature
  */
 struct data_feature_struct {
-    bool is_valid;
+    int64_t id;
+    int64_t classifier_id;
+    utf8stringbuf_t key;
+    char private_key_buffer[DATA_FEATURE_MAX_KEY_SIZE];
+    utf8stringbuf_t value;
+    char private_value_buffer[DATA_FEATURE_MAX_VALUE_SIZE];
+    utf8stringbuf_t description;
+    char private_description_buffer[DATA_FEATURE_MAX_DESCRIPTION_SIZE];
+    int32_t list_order;
 };
 
 typedef struct data_feature_struct data_feature_t;

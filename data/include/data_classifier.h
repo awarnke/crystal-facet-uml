@@ -6,9 +6,23 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_classifier_type.h"
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
+
+/*!
+ *  \brief constants for max string sizes
+ */
+enum data_classifier_max_enum {
+    DATA_CLASSIFIER_MAX_NAME_SIZE = 32,
+    DATA_CLASSIFIER_MAX_NAME_LENGTH = 31,
+    DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE = 256,
+    DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH = 255,
+    DATA_CLASSIFIER_MAX_DESCRIPTION_SIZE = 1024,
+    DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH = 1023,
+};
 
 /*!
  *  \brief all data attributes needed for the classifier functions
@@ -17,7 +31,16 @@
  *  \see http://www.uml-diagrams.org/classifier.html
  */
 struct data_classifier_struct {
-    bool is_valid;
+    int64_t id;
+    data_classifier_type_t main_type;
+    utf8stringbuf_t stereotype;
+    char private_stereotype_buffer[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE];
+    utf8stringbuf_t name;
+    char private_name_buffer[DATA_CLASSIFIER_MAX_NAME_SIZE];
+    utf8stringbuf_t description;
+    char private_description_buffer[DATA_CLASSIFIER_MAX_DESCRIPTION_SIZE];
+    int32_t x_order;
+    int32_t y_order;
 };
 
 typedef struct data_classifier_struct data_classifier_t;
