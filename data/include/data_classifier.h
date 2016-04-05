@@ -45,6 +45,13 @@ struct data_classifier_struct {
 typedef struct data_classifier_struct data_classifier_t;
 
 /*!
+ *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_classifier_init_empty ( data_classifier_t *this_ );
+
+/*!
  *  \brief initializes the data_classifier_t struct
  *
  *  \param this_ pointer to own object attributes

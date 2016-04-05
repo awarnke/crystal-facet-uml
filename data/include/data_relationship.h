@@ -41,6 +41,13 @@ struct data_relationship_struct {
 typedef struct data_relationship_struct data_relationship_t;
 
 /*!
+ *  \brief initializes the data_relationship_t struct with id, from_classifier_id and to_classifier_id DATA_ID_CONST_VOID_ID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_relationship_init_empty ( data_relationship_t *this_ );
+
+/*!
  *  \brief initializes the data_relationship_t struct
  *
  *  \param this_ pointer to own object attributes
