@@ -52,6 +52,7 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
 static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
     "CREATE TABLE IF NOT EXISTS features ( "
         "id INTEGER PRIMARY KEY ASC, "
+        "main_type INTEGER, "
         "classifier_id INTEGER, "
         "key TEXT, "
         "value TEXT, "

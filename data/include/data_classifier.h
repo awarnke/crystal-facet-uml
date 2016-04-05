@@ -8,8 +8,7 @@
 
 #include "data_classifier_type.h"
 #include "util/string/utf8stringbuf.h"
-#include <stdio.h>
-#include <sqlite3.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 /*!
@@ -50,14 +49,14 @@ typedef struct data_classifier_struct data_classifier_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void data_classifier_init ( data_classifier_t *this_ );
+static inline void data_classifier_init ( data_classifier_t *this_ );
 
 /*!
  *  \brief destroys the data_classifier_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_classifier_destroy ( data_classifier_t *this_ );
+static inline void data_classifier_destroy ( data_classifier_t *this_ );
 
 #include "data_classifier.inl"
 

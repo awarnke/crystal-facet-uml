@@ -6,9 +6,8 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
+#include "data_feature_type.h"
 #include "util/string/utf8stringbuf.h"
-#include <stdio.h>
-#include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -31,6 +30,7 @@ enum data_feature_max_enum {
  */
 struct data_feature_struct {
     int64_t id;
+    data_feature_type_t main_type;
     int64_t classifier_id;
     utf8stringbuf_t key;
     char private_key_buffer[DATA_FEATURE_MAX_KEY_SIZE];
@@ -48,14 +48,14 @@ typedef struct data_feature_struct data_feature_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void data_feature_init ( data_feature_t *this_ );
+static inline void data_feature_init ( data_feature_t *this_ );
 
 /*!
  *  \brief destroys the data_feature_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_feature_destroy ( data_feature_t *this_ );
+static inline void data_feature_destroy ( data_feature_t *this_ );
 
 #include "data_feature.inl"
 

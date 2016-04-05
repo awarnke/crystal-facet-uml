@@ -6,8 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include <stdio.h>
-#include <sqlite3.h>
+#include <stdint.h>
 #include <stdbool.h>
 
 /*!
@@ -26,14 +25,14 @@ typedef struct data_diagramelement_struct data_diagramelement_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void data_diagramelement_init ( data_diagramelement_t *this_ );
+static inline void data_diagramelement_init ( data_diagramelement_t *this_ );
 
 /*!
  *  \brief destroys the data_diagramelement_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_diagramelement_destroy ( data_diagramelement_t *this_ );
+static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ );
 
 #include "data_diagramelement.inl"
 

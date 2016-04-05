@@ -9,8 +9,6 @@
 #include "data_diagram_type.h"
 #include "data_id.h"
 #include "util/string/utf8stringbuf.h"
-#include <stdio.h>
-#include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
 
