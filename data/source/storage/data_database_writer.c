@@ -257,6 +257,25 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
     return( result );
 }
 
+data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -406,6 +425,8 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_build_create_classifier_command( this_, classifier );
 
     LOG_ERROR("not yet implemented.");
 

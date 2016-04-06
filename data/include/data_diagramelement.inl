@@ -1,5 +1,12 @@
 /* File: data_diagramelement.inl; Copyright and License: see below */
 
+static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ )
+{
+    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).classifier_id = DATA_ID_CONST_VOID_ID;
+    (*this_).diagram_id = DATA_DIAGRAM_ID_VOID_ID;
+}
+
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ID_CONST_VOID_ID;

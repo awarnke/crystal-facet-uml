@@ -142,6 +142,15 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
  */
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id );
 
+/*!
+ *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier classifier to be created.
+ */
+data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier );
+
+
 #endif  /* DATA_DATABASE_WRITER_H */
 
 
