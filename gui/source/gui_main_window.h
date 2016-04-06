@@ -9,7 +9,7 @@
  *  \brief Displays a main window and reacts on user events
  */
 
-#include "data_database.h"
+#include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"

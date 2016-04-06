@@ -1,5 +1,10 @@
 /* File: data_relationship.inl; Copyright and License: see below */
 
+static inline void data_relationship_destroy ( data_relationship_t *this_ )
+{
+    (*this_).id = DATA_ID_CONST_VOID_ID;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

@@ -45,6 +45,16 @@ struct data_classifier_struct {
 typedef struct data_classifier_struct data_classifier_t;
 
 /*!
+ *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier.
+ *  \param classifier_name name of the classifier. classifier_name must not be NULL.
+ *  \param classifier_description description of the classifier. classifier_description must not be NULL.
+ */
+static inline void data_classifier_init_new ( data_classifier_t *this_, data_classifier_type_t classifier_type, const char* classifier_name, const char* classifier_description );
+
+/*!
  *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes

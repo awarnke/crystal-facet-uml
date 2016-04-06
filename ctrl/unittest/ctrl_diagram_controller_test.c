@@ -3,8 +3,8 @@
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "data_database.h"
-#include "data_database_reader.h"
+#include "storage/data_database.h"
+#include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_diagram_type.h"
 #include <stdio.h>
@@ -117,7 +117,7 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
 
     /* search several records, result array sufficient */
-    
+
     data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader, PARENT_ID, 2, &read_diagrams_count, &read_diagrams );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, read_diagrams_count );

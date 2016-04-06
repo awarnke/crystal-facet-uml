@@ -62,11 +62,6 @@ static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
     (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
     (*this_).parent_id = DATA_DIAGRAM_ID_VOID_ID;
-    (*this_).diagram_type = 0;
-
-    utf8stringbuf_clear( (*this_).name );
-
-    utf8stringbuf_clear( (*this_).description );
 }
 
 static inline void data_diagram_trace ( data_diagram_t *this_ )

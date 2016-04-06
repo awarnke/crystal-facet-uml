@@ -42,7 +42,7 @@ LINK_DIRECTORIES(/usr/lib/)
 LINK_DIRECTORIES(/usr/lib64/)
 SET(crystal_facet_uml_BINARY_DIR ../bin)
 SET(crystal_facet_uml_SOURCE_DIR ..)
-FILE(GLOB commonSource ../gui/source/*.c ../trace/source/*.c ../ctrl/source/*.c ../data/source/*.c ../sqlite/source/sqlite3.c ../utf8stringbuf/source/util/string/*.c ../pencil/source/*.c)
+FILE(GLOB commonSource ../gui/source/*.c ../trace/source/*.c ../ctrl/source/*.c ../data/source/*.c ../data/source/storage/*.c ../sqlite/source/sqlite3.c ../utf8stringbuf/source/util/string/*.c ../pencil/source/*.c)
 FILE(GLOB appSource ../main/source/*.c)
 FILE(GLOB utestSource ../main/unittest/*.c ../embunit/embUnit/*.c ../embunit/textui.c ../data/unittest/*.c ../ctrl/unittest/*.c)
 

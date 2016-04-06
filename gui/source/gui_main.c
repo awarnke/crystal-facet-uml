@@ -2,8 +2,8 @@
 
 #include "gui_main.h"
 #include "gui_main_window.h"
-#include "data_database.h"
-#include "data_database_reader.h"
+#include "storage/data_database.h"
+#include "storage/data_database_reader.h"
 #include "trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>

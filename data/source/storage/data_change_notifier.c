@@ -1,6 +1,6 @@
 /* File: data_change_notifier.c; Copyright and License: see below */
 
-#include "data_change_notifier.h"
+#include "storage/data_change_notifier.h"
 #include "trace.h"
 #include "log.h"
 #include <glib-object.h>

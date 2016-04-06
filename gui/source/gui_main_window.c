@@ -4,7 +4,7 @@
 #include "gui_textedit.h"
 #include "gui_sketch_area.h"
 #include "trace.h"
-#include "data_change_notifier.h"
+#include "storage/data_change_notifier.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>

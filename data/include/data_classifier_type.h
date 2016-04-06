@@ -13,7 +13,6 @@
  *  \see http://www.uml-diagrams.org/classifier.html
  */
 enum data_classifier_type_enum {
-    DATA_CLASSIFIER_TYPE_UNSPECIFIED = 0,
     DATA_CLASSIFIER_TYPE_BLOCK = 90,
     DATA_CLASSIFIER_TYPE_FEATURE = 98,
     DATA_CLASSIFIER_TYPE_REQUIREMENT = 99,

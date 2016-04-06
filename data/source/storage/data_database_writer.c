@@ -1,6 +1,6 @@
 /* File: data_database_writer.c; Copyright and License: see below */
 
-#include "data_database_writer.h"
+#include "storage/data_database_writer.h"
 #include "data_id.h"
 #include "trace.h"
 #include "log.h"
@@ -395,6 +395,19 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    LOG_ERROR("not yet implemented.");
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 

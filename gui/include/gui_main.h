@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include "data_database.h"
+#include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
 

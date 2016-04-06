@@ -9,7 +9,7 @@
  */
 
 #include "util/shape/shape_int_rectangle.h"
-#include "data_database.h"
+#include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_input_data.h"

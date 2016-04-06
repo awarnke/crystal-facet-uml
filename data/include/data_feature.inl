@@ -1,5 +1,10 @@
 /* File: data_feature.inl; Copyright and License: see below */
 
+static inline void data_feature_destroy ( data_feature_t *this_ )
+{
+    (*this_).id = DATA_ID_CONST_VOID_ID;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

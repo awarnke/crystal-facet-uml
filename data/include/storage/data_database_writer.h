@@ -9,6 +9,7 @@
 #include "data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"
+#include "data_classifier.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
@@ -84,6 +85,16 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
+
+/*!
+ *  \brief creates a new classifier and returns its id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier data of the new classifier record to be created.
+ *  \param out_new_id storage, where the id of the newly created record is stored.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
 
 /*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.

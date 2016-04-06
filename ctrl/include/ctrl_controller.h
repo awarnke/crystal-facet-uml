@@ -8,7 +8,7 @@
 
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
-#include "data_database.h"
+#include "storage/data_database.h"
 
 /*!
  *  \brief all data attributes needed for the controller functions
@@ -30,7 +30,7 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
 
 /*!
  *  \brief destroys the ctrl_controller_t struct
- * 
+ *
  *  \param this_ pointer to own object attributes
  */
 void ctrl_controller_destroy ( ctrl_controller_t *this_ );

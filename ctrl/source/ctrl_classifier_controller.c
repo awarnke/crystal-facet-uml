@@ -25,6 +25,32 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
     TRACE_END();
 }
 
+ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_, int64_t diagram_id, data_classifier_type_t classifier_type, const char* classifier_name, int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    data_classifier_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_classifier_init_new( &to_be_created, classifier_type, classifier_name, "" );
+
+    data_result = data_database_writer_create_classifier( &((*this_).db_writer), &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_classifier_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

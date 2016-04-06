@@ -7,9 +7,9 @@
 /*! \file */
 
 #include "ctrl_error.h"
-#include "data_database.h"
-#include "data_database_writer.h"
-#include "data_database_reader.h"
+#include "storage/data_database.h"
+#include "storage/data_database_writer.h"
+#include "storage/data_database_reader.h"
 #include "data_classifier.h"
 #include "data_classifier_type.h"
 #include "data_diagram.h"
@@ -45,9 +45,10 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *  \brief creates a new classifier or package or other object and attaches it to a diagram
  *
  *  \param this_ pointer to own object attributes
- *  \return id of the newly created object
+ *  \param out_new_id of the newly created object
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_create_object_in_diagram ( ctrl_classifier_controller_t *this_, int32_t parent_diagram_id, data_classifier_type_t object_type, const char* object_name, int64_t* out_new_id );
+ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_, int64_t diagram_id, data_classifier_type_t classifier_type, const char* classifier_name, int64_t* out_new_id );
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 

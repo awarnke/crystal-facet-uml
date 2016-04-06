@@ -10,7 +10,7 @@
  */
 
 #include "data_diagram.h"
-#include "data_database_reader.h"
+#include "storage/data_database_reader.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>

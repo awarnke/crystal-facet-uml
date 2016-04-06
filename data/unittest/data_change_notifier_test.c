@@ -1,7 +1,7 @@
 /* File: data_change_notifier_test.c; Copyright and License: see below */
 
 #include "data_change_notifier_test.h"
-#include "data_change_notifier.h"
+#include "storage/data_change_notifier.h"
 #include <glib-object.h>
 
 static void set_up(void);
