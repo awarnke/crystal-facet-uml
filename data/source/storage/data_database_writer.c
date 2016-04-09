@@ -29,9 +29,14 @@ static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX =
     "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order) VALUES (";
 
 /*!
- *  \brief value separator string constant to insert a diagram
+ *  \brief postfix string constant to insert a diagram
  */
-static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR = ",";
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX = ");";
+
+/*!
+ *  \brief value separator string constant to insert a diagram or classifier or other table-row
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR = ",";
 
 /*!
  *  \brief string start marker string constant to insert/update a diagram
@@ -44,9 +49,26 @@ static const char *DATA_DATABASE_WRITER_STRING_VALUE_START = "\'";
 static const char *DATA_DATABASE_WRITER_STRING_VALUE_END = "\'";
 
 /*!
- *  \brief postfix string constant to insert a diagram
+ *  \brief prefix string constant to insert a classifier
  */
-static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX = ");";
+static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_PREFIX =
+"INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a classifier
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to insert a diagramelement
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX =
+"INSERT INTO diagramelements (diagram_id,classifier_id) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a diagramelement
+ */
+static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX = ");";
 
 /*!
  *  \brief prefix string constant to update a diagram
@@ -128,9 +150,9 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
 
     strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_PREFIX );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).diagram_type );
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
     {
@@ -141,7 +163,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
     strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
     {
@@ -152,7 +174,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
     strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
 
-    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX );
 
@@ -275,6 +297,23 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
     return( result );
 }
 
+data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
 
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
 {
@@ -427,6 +466,21 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_build_create_classifier_command( this_, classifier );
+
+    LOG_ERROR("not yet implemented.");
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_build_create_diagramelement_command( this_, diagramelement );
 
     LOG_ERROR("not yet implemented.");
 

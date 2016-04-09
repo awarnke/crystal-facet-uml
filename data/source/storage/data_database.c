@@ -79,7 +79,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
  *  \brief string constant to create an sql database table
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE =
-    "CREATE TABLE IF NOT EXISTS diagram_elements ( "
+    "CREATE TABLE IF NOT EXISTS diagramelements ( "
         "id INTEGER PRIMARY KEY ASC, "
         "diagram_id INTEGER, "
         "classifier_id INTEGER, "

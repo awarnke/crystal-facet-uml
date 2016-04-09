@@ -8,7 +8,7 @@
  *  \brief Opens and closes a database.
  */
 
-#include "data_change_notifier.h"
+#include "storage/data_change_notifier.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 
@@ -71,7 +71,7 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
  */
 static void data_database_private_initialize_tables( sqlite3 *db );
 
-#include "data_database.inl"
+#include "storage/data_database.inl"
 
 #endif  /* DATA_DATABASE_H */
 

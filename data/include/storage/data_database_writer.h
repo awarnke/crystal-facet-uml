@@ -6,10 +6,11 @@
 /* public file for the doxygen documentation: */
 /*! \file */
 
-#include "data_database.h"
+#include "storage/data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
+#include "data_diagramelement.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <sqlite3.h>
@@ -97,6 +98,16 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
 
 /*!
+ *  \brief creates a new diagramelement and returns its id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement data of the new diagramelement record to be created.
+ *  \param out_new_id storage, where the id of the newly created record is stored.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id );
+
+/*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
@@ -150,6 +161,13 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
  */
 data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier );
 
+/*!
+ *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement diagramelement to be created.
+ */
+data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement );
 
 #endif  /* DATA_DATABASE_WRITER_H */
 
