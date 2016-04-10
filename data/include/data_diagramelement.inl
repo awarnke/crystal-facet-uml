@@ -3,8 +3,15 @@
 static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ID_CONST_VOID_ID;
-    (*this_).classifier_id = DATA_ID_CONST_VOID_ID;
     (*this_).diagram_id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).classifier_id = DATA_ID_CONST_VOID_ID;
+}
+
+static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id )
+{
+    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).diagram_id = diagram_id;
+    (*this_).classifier_id = classifier_id;
 }
 
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )

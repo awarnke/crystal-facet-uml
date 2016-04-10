@@ -62,13 +62,6 @@ static inline void data_classifier_init_new ( data_classifier_t *this_, data_cla
 static inline void data_classifier_init_empty ( data_classifier_t *this_ );
 
 /*!
- *  \brief initializes the data_classifier_t struct
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_classifier_init ( data_classifier_t *this_ );
-
-/*!
  *  \brief destroys the data_classifier_t struct
  *
  *  \param this_ pointer to own object attributes

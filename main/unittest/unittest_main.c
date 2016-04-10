@@ -2,6 +2,7 @@
 
 #include "data_change_notifier_test.h"
 #include "ctrl_diagram_controller_test.h"
+#include "ctrl_classifier_controller_test.h"
 #include "trace.h"
 #include <embUnit/embUnit.h>
 
@@ -17,6 +18,7 @@ int main (int argc, char *argv[]) {
     TestRunner_start();
     TestRunner_runTest( data_change_notifier_test_get_list() );
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
+    TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
     TestRunner_end();
 
     TRACE_INFO( "--------------------" );

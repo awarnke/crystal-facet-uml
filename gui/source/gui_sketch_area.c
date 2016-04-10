@@ -590,7 +590,22 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+
+                    int64_t selected_diagram_id;
+                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                    ctrl_classifier_controller_t *classifier_control;
+                    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    int64_t new_classifier_id;
+                    ctrl_error_t c_result;
+                    c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control, selected_diagram_id, DATA_CLASSIFIER_TYPE_BLOCK, "Hello World Block", &new_classifier_id );
+
+                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                }
                 break;
             default:
                 LOG_ERROR("selected_tool is out of range");

@@ -14,8 +14,8 @@
  */
 struct data_diagramelement_struct {
     int64_t id;
-    int64_t classifier_id;
     int64_t diagram_id;
+    int64_t classifier_id;
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;
@@ -30,9 +30,11 @@ static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_
 /*!
  *  \brief initializes the data_diagramelement_t struct
  *
+ *  id is initialized to DATA_ID_CONST_VOID_ID;
+ *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_diagramelement_init ( data_diagramelement_t *this_ );
+static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id );
 
 /*!
  *  \brief destroys the data_diagramelement_t struct
