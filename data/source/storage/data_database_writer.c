@@ -292,12 +292,46 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
 
     utf8stringbuf_clear( (*this_).private_sql_stringbuf );
 
-    /*
-    static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_PREFIX =
-    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*classifier).main_type );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
 
-    static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX = ");";
-    */
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*classifier).stereotype );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*classifier).name );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).private_temp_stringbuf, (*classifier).description );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*classifier).x_order );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*classifier).y_order );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -318,12 +352,12 @@ data_error_t data_database_writer_private_build_create_diagramelement_command ( 
 
     utf8stringbuf_clear( (*this_).private_sql_stringbuf );
 
-    /*
-    static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX =
-    "INSERT INTO diagramelements (diagram_id,classifier_id) VALUES (";
-
-    static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX = ");";
-    */
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -496,7 +530,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_build_create_classifier_command( this_, classifier );
 
-    LOG_ERROR("not yet implemented.");
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), true, out_new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -517,7 +551,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_build_create_diagramelement_command( this_, diagramelement );
 
-    LOG_ERROR("not yet implemented.");
+    result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), true, out_new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
