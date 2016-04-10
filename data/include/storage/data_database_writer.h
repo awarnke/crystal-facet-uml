@@ -145,6 +145,8 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
 /*!
  *  \brief executes a single SQL command
  *
+ *  This function does not care about locks. It does not sent notifications.
+ *
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be created.
  *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned
@@ -168,6 +170,24 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
  *  \param diagramelement diagramelement to be created.
  */
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement );
+
+/*!
+ *  \brief gets a lock to protect data in data_database_writer_t from concurrent access.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ );
+
+/*!
+ *  \brief releases the lock.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
+
+#include "storage/data_database_writer.inl"
 
 #endif  /* DATA_DATABASE_WRITER_H */
 

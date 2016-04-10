@@ -113,6 +113,7 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != database );
     int perr;
 
     (*this_).database = database;
@@ -145,6 +146,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
 data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != diagram );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -191,6 +193,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
 data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_diagram_name );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -224,6 +227,7 @@ data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_d
 data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_diagram_description );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -282,10 +286,18 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
 data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != classifier );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
     utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    /*
+    static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_PREFIX =
+    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+
+    static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX = ");";
+    */
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -300,10 +312,18 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != diagramelement );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
     utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    /*
+    static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX =
+    "INSERT INTO diagramelements (diagram_id,classifier_id) VALUES (";
+
+    static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX = ");";
+    */
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -318,19 +338,13 @@ data_error_t data_database_writer_private_build_create_diagramelement_command ( 
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != sql_statement );
+    LOG_ASSERT( !(fetch_new_id) || (NULL != out_new_id) );
     int64_t new_id;
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
     sqlite3 *db = data_database_get_database_ptr( (*this_).database );
-    int perr;
-
-    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
@@ -387,15 +401,6 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
         error_msg = NULL;
     }
 
-    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
-
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -403,11 +408,17 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != diagram );
+    LOG_ASSERT( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_build_create_diagram_command( this_, diagram );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), true, out_new_id );
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -418,11 +429,16 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_diagram_description );
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_build_update_diagram_description_cmd( this_, diagram_id, new_diagram_description );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -433,11 +449,16 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_diagram_name );
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_build_update_diagram_name_cmd( this_, diagram_id, new_diagram_name );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -450,9 +471,13 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
+    result |= data_database_writer_private_lock( this_ );
+
     result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -463,11 +488,17 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != classifier );
+    LOG_ASSERT( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_build_create_classifier_command( this_, classifier );
 
     LOG_ERROR("not yet implemented.");
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 
@@ -478,11 +509,17 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != diagramelement );
+    LOG_ASSERT( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_build_create_diagramelement_command( this_, diagramelement );
 
     LOG_ERROR("not yet implemented.");
+
+    result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
 

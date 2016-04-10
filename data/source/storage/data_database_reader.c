@@ -51,6 +51,7 @@ static const int RESULT_COLUMN_LIST_ORDER = 5;
 void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != database );
     int sqlite_err;
     const char *unused;
     int perr;
@@ -134,6 +135,7 @@ void data_database_reader_destroy ( data_database_reader_t *this_ )
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     static const int FIRST_SQL_BIND_PARAM = 1;
@@ -229,6 +231,8 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != out_diagram_count );
+    LOG_ASSERT( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     static const int FIRST_SQL_BIND_PARAM = 1;

@@ -75,6 +75,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_ )
 data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_listener );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_initialized )
@@ -124,6 +125,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
 data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
 {
     TRACE_BEGIN();
+    LOG_ASSERT( NULL != no_listener );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_initialized )
