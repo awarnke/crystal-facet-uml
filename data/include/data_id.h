@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Stores a table-identifier and a row-identifier
+ *  \brief Defines a record by a table-identifier and a row-identifier
  */
 
 #include "data_table.h"

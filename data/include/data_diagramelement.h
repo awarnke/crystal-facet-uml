@@ -4,7 +4,10 @@
 #define DATA_DIAGRAMELEMENT_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines in which diagram which classifier is visible
+ */
 
 #include <stdint.h>
 #include <stdbool.h>

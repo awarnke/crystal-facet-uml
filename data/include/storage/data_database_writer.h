@@ -4,7 +4,10 @@
 #define DATA_DATABASE_WRITER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Creates, modifies and deletes records in the database
+ */
 
 #include "storage/data_database.h"
 #include "data_diagram.h"

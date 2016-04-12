@@ -333,6 +333,32 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     return result;
 }
 
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_classifier )
+{
+    TRACE_BEGIN();
+    LOG_ASSERT( NULL != out_classifier );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    int perr;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_classifiers_by_parent_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] )
+{
+    TRACE_BEGIN();
+    LOG_ASSERT( NULL != out_classifier_count );
+    LOG_ASSERT( NULL != out_classifier );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    int perr;
+
+    *out_classifier_count = 0;
+
+    TRACE_END_ERR( result );
+    return result;
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

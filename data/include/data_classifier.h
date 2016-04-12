@@ -4,7 +4,10 @@
 #define DATA_CLASSIFIER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines a classifier like a class, a state, an activity, an interface
+ */
 
 #include "data_classifier_type.h"
 #include "util/string/utf8stringbuf.h"

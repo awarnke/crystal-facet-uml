@@ -4,7 +4,10 @@
 #define DATA_RELATIONSHIP_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines a relationship between two classifiers
+ */
 
 #include "data_relationship_type.h"
 #include "util/string/utf8stringbuf.h"
@@ -46,13 +49,6 @@ typedef struct data_relationship_struct data_relationship_t;
  *  \param this_ pointer to own object attributes
  */
 static inline void data_relationship_init_empty ( data_relationship_t *this_ );
-
-/*!
- *  \brief initializes the data_relationship_t struct
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_relationship_init ( data_relationship_t *this_ );
 
 /*!
  *  \brief destroys the data_relationship_t struct

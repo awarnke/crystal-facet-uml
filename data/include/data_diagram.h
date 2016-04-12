@@ -4,7 +4,10 @@
 #define DATA_DIAGRAM_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines a diagram
+ */
 
 #include "data_diagram_type.h"
 #include "data_id.h"

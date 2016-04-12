@@ -4,7 +4,10 @@
 #define DATA_DIAGRAM_TYPE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines types of diagrams
+ */
 
 /*!
  *  \brief enumeration of all diagram types

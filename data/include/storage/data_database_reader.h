@@ -4,11 +4,15 @@
 #define DATA_DATABASE_READER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Searches and reads records from the database
+ */
 
 #include "storage/data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"
+#include "data_classifier.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -62,6 +66,28 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] );
+
+/*!
+ *  \brief reads a classifier from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id the classifier to be read from the database
+ *  \param out_classifier the classifier read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_classifier );
+
+/*!
+ *  \brief reads all classifier of a diagram from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the containing diagram
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_classifier_count number of classifier records stored in out_diagram
+ *  \param out_classifier array of classifiers read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_classifiers_by_parent_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] );
 
 #endif  /* DATA_DATABASE_READER_H */
 

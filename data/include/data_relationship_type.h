@@ -4,7 +4,10 @@
 #define DATA_RELATIONSHIP_TYPE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines types of relationships
+ */
 
 /*!
  *  \brief enumeration of all relationship types

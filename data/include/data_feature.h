@@ -4,7 +4,10 @@
 #define DATA_FEATURE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines a feature like a class-attribute or a class-method
+ */
 
 #include "data_feature_type.h"
 #include "util/string/utf8stringbuf.h"
@@ -49,13 +52,6 @@ typedef struct data_feature_struct data_feature_t;
  *  \param this_ pointer to own object attributes
  */
 static inline void data_feature_init_empty ( data_feature_t *this_ );
-
-/*!
- *  \brief initializes the data_feature_t struct
- *
- *  \param this_ pointer to own object attributes
- */
-static inline void data_feature_init ( data_feature_t *this_ );
 
 /*!
  *  \brief destroys the data_feature_t struct

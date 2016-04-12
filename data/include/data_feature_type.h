@@ -4,7 +4,10 @@
 #define DATA_FEATURE_TYPE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Defines types of features
+ */
 
 /*!
  *  \brief enumeration of all feature types
