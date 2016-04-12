@@ -89,6 +89,24 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  */
 data_error_t data_database_reader_get_classifiers_by_parent_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] );
 
+/*!
+ *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_lock ( data_database_reader_t *this_ );
+
+/*!
+ *  \brief releases the lock.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_unlock ( data_database_reader_t *this_ );
+
+#include "storage/data_database_reader.inl"
+
 #endif  /* DATA_DATABASE_READER_H */
 
 

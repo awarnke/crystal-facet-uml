@@ -141,12 +141,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     static const int FIRST_SQL_BIND_PARAM = 1;
     int perr;
 
-    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
+    result |= data_database_reader_private_lock( this_ );
 
     sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagram_by_id;
 
@@ -217,12 +212,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         result |= DATA_ERROR_DB_STRUCTURE;
     }
 
-    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
+    result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -238,12 +228,8 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     static const int FIRST_SQL_BIND_PARAM = 1;
     int perr;
 
-    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
+    result |= data_database_reader_private_lock( this_ );
+    TRACE_INFO_HEX( "result", result );
 
     sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
 
@@ -322,12 +308,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
         }
     }
 
-    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-        result |= DATA_ERROR_AT_MUTEX;
-    }
+    result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -340,6 +321,10 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     int perr;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -354,7 +339,11 @@ data_error_t data_database_reader_get_classifiers_by_parent_id ( data_database_r
     int sqlite_err;
     int perr;
 
+    result |= data_database_reader_private_lock( this_ );
+
     *out_classifier_count = 0;
+
+    result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
