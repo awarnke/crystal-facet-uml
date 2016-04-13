@@ -229,7 +229,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     int perr;
 
     result |= data_database_reader_private_lock( this_ );
-    TRACE_INFO_HEX( "result", result );
 
     sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
 
