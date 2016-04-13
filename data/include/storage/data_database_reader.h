@@ -27,6 +27,8 @@ struct data_database_reader_struct {
     pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
+    sqlite3_stmt *private_prepared_query_classifier_by_id;
+    sqlite3_stmt *private_prepared_query_classifierss_by_diagram_id;
 };
 
 typedef struct data_database_reader_struct data_database_reader_t;
@@ -87,7 +89,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \param out_classifier array of classifiers read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_classifiers_by_parent_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] );
+data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] );
 
 /*!
  *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
