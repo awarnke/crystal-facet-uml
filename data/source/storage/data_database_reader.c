@@ -52,13 +52,15 @@ static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
  *  \brief predefined search statement to find a classifier by id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
-"SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find classifier by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
-"SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id WHERE diagram_id=? ORDER BY y_order,x_order;";
+    "SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagram_id=? ORDER BY y_order,x_order;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
