@@ -1,6 +1,7 @@
 /* File: data_database_reader.inl; Copyright and License: see below */
 
 #include "log.h"
+#include "trace.h"
 
 static inline data_error_t data_database_reader_private_lock ( data_database_reader_t *this_ )
 {
@@ -28,7 +29,78 @@ static inline data_error_t data_database_reader_private_unlock ( data_database_r
         LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
-    
+
+    return result;
+}
+
+static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_, const char *string_statement, int string_size, sqlite3_stmt **out_statement_ptr )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    const char *first_unused_statement_char;
+    int sqlite_err;
+    sqlite3 *db;
+
+    db = data_database_get_database_ptr ( (*this_).database );
+
+    TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
+    sqlite_err = sqlite3_prepare_v2(
+        db,
+        string_statement,
+        string_size,
+        out_statement_ptr,
+        &first_unused_statement_char
+    );
+    if (( SQLITE_OK != sqlite_err )
+        || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
+    {
+        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
+        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
+        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    return result;
+}
+
+static inline data_error_t data_database_reader_private_finalize_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    TRACE_INFO_STR( "sqlite3_finalize():", sqlite3_sql(statement_ptr) );
+    sqlite_err = sqlite3_finalize( statement_ptr );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
+        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    return result;
+}
+
+static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    static const int FIRST_SQL_BIND_PARAM = 1;
+    int sqlite_err;
+
+    sqlite_err = sqlite3_reset( statement_ptr );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    TRACE_INFO_STR( "sqlite3_bind_int():", sqlite3_sql(statement_ptr) );
+    TRACE_INFO_INT( "sqlite3_bind_int():", id );
+    sqlite_err = sqlite3_bind_int( statement_ptr, FIRST_SQL_BIND_PARAM, id );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
     return result;
 }
 

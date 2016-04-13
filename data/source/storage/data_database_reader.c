@@ -95,7 +95,7 @@ static const int RESULT_CLASSIFIER_X_ORDER_COLUMN = 5;
  */
 static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
 
-void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
+data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
     LOG_ASSERT( NULL != database );
@@ -103,6 +103,7 @@ void data_database_reader_init ( data_database_reader_t *this_, data_database_t 
     const char *first_unused_statement_char;
     int perr;
     sqlite3 *db;
+    data_error_t result = DATA_ERROR_NONE;
 
     (*this_).database = database;
     db = data_database_get_database_ptr ( database );
@@ -111,120 +112,60 @@ void data_database_reader_init ( data_database_reader_t *this_, data_database_t 
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
-    TRACE_INFO_STR( "sqlite3_prepare_v2():", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
-    sqlite_err = sqlite3_prepare_v2(
-        db,
-        DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
-        sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
-        &((*this_).private_prepared_query_diagram_by_id),
-        &first_unused_statement_char
+    result |= data_database_reader_private_prepare_statement ( this_,
+                                                               DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
+                                                               sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
+                                                               &((*this_).private_prepared_query_diagram_by_id)
+                                                             );
+
+    result |= data_database_reader_private_prepare_statement ( this_,
+                                                               DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
+                                                               sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
+                                                               &((*this_).private_prepared_query_diagrams_by_parent_id)
     );
-    if (( SQLITE_OK != sqlite_err )
-        || ( first_unused_statement_char != &(DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[sizeof(DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID)-1]) ))
-    {
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
-        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-    }
 
-    TRACE_INFO_STR( "sqlite3_prepare_v2():", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
-    sqlite_err = sqlite3_prepare_v2(
-        db,
-        DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
-        sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
-        &((*this_).private_prepared_query_diagrams_by_parent_id),
-        &first_unused_statement_char
+    result |= data_database_reader_private_prepare_statement ( this_,
+                                                               DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
+                                                               sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
+                                                               &((*this_).private_prepared_query_classifier_by_id)
     );
-    if (( SQLITE_OK != sqlite_err )
-        || ( first_unused_statement_char != &(DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[sizeof(DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID)-1]) ))
-    {
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
-        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-    }
 
-    TRACE_INFO_STR( "sqlite3_prepare_v2():", DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID );
-    sqlite_err = sqlite3_prepare_v2(
-        db,
-        DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
-        sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
-        &((*this_).private_prepared_query_classifier_by_id),
-        &first_unused_statement_char
+    result |= data_database_reader_private_prepare_statement ( this_,
+                                                               DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
+                                                               sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
+                                                               &((*this_).private_prepared_query_classifiers_by_diagram_id)
     );
-    if (( SQLITE_OK != sqlite_err )
-        || ( first_unused_statement_char != &(DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[sizeof(DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID)-1]) ))
-    {
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID );
-        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-    }
 
-    TRACE_INFO_STR( "sqlite3_prepare_v2():", DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID );
-    sqlite_err = sqlite3_prepare_v2(
-        db,
-        DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
-        sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
-        &((*this_).private_prepared_query_classifierss_by_diagram_id),
-        &first_unused_statement_char
-    );
-    if (( SQLITE_OK != sqlite_err )
-        || ( first_unused_statement_char != &(DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[sizeof(DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID)-1]) ))
-    {
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID );
-        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
-    }
-
-    TRACE_END();
+    TRACE_END_ERR(result);
+    return result;
 }
 
-void data_database_reader_destroy ( data_database_reader_t *this_ )
+data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
 {
     TRACE_BEGIN();
-    int sqlite_err;
     int perr;
+    data_error_t result = DATA_ERROR_NONE;
 
-    TRACE_INFO_STR( "sqlite3_finalize():", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
-    sqlite_err = sqlite3_finalize( (*this_).private_prepared_query_diagram_by_id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_STR( "sqlite3_finalize() failed:", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
-        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-    }
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );
 
-    TRACE_INFO_STR( "sqlite3_finalize():", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
-    sqlite_err = sqlite3_finalize( (*this_).private_prepared_query_diagrams_by_parent_id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_STR( "sqlite3_finalize() failed:", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
-        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-    }
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
 
-    TRACE_INFO_STR( "sqlite3_finalize():", DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID );
-    sqlite_err = sqlite3_finalize( (*this_).private_prepared_query_classifier_by_id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_STR( "sqlite3_finalize() failed:", DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID );
-        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-    }
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
 
-    TRACE_INFO_STR( "sqlite3_finalize():", DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID );
-    sqlite_err = sqlite3_finalize( (*this_).private_prepared_query_classifierss_by_diagram_id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_STR( "sqlite3_finalize() failed:", DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID );
-        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
-    }
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
 
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
         LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+        result |= DATA_ERROR_AT_MUTEX;
     }
 
-    TRACE_END();
+    TRACE_END_ERR(result);
+    return result;
 }
 
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
@@ -233,28 +174,13 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     LOG_ASSERT( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
-    static const int FIRST_SQL_BIND_PARAM = 1;
-    int perr;
+    sqlite3_stmt *prepared_statement;
 
     result |= data_database_reader_private_lock( this_ );
 
-    sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagram_by_id;
+    prepared_statement = (*this_).private_prepared_query_diagram_by_id;
 
-    sqlite_err = sqlite3_reset( prepared_statement );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
-    }
-
-    TRACE_INFO_STR( "sqlite3_bind_int():", DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID );
-    TRACE_INFO_INT( "sqlite3_bind_int():", id );
-    sqlite_err = sqlite3_bind_int( prepared_statement, FIRST_SQL_BIND_PARAM, id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
-    }
+    result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
     TRACE_INFO( "sqlite3_step()" );
     sqlite_err = sqlite3_step( prepared_statement );
@@ -320,28 +246,13 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     LOG_ASSERT( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
-    static const int FIRST_SQL_BIND_PARAM = 1;
-    int perr;
+    sqlite3_stmt *prepared_statement;
 
     result |= data_database_reader_private_lock( this_ );
 
-    sqlite3_stmt *prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
+    prepared_statement = (*this_).private_prepared_query_diagrams_by_parent_id;
 
-    sqlite_err = sqlite3_reset( prepared_statement );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
-    }
-
-    TRACE_INFO_STR( "sqlite3_bind_int():", DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID );
-    TRACE_INFO_INT( "sqlite3_bind_int():", parent_id );
-    sqlite_err = sqlite3_bind_int( prepared_statement, FIRST_SQL_BIND_PARAM, parent_id );
-    if ( SQLITE_OK != sqlite_err )
-    {
-        LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
-        result |= DATA_ERROR_AT_DB;
-    }
+    result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, parent_id );
 
     *out_diagram_count = 0;
     sqlite_err = SQLITE_ROW;
@@ -414,9 +325,13 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     LOG_ASSERT( NULL != out_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
-    int perr;
+    sqlite3_stmt *prepared_statement;
 
     result |= data_database_reader_private_lock( this_ );
+
+    prepared_statement = (*this_).private_prepared_query_classifier_by_id;
+
+    result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, id );
 
     result |= data_database_reader_private_unlock( this_ );
 
@@ -431,9 +346,13 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     LOG_ASSERT( NULL != out_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
-    int perr;
+    sqlite3_stmt *prepared_statement;
 
     result |= data_database_reader_private_lock( this_ );
+
+    prepared_statement = (*this_).private_prepared_query_classifiers_by_diagram_id;
+
+    result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
     *out_classifier_count = 0;
 

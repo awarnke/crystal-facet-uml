@@ -28,7 +28,7 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
-    sqlite3_stmt *private_prepared_query_classifierss_by_diagram_id;
+    sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
 };
 
 typedef struct data_database_reader_struct data_database_reader_t;
@@ -38,14 +38,14 @@ typedef struct data_database_reader_struct data_database_reader_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void data_database_reader_init ( data_database_reader_t *this_, data_database_t *database );
+data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_reader_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_database_reader_destroy ( data_database_reader_t *this_ );
+data_error_t data_database_reader_destroy ( data_database_reader_t *this_ );
 
 /*!
  *  \brief reads a diagram from the database
@@ -106,6 +106,38 @@ static inline data_error_t data_database_reader_private_lock ( data_database_rea
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_unlock ( data_database_reader_t *this_ );
+
+/*!
+ *  \brief creates a prepared statement.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param string_statement statement as string to be prepared
+ *  \param string_size size of string_statement in bytes, including the terminating zero
+ *  \param out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_, const char *string_statement, int string_size, sqlite3_stmt **out_statement_ptr );
+
+/*!
+ *  \brief finalizes a prepared statement.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_finalize_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr );
+
+/*!
+ *  \brief binds a single integer to a prepared statement.
+ *
+ *  The prepared statement shall have only one variable of type integer.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \param id integer to bind to the prepared statement.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
 
 #include "storage/data_database_reader.inl"
 
