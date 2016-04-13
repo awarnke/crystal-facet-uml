@@ -3,7 +3,7 @@
 #include "log.h"
 #include "trace.h"
 
-static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
+static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
 {
     utf8error_t strerr;
 
@@ -25,7 +25,7 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
 
-    (*this_).list_order = 0;
+    (*this_).list_order = list_order;
 }
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
@@ -42,7 +42,7 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
     (*this_).list_order = 0;
 }
 
-static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description )
+static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
 {
     utf8error_t strerr;
 
@@ -50,12 +50,20 @@ static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).name, diagram_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+    }
+
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).description, diagram_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
     }
+    (*this_).list_order = list_order;
 }
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )

@@ -125,19 +125,19 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
                                                                DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
                                                                &((*this_).private_prepared_query_diagrams_by_parent_id)
-    );
+                                                             );
 
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
                                                                &((*this_).private_prepared_query_classifier_by_id)
-    );
+                                                             );
 
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
                                                                &((*this_).private_prepared_query_classifiers_by_diagram_id)
-    );
+                                                             );
 
     TRACE_END_ERR(result);
     return result;
@@ -192,36 +192,14 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
 
     if ( SQLITE_ROW == sqlite_err )
     {
-        data_diagram_init_empty(out_diagram);
-        (*out_diagram).id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN );
-        (*out_diagram).parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN );
-        (*out_diagram).diagram_type = sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN );
-        {
-            const char* sqlite_stringresult;
-            int length;
-            utf8error_t strerr = UTF8ERROR_SUCCESS;
-
-            sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN );
-            strerr = utf8stringbuf_copy_str( (*out_diagram).name, sqlite_stringresult );
-            if ( strerr != UTF8ERROR_SUCCESS )
-            {
-                LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                length = sqlite3_column_bytes( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN );
-                LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
-                result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-            }
-
-            sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN );
-            strerr = utf8stringbuf_copy_str( (*out_diagram).description, sqlite_stringresult );
-            if ( strerr != UTF8ERROR_SUCCESS )
-            {
-                LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                length = sqlite3_column_bytes( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN );
-                LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
-                result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-            }
-        }
-        (*out_diagram).list_order = sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN );
+        data_diagram_init( out_diagram,
+                           sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
+                           sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
+                           sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                           (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
+                           (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
+                           sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN )
+                          );
 
         data_diagram_trace( out_diagram );
     }
@@ -269,36 +247,16 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
         {
             *out_diagram_count = row_index+1;
             data_diagram_t *current_diag = &((*out_diagram)[row_index]);
-            data_diagram_init_empty(current_diag);
-            (*current_diag).id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN );
-            (*current_diag).parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN );
-            (*current_diag).diagram_type = sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN );
-            {
-                const char* sqlite_stringresult;
-                int length;
-                utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-                sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN );
-                strerr = utf8stringbuf_copy_str( (*current_diag).name, sqlite_stringresult );
-                if ( strerr != UTF8ERROR_SUCCESS )
-                {
-                    LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                    length = sqlite3_column_bytes( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN );
-                    LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
-                    result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-                }
 
-                sqlite_stringresult = (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN );
-                strerr = utf8stringbuf_copy_str( (*current_diag).description, sqlite_stringresult );
-                if ( strerr != UTF8ERROR_SUCCESS )
-                {
-                    LOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
-                    length = sqlite3_column_bytes( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN );
-                    LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", length );
-                    result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-                }
-            }
-            (*current_diag).list_order = sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN );
+            data_diagram_init( current_diag,
+                               sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
+                               sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
+                               sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                               (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
+                               (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
+                               sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN )
+            );
 
             data_diagram_trace( current_diag );
         }

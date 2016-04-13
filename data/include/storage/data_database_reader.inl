@@ -43,13 +43,12 @@ static inline data_error_t data_database_reader_private_prepare_statement ( data
     db = data_database_get_database_ptr ( (*this_).database );
 
     TRACE_INFO_STR( "sqlite3_prepare_v2():", string_statement );
-    sqlite_err = sqlite3_prepare_v2(
-        db,
-        string_statement,
-        string_size,
-        out_statement_ptr,
-        &first_unused_statement_char
-    );
+    sqlite_err = sqlite3_prepare_v2( db,
+                                     string_statement,
+                                     string_size,
+                                     out_statement_ptr,
+                                     &first_unused_statement_char
+                                   );
     if (( SQLITE_OK != sqlite_err )
         || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
     {

@@ -177,7 +177,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).parent_id );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagram).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )

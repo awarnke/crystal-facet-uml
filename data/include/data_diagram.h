@@ -52,9 +52,13 @@ enum data_diagram_id_enum {
  *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
+ *  \param parent_diagram_id id of the parent diagram
+ *  \param diagram_type type of the diagram
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
+ *  \param diagram_description description of the diagram. diagram_description must not be NULL.
+ *  \param list_order list_order of the diagram
  */
-static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
+static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order );
 
 /*!
  *  \brief initializes the data_diagram_t struct with id and parent_id DATA_DIAGRAM_ID_VOID_ID; all other values are zero.
@@ -67,9 +71,14 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ );
  *  \brief initializes the data_diagram_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram
+ *  \param parent_diagram_id id of the parent diagram
+ *  \param diagram_type type of the diagram
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
+ *  \param diagram_description description of the diagram. diagram_description must not be NULL.
+ *  \param list_order list_order of the diagram
  */
-static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description );
+static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order );
 
 /*!
  *  \brief destroys the data_diagram_t struct
