@@ -122,6 +122,45 @@ static inline void data_classifier_trace ( data_classifier_t *this_ )
     TRACE_INFO_INT( "- y_order:", (*this_).y_order );
 }
 
+static inline int64_t data_classifier_get_id ( data_classifier_t *this_ )
+{
+    return (*this_).id;
+}
+
+static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ )
+{
+    return (*this_).main_type;
+}
+
+static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).stereotype );
+}
+
+static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).name );
+}
+
+static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).description );
+}
+
+static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ )
+{
+    return (*this_).x_order;
+}
+
+static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ )
+{
+    return (*this_).y_order;
+}
+
+static inline bool data_classifier_is_valid ( data_classifier_t *this_ )
+{
+    return ( DATA_ID_CONST_VOID_ID != (*this_).id );
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

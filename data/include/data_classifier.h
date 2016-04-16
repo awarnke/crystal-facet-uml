@@ -113,6 +113,62 @@ static inline void data_classifier_destroy ( data_classifier_t *this_ );
  */
 static inline void data_classifier_trace ( data_classifier_t *this_ );
 
+/*!
+ *  \brief gets the attribute id
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline int64_t data_classifier_get_id ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute name
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute x_order
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ );
+
+/*!
+ *  \brief gets the attribute y_order
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ );
+
+/*!
+ *  \brief checks if attribute id is not DATA_ID_CONST_VOID_ID
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline bool data_classifier_is_valid ( data_classifier_t *this_ );
+
 #include "data_classifier.inl"
 
 #endif  /* DATA_CLASSIFIER_H */
