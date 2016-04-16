@@ -344,6 +344,43 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
     *out_classifier_count = 0;
+    sqlite_err = SQLITE_ROW;
+    for ( int32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+    {
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+        {
+            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+        {
+            *out_classifier_count = row_index+1;
+            data_classifier_t *current_classifier = &((*out_classifier)[row_index]);
+
+            result |= data_classifier_init( current_classifier,
+                                            sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_STEREOTYPE_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
+            );
+
+            data_classifier_trace( current_classifier );
+        }
+        if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+        {
+            LOG_ERROR_INT( "out_classifier[] full:", (row_index+1) );
+            result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        }
+        if ( SQLITE_DONE == sqlite_err )
+        {
+            TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+        }
+    }
 
     result |= data_database_reader_private_unlock( this_ );
 
