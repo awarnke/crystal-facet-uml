@@ -10,6 +10,7 @@
  */
 
 #include "data_classifier_type.h"
+#include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
 #include <stdbool.h>
@@ -51,11 +52,22 @@ typedef struct data_classifier_struct data_classifier_t;
  *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_type type of the classifier.
- *  \param classifier_name name of the classifier. classifier_name must not be NULL.
- *  \param classifier_description description of the classifier. classifier_description must not be NULL.
+ *  \param main_type type of the classifier.
+ *  \param stereotype name of the classifier. classifier_name must not be NULL.
+ *  \param name name of the classifier. classifier_name must not be NULL.
+ *  \param description description of the classifier. classifier_description must not be NULL.
+ *  \param x_order sequence oder of objects in x-direction
+ *  \param y_order sequence oder of objects in y direction
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
-static inline void data_classifier_init_new ( data_classifier_t *this_, data_classifier_type_t classifier_type, const char* classifier_name, const char* classifier_description );
+static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
+                                                      data_classifier_type_t main_type,
+                                                      const char* stereotype,
+                                                      const char* name,
+                                                      const char* description,
+                                                      int32_t x_order,
+                                                      int32_t y_order
+                                                    );
 
 /*!
  *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID; all other values are zero.
@@ -65,11 +77,41 @@ static inline void data_classifier_init_new ( data_classifier_t *this_, data_cla
 static inline void data_classifier_init_empty ( data_classifier_t *this_ );
 
 /*!
+ *  \brief initializes the data_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the classifier
+ *  \param main_type type of the classifier.
+ *  \param stereotype name of the classifier. classifier_name must not be NULL.
+ *  \param name name of the classifier. classifier_name must not be NULL.
+ *  \param description description of the classifier. classifier_description must not be NULL.
+ *  \param x_order sequence oder of objects in x-direction
+ *  \param y_order sequence oder of objects in y direction
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_classifier_init ( data_classifier_t *this_,
+                                                  int64_t id,
+                                                  data_classifier_type_t main_type,
+                                                  const char* stereotype,
+                                                  const char* name,
+                                                  const char* description,
+                                                  int32_t x_order,
+                                                  int32_t y_order
+                                                );
+
+/*!
  *  \brief destroys the data_classifier_t struct
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_classifier_destroy ( data_classifier_t *this_ );
+
+/*!
+ *  \brief prints the data_classifier_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_classifier_trace ( data_classifier_t *this_ );
 
 #include "data_classifier.inl"
 

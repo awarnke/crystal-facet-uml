@@ -3,9 +3,10 @@
 #include "log.h"
 #include "trace.h"
 
-static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
+static inline data_error_t data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
 {
     utf8error_t strerr;
+    data_error_t result = DATA_ERROR_NONE;
 
     (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
     (*this_).parent_id = parent_diagram_id;
@@ -16,6 +17,7 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -23,9 +25,12 @@ static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).list_order = list_order;
+
+    return result;
 }
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
@@ -42,9 +47,10 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
     (*this_).list_order = 0;
 }
 
-static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
+static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
 {
     utf8error_t strerr;
+    data_error_t result = DATA_ERROR_NONE;
 
     (*this_).id = diagram_id;
     (*this_).parent_id = parent_diagram_id;
@@ -55,6 +61,7 @@ static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
@@ -62,8 +69,11 @@ static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id
     if ( strerr != UTF8ERROR_SUCCESS )
     {
         LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
+
+    return result;
 }
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )

@@ -10,6 +10,7 @@
  */
 
 #include "data_diagram_type.h"
+#include "data_error.h"
 #include "data_id.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -57,8 +58,15 @@ enum data_diagram_id_enum {
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  *  \param diagram_description description of the diagram. diagram_description must not be NULL.
  *  \param list_order list_order of the diagram
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
-static inline void data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order );
+static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
+                                                   int64_t parent_diagram_id,
+                                                   data_diagram_type_t diagram_type,
+                                                   const char* diagram_name,
+                                                   const char* diagram_description,
+                                                   int32_t list_order
+                                                 );
 
 /*!
  *  \brief initializes the data_diagram_t struct with id and parent_id DATA_DIAGRAM_ID_VOID_ID; all other values are zero.
@@ -77,8 +85,16 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ );
  *  \param diagram_name name of the diagram. diagram_name must not be NULL.
  *  \param diagram_description description of the diagram. diagram_description must not be NULL.
  *  \param list_order list_order of the diagram
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
-static inline void data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order );
+static inline data_error_t data_diagram_init ( data_diagram_t *this_,
+                                               int64_t diagram_id,
+                                               int64_t parent_diagram_id,
+                                               data_diagram_type_t diagram_type,
+                                               const char* diagram_name,
+                                               const char* diagram_description,
+                                               int32_t list_order
+                                             );
 
 /*!
  *  \brief destroys the data_diagram_t struct

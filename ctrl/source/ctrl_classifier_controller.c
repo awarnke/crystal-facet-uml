@@ -35,7 +35,8 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
 
     /* create a classifier row */
 
-    data_classifier_init_new( &to_be_created, classifier_type, classifier_name, "" );
+    data_result = data_classifier_init_new( &to_be_created, classifier_type, "", classifier_name, "", 0, 0 );
+    result |= (ctrl_error_t) data_result;
 
     data_result = data_database_writer_create_classifier( &((*this_).db_writer), &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
@@ -45,12 +46,12 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    result |= (ctrl_error_t) data_result;
 
     data_classifier_destroy( &to_be_created );
 
     /* create a diagramelement row */
-    if ( CTRL_ERROR_NONE == result )
+    if ( DATA_ERROR_NONE == data_result )
     {
         data_diagramelement_t link_to_be_created;
         int64_t new_link_id;
@@ -60,7 +61,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
         data_result = data_database_writer_create_diagramelement( &((*this_).db_writer), &link_to_be_created, &new_link_id );
         if ( DATA_ERROR_NONE != data_result )
         {
-            result = (ctrl_error_t) data_result;
+            result |= (ctrl_error_t) data_result;
         }
 
         data_diagramelement_destroy( &link_to_be_created );

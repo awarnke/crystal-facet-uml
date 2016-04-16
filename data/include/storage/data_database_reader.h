@@ -77,7 +77,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
  *  \param out_classifier the classifier read from the database (in case of success)
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_classifier );
+data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
 
 /*!
  *  \brief reads all classifier of a diagram from the database
