@@ -50,6 +50,46 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  */
 ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_, int64_t diagram_id, data_classifier_type_t classifier_type, const char* classifier_name, int64_t* out_new_id );
 
+/*!
+ *  \brief updates the classifier attribute: stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_stereotype new description text of the classifier
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_stereotype );
+
+/*!
+ *  \brief updates the classifier attribute: description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_description new description text of the classifier
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_description );
+
+/*!
+ *  \brief updates the classifier attribute: name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_name new name of the classifier
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_name );
+
+/*!
+ *  \brief updates the classifier attribute: main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_main_type new main_type of the classifier
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 
 

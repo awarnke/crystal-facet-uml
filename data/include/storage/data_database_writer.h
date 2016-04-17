@@ -101,6 +101,46 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
 
 /*!
+ *  \brief updates the classifier attribute: stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_stereotype new stereotype text of the classifier
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_stereotype );
+
+/*!
+ *  \brief updates the classifier attribute: description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_description new description text of the classifier
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_description );
+
+/*!
+ *  \brief updates the classifier attribute: name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_name new name of the classifier
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_name );
+
+/*!
+ *  \brief updates the classifier attribute: main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_main_type new main_type of the classifier
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+
+/*!
  *  \brief creates a new diagramelement and returns its id
  *
  *  \param this_ pointer to own object attributes

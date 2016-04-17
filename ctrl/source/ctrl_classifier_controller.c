@@ -71,6 +71,58 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
     return result;
 }
 
+ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_stereotype )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    data_result = data_database_writer_update_classifier_stereotype( &((*this_).db_writer), classifier_id, new_classifier_stereotype );
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_description )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    data_result = data_database_writer_update_classifier_description( &((*this_).db_writer), classifier_id, new_classifier_description );
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_name )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    data_result = data_database_writer_update_classifier_name( &((*this_).db_writer), classifier_id, new_classifier_name );
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    data_result = data_database_writer_update_classifier_main_type( &((*this_).db_writer), classifier_id, new_classifier_main_type );
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
