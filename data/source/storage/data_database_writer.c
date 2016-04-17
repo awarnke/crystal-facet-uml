@@ -101,6 +101,41 @@ static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_INFIX = " WHERE id=";
 static const char *DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX = ";";
 
 /*!
+ *  \brief prefix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_PREFIX = "UPDATE classifiers SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_STEREOTYPE = "stereotype=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_MAIN_TYPE = "main_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_NAME = "name=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief infix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX = ";";
+
+/*!
  *  \brief translation table to encode strings for usage in string literals
  *
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
@@ -343,6 +378,134 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
     return( result );
 }
 
+data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_stereotype )
+{
+    TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_classifier_stereotype );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_STEREOTYPE );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).private_temp_stringbuf, new_classifier_stereotype );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_classifier_name_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_name )
+{
+    TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_classifier_name );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_NAME );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).private_temp_stringbuf, new_classifier_name );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_classifier_description_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_description )
+{
+    TRACE_BEGIN();
+    LOG_ASSERT( NULL != new_classifier_description );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_DESCRIPTION );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).private_temp_stringbuf, new_classifier_description );
+        strerr |= utf8stringbuf_replace_all( (*this_).private_temp_stringbuf, DATA_DATABASE_WRITER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).private_sql_stringbuf, (*this_).private_temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_update_classifier_main_type_cmd ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_COL_MAIN_TYPE );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, new_classifier_main_type );
+
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement )
 {
     TRACE_BEGIN();
@@ -545,11 +708,11 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
-#if 0
-    result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
+
+    result |= data_database_writer_private_build_update_classifier_stereotype_cmd( this_, classifier_id, new_classifier_stereotype );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
-#endif
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
@@ -564,11 +727,11 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
-#if 0
-    result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
+
+    result |= data_database_writer_private_build_update_classifier_description_cmd( this_, classifier_id, new_classifier_description );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
-#endif
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
@@ -583,11 +746,11 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
-#if 0
-    result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
+
+    result |= data_database_writer_private_build_update_classifier_name_cmd( this_, classifier_id, new_classifier_name );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
-#endif
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
@@ -602,11 +765,11 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
-#if 0
-    result |= data_database_writer_private_build_update_diagram_type_cmd( this_, diagram_id, new_diagram_type );
+
+    result |= data_database_writer_private_build_update_classifier_main_type_cmd( this_, classifier_id, new_classifier_main_type );
 
     result |= data_database_writer_private_execute_single_command( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ), false, NULL );
-#endif
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );

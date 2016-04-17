@@ -207,6 +207,42 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
 data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier );
 
 /*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_stereotype new stereotype of the classifier
+ */
+data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_stereotype );
+
+/*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_name new name of the classifier
+ */
+data_error_t data_database_writer_private_build_update_classifier_name_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_name );
+
+/*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_description new description of the classifier
+ */
+data_error_t data_database_writer_private_build_update_classifier_description_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_description );
+
+/*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_main_type new description of the classifier
+ */
+data_error_t data_database_writer_private_build_update_classifier_main_type_cmd ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+
+/*!
  *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
