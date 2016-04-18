@@ -16,10 +16,19 @@
 #include <stdbool.h>
 
 /*!
+ *  \brief constants for maximum values of pencil_input_data_t
+ */
+enum pencil_input_data_max_enum {
+    GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS = 256,  /*!< maximum number of classifiers to be shown in one single diagram */
+};
+
+/*!
  *  \brief attributes of the pencil_input_data_t
  */
 struct pencil_input_data_struct {
-    data_diagram_t diagram;  /*!< main diagram record */
+    data_diagram_t diagram;  /*!< the diagram record */
+    uint32_t classifier_count;  /*!< number of all contained classifier records */
+    data_classifier_t classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained classifier records */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;
@@ -53,6 +62,22 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
 
 /*!
+ *  \brief gets the number of classifiers within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_get_classifier_count ( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief gets the address of the diagram within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the classifier to retrieve; 0 <= index < pencil_input_data_get_classifier_count.
+ *  \param return NULL if index >= pencil_input_data_get_classifier_count; pointer to data_classifier_t otherwise.
+ */
+static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
+
+/*!
  *  \brief checks if the diagram data is valid
  *
  *  \param this_ pointer to own object attributes
@@ -65,6 +90,15 @@ static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief destroys all contained classifiers
+ *
+ *  classifier_count is set to zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ );
 
 #include "pencil_input_data.inl"
 

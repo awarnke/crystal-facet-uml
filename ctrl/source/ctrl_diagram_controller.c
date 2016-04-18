@@ -59,12 +59,13 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
     data_diagram_t root_diag_buf[1];
 
     /* load all without parent */
-    int32_t count;
+    uint32_t count;
     data_result = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
                                                                   DATA_DIAGRAM_ID_VOID_ID,
                                                                   1,
-                                                                  &count,
-                                                                  &(root_diag_buf) );
+                                                                  &(root_diag_buf),
+                                                                  &count
+                                                                );
     if ( DATA_ERROR_NONE != data_result )
     {
         result = (ctrl_error_t) data_result;

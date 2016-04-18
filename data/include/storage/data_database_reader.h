@@ -63,11 +63,11 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \param this_ pointer to own object attributes
  *  \param parent_id id of the parent diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \param out_diagram array of diagrams read from the database (in case of success)
+ *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] );
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, uint32_t max_out_array_size, data_diagram_t (*out_diagram)[], uint32_t *out_diagram_count );
 
 /*!
  *  \brief reads a classifier from the database
@@ -85,11 +85,11 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_classifier_count number of classifier records stored in out_diagram
  *  \param out_classifier array of classifiers read from the database (in case of success)
+ *  \param out_classifier_count number of classifier records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] );
+data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, uint32_t max_out_array_size, data_classifier_t (*out_classifier)[], uint32_t *out_classifier_count );
 
 /*!
  *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.

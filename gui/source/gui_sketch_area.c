@@ -121,12 +121,13 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     if ( DATA_DIAGRAM_ID_VOID_ID == main_diagram_id )
     {
         /* load all without parent */
-        int32_t count;
+        uint32_t count;
         db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                  DATA_DIAGRAM_ID_VOID_ID,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                                 &count,
-                                                                 &((*this_).private_temp_diagram_buf) );
+                                                                 &((*this_).private_temp_diagram_buf),
+                                                                 &count
+                                                               );
         if ( DATA_ERROR_NONE != db_err )
         {
             LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
@@ -148,7 +149,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
         /* cleanup */
         if ( DATA_ERROR_NONE == db_err )
         {
-            for ( int index = 0; index < count; index ++ )
+            for ( uint32_t index = 0; index < count; index ++ )
             {
                 data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
             }
@@ -180,19 +181,20 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
         (*this_).card_num = 2;
 
         /* load all children */
-        int32_t c_count;
+        uint32_t c_count;
         db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                  selected_diagram_id,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
-                                                                 &c_count,
-                                                                 &((*this_).private_temp_diagram_buf) );
+                                                                 &((*this_).private_temp_diagram_buf),
+                                                                 &c_count
+                                                               );
         if ( DATA_ERROR_NONE != db_err )
         {
             LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
         else
         {
-            for ( int index = 0; index < c_count; index ++ )
+            for ( uint32_t index = 0; index < c_count; index ++ )
             {
                 int64_t current_child_id;
                 current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );

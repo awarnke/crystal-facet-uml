@@ -21,6 +21,8 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
 
     static data_database_reader_t db_reader;
 
+    TRACE_INFO_INT("sizeof(gui_main_window_t):",sizeof(gui_main_window_t));
+    TRACE_INFO_INT("sizeof(gui_resources_t):",sizeof(gui_resources_t));
     TRACE_INFO("initializing gui thread...");
 
     gtk_init(&argc, &argv);

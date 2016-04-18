@@ -21,11 +21,13 @@ int main (int argc, char *argv[]) {
     int exit_code = 0;
 
     TRACE_INFO("starting DB...");
+    TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
     data_database_init( &database );
     data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );
 
     TRACE_TIMESTAMP();
     TRACE_INFO("initializing controller...");
+    TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
     ctrl_controller_init( &controller, &database );
 
     TRACE_TIMESTAMP();

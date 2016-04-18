@@ -71,7 +71,7 @@ static void create_read_modify_read(void)
     data_error_t data_err;
     const static int64_t DIAGRAM_ID = 19;
     int64_t classifier_id;
-    int32_t read_classifiers_count;
+    uint32_t read_classifiers_count;
     data_classifier_t read_classifiers[2];
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
@@ -111,7 +111,7 @@ static void create_read_modify_read(void)
 
     /* search several records, result array too small */
 
-    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, DIAGRAM_ID, 0, &read_classifiers_count, &read_classifiers );
+    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, DIAGRAM_ID, 0, &read_classifiers, &read_classifiers_count );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
     TEST_ASSERT_EQUAL_INT( 0, read_classifiers_count );
     /* check that old data is not overwritten: */
@@ -125,7 +125,7 @@ static void create_read_modify_read(void)
 
     /* search several records, result array sufficient */
 
-    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, DIAGRAM_ID, 2, &read_classifiers_count, &read_classifiers );
+    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, DIAGRAM_ID, 2, &read_classifiers, &read_classifiers_count );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, read_classifiers_count );
     /* check that new data is available */

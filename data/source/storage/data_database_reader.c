@@ -219,7 +219,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     return result;
 }
 
-data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, int32_t max_out_array_size, int32_t *out_diagram_count, data_diagram_t (*out_diagram)[] )
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, uint32_t max_out_array_size, data_diagram_t (*out_diagram)[], uint32_t *out_diagram_count )
 {
     TRACE_BEGIN();
     LOG_ASSERT( NULL != out_diagram_count );
@@ -236,7 +236,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 
     *out_diagram_count = 0;
     sqlite_err = SQLITE_ROW;
-    for ( int32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+    for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
     {
         TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );
@@ -328,7 +328,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     return result;
 }
 
-data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, int32_t max_out_array_size, int32_t *out_classifier_count, data_classifier_t (*out_classifier)[] )
+data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, uint32_t max_out_array_size, data_classifier_t (*out_classifier)[], uint32_t *out_classifier_count )
 {
     TRACE_BEGIN();
     LOG_ASSERT( NULL != out_classifier_count );
@@ -345,7 +345,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 
     *out_classifier_count = 0;
     sqlite_err = SQLITE_ROW;
-    for ( int32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+    for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
     {
         TRACE_INFO( "sqlite3_step()" );
         sqlite_err = sqlite3_step( prepared_statement );

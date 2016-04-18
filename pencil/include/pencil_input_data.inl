@@ -1,5 +1,7 @@
 /* File: pencil_input_data.inl; Copyright and License: see below */
 
+#include "log.h"
+
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ )
 {
     return &((*this_).diagram);
@@ -15,6 +17,37 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
     data_diagram_init_empty( &((*this_).diagram) );
 }
 
+static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ )
+{
+    LOG_ASSERT( (*this_).classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+
+    for ( int index = 0; index < (*this_).classifier_count; index ++ )
+    {
+        data_classifier_destroy ( &((*this_).classifiers[index]) );
+    }
+
+    (*this_).classifier_count = 0;
+}
+
+static inline uint32_t pencil_input_data_get_classifier_count ( pencil_input_data_t *this_ )
+{
+    return (*this_).classifier_count;
+}
+
+static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
+{
+    data_classifier_t *result;
+    if ( index < (*this_).classifier_count )
+    {
+        result = &((*this_).classifiers[index]);
+    }
+    else
+    {
+        result = NULL;
+        LOG_ERROR_INT( "index out of bounds (>=(*this_).classifier_count)", index );
+    }
+    return result;
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke
