@@ -1,7 +1,7 @@
-/* File: pencil_diagram_painter.h; Copyright and License: see below */
+/* File: pencil_classifier_painter.h; Copyright and License: see below */
 
-#ifndef PENCIL_DIAGRAM_PAINTER_H
-#define PENCIL_DIAGRAM_PAINTER_H
+#ifndef PENCIL_CLASSIFIER_PAINTER_H
+#define PENCIL_CLASSIFIER_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -10,43 +10,42 @@
  */
 
 #include "pencil_input_data.h"
-#include "pencil_classifier_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include <cairo.h>
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the diagram painter
+ *  \brief attributes of the classifier painter
  */
-struct pencil_diagram_painter_struct {
-    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
+struct pencil_classifier_painter_struct {
+    void *dummy;
 };
 
-typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
+typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
+void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
+void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
 
 /*!
- *  \brief draws the chosen diagram contents into the destination area of the cairo drawing context
+ *  \brief draws the chosen classifier contents into the destination area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination );
+void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination );
 
-#endif  /* PENCIL_DIAGRAM_PAINTER_H */
+#endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 
 
 /*

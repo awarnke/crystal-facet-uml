@@ -1,29 +1,25 @@
-/* File: pencil_diagram_painter.c; Copyright and License: see below */
+/* File: pencil_classifier_painter.c; Copyright and License: see below */
 
-#include "pencil_diagram_painter.h"
+#include "pencil_classifier_painter.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
+void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
-
-    pencil_classifier_painter_init( &((*this_).classifier_painter) );
 
     TRACE_END();
 }
 
-void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
+void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
-
-    pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
 
     TRACE_END();
 }
 
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination )
+void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
 
