@@ -40,9 +40,10 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
 
+    /* draw diagram border and name */
     {
         data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
-        TRACE_INFO_INT("drawing diagram id",(*diag).id);
+        TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(diag));
         if ( data_diagram_is_valid(diag) ) {
 
             /* draw border line */
@@ -58,7 +59,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
             cairo_stroke (cr);
 
             cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
-            cairo_show_text ( cr, utf8stringbuf_get_string( (*diag).name ) );
+            cairo_show_text ( cr, data_diagram_get_name_ptr( diag ) );
         }
         else
         {
@@ -70,6 +71,14 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
             cairo_line_to ( cr, right, top );
             cairo_stroke (cr);
         }
+    }
+
+    /* draw all contained classifiers */
+    if (( width > 10.0 ) && ( height > 20.0 ))
+    {
+        geometry_rectangle_t destination;
+        geometry_rectangle_init ( &destination, left + 5.0, top + 10.0, width - 10.0, height - 20.0 );
+        pencil_classifier_painter_draw ( &((*this_).classifier_painter), input_data, cr, destination );
     }
 
     TRACE_END();

@@ -36,35 +36,43 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
 
+    data_diagram_t *diag;
+    diag = pencil_input_data_get_diagram_ptr( input_data );
+
+    /* iterate over all classifiers */
     {
-        data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
-        TRACE_INFO_INT("drawing diagram id",(*diag).id);
-        if ( data_diagram_is_valid(diag) ) {
-
-            /* draw border line */
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-            cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
-            cairo_stroke (cr);
-
-            /* draw title corner */
-            cairo_move_to ( cr, left+2.0, top+2.0+14.0 );
-            cairo_line_to ( cr, left+(width/3.0), top+2.0+14.0 );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0+14.0-4.0 );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0 );
-            cairo_stroke (cr);
-
-            cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
-            cairo_show_text ( cr, utf8stringbuf_get_string( (*diag).name ) );
-        }
-        else
+        uint32_t count;
+        count = pencil_input_data_get_classifier_count ( input_data );
+        for ( uint32_t index = 0; index < count; index ++ )
         {
-            /* draw cross line */
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-            cairo_move_to ( cr, left, top );
-            cairo_line_to ( cr, right, bottom );
-            cairo_move_to ( cr, left, bottom );
-            cairo_line_to ( cr, right, top );
-            cairo_stroke (cr);
+            data_classifier_t *classifier;
+            classifier = pencil_input_data_get_classifier_ptr ( input_data, index );
+            if (( classifier != NULL ) && ( data_classifier_is_valid( classifier ) ))
+            {
+                TRACE_INFO_INT("drawing classifier id", data_classifier_get_id( classifier ) );
+
+                double box_top;
+                double box_height;
+                box_height = height;
+
+                cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+                cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
+                cairo_stroke (cr);
+
+                /* draw title corner */
+                cairo_move_to ( cr, left+2.0, top+2.0+14.0 );
+                cairo_line_to ( cr, left+(width/3.0), top+2.0+14.0 );
+                cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0+14.0-4.0 );
+                cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0 );
+                cairo_stroke (cr);
+
+                cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
+                cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+            }
+            else
+            {
+                LOG_ERROR("invalid classifier in array!");
+            }
         }
     }
 

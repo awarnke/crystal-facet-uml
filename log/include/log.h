@@ -16,6 +16,10 @@
 
 /*!
  *  \brief logs an error if the argument is false, and terminates the program
+ *
+ *  Guideline: Use LOG_ASSERT whenever you check a condition that is always valid if the current software module is bug-free.
+ *  Use LOG_ERROR_xxx when you check a condition that should be valid assumed remote software modules are bug-free.
+ *  Goal: The current software module should be robust in case remote software modules are using the interfaces in a wrong way.
  */
 #define LOG_ASSERT(x) { if (!(x)) { fprintf(LOG_OUT_STREAM,"\nERR : ASSERTION %s FAILED AT %s:%i\n",#x,__FILE__,__LINE__); exit(-1); } }
 

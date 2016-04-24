@@ -1,6 +1,7 @@
 /* File: unittest_main.c; Copyright and License: see below */
 
 #include "data_change_notifier_test.h"
+#include "data_small_set_test.h"
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_classifier_controller_test.h"
 #include "trace.h"
@@ -16,6 +17,7 @@ int main (int argc, char *argv[]) {
     int exit_code = 0;
 
     TestRunner_start();
+    TestRunner_runTest( data_small_set_test_get_list() );
     TestRunner_runTest( data_change_notifier_test_get_list() );
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
     TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
