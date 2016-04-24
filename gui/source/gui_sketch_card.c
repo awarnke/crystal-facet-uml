@@ -39,8 +39,8 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr )
     {
         int32_t left;
         int32_t top;
-        int32_t width;
-        int32_t height;
+        uint32_t width;
+        uint32_t height;
 
         left = shape_int_rectangle_get_left( &((*this_).bounds) );
         top = shape_int_rectangle_get_top( &((*this_).bounds) );

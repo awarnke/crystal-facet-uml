@@ -50,7 +50,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     {
         data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
         TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(diag));
-        if ( data_diagram_is_valid(diag) ) {
+        if ( data_diagram_is_valid(diag) )
+        {
 
             /* draw border line */
             cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
@@ -88,6 +89,34 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     }
 
     TRACE_END();
+}
+
+data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
+                                                        pencil_input_data_t *input_data,
+                                                        double x,
+                                                        double y,
+                                                        geometry_rectangle_t diagram_bounds )
+{
+    TRACE_BEGIN();
+
+    data_id_t result;
+    data_diagram_t *diag;
+    diag = pencil_input_data_get_diagram_ptr( input_data );
+
+    if ( geometry_rectangle_contains( &diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
+    {
+        data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
+
+        data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
+    }
+    else
+    {
+        TRACE_INFO( "no object at given location or no diagram chosen" );
+        data_id_init_void( &result );
+    }
+
+    TRACE_END();
+    return result;
 }
 
 

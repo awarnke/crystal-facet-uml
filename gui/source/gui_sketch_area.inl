@@ -61,6 +61,7 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
     }
 }
 
+
 /*
 Copyright 2016-2016 Andreas Warnke
 

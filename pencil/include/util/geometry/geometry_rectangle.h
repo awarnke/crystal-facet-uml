@@ -71,6 +71,16 @@ static inline double geometry_rectangle_get_width ( geometry_rectangle_t *this_ 
 static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_ );
 
 /*!
+ *  \brief determines if a given coordinate is within geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x coordinate
+ *  \param y y coordinate
+ *  \return true if the location is within the rectangle.
+ */
+static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, double x, double y );
+
+/*!
  *  \brief prints the geometry_rectangle_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes

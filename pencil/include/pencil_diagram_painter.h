@@ -61,6 +61,23 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    geometry_rectangle_t destination
                                  );
 
+/*!
+ *  \brief gets the object-id of the object at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be drawn
+ *  \param x x-position
+ *  \param y y-position
+ *  \param diagram_bounds the boundary rectangle where the diagram is drawn
+ *  \return an object id. The id is invalid if there is no object at the given location.
+ */
+data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
+                                                        pencil_input_data_t *input_data,
+                                                        double x,
+                                                        double y,
+                                                        geometry_rectangle_t diagram_bounds
+                                                      );
+
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 
 

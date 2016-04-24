@@ -40,6 +40,11 @@ static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_
     return (*this_).height;
 }
 
+static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, double x, double y )
+{
+    return (( (*this_).left <= x )&&( x < (*this_).left + (*this_).width )&&( (*this_).top <= y )&&( y < (*this_).top + (*this_).height ));
+}
+
 static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ )
 {
     TRACE_INFO( "geometry_rectangle_t" );

@@ -80,6 +80,13 @@ static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *th
  *  \brief gets the height of shape_int_rectangle_t
  *
  *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ );
+
+/*!
+ *  \brief determines if a given coordinate is within shape_int_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
  *  \param x a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  *  \param y a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  *  \return true if the pixel to the bottom-right of the denoted coordinate is within the rectangle.

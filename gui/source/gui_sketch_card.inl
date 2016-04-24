@@ -41,6 +41,29 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
     return pencil_input_data_get_diagram_ptr( &((*this_).painter_input_data) );
 }
 
+static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
+{
+    geometry_rectangle_t geo_rect;
+    int32_t left;
+    int32_t top;
+    uint32_t width;
+    uint32_t height;
+
+    left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+    geometry_rectangle_init( &geo_rect, left, top, width, height );
+
+    return pencil_diagram_painter_get_object_id_at_pos( &((*this_).painter),
+                                                        &((*this_).painter_input_data),
+                                                        (double) x,
+                                                        (double) y,
+                                                        geo_rect
+                                                      );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
