@@ -105,8 +105,8 @@ static inline data_error_t data_small_set_add_row ( data_small_set_t *this_, dat
         {
             if ( (*this_).count < DATA_SMALL_SET_MAX_SET_SIZE )
             {
-                (*this_).count ++;
                 (*this_).id_set[(*this_).count] = row_id;
+                (*this_).count ++;
             }
             else
             {
