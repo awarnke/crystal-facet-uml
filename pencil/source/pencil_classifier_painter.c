@@ -59,13 +59,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil
                 cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
                 cairo_stroke (cr);
 
-                /* draw title corner */
-                cairo_move_to ( cr, left+2.0, top+2.0+14.0 );
-                cairo_line_to ( cr, left+(width/3.0), top+2.0+14.0 );
-                cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0+14.0-4.0 );
-                cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0 );
-                cairo_stroke (cr);
-
                 cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
                 cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
             }

@@ -13,6 +13,8 @@
 #include "pencil_classifier_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
+#include "data_small_set.h"
+#include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -43,8 +45,21 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \brief draws the chosen diagram contents into the destination area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be drawn
+ *  \param mark_focused id of the object that is to be marked as "focused"
+ *  \param mark_highlighted id of the object that is to be marked as "highlighted"
+ *  \param mark_selected set of objects that are to be marked as "selected"
+ *  \param cr a cairo drawing context
+ *  \param destination the destination rectangle where to draw the diagram
  */
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination );
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+                                   pencil_input_data_t *input_data,
+                                   data_id_t *mark_focused,
+                                   data_id_t *mark_highlighted,
+                                   data_small_set_t *mark_selected,
+                                   cairo_t *cr,
+                                   geometry_rectangle_t destination
+                                 );
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

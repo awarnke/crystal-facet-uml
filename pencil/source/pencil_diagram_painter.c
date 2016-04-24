@@ -23,7 +23,13 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination )
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+                                   pencil_input_data_t *input_data,
+                                   data_id_t *mark_focused,
+                                   data_id_t *mark_highlighted,
+                                   data_small_set_t *mark_selected,
+                                   cairo_t *cr,
+                                   geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
 
@@ -77,7 +83,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_, pencil_input
     if (( width > 10.0 ) && ( height > 20.0 ))
     {
         geometry_rectangle_t destination;
-        geometry_rectangle_init ( &destination, left + 5.0, top + 10.0, width - 10.0, height - 20.0 );
+        geometry_rectangle_init ( &destination, left + 5.0, top + 15.0, width - 10.0, height - 20.0 );
         pencil_classifier_painter_draw ( &((*this_).classifier_painter), input_data, cr, destination );
     }
 
