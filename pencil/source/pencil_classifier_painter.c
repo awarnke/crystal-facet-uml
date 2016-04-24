@@ -53,13 +53,14 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil
 
                 double box_top;
                 double box_height;
-                box_height = height;
+                box_height = height/(double)count;
+                box_top = (double)index*box_height+top;
 
                 cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-                cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
+                cairo_rectangle ( cr, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
                 cairo_stroke (cr);
 
-                cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
+                cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
                 cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
             }
             else
