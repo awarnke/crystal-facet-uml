@@ -6,13 +6,13 @@
 static void set_up(void);
 static void tear_down(void);
 static void test_small_set_add_and_remove(void);
-static void test_notifier_list_full(void);
+static void test_small_set_full(void);
 
 TestRef data_small_set_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("test_small_set_add_and_remove",test_small_set_add_and_remove),
-        new_TestFixture("test_notifier_list_full",test_notifier_list_full),
+        new_TestFixture("test_small_set_full",test_small_set_full),
     };
     EMB_UNIT_TESTCALLER(result,"data_small_set_test_get_list",set_up,tear_down,fixtures);
 
@@ -104,11 +104,56 @@ static void test_small_set_add_and_remove(void)
     is_in = data_small_set_is_contained( &my_set, row_id );
     TEST_ASSERT_EQUAL_INT( false, is_in );
 
+    empty = data_small_set_is_empty ( &my_set );
+    TEST_ASSERT_EQUAL_INT( true, empty );
+
     data_small_set_destroy ( &my_set );
 }
 
-static void test_notifier_list_full(void)
+static void test_small_set_full(void)
 {
+
+    data_small_set_t my_set;
+    bool empty;
+    bool is_in;
+    data_id_t row_id;
+    data_error_t d_err;
+
+    data_small_set_init ( &my_set );
+
+    for ( int idx = 0; idx < DATA_SMALL_SET_MAX_SET_SIZE; idx ++ )
+    {
+        data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
+        d_err = data_small_set_add_row ( &my_set, row_id );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+        is_in = data_small_set_is_contained( &my_set, row_id );
+        TEST_ASSERT_EQUAL_INT( true, is_in );
+    }
+
+    data_id_init( &row_id, DATA_TABLE_DIAGRAM, 57000111222 );
+    d_err = data_small_set_add_row ( &my_set, row_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
+    is_in = data_small_set_is_contained( &my_set, row_id );
+    TEST_ASSERT_EQUAL_INT( false, is_in );
+
+    d_err = data_small_set_toggle_row ( &my_set, row_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, d_err );
+    is_in = data_small_set_is_contained( &my_set, row_id );
+    TEST_ASSERT_EQUAL_INT( false, is_in );
+
+    for ( int idx = 0; idx < DATA_SMALL_SET_MAX_SET_SIZE; idx ++ )
+    {
+        data_id_init( &row_id, DATA_TABLE_DIAGRAM, idx );
+        d_err = data_small_set_delete_row ( &my_set, row_id );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );
+        is_in = data_small_set_is_contained( &my_set, row_id );
+        TEST_ASSERT_EQUAL_INT( false, is_in );
+    }
+
+    empty = data_small_set_is_empty ( &my_set );
+    TEST_ASSERT_EQUAL_INT( true, empty );
+
+    data_small_set_destroy ( &my_set );
 }
 
 

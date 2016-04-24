@@ -106,7 +106,6 @@ static inline data_error_t data_small_set_delete_row ( data_small_set_t *this_, 
  */
 static inline data_error_t data_small_set_toggle_row ( data_small_set_t *this_, data_id_t row_id );
 
-
 #include "data_small_set.inl"
 
 #endif  /* DATA_SMALL_SET_H */
