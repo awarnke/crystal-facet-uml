@@ -1,5 +1,7 @@
 /* File: gui_sketch_area.inl; Copyright and License: see below */
 
+#include "log.h"
+
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
 {
     gint left, right, top, bottom;
@@ -59,6 +61,55 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
     {
         (*this_).listener[index] = NULL;
     }
+}
+
+static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+{
+    LOG_ASSERT( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    int64_t result = DATA_DIAGRAM_ID_VOID_ID;
+
+    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_t *card;
+        card = &((*this_).cards[idx]);
+        shape_int_rectangle_t card_bounds;
+        card_bounds = gui_sketch_card_get_bounds( card );
+        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
+        {
+            data_diagram_t *selected_diag;
+            selected_diag = gui_sketch_card_get_diagram_ptr( card );
+            result = data_diagram_get_id( selected_diag );
+        }
+    }
+    return result;
+}
+
+static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+{
+    LOG_ASSERT( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    data_id_t result;
+    data_id_init_void( &result );
+
+    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_t *card;
+        card = &((*this_).cards[idx]);
+        shape_int_rectangle_t card_bounds;
+        card_bounds = gui_sketch_card_get_bounds( card );
+        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
+        {
+            data_id_destroy( &result );
+            result = gui_sketch_card_get_object_id_at_pos ( card, x, y );
+            if ( ! data_id_is_valid( &result ) )
+            {
+                data_diagram_t *selected_diag;
+                selected_diag = gui_sketch_card_get_diagram_ptr( card );
+                data_id_destroy( &result );
+                data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
+            }
+        }
+    }
+    return result;
 }
 
 

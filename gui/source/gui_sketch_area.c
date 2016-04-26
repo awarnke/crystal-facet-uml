@@ -476,21 +476,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
 
                     /* search selected diagram */
-                    int64_t clicked_diagram_id = DATA_DIAGRAM_ID_VOID_ID;
-                    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
-                    {
-                        gui_sketch_card_t *card;
-                        card = &((*this_).cards[idx]);
-                        shape_int_rectangle_t card_bounds;
-                        card_bounds = gui_sketch_card_get_bounds( card );
-                        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
-                        {
-                            data_diagram_t *selected_diag;
-                            selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                            clicked_diagram_id = data_diagram_get_id( selected_diag );
-                            TRACE_INFO_INT( "clicked_diagram_id:", clicked_diagram_id );
-                        }
-                    }
+                    int64_t clicked_diagram_id;
+                    clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                    TRACE_INFO_INT( "clicked_diagram_id:", clicked_diagram_id );
 
                     /* load diagram */
                     if ( DATA_DIAGRAM_ID_VOID_ID != clicked_diagram_id )
@@ -511,7 +499,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 break;
             case GUI_SKETCH_TOOLS_EDIT:
-                TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+
+                    data_id_t obj;
+                    obj = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+                    data_id_trace( &obj );
+                }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");

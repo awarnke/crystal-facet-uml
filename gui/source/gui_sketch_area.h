@@ -52,7 +52,7 @@ struct gui_sketch_area_struct {
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
     int32_t card_num;
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
-    
+
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
 };
 
@@ -181,6 +181,26 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
  *  \param this_ pointer to own object attributes
  */
 void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
+
+/*!
+ *  \brief gets the diagram-id of the diagram at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return a diagram id. DATA_DIAGRAM_ID_VOID_ID if there is no diagram at the given location.
+ */
+static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
+
+/*!
+ *  \brief gets the object-id of the object at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return an object id. The id is invalid if there is no object at the given location.
+ */
+static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
 
 #include "gui_sketch_area.inl"
 
