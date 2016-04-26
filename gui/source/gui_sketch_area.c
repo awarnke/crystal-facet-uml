@@ -29,6 +29,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     {
         (*this_).listener[index] = NULL;
     }
+    gui_sketch_marker_init( &((*this_).marker) );
 
     gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_VOID_ID );
 
@@ -71,6 +72,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
         (*this_).listener[index] = NULL;
     }
 
+    gui_sketch_marker_destroy( &((*this_).marker) );
     TRACE_END();
 }
 

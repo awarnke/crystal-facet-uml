@@ -59,7 +59,7 @@ static inline bool data_small_set_is_empty ( data_small_set_t *this_ )
     return ( 0 == (*this_).count );
 }
 
-static inline bool data_small_set_is_contained ( data_small_set_t *this_, data_id_t row_id )
+static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t row_id )
 {
     LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     bool result;
@@ -76,12 +76,12 @@ static inline bool data_small_set_is_contained ( data_small_set_t *this_, data_i
     return result;
 }
 
-static inline bool data_small_set_is_row_contained ( data_small_set_t *this_, data_table_t table, int64_t id )
+static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t id )
 {
     bool result;
     data_id_t my_id;
     data_id_init( &my_id, table, id );
-    result = data_small_set_is_contained( this_, my_id );
+    result = data_small_set_contains( this_, my_id );
     data_id_destroy( &my_id );
     return result;
 }
@@ -147,7 +147,7 @@ static inline data_error_t data_small_set_toggle_row ( data_small_set_t *this_, 
 {
     data_error_t result;
 
-    if ( data_small_set_is_contained( this_, row_id ) )
+    if ( data_small_set_contains( this_, row_id ) )
     {
         result = data_small_set_delete_row( this_, row_id );
         LOG_ASSERT( result == DATA_ERROR_NONE );

@@ -66,7 +66,7 @@ static inline bool data_small_set_is_empty ( data_small_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param row_id id to be seached
  */
-static inline bool data_small_set_is_contained ( data_small_set_t *this_, data_id_t row_id );
+static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t row_id );
 
 /*!
  *  \brief checks if data_small_set_t contains a row id
@@ -75,7 +75,7 @@ static inline bool data_small_set_is_contained ( data_small_set_t *this_, data_i
  *  \param table table-id to be seached
  *  \param id row-id to be seached
  */
-static inline bool data_small_set_is_row_contained ( data_small_set_t *this_, data_table_t table, int64_t id );
+static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t id );
 
 /*!
  *  \brief adds a row_id to data_small_set_t

@@ -17,6 +17,7 @@
 #include "pencil_input_data.h"
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
+#include "gui_sketch_marker.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -45,6 +46,7 @@ struct gui_sketch_area_struct {
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
+    gui_sketch_marker_t marker;  /*!< own sketch marker instance */
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
