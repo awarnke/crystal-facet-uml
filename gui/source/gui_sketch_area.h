@@ -39,16 +39,20 @@ enum gui_sketch_area_const_enum {
 struct gui_sketch_area_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
-    int32_t card_num;
+
     bool mark_active;
     int32_t mark_start_x;
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
-    gui_sketch_marker_t marker;  /*!< own sketch marker instance */
+    gui_sketch_marker_t marker;  /*!< own instance of a sketch marker */
+
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
+
+    gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
+    int32_t card_num;
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
+    
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
 };
 
