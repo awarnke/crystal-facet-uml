@@ -31,7 +31,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr )
+void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
 
@@ -55,17 +55,14 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr )
         /* draw the current diagram */
         geometry_rectangle_t destination;
         geometry_rectangle_init( &destination, left, top, width, height );
-        data_id_t mark_focused;
-        data_id_t mark_highlighted;
-        data_small_set_t mark_selected;
-        data_id_init_void( &mark_focused );
-        data_id_init_void( &mark_highlighted );
-        data_small_set_init( &mark_selected );
+        data_id_t mark_focused = gui_sketch_marker_get_focused( marker );
+        data_id_t mark_highlighted = gui_sketch_marker_get_focused( marker );
+        data_small_set_t *mark_selected_set = gui_sketch_marker_get_selected_set_ptr( marker );
         pencil_diagram_painter_draw ( &((*this_).painter),
                                       &((*this_).painter_input_data),
                                       &mark_focused,
                                       &mark_highlighted,
-                                      &mark_selected,
+                                      mark_selected_set,
                                       cr,
                                       destination
                                     );

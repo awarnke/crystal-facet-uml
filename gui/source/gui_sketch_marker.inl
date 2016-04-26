@@ -2,16 +2,43 @@
 
 static inline void gui_sketch_marker_init ( gui_sketch_marker_t *this_ )
 {
-    data_id_init_void( &((*this_).mark_focused) );
-    data_id_init_void( &((*this_).mark_highlighted) );
-    data_small_set_init( &((*this_).mark_selected) );
+    data_id_init_void( &((*this_).focused) );
+    data_id_init_void( &((*this_).highlighted) );
+    data_small_set_init( &((*this_).selected_set) );
 }
 
 static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ )
 {
-    data_id_destroy( &((*this_).mark_focused) );
-    data_id_destroy( &((*this_).mark_highlighted) );
-    data_small_set_destroy( &((*this_).mark_selected) );
+    data_id_destroy( &((*this_).focused) );
+    data_id_destroy( &((*this_).highlighted) );
+    data_small_set_destroy( &((*this_).selected_set) );
+}
+
+static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ )
+{
+    return ( (*this_).focused );
+}
+
+static inline data_id_t gui_sketch_marker_get_highlighted ( gui_sketch_marker_t *this_ )
+{
+    return( (*this_).highlighted );
+}
+
+static inline data_small_set_t *gui_sketch_marker_get_selected_set_ptr ( gui_sketch_marker_t *this_ )
+{
+    return ( &((*this_).selected_set) );
+}
+
+static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t row_id )
+{
+    data_id_destroy( &((*this_).focused) );
+    (*this_).focused = row_id;
+}
+
+static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this_, data_id_t row_id )
+{
+    data_id_destroy( &((*this_).highlighted) );
+    (*this_).highlighted = row_id;
 }
 
 

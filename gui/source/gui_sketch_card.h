@@ -8,6 +8,7 @@
  *  \brief Caches diagram data and draws a diagram
  */
 
+#include "gui_sketch_marker.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -95,8 +96,10 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
  *  \brief draws a single diagram
  *
  *  \param this_ pointer to own object attributes
+ *  \param marker set of all objects to be marked
+ *  \param cr cairo drawing context
  */
-void gui_sketch_card_draw ( gui_sketch_card_t *this_, cairo_t *cr );
+void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marker, cairo_t *cr );
 
 /*!
  * \brief gets the address of the diagram within the painter input data of gui_sketch_card_t

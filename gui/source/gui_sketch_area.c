@@ -358,7 +358,7 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     /* draw all cards */
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
     {
-        gui_sketch_card_draw( &((*this_).cards[card_idx]), cr );
+        gui_sketch_card_draw( &((*this_).cards[card_idx]), &((*this_).marker), cr );
     }
 
     /* draw marking line */
