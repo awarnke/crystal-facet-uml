@@ -1,6 +1,7 @@
 /* File: gui_sketch_area.inl; Copyright and License: see below */
 
 #include "log.h"
+#include <assert.h>
 
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
 {
@@ -65,7 +66,7 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
 
 static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
-    LOG_ASSERT( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     int64_t result = DATA_DIAGRAM_ID_VOID_ID;
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -86,7 +87,7 @@ static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t 
 
 static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
-    LOG_ASSERT( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     data_id_t result;
     data_id_init_void( &result );
 

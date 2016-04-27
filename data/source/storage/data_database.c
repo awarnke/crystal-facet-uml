@@ -4,6 +4,7 @@
 #include "trace.h"
 #include "log.h"
 #include <unistd.h>
+#include <assert.h>
 
 /*!
  *  \brief string constant to create an sql database table
@@ -182,7 +183,7 @@ void data_database_init ( data_database_t *this_ )
 void data_database_open ( data_database_t *this_, const char* db_file_path )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != db_file_path );
+    assert( NULL != db_file_path );
     int sqlite_err;
 
     if ( (*this_).is_open )

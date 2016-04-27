@@ -6,6 +6,7 @@
 #include <glib-object.h>
 #include <unistd.h>
 #include <string.h>
+#include <assert.h>
 
 static bool data_change_notifier_glib_signal_initialized = false;
 static guint data_change_notifier_glib_signal_id = 0;
@@ -75,7 +76,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_ )
 data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, GObject *new_listener )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_listener );
+    assert( NULL != new_listener );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_initialized )
@@ -125,7 +126,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
 data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != no_listener );
+    assert( NULL != no_listener );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_initialized )

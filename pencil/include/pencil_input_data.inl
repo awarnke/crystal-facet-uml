@@ -1,6 +1,7 @@
 /* File: pencil_input_data.inl; Copyright and License: see below */
 
 #include "log.h"
+#include <assert.h>
 
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ )
 {
@@ -19,7 +20,7 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
 
 static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ )
 {
-    LOG_ASSERT( (*this_).classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+    assert( (*this_).classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
 
     for ( int index = 0; index < (*this_).classifier_count; index ++ )
     {

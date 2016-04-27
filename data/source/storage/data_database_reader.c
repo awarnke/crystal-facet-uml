@@ -5,6 +5,7 @@
 #include "log.h"
 #include "util/string/utf8stringbuf.h"
 #include <sqlite3.h>
+#include <assert.h>
 
 /*!
  *  \brief predefined search statement to find a diagram by id
@@ -100,7 +101,7 @@ static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != database );
+    assert( NULL != database );
     int sqlite_err;
     const char *first_unused_statement_char;
     int perr;
@@ -173,7 +174,7 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != out_diagram );
+    assert( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
@@ -222,8 +223,8 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, uint32_t max_out_array_size, data_diagram_t (*out_diagram)[], uint32_t *out_diagram_count )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != out_diagram_count );
-    LOG_ASSERT( NULL != out_diagram );
+    assert( NULL != out_diagram_count );
+    assert( NULL != out_diagram );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
@@ -281,7 +282,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != out_classifier );
+    assert( NULL != out_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
@@ -331,8 +332,8 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, uint32_t max_out_array_size, data_classifier_t (*out_classifier)[], uint32_t *out_classifier_count )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != out_classifier_count );
-    LOG_ASSERT( NULL != out_classifier );
+    assert( NULL != out_classifier_count );
+    assert( NULL != out_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;

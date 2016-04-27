@@ -2,6 +2,7 @@
 
 #include "trace.h"
 #include "log.h"
+#include <assert.h>
 
 static inline void data_small_set_init ( data_small_set_t *this_ )
 {
@@ -10,7 +11,7 @@ static inline void data_small_set_init ( data_small_set_t *this_ )
 
 static inline void data_small_set_destroy ( data_small_set_t *this_ )
 {
-    LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
 
     for ( uint32_t index = 0; index < (*this_).count; index ++ )
     {
@@ -21,7 +22,7 @@ static inline void data_small_set_destroy ( data_small_set_t *this_ )
 
 static inline void data_small_set_trace ( data_small_set_t *this_ )
 {
-    LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
 
     TRACE_INFO( "data_small_set_t" );
     TRACE_INFO_INT( "- count:", (*this_).count );
@@ -61,7 +62,7 @@ static inline bool data_small_set_is_empty ( data_small_set_t *this_ )
 
 static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t row_id )
 {
-    LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     bool result;
     result = false;
 
@@ -88,7 +89,7 @@ static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, dat
 
 static inline data_error_t data_small_set_add_row ( data_small_set_t *this_, data_id_t row_id )
 {
-    LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     data_error_t result;
     result = DATA_ERROR_NONE;
 
@@ -124,7 +125,7 @@ static inline data_error_t data_small_set_add_row ( data_small_set_t *this_, dat
 
 static inline data_error_t data_small_set_delete_row ( data_small_set_t *this_, data_id_t row_id )
 {
-    LOG_ASSERT( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     data_error_t result;
     result = DATA_ERROR_INVALID_REQUEST;
 
@@ -150,7 +151,7 @@ static inline data_error_t data_small_set_toggle_row ( data_small_set_t *this_, 
     if ( data_small_set_contains( this_, row_id ) )
     {
         result = data_small_set_delete_row( this_, row_id );
-        LOG_ASSERT( result == DATA_ERROR_NONE );
+        assert( result == DATA_ERROR_NONE );
     }
     else
     {

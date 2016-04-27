@@ -5,6 +5,7 @@
 #include "trace.h"
 #include "log.h"
 #include <sqlite3.h>
+#include <assert.h>
 
 /*!
  *  \brief string constant to start a transaction
@@ -148,7 +149,7 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != database );
+    assert( NULL != database );
     int perr;
 
     (*this_).database = database;
@@ -181,7 +182,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
 data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != diagram );
+    assert( NULL != diagram );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -228,7 +229,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
 data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_diagram_name );
+    assert( NULL != new_diagram_name );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -262,7 +263,7 @@ data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_d
 data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_diagram_description );
+    assert( NULL != new_diagram_description );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -321,7 +322,7 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
 data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != classifier );
+    assert( NULL != classifier );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -381,7 +382,7 @@ data_error_t data_database_writer_private_build_create_classifier_command ( data
 data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_stereotype )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_classifier_stereotype );
+    assert( NULL != new_classifier_stereotype );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -415,7 +416,7 @@ data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd
 data_error_t data_database_writer_private_build_update_classifier_name_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_name )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_classifier_name );
+    assert( NULL != new_classifier_name );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -449,7 +450,7 @@ data_error_t data_database_writer_private_build_update_classifier_name_cmd ( dat
 data_error_t data_database_writer_private_build_update_classifier_description_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_description )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_classifier_description );
+    assert( NULL != new_classifier_description );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -509,7 +510,7 @@ data_error_t data_database_writer_private_build_update_classifier_main_type_cmd 
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != diagramelement );
+    assert( NULL != diagramelement );
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -534,8 +535,8 @@ data_error_t data_database_writer_private_build_create_diagramelement_command ( 
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != sql_statement );
-    LOG_ASSERT( !(fetch_new_id) || (NULL != out_new_id) );
+    assert( NULL != sql_statement );
+    assert( !(fetch_new_id) || (NULL != out_new_id) );
     int64_t new_id;
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
@@ -604,8 +605,8 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != diagram );
-    LOG_ASSERT( NULL != out_new_id );
+    assert( NULL != diagram );
+    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
@@ -625,7 +626,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_diagram_description );
+    assert( NULL != new_diagram_description );
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
@@ -645,7 +646,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != new_diagram_name );
+    assert( NULL != new_diagram_name );
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
@@ -684,8 +685,8 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != classifier );
-    LOG_ASSERT( NULL != out_new_id );
+    assert( NULL != classifier );
+    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
@@ -781,8 +782,8 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id )
 {
     TRACE_BEGIN();
-    LOG_ASSERT( NULL != diagramelement );
-    LOG_ASSERT( NULL != out_new_id );
+    assert( NULL != diagramelement );
+    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );

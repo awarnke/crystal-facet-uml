@@ -1,6 +1,7 @@
 /* File: gtk_helper_tree_model.inl; Copyright and License: see below */
 
 #include "log.h"
+#include <assert.h>
 
 static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, int id_col, int id )
 {
@@ -18,7 +19,7 @@ static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, in
         GValue probe = G_VALUE_INIT;
         gtk_tree_model_get_value ( tree_model, &iter, id_col, &probe );
 
-        LOG_ASSERT( G_VALUE_TYPE(&probe) == G_TYPE_INT );
+        assert( G_VALUE_TYPE(&probe) == G_TYPE_INT );
 
         int probe_int;
         probe_int = g_value_get_int ( &probe );
@@ -55,7 +56,7 @@ static inline int gtk_helper_tree_model_get_id ( GtkTreeModel *tree_model, int i
         GValue probe = G_VALUE_INIT;
         gtk_tree_model_get_value ( tree_model, &iter, id_col, &probe );
 
-        LOG_ASSERT( G_VALUE_TYPE(&probe) == G_TYPE_INT );
+        assert( G_VALUE_TYPE(&probe) == G_TYPE_INT );
 
         result = g_value_get_int ( &probe );
     }
