@@ -81,10 +81,10 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     }
 
     /* draw all contained classifiers */
-    if (( width > 10.0 ) && ( height > 20.0 ))
+    if (( width > 10.0 ) && ( height > 25.0 ))
     {
         geometry_rectangle_t destination;
-        geometry_rectangle_init ( &destination, left + 5.0, top + 15.0, width - 10.0, height - 20.0 );
+        geometry_rectangle_init ( &destination, left + 5.0, top + 20.0, width - 10.0, height - 25.0 );
         pencil_classifier_painter_draw ( &((*this_).classifier_painter), input_data, cr, destination );
     }
 
@@ -105,9 +105,22 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
 
     if ( geometry_rectangle_contains( &diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
     {
-        data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
+        geometry_rectangle_t classifier_bounds;
+        geometry_rectangle_init( &classifier_bounds,
+                                 geometry_rectangle_get_left ( &diagram_bounds ) + 5.0,
+                                 geometry_rectangle_get_top ( &diagram_bounds ) + 20.0,
+                                 geometry_rectangle_get_width ( &diagram_bounds ) - 10.0,
+                                 geometry_rectangle_get_height ( &diagram_bounds ) - 25.0
+                               );
 
-        data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
+        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds );
+
+        if ( ! data_id_is_valid( &result ) )
+        {
+            data_id_destroy( &result );
+            data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
+            data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
+        }
     }
     else
     {

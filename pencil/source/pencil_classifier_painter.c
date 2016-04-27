@@ -19,7 +19,10 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil_input_data_t *input_data, cairo_t *cr, geometry_rectangle_t destination )
+void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
+                                      pencil_input_data_t *input_data,
+                                      cairo_t *cr,
+                                      geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
 
@@ -32,12 +35,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil
     bottom = geometry_rectangle_get_bottom ( &destination );
     width = geometry_rectangle_get_width ( &destination );
     height = geometry_rectangle_get_height ( &destination );
-
-    TRACE_INFO_INT( "w", (int)(width) );
-    TRACE_INFO_INT( "h", (int)(height) );
-
-    data_diagram_t *diag;
-    diag = pencil_input_data_get_diagram_ptr( input_data );
 
     /* iterate over all classifiers */
     {
@@ -71,6 +68,52 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_, pencil
     }
 
     TRACE_END();
+}
+
+data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_painter_t *this_,
+                                                           pencil_input_data_t *input_data,
+                                                           double x,
+                                                           double y,
+                                                           geometry_rectangle_t destination )
+{
+    TRACE_BEGIN();
+    data_id_t result;
+
+    if ( geometry_rectangle_contains( &destination, x, y ) )
+    {
+        double top;
+        double height;
+        top = geometry_rectangle_get_top ( &destination );
+        height = geometry_rectangle_get_height ( &destination );
+
+        uint32_t count;
+        count = pencil_input_data_get_classifier_count ( input_data );
+        uint32_t index = (uint32_t) (((y-top) * count) / height);
+        if ( index < count )
+        {
+            data_classifier_t *classifier;
+            classifier = pencil_input_data_get_classifier_ptr ( input_data, index );
+            if (( classifier != NULL ) && ( data_classifier_is_valid( classifier ) ))
+            {
+                data_id_init( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+            }
+            else
+            {
+                data_id_init_void( &result );
+            }
+        }
+        else
+        {
+            data_id_init_void( &result );
+        }
+    }
+    else
+    {
+        data_id_init_void( &result );
+    }
+
+    TRACE_END();
+    return result;
 }
 
 
