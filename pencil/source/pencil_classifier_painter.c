@@ -21,8 +21,8 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 
 void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       pencil_input_data_t *input_data,
-                                      data_id_t *mark_focused,
-                                      data_id_t *mark_highlighted,
+                                      data_id_t mark_focused,
+                                      data_id_t mark_highlighted,
                                       data_small_set_t *mark_selected,
                                       cairo_t *cr,
                                       geometry_rectangle_t destination )
@@ -56,7 +56,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 box_height = height/(double)count;
                 box_top = (double)index*box_height+top;
 
-                if ( data_id_equals_id( mark_highlighted, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) ))
+                if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) ))
                 {
                     cairo_set_source_rgba( cr, 0.8, 0.0, 0.0, 1.0 );
                 }

@@ -16,6 +16,7 @@ void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, d
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
+    data_classifier_init_empty( &((*this_).private_classifier_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
 
     {
@@ -64,6 +65,7 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     data_id_destroy( &((*this_).selected_object_id) );
     data_diagram_destroy( &((*this_).private_diagram_cache) );
+    data_classifier_destroy( &((*this_).private_classifier_cache) );
 
     g_object_unref((*this_).diagram_types);
     (*this_).diagram_types = NULL;
@@ -313,7 +315,11 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
             gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
             break;
         case DATA_TABLE_CLASSIFIER:
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            {
+                const char* text;
+                text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
+                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            }
             break;
         case DATA_TABLE_FEATURE:
             gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
@@ -359,6 +365,10 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         case DATA_TABLE_CLASSIFIER:
             {
                 gtk_widget_show( GTK_WIDGET ( widget ) );
+
+                const char* text;
+                text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
             }
             break;
         case DATA_TABLE_FEATURE:
@@ -401,7 +411,12 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
             gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
             break;
         case DATA_TABLE_CLASSIFIER:
-            gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
+            {
+                const char* text;
+                text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
+
+                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
+            }
             break;
         case DATA_TABLE_FEATURE:
             gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
@@ -482,22 +497,50 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
     switch ( data_id_get_table(&id) )
     {
         case DATA_TABLE_VOID:
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+            }
             break;
         case DATA_TABLE_CLASSIFIER:
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+
+                if ( force_reload || ( data_classifier_get_id( &((*this_).private_classifier_cache) ) != data_id_get_row_id(&id) ))
+                {
+                    data_error_t db_err;
+                    db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
+                    if ( DATA_ERROR_NONE != db_err )
+                    {
+                        /* error at loading */
+                        data_classifier_destroy( &((*this_).private_classifier_cache) );
+                        data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                    }
+                }
+            }
             break;
         case DATA_TABLE_FEATURE:
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+            }
             break;
         case DATA_TABLE_RELATIONSHIP:
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+            }
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+            }
             break;
         case DATA_TABLE_DIAGRAM:
             {
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+
                 if ( force_reload || ( data_diagram_get_id( &((*this_).private_diagram_cache) ) != data_id_get_row_id(&id) ))
                 {
                     data_error_t db_err;
@@ -512,8 +555,11 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
-            data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            {
+                LOG_ERROR( "invalid data in data_id_t." );
+                data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_diagram_init_empty( &((*this_).private_diagram_cache) );
+            }
             break;
     }
     (*this_).selected_object_id = id;

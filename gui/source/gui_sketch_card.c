@@ -60,8 +60,8 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
         data_small_set_t *mark_selected_set = gui_sketch_marker_get_selected_set_ptr( marker );
         pencil_diagram_painter_draw ( &((*this_).painter),
                                       &((*this_).painter_input_data),
-                                      &mark_focused,
-                                      &mark_highlighted,
+                                      mark_focused,
+                                      mark_highlighted,
                                       mark_selected_set,
                                       cr,
                                       destination

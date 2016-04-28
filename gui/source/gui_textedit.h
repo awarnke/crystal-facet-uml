@@ -22,6 +22,7 @@ struct gui_textedit_struct {
 
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
     data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
+    data_classifier_t private_classifier_cache;  /*!< own instance of a classifier cache */
 
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;

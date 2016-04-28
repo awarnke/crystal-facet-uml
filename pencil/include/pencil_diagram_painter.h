@@ -54,8 +54,8 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  */
 void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    pencil_input_data_t *input_data,
-                                   data_id_t *mark_focused,
-                                   data_id_t *mark_highlighted,
+                                   data_id_t mark_focused,
+                                   data_id_t mark_highlighted,
                                    data_small_set_t *mark_selected,
                                    cairo_t *cr,
                                    geometry_rectangle_t destination

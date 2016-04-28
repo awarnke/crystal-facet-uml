@@ -507,7 +507,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_sketch_area_private_load_cards( this_, clicked_diagram_id );
 
                         /* notify listener */
-                        gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, clicked_diagram_id );
+                        data_id_t focused_id;
+                        data_id_init( &focused_id, DATA_TABLE_DIAGRAM, clicked_diagram_id );
+                        gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
+                        gui_sketch_area_private_notify_listener( this_ );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -518,9 +521,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 {
                     TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
 
-                    data_id_t obj;
-                    obj = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
-                    data_id_trace( &obj );
+                    data_id_t focused_id;
+                    focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+                    data_id_trace( &focused_id );
+
+                    /* notify listener */
+                    gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
+                    gui_sketch_area_private_notify_listener( this_ );
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
@@ -593,7 +600,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     gui_sketch_area_private_load_cards( this_, new_diag_id );
 
                     /* notify listener */
-                    gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, new_diag_id );
+                    data_id_t focused_id;
+                    data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                    gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
+                    gui_sketch_area_private_notify_listener( this_ );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -675,12 +685,12 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     TRACE_END();
 }
 
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id )
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
     data_id_t full_id;
-    data_id_init( &full_id, table, id );
+    full_id = gui_sketch_marker_get_focused( &((*this_).marker) );
 
     for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
     {

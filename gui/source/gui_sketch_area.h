@@ -176,11 +176,13 @@ static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsi
 static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index );
 
 /*!
- *  \brief notifies all listeners
+ *  \brief notifies all listeners.
+ *
+ *  Sends the currently focused object id.
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_table_t table, int64_t id );
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief gets the diagram-id of the diagram at a given position
