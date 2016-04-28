@@ -64,6 +64,7 @@ static inline data_small_set_t *gui_sketch_marker_get_selected_set_ptr ( gui_ske
  *  \brief sets the focused object id
  *
  *  \param this_ pointer to own object attributes
+ *  \param row_id the id to set as focused
  */
 static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t row_id );
 
@@ -71,8 +72,23 @@ static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, d
  *  \brief sets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
+ *  \param row_id the id to set as highlighted
  */
 static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this_, data_id_t row_id );
+
+/*!
+ *  \brief un-sets the focused object id
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_marker_clear_focused ( gui_sketch_marker_t *this_ );
+
+/*!
+ *  \brief un-sets the highlighted object id
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_marker_clear_highlighted ( gui_sketch_marker_t *this_ );
 
 #include "gui_sketch_marker.inl"
 

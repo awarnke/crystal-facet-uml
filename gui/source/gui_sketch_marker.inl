@@ -41,6 +41,18 @@ static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this
     (*this_).highlighted = row_id;
 }
 
+static inline void gui_sketch_marker_clear_focused ( gui_sketch_marker_t *this_ )
+{
+    data_id_destroy( &((*this_).focused) );
+    data_id_init_void( &((*this_).focused) );
+}
+
+static inline void gui_sketch_marker_clear_highlighted ( gui_sketch_marker_t *this_ )
+{
+    data_id_destroy( &((*this_).highlighted) );
+    data_id_init_void( &((*this_).highlighted) );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

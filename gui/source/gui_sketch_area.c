@@ -399,6 +399,11 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
     gui_sketch_area_t *this_ = data;
 
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
+
+        gui_sketch_marker_clear_highlighted( &((*this_).marker) );
+        /* mark dirty rect */
+        gtk_widget_queue_draw( widget );
+
     }
 
     TRACE_TIMESTAMP();
@@ -437,6 +442,21 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
         TRACE_INFO("GDK_BUTTON1_MASK");
+    }
+
+    data_id_t object_under_mouse;
+    object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+    data_id_t object_highlighted;
+    object_highlighted = gui_sketch_marker_get_highlighted( &((*this_).marker) );
+    if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+    {
+        if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+        {
+            gui_sketch_marker_set_highlighted( &((*this_).marker), object_under_mouse );
+
+            /* mark dirty rect */
+            gtk_widget_queue_draw( widget );
+        }
     }
 
     TRACE_END();
@@ -490,11 +510,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, clicked_diagram_id );
 
                         /* mark dirty rect */
-                        guint width;
-                        guint height;
-                        width = gtk_widget_get_allocated_width (widget);
-                        height = gtk_widget_get_allocated_height (widget);
-                        gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+                        gtk_widget_queue_draw( widget );
                     }
                 }
                 break;
@@ -580,11 +596,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     gui_sketch_area_private_notify_listener( this_, DATA_TABLE_DIAGRAM, new_diag_id );
 
                     /* mark dirty rect */
-                    guint width;
-                    guint height;
-                    width = gtk_widget_get_allocated_width (widget);
-                    height = gtk_widget_get_allocated_height (widget);
-                    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+                    gtk_widget_queue_draw( widget );
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
@@ -620,16 +632,12 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpo
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
-    guint width;
-    guint height;
 
     /* load/reload data to be drawn */
     gui_sketch_area_private_reload_cards( this_ );
 
     /* mark dirty rect */
-    width = gtk_widget_get_allocated_width (widget);
-    height = gtk_widget_get_allocated_height (widget);
-    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+    gtk_widget_queue_draw( widget );
 
     TRACE_END();
 }
@@ -638,8 +646,6 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
-    guint width;
-    guint height;
 
     switch ( tool )
     {
@@ -664,9 +670,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     gui_sketch_area_private_reload_cards( this_ );
 
     /* mark dirty rect */
-    width = gtk_widget_get_allocated_width (widget);
-    height = gtk_widget_get_allocated_height (widget);
-    gtk_widget_queue_draw_area( widget, 0, 0, width, height );
+    gtk_widget_queue_draw( widget );
 
     TRACE_END();
 }

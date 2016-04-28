@@ -54,7 +54,14 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         {
 
             /* draw border line */
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+            if ( data_id_equals_id( mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ))
+            {
+                cairo_set_source_rgba( cr, 0.8, 0.0, 0.0, 1.0 );
+            }
+            else
+            {
+                cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+            }
             cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
             cairo_stroke (cr);
 
@@ -85,7 +92,14 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     {
         geometry_rectangle_t destination;
         geometry_rectangle_init ( &destination, left + 5.0, top + 20.0, width - 10.0, height - 25.0 );
-        pencil_classifier_painter_draw ( &((*this_).classifier_painter), input_data, cr, destination );
+        pencil_classifier_painter_draw ( &((*this_).classifier_painter),
+                                         input_data,
+                                         mark_focused,
+                                         mark_highlighted,
+                                         mark_selected,
+                                         cr,
+                                         destination
+                                       );
     }
 
     TRACE_END();
