@@ -17,6 +17,8 @@ void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, d
     (*this_).controller = controller;
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
     data_classifier_init_empty( &((*this_).private_classifier_cache) );
+    data_feature_init_empty( &((*this_).private_feature_cache) );
+    data_relationship_init_empty( &((*this_).private_relationship_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
 
     {
@@ -56,6 +58,45 @@ void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, d
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "UML_PROFILE_DIAGRAM", -1 );
     }
 
+    {
+        GtkTreeIter iter;
+        (*this_).classifier_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_BLOCK, 1, "BLOCK", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_FEATURE, 1, "FEATURE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_REQUIREMENT, 1, "REQUIREMENT", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "UML_ACTOR", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_USE_CASE, 1, "UML_USE_CASE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTIVITY, 1, "UML_ACTIVITY", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_STATE, 1, "UML_STATE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE, 1, "UML_DIAGRAM_REFERENCE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_NODE, 1, "UML_NODE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMPONENT, 1, "UML_COMPONENT", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PART, 1, "UML_PART", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_INTERFACE, 1, "UML_INTERFACE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PACKAGE, 1, "UML_PACKAGE", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_CLASS, 1, "UML_CLASS", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_OBJECT, 1, "UML_OBJECT", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ARTIFACT, 1, "UML_ARTIFACT", -1 );
+        gtk_list_store_append( (*this_).classifier_types, &iter);
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMMENT, 1, "UML_COMMENT", -1 );
+    }
+
     TRACE_END();
 }
 
@@ -66,9 +107,14 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     data_id_destroy( &((*this_).selected_object_id) );
     data_diagram_destroy( &((*this_).private_diagram_cache) );
     data_classifier_destroy( &((*this_).private_classifier_cache) );
+    data_feature_destroy( &((*this_).private_feature_cache) );
+    data_relationship_destroy( &((*this_).private_relationship_cache) );
 
     g_object_unref((*this_).diagram_types);
     (*this_).diagram_types = NULL;
+
+    g_object_unref((*this_).classifier_types);
+    (*this_).classifier_types = NULL;
 
     TRACE_END();
 }
@@ -460,6 +506,14 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
         case DATA_TABLE_VOID:
             break;
         case DATA_TABLE_CLASSIFIER:
+            {
+                data_classifier_type_t class_type;
+                class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+                int index;
+                index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).classifier_types ), 0, class_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).classifier_types ) );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
+            }
             break;
         case DATA_TABLE_FEATURE:
             break;
@@ -473,6 +527,7 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
                 diag_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
                 int index;
                 index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).diagram_types ), 0, diag_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).diagram_types ) );
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
             }
             break;
@@ -498,17 +553,32 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
     {
         case DATA_TABLE_VOID:
             {
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_CLASSIFIER:
             {
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
 
                 if ( force_reload || ( data_classifier_get_id( &((*this_).private_classifier_cache) ) != data_id_get_row_id(&id) ))
                 {
                     data_error_t db_err;
+
+                    data_classifier_destroy( &((*this_).private_classifier_cache) );
                     db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                     if ( DATA_ERROR_NONE != db_err )
                     {
@@ -521,29 +591,58 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             break;
         case DATA_TABLE_FEATURE:
             {
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_RELATIONSHIP:
             {
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
             {
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_DIAGRAM:
             {
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
 
                 if ( force_reload || ( data_diagram_get_id( &((*this_).private_diagram_cache) ) != data_id_get_row_id(&id) ))
                 {
                     data_error_t db_err;
+
+                    data_diagram_destroy( &((*this_).private_diagram_cache) );
                     db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                     if ( DATA_ERROR_NONE != db_err )
                     {
@@ -557,11 +656,21 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
         default:
             {
                 LOG_ERROR( "invalid data in data_id_t." );
+
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+
                 data_classifier_init_empty( &((*this_).private_classifier_cache) );
                 data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                data_feature_init_empty( &((*this_).private_feature_cache) );
+                data_relationship_init_empty( &((*this_).private_relationship_cache) );
             }
             break;
     }
+
+    data_id_destroy( &((*this_).selected_object_id) );
     (*this_).selected_object_id = id;
 
     TRACE_END();

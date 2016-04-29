@@ -9,6 +9,10 @@
  */
 
 #include "storage/data_database_reader.h"
+#include "data_classifier.h"
+#include "data_diagram.h"
+#include "data_feature.h"
+#include "data_relationship.h"
 #include "ctrl_controller.h"
 #include "data_id.h"
 #include <gtk/gtk.h>
@@ -23,6 +27,8 @@ struct gui_textedit_struct {
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
     data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
     data_classifier_t private_classifier_cache;  /*!< own instance of a classifier cache */
+    data_feature_t private_feature_cache;  /*!< own instance of a feature cache */
+    data_relationship_t private_relationship_cache;  /*!< own instance of a relationship cache */
 
     GtkListStore *diagram_types;
     GtkListStore *classifier_types;

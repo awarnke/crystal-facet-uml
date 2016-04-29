@@ -10,6 +10,10 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
     (*this_).height = height;
 }
 
+static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ )
+{
+}
+
 static inline double geometry_rectangle_get_left ( geometry_rectangle_t *this_ )
 {
     return (*this_).left;

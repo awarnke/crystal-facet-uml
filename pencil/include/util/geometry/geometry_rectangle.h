@@ -29,6 +29,13 @@ typedef struct geometry_rectangle_struct geometry_rectangle_t;
 static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
 /*!
+ *  \brief destroys the geometry_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ );
+
+/*!
  *  \brief gets the geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes

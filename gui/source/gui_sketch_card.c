@@ -66,6 +66,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
                                       cr,
                                       destination
                                     );
+        geometry_rectangle_destroy( &destination );
     }
 
     TRACE_END();
