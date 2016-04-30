@@ -64,10 +64,11 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
     }
 }
 
-static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
-    int64_t result = DATA_DIAGRAM_ID_VOID_ID;
+    data_id_t result;
+    data_id_init_void( &result );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
@@ -79,7 +80,8 @@ static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t 
         {
             data_diagram_t *selected_diag;
             selected_diag = gui_sketch_card_get_diagram_ptr( card );
-            result = data_diagram_get_id( selected_diag );
+            data_id_destroy( &result );
+            data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
         }
     }
     return result;

@@ -444,20 +444,58 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         TRACE_INFO("GDK_BUTTON1_MASK");
     }
 
-    data_id_t object_under_mouse;
-    object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
-    data_id_t object_highlighted;
-    object_highlighted = gui_sketch_marker_get_highlighted( &((*this_).marker) );
-    if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
-    {
-        if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
-        {
-            gui_sketch_marker_set_highlighted( &((*this_).marker), object_under_mouse );
 
-            /* mark dirty rect */
-            gtk_widget_queue_draw( widget );
-        }
+    /* do highlight */
+    gui_sketch_tools_tool_t selected_tool;
+    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    switch ( selected_tool )
+    {
+        case GUI_SKETCH_TOOLS_NAVIGATE:
+            {
+                data_id_t object_under_mouse;
+                object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                data_id_t object_highlighted;
+                object_highlighted = gui_sketch_marker_get_highlighted( &((*this_).marker) );
+                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+                {
+                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                    {
+                        gui_sketch_marker_set_highlighted( &((*this_).marker), object_under_mouse );
+
+                        /* mark dirty rect */
+                        gtk_widget_queue_draw( widget );
+                    }
+                }
+            }
+            break;
+        case GUI_SKETCH_TOOLS_EDIT:
+            {
+                data_id_t object_under_mouse;
+                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+                data_id_t object_highlighted;
+                object_highlighted = gui_sketch_marker_get_highlighted( &((*this_).marker) );
+                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+                {
+                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                    {
+                        gui_sketch_marker_set_highlighted( &((*this_).marker), object_under_mouse );
+
+                        /* mark dirty rect */
+                        gtk_widget_queue_draw( widget );
+                    }
+                }
+            }
+            break;
+        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+            break;
+        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+            break;
+        default:
+            LOG_ERROR("selected_tool is out of range");
+            break;
     }
+
+
 
     TRACE_END();
     return TRUE;
@@ -496,20 +534,18 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
 
                     /* search selected diagram */
-                    int64_t clicked_diagram_id;
+                    data_id_t clicked_diagram_id;
                     clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
-                    TRACE_INFO_INT( "clicked_diagram_id:", clicked_diagram_id );
+                    data_id_trace( &clicked_diagram_id );
 
                     /* load diagram */
-                    if ( DATA_DIAGRAM_ID_VOID_ID != clicked_diagram_id )
+                    if ( data_id_is_valid( &clicked_diagram_id ) )
                     {
                         /* load/reload data to be drawn */
-                        gui_sketch_area_private_load_cards( this_, clicked_diagram_id );
+                        gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
 
                         /* notify listener */
-                        data_id_t focused_id;
-                        data_id_init( &focused_id, DATA_TABLE_DIAGRAM, clicked_diagram_id );
-                        gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
+                        gui_sketch_marker_set_focused( &((*this_).marker), clicked_diagram_id );
                         gui_sketch_area_private_notify_listener( this_ );
 
                         /* mark dirty rect */

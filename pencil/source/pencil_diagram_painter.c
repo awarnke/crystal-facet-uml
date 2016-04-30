@@ -56,7 +56,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
             /* draw border line */
             if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ))
             {
-                cairo_set_source_rgba( cr, 0.8, 0.0, 0.0, 1.0 );
+                cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
             }
             else
             {

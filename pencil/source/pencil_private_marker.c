@@ -1,25 +1,25 @@
-/* File: pencil_classifier_painter.c; Copyright and License: see below */
+/* File: pencil_private_marker.c; Copyright and License: see below */
 
-#include "pencil_classifier_painter.h"
+#include "pencil_private_marker.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 
-void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
+void pencil_private_marker_init( pencil_private_marker_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
+void pencil_private_marker_destroy( pencil_private_marker_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
+void pencil_private_marker_draw ( pencil_private_marker_t *this_,
                                       pencil_input_data_t *input_data,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
@@ -78,52 +78,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
     }
 
     TRACE_END();
-}
-
-data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_painter_t *this_,
-                                                           pencil_input_data_t *input_data,
-                                                           double x,
-                                                           double y,
-                                                           geometry_rectangle_t destination )
-{
-    TRACE_BEGIN();
-    data_id_t result;
-
-    if ( geometry_rectangle_contains( &destination, x, y ) )
-    {
-        double top;
-        double height;
-        top = geometry_rectangle_get_top ( &destination );
-        height = geometry_rectangle_get_height ( &destination );
-
-        uint32_t count;
-        count = pencil_input_data_get_classifier_count ( input_data );
-        uint32_t index = (uint32_t) (((y-top) * count) / height);
-        if ( index < count )
-        {
-            data_classifier_t *classifier;
-            classifier = pencil_input_data_get_classifier_ptr ( input_data, index );
-            if (( classifier != NULL ) && ( data_classifier_is_valid( classifier ) ))
-            {
-                data_id_init( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
-            }
-            else
-            {
-                data_id_init_void( &result );
-            }
-        }
-        else
-        {
-            data_id_init_void( &result );
-        }
-    }
-    else
-    {
-        data_id_init_void( &result );
-    }
-
-    TRACE_END();
-    return result;
 }
 
 

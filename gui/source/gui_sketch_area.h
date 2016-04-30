@@ -190,9 +190,9 @@ void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \return a diagram id. DATA_DIAGRAM_ID_VOID_ID if there is no diagram at the given location.
+ *  \return a diagram id. The id is invalid if there is no diagram at the given location.
  */
-static inline int64_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
+static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief gets the object-id of the object at a given position
