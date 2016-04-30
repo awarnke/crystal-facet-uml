@@ -137,7 +137,21 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
             LOG_WARNING( "no object selected where name can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
-            LOG_ERROR( "not yet implemented." );
+            {
+                const char* unchanged_text;
+                unchanged_text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
+                if ( ! utf8string_equals_str( text, unchanged_text ) )
+                {
+                    ctrl_classifier_controller_t *class_ctrl;
+                    class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_classifier_controller_update_classifier_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    }
+                }
+            }
             break;
         case DATA_TABLE_FEATURE:
             LOG_ERROR( "not yet implemented." );
@@ -200,7 +214,21 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
             LOG_WARNING( "no object selected where description can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
-            LOG_ERROR( "not yet implemented." );
+            {
+                const char* unchanged_text;
+                unchanged_text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
+                if ( ! utf8string_equals_str( text, unchanged_text ) )
+                {
+                    ctrl_classifier_controller_t *class_ctrl;
+                    class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    }
+                }
+            }
             break;
         case DATA_TABLE_FEATURE:
             LOG_ERROR( "not yet implemented." );
@@ -256,7 +284,21 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
             LOG_WARNING( "no object selected where stereotype can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
-            LOG_ERROR( "not yet implemented." );
+            {
+                const char* unchanged_text;
+                unchanged_text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+                if ( ! utf8string_equals_str( text, unchanged_text ) )
+                {
+                    ctrl_classifier_controller_t *class_ctrl;
+                    class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
+                    }
+                }
+            }
             break;
         case DATA_TABLE_FEATURE:
             LOG_ERROR( "not yet implemented." );
@@ -286,12 +328,12 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
 
-    data_diagram_type_t diag_type;
+    data_diagram_type_t obj_type;
     int index;
     index = gtk_combo_box_get_active ( GTK_COMBO_BOX( widget ) );
-    diag_type = gtk_helper_tree_model_get_id( GTK_TREE_MODEL( (*this_).diagram_types ), 0, index );
+    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, index );
 
-    TRACE_INFO_INT( "diag_type:", diag_type );
+    TRACE_INFO_INT( "obj_type:", obj_type );
 
     ctrl_error_t ctrl_err;
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
@@ -300,7 +342,21 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
             LOG_WARNING( "no object selected where type can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
-            LOG_ERROR( "not yet implemented." );
+            {
+                data_classifier_type_t unchanged_main_type;
+                unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+                if ( obj_type != unchanged_main_type )
+                {
+                    ctrl_classifier_controller_t *class_ctrl;
+                    class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    {
+                        LOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                    }
+                }
+            }
             break;
         case DATA_TABLE_FEATURE:
             LOG_ERROR( "not yet implemented." );
@@ -315,12 +371,12 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
             {
                 data_diagram_type_t unchanged_type;
                 unchanged_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
-                if ( diag_type != unchanged_type )
+                if ( obj_type != unchanged_type )
                 {
                     ctrl_diagram_controller_t *diag_ctrl;
                     diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                    ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), diag_type );
+                    ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
                         LOG_ERROR_HEX( "update type failed:", ctrl_err );
