@@ -9,6 +9,7 @@
  */
 
 #include "data_error.h"
+#include "data_table.h"
 #include <glib-object.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -17,7 +18,7 @@
  *  \brief definition of constants like max array sizes
  */
 enum data_change_notifier_consts_enum {
-    DATA_CHANGE_NOTIFIER_MAX_LISTENERS = 17,
+    DATA_CHANGE_NOTIFIER_MAX_LISTENERS = 48,
 };
 
 /*!
@@ -51,8 +52,10 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ );
  *  \brief notifies on changes to the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param table the table in which a row was created, updated or deleted
+ *  \param row_id the row_id which was created, updated or deleted
  */
-void data_change_notifier_emit_signal ( data_change_notifier_t *this_ );
+void data_change_notifier_emit_signal ( data_change_notifier_t *this_, data_table_t table, int64_t row_id );
 
 /*!
  *  \brief adds an object as listener

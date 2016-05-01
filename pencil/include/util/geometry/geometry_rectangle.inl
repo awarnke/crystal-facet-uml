@@ -57,6 +57,11 @@ static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, do
     return (( (*this_).left <= x )&&( x < (*this_).left + (*this_).width )&&( (*this_).top <= y )&&( y < (*this_).top + (*this_).height ));
 }
 
+static inline bool geometry_rectangle_is_empty ( geometry_rectangle_t *this_ )
+{
+    return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );
+}
+
 static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ )
 {
     TRACE_INFO( "geometry_rectangle_t" );

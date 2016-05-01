@@ -1,5 +1,6 @@
 /* File: data_change_notifier.c; Copyright and License: see below */
 
+#include "data_id.h"
 #include "storage/data_change_notifier.h"
 #include "trace.h"
 #include "log.h"
@@ -35,7 +36,7 @@ void data_change_notifier_init ( data_change_notifier_t *this_ )
             g_cclosure_marshal_VOID__POINTER,
             G_TYPE_NONE,
             1,
-            G_TYPE_POINTER /* more data in future */
+            G_TYPE_POINTER /* data_id_t*: id of the record that was created, updated or deleted */
         );
         data_change_notifier_glib_signal_initialized = true;
         TRACE_INFO_INT( "g_signal_new(\"cfu_data_changed\") returned new signal id", data_change_notifier_glib_signal_id );
@@ -60,14 +61,17 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ )
     TRACE_END();
 }
 
-void data_change_notifier_emit_signal ( data_change_notifier_t *this_ )
+void data_change_notifier_emit_signal ( data_change_notifier_t *this_, data_table_t table, int64_t row_id )
 {
     TRACE_BEGIN();
+
+    data_id_t modified_id;
+    data_id_init( &modified_id, table, row_id );
 
     for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
         TRACE_INFO_INT( "g_signal_emit to listener", pos );
-        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, NULL /* more data in future */ );
+        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &modified_id );
     }
 
     TRACE_END();

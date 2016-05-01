@@ -116,6 +116,10 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     g_signal_connect( G_OBJECT((*this_).description_text_view), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_data_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).description_text_view), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_data_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -126,8 +130,12 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 1, G_OBJECT((*this_).description_text_view) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 2, G_OBJECT((*this_).stereotype_entry) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 3, G_OBJECT((*this_).type_combo_box) );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).type_combo_box) );
 
-    TRACE_INFO("GTK+ Widgets are registered as listeners at data module.");
+    TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
 
@@ -145,6 +153,10 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 3 );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_remove_listener( &((*this_).sketchtools_data) );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).type_combo_box) );
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
 

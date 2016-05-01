@@ -732,6 +732,197 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
     TRACE_END();
 }
 
+void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    {
+        /* relaod currently visible data */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+
+        /* update data */
+        switch ( data_id_get_table(id) )
+        {
+            case DATA_TABLE_VOID:
+                break;
+            case DATA_TABLE_CLASSIFIER:
+                {
+                    const char* text;
+                    text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
+                    gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+                }
+                break;
+            case DATA_TABLE_FEATURE:
+                break;
+            case DATA_TABLE_RELATIONSHIP:
+                break;
+            case DATA_TABLE_DIAGRAMELEMENT:
+                break;
+            case DATA_TABLE_DIAGRAM:
+                {
+                    const char* text;
+                    text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
+                    gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+                }
+                break;
+            default:
+                LOG_ERROR( "invalid data in data_id_t." );
+                break;
+        }
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    {
+        /* relaod currently visible data */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+
+        /* update data */
+        switch ( data_id_get_table(id) )
+        {
+            case DATA_TABLE_VOID:
+                break;
+            case DATA_TABLE_CLASSIFIER:
+                {
+                    const char* text;
+                    text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+                    gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+                }
+                break;
+            case DATA_TABLE_FEATURE:
+                break;
+            case DATA_TABLE_RELATIONSHIP:
+                break;
+            case DATA_TABLE_DIAGRAMELEMENT:
+                break;
+            case DATA_TABLE_DIAGRAM:
+                break;
+            default:
+                LOG_ERROR( "invalid data in data_id_t." );
+                break;
+        }
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    GtkTextBuffer *buffer;
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
+    
+    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    {
+        /* relaod currently visible data */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+
+        /* update data */
+        switch ( data_id_get_table(id) )
+        {
+            case DATA_TABLE_VOID:
+                break;
+            case DATA_TABLE_CLASSIFIER:
+                {
+                    const char* text;
+                    text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
+
+                    gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
+                }
+                break;
+            case DATA_TABLE_FEATURE:
+                break;
+            case DATA_TABLE_RELATIONSHIP:
+                break;
+            case DATA_TABLE_DIAGRAMELEMENT:
+                break;
+            case DATA_TABLE_DIAGRAM:
+                {
+                    const char* text;
+                    text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
+
+                    gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
+                }
+                break;
+            default:
+                LOG_ERROR( "invalid data in data_id_t." );
+                break;
+        }
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    {
+        /* relaod currently visible data */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+
+        /* update data */
+        switch ( data_id_get_table(id) )
+        {
+            case DATA_TABLE_VOID:
+                break;
+            case DATA_TABLE_CLASSIFIER:
+                {
+                    data_classifier_type_t class_type;
+                    class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+                    int index;
+                    index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, class_type );
+                    gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
+                }
+                break;
+            case DATA_TABLE_FEATURE:
+                break;
+            case DATA_TABLE_RELATIONSHIP:
+                break;
+            case DATA_TABLE_DIAGRAMELEMENT:
+                break;
+            case DATA_TABLE_DIAGRAM:
+                {
+                    data_diagram_type_t diag_type;
+                    diag_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
+                    int index;
+                    index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, diag_type );
+                    gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
+                }
+                break;
+            default:
+                LOG_ERROR( "invalid data in data_id_t." );
+                break;
+        }
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

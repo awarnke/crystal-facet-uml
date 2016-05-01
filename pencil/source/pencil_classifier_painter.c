@@ -91,7 +91,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
     /* mark focused */
     {
-        if ( 0.0 != geometry_rectangle_get_width( &focused_rect ) )
+        if ( ! geometry_rectangle_is_empty( &focused_rect ) )
         {
             pencil_private_marker_focus_rectangle( &((*this_).marker), focused_rect, cr );
         }

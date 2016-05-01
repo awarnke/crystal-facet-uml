@@ -113,6 +113,26 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
  */
 void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload );
 
+/*!
+ *  \brief callback that informs that the data of an onject changed
+ */
+void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an onject changed
+ */
+void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an onject changed
+ */
+void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an onject changed
+ */
+void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
 #include "gui_textedit.inl"
 
 #endif  /* GUI_TEXTEDIT_H */

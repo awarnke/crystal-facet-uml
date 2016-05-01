@@ -617,7 +617,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, *out_new_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -637,7 +637,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -657,7 +657,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -676,7 +676,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -697,7 +697,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, *out_new_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -716,7 +716,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -735,7 +735,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -754,7 +754,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -773,7 +773,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -794,7 +794,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ) );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, *out_new_id );
 
     TRACE_END_ERR( result );
     return result;

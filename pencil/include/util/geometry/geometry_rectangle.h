@@ -95,6 +95,14 @@ static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_
 static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, double x, double y );
 
 /*!
+ *  \brief determines if the given rectangle has a valid (positive) size
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the rectangle has a positive size.
+ */
+static inline bool geometry_rectangle_is_empty ( geometry_rectangle_t *this_ );
+
+/*!
  *  \brief prints the geometry_rectangle_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
