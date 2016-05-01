@@ -10,6 +10,7 @@
  */
 
 #include "pencil_input_data.h"
+#include "pencil_private_marker.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "data_small_set.h"
@@ -21,7 +22,7 @@
  *  \brief attributes of the classifier painter
  */
 struct pencil_classifier_painter_struct {
-    void *dummy;
+    pencil_private_marker_t marker;  /*!< own instance of a marker */
 };
 
 typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;

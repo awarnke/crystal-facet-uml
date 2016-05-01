@@ -564,6 +564,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* notify listener */
                     gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
                     gui_sketch_area_private_notify_listener( this_ );
+
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( widget );
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:

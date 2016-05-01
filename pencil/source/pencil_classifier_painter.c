@@ -9,12 +9,16 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
 
+    pencil_private_marker_init( &((*this_).marker) );
+
     TRACE_END();
 }
 
 void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
+
+    pencil_private_marker_destroy( &((*this_).marker) );
 
     TRACE_END();
 }
@@ -28,6 +32,8 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       geometry_rectangle_t destination )
 {
     TRACE_BEGIN();
+    geometry_rectangle_t focused_rect;
+    geometry_rectangle_init_emtpty( &focused_rect );
 
     double left, top, right, bottom;
     double width, height;
@@ -69,6 +75,12 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
                 cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
                 cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+
+                if ( data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
+                {
+                    geometry_rectangle_destroy( &focused_rect );
+                    geometry_rectangle_init( &focused_rect, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
+                }
             }
             else
             {
@@ -77,6 +89,15 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         }
     }
 
+    /* mark focused */
+    {
+        if ( 0.0 != geometry_rectangle_get_width( &focused_rect ) )
+        {
+            pencil_private_marker_focus_rectangle( &((*this_).marker), focused_rect, cr );
+        }
+    }
+
+    geometry_rectangle_destroy( &focused_rect );
     TRACE_END();
 }
 

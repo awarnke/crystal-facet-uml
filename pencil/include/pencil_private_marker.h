@@ -44,21 +44,10 @@ void pencil_private_marker_destroy( pencil_private_marker_t *this_ );
  *  \brief draws the chosen classifier contents into the destination area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be drawn
- *  \param mark_focused id of the object that is to be marked as "focused"
- *  \param mark_highlighted id of the object that is to be marked as "highlighted"
- *  \param mark_selected set of objects that are to be marked as "selected"
+ *  \param rect the rectangle which to mark as focused. Drawings may be done outside.
  *  \param cr a cairo drawing context
- *  \param destination the destination rectangle where to draw the diagram
  */
-void pencil_private_marker_draw ( pencil_private_marker_t *this_,
-                                      pencil_input_data_t *input_data,
-                                      data_id_t mark_focused,
-                                      data_id_t mark_highlighted,
-                                      data_small_set_t *mark_selected,
-                                      cairo_t *cr,
-                                      geometry_rectangle_t destination
-                                    );
+void pencil_private_marker_focus_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
 #endif  /* PENCIL_PRIVATE_MARKER_H */
 

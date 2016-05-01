@@ -10,6 +10,7 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
+    pencil_private_marker_init( &((*this_).marker) );
 
     TRACE_END();
 }
@@ -19,6 +20,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
+    pencil_private_marker_destroy( &((*this_).marker) );
 
     TRACE_END();
 }
@@ -48,7 +50,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
 
     /* draw diagram border and name */
     {
-        data_diagram_t *diag = pencil_input_data_get_diagram_ptr( input_data );
+        data_diagram_t *diag;
+        diag = pencil_input_data_get_diagram_ptr( input_data );
         TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(diag));
         if ( data_diagram_is_valid(diag) )
         {
@@ -101,6 +104,16 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                          classifier_bounds
                                        );
         geometry_rectangle_destroy( &classifier_bounds );
+    }
+
+    /* mark focused */
+    {
+        data_diagram_t *diag2;
+        diag2 = pencil_input_data_get_diagram_ptr( input_data );
+        if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
+        {
+            pencil_private_marker_focus_rectangle( &((*this_).marker), destination, cr );
+        }
     }
 
     TRACE_END();

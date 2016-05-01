@@ -19,63 +19,45 @@ void pencil_private_marker_destroy( pencil_private_marker_t *this_ )
     TRACE_END();
 }
 
-void pencil_private_marker_draw ( pencil_private_marker_t *this_,
-                                      pencil_input_data_t *input_data,
-                                      data_id_t mark_focused,
-                                      data_id_t mark_highlighted,
-                                      data_small_set_t *mark_selected,
-                                      cairo_t *cr,
-                                      geometry_rectangle_t destination )
+void pencil_private_marker_focus_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
 
     double left, top, right, bottom;
     double width, height;
 
-    left = geometry_rectangle_get_left ( &destination );
-    top = geometry_rectangle_get_top ( &destination );
-    right = geometry_rectangle_get_right ( &destination );
-    bottom = geometry_rectangle_get_bottom ( &destination );
-    width = geometry_rectangle_get_width ( &destination );
-    height = geometry_rectangle_get_height ( &destination );
+    left = geometry_rectangle_get_left ( &rect );
+    top = geometry_rectangle_get_top ( &rect );
+    right = geometry_rectangle_get_right ( &rect );
+    bottom = geometry_rectangle_get_bottom ( &rect );
+    width = geometry_rectangle_get_width ( &rect );
+    height = geometry_rectangle_get_height ( &rect );
 
-    /* iterate over all classifiers */
-    {
-        uint32_t count;
-        count = pencil_input_data_get_classifier_count ( input_data );
-        for ( uint32_t index = 0; index < count; index ++ )
-        {
-            data_classifier_t *classifier;
-            classifier = pencil_input_data_get_classifier_ptr ( input_data, index );
-            if (( classifier != NULL ) && ( data_classifier_is_valid( classifier ) ))
-            {
-                TRACE_INFO_INT("drawing classifier id", data_classifier_get_id( classifier ) );
+    cairo_set_source_rgba( cr, 0.9, 0.85, 0.0, 1.0 );
 
-                double box_top;
-                double box_height;
-                box_height = height/(double)count;
-                box_top = (double)index*box_height+top;
+    cairo_rectangle ( cr, left-8.0, top-8.0, 3.0, 7.0 );
+    cairo_fill (cr);
 
-                if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) ))
-                {
-                    cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
-                }
-                else
-                {
-                    cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-                }
-                cairo_rectangle ( cr, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
-                cairo_stroke (cr);
+    cairo_rectangle ( cr, left-5.0, top-8.0, 4.0, 3.0 );
+    cairo_fill (cr);
 
-                cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
-                cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
-            }
-            else
-            {
-                LOG_ERROR("invalid classifier in array!");
-            }
-        }
-    }
+    cairo_rectangle ( cr, right+5.0, top-8.0, 3.0, 7.0 );
+    cairo_fill (cr);
+
+    cairo_rectangle ( cr, right+1.0, top-8.0, 4.0, 3.0 );
+    cairo_fill (cr);
+
+    cairo_rectangle ( cr, left-8.0, bottom+1.0, 3.0, 7.0 );
+    cairo_fill (cr);
+
+    cairo_rectangle ( cr, left-5.0, bottom+5.0, 4.0, 3.0 );
+    cairo_fill (cr);
+
+    cairo_rectangle ( cr, right+5.0, bottom+1.0, 3.0, 7.0 );
+    cairo_fill (cr);
+
+    cairo_rectangle ( cr, right+1.0, bottom+5.0, 4.0, 3.0 );
+    cairo_fill (cr);
 
     TRACE_END();
 }
