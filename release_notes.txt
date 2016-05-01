@@ -1,7 +1,6 @@
 
-
-2016-05-01 version 0.02
-  - Classifiers can be created, renamed
+2016-05-01 v002
+  + Classifiers like Classes can be created, renamed
   - DB format incompatible to verion 0.01
-2016-0x-0x version 0.01
-  - Diagrams can be created, renamed, navigated
+2016-03-31 v001
+  + Diagrams can be created, renamed, navigated

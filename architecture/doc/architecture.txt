@@ -51,9 +51,11 @@
  *  - __Layers and Components__
  *      - __View-Layer__
  *          - __gui__
- *            \n presents diagrams and data-objects, handles graphical user interaction
+ *            \n presents diagrams, handles graphical user interaction
  *          - __main__
  *            \n starts the program and handles command line interaction
+ *          - __pencil__
+ *            \n draws diagrams and containted objects
  *      .
  *      - __Model and Control Layer__
  *          - __data__
@@ -65,6 +67,7 @@
  *          - __trace, log__
  *          - __sqlite3__
  *          - __glib, gdk, gtk, cairo__
+ *          - __utf8stringbuf__
  *      .
  *  .
  *  \section cfu-arc-apx Appendix
