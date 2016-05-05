@@ -32,6 +32,9 @@ struct gui_main_window_struct {
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
 
     GtkWidget *toolbar;
+    GtkToolItem *tool_use_db;
+    GtkToolItem *tool_export;
+    GtkToolItem *tool_new_window;
     GtkWidget *tool_navigate_icon;
     GtkToolItem *tool_navigate;
     GtkWidget *tool_edit_icon;
@@ -40,6 +43,13 @@ struct gui_main_window_struct {
     GtkToolItem *tool_new_obj;
     GtkWidget *tool_new_view_icon;
     GtkToolItem *tool_new_view;
+    GtkToolItem *tool_cut;
+    GtkToolItem *tool_copy;
+    GtkToolItem *tool_paste;
+    GtkToolItem *tool_delete;
+    GtkToolItem *tool_undo;
+    GtkToolItem *tool_redo;
+    GtkToolItem *tool_about;
 
     GtkWidget *name_entry;
     GtkWidget *description_text_view;

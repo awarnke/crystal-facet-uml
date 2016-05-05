@@ -80,9 +80,21 @@ void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *th
 
     cairo_set_source_rgba( cr, 1.0, 0.3, 0.8, 1.0 );
 
+    cairo_move_to( cr, left+INNER_EDGE, top-EXPAND_OVER_BORDER );
+    cairo_line_to( cr, left-EXPAND_OVER_BORDER, top-EXPAND_OVER_BORDER );
+    cairo_line_to( cr, left-EXPAND_OVER_BORDER, top+INNER_EDGE );
+    cairo_close_path( cr );
+    cairo_fill (cr);
+
     cairo_move_to( cr, right-INNER_EDGE, top-EXPAND_OVER_BORDER );
     cairo_line_to( cr, right+EXPAND_OVER_BORDER, top-EXPAND_OVER_BORDER );
     cairo_line_to( cr, right+EXPAND_OVER_BORDER, top+INNER_EDGE );
+    cairo_close_path( cr );
+    cairo_fill (cr);
+
+    cairo_move_to( cr, right-INNER_EDGE, bottom+EXPAND_OVER_BORDER );
+    cairo_line_to( cr, right+EXPAND_OVER_BORDER, bottom+EXPAND_OVER_BORDER );
+    cairo_line_to( cr, right+EXPAND_OVER_BORDER, bottom-INNER_EDGE );
     cairo_close_path( cr );
     cairo_fill (cr);
 
