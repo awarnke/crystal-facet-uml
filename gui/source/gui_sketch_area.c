@@ -547,6 +547,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         /* notify listener */
                         gui_sketch_marker_set_focused( &((*this_).marker), clicked_diagram_id );
                         gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_marker_clear_selected_set( &((*this_).marker) );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -564,6 +565,15 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* notify listener */
                     gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
                     gui_sketch_area_private_notify_listener( this_ );
+                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_id ) )
+                    {
+                        gui_sketch_marker_toggle_selected_obj( &((*this_).marker), focused_id );
+                        /*
+                        data_small_set_t *set_ptr;
+                        set_ptr = gui_sketch_marker_get_selected_set_ptr( &((*this_).marker) );
+                        data_small_set_trace( set_ptr );
+                        */
+                    }
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -643,6 +653,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
                     gui_sketch_marker_set_focused( &((*this_).marker), focused_id );
                     gui_sketch_area_private_notify_listener( this_ );
+                    gui_sketch_marker_clear_selected_set( &((*this_).marker) );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );

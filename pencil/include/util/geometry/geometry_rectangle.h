@@ -33,7 +33,7 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void geometry_rectangle_init_emtpty ( geometry_rectangle_t *this_ );
+static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct

@@ -10,7 +10,7 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
     (*this_).height = height;
 }
 
-static inline void geometry_rectangle_init_emtpty ( geometry_rectangle_t *this_ )
+static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ )
 {
     (*this_).left = 0.0;
     (*this_).top = 0.0;

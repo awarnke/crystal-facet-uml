@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines a set of records. Maximum size is limited.
+ *  \brief Defines a set of object-ids. Maximum size is limited.
  */
 
 #include "data_table.h"
@@ -19,7 +19,7 @@
  *  \brief constants for max set size
  */
 enum data_small_set_max_enum {
-    DATA_SMALL_SET_MAX_SET_SIZE = 128,  /*!< maximum number of row ids in this set */
+    DATA_SMALL_SET_MAX_SET_SIZE = 128,  /*!< maximum number of object ids in this set */
 };
 
 /*!
@@ -61,50 +61,57 @@ static inline void data_small_set_trace ( data_small_set_t *this_ );
 static inline bool data_small_set_is_empty ( data_small_set_t *this_ );
 
 /*!
- *  \brief checks if data_small_set_t contains a row id
+ *  \brief checks if data_small_set_t contains an object id
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id to be seached
+ *  \param obj_id id to be seached
  */
-static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t row_id );
+static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t obj_id );
 
 /*!
- *  \brief checks if data_small_set_t contains a row id
+ *  \brief checks if data_small_set_t contains an object id
  *
  *  \param this_ pointer to own object attributes
  *  \param table table-id to be seached
- *  \param id row-id to be seached
+ *  \param row_id row-id to be seached
  */
-static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t id );
+static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t row_id );
 
 /*!
- *  \brief adds a row_id to data_small_set_t
+ *  \brief adds a obj_id to data_small_set_t
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id to be added. Only valid rows can be added.
+ *  \param obj_id id to be added. Only valid object ids can be added.
  *  \return DATA_ERROR_DUPLICATE_ID if id is already contained, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if DATA_SMALL_SET_MAX_SET_SIZE exceeded,
- *          DATA_ERROR_INVALID_REQUEST if row id is invalid, DATA_ERROR_NONE else.
+ *          DATA_ERROR_INVALID_REQUEST if object id is invalid, DATA_ERROR_NONE else.
  */
-static inline data_error_t data_small_set_add_row ( data_small_set_t *this_, data_id_t row_id );
+static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, data_id_t obj_id );
 
 /*!
- *  \brief deletes a row_id from data_small_set_t
+ *  \brief deletes an obj_id from data_small_set_t
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id to be deleted
+ *  \param obj_id id to be deleted
  *  \return DATA_ERROR_INVALID_REQUEST if id is not contained, DATA_ERROR_NONE else.
  */
-static inline data_error_t data_small_set_delete_row ( data_small_set_t *this_, data_id_t row_id );
+static inline data_error_t data_small_set_delete_obj ( data_small_set_t *this_, data_id_t obj_id );
 
 /*!
- *  \brief toggles (adds if not contained, deletes if contained) a row_id to/from data_small_set_t
+ *  \brief toggles (adds if not contained, deletes if contained) an obj_id to/from data_small_set_t
  *
  *  \param this_ pointer to own object attributes
- *  \param row_id id to be toggled. Only valid rows can be toggled.
+ *  \param obj_id id to be toggled. Only valid object ids can be toggled.
  *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if DATA_SMALL_SET_MAX_SET_SIZE exceeded,
- *          DATA_ERROR_INVALID_REQUEST if row id is invalid, DATA_ERROR_NONE else.
+ *          DATA_ERROR_INVALID_REQUEST if the object id is invalid, DATA_ERROR_NONE else.
  */
-static inline data_error_t data_small_set_toggle_row ( data_small_set_t *this_, data_id_t row_id );
+static inline data_error_t data_small_set_toggle_obj ( data_small_set_t *this_, data_id_t obj_id );
+
+/*!
+ *  \brief clears the data_small_set_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_small_set_clear ( data_small_set_t *this_ );
 
 #include "data_small_set.inl"
 

@@ -47,6 +47,25 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
     (*this_).tool_new_view_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_diagram( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), (*this_).tool_new_view_icon);
 
+    GtkToolItem *use_tool;
+    use_tool = gtk_tool_button_new( NULL, "Use_DB" );
+    GtkToolItem *export_tool;
+    export_tool = gtk_tool_button_new( NULL, "Export" );
+    GtkToolItem *cut_tool;
+    cut_tool = gtk_tool_button_new( NULL, "Cut" );
+    GtkToolItem *copy_tool;
+    copy_tool = gtk_tool_button_new( NULL, "Copy" );
+    GtkToolItem *paste_tool;
+    paste_tool = gtk_tool_button_new( NULL, "Paste" );
+    GtkToolItem *delete_tool;
+    delete_tool = gtk_tool_button_new( NULL, "Delete" );
+    GtkToolItem *undo_tool;
+    undo_tool = gtk_tool_button_new( NULL, "Undo" );
+    GtkToolItem *redo_tool;
+    redo_tool = gtk_tool_button_new( NULL, "Redo" );
+    GtkToolItem *about_tool;
+    about_tool = gtk_tool_button_new( NULL, "About" );
+
     (*this_).toolbar = gtk_toolbar_new ();
     gui_sketch_tools_init( &((*this_).sketchtools_data) );
 
@@ -78,10 +97,19 @@ void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *control
 
     TRACE_INFO("GTK+ Widgets are created.");
 
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),use_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),export_tool,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),cut_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),copy_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),paste_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),delete_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),undo_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),redo_tool,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),about_tool,-1);
     /* gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 4, 1 );

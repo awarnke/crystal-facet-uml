@@ -41,13 +41,22 @@ void pencil_private_marker_init( pencil_private_marker_t *this_ );
 void pencil_private_marker_destroy( pencil_private_marker_t *this_ );
 
 /*!
- *  \brief draws the chosen classifier contents into the destination area of the cairo drawing context
+ *  \brief draws markers around the destination area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
  *  \param rect the rectangle which to mark as focused. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-void pencil_private_marker_focus_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+
+/*!
+ *  \brief draws markers around the destination area of the cairo drawing context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect the rectangle which to mark as selected. Drawings may be done outside.
+ *  \param cr a cairo drawing context
+ */
+void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
 #endif  /* PENCIL_PRIVATE_MARKER_H */
 

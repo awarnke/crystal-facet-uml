@@ -112,7 +112,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         diag2 = pencil_input_data_get_diagram_ptr( input_data );
         if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
-            pencil_private_marker_focus_rectangle( &((*this_).marker), destination, cr );
+            pencil_private_marker_mark_focused_rectangle( &((*this_).marker), destination, cr );
         }
     }
 

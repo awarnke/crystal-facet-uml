@@ -19,19 +19,19 @@ void pencil_private_marker_destroy( pencil_private_marker_t *this_ )
     TRACE_END();
 }
 
-void pencil_private_marker_focus_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
 
-    double left, top, right, bottom;
-    double width, height;
+    double left;
+    double top;
+    double right;
+    double bottom;
 
     left = geometry_rectangle_get_left ( &rect );
     top = geometry_rectangle_get_top ( &rect );
     right = geometry_rectangle_get_right ( &rect );
     bottom = geometry_rectangle_get_bottom ( &rect );
-    width = geometry_rectangle_get_width ( &rect );
-    height = geometry_rectangle_get_height ( &rect );
 
     cairo_set_source_rgba( cr, 0.9, 0.85, 0.0, 1.0 );
 
@@ -57,6 +57,39 @@ void pencil_private_marker_focus_rectangle ( pencil_private_marker_t *this_, geo
     cairo_fill (cr);
 
     cairo_rectangle ( cr, right+1.0, bottom+5.0, 4.0, 3.0 );
+    cairo_fill (cr);
+
+    TRACE_END();
+}
+
+void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+{
+    TRACE_BEGIN();
+
+    double left;
+    double top;
+    double right;
+    double bottom;
+    static const double EXPAND_OVER_BORDER = 2.0;
+    static const double INNER_EDGE = 8.0;
+
+    left = geometry_rectangle_get_left ( &rect );
+    top = geometry_rectangle_get_top ( &rect );
+    right = geometry_rectangle_get_right ( &rect );
+    bottom = geometry_rectangle_get_bottom ( &rect );
+
+    cairo_set_source_rgba( cr, 1.0, 0.3, 0.8, 1.0 );
+
+    cairo_move_to( cr, right-INNER_EDGE, top-EXPAND_OVER_BORDER );
+    cairo_line_to( cr, right+EXPAND_OVER_BORDER, top-EXPAND_OVER_BORDER );
+    cairo_line_to( cr, right+EXPAND_OVER_BORDER, top+INNER_EDGE );
+    cairo_close_path( cr );
+    cairo_fill (cr);
+
+    cairo_move_to( cr, left-EXPAND_OVER_BORDER, bottom-INNER_EDGE );
+    cairo_line_to( cr, left-EXPAND_OVER_BORDER, bottom+EXPAND_OVER_BORDER );
+    cairo_line_to( cr, left+INNER_EDGE, bottom+EXPAND_OVER_BORDER );
+    cairo_close_path( cr );
     cairo_fill (cr);
 
     TRACE_END();
