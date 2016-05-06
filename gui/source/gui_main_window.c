@@ -202,8 +202,7 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
-    gui_main_window_destroy( this_ );
-
+    /* forward destroy request to gui_window_manager: */
     observer_notify( (*this_).window_close_observer, this_ );
 
     TRACE_TIMESTAMP();

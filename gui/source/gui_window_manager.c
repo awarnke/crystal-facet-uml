@@ -12,11 +12,13 @@ void gui_window_manager_init ( gui_window_manager_t *this_, ctrl_controller_t *c
 
     gui_resources_init( &((*this_).gui_resources) );
     data_database_reader_init( &((*this_).db_reader), database );
+    (*this_).controller = controller;
+    (*this_).database = database;
     observer_init( &((*this_).window_close_observer), this_, (void (*)(void*,void*)) &gui_window_manager_close_main_window );
-    gui_main_window_init( &((*this_).the_window), controller, database, &((*this_).db_reader), &((*this_).gui_resources), &((*this_).window_close_observer) );
-
-    /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_init( &((*this_).the_window2), controller, database, &((*this_).db_reader), &((*this_).gui_resources), &((*this_).window_close_observer) );
+    for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
+    {
+        (*this_).main_window_active[index] = false;
+    }
 
     TRACE_END();
 }
@@ -25,8 +27,14 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
 {
     TRACE_BEGIN();
 
-    /* destructors of windows are already called */
-
+    for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
+    {
+        if ( (*this_).main_window_active[index] )
+        {
+            gui_main_window_destroy( &((*this_).main_window[index]) );
+            (*this_).main_window_active[index] = false;
+        }
+    }
     observer_destroy( &((*this_).window_close_observer) );
     data_database_reader_destroy( &((*this_).db_reader) );
     gui_resources_destroy( &((*this_).gui_resources) );
@@ -36,14 +44,57 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
 
 gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ )
 {
-    assert (0);
+    int pos = -1;
+    for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
+    {
+        if ( ! (*this_).main_window_active[index] )
+        {
+            pos = index;
+        }
+    }
+
+    if ( -1 != pos )
+    {
+        gui_main_window_init( &((*this_).main_window[pos]),
+                              (*this_).controller,
+                              (*this_).database,
+                              &((*this_).db_reader),
+                              &((*this_).gui_resources),
+                              &((*this_).window_close_observer)
+                            );
+        (*this_).main_window_active[pos] = true;
+    }
+    else
+    {
+        LOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
+    }
 }
 
 void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window )
 {
     TRACE_BEGIN();
-    
-    gtk_main_quit();
+
+    int count_active = 0;
+    for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
+    {
+        if ( (*this_).main_window_active[index] )
+        {
+            if ( main_window == &((*this_).main_window[index]) )
+            {
+                gui_main_window_destroy( &((*this_).main_window[index]) );
+                (*this_).main_window_active[index] = false;
+            }
+            else
+            {
+                count_active ++;
+            }
+        }
+    }
+
+    if ( count_active == 0 )
+    {
+        gtk_main_quit();
+    }
 
     TRACE_END();
 }

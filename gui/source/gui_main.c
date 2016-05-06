@@ -27,10 +27,13 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
     diag_control = ctrl_controller_get_diagram_control_ptr ( controller );
     ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
 
+    gui_window_manager_open_main_window( &window_manager );
+    /* the second window is just for keeping in mind the MVC pattern */
+    gui_window_manager_open_main_window( &window_manager );
+
     TRACE_TIMESTAMP();
 
     gtk_main();
-    gtk_main(); /* once for every window: closing 1 window will end 1 main loop */
 
     gui_window_manager_destroy( &window_manager );
 

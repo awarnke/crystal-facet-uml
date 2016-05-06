@@ -16,6 +16,14 @@
 #include "gui_resources.h"
 #include "util/observer/observer.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
+
+/*!
+ *  \brief constants of gui_sketch_area_t
+ */
+enum gui_window_manager_max_enum {
+    GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS = 4,  /*!< maximum number of simultaneoulsy open main windows */
+};
 
 /*!
  *  \brief attributes of the window manager
@@ -27,10 +35,8 @@ struct gui_window_manager_struct {
     gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
     observer_t window_close_observer;  /*!< own instance of observer_t to observe window close events */
 
-    gui_main_window_t the_window;
-
-    /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_t the_window2;
+    gui_main_window_t main_window[GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS];
+    bool main_window_active[GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS];  /*!< window data is big - we do not move or copy this. we just keep track of which window is active and which is unused. */
 };
 
 typedef struct gui_window_manager_struct gui_window_manager_t;
