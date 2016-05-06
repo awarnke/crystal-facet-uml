@@ -2,6 +2,7 @@
 
 #include "gui_main.h"
 #include "gui_main_window.h"
+#include "gui_window_manager.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
 #include "trace.h"
@@ -9,46 +10,34 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+static gui_window_manager_t window_manager;
+
 void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database ) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
-    static gui_main_window_t the_window;
-
-    /* the second window is just for keeping in mind the MVC pattern */
-    static gui_main_window_t the_window2;
-
-    static gui_resources_t gui_resources;
-
-    static data_database_reader_t db_reader;
-
-    TRACE_INFO_INT("sizeof(gui_main_window_t):",sizeof(gui_main_window_t));
-    TRACE_INFO_INT("sizeof(gui_resources_t):",sizeof(gui_resources_t));
+    TRACE_INFO_INT("sizeof(gui_window_manager_t):",sizeof(gui_window_manager_t));
     TRACE_INFO("initializing gui thread...");
 
     gtk_init(&argc, &argv);
 
-    gui_resources_init( &gui_resources );
-    data_database_reader_init( &db_reader, database );
+    gui_window_manager_init( &window_manager, controller, database );
 
+    /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
     ctrl_diagram_controller_t *diag_control;
     diag_control = ctrl_controller_get_diagram_control_ptr ( controller );
     ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
 
-    gui_main_window_init( &the_window, controller, database, &db_reader, &gui_resources );
-
-    /* the second window is just for keeping in mind the MVC pattern */
-    gui_main_window_init( &the_window2, controller, database, &db_reader, &gui_resources );
-
     TRACE_TIMESTAMP();
+
     gtk_main();
     gtk_main(); /* once for every window: closing 1 window will end 1 main loop */
 
-    data_database_reader_destroy( &db_reader );
-    gui_resources_destroy( &gui_resources );
+    gui_window_manager_destroy( &window_manager );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

@@ -17,7 +17,6 @@
  *  \param id_col column in the tree model that contains the id
  *  \param id the id to find
  *  \return index of the row or -1 if not found
- *
  */
 static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, int id_col, int id );
 
@@ -27,10 +26,8 @@ static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, in
  *  \param id_col column in the tree model that contains the id
  *  \param index the row to look up
  *  \return id of the row or -1 if index out of range
- *
  */
 static inline int gtk_helper_tree_model_get_id ( GtkTreeModel *tree_model, int id_col, int index );
-
 
 #include "util/gtk_helper/gtk_helper_tree_model.inl"
 

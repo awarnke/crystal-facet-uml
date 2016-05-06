@@ -15,6 +15,7 @@
 #include "gui_sketch_tools.h"
 #include "gui_resources.h"
 #include "gui_textedit.h"
+#include "util/observer/observer.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -28,8 +29,7 @@ struct gui_main_window_struct {
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
-    data_database_t *database;  /*!< pointer to external database */
-    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
 
     GtkWidget *toolbar;
     GtkToolItem *tool_use_db;
@@ -66,7 +66,13 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_main_window_init( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, data_database_reader_t *db_reader, gui_resources_t *res );
+void gui_main_window_init( gui_main_window_t *this_,
+                           ctrl_controller_t *controller,
+                           data_database_t *database,
+                           data_database_reader_t *db_reader,
+                           gui_resources_t *res,
+                           observer_t *window_close_observer
+                         );
 
 /*!
  *  \brief destroys the main window
@@ -78,12 +84,14 @@ void gui_main_window_destroy( gui_main_window_t *this_ );
 /*!
  *  \brief callback that is executed when the main window is destroyed
  */
-void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data );
+void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
 
 /*!
- *  \brief callback that is executed when the main window is requeted to be deleted
+ *  \brief callback that is executed when the main window is requested to be deleted
+ *
+ *  \return true if the window shall not be deleted.
  */
-gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data );
+gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 

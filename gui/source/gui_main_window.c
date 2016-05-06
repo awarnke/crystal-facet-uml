@@ -10,9 +10,17 @@
 #include <stdio.h>
 #include <stdbool.h>
 
-void gui_main_window_init ( gui_main_window_t *this_, ctrl_controller_t *controller, data_database_t *database, data_database_reader_t *db_reader, gui_resources_t *res )
+void gui_main_window_init ( gui_main_window_t *this_,
+                            ctrl_controller_t *controller,
+                            data_database_t *database,
+                            data_database_reader_t *db_reader,
+                            gui_resources_t *res,
+                            observer_t *window_close_observer )
 {
     TRACE_BEGIN();
+
+    /* init own attributes */
+    (*this_).window_close_observer = window_close_observer;
 
     /* init window */
 
@@ -189,19 +197,20 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     TRACE_END();
 }
 
-void gui_main_window_destroy_event_callback(GtkWidget *widget, gpointer data )
+void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data )
 {
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
     gui_main_window_destroy( this_ );
-    gtk_main_quit();
+
+    observer_notify( (*this_).window_close_observer, this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-gboolean gui_main_window_delete_event_callback(GtkWidget *widget, GdkEvent *event, gpointer data )
+gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data )
 {
     TRACE_BEGIN();
 

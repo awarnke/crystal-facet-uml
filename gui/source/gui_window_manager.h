@@ -9,18 +9,28 @@
  *  \brief Initializes main windows, quits the program when last window closed, shows the about window
  */
 
+#include "gui_main_window.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
 #include "gui_resources.h"
+#include "util/observer/observer.h"
 #include <gtk/gtk.h>
 
 /*!
  *  \brief attributes of the window manager
  */
 struct gui_window_manager_struct {
-    data_database_reader_t db_reader;
-    gui_resources_t gui_resources;
+    ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
+    data_database_t *database;  /*!< pointer to external data_database_t */
+    data_database_reader_t db_reader;  /*!< own instance of data_database_reader_t */
+    gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
+    observer_t window_close_observer;  /*!< own instance of observer_t to observe window close events */
+
+    gui_main_window_t the_window;
+
+    /* the second window is just for keeping in mind the MVC pattern */
+    gui_main_window_t the_window2;
 };
 
 typedef struct gui_window_manager_struct gui_window_manager_t;
@@ -38,6 +48,20 @@ void gui_window_manager_init( gui_window_manager_t *this_, ctrl_controller_t *co
  *  \param this_ pointer to own object attributes
  */
 void gui_window_manager_destroy( gui_window_manager_t *this_ );
+
+/*!
+ *  \brief starts a main window
+ *
+ *  \param this_ pointer to own object attributes
+ */
+gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ );
+
+/*!
+ *  \brief stops a main window
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window );
 
 #endif  /* GUI_WINDOW_MANAGER_H */
 
