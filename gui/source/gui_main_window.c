@@ -15,12 +15,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
                             data_database_t *database,
                             data_database_reader_t *db_reader,
                             gui_resources_t *res,
-                            observer_t *window_close_observer )
+                            observer_t *window_close_observer,
+                            observer_t *window_open_observer )
 {
     TRACE_BEGIN();
 
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
+    (*this_).window_open_observer = window_open_observer;
 
     /* init window */
 
@@ -133,6 +135,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
@@ -216,6 +219,18 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* return false to trigger destroy event */
+}
+
+void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+
+    /* forward new window request to gui_window_manager: */
+    observer_notify( (*this_).window_open_observer, NULL );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
 }
 
 

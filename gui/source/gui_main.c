@@ -28,8 +28,6 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
     ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
 
     gui_window_manager_open_main_window( &window_manager );
-    /* the second window is just for keeping in mind the MVC pattern */
-    gui_window_manager_open_main_window( &window_manager );
 
     TRACE_TIMESTAMP();
 

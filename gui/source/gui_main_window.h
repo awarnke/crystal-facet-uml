@@ -30,6 +30,7 @@ struct gui_main_window_struct {
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
+    observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
 
     GtkWidget *toolbar;
     GtkToolItem *tool_use_db;
@@ -71,8 +72,9 @@ void gui_main_window_init( gui_main_window_t *this_,
                            data_database_t *database,
                            data_database_reader_t *db_reader,
                            gui_resources_t *res,
-                           observer_t *window_close_observer
-                         );
+                           observer_t *window_close_observer,
+                           observer_t *window_open_observer
+);
 
 /*!
  *  \brief destroys the main window
@@ -92,6 +94,11 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
  *  \return true if the window shall not be deleted.
  */
 gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data );
+
+/*!
+ *  \brief callback that informs that the new window button was pressed
+ */
+void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 

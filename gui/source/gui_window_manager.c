@@ -15,6 +15,7 @@ void gui_window_manager_init ( gui_window_manager_t *this_, ctrl_controller_t *c
     (*this_).controller = controller;
     (*this_).database = database;
     observer_init( &((*this_).window_close_observer), this_, (void (*)(void*,void*)) &gui_window_manager_close_main_window );
+    observer_init( &((*this_).window_open_observer), this_, (void (*)(void*,void*)) &gui_window_manager_open_main_window2 );
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
         (*this_).main_window_active[index] = false;
@@ -44,6 +45,9 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ )
 
 gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ )
 {
+    TRACE_BEGIN();
+    gui_main_window_t *result;
+
     int pos = -1;
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
@@ -60,21 +64,27 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
                               (*this_).database,
                               &((*this_).db_reader),
                               &((*this_).gui_resources),
-                              &((*this_).window_close_observer)
+                              &((*this_).window_close_observer),
+                              &((*this_).window_open_observer)
                             );
         (*this_).main_window_active[pos] = true;
+        TRACE_INFO_INT( "main_window[] index:", pos );
     }
     else
     {
         LOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
     }
+
+    TRACE_END();
+    return result;
 }
 
 void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window )
 {
     TRACE_BEGIN();
-
     int count_active = 0;
+    int count_closed = 0;
+
     for( int index = 0; index < GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS; index ++ )
     {
         if ( (*this_).main_window_active[index] )
@@ -83,6 +93,8 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
             {
                 gui_main_window_destroy( &((*this_).main_window[index]) );
                 (*this_).main_window_active[index] = false;
+                TRACE_INFO_INT( "main_window[] index:", index );
+                count_closed ++;
             }
             else
             {
@@ -91,6 +103,10 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
         }
     }
 
+    if ( count_closed == 0 )
+    {
+        LOG_ERROR( "no window of given address found" );
+    }
     if ( count_active == 0 )
     {
         gtk_main_quit();
@@ -98,6 +114,16 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
 
     TRACE_END();
 }
+
+void gui_window_manager_open_main_window2( gui_window_manager_t *this_, void *dummy )
+{
+    TRACE_BEGIN();
+
+    gui_window_manager_open_main_window( this_ );
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

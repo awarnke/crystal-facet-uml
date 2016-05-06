@@ -34,6 +34,7 @@ struct gui_window_manager_struct {
     data_database_reader_t db_reader;  /*!< own instance of data_database_reader_t */
     gui_resources_t gui_resources;  /*!< own instance of gui_resources_t */
     observer_t window_close_observer;  /*!< own instance of observer_t to observe window close events */
+    observer_t window_open_observer;  /*!< own instance of observer_t to observe window open events */
 
     gui_main_window_t main_window[GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS];
     bool main_window_active[GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS];  /*!< window data is big - we do not move or copy this. we just keep track of which window is active and which is unused. */
@@ -42,14 +43,14 @@ struct gui_window_manager_struct {
 typedef struct gui_window_manager_struct gui_window_manager_t;
 
 /*!
- *  \brief starts main window
+ *  \brief starts window manager
  *
  *  \param this_ pointer to own object attributes
  */
 void gui_window_manager_init( gui_window_manager_t *this_, ctrl_controller_t *controller, data_database_t *database );
 
 /*!
- *  \brief destroys the main window
+ *  \brief destroys the window manager
  *
  *  \param this_ pointer to own object attributes
  */
@@ -59,13 +60,23 @@ void gui_window_manager_destroy( gui_window_manager_t *this_ );
  *  \brief starts a main window
  *
  *  \param this_ pointer to own object attributes
+ *  \return address of new main window
  */
 gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *this_ );
+
+/*!
+ *  \brief starts a main window, provides the function signature required by observer_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param dummy provide e.g. a NULL pointer
+ */
+void gui_window_manager_open_main_window2( gui_window_manager_t *this_, void *dummy );
 
 /*!
  *  \brief stops a main window
  *
  *  \param this_ pointer to own object attributes
+ *  \param main_window address of main window to be closed
  */
 void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main_window_t *main_window );
 
