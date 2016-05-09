@@ -10,11 +10,12 @@
  *  \brief attributes of the gui_resources_t
  */
 struct gui_resources_struct {
+    GdkPixbuf *edit_commit;
+    GdkPixbuf *message_warn;
     GdkPixbuf *tool_create_diagram;
     GdkPixbuf *tool_navigate;
     GdkPixbuf *tool_create_object;
     GdkPixbuf *tool_edit;
-    GdkPixbuf *edit_commit;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -32,6 +33,20 @@ void gui_resources_init ( gui_resources_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void gui_resources_destroy ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_commit
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the message_warn
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_create_diagram
@@ -60,13 +75,6 @@ static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t 
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
-
-/*!
- *  \brief gets the edit_commit
- *
- *  \param this_ pointer to own object attributes
- */
-static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

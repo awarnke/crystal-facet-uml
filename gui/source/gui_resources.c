@@ -6,6 +6,7 @@
 #include <stdbool.h>
 
 /* including resource files */
+#include "resources/message_warn.c"
 #include "resources/tool_create_diagram.c"
 #include "resources/tool_navigate.c"
 #include "resources/tool_create_object.c"
@@ -15,6 +16,18 @@
 void gui_resources_init ( gui_resources_t *this_ )
 {
     TRACE_BEGIN();
+
+    (*this_).message_warn = gdk_pixbuf_new_from_data(
+        &(message_warn.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        message_warn.width,
+        message_warn.height,
+        message_warn.width * message_warn.bytes_per_pixel,
+        NULL,
+        NULL
+    );
 
     (*this_).tool_create_diagram = gdk_pixbuf_new_from_data(
         &(tool_create_diagram.pixel_data[0]),

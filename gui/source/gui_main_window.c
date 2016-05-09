@@ -98,6 +98,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
 
+    GtkWidget *msg_text;
+    msg_text = gtk_label_new ("Hello, this is crystal facet uml version 0.3");
+    GtkWidget *msg_icon;
+    msg_icon = gtk_image_new_from_pixbuf (gui_resources_get_message_warn( res ));
+
     TRACE_INFO("GTK+ Widgets are created.");
 
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_use_db,-1);
@@ -122,6 +127,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 2, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 0, 3, 3, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), msg_icon, 0, 4, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), msg_text, 1, 4, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
