@@ -101,10 +101,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
 
-    GtkWidget *msg_text;
-    msg_text = gtk_label_new ("Hello, this is crystal facet uml version 0.3");
-    GtkWidget *msg_icon;
-    msg_icon = gtk_image_new_from_pixbuf (gui_resources_get_message_warn( res ));
+    (*this_).message_text_label = gtk_label_new ("");
+    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
 
     TRACE_INFO("GTK+ Widgets are created.");
 
@@ -130,8 +129,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 2, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 0, 3, 3, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), msg_icon, 0, 4, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), msg_text, 1, 4, 3, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 4, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 4, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
@@ -163,6 +162,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).description_text_view), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -206,6 +206,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
+    gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
 
     TRACE_END();
 }
@@ -236,8 +237,22 @@ void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
+    /* hide last message */
+    gui_simple_message_to_user_hide( &((*this_).message_to_user) );
+
     /* forward new window request to gui_window_manager: */
     observer_notify( (*this_).window_open_observer, NULL );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+
+    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
 
     TRACE_TIMESTAMP();
     TRACE_END();

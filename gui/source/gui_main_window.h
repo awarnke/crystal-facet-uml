@@ -9,12 +9,13 @@
  *  \brief Displays a main window and reacts on user events
  */
 
-#include "storage/data_database.h"
-#include "ctrl_controller.h"
+#include "gui_simple_message_to_user.h"
 #include "gui_sketch_area.h"
 #include "gui_sketch_tools.h"
 #include "gui_resources.h"
 #include "gui_textedit.h"
+#include "storage/data_database.h"
+#include "ctrl_controller.h"
 #include "util/observer/observer.h"
 #include <gtk/gtk.h>
 
@@ -59,6 +60,10 @@ struct gui_main_window_struct {
     GtkWidget *stereotype_entry;
     GtkWidget *edit_commit_icon;
     GtkWidget *edit_commit_button;
+
+    GtkWidget *message_text_label;
+    GtkWidget *message_icon_image;
+    gui_simple_message_to_user_t message_to_user;
 };
 
 typedef struct gui_main_window_struct gui_main_window_t;
@@ -100,6 +105,11 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
  *  \brief callback that informs that the new window button was pressed
  */
 void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the about button was pressed
+ */
+void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 

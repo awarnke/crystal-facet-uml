@@ -11,7 +11,7 @@
 #include <gtk/gtk.h>
 
 /*!
- *  \brief enumberation on tools
+ *  \brief enumeration on tools
  */
 enum gui_sketch_tools_tool_enum {
     GUI_SKETCH_TOOLS_NAVIGATE,
