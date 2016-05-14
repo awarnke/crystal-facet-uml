@@ -66,8 +66,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                 break;
             case GUI_SIMPLE_MESSAGE_TYPE_ERROR:
                 {
-                    LOG_WARNING( "no error icon resource defined yet!" );
-                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_warn( (*this_).res) );
+                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_error( (*this_).res) );
+                }
+                break;
+            case GUI_SIMPLE_MESSAGE_TYPE_ABOUT:
+                {
+                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_crystal_facet_uml( (*this_).res) );
                 }
                 break;
             default:
@@ -81,7 +85,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
         {
             case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
                 {
-                    utf8stringbuf_append_str( (*this_).content, "This is crystal_facet_uml version 0.3." );
+                    utf8stringbuf_append_str( (*this_).content, "This is crystal_facet_uml version 0.3\nAuthor+Copyright: 2016-2016 Andreas Warnke" );
                 }
                 break;
             case GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_SELECTED:

@@ -34,9 +34,10 @@ struct gui_main_window_struct {
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
 
     GtkWidget *toolbar;
-    GtkToolItem *tool_use_db;
-    GtkToolItem *tool_export;
-    GtkToolItem *tool_new_window;
+    GtkToolItem *file_use_db;
+    GtkToolItem *file_export;
+    GtkWidget *file_new_window_icon;
+    GtkToolItem *file_new_window;
     GtkWidget *tool_navigate_icon;
     GtkToolItem *tool_navigate;
     GtkWidget *tool_edit_icon;

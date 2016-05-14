@@ -8,6 +8,8 @@
 /* including resource files */
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_commit.c"
+#include "resources/file_new_window.c"
+#include "resources/message_error.c"
 #include "resources/message_info.c"
 #include "resources/message_warn.c"
 #include "resources/tool_create_diagram.c"
@@ -24,9 +26,9 @@ void gui_resources_init ( gui_resources_t *this_ )
         GDK_COLORSPACE_RGB,
         true /* alpha */,
         8,
-        message_warn.width,
-        message_warn.height,
-        message_warn.width * message_warn.bytes_per_pixel,
+        crystal_facet_uml.width,
+        crystal_facet_uml.height,
+        crystal_facet_uml.width * crystal_facet_uml.bytes_per_pixel,
         NULL,
         NULL
     );
@@ -43,14 +45,38 @@ void gui_resources_init ( gui_resources_t *this_ )
         NULL
     );
 
+    (*this_).file_new_window = gdk_pixbuf_new_from_data(
+        &(file_new_window.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        file_new_window.width,
+        file_new_window.height,
+        file_new_window.width * file_new_window.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).message_error = gdk_pixbuf_new_from_data(
+        &(message_error.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        message_error.width,
+        message_error.height,
+        message_error.width * message_error.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
     (*this_).message_info = gdk_pixbuf_new_from_data(
         &(message_info.pixel_data[0]),
         GDK_COLORSPACE_RGB,
         true /* alpha */,
         8,
-        message_warn.width,
-        message_warn.height,
-        message_warn.width * message_warn.bytes_per_pixel,
+        message_info.width,
+        message_info.height,
+        message_info.width * message_info.bytes_per_pixel,
         NULL,
         NULL
     );

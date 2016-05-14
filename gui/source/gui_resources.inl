@@ -10,6 +10,16 @@ static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ 
     return (*this_).edit_commit;
 }
 
+static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *this_ )
+{
+    return (*this_).file_new_window;
+}
+
+static inline GdkPixbuf *gui_resources_get_message_error ( gui_resources_t *this_ )
+{
+    return (*this_).message_error ;
+}
+
 static inline GdkPixbuf *gui_resources_get_message_info ( gui_resources_t *this_ )
 {
     return (*this_).message_info;

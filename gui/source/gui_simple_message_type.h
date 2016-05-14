@@ -16,6 +16,7 @@ enum gui_simple_message_type_enum {
     GUI_SIMPLE_MESSAGE_TYPE_INFO,
     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+    GUI_SIMPLE_MESSAGE_TYPE_ABOUT,
 };
 
 typedef enum gui_simple_message_type_enum gui_simple_message_type_t;

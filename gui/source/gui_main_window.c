@@ -34,9 +34,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init tools */
 
-    (*this_).tool_use_db = gtk_tool_button_new( NULL, "Use_DB" );
-    (*this_).tool_export = gtk_tool_button_new( NULL, "Export" );
-    (*this_).tool_new_window = gtk_tool_button_new( NULL, "New_Win" );
+    (*this_).file_use_db = gtk_tool_button_new( NULL, "Use_DB" );
+    (*this_).file_export = gtk_tool_button_new( NULL, "Export" );
+
+    (*this_).file_new_window = gtk_tool_button_new( NULL, "New Window" );
+    (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon);
 
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");
@@ -107,9 +110,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are created.");
 
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_use_db,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_export,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_window,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_use_db,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_export,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_new_window,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
@@ -144,7 +147,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
@@ -181,6 +184,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
+    gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     TRACE_INFO("GTK+ Widgets are shown.");
     TRACE_END();
@@ -252,7 +256,7 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
-    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
+    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ABOUT, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
 
     TRACE_TIMESTAMP();
     TRACE_END();
