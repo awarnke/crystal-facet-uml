@@ -50,6 +50,7 @@ struct gui_main_window_struct {
     GtkToolItem *tool_delete;
     GtkToolItem *tool_undo;
     GtkToolItem *tool_redo;
+    GtkWidget *tool_about_icon;
     GtkToolItem *tool_about;
 
     GtkWidget *name_entry;

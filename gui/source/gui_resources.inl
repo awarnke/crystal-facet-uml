@@ -1,8 +1,18 @@
 /* File: gui_resources.inl; Copyright and License: see below */
 
+static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *this_ )
+{
+    return (*this_).crystal_facet_uml;
+}
+
 static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ )
 {
     return (*this_).edit_commit;
+}
+
+static inline GdkPixbuf *gui_resources_get_message_info ( gui_resources_t *this_ )
+{
+    return (*this_).message_info;
 }
 
 static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_ )

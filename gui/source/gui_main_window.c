@@ -67,7 +67,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).tool_delete = gtk_tool_button_new( NULL, "Delete" );
     (*this_).tool_undo = gtk_tool_button_new( NULL, "Undo" );
     (*this_).tool_redo = gtk_tool_button_new( NULL, "Redo" );
+
     (*this_).tool_about = gtk_tool_button_new( NULL, "About" );
+    (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_about), (*this_).tool_about_icon);
 
     (*this_).toolbar = gtk_toolbar_new ();
     gui_sketch_tools_init( &((*this_).sketchtools_data) );

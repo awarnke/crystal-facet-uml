@@ -10,7 +10,9 @@
  *  \brief attributes of the gui_resources_t
  */
 struct gui_resources_struct {
+    GdkPixbuf *crystal_facet_uml;
     GdkPixbuf *edit_commit;
+    GdkPixbuf *message_info;
     GdkPixbuf *message_warn;
     GdkPixbuf *tool_create_diagram;
     GdkPixbuf *tool_navigate;
@@ -35,11 +37,25 @@ void gui_resources_init ( gui_resources_t *this_ );
 void gui_resources_destroy ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the crystal_facet_uml
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the edit_commit
  *
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the message_info
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_message_info ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the message_warn
