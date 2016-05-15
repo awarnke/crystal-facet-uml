@@ -105,6 +105,13 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
 
+    /* init the file chooser */
+
+    /*
+    GtkWidget *file_chooser;
+    file_chooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
+    */
+
     /* init the message widgets */
 
     (*this_).message_text_label = gtk_label_new ("");
@@ -148,6 +155,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 4, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 4, 3, 1 );
+    /*
+    gtk_grid_attach( GTK_GRID((*this_).layout), file_chooser, 0, 5, 4, 1 );
+    */
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
@@ -266,6 +276,10 @@ void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ERROR, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Use DB" );
+
+    GtkWidget *use_db_file_chooser;
+    use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use", GTK_WINDOW( (*this_).window ), GTK_FILE_CHOOSER_ACTION_SAVE, "Create/Use File" );
+    gtk_widget_show( GTK_WIDGET(use_db_file_chooser) );
 
     TRACE_TIMESTAMP();
     TRACE_END();
