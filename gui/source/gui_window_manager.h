@@ -10,11 +10,12 @@
  */
 
 #include "gui_main_window.h"
+#include "gui_simple_message_to_user.h"
+#include "gui_resources.h"
+#include "util/observer/observer.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "storage/data_database_reader.h"
-#include "gui_resources.h"
-#include "util/observer/observer.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -68,9 +69,9 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
  *  \brief starts a main window, provides the function signature required by observer_t
  *
  *  \param this_ pointer to own object attributes
- *  \param dummy provide e.g. a NULL pointer
+ *  \param message_to_user provide a way to send a message to the user
  */
-void gui_window_manager_open_main_window2( gui_window_manager_t *this_, void *dummy );
+void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user );
 
 /*!
  *  \brief stops a main window

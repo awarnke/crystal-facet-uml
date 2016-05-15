@@ -7,6 +7,7 @@
 #include "storage/data_change_notifier.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
+#include <gtk/gtkaccellabel.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -104,8 +105,21 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
 
+    /* init the message widgets */
+
     (*this_).message_text_label = gtk_label_new ("");
+    /*
+    gtk_widget_set_valign (GTK_WIDGET( (*this_).message_text_label ), GTK_ALIGN_START );
+    */
+    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
+    /*
+    gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
+    */
     (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+    /*
+    gtk_widget_set_valign (GTK_WIDGET( (*this_).message_icon_image ), GTK_ALIGN_END );
+    gtk_misc_set_alignment (GTK_MISC( (*this_).message_icon_image ), 1.0, 0.0 );
+    */
     gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
 
     TRACE_INFO("GTK+ Widgets are created.");
@@ -138,6 +152,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
 
+    /* inject dependencies by signals */
     g_signal_connect( G_OBJECT((*this_).window), "delete_event", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "draw", G_CALLBACK (gui_sketch_area_draw_callback), &((*this_).sketcharea_data) );
@@ -169,6 +184,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
+    /* register observers */
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_set_listener( &((*this_).sketchtools_data), G_OBJECT((*this_).sketcharea) );
@@ -245,7 +261,7 @@ void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     /* forward new window request to gui_window_manager: */
-    observer_notify( (*this_).window_open_observer, NULL );
+    observer_notify( (*this_).window_open_observer, &((*this_).message_to_user) );
 
     TRACE_TIMESTAMP();
     TRACE_END();

@@ -69,10 +69,12 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
                             );
         (*this_).main_window_active[pos] = true;
         TRACE_INFO_INT( "main_window[] index:", pos );
+        result = &((*this_).main_window[pos]);
     }
     else
     {
         LOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
+        result = NULL;
     }
 
     TRACE_END();
@@ -115,11 +117,21 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
     TRACE_END();
 }
 
-void gui_window_manager_open_main_window2( gui_window_manager_t *this_, void *dummy )
+void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
 
-    gui_window_manager_open_main_window( this_ );
+    gui_main_window_t *new_win;
+    new_win = gui_window_manager_open_main_window( this_ );
+
+    if ( NULL == new_win )
+    {
+        gui_simple_message_to_user_show_message_with_int( message_to_user,
+                                                          GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                          GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN,
+                                                          GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS
+                                                        );
+    }
 
     TRACE_END();
 }

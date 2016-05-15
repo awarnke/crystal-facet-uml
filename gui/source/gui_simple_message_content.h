@@ -12,9 +12,10 @@
  *  \brief enumeration on message text-ids
  */
 enum gui_simple_message_content_enum {
-    GUI_SIMPLE_MESSAGE_CONTENT_ABOUT,
+    GUI_SIMPLE_MESSAGE_CONTENT_ABOUT,  /*!< shows the about text */
     GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_SELECTED,
     GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_FOCUSED,
+    GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN,  /*!< the maximum number of windows is already open */
 };
 
 typedef enum gui_simple_message_content_enum gui_simple_message_content_t;

@@ -33,10 +33,27 @@ void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ )
     TRACE_END();
 }
 
+void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
+                                                        gui_simple_message_type_t type_id,
+                                                        gui_simple_message_content_t content_id,
+                                                        int int_param )
+{
+    TRACE_BEGIN();
+
+    char string_of_int_buf[16];
+    utf8stringbuf_t string_of_int = UTF8STRINGBUF( string_of_int_buf );
+    utf8stringbuf_clear( string_of_int );
+    utf8stringbuf_append_int( string_of_int, int_param );
+
+    gui_simple_message_to_user_show_message_with_string( this_, type_id, content_id, utf8stringbuf_get_string( string_of_int ));
+
+    TRACE_END();
+}
+
 void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to_user_t *this_,
                                                            gui_simple_message_type_t type_id,
                                                            gui_simple_message_content_t content_id,
-                                                           const char *var_string )
+                                                           const char *string_param )
 {
     TRACE_BEGIN();
 
@@ -50,58 +67,76 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
         switch ( type_id )
         {
             case GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE:
-                {
-                    assert(0);  /* this cannot happen */
-                }
-                break;
+            {
+                assert(0);  /* this cannot happen */
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_TYPE_INFO:
-                {
-                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_info( (*this_).res) );
-                }
-                break;
+            {
+                gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_info( (*this_).res) );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_TYPE_WARNING:
-                {
-                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_warn( (*this_).res) );
-                }
-                break;
+            {
+                gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_warn( (*this_).res) );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_TYPE_ERROR:
-                {
-                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_error( (*this_).res) );
-                }
-                break;
+            {
+                gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_message_error( (*this_).res) );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_TYPE_ABOUT:
-                {
-                    gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_crystal_facet_uml( (*this_).res) );
-                }
-                break;
+            {
+                gtk_image_set_from_pixbuf ( GTK_IMAGE( (*this_).icon_image ), gui_resources_get_crystal_facet_uml( (*this_).res) );
+            }
+            break;
+
             default:
-                {
-                    LOG_ERROR("unexptected gui_simple_message_type_t");
-                }
+            {
+                LOG_ERROR("unexptected gui_simple_message_type_t");
+            }
         }
 
         utf8stringbuf_clear( (*this_).content );
         switch ( content_id )
         {
             case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
-                {
-                    utf8stringbuf_append_str( (*this_).content, "This is crystal_facet_uml version 0.3\nAuthor+Copyright: 2016-2016 Andreas Warnke" );
-                }
-                break;
+            {
+                utf8stringbuf_append_str( (*this_).content,
+                                          "This is crystal_facet_uml version 0.3\n"
+                                          "License: Apache 2.0\n"
+                                          "Author+Copyright: 2016-2016 Andreas Warnke" );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_SELECTED:
-                {
-                    utf8stringbuf_append_str( (*this_).content, "Nothing selected." );
-                }
-                break;
+            {
+                utf8stringbuf_append_str( (*this_).content, "Nothing selected." );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_FOCUSED:
-                {
-                    utf8stringbuf_append_str( (*this_).content, "Nothing focused." );
-                }
-                break;
+            {
+                utf8stringbuf_append_str( (*this_).content, "Nothing focused." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Maximum number of windows already open: " );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+
             default:
-                {
-                    LOG_ERROR("unexptected gui_simple_message_content_t");
-                }
+            {
+                LOG_ERROR("unexptected gui_simple_message_content_t");
+            }
         }
         gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).content ));
 

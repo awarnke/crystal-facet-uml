@@ -56,8 +56,19 @@ void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ );
 void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to_user_t *this_,
                                                            gui_simple_message_type_t type_id,
                                                            gui_simple_message_content_t content_id,
-                                                           const char *var_string
+                                                           const char *string_param
                                                          );
+
+/*!
+ *  \brief shows a message
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
+                                                        gui_simple_message_type_t type_id,
+                                                        gui_simple_message_content_t content_id,
+                                                        int int_param
+                                                      );
 
 /*!
  *  \brief hides whatever is currently shown
