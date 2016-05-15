@@ -8,6 +8,7 @@
  *  \brief Informs the listener on the currently selected tool
  */
 
+#include "gui_simple_message_to_user.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -28,6 +29,7 @@ typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;
     GObject *listener;
+    gui_simple_message_to_user_t *message_to_user;
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
@@ -39,7 +41,7 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_ );
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_simple_message_to_user_t *message_to_user );
 
 /*!
  *  \brief destroys the gui_sketch_tools_t struct
@@ -74,6 +76,36 @@ void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer da
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief sets the listener

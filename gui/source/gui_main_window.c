@@ -77,7 +77,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_about), (*this_).tool_about_icon);
 
     (*this_).toolbar = gtk_toolbar_new ();
-    gui_sketch_tools_init( &((*this_).sketchtools_data) );
+    gui_sketch_tools_init( &((*this_).sketchtools_data), &((*this_).message_to_user) );
 
     /* init sketch area */
 
@@ -162,11 +162,19 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_cut), "clicked", G_CALLBACK(gui_sketch_tools_cut_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_textedit_description_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
@@ -250,6 +258,28 @@ gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *eve
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* return false to trigger destroy event */
+}
+
+void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+
+    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ERROR, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Use DB" );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = data;
+
+    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ERROR, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Export" );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
 }
 
 void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )

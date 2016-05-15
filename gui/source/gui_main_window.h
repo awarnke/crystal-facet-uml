@@ -103,6 +103,16 @@ void gui_main_window_destroy_event_callback( GtkWidget *widget, gpointer data );
 gboolean gui_main_window_delete_event_callback( GtkWidget *widget, GdkEvent *event, gpointer data );
 
 /*!
+ *  \brief callback that informs that the use_db button was pressed
+ */
+void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the export button was pressed
+ */
+void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
  *  \brief callback that informs that the new window button was pressed
  */
 void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data );
