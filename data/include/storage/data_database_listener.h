@@ -26,7 +26,7 @@ typedef struct data_database_listener_struct data_database_listener_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param listener_instance a pointer to data that is passed to the callback function as first parameter
- *  \param listener_callback a callback function. Simply dereference the function name, omit parameters and add a typecast, e.g. (void (*)(void*,int)) &my_callback_function
+ *  \param listener_callback a callback function. Simply dereference the function name, omit parameters and add a typecast, e.g. (void (*)(void*,data_database_listener_signal_t)) &my_callback_function
  */
 static inline void data_database_listener_init ( data_database_listener_t *this_,
                                                  void *listener_instance,

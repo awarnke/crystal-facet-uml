@@ -33,6 +33,8 @@ struct data_database_writer_struct {
     utf8stringbuf_t private_sql_stringbuf;
     char private_temp_buffer[8192];
     char private_sql_buffer[8192];
+
+    data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_writer_db_change_callback */
 };
 
 typedef struct data_database_writer_struct data_database_writer_t;

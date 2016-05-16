@@ -114,12 +114,12 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
 /*!
  *  \brief clears the db-file changed listerner array
  */
-static void data_database_private_clear_db_listener_list( data_database_t *this_ );
+static inline void data_database_private_clear_db_listener_list( data_database_t *this_ );
 
 /*!
  *  \brief notifies all db-file changed listerners
  */
-static void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
+static inline void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
 #include "storage/data_database.inl"
 

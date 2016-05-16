@@ -162,6 +162,9 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_t 
         LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
     }
 
+    data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_writer_db_change_callback );
+    data_database_add_db_listener( database, &((*this_).me_as_listener) );
+
     TRACE_END();
 }
 
@@ -169,6 +172,8 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
 {
     TRACE_BEGIN();
     int perr;
+
+    data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )

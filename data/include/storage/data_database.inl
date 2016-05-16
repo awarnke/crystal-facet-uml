@@ -15,7 +15,7 @@ static inline const char *data_database_get_filename_ptr ( data_database_t *this
     return ( (*this_).is_open ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
 }
 
-static void data_database_clear_db_listener_list( data_database_t *this_ )
+static inline void data_database_private_clear_db_listener_list( data_database_t *this_ )
 {
     for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
     {
@@ -23,7 +23,7 @@ static void data_database_clear_db_listener_list( data_database_t *this_ )
     }
 }
 
-static void data_database_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
+static inline void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
 {
     for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
     {

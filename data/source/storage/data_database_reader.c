@@ -118,6 +118,9 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
         result |= DATA_ERROR_AT_MUTEX;
     }
 
+    data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
+    data_database_add_db_listener( database, &((*this_).me_as_listener) );
+
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
@@ -159,6 +162,8 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
     result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
 
     result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
+
+    data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )
@@ -412,7 +417,7 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
             LOG_ERROR( "unexpected data_database_listener_signal_t" );
         }
     }
-    
+
     TRACE_END();
 }
 

@@ -25,11 +25,14 @@
  */
 struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
-    pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
+
+    pthread_mutex_t private_lock;  /*!< lock to ensure that all private attributes are used by only one thread */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
+
+    data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_reader_db_change_callback */
 };
 
 typedef struct data_database_reader_struct data_database_reader_t;
