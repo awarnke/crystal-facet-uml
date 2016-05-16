@@ -178,7 +178,7 @@ void data_database_init ( data_database_t *this_ )
 
     (*this_).is_open = false;
     data_change_notifier_init ( &((*this_).notifier) );
-    data_database_clear_db_listener_list( this_ );
+    data_database_private_clear_db_listener_list( this_ );
 
     TRACE_END();
 }
@@ -210,6 +210,9 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
     {
         (*this_).is_open = true;
         data_database_private_initialize_tables( (*this_).db );
+
+        /* inform on open */
+        data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED );
     }
 
     TRACE_END_ERR( result );
@@ -224,6 +227,10 @@ data_error_t data_database_close ( data_database_t *this_ )
 
     if ( (*this_).is_open )
     {
+        /* prepare close */
+        data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
+
+        /* perform close */
         LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
@@ -260,7 +267,7 @@ void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_database_clear_db_listener_list( this_ );
+    data_database_private_clear_db_listener_list( this_ );
     if ( (*this_).is_open )
     {
         data_database_close( this_ );
