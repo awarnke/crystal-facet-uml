@@ -25,7 +25,7 @@ enum gui_file_manager_const_enum {
  *  \brief attributes of the file manager
  */
 struct gui_file_manager_struct {
-    void *dummy;
+    ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
 };
 
 typedef struct gui_file_manager_struct gui_file_manager_t;

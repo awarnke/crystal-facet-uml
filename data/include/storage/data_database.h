@@ -4,7 +4,8 @@
 #define DATA_DATABASE_H
 
 /* public file for the doxygen documentation: */
-/*! \file
+/*!
+ *  \file
  *  \brief Opens and closes a database.
  */
 
@@ -45,14 +46,14 @@ void data_database_init ( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-void data_database_open ( data_database_t *this_, const char* db_file_path );
+data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
 
 /*!
  *  \brief closes the current database file
  *
  *  \param this_ pointer to own object attributes
  */
-void data_database_close ( data_database_t *this_ );
+data_error_t data_database_close ( data_database_t *this_ );
 
 /*!
  *  \brief destroys the data_database_t struct

@@ -4,7 +4,10 @@
 #define CTRL_DIAGRAM_CONTROLLER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Provides write access and consistency checks to the diagrams of the database
+ */
 
 #include "ctrl_error.h"
 #include "storage/data_database.h"

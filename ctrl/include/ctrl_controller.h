@@ -4,8 +4,12 @@
 #define CTRL_CONTROLLER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Provides write access and consistency checks to the database
+ */
 
+#include "ctrl_error.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "storage/data_database.h"
@@ -48,6 +52,14 @@ static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_contr
  *  \param this_ pointer to own object attributes
  */
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
+
+/*!
+ *  \brief switches the currently used database file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param db_file_path file name of the new database to be used
+ */
+ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
 
 #include "ctrl_controller.inl"
 

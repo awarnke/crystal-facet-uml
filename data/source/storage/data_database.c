@@ -182,12 +182,13 @@ void data_database_init ( data_database_t *this_ )
     TRACE_END();
 }
 
-void data_database_open ( data_database_t *this_, const char* db_file_path )
+data_error_t data_database_open ( data_database_t *this_, const char* db_file_path )
 {
     TRACE_BEGIN();
     assert( NULL != db_file_path );
     int sqlite_err;
-
+    data_error_t result = DATA_ERROR_NONE;
+    
     if ( (*this_).is_open )
     {
         LOG_WARNING("data_database_open called on database that was not closed.");
@@ -210,13 +211,15 @@ void data_database_open ( data_database_t *this_, const char* db_file_path )
         data_database_private_initialize_tables( (*this_).db );
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
+    return result;
 }
 
-void data_database_close ( data_database_t *this_ )
+data_error_t data_database_close ( data_database_t *this_ )
 {
     TRACE_BEGIN();
     int sqlite_err;
+    data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
@@ -248,7 +251,8 @@ void data_database_close ( data_database_t *this_ )
         LOG_WARNING("data_database_close called on database that was not open.");
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
+    return result;
 }
 
 void data_database_destroy ( data_database_t *this_ )

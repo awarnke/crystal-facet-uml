@@ -4,7 +4,10 @@
 #define CTRL_CLASSIFIER_CONTROLLER_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*!
+ *  \file
+ *  \brief Provides write access and consistency checks to the model of the database
+ */
 
 #include "ctrl_error.h"
 #include "storage/data_database.h"

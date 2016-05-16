@@ -4,7 +4,8 @@
 #define DATA_CHANGE_NOTIFIER_H
 
 /* public file for the doxygen documentation: */
-/*! \file
+/*!
+ *  \file
  *  \brief Notifies on changes to the database.
  */
 

@@ -5,10 +5,15 @@
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
+#include <assert.h>
 
 void gui_file_manager_init ( gui_file_manager_t *this_, ctrl_controller_t *controller, data_database_t *database )
 {
     TRACE_BEGIN();
+    assert( NULL != controller );
+    assert( NULL != database );
+
+    (*this_).controller = controller;
 
     TRACE_END();
 }
@@ -30,9 +35,14 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
         case GTK_RESPONSE_ACCEPT:
         {
             LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+            ctrl_error_t error;
+
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             TRACE_INFO_STR( "File chosen:", filename );
+
+            error = ctrl_controller_switch_database ( (*this_).controller, filename );
+
             g_free (filename);
         }
         break;

@@ -27,6 +27,23 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     TRACE_END();
 }
 
+ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    /*
+    data_result = data_database_close( (*this_).database );
+    data_result |= data_database_open( (*this_).database, db_file_path );
+    result = (ctrl_error_t) data_result;
+    */
+    LOG_ERROR("switching the database does not work as sketched in above excluded code! prepared statements are still open.");
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
