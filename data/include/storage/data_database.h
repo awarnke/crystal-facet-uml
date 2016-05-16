@@ -32,7 +32,7 @@ struct data_database_struct {
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
     data_change_notifier_t notifier;  /*!< sends notifications at changes to the database */
-    data_database_listener_t listener_list[];
+    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of database change listeners */
 };
 
 typedef struct data_database_struct data_database_t;
@@ -91,6 +91,35 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
  *  \brief initializes the tables in the database if not yet existant
  */
 static void data_database_private_initialize_tables( sqlite3 *db );
+
+/*!
+ *  \brief adds a db-file changed listener to the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param listener pointer to a listener to be added; the referenced object needs to stay valid till removal
+ *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, DATA_ERROR_NONE otherwise.
+ */
+
+data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
+
+/*!
+ *  \brief removes a db-file changed listener to the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param listener pointer to a listener to be removed
+ *  \return DATA_ERROR_INVALID_REQUEST if listener was not registered, DATA_ERROR_NONE otherwise.
+ */
+data_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener );
+
+/*!
+ *  \brief clears the db-file changed listerner array
+ */
+static void data_database_clear_db_listener_list( data_database_t *this_ );
+
+/*!
+ *  \brief notifies all db-file changed listerners
+ */
+static void data_database_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
 #include "storage/data_database.inl"
 

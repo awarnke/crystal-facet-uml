@@ -267,6 +267,14 @@ static inline data_error_t data_database_writer_private_lock ( data_database_wri
  */
 static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
 
+/*!
+ *  \brief prepares a database change and re-initializes afterwards
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param signal_id state of database change
+ */
+void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id );
+
 #include "storage/data_database_writer.inl"
 
 #endif  /* DATA_DATABASE_WRITER_H */

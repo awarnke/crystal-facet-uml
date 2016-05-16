@@ -178,6 +178,7 @@ void data_database_init ( data_database_t *this_ )
 
     (*this_).is_open = false;
     data_change_notifier_init ( &((*this_).notifier) );
+    data_database_clear_db_listener_list( this_ );
 
     TRACE_END();
 }
@@ -188,7 +189,7 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
     assert( NULL != db_file_path );
     int sqlite_err;
     data_error_t result = DATA_ERROR_NONE;
-    
+
     if ( (*this_).is_open )
     {
         LOG_WARNING("data_database_open called on database that was not closed.");
@@ -259,6 +260,7 @@ void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_database_clear_db_listener_list( this_ );
     if ( (*this_).is_open )
     {
         data_database_close( this_ );
@@ -266,6 +268,61 @@ void data_database_destroy ( data_database_t *this_ )
     data_change_notifier_destroy( &((*this_).notifier) );
 
     TRACE_END();
+}
+
+data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
+{
+    TRACE_BEGIN();
+    assert( NULL != listener );
+    data_error_t result = DATA_ERROR_NONE;
+
+    int pos = -1;
+    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    {
+        if ( NULL == (*this_).listener_list[index] )
+        {
+            pos = index;
+        }
+    }
+
+    if ( -1 != pos )
+    {
+        (*this_).listener_list[pos] = listener;
+    }
+    else
+    {
+        LOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
+        result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_remove_db_listener( data_database_t *this_, data_database_listener_t *listener )
+{
+    TRACE_BEGIN();
+    assert( NULL != listener );
+    data_error_t result = DATA_ERROR_NONE;
+    int count_closed = 0;
+
+    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
+    {
+        if ( (*this_).listener_list[index] == listener )
+        {
+            (*this_).listener_list[index] = NULL;
+            count_closed ++;
+        }
+    }
+
+    if ( count_closed == 0 )
+    {
+        LOG_ERROR( "listener not found" );
+        result = DATA_ERROR_INVALID_REQUEST;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

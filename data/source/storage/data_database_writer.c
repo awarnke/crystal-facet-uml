@@ -800,6 +800,33 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     return result;
 }
 
+void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id )
+{
+    TRACE_BEGIN();
+
+    switch ( signal_id )
+    {
+        case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
+        {
+            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
+        }
+        break;
+
+        case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
+        {
+            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
+        }
+        break;
+
+        default:
+        {
+            LOG_ERROR( "unexpected data_database_listener_signal_t" );
+        }
+    }
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
