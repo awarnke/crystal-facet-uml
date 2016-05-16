@@ -149,6 +149,8 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
         gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
         gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
+
+        LOG_EVENT( utf8stringbuf_get_string( (*this_).content ) );
     }
 
     TRACE_END();

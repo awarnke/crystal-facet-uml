@@ -14,6 +14,14 @@
 #include <gtk/gtk.h>
 
 /*!
+ *  \brief constants of gui_file_manager_t
+ */
+enum gui_file_manager_const_enum {
+    GUI_FILEMANAGER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
+    GUI_FILEMANAGER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
+};
+
+/*!
  *  \brief attributes of the file manager
  */
 struct gui_file_manager_struct {
@@ -35,6 +43,16 @@ void gui_file_manager_init( gui_file_manager_t *this_, ctrl_controller_t *contro
  *  \param this_ pointer to own object attributes
  */
 void gui_file_manager_destroy( gui_file_manager_t *this_ );
+
+/*!
+ *  \brief callback function of a GtkDialog
+ */
+void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+
+/*!
+ *  \brief callback function of a GtkDialog
+ */
+void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 
 #endif  /* GUI_FILE_MANAGER_H */
 

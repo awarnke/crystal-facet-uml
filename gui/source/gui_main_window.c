@@ -107,26 +107,42 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init the file chooser */
 
-    /*
-    GtkWidget *file_chooser;
-    file_chooser = gtk_file_chooser_widget_new ( GTK_FILE_CHOOSER_ACTION_SAVE );
-    */
+    (*this_).use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use",
+                                                                 GTK_WINDOW( (*this_).window ),
+                                                                 GTK_FILE_CHOOSER_ACTION_SAVE,
+                                                                 "Cancel",
+                                                                 GTK_RESPONSE_CANCEL,
+                                                                 "Create/Use DB-File",
+                                                                 GTK_RESPONSE_ACCEPT,
+                                                                 NULL
+                                                               );
+    g_object_ref( (*this_).use_db_file_chooser );
+    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Filename Prefix",
+                                                                 GTK_WINDOW( (*this_).window ),
+                                                                 GTK_FILE_CHOOSER_ACTION_SAVE,
+                                                                 "Cancel",
+                                                                 GTK_RESPONSE_CANCEL,
+                                                                 "Export svg Files",
+                                                                 GUI_FILEMANAGER_CONST_EXPORT_SVG,
+                                                                 "Export png Files",
+                                                                 GUI_FILEMANAGER_CONST_EXPORT_PNG,
+                                                                 NULL
+                                                               );
+    g_object_ref( (*this_).export_file_chooser );
+    gui_file_manager_init( &((*this_).file_manager), controller, database );
 
     /* init the message widgets */
 
     (*this_).message_text_label = gtk_label_new ("");
     /*
     gtk_widget_set_valign (GTK_WIDGET( (*this_).message_text_label ), GTK_ALIGN_START );
-    */
-    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
-    /*
     gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
     */
-    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
     /*
-    gtk_widget_set_valign (GTK_WIDGET( (*this_).message_icon_image ), GTK_ALIGN_END );
-    gtk_misc_set_alignment (GTK_MISC( (*this_).message_icon_image ), 1.0, 0.0 );
-    */
+     * the "set alignment" below is deprecated - but the two commented ones do not work ...
+     */
+    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
+    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
     gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
 
     TRACE_INFO("GTK+ Widgets are created.");
@@ -199,6 +215,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_manager_use_db_response_callback), &((*this_).file_manager) );
+    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_manager_export_response_callback), &((*this_).file_manager) );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -241,10 +259,16 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
 
+    g_object_unref( (*this_).use_db_file_chooser );
+    g_object_unref( (*this_).export_file_chooser );
+
+    TRACE_INFO("GTK+ Widgets are unreferenced.");
+
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
+    gui_file_manager_destroy( &((*this_).file_manager) );
 
     TRACE_END();
 }
@@ -277,9 +301,7 @@ void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ERROR, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Use DB" );
 
-    GtkWidget *use_db_file_chooser;
-    use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use", GTK_WINDOW( (*this_).window ), GTK_FILE_CHOOSER_ACTION_SAVE, "Create/Use File" );
-    gtk_widget_show( GTK_WIDGET(use_db_file_chooser) );
+    gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -291,6 +313,8 @@ void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ERROR, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Export" );
+
+    gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
 
     TRACE_TIMESTAMP();
     TRACE_END();

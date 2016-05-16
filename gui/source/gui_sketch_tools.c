@@ -56,6 +56,8 @@ void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
 
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+    
     (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
 
     gui_sketch_tools_private_notify_listener( this_ );
@@ -68,6 +70,8 @@ void gui_sketch_tools_edit_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_EDIT;
 
@@ -82,6 +86,8 @@ void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer da
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
 
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
     (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_OBJECT;
 
     gui_sketch_tools_private_notify_listener( this_ );
@@ -94,6 +100,8 @@ void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer d
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_DIAGRAM;
 

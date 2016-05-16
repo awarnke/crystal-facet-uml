@@ -14,6 +14,7 @@
 #include "gui_sketch_tools.h"
 #include "gui_resources.h"
 #include "gui_textedit.h"
+#include "gui_file_manager.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "util/observer/observer.h"
@@ -32,6 +33,10 @@ struct gui_main_window_struct {
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
+    gui_file_manager_t file_manager;  /*!<  own instance of gui_file_manager_t */
+
+    GtkWidget *use_db_file_chooser;  /*!< pointer to instance of a file chooser for use_db */
+    GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
 
     GtkWidget *toolbar;
     GtkToolItem *file_use_db;

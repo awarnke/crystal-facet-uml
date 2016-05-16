@@ -20,6 +20,80 @@ void gui_file_manager_destroy( gui_file_manager_t *this_ )
     TRACE_END();
 }
 
+void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_file_manager_t *this_ = user_data;
+
+    switch ( response_id )
+    {
+        case GTK_RESPONSE_ACCEPT:
+        {
+            LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+        }
+        break;
+
+        case GTK_RESPONSE_CANCEL:
+        {
+            LOG_EVENT( "GTK_RESPONSE_CANCEL" );
+        }
+        break;
+
+        case GTK_RESPONSE_DELETE_EVENT:
+        {
+            LOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
+        }
+        break;
+
+        default:
+        {
+            LOG_ERROR( "unexpected response_id" );
+        }
+    }
+
+    TRACE_END();
+}
+
+void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_file_manager_t *this_ = user_data;
+
+    switch ( response_id )
+    {
+        case GTK_RESPONSE_CANCEL:
+        {
+            LOG_EVENT( "GTK_RESPONSE_CANCEL" );
+        }
+        break;
+
+        case GUI_FILEMANAGER_CONST_EXPORT_PNG:
+        {
+            LOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_PNG" );
+        }
+        break;
+
+        case GUI_FILEMANAGER_CONST_EXPORT_SVG:
+        {
+            LOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_SVG" );
+        }
+        break;
+
+        case GTK_RESPONSE_DELETE_EVENT:
+        {
+            LOG_EVENT( "GTK_RESPONSE_DELETE_EVENT" );
+        }
+        break;
+
+        default:
+        {
+            LOG_ERROR( "unexpected response_id" );
+        }
+    }
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
