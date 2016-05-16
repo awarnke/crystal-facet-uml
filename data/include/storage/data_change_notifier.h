@@ -16,9 +16,9 @@
 #include <stdint.h>
 
 /*!
- *  \brief definition of constants like max array sizes
+ *  \brief definition of max constants like max array sizes
  */
-enum data_change_notifier_consts_enum {
+enum data_change_notifier_max_enum {
     DATA_CHANGE_NOTIFIER_MAX_LISTENERS = 48,
 };
 
