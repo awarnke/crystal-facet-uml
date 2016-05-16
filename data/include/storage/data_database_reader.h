@@ -27,6 +27,7 @@ struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
 
     pthread_mutex_t private_lock;  /*!< lock to ensure that all private attributes are used by only one thread */
+    bool is_open;  /*!< the prepared statements are only initialized if the database is open */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
@@ -43,6 +44,20 @@ typedef struct data_database_reader_struct data_database_reader_t;
  *  \param this_ pointer to own object attributes
  */
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database );
+
+/*!
+ *  \brief initializes the data_database_reader_t struct after the database is opened
+ *
+ *  \param this_ pointer to own object attributes
+ */
+data_error_t data_database_reader_private_open ( data_database_reader_t *this_ );
+
+/*!
+ *  \brief closes the data_database_reader_t struct before the database is closed
+ *
+ *  \param this_ pointer to own object attributes
+ */
+data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
 
 /*!
  *  \brief destroys the data_database_reader_t struct

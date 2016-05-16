@@ -102,14 +102,11 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    int sqlite_err;
-    const char *first_unused_statement_char;
     int perr;
-    sqlite3 *db;
     data_error_t result = DATA_ERROR_NONE;
 
     (*this_).database = database;
-    db = data_database_get_database_ptr ( database );
+    (*this_).is_open = false;
 
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )
@@ -121,29 +118,61 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
     data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
 
+    result |= data_database_reader_private_open( this_ );
+
+    TRACE_END_ERR(result);
+    return result;
+}
+
+data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
                                                                &((*this_).private_prepared_query_diagram_by_id)
-                                                             );
+    );
 
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
                                                                &((*this_).private_prepared_query_diagrams_by_parent_id)
-                                                             );
+    );
 
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
                                                                &((*this_).private_prepared_query_classifier_by_id)
-                                                             );
+    );
 
     result |= data_database_reader_private_prepare_statement ( this_,
                                                                DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
                                                                sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
                                                                &((*this_).private_prepared_query_classifiers_by_diagram_id)
-                                                             );
+    );
+
+    (*this_).is_open = true;
+
+    TRACE_END_ERR(result);
+    return result;
+}
+
+data_error_t data_database_reader_private_close ( data_database_reader_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );
+
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
+
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
+
+    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
+
+    (*this_).is_open = false;
 
     TRACE_END_ERR(result);
     return result;
@@ -155,13 +184,7 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
     int perr;
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_by_id );
-
-    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
-
-    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
-
-    result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
+    result |= data_database_reader_private_close( this_ );
 
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
@@ -397,18 +420,21 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
 
     switch ( signal_id )
     {
         case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
         {
             TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
+            result |= data_database_reader_private_close( this_ );
         }
         break;
 
         case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
         {
             TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
+            result |= data_database_reader_private_open( this_ );
         }
         break;
 
