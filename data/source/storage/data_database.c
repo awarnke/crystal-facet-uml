@@ -173,7 +173,9 @@ void data_database_init ( data_database_t *this_ )
 
     TRACE_INFO_STR( "sqlite3_libversion", sqlite3_libversion() );
 
-    (*this_).db_file_name = "";
+    (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
+    utf8stringbuf_clear( (*this_).db_file_name );
+
     (*this_).is_open = false;
     data_change_notifier_init ( &((*this_).notifier) );
 
@@ -192,14 +194,14 @@ void data_database_open ( data_database_t *this_, const char* db_file_path )
         data_database_close( this_ );
     }
 
-    (*this_).db_file_name = db_file_path;
+    utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
 
-    LOG_EVENT_STR( "sqlite3_open:", (*this_).db_file_name );
-    sqlite_err = sqlite3_open( (*this_).db_file_name, &((*this_).db) );
+    LOG_EVENT_STR( "sqlite3_open:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+    sqlite_err = sqlite3_open( utf8stringbuf_get_string( (*this_).db_file_name ), &((*this_).db) );
     if ( SQLITE_OK != sqlite_err )
     {
         LOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_open() failed:", (*this_).db_file_name );
+        LOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         (*this_).is_open = false;
     }
     else
@@ -218,7 +220,7 @@ void data_database_close ( data_database_t *this_ )
 
     if ( (*this_).is_open )
     {
-        LOG_EVENT_STR( "sqlite3_close:", (*this_).db_file_name );
+        LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
@@ -230,7 +232,7 @@ void data_database_close ( data_database_t *this_ )
             /* retry */
             sleep (1);
 
-            LOG_EVENT_STR( "sqlite3_close_v2:", (*this_).db_file_name );
+            LOG_EVENT_STR( "sqlite3_close_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             sqlite_err = sqlite3_close_v2( (*this_).db );
             if ( SQLITE_OK != sqlite_err )
             {
@@ -238,7 +240,7 @@ void data_database_close ( data_database_t *this_ )
             }
         }
 
-        (*this_).db_file_name = "";
+        utf8stringbuf_clear( (*this_).db_file_name );
         (*this_).is_open = false;
     }
     else

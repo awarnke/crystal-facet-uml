@@ -7,7 +7,6 @@
 #include "storage/data_change_notifier.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
-#include <gtk/gtkaccellabel.h>
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -28,7 +27,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init window */
 
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
-    gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml");
+    const char *window_title;
+    window_title = data_database_get_filename_ptr( database );
+    gtk_window_set_title(GTK_WINDOW((*this_).window), ( window_title == NULL ) ? "crystal facet uml" : window_title );
     gtk_widget_set_size_request((*this_).window, 810, 600);
 
     (*this_).layout = gtk_grid_new();
@@ -171,9 +172,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 4, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 4, 3, 1 );
-    /*
-    gtk_grid_attach( GTK_GRID((*this_).layout), file_chooser, 0, 5, 4, 1 );
-    */
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");

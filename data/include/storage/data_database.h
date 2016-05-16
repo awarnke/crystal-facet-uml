@@ -9,15 +9,24 @@
  */
 
 #include "storage/data_change_notifier.h"
+#include "util/string/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <stdbool.h>
+
+/*!
+ *  \brief constants of data_database_t
+ */
+enum data_database_max_enum {
+    GUI_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
+};
 
 /*!
  *  \brief all data attributes needed for the database functions
  */
 struct data_database_struct {
     sqlite3 *db;
-    const char* db_file_name; /* non-const pointer to const string */
+    utf8stringbuf_t db_file_name;
+    char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
     data_change_notifier_t notifier;  /*!< sends notifications at changes to the database */
 };
@@ -58,6 +67,14 @@ void data_database_destroy ( data_database_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ );
+
+/*!
+ *  \brief returns the database filename
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return NULL if no database is open or the filename
+ */
+static inline const char *data_database_get_filename_ptr ( data_database_t *this_ );
 
 /*!
  *  \brief returns a pointer to the data_change_notifier_t

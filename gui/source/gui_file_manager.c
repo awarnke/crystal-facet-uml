@@ -30,12 +30,17 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
         case GTK_RESPONSE_ACCEPT:
         {
             LOG_EVENT( "GTK_RESPONSE_ACCEPT" );
+            gchar *filename;
+            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            TRACE_INFO_STR( "File chosen:", filename );
+            g_free (filename);
         }
         break;
 
         case GTK_RESPONSE_CANCEL:
         {
             LOG_EVENT( "GTK_RESPONSE_CANCEL" );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 
@@ -64,18 +69,27 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
         case GTK_RESPONSE_CANCEL:
         {
             LOG_EVENT( "GTK_RESPONSE_CANCEL" );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 
         case GUI_FILEMANAGER_CONST_EXPORT_PNG:
         {
             LOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_PNG" );
+            gchar *filename;
+            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            TRACE_INFO_STR( "File chosen:", filename );
+            g_free (filename);
         }
         break;
 
         case GUI_FILEMANAGER_CONST_EXPORT_SVG:
         {
             LOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_SVG" );
+            gchar *filename;
+            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            TRACE_INFO_STR( "File chosen:", filename );
+            g_free (filename);
         }
         break;
 

@@ -10,6 +10,11 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
     return &((*this_).notifier);
 }
 
+static inline const char *data_database_get_filename_ptr ( data_database_t *this_ )
+{
+    return ( (*this_).is_open ? utf8stringbuf_get_string( (*this_).db_file_name ) : NULL );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
