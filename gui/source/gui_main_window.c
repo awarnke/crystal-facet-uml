@@ -117,7 +117,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
                                                                );
-    g_object_ref( (*this_).use_db_file_chooser );
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Filename Prefix",
                                                                  GTK_WINDOW( (*this_).window ),
                                                                  GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -129,7 +128,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GUI_FILEMANAGER_CONST_EXPORT_PNG,
                                                                  NULL
                                                                );
-    g_object_ref( (*this_).export_file_chooser );
     gui_file_manager_init( &((*this_).file_manager), controller, database );
 
     /* init the message widgets */
@@ -215,6 +213,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_manager_use_db_response_callback), &((*this_).file_manager) );
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_manager_export_response_callback), &((*this_).file_manager) );
+    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
+    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -257,10 +257,10 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
 
-    g_object_unref( (*this_).use_db_file_chooser );
-    g_object_unref( (*this_).export_file_chooser );
+    gtk_widget_destroy( (*this_).use_db_file_chooser );
+    gtk_widget_destroy( (*this_).export_file_chooser );
 
-    TRACE_INFO("GTK+ Widgets are unreferenced.");
+    TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
