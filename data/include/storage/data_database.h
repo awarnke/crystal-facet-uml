@@ -9,6 +9,7 @@
  *  \brief Opens and closes a database.
  */
 
+#include "storage/data_database_listener.h"
 #include "storage/data_change_notifier.h"
 #include "util/string/utf8stringbuf.h"
 #include <sqlite3.h>
@@ -19,6 +20,7 @@
  */
 enum data_database_max_enum {
     GUI_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
+    GUI_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
 };
 
 /*!
@@ -30,6 +32,7 @@ struct data_database_struct {
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
     data_change_notifier_t notifier;  /*!< sends notifications at changes to the database */
+    data_database_listener_t listener_list[];
 };
 
 typedef struct data_database_struct data_database_t;

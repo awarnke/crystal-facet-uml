@@ -9,6 +9,7 @@
  *  \brief Creates, modifies and deletes records in the database
  */
 
+#include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"

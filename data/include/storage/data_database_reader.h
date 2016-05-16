@@ -9,6 +9,7 @@
  *  \brief Searches and reads records from the database
  */
 
+#include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"
 #include "data_error.h"
@@ -138,6 +139,14 @@ static inline data_error_t data_database_reader_private_finalize_statement ( dat
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
+
+/*!
+ *  \brief prepares a database change and re-initializes afterwards
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param signal_id state of database change
+ */
+void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id );
 
 #include "storage/data_database_reader.inl"
 

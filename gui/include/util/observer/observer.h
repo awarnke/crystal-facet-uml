@@ -10,7 +10,7 @@
  */
 
 /*!
- *  \brief attributes of a rectangle
+ *  \brief attributes of an observer
  */
 struct observer_struct {
     void *observer_instance;
@@ -20,7 +20,7 @@ struct observer_struct {
 typedef struct observer_struct observer_t;
 
 /*!
- *  \brief initializes the shape_int_rectangle_t struct
+ *  \brief initializes the observer_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param observer_instance a pointer to data that is passed to the callback function as first parameter
@@ -29,7 +29,7 @@ typedef struct observer_struct observer_t;
 static inline void observer_init ( observer_t *this_, void *observer_instance, void (*observer_callback)(void *observer_instance, void *call_param) );
 
 /*!
- *  \brief destroys the shape_int_rectangle_t struct
+ *  \brief destroys the observer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
