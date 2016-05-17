@@ -1,6 +1,8 @@
 /* File: data_database.c; Copyright and License: see below */
 
 #include "storage/data_database.h"
+#include "data_id.h"
+#include "data_table.h"
 #include "trace.h"
 #include "log.h"
 #include <unistd.h>
@@ -211,8 +213,11 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         (*this_).is_open = true;
         data_database_private_initialize_tables( (*this_).db );
 
-        /* inform on open */
+        /* inform readers and writers on open */
         data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED );
+
+        /* inform listeners on changes */
+        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_CONST_VOID_ID );
     }
 
     TRACE_END_ERR( result );
@@ -253,6 +258,9 @@ data_error_t data_database_close ( data_database_t *this_ )
 
         utf8stringbuf_clear( (*this_).db_file_name );
         (*this_).is_open = false;
+
+        /* inform listeners on changes */
+        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_CONST_VOID_ID );
     }
     else
     {

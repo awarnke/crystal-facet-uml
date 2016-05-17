@@ -44,6 +44,8 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
             error = ctrl_controller_switch_database ( (*this_).controller, filename );
 
             g_free (filename);
+
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
         }
         break;
 

@@ -297,7 +297,7 @@ void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
-    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_WARNING, GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED, "Use DB lacks some tests" );
+    gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
     gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
 
