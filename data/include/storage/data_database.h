@@ -20,7 +20,7 @@
  */
 enum data_database_max_enum {
     GUI_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
-    GUI_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
+    GUI_DATABASE_MAX_LISTENERS = 24,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers and 1 main_window -> 24 is sufficient */
 };
 
 /*!
@@ -28,10 +28,12 @@ enum data_database_max_enum {
  */
 struct data_database_struct {
     sqlite3 *db;
+    data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
+
+    pthread_mutex_t private_lock; /*!< lock to ensure that db_file_name and listener_list are used by only one thread */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
-    data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
     data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. Only in case of a changed db-file, listeners are informed. */
 };
 
@@ -48,6 +50,8 @@ void data_database_init ( data_database_t *this_ );
  *  \brief opens a database file
  *
  *  \param this_ pointer to own object attributes
+ *  \param db_file_path a relative or absolute file path
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
 
@@ -55,6 +59,7 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
  *  \brief closes the current database file
  *
  *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_close ( data_database_t *this_ );
 
@@ -69,6 +74,7 @@ void data_database_destroy ( data_database_t *this_ );
  *  \brief returns a pointer to the sqlite database
  *
  *  \param this_ pointer to own object attributes
+ *  \return pointer to the sqlite database
  */
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ );
 
@@ -76,14 +82,15 @@ static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
  *  \brief returns the database filename
  *
  *  \param this_ pointer to own object attributes
- *  \return NULL if no database is open or the filename
+ *  \return NULL if no database is open, the filename otherwise
  */
 static inline const char *data_database_get_filename_ptr ( data_database_t *this_ );
 
 /*!
- *  \brief returns a pointer to the data_change_notifier_t
+ *  \brief returns a pointer to the data_change_notifier_t to be used to send notifications
  *
  *  \param this_ pointer to own object attributes
+ *  \return pointer to the data_change_notifier_t
  */
 static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_database_t *this_ );
 
@@ -99,7 +106,6 @@ static void data_database_private_initialize_tables( sqlite3 *db );
  *  \param listener pointer to a listener to be added; the referenced object needs to stay valid till removal
  *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, DATA_ERROR_NONE otherwise.
  */
-
 data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
 
 /*!
@@ -113,13 +119,34 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
 
 /*!
  *  \brief clears the db-file changed listerner array
+ *
+ *  \param this_ pointer to own object attributes
  */
 static inline void data_database_private_clear_db_listener_list( data_database_t *this_ );
 
 /*!
  *  \brief notifies all db-file changed listerners
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param signal_id one of DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE and DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED, depending on the reason for this notification
  */
 static inline void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
+
+/*!
+ *  \brief gets a lock to protect data in data_database_t from concurrent access.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_private_lock ( data_database_t *this_ );
+
+/*!
+ *  \brief releases the lock.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_private_unlock ( data_database_t *this_ );
 
 #include "storage/data_database.inl"
 

@@ -42,20 +42,24 @@ typedef struct data_database_reader_struct data_database_reader_t;
  *  \brief initializes the data_database_reader_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param database database which this reader uses
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database );
 
 /*!
- *  \brief initializes the data_database_reader_t struct after the database is opened
+ *  \brief initializes the data_database_reader_t struct and allows access to the database after the database is opened
  *
  *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_private_open ( data_database_reader_t *this_ );
 
 /*!
- *  \brief closes the data_database_reader_t struct before the database is closed
+ *  \brief closes the data_database_reader_t struct (prohibits access to the database) before the database is closed
  *
  *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
 
@@ -63,6 +67,7 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
  *  \brief destroys the data_database_reader_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_destroy ( data_database_reader_t *this_ );
 
@@ -86,7 +91,12 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, uint32_t max_out_array_size, data_diagram_t (*out_diagram)[], uint32_t *out_diagram_count );
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
+                                                              int64_t parent_id,
+                                                              uint32_t max_out_array_size,
+                                                              data_diagram_t (*out_diagram)[],
+                                                              uint32_t *out_diagram_count
+                                                            );
 
 /*!
  *  \brief reads a classifier from the database
@@ -108,7 +118,12 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \param out_classifier_count number of classifier records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, uint32_t max_out_array_size, data_classifier_t (*out_classifier)[], uint32_t *out_classifier_count );
+data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
+                                                                  int64_t diagram_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_classifier_t (*out_classifier)[],
+                                                                  uint32_t *out_classifier_count
+                                                                );
 
 /*!
  *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
@@ -135,7 +150,11 @@ static inline data_error_t data_database_reader_private_unlock ( data_database_r
  *  \param out_statement_ptr address of a pointer. The pointer is modifies as to point to a statement object.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_, const char *string_statement, int string_size, sqlite3_stmt **out_statement_ptr );
+static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,
+                                                                            const char *string_statement,
+                                                                            int string_size, s
+                                                                            qlite3_stmt **out_statement_ptr
+                                                                          );
 
 /*!
  *  \brief finalizes a prepared statement.

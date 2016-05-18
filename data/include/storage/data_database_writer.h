@@ -158,6 +158,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram diagram to be created.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
 
@@ -167,6 +168,7 @@ data_error_t data_database_writer_private_build_create_diagram_command ( data_da
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name );
 
@@ -176,6 +178,7 @@ data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_d
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_description new description of the diagram
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description );
 
@@ -185,6 +188,7 @@ data_error_t data_database_writer_private_build_update_diagram_description_cmd (
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new type of the diagram
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
 
@@ -206,6 +210,7 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier classifier to be created.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier );
 
@@ -224,6 +229,7 @@ data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_name new name of the classifier
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_classifier_name_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_name );
 
@@ -233,6 +239,7 @@ data_error_t data_database_writer_private_build_update_classifier_name_cmd ( dat
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_description new description of the classifier
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_classifier_description_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_description );
 
@@ -242,6 +249,7 @@ data_error_t data_database_writer_private_build_update_classifier_description_cm
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_main_type new description of the classifier
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_update_classifier_main_type_cmd ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
 
@@ -250,6 +258,7 @@ data_error_t data_database_writer_private_build_update_classifier_main_type_cmd 
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement diagramelement to be created.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement );
 

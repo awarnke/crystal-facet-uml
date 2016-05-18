@@ -172,6 +172,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
 void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    int perr;
 
     TRACE_INFO_STR( "sqlite3_libversion", sqlite3_libversion() );
 
@@ -179,6 +180,13 @@ void data_database_init ( data_database_t *this_ )
     utf8stringbuf_clear( (*this_).db_file_name );
 
     (*this_).is_open = false;
+
+    perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+    }
+
     data_change_notifier_init ( &((*this_).notifier) );
     data_database_private_clear_db_listener_list( this_ );
 
@@ -274,6 +282,7 @@ data_error_t data_database_close ( data_database_t *this_ )
 void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
+    int perr;
 
     data_database_private_clear_db_listener_list( this_ );
     if ( (*this_).is_open )
@@ -281,6 +290,12 @@ void data_database_destroy ( data_database_t *this_ )
         data_database_close( this_ );
     }
     data_change_notifier_destroy( &((*this_).notifier) );
+
+    perr = pthread_mutex_destroy ( &((*this_).private_lock) );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+    }
 
     TRACE_END();
 }

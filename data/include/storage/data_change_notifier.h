@@ -33,6 +33,12 @@ struct data_change_notifier_struct {
 
 typedef struct data_change_notifier_struct data_change_notifier_t;
 
+/*!
+ *  \brief signal name of the signal that is emitted in case of a change in the database.
+ *
+ *  Parameter of the signal is of type data_id_t*. If a record was changed, data_id_t contains table and row-id.
+ *  If the whole database was changed, data_id_t contains DATA_TABLE_VOID as table-id.
+ */
 extern const char *DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME;
 
 /*!
@@ -62,6 +68,7 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_, data_tabl
  *  \brief adds an object as listener
  *
  *  \param this_ pointer to own object attributes
+ *  \param new_listener pointer to a GObject that shall listen on the DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME signal
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_ARRAY_BUFFER_EXCEEDED if too many listeners are registered,
  *          DATA_ERROR_INVALID_REQUEST if the object was already a listener or data_change_notifier_t not initialized.
@@ -72,6 +79,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
  *  \brief removes an object as listener
  *
  *  \param this_ pointer to own object attributes
+ *  \param no_listener pointer to a GObject that shall be removed from the listener list
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
  */
