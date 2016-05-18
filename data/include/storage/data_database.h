@@ -31,8 +31,8 @@ struct data_database_struct {
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
-    data_change_notifier_t notifier;  /*!< sends notifications at changes to the database */
-    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of database change listeners */
+    data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
+    data_database_listener_t *(listener_list[GUI_DATABASE_MAX_LISTENERS]);  /*!< array of db-file change listeners. Only in case of a changed db-file, listeners are informed. */
 };
 
 typedef struct data_database_struct data_database_t;

@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Notifies on changes to the database.
+ *  \brief Notifies on every change to the database.
  */
 
 #include "data_error.h"

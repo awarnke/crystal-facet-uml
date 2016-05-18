@@ -42,29 +42,34 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).file_new_window = gtk_tool_button_new( NULL, "New Window" );
     (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
 
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");
     (*this_).tool_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_navigate( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon);
     GSList *group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_navigate));
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_navigate), "Navigate" );
 
     (*this_).tool_edit = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_edit), "Edit");
     (*this_).tool_edit_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_edit( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_edit), (*this_).tool_edit_icon);
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_edit));
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_edit), "Edit" );
 
     (*this_).tool_new_obj = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_obj), "New Object");
     (*this_).tool_new_obj_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_object( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_obj), (*this_).tool_new_obj_icon);
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_new_obj));
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_obj), "New Object" );
 
     (*this_).tool_new_view = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
     (*this_).tool_new_view_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_diagram( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), (*this_).tool_new_view_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_view), "New Diagram" );
 
     (*this_).tool_cut = gtk_tool_button_new( NULL, "Cut" );
     (*this_).tool_copy = gtk_tool_button_new( NULL, "Copy" );
@@ -76,6 +81,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).tool_about = gtk_tool_button_new( NULL, "About" );
     (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_about), (*this_).tool_about_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
 
     (*this_).toolbar = gtk_toolbar_new ();
     gui_sketch_tools_init( &((*this_).sketchtools_data), &((*this_).message_to_user) );
@@ -105,6 +111,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit" );
 
     /* init the file chooser */
 
