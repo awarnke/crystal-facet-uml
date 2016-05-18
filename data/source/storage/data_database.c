@@ -206,6 +206,8 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         data_database_close( this_ );
     }
 
+    result |= data_database_private_lock( this_ );
+
     utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
 
     LOG_EVENT_STR( "sqlite3_open:", utf8stringbuf_get_string( (*this_).db_file_name ) );
@@ -215,11 +217,15 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         LOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
         LOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         (*this_).is_open = false;
+
+        result |= data_database_private_unlock( this_ );
     }
     else
     {
         (*this_).is_open = true;
         data_database_private_initialize_tables( (*this_).db );
+
+        result |= data_database_private_unlock( this_ );
 
         /* inform readers and writers on open */
         data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED );
@@ -242,6 +248,8 @@ data_error_t data_database_close ( data_database_t *this_ )
     {
         /* prepare close */
         data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE );
+
+        result |= data_database_private_lock( this_ );
 
         /* perform close */
         LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
@@ -266,6 +274,8 @@ data_error_t data_database_close ( data_database_t *this_ )
 
         utf8stringbuf_clear( (*this_).db_file_name );
         (*this_).is_open = false;
+
+        result |= data_database_private_unlock( this_ );
 
         /* inform listeners on changes */
         data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_CONST_VOID_ID );
@@ -306,6 +316,8 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     assert( NULL != listener );
     data_error_t result = DATA_ERROR_NONE;
 
+    result |= data_database_private_lock( this_ );
+
     int pos = -1;
     for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
     {
@@ -325,6 +337,8 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
         result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
+    result |= data_database_private_unlock( this_ );
+
     TRACE_END_ERR( result );
     return result;
 }
@@ -336,6 +350,8 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
     data_error_t result = DATA_ERROR_NONE;
     int count_closed = 0;
 
+    result |= data_database_private_lock( this_ );
+    
     for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
     {
         if ( (*this_).listener_list[index] == listener )
@@ -344,6 +360,8 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
             count_closed ++;
         }
     }
+
+    result |= data_database_private_unlock( this_ );
 
     if ( count_closed == 0 )
     {

@@ -34,6 +34,36 @@ static inline void data_database_private_notify_db_listeners( data_database_t *t
     }
 }
 
+static inline data_error_t data_database_private_lock ( data_database_t *this_ )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    int perr;
+
+    perr = pthread_mutex_lock ( &((*this_).private_lock) );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        result = DATA_ERROR_AT_MUTEX;
+    }
+
+    return result;
+}
+
+static inline data_error_t data_database_private_unlock ( data_database_t *this_ )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    int perr;
+
+    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
+    if ( perr != 0 )
+    {
+        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        result = DATA_ERROR_AT_MUTEX;
+    }
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
