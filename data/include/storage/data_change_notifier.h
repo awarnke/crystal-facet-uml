@@ -38,6 +38,7 @@ typedef struct data_change_notifier_struct data_change_notifier_t;
  *
  *  Parameter of the signal is of type data_id_t*. If a record was changed, data_id_t contains table and row-id.
  *  If the whole database was changed, data_id_t contains DATA_TABLE_VOID as table-id.
+ *  callback signature for the signal shoud be: void signal_callback( GObject *widget, data_id_t *object_id, gpointer data )
  */
 extern const char *DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME;
 

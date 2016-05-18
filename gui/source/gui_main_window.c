@@ -23,6 +23,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init own attributes */
     (*this_).window_close_observer = window_close_observer;
     (*this_).window_open_observer = window_open_observer;
+    (*this_).database = database;
 
     /* init window */
 
@@ -184,6 +185,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* inject dependencies by signals */
     g_signal_connect( G_OBJECT((*this_).window), "delete_event", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
+    g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "draw", G_CALLBACK (gui_sketch_area_draw_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "motion_notify_event", G_CALLBACK(gui_sketch_area_mouse_motion_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_press_event", G_CALLBACK(gui_sketch_area_button_press_callback), &((*this_).sketcharea_data) );
@@ -227,6 +229,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* register observers */
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_set_listener( &((*this_).sketchtools_data), G_OBJECT((*this_).sketcharea) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 0, G_OBJECT((*this_).name_entry) );
@@ -255,6 +258,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 1 );
     gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 2 );
     gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 3 );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
     gui_sketch_tools_remove_listener( &((*this_).sketchtools_data) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
@@ -274,6 +278,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     gui_file_manager_destroy( &((*this_).file_manager) );
+    (*this_).database = NULL;
 
     TRACE_END();
 }
@@ -346,6 +351,29 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     gui_main_window_t *this_ = data;
 
     gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ABOUT, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_main_window_data_changed_callback( GtkWidget *window, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_main_window_t *this_ = user_data;
+
+    if ( DATA_TABLE_VOID == data_id_get_table( id ) )
+    {
+        /* the database has changed */
+        const char *filename = data_database_get_filename_ptr( (*this_).database );
+        if ( NULL == filename )
+        {
+            gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml" );
+        }
+        else
+        {
+            gtk_window_set_title(GTK_WINDOW((*this_).window), filename );
+        }
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();

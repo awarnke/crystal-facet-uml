@@ -152,8 +152,8 @@ static inline data_error_t data_database_reader_private_unlock ( data_database_r
  */
 static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,
                                                                             const char *string_statement,
-                                                                            int string_size, s
-                                                                            qlite3_stmt **out_statement_ptr
+                                                                            int string_size,
+                                                                            sqlite3_stmt **out_statement_ptr
                                                                           );
 
 /*!

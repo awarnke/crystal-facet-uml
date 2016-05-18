@@ -34,6 +34,7 @@ struct gui_main_window_struct {
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
     gui_file_manager_t file_manager;  /*!<  own instance of gui_file_manager_t */
+    data_database_t *database;  /*!< pointer to external database */
 
     GtkWidget *use_db_file_chooser;  /*!< pointer to instance of a file chooser for use_db */
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
@@ -126,6 +127,11 @@ void gui_main_window_new_window_btn_callback( GtkWidget* button, gpointer data )
  *  \brief callback that informs that the about button was pressed
  */
 void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the data of an object or the whole database changed
+ */
+void gui_main_window_data_changed_callback( GtkWidget *window, data_id_t *id, gpointer user_data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 

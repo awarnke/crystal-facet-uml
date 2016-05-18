@@ -20,7 +20,7 @@
  */
 enum data_database_max_enum {
     GUI_DATABASE_MAX_FILEPATH = 1024,  /*!< maximum length of filepath */
-    GUI_DATABASE_MAX_LISTENERS = 24,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers and 1 main_window -> 24 is sufficient */
+    GUI_DATABASE_MAX_LISTENERS = 20,  /*!< maximum listeners. Max 4 Windows and max 3 readers and 2 writers -> 20 is sufficient */
 };
 
 /*!

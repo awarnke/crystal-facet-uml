@@ -688,7 +688,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     return TRUE;
 }
 
-void gui_sketch_area_data_changed_callback( GtkWidget *widget, void *unused, gpointer data )
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_id_t *object_id, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
