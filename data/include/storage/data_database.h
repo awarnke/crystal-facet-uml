@@ -98,8 +98,10 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 
 /*!
  *  \brief initializes the tables in the database if not yet existant
+ *  \param db an sqlite3 database
+ *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */
-static void data_database_private_initialize_tables( sqlite3 *db );
+data_error_t data_database_private_initialize_tables( sqlite3 *db );
 
 /*!
  *  \brief adds a db-file changed listener to the database

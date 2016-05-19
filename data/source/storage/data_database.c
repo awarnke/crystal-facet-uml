@@ -90,11 +90,12 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE =
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id) "
     ");";
 
-static void data_database_private_initialize_tables( sqlite3 *db )
+data_error_t data_database_private_initialize_tables( sqlite3 *db )
 {
     TRACE_BEGIN();
     int sqlite_err;
     char *error_msg = NULL;
+    data_error_t result = DATA_ERROR_NONE;
 
     LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE, NULL, NULL, &error_msg );
@@ -102,6 +103,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -116,6 +118,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -130,6 +133,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -144,6 +148,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -158,6 +163,7 @@ static void data_database_private_initialize_tables( sqlite3 *db )
     {
         LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
         LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
@@ -166,7 +172,8 @@ static void data_database_private_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
+    return result;
 }
 
 void data_database_init ( data_database_t *this_ )
@@ -222,9 +229,25 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         }
         else
         {
-            (*this_).is_open = true;
-            data_database_private_initialize_tables( (*this_).db );
-            notify_listeners = true;
+            data_error_t init_err;
+            init_err = data_database_private_initialize_tables( (*this_).db );
+            if ( init_err == DATA_ERROR_NONE )
+            {
+                (*this_).is_open = true;
+                notify_listeners = true;
+            }
+            else
+            {
+                LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+                sqlite_err = sqlite3_close( (*this_).db );
+                if ( SQLITE_OK != sqlite_err )
+                {
+                    LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+                }
+                utf8stringbuf_clear( (*this_).db_file_name );
+                (*this_).is_open = false;
+            }
+            result |= init_err;
         }
     }
 
