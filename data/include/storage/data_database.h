@@ -30,7 +30,7 @@ struct data_database_struct {
     sqlite3 *db;
     data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
 
-    pthread_mutex_t private_lock; /*!< lock to ensure that db_file_name and listener_list are used by only one thread */
+    pthread_mutex_t private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
@@ -48,6 +48,8 @@ void data_database_init ( data_database_t *this_ );
 
 /*!
  *  \brief opens a database file
+ *
+ *  It is not allowed to open an already opened database.
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
@@ -129,8 +131,9 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
  *
  *  \param this_ pointer to own object attributes
  *  \param signal_id one of DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE and DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED, depending on the reason for this notification
+ *  \return DATA_ERROR_NONE in case of success.
  */
-static inline void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
+data_error_t data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id );
 
 /*!
  *  \brief gets a lock to protect data in data_database_t from concurrent access.

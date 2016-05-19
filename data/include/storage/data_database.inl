@@ -23,17 +23,6 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
     }
 }
 
-static inline void data_database_private_notify_db_listeners( data_database_t *this_, data_database_listener_signal_t signal_id )
-{
-    for( int index = 0; index < GUI_DATABASE_MAX_LISTENERS; index ++ )
-    {
-        if ( NULL != (*this_).listener_list[index] )
-        {
-            data_database_listener_notify( (*this_).listener_list[index], signal_id );
-        }
-    }
-}
-
 static inline data_error_t data_database_private_lock ( data_database_t *this_ )
 {
     data_error_t result = DATA_ERROR_NONE;

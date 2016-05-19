@@ -26,7 +26,6 @@ enum data_change_notifier_max_enum {
  *  \brief all data attributes needed for notifying changes
  */
 struct data_change_notifier_struct {
-    bool is_initialized;
     int32_t num_listeners;
     GObject *(listener_array[DATA_CHANGE_NOTIFIER_MAX_LISTENERS]);
 };

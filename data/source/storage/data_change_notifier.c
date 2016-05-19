@@ -13,13 +13,10 @@ static bool data_change_notifier_glib_signal_initialized = false;
 static guint data_change_notifier_glib_signal_id = 0;
 const char *DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME = "cfu_data_changed";
 
-/*data_change_sender data_change_notifier_sender;*/
-
 void data_change_notifier_init ( data_change_notifier_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).is_initialized = true;
     (*this_).num_listeners = 0;
     memset( (*this_).listener_array, '\0', sizeof( (*this_).listener_array ) );
 
@@ -49,15 +46,6 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ )
 {
     TRACE_BEGIN();
 
-    if ( (*this_).is_initialized )
-    {
-        (*this_).is_initialized = false;
-    }
-    else
-    {
-        LOG_ERROR( "call to data_change_notifier_destroy on uninitialized object." );
-    }
-
     TRACE_END();
 }
 
@@ -83,88 +71,66 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
     assert( NULL != new_listener );
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( (*this_).is_initialized )
+    /* check for duplicates */
+    bool duplicate = false;
+    for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
-        /* check for duplicates */
-        bool duplicate = false;
-        for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
+        if( new_listener == (*this_).listener_array[pos] )
         {
-            if( new_listener == (*this_).listener_array[pos] )
-            {
-                duplicate = true;
-                result = DATA_ERROR_INVALID_REQUEST;
-                LOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
-            }
-        }
-
-        /* if not a duplicate */
-        if ( ! duplicate ) {
-            if ( (*this_).num_listeners + 1 <= DATA_CHANGE_NOTIFIER_MAX_LISTENERS )
-            {
-                (*this_).listener_array[(*this_).num_listeners] = new_listener;  /* possibly increases reference count */
-                (*this_).num_listeners ++;
-            }
-            else
-            {
-                result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
-                LOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
-            }
+            duplicate = true;
+            result = DATA_ERROR_INVALID_REQUEST;
+            LOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
         }
     }
-    else
-    {
-        LOG_ERROR( "call to data_change_notifier_add_listener on uninitialized object." );
-        result = DATA_ERROR_INVALID_REQUEST;
+
+    /* if not a duplicate */
+    if ( ! duplicate ) {
+        if ( (*this_).num_listeners + 1 <= DATA_CHANGE_NOTIFIER_MAX_LISTENERS )
+        {
+            (*this_).listener_array[(*this_).num_listeners] = new_listener;  /* possibly increases reference count */
+            (*this_).num_listeners ++;
+        }
+        else
+        {
+            result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            LOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
+        }
     }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-/*!
- *  \brief removes an object as listener
- *
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_INVALID_REQUEST if the object was no listener or data_change_notifier_t not initialized.
- */
 data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this_, GObject *no_listener )
 {
     TRACE_BEGIN();
     assert( NULL != no_listener );
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( (*this_).is_initialized )
+    /* search listener to remove */
+    int32_t found_at_pos = -1;  /* -1 means: not found */
+    for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
-        /* search listener to remove */
-        int32_t found_at_pos = -1;  /* -1 means: not found */
-        for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
+        if( no_listener == (*this_).listener_array[pos] )
         {
-            if( no_listener == (*this_).listener_array[pos] )
-            {
-                found_at_pos = pos;
-            }
+            found_at_pos = pos;
         }
+    }
 
-        /* remove if found */
-        if ( found_at_pos != -1 ) {
-            (*this_).listener_array[found_at_pos] = NULL;  /* possilby decreases reference count */
-            if ( found_at_pos + 1 != (*this_).num_listeners )
-            {
-                (*this_).listener_array[found_at_pos] = (*this_).listener_array[(*this_).num_listeners-1];  /* possilby increases reference count */
-                (*this_).listener_array[(*this_).num_listeners-1] = NULL;  /* possilby decreases reference count */
-            }
-            (*this_).num_listeners --;
-        }
-        else
+    /* remove if found */
+    if ( found_at_pos != -1 ) {
+        (*this_).listener_array[found_at_pos] = NULL;  /* possilby decreases reference count */
+        if ( found_at_pos + 1 != (*this_).num_listeners )
         {
-            result = DATA_ERROR_INVALID_REQUEST;
-            LOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
+            (*this_).listener_array[found_at_pos] = (*this_).listener_array[(*this_).num_listeners-1];  /* possilby increases reference count */
+            (*this_).listener_array[(*this_).num_listeners-1] = NULL;  /* possilby decreases reference count */
         }
+        (*this_).num_listeners --;
     }
     else
     {
-        LOG_ERROR( "call to data_change_notifier_remove_listener on uninitialized object." );
         result = DATA_ERROR_INVALID_REQUEST;
+        LOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
     }
 
     TRACE_END_ERR( result );
