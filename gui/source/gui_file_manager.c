@@ -7,13 +7,18 @@
 #include <stdbool.h>
 #include <assert.h>
 
-void gui_file_manager_init ( gui_file_manager_t *this_, ctrl_controller_t *controller, data_database_t *database )
+void gui_file_manager_init ( gui_file_manager_t *this_,
+                             ctrl_controller_t *controller,
+                             data_database_t *database,
+                             gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
     assert( NULL != controller );
     assert( NULL != database );
 
     (*this_).controller = controller;
+    (*this_).database = database;
+    (*this_).message_to_user = message_to_user;
 
     TRACE_END();
 }
@@ -21,6 +26,10 @@ void gui_file_manager_init ( gui_file_manager_t *this_, ctrl_controller_t *contr
 void gui_file_manager_destroy( gui_file_manager_t *this_ )
 {
     TRACE_BEGIN();
+
+    (*this_).controller = NULL;
+    (*this_).database = NULL;
+    (*this_).message_to_user = NULL;
 
     TRACE_END();
 }
@@ -42,6 +51,26 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
             TRACE_INFO_STR( "File chosen:", filename );
 
             error = ctrl_controller_switch_database ( (*this_).controller, filename );
+
+            if ( CTRL_ERROR_NONE != error )
+            {
+                if ( data_database_is_open( (*this_).database ) )
+                {
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                                         filename
+                    );
+                }
+                else
+                {
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,
+                                                                         filename
+                    );
+                }
+            }
 
             g_free (filename);
 

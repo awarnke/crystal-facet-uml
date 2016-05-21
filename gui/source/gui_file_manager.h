@@ -9,6 +9,7 @@
  *  \brief Switches the currently used database, exports all diagrams
  */
 
+#include "gui_simple_message_to_user.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
@@ -26,6 +27,8 @@ enum gui_file_manager_const_enum {
  */
 struct gui_file_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
+    data_database_t *database;  /*!< pointer to external data_database_t */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 };
 
 typedef struct gui_file_manager_struct gui_file_manager_t;
@@ -34,8 +37,15 @@ typedef struct gui_file_manager_struct gui_file_manager_t;
  *  \brief initializes the main window
  *
  *  \param this_ pointer to own object attributes
+ *  \param controller pointer to the controller object to use
+ *  \param database pointer to the database object to use
+ *  \param message_to_user pointer to the message_to_user object to use
  */
-void gui_file_manager_init( gui_file_manager_t *this_, ctrl_controller_t *controller, data_database_t *database );
+void gui_file_manager_init( gui_file_manager_t *this_,
+                            ctrl_controller_t *controller,
+                            data_database_t *database,
+                            gui_simple_message_to_user_t *message_to_user
+                          );
 
 /*!
  *  \brief destroys the main window

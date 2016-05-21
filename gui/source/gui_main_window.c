@@ -35,6 +35,20 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).layout = gtk_grid_new();
 
+    /* init the message widgets */
+
+    (*this_).message_text_label = gtk_label_new ("");
+    /*
+     *    gtk_widget_set_valign (GTK_WIDGET( (*this_).message_text_label ), GTK_ALIGN_START );
+     *    gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
+     */
+    /*
+     * the "set alignment" below is deprecated - but the two commented ones do not work ...
+     */
+    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
+    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
+    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
+
     /* init tools */
 
     (*this_).file_use_db = gtk_tool_button_new( NULL, "Use_DB" );
@@ -124,7 +138,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  "Create/Use DB-File",
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
-                                                               );
+    );
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Filename Prefix",
                                                                  GTK_WINDOW( (*this_).window ),
                                                                  GTK_FILE_CHOOSER_ACTION_SAVE,
@@ -135,22 +149,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  "Export png Files",
                                                                  GUI_FILEMANAGER_CONST_EXPORT_PNG,
                                                                  NULL
-                                                               );
-    gui_file_manager_init( &((*this_).file_manager), controller, database );
-
-    /* init the message widgets */
-
-    (*this_).message_text_label = gtk_label_new ("");
-    /*
-    gtk_widget_set_valign (GTK_WIDGET( (*this_).message_text_label ), GTK_ALIGN_START );
-    gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
-    */
-    /*
-     * the "set alignment" below is deprecated - but the two commented ones do not work ...
-     */
-    gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
-    (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
-    gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
+    );
+    gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
 
     TRACE_INFO("GTK+ Widgets are created.");
 

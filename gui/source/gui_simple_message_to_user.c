@@ -114,15 +114,17 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_SELECTED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED:
             {
-                utf8stringbuf_append_str( (*this_).content, "Nothing selected." );
+                utf8stringbuf_append_str( (*this_).content, "Chosen database file could not be opened/created:\n" );
+                utf8stringbuf_append_str( (*this_).content, string_param );
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_NOTHING_FOCUSED:
+            case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR:
             {
-                utf8stringbuf_append_str( (*this_).content, "Nothing focused." );
+                utf8stringbuf_append_str( (*this_).content, "Chosen database file opened/created with warning:\n" );
+                utf8stringbuf_append_str( (*this_).content, string_param );
             }
             break;
 

@@ -153,6 +153,14 @@ static inline data_error_t data_database_private_lock ( data_database_t *this_ )
  */
 static inline data_error_t data_database_private_unlock ( data_database_t *this_ );
 
+/*!
+ *  \brief checks if the database file is open
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the database file is open
+ */
+static inline bool data_database_is_open( data_database_t *this_ );
+
 #include "storage/data_database.inl"
 
 #endif  /* DATA_DATABASE_H */

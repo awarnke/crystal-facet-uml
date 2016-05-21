@@ -70,7 +70,7 @@ struct gui_main_window_struct {
 
     GtkWidget *message_text_label;
     GtkWidget *message_icon_image;
-    gui_simple_message_to_user_t message_to_user;
+    gui_simple_message_to_user_t message_to_user;  /*!<  own instance of gui_simple_message_to_user_t */
 };
 
 typedef struct gui_main_window_struct gui_main_window_t;
