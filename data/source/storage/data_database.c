@@ -311,7 +311,7 @@ data_error_t data_database_close ( data_database_t *this_ )
     }
     else
     {
-        LOG_ERROR("data_database_close called on database that was not open.");
+        LOG_WARNING("data_database_close called on database that was not open.");
         result |= DATA_ERROR_INVALID_REQUEST;
     }
 

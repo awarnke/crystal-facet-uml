@@ -23,7 +23,7 @@ int main (int argc, char *argv[]) {
     TRACE_INFO("starting DB...");
     TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
     data_database_init( &database );
-    data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );
+    /*data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );*/
 
     TRACE_TIMESTAMP();
     TRACE_INFO("initializing controller...");

@@ -70,11 +70,20 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
                                                                          filename
                     );
                 }
-            }
 
+            }
             g_free (filename);
 
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
+
+            if ( CTRL_ERROR_NONE == error )
+            {
+                /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
+                ctrl_diagram_controller_t *diag_control;
+                diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+                ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
+            }
+
         }
         break;
 

@@ -22,11 +22,6 @@ void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_data
 
     gui_window_manager_init( &window_manager, controller, database );
 
-    /* ensure that at least one diagram exists - otherwise the first window looks a bit empty */
-    ctrl_diagram_controller_t *diag_control;
-    diag_control = ctrl_controller_get_diagram_control_ptr ( controller );
-    ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_control, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, "Overview [root]", NULL );
-
     gui_window_manager_open_main_window( &window_manager );
 
     TRACE_TIMESTAMP();

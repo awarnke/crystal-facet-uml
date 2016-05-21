@@ -118,7 +118,11 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
     data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
 
-    result |= data_database_reader_private_open( this_ );
+    if ( data_database_is_open( database ) )
+    {
+        /* if the database is open, open also the reader */
+        result |= data_database_reader_private_open( this_ );
+    }
 
     TRACE_END_ERR(result);
     return result;

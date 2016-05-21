@@ -31,11 +31,13 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
+    data_error_t close_result;
+    data_error_t open_result;
 
-    data_result = data_database_close( (*this_).database );
-    data_result |= data_database_open( (*this_).database, db_file_path );
-    result = (ctrl_error_t) data_result;
+    close_result = data_database_close( (*this_).database );
+    /* we do not care about errors at closing */
+    open_result = data_database_open( (*this_).database, db_file_path );
+    result = (ctrl_error_t) open_result;
 
     TRACE_END_ERR( result );
     return result;
