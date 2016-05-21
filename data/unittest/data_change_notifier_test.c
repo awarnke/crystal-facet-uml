@@ -81,18 +81,6 @@ static void test_notifier_list_insert_and_remove(void)
     /* remove first from list */
     result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, result );
-
-    /* destroy */
-    data_change_notifier_destroy( &(data.notifier) );
-
-    /* add one to uninitialized list */
-    result = data_change_notifier_add_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
-
-    /* remove first from unititialized list */
-    result = data_change_notifier_remove_listener( &(data.notifier), &(data.test_object[0]));
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
-
 }
 
 static void test_notifier_list_full(void)
