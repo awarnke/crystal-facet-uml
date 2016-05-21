@@ -280,8 +280,8 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
-    gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     gui_file_manager_destroy( &((*this_).file_manager) );
+    gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).database = NULL;
 
     TRACE_END();
