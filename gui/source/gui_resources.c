@@ -9,6 +9,7 @@
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_commit.c"
 #include "resources/file_new_window.c"
+#include "resources/file_use_db.c"
 #include "resources/message_error.c"
 #include "resources/message_info.c"
 #include "resources/message_warn.c"
@@ -53,6 +54,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         file_new_window.width,
         file_new_window.height,
         file_new_window.width * file_new_window.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).file_use_db = gdk_pixbuf_new_from_data(
+        &(file_use_db.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        file_use_db.width,
+        file_use_db.height,
+        file_use_db.width * file_use_db.bytes_per_pixel,
         NULL,
         NULL
     );

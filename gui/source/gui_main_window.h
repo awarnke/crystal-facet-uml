@@ -41,6 +41,7 @@ struct gui_main_window_struct {
 
     GtkWidget *toolbar;
     GtkToolItem *file_use_db;
+    GtkWidget *file_use_db_icon;
     GtkToolItem *file_export;
     GtkWidget *file_new_window_icon;
     GtkToolItem *file_new_window;

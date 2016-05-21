@@ -15,6 +15,11 @@ static inline GdkPixbuf *gui_resources_get_file_new_window ( gui_resources_t *th
     return (*this_).file_new_window;
 }
 
+static inline GdkPixbuf *gui_resources_get_file_use_db ( gui_resources_t *this_ )
+{
+    return (*this_).file_use_db;
+}
+
 static inline GdkPixbuf *gui_resources_get_message_error ( gui_resources_t *this_ )
 {
     return (*this_).message_error ;

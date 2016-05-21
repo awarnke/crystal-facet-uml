@@ -52,6 +52,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init tools */
 
     (*this_).file_use_db = gtk_tool_button_new( NULL, "Use_DB" );
+    (*this_).file_use_db_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_use_db( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).file_use_db), (*this_).file_use_db_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Create/Use DB" );
+
     (*this_).file_export = gtk_tool_button_new( NULL, "Export" );
 
     (*this_).file_new_window = gtk_tool_button_new( NULL, "New Window" );
