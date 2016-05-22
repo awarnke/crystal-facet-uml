@@ -40,8 +40,9 @@ struct gui_main_window_struct {
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
 
     GtkWidget *toolbar;
-    GtkToolItem *file_use_db;
     GtkWidget *file_use_db_icon;
+    GtkToolItem *file_use_db;
+    GtkWidget *file_export_icon;
     GtkToolItem *file_export;
     GtkWidget *file_new_window_icon;
     GtkToolItem *file_new_window;
@@ -54,7 +55,8 @@ struct gui_main_window_struct {
     GtkWidget *tool_new_view_icon;
     GtkToolItem *tool_new_view;
     GtkToolItem *tool_cut;
-    GtkToolItem *tool_copy;
+    GtkWidget *edit_copy_icon;
+    GtkToolItem *edit_copy;
     GtkToolItem *tool_paste;
     GtkToolItem *tool_delete;
     GtkToolItem *tool_undo;

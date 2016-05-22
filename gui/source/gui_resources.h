@@ -12,6 +12,8 @@
 struct gui_resources_struct {
     GdkPixbuf *crystal_facet_uml;
     GdkPixbuf *edit_commit;
+    GdkPixbuf *edit_copy;
+    GdkPixbuf *file_export;
     GdkPixbuf *file_new_window;
     GdkPixbuf *file_use_db;
     GdkPixbuf *message_error;
@@ -52,6 +54,20 @@ static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_copy
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_copy ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the file_export
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_new_window

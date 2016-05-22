@@ -8,6 +8,8 @@
 /* including resource files */
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_commit.c"
+#include "resources/edit_copy.c"
+#include "resources/file_export.c"
 #include "resources/file_new_window.c"
 #include "resources/file_use_db.c"
 #include "resources/message_error.c"
@@ -42,6 +44,30 @@ void gui_resources_init ( gui_resources_t *this_ )
         edit_commit.width,
         edit_commit.height,
         edit_commit.width * edit_commit.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_copy = gdk_pixbuf_new_from_data(
+        &(edit_copy.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_copy.width,
+        edit_copy.height,
+        edit_copy.width * edit_copy.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).file_export = gdk_pixbuf_new_from_data(
+        &(file_export.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        file_export.width,
+        file_export.height,
+        file_export.width * file_export.bytes_per_pixel,
         NULL,
         NULL
     );

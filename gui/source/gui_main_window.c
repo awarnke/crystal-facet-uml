@@ -57,6 +57,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_use_db), "Create/Use DB" );
 
     (*this_).file_export = gtk_tool_button_new( NULL, "Export" );
+    (*this_).file_export_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_export( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).file_export), (*this_).file_export_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_export), "Export" );
 
     (*this_).file_new_window = gtk_tool_button_new( NULL, "New Window" );
     (*this_).file_new_window_icon = gtk_image_new_from_pixbuf( gui_resources_get_file_new_window( res ));
@@ -91,7 +94,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_view), "New Diagram" );
 
     (*this_).tool_cut = gtk_tool_button_new( NULL, "Cut" );
-    (*this_).tool_copy = gtk_tool_button_new( NULL, "Copy" );
+
+    (*this_).edit_copy = gtk_tool_button_new( NULL, "Copy" );
+    (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy" );
+
     (*this_).tool_paste = gtk_tool_button_new( NULL, "Paste" );
     (*this_).tool_delete = gtk_tool_button_new( NULL, "Delete" );
     (*this_).tool_undo = gtk_tool_button_new( NULL, "Undo" );
@@ -166,7 +174,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_cut,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_copy,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_copy,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_paste,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_delete,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_undo,-1);
@@ -205,7 +213,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_cut), "clicked", G_CALLBACK(gui_sketch_tools_cut_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
