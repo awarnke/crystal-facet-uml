@@ -131,6 +131,14 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             TRACE_INFO_STR( "File chosen:", filename );
             g_free (filename);
+
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+
+            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
+                                                                 "Export png"
+                                                               );
         }
         break;
 
@@ -141,6 +149,14 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             TRACE_INFO_STR( "File chosen:", filename );
             g_free (filename);
+
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+
+            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
+                                                                 "Export svg"
+            );
         }
         break;
 
