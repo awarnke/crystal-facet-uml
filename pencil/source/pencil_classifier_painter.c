@@ -73,8 +73,25 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 cairo_rectangle ( cr, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
                 cairo_stroke (cr);
 
-                cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
-                cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+                {
+                    char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+                    utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+                    utf8stringbuf_copy_str( stereotype_buf, "<<" );
+                    utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
+                    utf8stringbuf_append_str( stereotype_buf, ">>" );
+                    if ( utf8stringbuf_get_length( stereotype_buf ) == 4 )
+                    {
+                        cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
+                        cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+                    }
+                    else
+                    {
+                        cairo_move_to ( cr, left+4.0, box_top+2.0+10.0 );
+                        cairo_show_text ( cr, utf8stringbuf_get_string( stereotype_buf ));
+                        cairo_move_to ( cr, left+4.0, box_top+2.0+22.0 );
+                        cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+                    }
+                }
 
                 if ( data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
                 {

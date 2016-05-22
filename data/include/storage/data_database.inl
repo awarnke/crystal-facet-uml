@@ -1,5 +1,7 @@
 /* File: data_database.inl; Copyright and License: see below */
 
+#include "log.h"
+
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ )
 {
     return (*this_).db;

@@ -15,6 +15,7 @@ void gui_file_manager_init ( gui_file_manager_t *this_,
     TRACE_BEGIN();
     assert( NULL != controller );
     assert( NULL != database );
+    assert( NULL != message_to_user );
 
     (*this_).controller = controller;
     (*this_).database = database;

@@ -43,7 +43,16 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 
         /* load diagram */
         db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
-        if ( DATA_ERROR_NONE != db_err )
+
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        {
+            LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        {
+            LOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             data_diagram_destroy( &((*this_).diagram) );
@@ -58,7 +67,16 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
                                                                       &((*this_).classifiers),
                                                                       &((*this_).classifier_count)
                                                                     );
-        if ( DATA_ERROR_NONE != db_err )
+
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        {
+            LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading classifiers of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        {
+            LOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading classifiers of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
             (*this_).classifier_count = 0;

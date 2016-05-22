@@ -135,6 +135,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Maximum string length exceeded." );
+            }
+            break;
+
             case GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED:
             {
                 utf8stringbuf_append_str( (*this_).content, "This feature is not yet implemented: " );

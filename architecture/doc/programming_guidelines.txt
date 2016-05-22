@@ -53,6 +53,9 @@
  *  - Functions that expose pointers or accessors to internal data shall be post-fixed by "_ptr".
  *    \n Care needs to be taken when changing internal data from outside
  *    and when reading data from outside while it may be changed from inside.
+ *  - All functions may assume (unless explicitly documented) that they are only called
+ *    \n after an init call and
+ *    \n before a destroy call
  *  .
  *
  *  \subsection cfu-lifecycle Constructors, Copy-Constructors, Move-Constructors and Destructors

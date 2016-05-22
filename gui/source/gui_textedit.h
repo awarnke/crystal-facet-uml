@@ -8,6 +8,7 @@
  *  \brief Provides data to editing widgets and reacts on user events
  */
 
+#include "gui_simple_message_to_user.h"
 #include "storage/data_database_reader.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
@@ -23,7 +24,8 @@
 struct gui_textedit_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
+    
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
     data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
     data_classifier_t private_classifier_cache;  /*!< own instance of a classifier cache */
@@ -42,8 +44,15 @@ typedef struct gui_textedit_struct gui_textedit_t;
  *  \brief initializes the gui_textedit_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param controller pointer to the controller object to use
+ *  \param db_reader pointer to the database reader object to use
+ *  \param message_to_user pointer to the message_to_user object to use
  */
-void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, data_database_reader_t *db_reader );
+void gui_textedit_init ( gui_textedit_t *this_,
+                         ctrl_controller_t *controller,
+                         data_database_reader_t *db_reader,
+                         gui_simple_message_to_user_t *message_to_user
+                       );
 
 /*!
  *  \brief destroys the gui_textedit_t struct

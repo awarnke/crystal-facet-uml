@@ -9,12 +9,19 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void gui_textedit_init ( gui_textedit_t *this_, ctrl_controller_t *controller, data_database_reader_t *db_reader )
+void gui_textedit_init ( gui_textedit_t *this_,
+                         ctrl_controller_t *controller,
+                         data_database_reader_t *db_reader,
+                         gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
+    assert( NULL != controller );
+    assert( NULL != db_reader );
+    assert( NULL != message_to_user );
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).message_to_user = message_to_user;
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
     data_classifier_init_empty( &((*this_).private_classifier_cache) );
     data_feature_init_empty( &((*this_).private_feature_cache) );
@@ -115,6 +122,10 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     g_object_unref((*this_).classifier_types);
     (*this_).classifier_types = NULL;
+
+    (*this_).db_reader = NULL;
+    (*this_).controller = NULL;
+    (*this_).message_to_user = NULL;
 
     TRACE_END();
 }
@@ -396,6 +407,10 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
 void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
 {
     TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -636,7 +651,17 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
 
                     data_classifier_destroy( &((*this_).private_classifier_cache) );
                     db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
-                    if ( DATA_ERROR_NONE != db_err )
+
+                    if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                    {
+                        LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
+                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                             NULL
+                                                                           );
+                    }
+                    if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                     {
                         /* error at loading */
                         data_classifier_destroy( &((*this_).private_classifier_cache) );
@@ -700,7 +725,17 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
 
                     data_diagram_destroy( &((*this_).private_diagram_cache) );
                     db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
-                    if ( DATA_ERROR_NONE != db_err )
+
+                    if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                    {
+                        LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                             NULL
+                        );
+                    }
+                    if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                     {
                         /* error at loading */
                         data_diagram_destroy( &((*this_).private_diagram_cache) );
@@ -828,7 +863,7 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
     this_ = (gui_textedit_t*) user_data;
     GtkTextBuffer *buffer;
     buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
-    
+
     if ( data_id_equals( id, &((*this_).selected_object_id) ) )
     {
         /* relaod currently visible data */

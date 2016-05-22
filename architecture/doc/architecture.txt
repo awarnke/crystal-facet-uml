@@ -48,6 +48,9 @@
  *
  *  \subsection cfu-static-views Static Views
  *
+ *  \image html arc_layers.png
+ *  \image latex arc_layers.png "" width=15cm
+ *
  *  - __Layers and Components__
  *      - __View-Layer__
  *          - __gui__

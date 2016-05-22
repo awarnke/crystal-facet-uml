@@ -116,7 +116,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init text edit widgets */
 
-    gui_textedit_init( &((*this_).text_editor), controller, db_reader );
+    gui_textedit_init( &((*this_).text_editor), controller, db_reader, &((*this_).message_to_user) );
     GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
     (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
     GtkCellRenderer *column;

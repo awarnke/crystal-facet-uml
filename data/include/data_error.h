@@ -18,16 +18,16 @@
  *
  */
 enum data_error_enum {
-    DATA_ERROR_NONE = (0x00),  /*!< success */
-    DATA_ERROR_NO_DB = (~(0x00fffffe)),  /*!< database not open/loaded */
-    DATA_ERROR_DB_STRUCTURE = (~(0x00fffffd)),  /*!< the structure of the database is corrupted */
-    DATA_ERROR_STRING_BUFFER_EXCEEDED = (~(0x00fffffb)),  /*!< a string does not fit to the string storage buffer */
-    DATA_ERROR_ARRAY_BUFFER_EXCEEDED = (~(0x00fffff7)),  /*!< a set ob objects does not fit to the array storage buffer */
-    DATA_ERROR_INVALID_REQUEST = (~(0x00ffffef)),  /*!< function call not allowed or parameters wrong */
-    DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< unexpected internal error at mutex */
-    DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< unexpected internal error at database */
-    DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< nexpected internal error: an id is used twice */
-    DATA_ERROR_MASK = (0x00ffffff),  /*!< a mask to filter error bits after collecting possibly multiple errors */
+    DATA_ERROR_NONE = (0x00),  /*!< 0x0: success */
+    DATA_ERROR_NO_DB = (~(0x00fffffe)),  /*!< 0x000001: database not open/loaded */
+    DATA_ERROR_DB_STRUCTURE = (~(0x00fffffd)),  /*!< 0x000002: the structure of the database is corrupted */
+    DATA_ERROR_STRING_BUFFER_EXCEEDED = (~(0x00fffffb)),  /*!< 0x000004: a string does not fit to the string storage buffer */
+    DATA_ERROR_ARRAY_BUFFER_EXCEEDED = (~(0x00fffff7)),  /*!< 0x000008: a set ob objects does not fit to the array storage buffer */
+    DATA_ERROR_INVALID_REQUEST = (~(0x00ffffef)),  /*!< 0x000010: function call not allowed or parameters wrong */
+    DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< 0x010000: unexpected internal error at mutex */
+    DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< 0x020000: unexpected internal error at database */
+    DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< 0x040000: unexpected internal error: an id is used twice */
+    DATA_ERROR_MASK = (0x00ffffff),  /*!< 0xffffff: a mask to filter error bits after collecting possibly multiple errors */
 };
 
 typedef enum data_error_enum data_error_t;

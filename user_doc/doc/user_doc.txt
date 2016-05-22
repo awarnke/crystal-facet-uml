@@ -12,11 +12,14 @@
  *  \image html screenshot_1.png
  *  \image latex screenshot_1.png "" width=15cm
  *
+ *  \image html screenshot_2.png
+ *  \image latex screenshot_2.png "" width=15cm
+ *
  *  \section cfu-info Info
  *
  *  \subsection cfu-dowload Download
  *  Find the latest version at:
- * 
+ *
  *  https://sourceforge.net/projects/crystal-facet-uml/
  *
  *  \author (c) 2016-2016 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
