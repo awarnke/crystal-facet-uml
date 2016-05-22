@@ -1,5 +1,5 @@
 
-2016-05-22 v003 [xxxxxxx]
+2016-05-22 v003 [e0c0196]
   + The user can select and switch the database file
 2016-05-01 v002 [1d03746]
   + Classifiers like Classes can be created and renamed
