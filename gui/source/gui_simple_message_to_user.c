@@ -108,7 +108,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
             {
                 utf8stringbuf_append_str( (*this_).content,
-                                          "This is crystal_facet_uml version 0.3\n"
+                                          "This is crystal_facet_uml version v004\n"
                                           "License: Apache 2.0\n"
                                           "Author+Copyright: 2016-2016 Andreas Warnke" );
             }

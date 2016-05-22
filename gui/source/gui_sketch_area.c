@@ -130,7 +130,11 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                  &((*this_).private_temp_diagram_buf),
                                                                  &count
                                                                );
-        if ( DATA_ERROR_NONE != db_err )
+        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
+        {
+            LOG_WARNING( "database not open.");
+        }
+        else if ( DATA_ERROR_NONE != db_err )
         {
             LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
@@ -190,7 +194,11 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                  &((*this_).private_temp_diagram_buf),
                                                                  &c_count
                                                                );
-        if ( DATA_ERROR_NONE != db_err )
+        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
+        {
+            LOG_WARNING( "database not open.");
+        }
+        else if ( DATA_ERROR_NONE != db_err )
         {
             LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
