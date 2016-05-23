@@ -54,13 +54,18 @@ struct gui_main_window_struct {
     GtkToolItem *tool_new_obj;
     GtkWidget *tool_new_view_icon;
     GtkToolItem *tool_new_view;
-    GtkToolItem *tool_cut;
+    GtkWidget *edit_cut_icon;
+    GtkToolItem *edit_cut;
     GtkWidget *edit_copy_icon;
     GtkToolItem *edit_copy;
-    GtkToolItem *tool_paste;
-    GtkToolItem *tool_delete;
-    GtkToolItem *tool_undo;
-    GtkToolItem *tool_redo;
+    GtkWidget *edit_paste_icon;
+    GtkToolItem *edit_paste;
+    GtkWidget *edit_delete_icon;
+    GtkToolItem *edit_delete;
+    GtkWidget *edit_undo_icon;
+    GtkToolItem *edit_undo;
+    GtkWidget *edit_redo_icon;
+    GtkToolItem *edit_redo;
     GtkWidget *tool_about_icon;
     GtkToolItem *tool_about;
 

@@ -15,6 +15,31 @@ static inline GdkPixbuf *gui_resources_get_edit_copy ( gui_resources_t *this_ )
     return (*this_).edit_copy;
 }
 
+static inline GdkPixbuf *gui_resources_get_edit_cut ( gui_resources_t *this_ )
+{
+    return (*this_).edit_cut;
+}
+
+static inline GdkPixbuf *gui_resources_get_edit_delete ( gui_resources_t *this_ )
+{
+    return (*this_).edit_delete;
+}
+
+static inline GdkPixbuf *gui_resources_get_edit_paste ( gui_resources_t *this_ )
+{
+    return (*this_).edit_paste;
+}
+
+static inline GdkPixbuf *gui_resources_get_edit_redo ( gui_resources_t *this_ )
+{
+    return (*this_).edit_redo;
+}
+
+static inline GdkPixbuf *gui_resources_get_edit_undo ( gui_resources_t *this_ )
+{
+    return (*this_).edit_undo;
+}
+
 static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ )
 {
     return (*this_).file_export;

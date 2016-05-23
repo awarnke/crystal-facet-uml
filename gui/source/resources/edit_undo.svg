@@ -14,8 +14,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="file_export.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/file_export.png"
+   sodipodi:docname="file_use_db.svg"
+   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/file_use_db.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,15 +28,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.66"
-     inkscape:cx="9.5818305"
-     inkscape:cy="15.862411"
+     inkscape:cx="10.523869"
+     inkscape:cy="15.768602"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1347"
      inkscape:window-height="905"
-     inkscape:window-x="43"
-     inkscape:window-y="147"
+     inkscape:window-x="92"
+     inkscape:window-y="37"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -58,23 +58,24 @@
     <rect
        style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect5515"
-       width="13.602252"
-       height="28.893061"
+       width="28.611633"
+       height="28.517826"
        x="1.6885554"
        y="1.6998124"
        transform="translate(0,1020.3622)"
        ry="5.9099436" />
     <path
-       style="fill:#02ffb0;fill-opacity:1;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 10.651219,1048.2545 0.094,-0.1421 0.6409,-7.7711 -7.5600004,0.9762 0.017,-9.8141 7.3476004,2.6015 -0.6401,-9.8112 7.762099,13.32 z"
-       id="path6254"
+       style="fill:#02ffb0;fill-opacity:1;stroke:none"
+       d="m 16.135085,16.521576 -5.253284,-4.878049 5.065666,-3.752345 5.065666,3.470919 z"
+       id="path3867"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="ccccccccc" />
+       transform="translate(0,1020.3622)"
+       sodipodi:nodetypes="ccccc" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 23.639774,1030.6924 -0.09381,3.3771 -2.814259,-0.094 0,11.6322 9.662289,0 1e-6,-14.9155 -6.754221,0.094 -2.908068,3.1895"
-       id="path3058"
+       d="m 16.228893,1024.501 c 2.817951,0.089 7.499586,2.467 6.285179,5.2533 -1.214407,2.7863 -5.475034,5.7515 -5.347092,6.7542 0.127942,1.0027 4.554045,3.9232 5.534709,6.6604 0.980664,2.7372 -3.939956,5.0657 -6.754222,5.0657 -2.814266,0 -7.7044257,-2.0944 -6.7542212,-5.0657 0.9502042,-2.9713 5.9621962,-5.4305 6.0037512,-6.5666 0.04156,-1.1361 -5.2129867,-4.5397 -6.0037512,-6.9418 -0.7907645,-2.4021 4.2176962,-5.2489 7.0356472,-5.1595 z"
+       id="path3097"
        inkscape:connector-curvature="0"
-       sodipodi:nodetypes="cccccccc" />
+       sodipodi:nodetypes="zzzzzzzzz" />
   </g>
 </svg>

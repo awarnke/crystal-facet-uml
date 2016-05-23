@@ -13,6 +13,11 @@ struct gui_resources_struct {
     GdkPixbuf *crystal_facet_uml;
     GdkPixbuf *edit_commit;
     GdkPixbuf *edit_copy;
+    GdkPixbuf *edit_cut;
+    GdkPixbuf *edit_delete;
+    GdkPixbuf *edit_paste;
+    GdkPixbuf *edit_redo;
+    GdkPixbuf *edit_undo;
     GdkPixbuf *file_export;
     GdkPixbuf *file_new_window;
     GdkPixbuf *file_use_db;
@@ -61,6 +66,41 @@ static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_edit_copy ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_cut
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_cut ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_delete
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_delete ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_paste
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_paste ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_redo
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_redo ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_undo
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_undo ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the file_export

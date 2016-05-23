@@ -93,17 +93,35 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), (*this_).tool_new_view_icon);
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_view), "New Diagram" );
 
-    (*this_).tool_cut = gtk_tool_button_new( NULL, "Cut" );
+    (*this_).edit_cut = gtk_tool_button_new( NULL, "Cut" );
+    (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_cut), (*this_).edit_cut_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut" );
 
     (*this_).edit_copy = gtk_tool_button_new( NULL, "Copy" );
     (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_copy), (*this_).edit_copy_icon);
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy" );
 
-    (*this_).tool_paste = gtk_tool_button_new( NULL, "Paste" );
-    (*this_).tool_delete = gtk_tool_button_new( NULL, "Delete" );
-    (*this_).tool_undo = gtk_tool_button_new( NULL, "Undo" );
-    (*this_).tool_redo = gtk_tool_button_new( NULL, "Redo" );
+    (*this_).edit_paste = gtk_tool_button_new( NULL, "Paste" );
+    (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_paste), (*this_).edit_paste_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste" );
+
+    (*this_).edit_delete = gtk_tool_button_new( NULL, "Delete" );
+    (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete" );
+
+    (*this_).edit_undo = gtk_tool_button_new( NULL, "Undo" );
+    (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo" );
+
+    (*this_).edit_redo = gtk_tool_button_new( NULL, "Redo" );
+    (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_redo), (*this_).edit_redo_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo" );
 
     (*this_).tool_about = gtk_tool_button_new( NULL, "About" );
     (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
@@ -173,12 +191,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_cut,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_cut,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_copy,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_paste,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_delete,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_undo,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_redo,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_paste,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_delete,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_undo,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
     /* gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
@@ -212,12 +230,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_cut), "clicked", G_CALLBACK(gui_sketch_tools_cut_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_sketch_tools_cut_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_textedit_description_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );

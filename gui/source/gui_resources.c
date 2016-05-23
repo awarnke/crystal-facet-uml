@@ -9,6 +9,11 @@
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_commit.c"
 #include "resources/edit_copy.c"
+#include "resources/edit_cut.c"
+#include "resources/edit_delete.c"
+#include "resources/edit_paste.c"
+#include "resources/edit_redo.c"
+#include "resources/edit_undo.c"
 #include "resources/file_export.c"
 #include "resources/file_new_window.c"
 #include "resources/file_use_db.c"
@@ -56,6 +61,66 @@ void gui_resources_init ( gui_resources_t *this_ )
         edit_copy.width,
         edit_copy.height,
         edit_copy.width * edit_copy.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_cut = gdk_pixbuf_new_from_data(
+        &(edit_cut.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_cut.width,
+        edit_cut.height,
+        edit_cut.width * edit_cut.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_delete = gdk_pixbuf_new_from_data(
+        &(edit_delete.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_delete.width,
+        edit_delete.height,
+        edit_delete.width * edit_delete.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_paste = gdk_pixbuf_new_from_data(
+        &(edit_paste.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_paste.width,
+        edit_paste.height,
+        edit_paste.width * edit_paste.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_redo = gdk_pixbuf_new_from_data(
+        &(edit_redo.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_redo.width,
+        edit_redo.height,
+        edit_redo.width * edit_redo.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_undo = gdk_pixbuf_new_from_data(
+        &(edit_undo.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_undo.width,
+        edit_undo.height,
+        edit_undo.width * edit_undo.bytes_per_pixel,
         NULL,
         NULL
     );
