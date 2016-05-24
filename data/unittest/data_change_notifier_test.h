@@ -7,7 +7,7 @@
 
 TestRef data_change_notifier_test_get_list(void);
 
-#endif /*DATA_CHANGE_NOTIFIER_TEST_H*/
+#endif  /* DATA_CHANGE_NOTIFIER_TEST_H */
 
 
 /*

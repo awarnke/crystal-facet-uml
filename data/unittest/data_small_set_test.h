@@ -7,7 +7,7 @@
 
 TestRef data_small_set_test_get_list(void);
 
-#endif /*DATA_SMALL_SET_TEST_H*/
+#endif  /* DATA_SMALL_SET_TEST_H */
 
 
 /*

@@ -108,7 +108,7 @@ data_error_t data_database_private_initialize_tables( sqlite3 *db );
  *
  *  \param this_ pointer to own object attributes
  *  \param listener pointer to a listener to be added; the referenced object needs to stay valid till removal
- *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, DATA_ERROR_NONE otherwise.
+ *  \return DATA_ERROR_ARRAY_BUFFER_EXCEEDED if max listeners reached, DATA_ERROR_INVALID_REQUEST if listener already registered, DATA_ERROR_NONE otherwise.
  */
 data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener );
 

@@ -1,13 +1,13 @@
-/* File: ctrl_diagram_controller_test.h; Copyright and License: see below */
+/* File: data_database_listener_test.h; Copyright and License: see below */
 
-#ifndef CTRL_DIAGRAM_CONTROLLER_TEST_H
-#define CTRL_DIAGRAM_CONTROLLER_TEST_H
+#ifndef DATA_DATABASE_LISTENER_TEST_H
+#define DATA_DATABASE_LISTENER_TEST_H
 
 #include <embUnit/embUnit.h>
 
-TestRef ctrl_diagram_controller_test_get_list(void);
+TestRef data_database_listener_test_get_list(void);
 
-#endif  /* CTRL_DIAGRAM_CONTROLLER_TEST_H */
+#endif  /* DATA_DATABASE_LISTENER_TEST_H */
 
 
 /*

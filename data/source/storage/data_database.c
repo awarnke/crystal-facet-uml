@@ -353,6 +353,7 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     TRACE_BEGIN();
     assert( NULL != listener );
     data_error_t result = DATA_ERROR_NONE;
+    bool already_registered = false;
 
     result |= data_database_private_lock( this_ );
 
@@ -363,16 +364,25 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
         {
             pos = index;
         }
+        if ( listener == (*this_).listener_list[index] )
+        {
+            already_registered = true;
+        }
     }
 
-    if ( -1 != pos )
+    if ( already_registered )
+    {
+        LOG_ERROR( "Listener already registered." );
+        result |= DATA_ERROR_INVALID_REQUEST;
+    }
+    else if ( -1 != pos )
     {
         (*this_).listener_list[pos] = listener;
     }
     else
     {
         LOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
-        result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
     result |= data_database_private_unlock( this_ );
@@ -404,7 +414,7 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
     if ( count_closed == 0 )
     {
         LOG_ERROR( "listener not found" );
-        result = DATA_ERROR_INVALID_REQUEST;
+        result |= DATA_ERROR_INVALID_REQUEST;
     }
 
     TRACE_END_ERR( result );

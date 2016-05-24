@@ -7,7 +7,7 @@
 
 TestRef ctrl_classifier_controller_test_get_list(void);
 
-#endif /*CTRL_CLASSIFIER_CONTROLLER_TEST_H*/
+#endif  /* CTRL_CLASSIFIER_CONTROLLER_TEST_H */
 
 
 /*

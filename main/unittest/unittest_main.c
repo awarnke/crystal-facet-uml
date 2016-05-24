@@ -2,6 +2,7 @@
 
 #include "data_change_notifier_test.h"
 #include "data_small_set_test.h"
+#include "data_database_listener_test.h"
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_classifier_controller_test.h"
 #include "trace.h"
@@ -19,6 +20,7 @@ int main (int argc, char *argv[]) {
     TestRunner_start();
     TestRunner_runTest( data_small_set_test_get_list() );
     TestRunner_runTest( data_change_notifier_test_get_list() );
+    TestRunner_runTest( data_database_listener_test_get_list() );
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
     TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
     TestRunner_end();
