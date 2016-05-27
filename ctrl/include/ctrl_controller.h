@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Provides write access and consistency checks to the database
+ *  \brief Provides an entry point for write access and consistency checks to the database
  */
 
 #include "ctrl_error.h"
