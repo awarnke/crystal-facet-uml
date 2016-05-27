@@ -10,25 +10,20 @@
  */
 
 #include "ctrl_error.h"
-#include "storage/data_database.h"
-#include "storage/data_database_writer.h"
-#include "storage/data_database_reader.h"
-#include "data_diagram_type.h"
-#include "data_diagram.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 /*!
- *  \brief all data attributes needed for the diagram functions
+ *  \brief list of actions that can be un-done and re-done
  */
-struct ctrl_undo_redo_entry_type_struct {
-    data_database_t *database;  /*!< pointer to external database */
-    data_database_writer_t db_writer;  /*!< own instance of a database writer */
-    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+enum ctrl_undo_redo_entry_type_enum {
+    CTRL_UNDO_REDO_TYPE_STEP_BOUNDARY,  /*!< marks a boundary between sets of undo/redo actions */
+    CTRL_UNDO_REDO_TYPE_DELETE_DIAGRAM,  /*!< marks a delete diagram action for redo, create for undo */
+    CTRL_UNDO_REDO_TYPE_CREATE_DIAGRAM,  /*!< marks a create diagram action for redo, delete for undo */
 };
 
-typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
+typedef enum ctrl_undo_redo_entry_type_enum ctrl_undo_redo_entry_type_t;
 
 #endif  /* CTRL_UNDO_REDO_ENTRY_TYPE_H */
 

@@ -21,6 +21,7 @@ struct ctrl_undo_redo_entry_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t db_writer;  /*!< own instance of a database writer */
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    ctrl_undo_redo_entry_type_t action_type;
 };
 
 typedef struct ctrl_undo_redo_entry_struct ctrl_undo_redo_entry_t;
