@@ -30,8 +30,8 @@ typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;
  *  \brief initializes the ctrl_consistency_checker_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param db_reader pointer to database object that can be used for retrieving data
- *  \param db_writer pointer to database object that can be used for changing data
+ *  \param db_reader pointer to database reader object that can be used for retrieving data
+ *  \param db_writer pointer to database writer object that can be used for changing data
  */
 void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
 

@@ -4,13 +4,13 @@
 #include "trace.h"
 #include "log.h"
 
-void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database )
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
 {
     TRACE_BEGIN();
 
     (*this_).database = database;
-    data_database_writer_init( &((*this_).db_writer), database );
-    data_database_reader_init( &((*this_).db_reader), database );
+    (*this_).db_reader = db_reader;
+    (*this_).db_writer = db_writer;
 
     TRACE_END();
 }
@@ -19,8 +19,9 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_database_writer_destroy( &((*this_).db_writer) );
-    data_database_reader_destroy( &((*this_).db_reader) );
+    (*this_).database = NULL;
+    (*this_).db_reader = NULL;
+    (*this_).db_writer = NULL;
 
     TRACE_END();
 }
@@ -38,7 +39,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
     data_result = data_classifier_init_new( &to_be_created, classifier_type, "", classifier_name, "", 0, 0 );
     result |= (ctrl_error_t) data_result;
 
-    data_result = data_database_writer_create_classifier( &((*this_).db_writer), &to_be_created, &new_id );
+    data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         if ( NULL != out_new_id )
@@ -58,7 +59,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
 
         data_diagramelement_init_new( &link_to_be_created, diagram_id, new_id );
 
-        data_result = data_database_writer_create_diagramelement( &((*this_).db_writer), &link_to_be_created, &new_link_id );
+        data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &link_to_be_created, &new_link_id );
         if ( DATA_ERROR_NONE != data_result )
         {
             result |= (ctrl_error_t) data_result;
@@ -77,7 +78,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_stereotype( &((*this_).db_writer), classifier_id, new_classifier_stereotype );
+    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -90,7 +91,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_description( &((*this_).db_writer), classifier_id, new_classifier_description );
+    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -103,7 +104,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_name( &((*this_).db_writer), classifier_id, new_classifier_name );
+    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -116,7 +117,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_main_type( &((*this_).db_writer), classifier_id, new_classifier_main_type );
+    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

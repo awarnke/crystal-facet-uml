@@ -4,13 +4,13 @@
 #include "trace.h"
 #include "log.h"
 
-void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database )
+void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
 {
     TRACE_BEGIN();
 
     (*this_).database = database;
-    data_database_writer_init( &((*this_).db_writer), database );
-    data_database_reader_init( &((*this_).db_reader), database );
+    (*this_).db_reader = db_reader;
+    (*this_).db_writer = db_writer;
 
     TRACE_END();
 }
@@ -19,8 +19,9 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_database_writer_destroy( &((*this_).db_writer) );
-    data_database_reader_destroy( &((*this_).db_reader) );
+    (*this_).database = NULL;
+    (*this_).db_reader = NULL;
+    (*this_).db_writer = NULL;
 
     TRACE_END();
 }
@@ -35,7 +36,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
 
     data_diagram_init_new( &to_be_created, parent_diagram_id, diagram_type, diagram_name, "", 0 );
 
-    data_result = data_database_writer_create_diagram( &((*this_).db_writer), &to_be_created, &new_id );
+    data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
         if ( NULL != out_new_id )
@@ -60,7 +61,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
 
     /* load all without parent */
     uint32_t count;
-    data_result = data_database_reader_get_diagrams_by_parent_id( &((*this_).db_reader),
+    data_result = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                   DATA_DIAGRAM_ID_VOID_ID,
                                                                   1,
                                                                   &(root_diag_buf),
@@ -96,7 +97,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_description( &((*this_).db_writer), diagram_id, new_diagram_description );
+    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -109,7 +110,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_name( &((*this_).db_writer), diagram_id, new_diagram_name );
+    data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -122,7 +123,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_type( &((*this_).db_writer), diagram_id, new_diagram_type );
+    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

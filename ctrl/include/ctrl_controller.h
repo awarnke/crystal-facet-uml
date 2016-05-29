@@ -12,7 +12,10 @@
 #include "ctrl_error.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
+#include "ctrl_undo_redo_list.h"
 #include "storage/data_database.h"
+#include "storage/data_database_writer.h"
+#include "storage/data_database_reader.h"
 
 /*!
  *  \brief all data attributes needed for the controller functions
@@ -21,6 +24,9 @@ struct ctrl_controller_struct {
     ctrl_classifier_controller_t classifiers;  /*!< own instance of a classifier controller */
     ctrl_diagram_controller_t diagrams;  /*!< own instance of a diagram controller */
     data_database_t *database;  /*!< pointer to external database */
+    data_database_writer_t db_writer;  /*!< own instance of a database writer */
+    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;

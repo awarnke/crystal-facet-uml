@@ -24,8 +24,8 @@
  */
 struct ctrl_classifier_controller_struct {
     data_database_t *database;  /*!< pointer to external database */
-    data_database_writer_t db_writer;  /*!< own instance of a database writer */
-    data_database_reader_t db_reader;  /*!< own instance of a database reader */
+    data_database_writer_t *db_writer;  /*!< pointer to external database writer */
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
@@ -34,8 +34,11 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
  *  \brief initializes the ctrl_classifier_controller_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param database pointer to database object
+ *  \param db_reader pointer to database reader object that can be used for retrieving data
+ *  \param db_writer pointer to database writer object that can be used for changing data
  */
-void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database );
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
 
 /*!
  *  \brief destroys the ctrl_classifier_controller_t struct
