@@ -63,18 +63,18 @@ static inline void data_id_trace ( data_id_t *this_ )
 
 static inline bool data_id_equals ( data_id_t *this_, data_id_t *that )
 {
-    return ( ( DATA_ID_CONST_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
              &&( (*this_).row_id == (*that).row_id )&&( (*this_).table == (*that).table ) );
 }
 
 static inline bool data_id_is_valid ( data_id_t *this_ )
 {
-    return (( DATA_ID_CONST_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
+    return (( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table ));
 }
 
 static inline bool data_id_equals_id ( data_id_t *this_, data_table_t table, int64_t row_id )
 {
-    return ( ( DATA_ID_CONST_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
+    return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
     &&( (*this_).row_id == row_id )&&( (*this_).table == table ) );
 }
 

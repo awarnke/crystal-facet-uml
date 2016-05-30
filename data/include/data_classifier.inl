@@ -11,7 +11,7 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
-    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
     (*this_).main_type = main_type;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -46,7 +46,7 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
 
 static inline void data_classifier_init_empty ( data_classifier_t *this_ )
 {
-    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
     (*this_).main_type = DATA_CLASSIFIER_TYPE_BLOCK;
 
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -58,6 +58,12 @@ static inline void data_classifier_init_empty ( data_classifier_t *this_ )
 
     (*this_).x_order = 0;
     (*this_).y_order = 0;
+}
+
+static inline void data_classifier_reinit_empty ( data_classifier_t *this_ )
+{
+    /* data_classifier_destroy( this_ );  -- not necessary */
+    data_classifier_init_empty( this_ );
 }
 
 static inline data_error_t data_classifier_init ( data_classifier_t *this_,
@@ -107,7 +113,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
 
 static inline void data_classifier_destroy ( data_classifier_t *this_ )
 {
-    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
 }
 
 static inline void data_classifier_trace ( data_classifier_t *this_ )
@@ -159,7 +165,7 @@ static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ )
 
 static inline bool data_classifier_is_valid ( data_classifier_t *this_ )
 {
-    return ( DATA_ID_CONST_VOID_ID != (*this_).id );
+    return ( DATA_ID_VOID_ID != (*this_).id );
 }
 
 /*

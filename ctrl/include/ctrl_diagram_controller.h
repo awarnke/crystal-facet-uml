@@ -65,7 +65,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param this_ pointer to own object attributes
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
- *  \param out_new_id id of the created root diagram or DATA_DIAGRAM_ID_VOID_ID if a root diagram already existed
+ *  \param out_new_id id of the created root diagram or DATA_ID_VOID_ID if a root diagram already existed
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id );

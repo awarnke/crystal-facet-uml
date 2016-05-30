@@ -259,7 +259,7 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         result |= data_database_private_notify_db_listeners( this_, DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED );
 
         /* inform listeners on changes */
-        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_CONST_VOID_ID );
+        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_VOID_ID );
     }
 
     TRACE_END_ERR( result );
@@ -320,7 +320,7 @@ data_error_t data_database_close ( data_database_t *this_ )
     if ( notify_change_listeners )
     {
         /* inform listeners on changes */
-        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_CONST_VOID_ID );
+        data_change_notifier_emit_signal( &((*this_).notifier), DATA_TABLE_VOID, DATA_ID_VOID_ID );
     }
 
     TRACE_END_ERR( result );

@@ -14,10 +14,10 @@
 #include <stdbool.h>
 
 /*!
- *  \brief constants related to data_id_t
+ *  \brief constant to define a void data_id_t
  */
-enum data_id_const_enum {
-    DATA_ID_CONST_VOID_ID = -1,  /*!< invalid id */
+enum data_id_void_enum {
+    DATA_ID_VOID_ID = -1,  /*!< invalid id */
 };
 
 /*!

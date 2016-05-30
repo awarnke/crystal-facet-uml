@@ -29,7 +29,7 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 {
     TRACE_BEGIN();
 
-    if ( DATA_DIAGRAM_ID_VOID_ID == diagram_id )
+    if ( DATA_ID_VOID_ID == diagram_id )
     {
         /* re-init */
         data_diagram_destroy( &((*this_).diagram) );

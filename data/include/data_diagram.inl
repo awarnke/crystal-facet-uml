@@ -8,7 +8,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_, int64_
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
-    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
     (*this_).parent_id = parent_diagram_id;
     (*this_).diagram_type = diagram_type;
 
@@ -35,8 +35,8 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_, int64_
 
 static inline void data_diagram_init_empty ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
-    (*this_).parent_id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).parent_id = DATA_ID_VOID_ID;
     (*this_).diagram_type = DATA_DIAGRAM_TYPE_LIST;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -45,6 +45,12 @@ static inline void data_diagram_init_empty ( data_diagram_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
+}
+
+static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
+{
+    /* data_diagram_destroy( this_ );  -- not necessary */
+    data_diagram_init_empty( this_ );
 }
 
 static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
@@ -78,8 +84,8 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t di
 
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
-    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
-    (*this_).parent_id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).parent_id = DATA_ID_VOID_ID;
 }
 
 static inline void data_diagram_trace ( data_diagram_t *this_ )
@@ -125,7 +131,7 @@ static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ )
 
 static inline bool data_diagram_is_valid ( data_diagram_t *this_ )
 {
-    return ( DATA_DIAGRAM_ID_VOID_ID != (*this_).id );
+    return ( DATA_ID_VOID_ID != (*this_).id );
 }
 
 

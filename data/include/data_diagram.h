@@ -43,14 +43,7 @@ struct data_diagram_struct {
 typedef struct data_diagram_struct data_diagram_t;
 
 /*!
- *  \brief constant for void id
- */
-enum data_diagram_id_enum {
-    DATA_DIAGRAM_ID_VOID_ID = DATA_ID_CONST_VOID_ID,
-};
-
-/*!
- *  \brief initializes the data_diagram_t struct with id DATA_DIAGRAM_ID_VOID_ID
+ *  \brief initializes the data_diagram_t struct with id DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram
@@ -69,11 +62,18 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
                                                  );
 
 /*!
- *  \brief initializes the data_diagram_t struct with id and parent_id DATA_DIAGRAM_ID_VOID_ID; all other values are zero.
+ *  \brief initializes the data_diagram_t struct with id and parent_id DATA_ID_VOID_ID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_diagram_init_empty ( data_diagram_t *this_ );
+
+/*!
+ *  \brief re-initializes the data_diagram_t struct with id and parent_id DATA_ID_VOID_ID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_diagram_reinit_empty ( data_diagram_t *this_ );
 
 /*!
  *  \brief initializes the data_diagram_t struct
@@ -153,7 +153,7 @@ static inline const char *data_diagram_get_description_ptr ( data_diagram_t *thi
 static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
 
 /*!
- *  \brief checks if attribute id is not DATA_DIAGRAM_ID_VOID_ID
+ *  \brief checks if attribute id is not DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  */

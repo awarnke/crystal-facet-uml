@@ -78,7 +78,7 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
  *  \brief loads the cards to be shown
  *
  *  \param this_ pointer to own object attributes
- *  \param main_diagram_id id of the main diagram to be shown or DATA_DIAGRAM_ID_VOID_ID for root diagram
+ *  \param main_diagram_id id of the main diagram to be shown or DATA_ID_VOID_ID for root diagram
  */
 void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 

@@ -2,9 +2,9 @@
 
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_DIAGRAM_ID_VOID_ID;
-    (*this_).from_classifier_id = DATA_DIAGRAM_ID_VOID_ID;
-    (*this_).to_classifier_id = DATA_DIAGRAM_ID_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
+    (*this_).from_classifier_id = DATA_ID_VOID_ID;
+    (*this_).to_classifier_id = DATA_ID_VOID_ID;
     (*this_).main_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -15,9 +15,15 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     (*this_).list_order = 0;
 }
 
+static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
+{
+    /* data_relationship_destroy( this_ );  -- not necessary */
+    data_relationship_init_empty( this_ );
+}
+
 static inline void data_relationship_destroy ( data_relationship_t *this_ )
 {
-    (*this_).id = DATA_ID_CONST_VOID_ID;
+    (*this_).id = DATA_ID_VOID_ID;
 }
 
 

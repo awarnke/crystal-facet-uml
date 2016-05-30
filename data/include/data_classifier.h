@@ -49,7 +49,7 @@ struct data_classifier_struct {
 typedef struct data_classifier_struct data_classifier_t;
 
 /*!
- *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID
+ *  \brief initializes the data_classifier_t struct with id DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  *  \param main_type type of the classifier.
@@ -70,11 +70,18 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                     );
 
 /*!
- *  \brief initializes the data_classifier_t struct with id DATA_ID_CONST_VOID_ID; all other values are zero.
+ *  \brief initializes the data_classifier_t struct with id DATA_ID_VOID_ID; all other values are zero.
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_classifier_init_empty ( data_classifier_t *this_ );
+
+/*!
+ *  \brief re-initializes the data_classifier_t struct with id DATA_ID_VOID_ID; all other values are zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_classifier_reinit_empty ( data_classifier_t *this_ );
 
 /*!
  *  \brief initializes the data_classifier_t struct
@@ -163,7 +170,7 @@ static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ );
 static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ );
 
 /*!
- *  \brief checks if attribute id is not DATA_ID_CONST_VOID_ID
+ *  \brief checks if attribute id is not DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
  */

@@ -31,7 +31,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, 
     }
     gui_sketch_marker_init( &((*this_).marker) );
 
-    gui_sketch_area_private_load_cards( this_, DATA_DIAGRAM_ID_VOID_ID );
+    gui_sketch_area_private_load_cards( this_, DATA_ID_VOID_ID );
 
     /* define a new signal */
     if ( ! gui_sketch_area_glib_signal_initialized )
@@ -120,12 +120,12 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     (*this_).card_num = 0;
 
     /* determine diagram id of root diagram */
-    if ( DATA_DIAGRAM_ID_VOID_ID == main_diagram_id )
+    if ( DATA_ID_VOID_ID == main_diagram_id )
     {
         /* load all without parent */
         uint32_t count;
         db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                 DATA_DIAGRAM_ID_VOID_ID,
+                                                                 DATA_ID_VOID_ID,
                                                                  GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS,
                                                                  &((*this_).private_temp_diagram_buf),
                                                                  &count

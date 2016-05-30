@@ -62,7 +62,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
     /* load all without parent */
     uint32_t count;
     data_result = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
-                                                                  DATA_DIAGRAM_ID_VOID_ID,
+                                                                  DATA_ID_VOID_ID,
                                                                   1,
                                                                   &(root_diag_buf),
                                                                   &count
@@ -76,13 +76,13 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
         if ( 0 == count )
         {
             /* no root diagram exists */
-            result = ctrl_diagram_controller_create_diagram( this_, DATA_DIAGRAM_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
+            result = ctrl_diagram_controller_create_diagram( this_, DATA_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
         }
         else
         {
             if ( NULL != out_new_id )
             {
-                *out_new_id = DATA_DIAGRAM_ID_VOID_ID;
+                *out_new_id = DATA_ID_VOID_ID;
             }
         }
     }

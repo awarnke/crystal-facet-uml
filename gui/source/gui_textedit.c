@@ -624,26 +624,17 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
     {
         case DATA_TABLE_VOID:
             {
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_CLASSIFIER:
             {
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
 
                 if ( force_reload || ( data_classifier_get_id( &((*this_).private_classifier_cache) ) != data_id_get_row_id(&id) ))
                 {
@@ -664,60 +655,40 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
                     if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                     {
                         /* error at loading */
-                        data_classifier_destroy( &((*this_).private_classifier_cache) );
-                        data_classifier_init_empty( &((*this_).private_classifier_cache) );
+                        data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
                     }
                 }
             }
             break;
         case DATA_TABLE_FEATURE:
             {
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_RELATIONSHIP:
             {
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
             {
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
             }
             break;
         case DATA_TABLE_DIAGRAM:
             {
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
 
                 if ( force_reload || ( data_diagram_get_id( &((*this_).private_diagram_cache) ) != data_id_get_row_id(&id) ))
                 {
@@ -738,8 +709,7 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
                     if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
                     {
                         /* error at loading */
-                        data_diagram_destroy( &((*this_).private_diagram_cache) );
-                        data_diagram_init_empty( &((*this_).private_diagram_cache) );
+                        data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
                     }
                 }
             }
@@ -748,15 +718,10 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             {
                 LOG_ERROR( "invalid data in data_id_t." );
 
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-
-                data_classifier_init_empty( &((*this_).private_classifier_cache) );
-                data_diagram_init_empty( &((*this_).private_diagram_cache) );
-                data_feature_init_empty( &((*this_).private_feature_cache) );
-                data_relationship_init_empty( &((*this_).private_relationship_cache) );
+                data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
             }
             break;
     }
