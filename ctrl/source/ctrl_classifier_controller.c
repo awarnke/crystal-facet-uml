@@ -11,6 +11,7 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data
     (*this_).database = database;
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
+    ctrl_consistency_checker_init ( &((*this_).consistency_checker), db_reader, db_writer );
 
     TRACE_END();
 }
@@ -19,6 +20,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 {
     TRACE_BEGIN();
 
+    ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     (*this_).database = NULL;
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;

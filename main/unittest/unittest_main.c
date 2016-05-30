@@ -5,6 +5,8 @@
 #include "data_database_listener_test.h"
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_classifier_controller_test.h"
+#include "ctrl_consistency_checker_test.h"
+#include "ctrl_undo_redo_list_test.h"
 #include "trace.h"
 #include <embUnit/embUnit.h>
 
@@ -23,6 +25,8 @@ int main (int argc, char *argv[]) {
     TestRunner_runTest( data_database_listener_test_get_list() );
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
     TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
+    TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
+    TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
     TestRunner_end();
 
     TRACE_INFO( "--------------------" );

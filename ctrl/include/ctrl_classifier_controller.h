@@ -10,6 +10,7 @@
  */
 
 #include "ctrl_error.h"
+#include "ctrl_consistency_checker.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -26,6 +27,7 @@ struct ctrl_classifier_controller_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
