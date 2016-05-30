@@ -29,11 +29,25 @@ typedef struct geometry_rectangle_struct geometry_rectangle_t;
 static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
 /*!
+ *  \brief re-initializes the geometry_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, double left, double top, double width, double height );
+
+/*!
  *  \brief initializes the geometry_rectangle_t struct to an empty rect at position 0,0
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief re-initializes the geometry_rectangle_t struct to an empty rect at position 0,0
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct

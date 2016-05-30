@@ -32,8 +32,7 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
     if ( DATA_ID_VOID_ID == diagram_id )
     {
         /* re-init */
-        data_diagram_destroy( &((*this_).diagram) );
-        data_diagram_init_empty( &((*this_).diagram) );
+        data_diagram_reinit_empty( &((*this_).diagram) );
 
         pencil_input_data_private_destroy_classifiers( this_ );
     }
@@ -55,8 +54,7 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
             /* error at loading */
-            data_diagram_destroy( &((*this_).diagram) );
-            data_diagram_init_empty( &((*this_).diagram) );
+            data_diagram_reinit_empty( &((*this_).diagram) );
         }
 
         /* load classifiers */

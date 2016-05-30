@@ -95,8 +95,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
                 if ( data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
                 {
-                    geometry_rectangle_destroy( &focused_rect );
-                    geometry_rectangle_init( &focused_rect, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
+                    geometry_rectangle_reinit( &focused_rect, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
                 }
                 if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
                 {
@@ -133,6 +132,7 @@ data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_pai
 {
     TRACE_BEGIN();
     data_id_t result;
+    data_id_init_void( &result );
 
     if ( geometry_rectangle_contains( &destination, x, y ) )
     {
@@ -150,21 +150,9 @@ data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_pai
             classifier = pencil_input_data_get_classifier_ptr ( input_data, index );
             if (( classifier != NULL ) && ( data_classifier_is_valid( classifier ) ))
             {
-                data_id_init( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
-            }
-            else
-            {
-                data_id_init_void( &result );
+                data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
             }
         }
-        else
-        {
-            data_id_init_void( &result );
-        }
-    }
-    else
-    {
-        data_id_init_void( &result );
     }
 
     TRACE_END();

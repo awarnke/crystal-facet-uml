@@ -80,8 +80,7 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
         {
             data_diagram_t *selected_diag;
             selected_diag = gui_sketch_card_get_diagram_ptr( card );
-            data_id_destroy( &result );
-            data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
+            data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
         }
     }
     return result;
@@ -107,8 +106,7 @@ static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t
             {
                 data_diagram_t *selected_diag;
                 selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                data_id_destroy( &result );
-                data_id_init( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
+                data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
             }
         }
     }

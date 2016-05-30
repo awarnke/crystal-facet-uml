@@ -38,11 +38,25 @@ typedef struct data_id_struct data_id_t;
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id );
 
 /*!
+ *  \brief re-initializes the data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_id_reinit ( data_id_t *this_, data_table_t table, int64_t row_id );
+
+/*!
  *  \brief initializes the data_id_t struct to void
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_id_init_void ( data_id_t *this_ );
+
+/*!
+ *  \brief re-initializes the data_id_t struct to void
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_id_reinit_void ( data_id_t *this_ );
 
 /*!
  *  \brief destroys the data_id_t struct
