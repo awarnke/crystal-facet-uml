@@ -9,6 +9,7 @@
  *  \brief Stores a change in the database that can be undone and redone.
  */
 
+#include "ctrl_undo_redo_entry_type.h"
 #include "ctrl_error.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -18,21 +19,33 @@
  *  \brief all data attributes needed for the diagram functions
  */
 struct ctrl_undo_redo_entry_struct {
-    data_database_t *database;  /*!< pointer to external database */
-    data_database_writer_t db_writer;  /*!< own instance of a database writer */
-    data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_entry_type_t action_type;
 };
 
 typedef struct ctrl_undo_redo_entry_struct ctrl_undo_redo_entry_t;
 
 /*!
+ *  \brief initializes the ctrl_undo_redo_entry_t struct to empty
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ );
+
+/*!
  *  \brief initializes the ctrl_undo_redo_entry_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param database pointer to database object that can be used for retrieving and changing data
+ *  \param action_type a step of a set of actions that can be undone and redone
  */
-void ctrl_undo_redo_entry_init ( ctrl_undo_redo_entry_t *this_, data_database_t *database );
+void ctrl_undo_redo_entry_init ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type );
+
+/*!
+ *  \brief re-initializes the ctrl_undo_redo_entry_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param action_type a step of a set of actions that can be undone and redone
+ */
+void ctrl_undo_redo_entry_reinit ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type );
 
 /*!
  *  \brief destroys the ctrl_undo_redo_entry_t struct

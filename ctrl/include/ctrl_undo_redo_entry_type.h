@@ -18,9 +18,13 @@
  *  \brief list of actions that can be un-done and re-done
  */
 enum ctrl_undo_redo_entry_type_enum {
-    CTRL_UNDO_REDO_TYPE_STEP_BOUNDARY,  /*!< marks a boundary between sets of undo/redo actions */
-    CTRL_UNDO_REDO_TYPE_DELETE_DIAGRAM,  /*!< marks a delete diagram action for redo, create for undo */
-    CTRL_UNDO_REDO_TYPE_CREATE_DIAGRAM,  /*!< marks a create diagram action for redo, delete for undo */
+    CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY,  /*!< marks a boundary between sets of undo/redo actions */
+    CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM,  /*!< marks a delete diagram action for redo (meaning create for undo) */
+    CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM,  /*!< marks a create diagram action for redo (meaning delete for undo) */
+    CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT,  /*!< marks a delete diagramelement action for redo (meaning create for undo) */
+    CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT,  /*!< marks a create diagramelement action for redo (meaning delete for undo) */
+    CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER,  /*!< marks a delete classifier action for redo (meaning create for undo) */
+    CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER,  /*!< marks a create classifier action for redo (meaning delete for undo) */
 };
 
 typedef enum ctrl_undo_redo_entry_type_enum ctrl_undo_redo_entry_type_t;

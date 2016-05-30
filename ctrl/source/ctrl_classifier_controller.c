@@ -126,6 +126,18 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
     return result;
 }
 
+ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    LOG_ERROR( "not yet implemented" );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

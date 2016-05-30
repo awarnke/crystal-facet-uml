@@ -24,6 +24,8 @@ enum data_small_set_max_enum {
 
 /*!
  *  \brief attributes of a data_small_set_t
+ *
+ *  The size of data_small_set_t is suitable for passing this object as value-parameter to functions
  */
 struct data_small_set_struct {
     uint32_t count;

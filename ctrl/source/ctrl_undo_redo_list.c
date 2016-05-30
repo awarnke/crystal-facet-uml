@@ -27,6 +27,13 @@ void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
     TRACE_END();
 }
 
+void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
+{
+    TRACE_BEGIN();
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
