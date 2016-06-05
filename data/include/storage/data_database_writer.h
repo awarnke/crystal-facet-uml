@@ -64,6 +64,18 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
 
 /*!
+ *  \brief deletes a diagram record and returns its old data
+ *
+ *  Note: This function fails if the diagram is still referenced.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the diagram record to be deleted.
+ *  \param out_old_diagram storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram );
+
+/*!
  *  \brief updates the diagram attribute: description
  *
  *  \param this_ pointer to own object attributes
@@ -102,6 +114,18 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
+
+/*!
+ *  \brief deletes a classifier record and returns its old data
+ *
+ *  Note: This function fails if the classifier is still referenced.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the classifier record to be deleted.
+ *  \param out_old_classifier storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: stereotype
@@ -152,6 +176,16 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id );
+
+/*!
+ *  \brief deletes a diagramelement record and returns its old data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the diagramelement record to be deleted.
+ *  \param out_old_diagramelement storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement );
 
 /*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.

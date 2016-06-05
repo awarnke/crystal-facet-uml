@@ -134,6 +134,11 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
     LOG_ERROR( "not yet implemented" );
 
+    /* the following functions may help to implement this: */
+    /* data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement ) */
+    /* data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier ) */
+    /* data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram ) */
+
     TRACE_END_ERR( result );
     return result;
 }

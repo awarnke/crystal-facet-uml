@@ -48,6 +48,8 @@
  *
  *  \subsection cfu-static-views Static Views
  *
+ *  \subsubsection Overview
+ *
  *  \image html arc_layers.png
  *  \image latex arc_layers.png "" width=15cm
  *
@@ -73,6 +75,12 @@
  *          - __utf8stringbuf__
  *      .
  *  .
+ *
+ *  \subsubsection Gui
+ *
+ *  \image html gui_units.png
+ *  \image latex gui_units.png "" width=15cm
+ *
  *  \section cfu-arc-apx Appendix
  *  \author (c) 2016-2016 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
  */

@@ -2,6 +2,7 @@
 
 #include "gui_sketch_tools.h"
 #include "trace.h"
+#include "ctrl_error.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -57,7 +58,7 @@ void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
     gui_sketch_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
-    
+
     (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
 
     gui_sketch_tools_private_notify_listener( this_ );
@@ -160,6 +161,9 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+    ctrl_error_t ctrl_err;
+
+    /* ctrl_err = ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects ); */
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,

@@ -813,6 +813,62 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     return result;
 }
 
+data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
+
+    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+    /* Note: This function fails if the classifier is still referenced. */
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
+
+    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+    /* Note: This function fails if the diagram is still referenced. */
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
+
+    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
