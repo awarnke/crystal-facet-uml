@@ -3,6 +3,12 @@
 #ifndef GUI_RESOURCES_H
 #define GUI_RESOURCES_H
 
+/* public file for the doxygen documentation: */
+/*!
+ *  \file
+ *  \brief Provides bitmap resources to the gui module
+ */
+
 #include <gtk/gtk.h>
 #include <gdk-pixbuf/gdk-pixbuf.h>
 

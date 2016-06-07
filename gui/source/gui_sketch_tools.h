@@ -8,7 +8,9 @@
  *  \brief Informs the listener on the currently selected tool
  */
 
+#include "gui_sketch_marker.h"
 #include "gui_simple_message_to_user.h"
+#include "ctrl_controller.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -29,6 +31,8 @@ typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;
     GObject *listener;
+    ctrl_controller_t *controller;  /*!< pointer to external controller */
+    gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;
 };
 
@@ -41,7 +45,7 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_simple_message_to_user_t *message_to_user );
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *marker, gui_simple_message_to_user_t *message_to_user, ctrl_controller_t *controller );
 
 /*!
  *  \brief destroys the gui_sketch_tools_t struct

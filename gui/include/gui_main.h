@@ -4,7 +4,9 @@
 #define GUI_MAIN_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*! \file
+ *  \brief Starts one gui instance
+ */
 
 #include "storage/data_database.h"
 #include "ctrl_controller.h"

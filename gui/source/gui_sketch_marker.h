@@ -5,7 +5,7 @@
 
 /* public file for the doxygen documentation: */
 /*! \file
- *  \brief References objects that shall be marked (displayed as selected/focused/highlighted)
+ *  \brief References objects that are marked (displayed as selected/focused/highlighted)
  */
 
 #include "data_small_set.h"

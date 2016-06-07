@@ -45,7 +45,7 @@ struct gui_sketch_area_struct {
     int32_t mark_start_y;
     int32_t mark_end_x;
     int32_t mark_end_y;
-    gui_sketch_marker_t marker;  /*!< own instance of a sketch marker */
+    gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
 
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
 
@@ -65,7 +65,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader );
+void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_marker_t *marker, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct

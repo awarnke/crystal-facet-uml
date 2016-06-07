@@ -28,6 +28,7 @@ struct gui_main_window_struct {
     GtkWidget *sketcharea;
     gui_sketch_area_t sketcharea_data;  /*!< own instance of gui_sketch_area_t */
     gui_sketch_tools_t sketchtools_data;  /*!< own instance of gui_sketch_tools_t */
+    gui_sketch_marker_t sketchmarker_data;  /*!< own instance of a sketch marker */
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */

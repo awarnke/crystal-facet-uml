@@ -4,7 +4,9 @@
 #define DATA_CLASSIFIER_TYPE_H
 
 /* public file for the doxygen documentation: */
-/*! \file */
+/*! \file
+ *  \brief Defines types of classifiers
+ */
 
 /*!
  *  \brief enumeration of all classifier types

@@ -129,7 +129,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
 
     (*this_).toolbar = gtk_toolbar_new ();
-    gui_sketch_tools_init( &((*this_).sketchtools_data), &((*this_).message_to_user) );
+
+    gui_sketch_marker_init( &((*this_).sketchmarker_data) );
+    gui_sketch_tools_init( &((*this_).sketchtools_data), &((*this_).sketchmarker_data), &((*this_).message_to_user), controller );
 
     /* init sketch area */
 
@@ -138,7 +140,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
         | GDK_BUTTON_PRESS_MASK | GDK_BUTTON_RELEASE_MASK | GDK_POINTER_MOTION_MASK | GDK_POINTER_MOTION_HINT_MASK );
     gtk_widget_set_hexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
-    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchtools_data), controller, db_reader );
+    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchmarker_data), &((*this_).sketchtools_data), controller, db_reader );
 
     /* init text edit widgets */
 
@@ -305,6 +307,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
+    gui_sketch_marker_destroy( &((*this_).sketchmarker_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_file_manager_destroy( &((*this_).file_manager) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );

@@ -11,14 +11,16 @@ static bool gui_sketch_tools_glib_signal_initialized = false;
 static guint gui_sketch_tools_glib_signal_id = 0;
 const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_simple_message_to_user_t *message_to_user )
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *marker, gui_simple_message_to_user_t *message_to_user, ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
     assert( NULL != message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
     (*this_).listener = NULL;
+    (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
+    (*this_).controller = controller;
 
     /* define a new signal */
     if ( ! gui_sketch_tools_glib_signal_initialized )
@@ -46,7 +48,9 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).controller = NULL;
     (*this_).listener = NULL;
+    (*this_).marker = NULL;
     (*this_).message_to_user = NULL;
 
     TRACE_END();
@@ -162,8 +166,16 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
+    data_small_set_t *set_to_be_deleted;
+    ctrl_classifier_controller_t *c_controller;
 
-    /* ctrl_err = ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects ); */
+    set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    c_controller = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+    ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
+    if ( CTRL_ERROR_NONE != ctrl_err )
+    {
+        LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set", ctrl_err );
+    }
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
