@@ -172,16 +172,27 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
     c_controller = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
     ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
-    if ( CTRL_ERROR_NONE != ctrl_err )
+    if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
-        LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set", ctrl_err );
+        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,
+                                                             NULL
+        );
+    }
+    else if ( CTRL_ERROR_NONE != ctrl_err )
+    {
+        LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
+                                                             "Delete"
+        );
     }
 
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Delete"
-    );
 
     TRACE_TIMESTAMP();
     TRACE_END();

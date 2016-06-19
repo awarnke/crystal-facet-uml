@@ -172,6 +172,28 @@ static inline void data_small_set_clear ( data_small_set_t *this_ )
     (*this_).count = 0;
 }
 
+static inline uint32_t data_small_set_get_count ( data_small_set_t *this_ )
+{
+    return (*this_).count;
+}
+
+static inline data_id_t data_small_set_get_id ( data_small_set_t *this_, uint32_t index )
+{
+    assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
+    data_id_t result;
+
+    if ( index < (*this_).count )
+    {
+        result = (*this_).id_set[index];
+    }
+    else
+    {
+        data_id_init_void( &result );
+    }
+
+    return result;
+}
+
 /*
 Copyright 2016-2016 Andreas Warnke
 

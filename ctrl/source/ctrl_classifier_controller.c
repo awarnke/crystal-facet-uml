@@ -132,12 +132,41 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    LOG_ERROR( "not yet implemented" );
+    if ( data_small_set_is_empty( &objects ) )
+    {
+        result = CTRL_ERROR_INPUT_EMPTY;
+    }
+    else
+    {
+        LOG_ERROR( "not yet implemented" );
 
-    /* the following functions may help to implement this: */
-    /* data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement ) */
-    /* data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier ) */
-    /* data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram ) */
+        int index;
+        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        {
+            data_id_t current_id;
+            current_id = data_small_set_get_id( &objects, index );
+            if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &current_id ) )
+            {
+            }
+            else if ( DATA_TABLE_FEATURE == data_id_get_table( &current_id ) )
+            {
+            }
+            else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &current_id ) )
+            {
+            }
+            else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &current_id ) )
+            {
+            }
+            else if ( DATA_TABLE_DIAGRAM == data_id_get_table( &current_id ) )
+            {
+            }
+        }
+
+        /* the following functions may help to implement this: */
+        /* data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement ) */
+        /* data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier ) */
+        /* data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram ) */
+    }
 
     TRACE_END_ERR( result );
     return result;

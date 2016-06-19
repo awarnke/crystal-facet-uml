@@ -12,7 +12,7 @@
  *  \brief enumeration on message types
  */
 enum gui_simple_message_type_enum {
-    GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE,
+    GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE,  /*!< there is no valid message in the message object */
     GUI_SIMPLE_MESSAGE_TYPE_INFO,
     GUI_SIMPLE_MESSAGE_TYPE_WARNING,
     GUI_SIMPLE_MESSAGE_TYPE_ERROR,

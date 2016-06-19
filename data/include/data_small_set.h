@@ -115,6 +115,23 @@ static inline data_error_t data_small_set_toggle_obj ( data_small_set_t *this_, 
  */
 static inline void data_small_set_clear ( data_small_set_t *this_ );
 
+/*!
+ *  \brief returns the size of the set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return number of object-ids in the set, the number is less or equal to DATA_SMALL_SET_MAX_SET_SIZE
+ */
+static inline uint32_t data_small_set_get_count ( data_small_set_t *this_ );
+
+/*!
+ *  \brief returns an object-id of the set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index to be returned. index shall be greater or equal to zero and less than data_small_get_count().
+ *  \return object id. data_id_is_valid() returns false on the result if index is out of range.
+ */
+static inline data_id_t data_small_set_get_id ( data_small_set_t *this_, uint32_t index );
+
 #include "data_small_set.inl"
 
 #endif  /* DATA_SMALL_SET_H */

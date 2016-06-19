@@ -100,11 +100,11 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
 ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
 
 /*!
- *  \brief deletes a set of classifiers, diagramelements, features, relations (and maybe also diagrams - t.b.d.)
+ *  \brief deletes a set of classifiers, diagramelements, features, relations
  *
  *  \param this_ pointer to own object attributes
  *  \param objects set of object ids to be deleted
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects );
 
