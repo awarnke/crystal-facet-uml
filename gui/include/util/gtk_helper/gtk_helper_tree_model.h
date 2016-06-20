@@ -14,6 +14,7 @@
 /*!
  *  \brief gets the index in the model of the given id
  *
+ *  \param tree_model the GtkTreeModel in which to search for the id and retrieve the index
  *  \param id_col column in the tree model that contains the id
  *  \param id the id to find
  *  \return index of the row or -1 if not found
@@ -23,6 +24,7 @@ static inline int gtk_helper_tree_model_get_index ( GtkTreeModel *tree_model, in
 /*!
  *  \brief gets the id in the model of the given index
  *
+ *  \param tree_model the GtkTreeModel in which to lookup the index and retrieve the id
  *  \param id_col column in the tree model that contains the id
  *  \param index the row to look up
  *  \return id of the row or -1 if index out of range

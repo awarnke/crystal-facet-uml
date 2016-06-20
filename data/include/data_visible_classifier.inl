@@ -14,7 +14,7 @@ static inline void data_visible_classifier_destroy ( data_visible_classifier_t *
 
 static inline data_classifier_t *data_visible_classifier_get_classifier_ptr ( data_visible_classifier_t *this_ )
 {
-    return &((*this_).classifier;
+    return &((*this_).classifier);
 }
 
 static inline data_diagramelement_t *data_visible_classifier_get_diagramelement_ptr ( data_visible_classifier_t *this_ )

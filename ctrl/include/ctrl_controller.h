@@ -35,6 +35,7 @@ typedef struct ctrl_controller_struct ctrl_controller_t;
  *  \brief initializes the ctrl_controller_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param database database which this controller uses
  */
 void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database );
 

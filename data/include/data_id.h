@@ -34,6 +34,8 @@ typedef struct data_id_struct data_id_t;
  *  \brief initializes the data_id_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param table table id of the referenced object
+ *  \param row_id row id of the referenced object
  */
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id );
 
@@ -41,6 +43,8 @@ static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t 
  *  \brief re-initializes the data_id_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param table table id of the referenced object
+ *  \param row_id row id of the referenced object
  */
 static inline void data_id_reinit ( data_id_t *this_, data_table_t table, int64_t row_id );
 

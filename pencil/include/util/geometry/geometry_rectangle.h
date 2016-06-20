@@ -25,6 +25,10 @@ typedef struct geometry_rectangle_struct geometry_rectangle_t;
  *  \brief initializes the geometry_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param left left coordinate of the rectangle
+ *  \param top top coordinate of the rectangle
+ *  \param width width of the rectangle
+ *  \param height height of the rectangle
  */
 static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
@@ -32,6 +36,10 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
  *  \brief re-initializes the geometry_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param left left coordinate of the rectangle
+ *  \param top top coordinate of the rectangle
+ *  \param width width of the rectangle
+ *  \param height height of the rectangle
  */
 static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 

@@ -54,10 +54,18 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *  \brief creates a new classifier or package or other object and attaches it to a diagram
  *
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram, to which to link the newly created classifier
+ *  \param classifier_type main_type of the classifier to create
+ *  \param classifier_name name of the classifier to create
  *  \param out_new_id of the newly created classifier. Note: the id of the newly created diagramelement link is not provided.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_, int64_t diagram_id, data_classifier_type_t classifier_type, const char* classifier_name, int64_t* out_new_id );
+ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t diagram_id,
+                                                                       data_classifier_type_t classifier_type,
+                                                                       const char* classifier_name,
+                                                                       int64_t* out_new_id
+                                                                     );
 
 /*!
  *  \brief updates the classifier attribute: stereotype

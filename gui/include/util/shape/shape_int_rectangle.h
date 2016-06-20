@@ -29,6 +29,10 @@ typedef struct shape_int_rectangle_struct shape_int_rectangle_t;
  *  \brief initializes the shape_int_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param left left coordinate of the rectangle
+ *  \param top top coordinate of the rectangle
+ *  \param width width of the rectangle in pixels
+ *  \param height height of the rectangle in pixels
  */
 static inline void shape_int_rectangle_init ( shape_int_rectangle_t *this_, int32_t left, int32_t top, uint32_t width, uint32_t height );
 
@@ -105,8 +109,9 @@ static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t 
  *  \brief shrinks the rectangle to be of specified width to height ratio
  *
  *  \param this_ pointer to own object attributes
- *  \param ratio_width example width to specify the ratio
- *  \param ratio_height example height to specify the ratio
+ *  \param ratio_width example width to specify the ratio. This is not the new width - it is just a factor to determine the new ratio.
+ *  \param ratio_height example height to specify the ratio. This is not the new height - it is just a factor to determine the new height.
+ *  \param align this parameter controls where in the original rectangle, the newly shrinked rectangle is located.
  */
 static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align );
 
