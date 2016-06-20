@@ -101,7 +101,7 @@ static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             data_id_destroy( &result );
-            result = gui_sketch_card_get_object_id_at_pos ( card, x, y );
+            result = gui_sketch_card_get_real_object_id_at_pos ( card, x, y );
             if ( ! data_id_is_valid( &result ) )
             {
                 data_diagram_t *selected_diag;

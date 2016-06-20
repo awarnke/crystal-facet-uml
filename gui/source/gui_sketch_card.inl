@@ -41,7 +41,7 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
     return pencil_input_data_get_diagram_ptr( &((*this_).painter_input_data) );
 }
 
-static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
+static inline data_id_t gui_sketch_card_get_real_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
     geometry_rectangle_t geo_rect;
     int32_t left;
