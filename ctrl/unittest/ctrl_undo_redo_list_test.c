@@ -64,7 +64,7 @@ static void tear_down(void)
 
 static void undo_redo_classifier(void)
 {
-    TEST_ASSERT_EQUAL_INT( 0, 1 );
+    TEST_ASSERT_EQUAL_INT( 0, 1 );  /* tests not yet implemented */
 }
 
 

@@ -86,6 +86,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE =
         "id INTEGER PRIMARY KEY ASC, "
         "diagram_id INTEGER, "
         "classifier_id INTEGER, "
+        "display_flags INTEGER, "
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id) "
     ");";

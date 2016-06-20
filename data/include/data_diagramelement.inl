@@ -5,6 +5,7 @@ static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_
     (*this_).id = DATA_ID_VOID_ID;
     (*this_).diagram_id = DATA_ID_VOID_ID;
     (*this_).classifier_id = DATA_ID_VOID_ID;
+    (*this_).display_flags = DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE;
 }
 
 static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *this_ )
@@ -13,11 +14,12 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
     data_diagramelement_init_empty( this_ );
 }
 
-static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id )
+static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id, uint64_t display_flags )
 {
     (*this_).id = DATA_ID_VOID_ID;
     (*this_).diagram_id = diagram_id;
     (*this_).classifier_id = classifier_id;
+    (*this_).display_flags = display_flags;
 }
 
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )

@@ -65,7 +65,7 @@ static void tear_down(void)
 
 static void classifier_consistency(void)
 {
-    TEST_ASSERT_EQUAL_INT( 0, 1 );
+    TEST_ASSERT_EQUAL_INT( 0, 1 );  /* tests not yet implemented */
 }
 
 

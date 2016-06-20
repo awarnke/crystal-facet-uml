@@ -64,7 +64,7 @@ static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX = ");";
  *  \brief prefix string constant to insert a diagramelement
  */
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX =
-"INSERT INTO diagramelements (diagram_id,classifier_id) VALUES (";
+"INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagramelement
@@ -525,6 +525,8 @@ data_error_t data_database_writer_private_build_create_diagramelement_command ( 
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).diagram_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).display_flags );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
