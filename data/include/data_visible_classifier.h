@@ -13,7 +13,7 @@
 #include "data_diagramelement.h"
 
 /*!
- *  \brief the pair of classifier and diagrameleemnt, which provide all information to display and modify and delete a classifier
+ *  \brief the pair of classifier and diagramelement, which provide all information to display, modify and delete a classifier
  */
 struct data_visible_classifier_struct {
     data_classifier_t classifier;  /*!< the classifier */

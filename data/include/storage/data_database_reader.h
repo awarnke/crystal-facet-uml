@@ -115,15 +115,15 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_classifier array of classifiers read from the database (in case of success)
- *  \param out_classifier_count number of classifier records stored in out_diagram
+ *  \param out_vis_classifier array of classifiers (and diagramelements) read from the database (in case of success)
+ *  \param out_vis_classifier_count number of classifier records stored in out_vis_classifier
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   int64_t diagram_id,
                                                                   uint32_t max_out_array_size,
-                                                                  data_classifier_t (*out_classifier)[],
-                                                                  uint32_t *out_classifier_count
+                                                                  data_visible_classifier_t (*out_vis_classifier)[],
+                                                                  uint32_t *out_vis_classifier_count
                                                                 );
 
 /*!

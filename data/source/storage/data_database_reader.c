@@ -284,7 +284,11 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     return result;
 }
 
-data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_, int64_t parent_id, uint32_t max_out_array_size, data_diagram_t (*out_diagram)[], uint32_t *out_diagram_count )
+data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
+                                                              int64_t parent_id,
+                                                              uint32_t max_out_array_size,
+                                                              data_diagram_t (*out_diagram)[],
+                                                              uint32_t *out_diagram_count )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram_count );
@@ -409,11 +413,15 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     return result;
 }
 
-data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_, int64_t diagram_id, uint32_t max_out_array_size, data_classifier_t (*out_classifier)[], uint32_t *out_classifier_count )
+data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
+                                                                  int64_t diagram_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_visible_classifier_t (*out_vis_classifier)[],
+                                                                  uint32_t *out_vis_classifier_count )
 {
     TRACE_BEGIN();
-    assert( NULL != out_classifier_count );
-    assert( NULL != out_classifier );
+    assert( NULL != out_vis_classifier_count );
+    assert( NULL != out_vis_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
@@ -426,7 +434,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 
         result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
-        *out_classifier_count = 0;
+        *out_vis_classifier_count = 0;
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
@@ -439,9 +447,11 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
-                *out_classifier_count = row_index+1;
-                data_classifier_t *current_classifier = &((*out_classifier)[row_index]);
+                *out_vis_classifier_count = row_index+1;
+                data_visible_classifier_t *current_vis_classifier = &((*out_vis_classifier)[row_index]);
+                data_visible_classifier_init_empty( current_vis_classifier );
 
+                data_classifier_t *current_classifier = data_visible_classifier_get_classifier_ptr( current_vis_classifier );
                 result |= data_classifier_init( current_classifier,
                                                 sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN ),
                                                 sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
@@ -452,11 +462,14 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                                 sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
                 );
 
+                data_diagramelement_t *current_diag_element = data_visible_classifier_get_diagramelement_ptr( current_vis_classifier );
+                data_diagramelement_init_empty( current_diag_element );
+
                 data_classifier_trace( current_classifier );
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                LOG_ERROR_INT( "out_classifier[] full:", (row_index+1) );
+                LOG_ERROR_INT( "out_vis_classifier[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )

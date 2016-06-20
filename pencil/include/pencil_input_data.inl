@@ -20,32 +20,32 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
 
 static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ )
 {
-    assert( (*this_).classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+    assert( (*this_).vis_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
 
-    for ( int index = 0; index < (*this_).classifier_count; index ++ )
+    for ( int index = 0; index < (*this_).vis_classifier_count; index ++ )
     {
-        data_classifier_destroy ( &((*this_).classifiers[index]) );
+        data_visible_classifier_destroy ( &((*this_).vis_classifiers[index]) );
     }
 
-    (*this_).classifier_count = 0;
+    (*this_).vis_classifier_count = 0;
 }
 
 static inline uint32_t pencil_input_data_get_classifier_count ( pencil_input_data_t *this_ )
 {
-    return (*this_).classifier_count;
+    return (*this_).vis_classifier_count;
 }
 
 static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
     data_classifier_t *result;
-    if ( index < (*this_).classifier_count )
+    if ( index < (*this_).vis_classifier_count )
     {
-        result = &((*this_).classifiers[index]);
+        result = data_visible_classifier_get_classifier_ptr( &((*this_).vis_classifiers[index]) );
     }
     else
     {
         result = NULL;
-        LOG_ERROR_INT( "index out of bounds (>=(*this_).classifier_count)", index );
+        LOG_ERROR_INT( "index out of bounds (>=(*this_).vis_classifier_count)", index );
     }
     return result;
 }

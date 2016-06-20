@@ -10,6 +10,7 @@
  */
 
 #include "data_diagram.h"
+#include "data_visible_classifier.h"
 #include "storage/data_database_reader.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -27,8 +28,8 @@ enum pencil_input_data_max_enum {
  */
 struct pencil_input_data_struct {
     data_diagram_t diagram;  /*!< the diagram record */
-    uint32_t classifier_count;  /*!< number of all contained classifier records */
-    data_classifier_t classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained classifier records */
+    uint32_t vis_classifier_count;  /*!< number of all contained visible classifier records */
+    data_visible_classifier_t vis_classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;
