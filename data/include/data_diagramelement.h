@@ -29,7 +29,7 @@ struct data_diagramelement_struct {
     int64_t id;  /*!< id of the diagramelement_t relation */
     int64_t diagram_id;  /*!< id of the referenced diagram_t */
     int64_t classifier_id;  /*!< id of the referenced classifier_t */
-    uint64_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram */
+    uint64_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;
@@ -54,6 +54,9 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
  *  id is initialized to DATA_ID_VOID_ID;
  *
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the referenced diagram_t
+ *  \param classifier_id id of the referenced classifier_t
+ *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
  */
 static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id, uint64_t display_flags );
 

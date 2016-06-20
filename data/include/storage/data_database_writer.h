@@ -43,6 +43,7 @@ typedef struct data_database_writer_struct data_database_writer_t;
  *  \brief initializes the data_database_writer_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param database pointer to a database object which is used for writing
  */
 void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database );
 
