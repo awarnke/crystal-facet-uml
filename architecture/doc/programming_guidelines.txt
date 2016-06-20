@@ -34,6 +34,15 @@
  *    \n This inline file contains inline definitions of functions.
  *  .
  *
+ *  \subsection cfu-coupling Loose Coupling
+ *  Independant software modules shall provide loose coupling and depencendy injection.
+ *  This is especially important when lower-layer modules broadcast messages to e.g. upper layer modules.
+ *  To allow loose coupling, glib signals shall be emitted.
+ *  Dependencies between these modules can be injected from outside.
+ *
+ *  Within a software module, other ways of messaging is preferred, e.g. listener concepts,
+ *  where the compiler can check types of parameters (of function pointers).
+ *
  *  \section cfu-classes Classes and Objects
  *
  *  All files shall follow object-oriented design patterns in the following way:

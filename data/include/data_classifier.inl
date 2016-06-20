@@ -111,6 +111,18 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
     return result;
 }
 
+static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
+                                                    int64_t id,
+                                                    data_classifier_type_t main_type,
+                                                    const char* stereotype,
+                                                    const char* name,
+                                                    const char* description,
+                                                    int32_t x_order,
+                                                    int32_t y_order )
+{
+    return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order );
+}
+
 static inline void data_classifier_destroy ( data_classifier_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

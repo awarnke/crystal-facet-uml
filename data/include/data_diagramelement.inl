@@ -22,9 +22,42 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, 
     (*this_).display_flags = display_flags;
 }
 
+static inline void data_diagramelement_init ( data_diagramelement_t *this_,
+                                              int64_t id,
+                                              int64_t diagram_id,
+                                              int64_t classifier_id,
+                                              uint64_t display_flags )
+{
+    (*this_).id = id;
+    (*this_).diagram_id = diagram_id;
+    (*this_).classifier_id = classifier_id;
+    (*this_).display_flags = display_flags;
+}
+
+static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
+                                                int64_t id,
+                                                int64_t diagram_id,
+                                                int64_t classifier_id,
+                                                uint64_t display_flags )
+{
+    (*this_).id = id;
+    (*this_).diagram_id = diagram_id;
+    (*this_).classifier_id = classifier_id;
+    (*this_).display_flags = display_flags;
+}
+
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;
+}
+
+static inline void data_diagramelement_trace ( data_diagramelement_t *this_ )
+{
+    TRACE_INFO( "data_diagramelement_t" );
+    TRACE_INFO_INT( "- id:", (*this_).id );
+    TRACE_INFO_INT( "- diagram_id:", (*this_).diagram_id );
+    TRACE_INFO_INT( "- classifier_id:", (*this_).classifier_id );
+    TRACE_INFO_HEX( "- display_flags:", (*this_).display_flags );
 }
 
 

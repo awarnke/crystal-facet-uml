@@ -117,7 +117,7 @@ static void create_read_modify_read(void)
     data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
     data_visible_classifier_init_empty( &(read_vis_classifiers[1]) );
     first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
-    data_classifier_init ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "stereo", "my_name", "descr", 1000, 400 );
+    data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "stereo", "my_name", "descr", 1000, 400 );
 
     data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, DIAGRAM_ID, 0, &read_vis_classifiers, &read_vis_classifiers_count );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );

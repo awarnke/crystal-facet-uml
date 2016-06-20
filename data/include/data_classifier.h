@@ -107,6 +107,29 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                 );
 
 /*!
+ *  \brief ire-nitializes the data_classifier_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the classifier
+ *  \param main_type type of the classifier.
+ *  \param stereotype name of the classifier. classifier_name must not be NULL.
+ *  \param name name of the classifier. classifier_name must not be NULL.
+ *  \param description description of the classifier. classifier_description must not be NULL.
+ *  \param x_order sequence oder of objects in x-direction
+ *  \param y_order sequence oder of objects in y direction
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
+                                                    int64_t id,
+                                                    data_classifier_type_t main_type,
+                                                    const char* stereotype,
+                                                    const char* name,
+                                                    const char* description,
+                                                    int32_t x_order,
+                                                    int32_t y_order
+                                                  );
+
+/*!
  *  \brief destroys the data_classifier_t struct
  *
  *  \param this_ pointer to own object attributes

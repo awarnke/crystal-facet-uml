@@ -58,7 +58,43 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
  */
-static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id, uint64_t display_flags );
+static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
+                                                  int64_t diagram_id,
+                                                  int64_t classifier_id,
+                                                  uint64_t display_flags
+                                                );
+
+/*!
+ *  \brief initializes the data_diagramelement_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the data_diagramelement_t
+ *  \param diagram_id id of the referenced diagram_t
+ *  \param classifier_id id of the referenced classifier_t
+ *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ */
+static inline void data_diagramelement_init ( data_diagramelement_t *this_,
+                                              int64_t id,
+                                              int64_t diagram_id,
+                                              int64_t classifier_id,
+                                              uint64_t display_flags
+                                            );
+
+/*!
+ *  \brief re-initializes the data_diagramelement_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id id of the data_diagramelement_t
+ *  \param diagram_id id of the referenced diagram_t
+ *  \param classifier_id id of the referenced classifier_t
+ *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ */
+static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
+                                                int64_t id,
+                                                int64_t diagram_id,
+                                                int64_t classifier_id,
+                                                uint64_t display_flags
+                                              );
 
 /*!
  *  \brief destroys the data_diagramelement_t struct
@@ -66,6 +102,13 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, 
  *  \param this_ pointer to own object attributes
  */
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief prints the data_diagramelement_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void data_diagramelement_trace ( data_diagramelement_t *this_ );
 
 #include "data_diagramelement.inl"
 
