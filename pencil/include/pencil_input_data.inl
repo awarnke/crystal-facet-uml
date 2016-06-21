@@ -37,6 +37,8 @@ static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_i
 
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
+    assert( (*this_).visible_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+
     data_visible_classifier_t *result;
     if ( index < (*this_).visible_classifier_count )
     {

@@ -57,7 +57,9 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
             if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
             {
                 data_classifier_t *classifier;
+                data_diagramelement_t *diagramelement;
                 classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+                diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
                 TRACE_INFO_INT("drawing classifier id", data_classifier_get_id( classifier ) );
 
@@ -66,7 +68,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 box_height = height/(double)count;
                 box_top = (double)index*box_height+top;
 
-                if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) ))
+                if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ))
                 {
                     cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
                 }
@@ -97,11 +99,11 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                     }
                 }
 
-                if ( data_id_equals_id( &mark_focused, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
+                if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ))
                 {
                     geometry_rectangle_reinit( &focused_rect, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );
                 }
-                if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_CLASSIFIER, data_classifier_get_id(classifier) ))
+                if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ))
                 {
                     geometry_rectangle_t selected_rect;
                     geometry_rectangle_init( &selected_rect, left+2.0, box_top+2.0, width-4.0, box_height-4.0 );

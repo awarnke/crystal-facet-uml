@@ -79,9 +79,10 @@ static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_i
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
- *  \brief checks if the diagram data is valid
+ *  \brief checks if the diagram and diagram-contents data is valid
  *
  *  \param this_ pointer to own object attributes
+ *  \return true if this_ contains valid data for sketching a diagram
  */
 static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
 

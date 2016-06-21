@@ -3,6 +3,7 @@
 static inline void gui_sketch_marker_init ( gui_sketch_marker_t *this_ )
 {
     data_id_init_void( &((*this_).focused) );
+    data_id_init_void( &((*this_).focused_real_object) );
     data_id_init_void( &((*this_).highlighted) );
     data_small_set_init( &((*this_).selected_set) );
 }
@@ -10,6 +11,7 @@ static inline void gui_sketch_marker_init ( gui_sketch_marker_t *this_ )
 static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ )
 {
     data_id_destroy( &((*this_).focused) );
+    data_id_destroy( &((*this_).focused_real_object) );
     data_id_destroy( &((*this_).highlighted) );
     data_small_set_destroy( &((*this_).selected_set) );
 }
@@ -17,6 +19,11 @@ static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ )
 static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ )
 {
     return ( (*this_).focused );
+}
+
+static inline data_id_t gui_sketch_marker_get_focused_real_object ( gui_sketch_marker_t *this_ )
+{
+    return ( (*this_).focused_real_object );
 }
 
 static inline data_id_t gui_sketch_marker_get_highlighted ( gui_sketch_marker_t *this_ )
@@ -39,10 +46,12 @@ static inline void gui_sketch_marker_clear_selected_set ( gui_sketch_marker_t *t
     data_small_set_clear( &((*this_).selected_set) );
 }
 
-static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t obj_id )
+static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t obj_id, data_id_t real_obj_id )
 {
     data_id_destroy( &((*this_).focused) );
     (*this_).focused = obj_id;
+    data_id_destroy( &((*this_).focused_real_object) );
+    (*this_).focused_real_object = real_obj_id;
 }
 
 static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this_, data_id_t obj_id )
@@ -54,6 +63,7 @@ static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this
 static inline void gui_sketch_marker_clear_focused ( gui_sketch_marker_t *this_ )
 {
     data_id_reinit_void( &((*this_).focused) );
+    data_id_reinit_void( &((*this_).focused_real_object) );
 }
 
 static inline void gui_sketch_marker_clear_highlighted ( gui_sketch_marker_t *this_ )
