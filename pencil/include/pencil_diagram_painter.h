@@ -71,13 +71,16 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
  *  \param x x-position
  *  \param y y-position
  *  \param diagram_bounds the boundary rectangle where the diagram is drawn
+ *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
+ *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
 data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
                                                         pencil_input_data_t *input_data,
                                                         double x,
                                                         double y,
-                                                        geometry_rectangle_t diagram_bounds
+                                                        geometry_rectangle_t diagram_bounds,
+                                                        bool dereference
                                                       );
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */

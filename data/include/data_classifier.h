@@ -196,6 +196,7 @@ static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ );
  *  \brief checks if attribute id is not DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
+ *  \return true if the id of the classifier is not DATA_ID_VOID_ID
  */
 static inline bool data_classifier_is_valid ( data_classifier_t *this_ );
 

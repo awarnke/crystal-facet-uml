@@ -481,7 +481,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         case GUI_SKETCH_TOOLS_EDIT:
             {
                 data_id_t object_under_mouse;
-                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, true );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
@@ -569,7 +569,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
 
                     data_id_t focused_id;
-                    focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y );
+                    focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, true );
                     data_id_trace( &focused_id );
 
                     /* notify listener */

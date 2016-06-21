@@ -123,7 +123,8 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
                                                         pencil_input_data_t *input_data,
                                                         double x,
                                                         double y,
-                                                        geometry_rectangle_t diagram_bounds )
+                                                        geometry_rectangle_t diagram_bounds,
+                                                        bool dereference )
 {
     TRACE_BEGIN();
 
@@ -141,7 +142,7 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
                                  geometry_rectangle_get_height ( &diagram_bounds ) - 25.0
                                );
 
-        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds );
+        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds, dereference );
 
         geometry_rectangle_destroy( &classifier_bounds );
 

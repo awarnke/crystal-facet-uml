@@ -109,24 +109,19 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
 static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
 
 /*!
- *  \brief gets the object-id of the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t
+ *  \brief gets the object-id of the object at a given position.
+ *
+ *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,
+ *  or the visible object at a given position, e.g. a diagram_t or a diagramelement_t.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
+ *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
-static inline data_id_t gui_sketch_card_get_real_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y );
-
-/*!
- *  \brief gets the object-id of the proxy or object at a given position, e.g. a diagram_t or a diagramelement_t
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \return an object id. The id is invalid if there is no object at the given location.
- */
-static inline data_id_t gui_sketch_card_get_object_id_at_pos_not_yet_existing ( gui_sketch_card_t *this_, int32_t x, int32_t y );
+static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y, bool dereference );
 
 #include "gui_sketch_card.inl"
 

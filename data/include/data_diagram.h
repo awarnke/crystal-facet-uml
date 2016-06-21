@@ -156,6 +156,7 @@ static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
  *  \brief checks if attribute id is not DATA_ID_VOID_ID
  *
  *  \param this_ pointer to own object attributes
+ *  \return true if the id of the diagram is not DATA_ID_VOID_ID
  */
 static inline bool data_diagram_is_valid ( data_diagram_t *this_ );
 

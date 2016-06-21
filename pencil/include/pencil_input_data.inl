@@ -18,34 +18,34 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
     data_diagram_init_empty( &((*this_).diagram) );
 }
 
-static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ )
+static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ )
 {
-    assert( (*this_).vis_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
 
-    for ( int index = 0; index < (*this_).vis_classifier_count; index ++ )
+    for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
-        data_visible_classifier_destroy ( &((*this_).vis_classifiers[index]) );
+        data_visible_classifier_destroy ( &((*this_).visible_classifiers[index]) );
     }
 
-    (*this_).vis_classifier_count = 0;
+    (*this_).visible_classifier_count = 0;
 }
 
-static inline uint32_t pencil_input_data_get_classifier_count ( pencil_input_data_t *this_ )
+static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_input_data_t *this_ )
 {
-    return (*this_).vis_classifier_count;
+    return (*this_).visible_classifier_count;
 }
 
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
+static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
-    data_classifier_t *result;
-    if ( index < (*this_).vis_classifier_count )
+    data_visible_classifier_t *result;
+    if ( index < (*this_).visible_classifier_count )
     {
-        result = data_visible_classifier_get_classifier_ptr( &((*this_).vis_classifiers[index]) );
+        result = &((*this_).visible_classifiers[index]);
     }
     else
     {
         result = NULL;
-        LOG_ERROR_INT( "index out of bounds (>=(*this_).vis_classifier_count)", index );
+        LOG_ERROR_INT( "index out of bounds (>=(*this_).visible_classifier_count)", index );
     }
     return result;
 }

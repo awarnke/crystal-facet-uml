@@ -104,11 +104,51 @@ static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ );
 
 /*!
+ *  \brief checks if attribute id is not DATA_ID_VOID_ID
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the id of the diagramelement is not DATA_ID_VOID_ID
+ */
+static inline bool data_diagramelement_is_valid ( data_diagramelement_t *this_ );
+
+/*!
  *  \brief prints the data_diagramelement_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void data_diagramelement_trace ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief gets the attribute id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute id, DATA_ID_VOID_ID if this_ is not valid
+ */
+static inline int64_t data_diagramelement_get_id ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief gets the attribute diagram_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute diagram_id, DATA_ID_VOID_ID if the referenced diagram is not valid
+ */
+static inline int64_t data_diagramelement_get_diagram_id ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief gets the attribute classifier_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute classifier_id, DATA_ID_VOID_ID if the referenced classifier is not valid
+ */
+static inline int64_t data_diagramelement_get_classifier_id ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief gets the attribute display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute display_flags, \see data_diagramelement_display_flag_enum
+ */
+static inline uint64_t data_diagramelement_get_display_flags ( data_diagramelement_t *this_ );
 
 #include "data_diagramelement.inl"
 

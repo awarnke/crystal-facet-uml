@@ -86,7 +86,7 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
     return result;
 }
 
-static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y, bool dereference )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     data_id_t result;
@@ -101,7 +101,7 @@ static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             data_id_destroy( &result );
-            result = gui_sketch_card_get_real_object_id_at_pos ( card, x, y );
+            result = gui_sketch_card_get_object_id_at_pos ( card, x, y, dereference );
             if ( ! data_id_is_valid( &result ) )
             {
                 data_diagram_t *selected_diag;

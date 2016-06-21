@@ -28,8 +28,8 @@ enum pencil_input_data_max_enum {
  */
 struct pencil_input_data_struct {
     data_diagram_t diagram;  /*!< the diagram record */
-    uint32_t vis_classifier_count;  /*!< number of all contained visible classifier records */
-    data_visible_classifier_t vis_classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
+    uint32_t visible_classifier_count;  /*!< number of all contained visible classifier records */
+    data_visible_classifier_t visible_classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;
@@ -63,20 +63,20 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
 
 /*!
- *  \brief gets the number of classifiers within the painter input data
+ *  \brief gets the number of visible classifiers within the painter input data
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_input_data_get_classifier_count ( pencil_input_data_t *this_ );
+static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_input_data_t *this_ );
 
 /*!
  *  \brief gets the address of the diagram within the painter input data
  *
  *  \param this_ pointer to own object attributes
  *  \param index index of the classifier to retrieve; 0 <= index < pencil_input_data_get_classifier_count.
- *  \param return NULL if index >= pencil_input_data_get_classifier_count; pointer to data_classifier_t otherwise.
+ *  \param return NULL if index >= pencil_input_data_get_classifier_count; pointer to data_visible_classifier_t otherwise.
  */
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
+static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
  *  \brief checks if the diagram data is valid
@@ -93,13 +93,13 @@ static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
 static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
 
 /*!
- *  \brief destroys all contained classifiers
+ *  \brief destroys all contained visible classifiers
  *
  *  classifier_count is set to zero.
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void pencil_input_data_private_destroy_classifiers( pencil_input_data_t *this_ );
+static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ );
 
 #include "pencil_input_data.inl"
 
