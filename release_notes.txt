@@ -1,7 +1,7 @@
 
 2016-xx-xx v004 [xxxxxxx]
   + xxx
-  - DB format incompatible to version 0.03
+  - DB format incompatible to version 0.03 (alt: in diagramelements, manually create the column "display_flags" as INTEGER)
 2016-05-22 v003 [e0c0196]
   + The user can select and switch the database file
 2016-05-01 v002 [1d03746]

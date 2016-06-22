@@ -140,6 +140,7 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
     {
         LOG_ERROR( "not yet implemented" );
 
+
         int index;
         for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
         {
@@ -152,9 +153,11 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
             }
             else if ( DATA_TABLE_FEATURE == data_id_get_table( &current_id ) )
             {
+                result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
             else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &current_id ) )
             {
+                result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
             else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &current_id ) )
             {

@@ -137,6 +137,39 @@ static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_INFIX = " WHERE id=";
 static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX = ";";
 
 /*!
+ *  \brief prefix string constant to delete a diagram
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_PREFIX =
+"DELETE FROM diagrams WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a diagram
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_PREFIX =
+"DELETE FROM classifiers WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a diagramelement
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_PREFIX =
+"DELETE FROM diagramelements WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a diagramelement
+ */
+static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_POSTFIX = ");";
+
+/*!
  *  \brief translation table to encode strings for usage in string literals
  *
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
@@ -823,11 +856,21 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_lock( this_ );
 
+    /*
+    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_PREFIX = "DELETE FROM diagramelements WHERE (id=";
+
+    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_POSTFIX = ");";
+    */
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
 
-    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    if ( NULL != out_old_diagramelement )
+    {
+        data_diagramelement_init_empty( out_old_diagramelement );
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -842,11 +885,21 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_lock( this_ );
 
+    /*
+    static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_PREFIX = "DELETE FROM classifiers WHERE (id=";
+
+    static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_POSTFIX = ");";
+    */
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
 
-    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    if ( NULL != out_old_classifier )
+    {
+        data_classifier_init_empty( out_old_classifier );
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -861,11 +914,21 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_lock( this_ );
 
+    /*
+    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_PREFIX = "DELETE FROM diagrams WHERE (id=";
+
+    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_POSTFIX = ");";
+    */
+
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
 
-    result = DATA_ERROR_INVALID_REQUEST; /* NOT YET IMPLEMENTED */
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    if ( NULL != out_old_diagram )
+    {
+        data_diagram_init_empty( out_old_diagram );
+    }
 
     TRACE_END_ERR( result );
     return result;
