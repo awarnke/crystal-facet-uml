@@ -53,7 +53,7 @@ static const char *DATA_DATABASE_WRITER_STRING_VALUE_END = "\'";
  *  \brief prefix string constant to insert a classifier
  */
 static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_PREFIX =
-"INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a classifier
@@ -64,7 +64,7 @@ static const char *DATA_DATABASE_WRITER_INSERT_CLASSIFIER_POSTFIX = ");";
  *  \brief prefix string constant to insert a diagramelement
  */
 static const char *DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_PREFIX =
-"INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
+    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagramelement
@@ -140,7 +140,7 @@ static const char *DATA_DATABASE_WRITER_UPDATE_CLASSIFIER_POSTFIX = ";";
  *  \brief prefix string constant to delete a diagram
  */
 static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_PREFIX =
-"DELETE FROM diagrams WHERE (id=";
+    "DELETE FROM diagrams WHERE (id=";
 
 /*!
  *  \brief postfix string constant to delete a diagram
@@ -151,7 +151,7 @@ static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_POSTFIX = ");";
  *  \brief prefix string constant to delete a classifier
  */
 static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_PREFIX =
-"DELETE FROM classifiers WHERE (id=";
+    "DELETE FROM classifiers WHERE (id=";
 
 /*!
  *  \brief postfix string constant to delete a classifier
@@ -162,7 +162,7 @@ static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_POSTFIX = ");";
  *  \brief prefix string constant to delete a diagramelement
  */
 static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_PREFIX =
-"DELETE FROM diagramelements WHERE (id=";
+    "DELETE FROM diagramelements WHERE (id=";
 
 /*!
  *  \brief postfix string constant to delete a diagramelement
@@ -346,6 +346,28 @@ data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_d
 
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagram_id );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_UPDATE_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_delete_diagram_command ( data_database_writer_t *this_, int64_t diagram_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -545,6 +567,28 @@ data_error_t data_database_writer_private_build_update_classifier_main_type_cmd 
     return( result );
 }
 
+data_error_t data_database_writer_private_build_delete_classifier_command ( data_database_writer_t *this_, int64_t classifier_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement )
 {
     TRACE_BEGIN();
@@ -561,6 +605,28 @@ data_error_t data_database_writer_private_build_create_diagramelement_command ( 
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, (*diagramelement).display_flags );
     strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_INSERT_DIAGRAMELEMENT_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_writer_private_build_delete_diagramelement_command ( data_database_writer_t *this_, int64_t diagramelement_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).private_sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).private_sql_stringbuf, diagramelement_id );
+    strerr |= utf8stringbuf_append_str( (*this_).private_sql_stringbuf, DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -630,6 +696,112 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
         if ( SQLITE_OK != sqlite_err )
         {
             LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        LOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        result = DATA_ERROR_NO_DB;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_private_transaction_begin ( data_database_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
+
+    if ( data_database_is_open( (*this_).database ) )
+    {
+        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        result = DATA_ERROR_NO_DB;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_private_transaction_commit ( data_database_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
+
+    if ( data_database_is_open( (*this_).database ) )
+    {
+        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        result = DATA_ERROR_NO_DB;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement )
+{
+    TRACE_BEGIN();
+    assert( NULL != sql_statement );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
+
+    if ( data_database_is_open( (*this_).database ) )
+    {
+        LOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            LOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
             LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
@@ -856,17 +1028,19 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_lock( this_ );
 
-    /*
-    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_PREFIX = "DELETE FROM diagramelements WHERE (id=";
+    result |= data_database_writer_private_transaction_begin ( this_ );
 
-    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAMELEMENT_POSTFIX = ");";
-    */
+    result |= data_database_writer_private_build_delete_diagramelement_command ( this_, obj_id );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_diagramelement is not yet read out! */
     if ( NULL != out_old_diagramelement )
     {
         data_diagramelement_init_empty( out_old_diagramelement );
@@ -885,11 +1059,13 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_lock( this_ );
 
-    /*
-    static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_PREFIX = "DELETE FROM classifiers WHERE (id=";
+    result |= data_database_writer_private_transaction_begin ( this_ );
 
-    static const char *DATA_DATABASE_WRITER_DELETE_CLASSIFIER_POSTFIX = ");";
-    */
+    result |= data_database_writer_private_build_delete_classifier_command ( this_, obj_id );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -914,11 +1090,13 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_lock( this_ );
 
-    /*
-    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_PREFIX = "DELETE FROM diagrams WHERE (id=";
+    result |= data_database_writer_private_transaction_begin ( this_ );
 
-    static const char *DATA_DATABASE_WRITER_DELETE_DIAGRAM_POSTFIX = ");";
-    */
+    result |= data_database_writer_private_build_delete_diagram_command ( this_, obj_id );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 

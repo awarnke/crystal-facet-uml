@@ -228,17 +228,57 @@ data_error_t data_database_writer_private_build_update_diagram_description_cmd (
 data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
 
 /*!
+ *  \brief builds the sql command string to delete a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be deleted
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_private_build_delete_diagram_command ( data_database_writer_t *this_, int64_t diagram_id );
+
+/*!
  *  \brief executes a single SQL command
  *
  *  This function does not care about locks. It does not sent notifications.
  *
  *  \param this_ pointer to own object attributes
- *  \param sql_statement statement to be created.
+ *  \param sql_statement statement to be executed.
  *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned
  *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise
  */
 data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id );
+
+/*!
+ *  \brief executes a "BEGIN TRANSACTION" command
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise, e.g. DATA_ERROR_NO_DB in case the database is not open
+ */
+data_error_t data_database_writer_private_transaction_begin ( data_database_writer_t *this_ );
+
+/*!
+ *  \brief executes a "COMMIT TRANSACTION" command
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise
+ */
+data_error_t data_database_writer_private_transaction_commit ( data_database_writer_t *this_ );
+
+/*!
+ *  \brief sends one SQL command to the database within a transaction
+ *
+ *  This function does not care about locks. It does not sent notifications.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sql_statement statement to be executed.
+ *  \return DATA_ERROR_NONE in case of success, an error id otherwise
+ */
+data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement );
 
 /*!
  *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -289,6 +329,14 @@ data_error_t data_database_writer_private_build_update_classifier_description_cm
 data_error_t data_database_writer_private_build_update_classifier_main_type_cmd ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
 
 /*!
+ *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be deleted
+ */
+data_error_t data_database_writer_private_build_delete_classifier_command ( data_database_writer_t *this_, int64_t classifier_id );
+
+/*!
  *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
@@ -296,6 +344,15 @@ data_error_t data_database_writer_private_build_update_classifier_main_type_cmd 
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement );
+
+/*!
+ *  \brief builds the sql command string to delete a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be deleted.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_writer_private_build_delete_diagramelement_command ( data_database_writer_t *this_, int64_t diagramelement_id );
 
 /*!
  *  \brief gets a lock to protect data in data_database_writer_t from concurrent access.
