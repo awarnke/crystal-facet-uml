@@ -187,7 +187,7 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
         LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
 
-    data_small_set_clear( set_to_be_deleted );
+    gui_sketch_marker_clear_selected_set( (*this_).marker );
 
     TRACE_TIMESTAMP();
     TRACE_END();
