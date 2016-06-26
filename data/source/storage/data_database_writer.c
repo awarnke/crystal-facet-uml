@@ -1057,7 +1057,10 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    /* Note: This function fails if the classifier is still referenced. */
+    bool object_still_referenced;
+    data_diagram_t referencing_diagram[1];
+    uint32_t referencing_diagram_count;
+    data_error_t reference_check_err;
 
     result |= data_database_writer_private_lock( this_ );
 
@@ -1069,21 +1072,32 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
         result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, obj_id, out_old_classifier );
     }
 
-    result |= data_database_writer_private_build_delete_classifier_command ( this_, obj_id );
+    /* Note: This function fails if the classifier is still referenced. */
+    reference_check_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
+    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+    {
+        object_still_referenced = true;
+    }
+    else
+    {
+        object_still_referenced = false;
+    }
 
-    result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+    if ( object_still_referenced )
+    {
+        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
+    }
+    else
+    {
+        result |= data_database_writer_private_build_delete_classifier_command ( this_, obj_id );
+        result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+    }
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
-
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_classifier is not yet read out! */
-    if ( NULL != out_old_classifier )
-    {
-        data_classifier_init_empty( out_old_classifier );
-    }
 
     TRACE_END_ERR( result );
     return result;
@@ -1093,7 +1107,12 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    /* Note: This function fails if the diagram is still referenced. */
+    bool object_still_referenced;
+    data_diagram_t referencing_diagram[1];
+    uint32_t referencing_diagram_count;
+    data_visible_classifier_t referencing_classifier[1];
+    uint32_t referencing_classifier_count;
+    data_error_t reference_check_err;
 
     result |= data_database_writer_private_lock( this_ );
 
@@ -1105,9 +1124,34 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
         result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, obj_id, out_old_diagram );
     }
 
-    result |= data_database_writer_private_build_delete_diagram_command ( this_, obj_id );
+    /* Note: This function fails if the diagram is still referenced. */
+    reference_check_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
+    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+    {
+        object_still_referenced = true;
+    }
+    else
+    {
+        reference_check_err = data_database_reader_get_classifiers_by_diagram_id ( (*this_).db_reader, obj_id, 1, &referencing_classifier, &referencing_classifier_count );
+        if ( ( 0 != referencing_classifier_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+        {
+            object_still_referenced = true;
+        }
+        else
+        {
+            object_still_referenced = false;
+        }
+    }
 
-    result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+    if ( object_still_referenced )
+    {
+        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
+    }
+    else
+    {
+        result |= data_database_writer_private_build_delete_diagram_command ( this_, obj_id );
+        result |= data_database_writer_private_transaction_issue_command ( this_, utf8stringbuf_get_string( (*this_).private_sql_stringbuf ) );
+    }
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 

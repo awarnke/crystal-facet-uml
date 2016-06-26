@@ -80,7 +80,7 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param id the diagram to be read from the database
  *  \param out_diagram the diagram read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
  */
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
 
@@ -124,7 +124,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param id the classifier to be read from the database
  *  \param out_classifier the classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
  */
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
 
@@ -151,7 +151,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param id the diagramelement to be read from the database
  *  \param out_diagramelement the diagramelement read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
  */
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
 

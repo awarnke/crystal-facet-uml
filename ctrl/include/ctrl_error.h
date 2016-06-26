@@ -24,6 +24,7 @@ enum ctrl_error_enum {
     CTRL_ERROR_ARRAY_BUFFER_EXCEEDED = DATA_ERROR_ARRAY_BUFFER_EXCEEDED,  /*!< 0x000008: a set ob objects does not fit to the array storage buffer */
     CTRL_ERROR_INVALID_REQUEST = DATA_ERROR_INVALID_REQUEST,  /*!< 0x000010: function call not allowed or parameters wrong */
     CTRL_ERROR_INPUT_EMPTY = DATA_ERROR_INPUT_EMPTY,  /*!< 0x000020: input parameter is empty or void */
+    CTRL_ERROR_OBJECT_STILL_REFERENCED = DATA_ERROR_OBJECT_STILL_REFERENCED,  /*!< 0x000040: object cannot be deleted, it is still referenced */
     CTRL_ERROR_AT_MUTEX = DATA_ERROR_AT_MUTEX,  /*!< 0x010000: unexpected internal error at mutex */
     CTRL_ERROR_AT_DB = DATA_ERROR_AT_DB,  /*!< 0x020000: unexpected internal error at database */
     CTRL_ERROR_DUPLICATE_ID = DATA_ERROR_DUPLICATE_ID,  /*!< 0x040000: unexpected internal error: an id is used twice */
