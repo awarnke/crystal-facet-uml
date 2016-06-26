@@ -169,6 +169,8 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     data_small_set_t *set_to_be_deleted;
     ctrl_classifier_controller_t *c_controller;
 
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
     set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
     c_controller = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
     ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
@@ -184,15 +186,8 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     {
         LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
-    else
-    {
-        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                             "Delete"
-        );
-    }
 
+    data_small_set_clear( set_to_be_deleted );
 
     TRACE_TIMESTAMP();
     TRACE_END();

@@ -161,9 +161,25 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
             }
             else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &current_id ) )
             {
+                data_error_t current_result;
                 data_diagramelement_t old_diagramelement;
                 data_id_trace( &current_id );
-                result |= data_database_writer_delete_diagramelement( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagramelement );
+                current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
+                                                                             data_id_get_row_id( &current_id ),
+                                                                             &old_diagramelement
+                                                                           );
+                result |= current_result;
+
+                /* try to also delete the classifier, ignore errors */
+                if ( DATA_ERROR_NONE == current_result )
+                {
+                    data_error_t my_data_result;
+                    data_classifier_t old_classifier;
+                    my_data_result = data_database_writer_delete_classifier( (*this_).db_writer,
+                                                                             data_diagramelement_get_classifier_id( &old_diagramelement ),
+                                                                             &old_classifier
+                                                                           );
+                }
             }
             else if ( DATA_TABLE_DIAGRAM == data_id_get_table( &current_id ) )
             {
