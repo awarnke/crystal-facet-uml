@@ -30,6 +30,7 @@ enum data_error_enum {
     DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< 0x020000: unexpected internal error at database */
     DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< 0x040000: unexpected internal error: an id is used twice */
     DATA_ERROR_NOT_YET_IMPLEMENTED_ID = (~(0x00f7ffff)),  /*!< 0x080000: internal error: function not yet implemented */
+    DATA_ERROR_VALUE_OUT_OF_RANGE = (~(0x00efffff)),  /*!< 0x100000: unexpected internal error: enum/integer out of range */
     DATA_ERROR_MASK = (0x00ffffff),  /*!< 0xffffff: a mask to filter error bits after collecting possibly multiple errors */
 };
 

@@ -106,13 +106,21 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         geometry_rectangle_destroy( &classifier_bounds );
     }
 
-    /* mark focused */
+    /* mark focused and highlighted */
     {
         data_diagram_t *diag2;
         diag2 = pencil_input_data_get_diagram_ptr( input_data );
         if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
             pencil_private_marker_mark_focused_rectangle( &((*this_).marker), destination, cr );
+        }
+
+        if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
+        {
+            geometry_rectangle_t selected_rect;
+            geometry_rectangle_init( &selected_rect, left+2.0, top+2.0, width-4.0, height-4.0 );
+            pencil_private_marker_mark_selected_rectangle( &((*this_).marker), selected_rect, cr );
+            geometry_rectangle_destroy( &selected_rect );
         }
     }
 

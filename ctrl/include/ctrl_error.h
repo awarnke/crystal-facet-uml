@@ -29,6 +29,7 @@ enum ctrl_error_enum {
     CTRL_ERROR_AT_DB = DATA_ERROR_AT_DB,  /*!< 0x020000: unexpected internal error at database */
     CTRL_ERROR_DUPLICATE_ID = DATA_ERROR_DUPLICATE_ID,  /*!< 0x040000: unexpected internal error: an id is used twice */
     CTRL_ERROR_NOT_YET_IMPLEMENTED_ID = DATA_ERROR_NOT_YET_IMPLEMENTED_ID,  /*!< 0x080000: internal error: function not yet implemented */
+    CTRL_ERROR_VALUE_OUT_OF_RANGE = DATA_ERROR_VALUE_OUT_OF_RANGE,  /*!< 0x100000: unexpected internal error: enum/integer out of range */
     CTRL_ERROR_MASK = DATA_ERROR_MASK,  /*!< 0xffffff: a mask to filter error bits after collecting possibly multiple errors */
 };
 

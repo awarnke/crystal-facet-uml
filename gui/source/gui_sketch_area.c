@@ -578,14 +578,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_object_id );
                     gui_sketch_area_private_notify_listener( this_ );
-                    if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &focused_id ) )
+                    /* if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &focused_id ) ) */
                     {
                         gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_id );
-                        /*
-                        data_small_set_t *set_ptr;
-                        set_ptr = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
-                        data_small_set_trace( set_ptr );
-                        */
                     }
 
                     /* mark dirty rect */

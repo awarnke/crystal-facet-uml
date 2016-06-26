@@ -138,53 +138,107 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
     }
     else
     {
-        LOG_ERROR( "not yet implemented" );
-
-
         int index;
+
+        /* STEP ONE: Delete all objects that can be immediately deleted */
+
         for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
         {
             data_id_t current_id;
             current_id = data_small_set_get_id( &objects, index );
-            if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &current_id ) )
+            switch ( data_id_get_table( &current_id ) )
             {
-                data_classifier_t old_classifier;
-                result |= data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier );
-            }
-            else if ( DATA_TABLE_FEATURE == data_id_get_table( &current_id ) )
-            {
-                result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
-            }
-            else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &current_id ) )
-            {
-                result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
-            }
-            else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &current_id ) )
-            {
-                data_error_t current_result;
-                data_diagramelement_t old_diagramelement;
-                data_id_trace( &current_id );
-                current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
-                                                                             data_id_get_row_id( &current_id ),
-                                                                             &old_diagramelement
-                                                                           );
-                result |= current_result;
-
-                /* try to also delete the classifier, ignore errors */
-                if ( DATA_ERROR_NONE == current_result )
+                case DATA_TABLE_CLASSIFIER:
                 {
-                    data_error_t my_data_result;
-                    data_classifier_t old_classifier;
-                    my_data_result = data_database_writer_delete_classifier( (*this_).db_writer,
-                                                                             data_diagramelement_get_classifier_id( &old_diagramelement ),
-                                                                             &old_classifier
-                                                                           );
+                    /* see step two */
                 }
+                break;
+                case DATA_TABLE_FEATURE:
+                {
+                    result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                }
+                break;
+                case DATA_TABLE_RELATIONSHIP:
+                {
+                    result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                }
+                break;
+                case DATA_TABLE_DIAGRAMELEMENT:
+                {
+                    data_error_t current_result;
+                    data_diagramelement_t old_diagramelement;
+                    data_id_trace( &current_id );
+                    current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
+                                                                                data_id_get_row_id( &current_id ),
+                                                                                &old_diagramelement
+                                                                            );
+                    result |= current_result;
+
+                    /* try to also delete the classifier, ignore errors */
+                    if ( DATA_ERROR_NONE == current_result )
+                    {
+                        data_error_t my_data_result;
+                        data_classifier_t old_classifier;
+                        my_data_result = data_database_writer_delete_classifier( (*this_).db_writer,
+                                                                                data_diagramelement_get_classifier_id( &old_diagramelement ),
+                                                                                &old_classifier
+                                                                            );
+                    }
+                }
+                break;
+                case DATA_TABLE_DIAGRAM:
+                {
+                    /* see step two */
+                }
+                break;
+                default:
+                {
+                    result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
+                }
+                break;
             }
-            else if ( DATA_TABLE_DIAGRAM == data_id_get_table( &current_id ) )
+        }
+
+        /* STEP TWO: Delete all objects that can be deleted after step one */
+
+        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        {
+            data_id_t current_id;
+            current_id = data_small_set_get_id( &objects, index );
+            switch ( data_id_get_table( &current_id ) )
             {
-                data_diagram_t old_diagram;
-                result |= data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
+                case DATA_TABLE_CLASSIFIER:
+                {
+                    data_classifier_t old_classifier;
+                    result |= data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier );
+                }
+                break;
+                case DATA_TABLE_FEATURE:
+                {
+                    /* see step one */
+                }
+                break;
+                case DATA_TABLE_RELATIONSHIP:
+                {
+                    /* see step one */
+                }
+                break;
+                case DATA_TABLE_DIAGRAMELEMENT:
+                {
+                    /* see step one */
+                }
+                break;
+                case DATA_TABLE_DIAGRAM:
+                {
+                    data_diagram_t old_diagram;
+                    result |= data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
+                }
+                break;
+                default:
+                {
+                    /* see step one */
+                }
+                break;
             }
         }
     }
