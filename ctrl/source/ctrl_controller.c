@@ -10,8 +10,8 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
 
     /* init member attributes */
     (*this_).database = database;
-    data_database_writer_init( &((*this_).db_writer), database );
     data_database_reader_init( &((*this_).db_reader), database );
+    data_database_writer_init( &((*this_).db_writer), &((*this_).db_reader), database );
     ctrl_undo_redo_list_init ( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
     ctrl_classifier_controller_init ( &((*this_).classifiers), database, &((*this_).db_reader), &((*this_).db_writer) );
     ctrl_diagram_controller_init ( &((*this_).diagrams), database, &((*this_).db_reader), &((*this_).db_writer) );

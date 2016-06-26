@@ -7,10 +7,14 @@
 /*!
  *  \file
  *  \brief Creates, modifies and deletes records in the database
+ *
+ *  Note: The database_writer uses a database_reader to execute select (implemented in the reader),
+ *  delete and maybe update in a single transaction.
  */
 
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
+#include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
@@ -27,6 +31,7 @@
  */
 struct data_database_writer_struct {
     data_database_t *database;  /*!< pointer to external database */
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader which may be queried within write-transactions */
 
     pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
     utf8stringbuf_t private_temp_stringbuf;
@@ -45,7 +50,7 @@ typedef struct data_database_writer_struct data_database_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param database pointer to a database object which is used for writing
  */
-void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database );
+void data_database_writer_init ( data_database_writer_t *this_, data_database_reader_t *db_reader, data_database_t *database );
 
 /*!
  *  \brief destroys the data_database_writer_t struct

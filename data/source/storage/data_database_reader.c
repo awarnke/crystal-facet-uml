@@ -234,6 +234,8 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
         result |= DATA_ERROR_AT_MUTEX;
     }
 
+    (*this_).database = NULL;
+
     TRACE_END_ERR(result);
     return result;
 }

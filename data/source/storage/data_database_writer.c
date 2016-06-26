@@ -179,13 +179,14 @@ const char *const DATA_DATABASE_WRITER_SQL_ENCODE[] = {
     NULL,
 };
 
-void data_database_writer_init ( data_database_writer_t *this_, data_database_t *database )
+void data_database_writer_init ( data_database_writer_t *this_, data_database_reader_t *db_reader, data_database_t *database )
 {
     TRACE_BEGIN();
     assert( NULL != database );
     int perr;
 
     (*this_).database = database;
+    (*this_).db_reader = db_reader;
     (*this_).private_temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
     (*this_).private_sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
 
@@ -213,6 +214,9 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     {
         LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
     }
+
+    (*this_).db_reader = NULL;
+    (*this_).database = NULL;
 
     TRACE_END();
 }
@@ -1071,7 +1075,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_classifier is not yet read out! */
     if ( NULL != out_old_classifier )
     {
         data_classifier_init_empty( out_old_classifier );
@@ -1102,7 +1106,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_diagram is not yet read out! */
     if ( NULL != out_old_diagram )
     {
         data_diagram_init_empty( out_old_diagram );
