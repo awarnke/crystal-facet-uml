@@ -1028,11 +1028,16 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagramelement )
+    {
+        result |= data_database_reader_get_diagramelement_by_id ( (*this_).db_reader, obj_id, out_old_diagramelement );
+    }
 
     result |= data_database_writer_private_build_delete_diagramelement_command ( this_, obj_id );
 
@@ -1044,12 +1049,6 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_diagramelement is not yet read out! */
-    if ( NULL != out_old_diagramelement )
-    {
-        data_diagramelement_init_empty( out_old_diagramelement );
-    }
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1058,12 +1057,17 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
     /* Note: This function fails if the classifier is still referenced. */
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, obj_id, out_old_classifier );
+    }
 
     result |= data_database_writer_private_build_delete_classifier_command ( this_, obj_id );
 
@@ -1089,12 +1093,17 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
     /* Note: This function fails if the diagram is still referenced. */
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, obj_id, out_old_diagram );
+    }
 
     result |= data_database_writer_private_build_delete_diagram_command ( this_, obj_id );
 

@@ -20,6 +20,14 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
     "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order;";
 
 /*!
+ *  \brief predefined search statement to find diagrams by classifier-id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
+    "SELECT diagrams.id,parent_id,diagram_type,name,description,list_order "
+    "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
+    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order;";
+
+/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_DIAGRAM_ID_COLUMN = 0;
@@ -109,6 +117,32 @@ static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 7;
  */
 static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 8;
 
+/*!
+ *  \brief predefined search statement to find a diagramelement by id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID[] =
+    "SELECT id,diagram_id,classifier_id,display_flags FROM diagramelements WHERE id=?;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_DIAGRAMELEMENT_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagram_id
+ */
+static const int RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifier_id
+ */
+static const int RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: display_flags
+ */
+static const int RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN = 3;
+
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -161,6 +195,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID ),
+                                                                   &((*this_).private_prepared_query_diagrams_by_classifier_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
                                                                    &((*this_).private_prepared_query_classifier_by_id)
@@ -170,6 +210,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_classifiers_by_diagram_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID ),
+                                                                   &((*this_).private_prepared_query_diagramelement_by_id)
         );
 
         (*this_).is_open = true;
@@ -199,9 +245,13 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_parent_id );
 
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagrams_by_classifier_id );
+
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_id );
 
         (*this_).is_open = false;
     }
@@ -368,6 +418,77 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     return result;
 }
 
+data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
+                                                                  int64_t classifier_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_diagram_t (*out_diagram)[],
+                                                                  uint32_t *out_diagram_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagram_count );
+    assert( NULL != out_diagram );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_diagrams_by_classifier_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
+
+        *out_diagram_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_diagram_count = row_index+1;
+                data_diagram_t *current_diag = &((*out_diagram)[row_index]);
+
+                result |= data_diagram_init( current_diag,
+                                             sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_PARENT_ID_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_DESCRIPTION_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_LIST_ORDER_COLUMN )
+                );
+
+                data_diagram_trace( current_diag );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                LOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        LOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
@@ -429,12 +550,12 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   int64_t diagram_id,
                                                                   uint32_t max_out_array_size,
-                                                                  data_visible_classifier_t (*out_vis_classifier)[],
-                                                                  uint32_t *out_vis_classifier_count )
+                                                                  data_visible_classifier_t (*out_visible_classifier)[],
+                                                                  uint32_t *out_visible_classifier_count )
 {
     TRACE_BEGIN();
-    assert( NULL != out_vis_classifier_count );
-    assert( NULL != out_vis_classifier );
+    assert( NULL != out_visible_classifier_count );
+    assert( NULL != out_visible_classifier );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
@@ -447,7 +568,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 
         result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
-        *out_vis_classifier_count = 0;
+        *out_visible_classifier_count = 0;
         sqlite_err = SQLITE_ROW;
         for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
         {
@@ -460,9 +581,9 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
             {
-                *out_vis_classifier_count = row_index+1;
+                *out_visible_classifier_count = row_index+1;
                 data_visible_classifier_t *current_vis_classifier;
-                current_vis_classifier = &((*out_vis_classifier)[row_index]);
+                current_vis_classifier = &((*out_visible_classifier)[row_index]);
                 data_visible_classifier_init_empty( current_vis_classifier );
 
                 data_classifier_t *current_classifier;
@@ -492,13 +613,68 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                LOG_ERROR_INT( "out_vis_classifier[] full:", (row_index+1) );
+                LOG_ERROR_INT( "out_visible_classifier[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
             {
                 TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
             }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        LOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagramelement );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_diagramelement_by_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, id );
+
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_ROW != sqlite_err )
+        {
+            LOG_ERROR( "sqlite3_step() did not find a row." );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+
+        if ( SQLITE_ROW == sqlite_err )
+        {
+            data_diagramelement_init( out_diagramelement,
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_ID_COLUMN ),
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN ),
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN ),
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN )
+            );
+
+            data_diagramelement_trace( out_diagramelement );
+        }
+
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_DONE != sqlite_err )
+        {
+            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
     else

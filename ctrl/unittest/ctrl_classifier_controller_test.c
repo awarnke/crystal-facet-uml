@@ -13,6 +13,7 @@
 static void set_up(void);
 static void tear_down(void);
 static void create_read_modify_read(void);
+static void create_diagramelements_and_delete(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -38,6 +39,7 @@ TestRef ctrl_classifier_controller_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("create_read_modify_read",create_read_modify_read),
+        new_TestFixture("create_diagramelements_and_delete",create_diagramelements_and_delete),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_classifier_controller_test",set_up,tear_down,fixtures);
 
@@ -144,6 +146,83 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_classifier_description", data_classifier_get_description_ptr( first_classifier ) ) );
     TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( first_classifier ) );
     TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_y_order( first_classifier ) );
+}
+
+static void create_diagramelements_and_delete(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    ctrl_classifier_controller_t *classifier_ctrl;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    int64_t diagram_id;
+    int64_t classifier_id;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    uint32_t read_vis_classifiers_count;
+    data_visible_classifier_t read_vis_classifiers[2];
+    data_diagramelement_t *diag_element_ptr;
+    int64_t diag_element_id;
+    data_diagramelement_t diag_element;
+    uint32_t out_diagram_count;
+    data_diagram_t out_diagram[2];
+    data_small_set_t small_set;
+    data_id_t element_id;
+
+    /* create the root diagram */
+    diagram_id = -1;
+    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, "root_diagram", &diagram_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( -1 != diagram_id );
+
+    /* create a classifier */
+    classifier_id = -1;
+    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl, diagram_id, DATA_CLASSIFIER_TYPE_UML_INTERFACE, "my_if", &classifier_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( -1 != classifier_id );
+
+    /* get the id of the diagramelement */
+    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 2, &read_vis_classifiers, &read_vis_classifiers_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
+    diag_element_ptr = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
+    TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_id( diag_element_ptr ) );
+    TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( diag_element_ptr ) );
+    diag_element_id = data_diagramelement_get_id( diag_element_ptr );
+
+    /* get the data_diagramelement_t by id */
+    data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_id( &diag_element ) );
+    TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( &diag_element ) );
+    TEST_ASSERT_EQUAL_INT( diag_element_id, data_diagramelement_get_id( &diag_element ) );
+
+    /* get all diagrams by classifier id */
+    data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
+    TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_id( &(out_diagram[0]) ) );
+    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagram_get_parent_id( &(out_diagram[0]) ) );
+    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, data_diagram_get_type( &(out_diagram[0]) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "root_diagram", data_diagram_get_name_ptr( &(out_diagram[0]) ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(out_diagram[0]) ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(out_diagram[0]) ) );
+
+    /* delete the diagramelement */
+    data_small_set_init( &small_set );
+    data_id_init( &element_id, DATA_TABLE_DIAGRAMELEMENT, diag_element_id );
+    data_err = data_small_set_add_obj ( &small_set, element_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    ctrl_err = ctrl_classifier_controller_delete_set ( classifier_ctrl, small_set );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* get the deleted data_diagramelement_t */
+    data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diag_element_id, &diag_element );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    /* get all diagrams by classifier id */
+    data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 0, out_diagram_count );
 }
 
 

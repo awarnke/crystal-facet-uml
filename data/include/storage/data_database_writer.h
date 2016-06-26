@@ -248,7 +248,7 @@ data_error_t data_database_writer_private_build_delete_diagram_command ( data_da
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
- *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned
+ *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned. This parameter is important to avoid fetching newly created ids when no record was created.
  *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise
  */

@@ -31,8 +31,10 @@ struct data_database_reader_struct {
     bool is_open;  /*!< the prepared statements are only initialized if the database is open */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
+    sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
+    sqlite3_stmt *private_prepared_query_diagramelement_by_id;
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_reader_db_change_callback */
 };
@@ -100,6 +102,23 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
                                                             );
 
 /*!
+ *  \brief reads all classifier-displaying diagrams from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_diagram array of diagrams read from the database (in case of success)
+ *  \param out_diagram_count number of diagram records stored in out_diagram
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
+                                                                  int64_t classifier_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_diagram_t (*out_diagram)[],
+                                                                  uint32_t *out_diagram_count
+                                                                );
+
+/*!
  *  \brief reads a classifier from the database
  *
  *  \param this_ pointer to own object attributes
@@ -122,9 +141,19 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   int64_t diagram_id,
                                                                   uint32_t max_out_array_size,
-                                                                  data_visible_classifier_t (*out_vis_classifier)[],
-                                                                  uint32_t *out_vis_classifier_count
+                                                                  data_visible_classifier_t (*out_visible_classifier)[],
+                                                                  uint32_t *out_visible_classifier_count
                                                                 );
+
+/*!
+ *  \brief reads a diagramelement from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id the diagramelement to be read from the database
+ *  \param out_diagramelement the diagramelement read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
 
 /*!
  *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
