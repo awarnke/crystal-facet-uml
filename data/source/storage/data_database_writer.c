@@ -1159,7 +1159,6 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID; /* out_old_diagram is not yet read out! */
     if ( NULL != out_old_diagram )
     {
         data_diagram_init_empty( out_old_diagram );

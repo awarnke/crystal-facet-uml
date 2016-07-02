@@ -38,6 +38,7 @@ typedef struct gui_simple_message_to_user_struct gui_simple_message_to_user_t;
  *  \brief initializes the gui_simple_message_to_user_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param res pointer to a resource provider
  */
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res );
 

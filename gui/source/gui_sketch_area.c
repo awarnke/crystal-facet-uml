@@ -136,7 +136,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 12 );
         cairo_show_text ( cr, "To begin, please" );
         cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 2*12 );
-        cairo_show_text ( cr, "create or open a file first." );
+        cairo_show_text ( cr, "create or open a database file first." );
     }
     else
     {

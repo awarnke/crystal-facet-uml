@@ -88,6 +88,12 @@ typedef struct gui_main_window_struct gui_main_window_t;
  *  \brief initializes the main window
  *
  *  \param this_ pointer to own object attributes
+ *  \param controller pointer to a controller object which can modify the database
+ *  \param database pointer to a database object
+ *  \param db_reader pointer to a database reader object
+ *  \param res pointer to a resource provider
+ *  \param window_close_observer observer for a button press on the close window button
+ *  \param window_open_observer observer for a button press on the open window button
  */
 void gui_main_window_init( gui_main_window_t *this_,
                            ctrl_controller_t *controller,

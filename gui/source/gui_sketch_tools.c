@@ -177,8 +177,16 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,
+                                                             NULL
+        );
+    }
+    else if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & ctrl_err ))
+    {
+        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE,
                                                              NULL
         );
     }

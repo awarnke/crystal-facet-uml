@@ -44,6 +44,7 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_sketch_tools_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param controller pointer to a controller object which can modify the database
  */
 void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *marker, gui_simple_message_to_user_t *message_to_user, ctrl_controller_t *controller );
 

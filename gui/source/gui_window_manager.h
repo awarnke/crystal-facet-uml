@@ -47,6 +47,8 @@ typedef struct gui_window_manager_struct gui_window_manager_t;
  *  \brief starts window manager
  *
  *  \param this_ pointer to own object attributes
+ *  \param controller pointer to a controller object which can modify the database
+ *  \param database pointer to a database object
  */
 void gui_window_manager_init( gui_window_manager_t *this_, ctrl_controller_t *controller, data_database_t *database );
 

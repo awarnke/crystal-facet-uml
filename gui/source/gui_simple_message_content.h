@@ -18,6 +18,7 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_MAX_WINDOWS_ALREADY_OPEN,  /*!< the maximum number of windows is already open */
     GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,  /*!< a stringlength is exceeded, a string was truncated */
     GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,  /*!< nothing is selected, action could not be performed */
+    GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE,  /*!< some objects could not be deleted because they are still referenced */
 
     GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };

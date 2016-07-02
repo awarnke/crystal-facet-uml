@@ -47,6 +47,8 @@ void gui_sketch_card_destroy ( gui_sketch_card_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to load
+ *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
 
@@ -68,6 +70,7 @@ static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ );
  *  \brief gets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes
+ *  \return returns the bounding box of this sketch card
  */
 static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ );
 
@@ -75,6 +78,7 @@ static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_
  *  \brief sets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes
+ *  \param bounds bounding box of this sketch card
  */
 static inline void gui_sketch_card_set_bounds( gui_sketch_card_t *this_, shape_int_rectangle_t bounds );
 
@@ -82,6 +86,7 @@ static inline void gui_sketch_card_set_bounds( gui_sketch_card_t *this_, shape_i
  *  \brief gets the visible flag
  *
  *  \param this_ pointer to own object attributes
+ *  \return true if this sketch card is currently visible
  */
 static inline bool gui_sketch_card_is_visible( gui_sketch_card_t *this_ );
 
@@ -89,6 +94,7 @@ static inline bool gui_sketch_card_is_visible( gui_sketch_card_t *this_ );
  *  \brief sets the visible flag
  *
  *  \param this_ pointer to own object attributes
+ *  \param visible true if this card is currently visible, false otherwise
  */
 static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool visible );
 

@@ -13,10 +13,10 @@
  */
 enum gui_simple_message_type_enum {
     GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE,  /*!< there is no valid message in the message object */
-    GUI_SIMPLE_MESSAGE_TYPE_INFO,
-    GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-    GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-    GUI_SIMPLE_MESSAGE_TYPE_ABOUT,
+    GUI_SIMPLE_MESSAGE_TYPE_INFO,   /*!< an information to the user, e.g. a success message */
+    GUI_SIMPLE_MESSAGE_TYPE_WARNING,  /*!< some action may possibly not have the indended result */
+    GUI_SIMPLE_MESSAGE_TYPE_ERROR,  /*!< some action failed */
+    GUI_SIMPLE_MESSAGE_TYPE_ABOUT,  /*!< the "about" information */
 };
 
 typedef enum gui_simple_message_type_enum gui_simple_message_type_t;

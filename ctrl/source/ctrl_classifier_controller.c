@@ -153,16 +153,19 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                     /* see step two */
                 }
                 break;
+
                 case DATA_TABLE_FEATURE:
                 {
-                    result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
                 }
                 break;
+
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    result = CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
                 }
                 break;
+
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
                     data_error_t current_result;
@@ -186,11 +189,13 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                     }
                 }
                 break;
+
                 case DATA_TABLE_DIAGRAM:
                 {
                     /* see step two */
                 }
                 break;
+
                 default:
                 {
                     result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
@@ -213,27 +218,32 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                     result |= data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier );
                 }
                 break;
+
                 case DATA_TABLE_FEATURE:
                 {
                     /* see step one */
                 }
                 break;
+
                 case DATA_TABLE_RELATIONSHIP:
                 {
                     /* see step one */
                 }
                 break;
+
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
                     /* see step one */
                 }
                 break;
+
                 case DATA_TABLE_DIAGRAM:
                 {
                     data_diagram_t old_diagram;
                     result |= data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
                 }
                 break;
+
                 default:
                 {
                     /* see step one */
