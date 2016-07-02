@@ -562,6 +562,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     if ( evt->button == 1 ) {
         TRACE_INFO("press");
 
+        gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
+
         int32_t x;
         int32_t y;
         x = (int32_t) evt->x;
