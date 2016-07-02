@@ -15,6 +15,41 @@ static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ 
     (*this_).listener = NULL;
 }
 
+static inline gui_sketch_tools_tool_t gui_sketch_tools_set_selected_tool ( gui_sketch_tools_t *this_, gui_sketch_tools_tool_t tool )
+{
+    switch ( tool )
+    {
+        case GUI_SKETCH_TOOLS_NAVIGATE:
+        {
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_EDIT:
+        {
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+        {
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_view ), true );
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+        {
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_obj ), true );
+        }
+        break;
+
+        default:
+        {
+            LOG_ERROR( "invalid enum value" );
+        }
+        break;
+    }
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

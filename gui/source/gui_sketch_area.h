@@ -66,6 +66,8 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_sketch_area_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param marker pointer to an object which references all focused, highlichted and selected ojects
+ *  \param tools pointer to an object which represents the tool buttons
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
  *  \param res pointer to a resource provider

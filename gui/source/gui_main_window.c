@@ -131,7 +131,15 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).toolbar = gtk_toolbar_new ();
 
     gui_sketch_marker_init( &((*this_).sketchmarker_data) );
-    gui_sketch_tools_init( &((*this_).sketchtools_data), &((*this_).sketchmarker_data), &((*this_).message_to_user), controller );
+    gui_sketch_tools_init( &((*this_).sketchtools_data),
+                           (*this_).tool_navigate,
+                           (*this_).tool_edit,
+                           (*this_).tool_new_obj,
+                           (*this_).tool_new_view,
+                           &((*this_).sketchmarker_data),
+                           &((*this_).message_to_user),
+                           controller
+    );
 
     /* init sketch area */
 

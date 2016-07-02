@@ -34,6 +34,11 @@ struct gui_sketch_tools_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;
+
+    GtkToolItem *tool_navigate;  /* pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_edit;  /* pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_new_obj;  /* pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_new_view;  /* pointer to external GtkRadioToolButton */
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
@@ -46,7 +51,15 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
  */
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *marker, gui_simple_message_to_user_t *message_to_user, ctrl_controller_t *controller );
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
+                             GtkToolItem *tool_navigate,
+                             GtkToolItem *tool_edit,
+                             GtkToolItem *tool_new_obj,
+                             GtkToolItem *tool_new_view,
+                             gui_sketch_marker_t *marker,
+                             gui_simple_message_to_user_t *message_to_user,
+                             ctrl_controller_t *controller
+                           );
 
 /*!
  *  \brief destroys the gui_sketch_tools_t struct
@@ -61,6 +74,14 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief sets the selected tool
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param tool tool to be selected
+ */
+static inline gui_sketch_tools_tool_t gui_sketch_tools_set_selected_tool ( gui_sketch_tools_t *this_, gui_sketch_tools_tool_t tool );
 
 /*!
  *  \brief callback that informs that the tool button was pressed

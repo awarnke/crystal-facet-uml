@@ -120,9 +120,10 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
         cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 12 );
+        cairo_set_font_size ( cr, 12.0 );
+        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 14 );
         cairo_show_text ( cr, "Welcome to" );
-        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 2*12 );
+        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 2*14 );
         cairo_show_text ( cr, "crystal facet uml" );
 
         GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
@@ -133,9 +134,9 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_fill (cr);
 
         cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 12 );
+        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 14 );
         cairo_show_text ( cr, "To begin, please" );
-        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 2*12 );
+        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 2*14 );
         cairo_show_text ( cr, "create or open a database file first." );
     }
     else
@@ -704,6 +705,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
                     gui_sketch_area_private_notify_listener( this_ );
                     gui_sketch_marker_clear_selected_set( (*this_).marker );
+
+                    /* change the selected tool */
+                    gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_CREATE_OBJECT );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );

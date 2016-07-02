@@ -11,7 +11,14 @@ static bool gui_sketch_tools_glib_signal_initialized = false;
 static guint gui_sketch_tools_glib_signal_id = 0;
 const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *marker, gui_simple_message_to_user_t *message_to_user, ctrl_controller_t *controller )
+void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
+                             GtkToolItem *tool_navigate,
+                             GtkToolItem *tool_edit,
+                             GtkToolItem *tool_new_obj,
+                             GtkToolItem *tool_new_view,
+                             gui_sketch_marker_t *marker,
+                             gui_simple_message_to_user_t *message_to_user,
+                             ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
     assert( NULL != message_to_user );
@@ -21,6 +28,10 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_, gui_sketch_marker_t *mar
     (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
     (*this_).controller = controller;
+    (*this_).tool_navigate = tool_navigate;
+    (*this_).tool_edit = tool_edit;
+    (*this_).tool_new_obj = tool_new_obj;
+    (*this_).tool_new_view = tool_new_view;
 
     /* define a new signal */
     if ( ! gui_sketch_tools_glib_signal_initialized )
@@ -52,6 +63,10 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
     (*this_).listener = NULL;
     (*this_).marker = NULL;
     (*this_).message_to_user = NULL;
+    (*this_).tool_navigate = NULL;
+    (*this_).tool_edit = NULL;
+    (*this_).tool_new_obj = NULL;
+    (*this_).tool_new_view = NULL;
 
     TRACE_END();
 }
