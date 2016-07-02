@@ -215,6 +215,14 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
  */
 void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id );
 
+/*!
+ *  \brief checks if the database reader is open
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the database reader is open
+ */
+static inline bool data_database_reader_is_open( data_database_reader_t *this_ );
+
 #include "storage/data_database_reader.inl"
 
 #endif  /* DATA_DATABASE_READER_H */

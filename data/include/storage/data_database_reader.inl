@@ -103,6 +103,16 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
     return result;
 }
 
+static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
+{
+    bool result;
+    data_error_t locking_error;
+    locking_error = data_database_reader_private_lock( this_ );
+    result = (*this_).is_open;
+    locking_error |= data_database_reader_private_unlock( this_ );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

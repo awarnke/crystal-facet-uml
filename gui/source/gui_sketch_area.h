@@ -18,6 +18,7 @@
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
 #include "gui_sketch_marker.h"
+#include "gui_resources.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -39,6 +40,7 @@ enum gui_sketch_area_const_enum {
 struct gui_sketch_area_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
+    gui_resources_t *res;  /*!< pointer to external resources */
 
     bool mark_active;
     int32_t mark_start_x;
@@ -65,7 +67,13 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_area_init ( gui_sketch_area_t *this_, gui_sketch_marker_t *marker, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader );
+void gui_sketch_area_init ( gui_sketch_area_t *this_,
+                            gui_sketch_marker_t *marker,
+                            gui_sketch_tools_t *tools,
+                            gui_resources_t *res,
+                            ctrl_controller_t *controller,
+                            data_database_reader_t *db_reader
+                          );
 
 /*!
  *  \brief destroys the gui_sketch_area_t struct

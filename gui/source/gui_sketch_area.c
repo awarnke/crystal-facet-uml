@@ -16,15 +16,20 @@ static bool gui_sketch_area_glib_signal_initialized = false;
 static guint gui_sketch_area_glib_signal_id = 0;
 const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
-void gui_sketch_area_init( gui_sketch_area_t *this_, gui_sketch_marker_t *marker, gui_sketch_tools_t *tools, ctrl_controller_t *controller, data_database_reader_t *db_reader )
+void gui_sketch_area_init( gui_sketch_area_t *this_,
+                           gui_sketch_marker_t *marker,
+                           gui_sketch_tools_t *tools,
+                           gui_resources_t *res,
+                           ctrl_controller_t *controller,
+                           data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
 
     (*this_).mark_active = false;
     (*this_).tools = tools;
+    (*this_).res = res;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
-    (*this_).tools = tools;
     (*this_).card_num = 0;
     for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
     {
@@ -74,6 +79,10 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     }
 
     (*this_).marker = NULL;
+    (*this_).tools = NULL;
+    (*this_).res = NULL;
+    (*this_).db_reader = NULL;
+    (*this_).controller = NULL;
 
     TRACE_END();
 }
@@ -92,9 +101,42 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     if (( width < 48 )||( height < 48 )) {
         /* window is too small, output a dark-grey rectangle */
 
-	cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-        cairo_rectangle ( cr, 0, 0, width, height );
+    }
+    else if ( ! data_database_reader_is_open( (*this_).db_reader ) )
+    {
+        cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, 0, 0, 64, height );
         cairo_fill (cr);
+
+        cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 1.0 );
+        cairo_rectangle ( cr, 64, 0, width-64, height );
+        cairo_fill (cr);
+
+        GdkPixbuf *cfu_icon = gui_resources_get_crystal_facet_uml( (*this_).res );
+        double cfu_icon_width = gdk_pixbuf_get_width ( cfu_icon );
+        double cfu_icon_height = gdk_pixbuf_get_height ( cfu_icon );
+        gdk_cairo_set_source_pixbuf( cr, cfu_icon, 72.0, 48.0 );
+        cairo_rectangle ( cr, 72, 48, 72 + cfu_icon_width, 48 + cfu_icon_height );
+        cairo_fill (cr);
+
+        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 12 );
+        cairo_show_text ( cr, "Welcome to" );
+        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 2*12 );
+        cairo_show_text ( cr, "crystal facet uml" );
+
+        GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
+        double use_db_icon_width = gdk_pixbuf_get_width ( use_db_icon );
+        double use_db_icon_height = gdk_pixbuf_get_height ( use_db_icon );
+        gdk_cairo_set_source_pixbuf( cr, use_db_icon, 72.0, 96.0 );
+        cairo_rectangle ( cr, 72, 96, 72 + use_db_icon_width, 96 + use_db_icon_height );
+        cairo_fill (cr);
+
+        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 12 );
+        cairo_show_text ( cr, "To begin, please" );
+        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 2*12 );
+        cairo_show_text ( cr, "create or open a file first." );
     }
     else
     {
