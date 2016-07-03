@@ -1,4 +1,5 @@
-
+2016-0x-xx v005 [xxxxxxx]
+  + ...
 2016-07-03 v004 [09e8ac4]
   + The user can delete classifiers and diagrams
   - DB format incompatible to version 0.03 (alt: in diagramelements, manually create the column "display_flags" as INTEGER)
