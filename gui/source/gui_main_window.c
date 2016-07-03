@@ -181,6 +181,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
     );
+    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1_sqlite3" );
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Filename Prefix",
                                                                  GTK_WINDOW( (*this_).window ),
                                                                  GTK_FILE_CHOOSER_ACTION_SAVE,

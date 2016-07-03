@@ -1,11 +1,11 @@
 
-2016-xx-xx v004 [xxxxxxx]
-  + xxx
+2016-07-03 v004 [xxxxxxx]
+  + The user can delete classifiers and diagrams
   - DB format incompatible to version 0.03 (alt: in diagramelements, manually create the column "display_flags" as INTEGER)
 2016-05-22 v003 [e0c0196]
   + The user can select and switch the database file
 2016-05-01 v002 [1d03746]
-  + Classifiers like Classes can be created and renamed
+  + The user can create and rename classifiers like classes
   - DB format incompatible to version 0.01
 2016-03-31 v001 [b8be2b]
-  + Diagrams can be created, renamed and navigated
+  + The user can create, rename and navigate diagrams
