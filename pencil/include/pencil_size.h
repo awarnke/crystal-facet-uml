@@ -10,6 +10,7 @@
  */
 
 #include <cairo.h>
+#include <gdk/gdk.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -17,11 +18,15 @@
  *  \brief attributes of the pencil_input_data_t
  */
 struct pencil_size_struct {
-    double standard_font_size;
-    double bigger_font_size;
-    double standard_line_width;
-    double bold_line_width;
-    double standard_object_border;
+    double standard_font_size;  /*! text size of standard text */
+    double larger_font_size;  /*! text size of larger text */
+    double standard_line_width;  /*! line width of standard lines */
+    double bold_line_width;  /*! line width of bold lines */
+    double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
+    GdkRGBA standard_color;  /*!< color of all standard objects */
+    GdkRGBA selected_color;  /*!< color of all selected objects */
+    GdkRGBA highlighted_color;  /*!< color of the highlighted/mouse over object */
+    GdkRGBA focused_color;  /*!< color of the one focused object */
 };
 
 typedef struct pencil_size_struct pencil_size_t;
@@ -46,6 +51,69 @@ static inline void pencil_size_destroy( pencil_size_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void pencil_size_reinit( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: standard_font_size
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: larger_font_size
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: standard_line_width
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_standard_line_width( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: bold_line_width
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_bold_line_width( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: standard_object_border
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_standard_object_border( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: standard_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_standard_color( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: selected_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_selected_color( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: highlighted_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_highlighted_color( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: focused_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_focused_color( pencil_size_t *this_ );
 
 #include "pencil_size.inl"
 

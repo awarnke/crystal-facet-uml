@@ -28,6 +28,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
                                       data_small_set_t *mark_selected,
+                                      pencil_size_t *pencil_size,
                                       cairo_t *cr,
                                       geometry_rectangle_t destination )
 {

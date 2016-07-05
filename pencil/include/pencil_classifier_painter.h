@@ -11,6 +11,7 @@
 
 #include "pencil_input_data.h"
 #include "pencil_private_marker.h"
+#include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "data_small_set.h"
@@ -49,6 +50,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param mark_focused id of the object that is to be marked as "focused"
  *  \param mark_highlighted id of the object that is to be marked as "highlighted"
  *  \param mark_selected set of objects that are to be marked as "selected"
+ *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  *  \param destination the destination rectangle where to draw the diagram
  */
@@ -57,6 +59,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
                                       data_small_set_t *mark_selected,
+                                      pencil_size_t *pencil_size,
                                       cairo_t *cr,
                                       geometry_rectangle_t destination
                                     );

@@ -1,6 +1,7 @@
 /* File: pencil_diagram_painter.c; Copyright and License: see below */
 
 #include "pencil_diagram_painter.h"
+#include "pencil_size.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -37,6 +38,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
 
     double left, top, right, bottom;
     double width, height;
+    pencil_size_t pencil_size;
 
     left = geometry_rectangle_get_left ( &destination );
     top = geometry_rectangle_get_top ( &destination );
@@ -44,6 +46,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     bottom = geometry_rectangle_get_bottom ( &destination );
     width = geometry_rectangle_get_width ( &destination );
     height = geometry_rectangle_get_height ( &destination );
+    pencil_size_init( &pencil_size );
 
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
@@ -100,6 +103,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                          mark_focused,
                                          mark_highlighted,
                                          mark_selected,
+                                         &pencil_size,
                                          cr,
                                          classifier_bounds
                                        );
@@ -124,6 +128,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         }
     }
 
+    pencil_size_destroy( &pencil_size );
     TRACE_END();
 }
 
