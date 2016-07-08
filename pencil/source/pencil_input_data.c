@@ -61,7 +61,7 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         pencil_input_data_private_destroy_visible_classifiers( this_ );
         db_err = data_database_reader_get_classifiers_by_diagram_id ( db_reader,
                                                                       diagram_id,
-                                                                      GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS,
+                                                                      PENCIL_INPUT_DATA_MAX_CLASSIFIERS,
                                                                       &((*this_).visible_classifiers),
                                                                       &((*this_).visible_classifier_count)
                                                                     );

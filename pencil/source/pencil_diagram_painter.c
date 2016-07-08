@@ -38,7 +38,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
 
     double left, top, right, bottom;
     double width, height;
-    pencil_size_t pencil_size;
+    pencil_size_t pencil_size_object;
+    pencil_size_t *pencil_size = &pencil_size_object;
 
     left = geometry_rectangle_get_left ( &destination );
     top = geometry_rectangle_get_top ( &destination );
@@ -46,45 +47,59 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     bottom = geometry_rectangle_get_bottom ( &destination );
     width = geometry_rectangle_get_width ( &destination );
     height = geometry_rectangle_get_height ( &destination );
-    pencil_size_init( &pencil_size );
+    pencil_size_init( pencil_size, width, height );
 
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double f_size = pencil_size_get_standard_font_size( pencil_size );
+    double f_ascent = pencil_size_get_standard_font_ascent( pencil_size );
+    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
     /* draw diagram border and name */
     {
         data_diagram_t *diag;
         diag = pencil_input_data_get_diagram_ptr( input_data );
         TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(diag));
+
+        double std_line_width = pencil_size_get_standard_line_width( pencil_size );
+        cairo_set_line_width( cr, std_line_width );
         if ( data_diagram_is_valid(diag) )
         {
-
             /* draw border line */
             if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ))
             {
-                cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
+                GdkRGBA highlight_color;
+                highlight_color = pencil_size_get_highlight_color( pencil_size );
+                cairo_set_source_rgba( cr, highlight_color.red, highlight_color.green, highlight_color.blue, highlight_color.alpha );
             }
             else
             {
-                cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+                GdkRGBA standard_color;
+                standard_color = pencil_size_get_standard_color( pencil_size );
+                cairo_set_source_rgba( cr, standard_color.red, standard_color.green, standard_color.blue, standard_color.alpha );
             }
-            cairo_rectangle ( cr, left+2.0, top+2.0, width-4.0, height-4.0 );
+            cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
             cairo_stroke (cr);
 
             /* draw title corner */
-            cairo_move_to ( cr, left+2.0, top+2.0+14.0 );
-            cairo_line_to ( cr, left+(width/3.0), top+2.0+14.0 );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0+14.0-4.0 );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+2.0 );
+            cairo_move_to ( cr, left+gap, top+gap+f_size+f_line_gap );
+            cairo_line_to ( cr, left+(width/3.0), top+gap+f_size+f_line_gap );
+            cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap+f_size+f_line_gap-4.0 );
+            cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap );
             cairo_stroke (cr);
 
-            cairo_move_to ( cr, left+4.0, top+2.0+10.0 );
+            cairo_set_font_size ( cr, f_size );
+            cairo_move_to ( cr, left+2.0*gap, top+gap+f_ascent+f_line_gap );
             cairo_show_text ( cr, data_diagram_get_name_ptr( diag ) );
         }
         else
         {
             /* draw cross line */
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+            GdkRGBA standard_color;
+            standard_color = pencil_size_get_standard_color( pencil_size );
+            cairo_set_source_rgba( cr, standard_color.red, standard_color.green, standard_color.blue, standard_color.alpha );
             cairo_move_to ( cr, left, top );
             cairo_line_to ( cr, right, bottom );
             cairo_move_to ( cr, left, bottom );
@@ -93,17 +108,19 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         }
     }
 
+    double tenth_width = width / 10.0;
+
     /* draw all contained classifiers */
     if (( width > 10.0 ) && ( height > 25.0 ))
     {
         geometry_rectangle_t classifier_bounds;
-        geometry_rectangle_init ( &classifier_bounds, left + 5.0, top + 20.0, width - 10.0, height - 25.0 );
+        geometry_rectangle_init ( &classifier_bounds, left + 2.0 * gap + tenth_width, top + 2.0 * gap + f_size + f_line_gap, width - 4.0 * gap - 2.0 * tenth_width, height - 4.0 * gap - f_size - f_line_gap );
         pencil_classifier_painter_draw ( &((*this_).classifier_painter),
                                          input_data,
                                          mark_focused,
                                          mark_highlighted,
                                          mark_selected,
-                                         &pencil_size,
+                                         pencil_size,
                                          cr,
                                          classifier_bounds
                                        );
@@ -122,13 +139,13 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
             geometry_rectangle_t selected_rect;
-            geometry_rectangle_init( &selected_rect, left+2.0, top+2.0, width-4.0, height-4.0 );
+            geometry_rectangle_init( &selected_rect, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
             pencil_private_marker_mark_selected_rectangle( &((*this_).marker), selected_rect, cr );
             geometry_rectangle_destroy( &selected_rect );
         }
     }
 
-    pencil_size_destroy( &pencil_size );
+    pencil_size_destroy( pencil_size );
     TRACE_END();
 }
 
@@ -144,15 +161,24 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
     data_id_t result;
     data_diagram_t *diag;
     diag = pencil_input_data_get_diagram_ptr( input_data );
+    pencil_size_t pencil_size_object;
+    pencil_size_t *pencil_size = &pencil_size_object;
+    pencil_size_init( pencil_size, geometry_rectangle_get_width( &diagram_bounds ), geometry_rectangle_get_height( &diagram_bounds ) );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double f_size = pencil_size_get_standard_font_size( pencil_size );
+    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    double width = geometry_rectangle_get_width ( &diagram_bounds );
+    double tenth_width = width / 10.0;
 
     if ( geometry_rectangle_contains( &diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
     {
         geometry_rectangle_t classifier_bounds;
         geometry_rectangle_init( &classifier_bounds,
-                                 geometry_rectangle_get_left ( &diagram_bounds ) + 5.0,
-                                 geometry_rectangle_get_top ( &diagram_bounds ) + 20.0,
-                                 geometry_rectangle_get_width ( &diagram_bounds ) - 10.0,
-                                 geometry_rectangle_get_height ( &diagram_bounds ) - 25.0
+                                 geometry_rectangle_get_left ( &diagram_bounds ) + 2.0 * gap + tenth_width,
+                                 geometry_rectangle_get_top ( &diagram_bounds ) + 2.0 * gap + f_size + f_line_gap,
+                                 geometry_rectangle_get_width ( &diagram_bounds ) - 4.0 * gap - 2.0 * tenth_width,
+                                 geometry_rectangle_get_height ( &diagram_bounds ) - 2.0 * gap - f_size - f_line_gap
                                );
 
         result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds, dereference );

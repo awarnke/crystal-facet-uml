@@ -20,7 +20,7 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
 
 static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ )
 {
-    assert( (*this_).visible_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
@@ -37,7 +37,7 @@ static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_i
 
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
-    assert( (*this_).visible_classifier_count <= GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
     data_visible_classifier_t *result;
     if ( index < (*this_).visible_classifier_count )

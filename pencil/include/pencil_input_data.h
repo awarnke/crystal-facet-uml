@@ -20,7 +20,7 @@
  *  \brief constants for maximum values of pencil_input_data_t
  */
 enum pencil_input_data_max_enum {
-    GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS = 256,  /*!< maximum number of classifiers to be shown in one single diagram */
+    PENCIL_INPUT_DATA_MAX_CLASSIFIERS = 256,  /*!< maximum number of classifiers to be shown in one single diagram */
 };
 
 /*!
@@ -29,7 +29,7 @@ enum pencil_input_data_max_enum {
 struct pencil_input_data_struct {
     data_diagram_t diagram;  /*!< the diagram record */
     uint32_t visible_classifier_count;  /*!< number of all contained visible classifier records */
-    data_visible_classifier_t visible_classifiers[GUI_SKETCH_AREA_CONST_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
+    data_visible_classifier_t visible_classifiers[PENCIL_INPUT_DATA_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;

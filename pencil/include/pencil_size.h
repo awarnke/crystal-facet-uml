@@ -15,6 +15,13 @@
 #include <stdbool.h>
 
 /*!
+ *  \brief constants for values of pencil_size_t
+ */
+enum pencil_size_const_enum {
+    PENCIL_SIZE_CONST_ASCENT_PERCENT = 75,  /*!< percent of ascent above the baseline realtive to total font-size */
+};
+
+/*!
  *  \brief attributes of the pencil_input_data_t
  */
 struct pencil_size_struct {
@@ -24,9 +31,9 @@ struct pencil_size_struct {
     double bold_line_width;  /*! line width of bold lines */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
     GdkRGBA standard_color;  /*!< color of all standard objects */
-    GdkRGBA selected_color;  /*!< color of all selected objects */
-    GdkRGBA highlighted_color;  /*!< color of the highlighted/mouse over object */
-    GdkRGBA focused_color;  /*!< color of the one focused object */
+    GdkRGBA select_color;  /*!< color of all selected objects */
+    GdkRGBA highlight_color;  /*!< color of the highlighted/mouse over object */
+    GdkRGBA focus_color;  /*!< color of the one focused object */
 };
 
 typedef struct pencil_size_struct pencil_size_t;
@@ -35,8 +42,10 @@ typedef struct pencil_size_struct pencil_size_t;
  *  \brief initializes the size values
  *
  *  \param this_ pointer to own object attributes
+ *  \param width of the area where to draw the diagram
+ *  \param height of the area where to draw the diagram
  */
-static inline void pencil_size_init( pencil_size_t *this_ );
+static inline void pencil_size_init( pencil_size_t *this_, double width, double height );
 
 /*!
  *  \brief destroys the pencil_size_t
@@ -49,8 +58,10 @@ static inline void pencil_size_destroy( pencil_size_t *this_ );
  *  \brief re-initializes the pencil_size_t
  *
  *  \param this_ pointer to own object attributes
+ *  \param width of the area where to draw the diagram
+ *  \param height of the area where to draw the diagram
  */
-static inline void pencil_size_reinit( pencil_size_t *this_ );
+static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height  );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_font_size
@@ -60,11 +71,32 @@ static inline void pencil_size_reinit( pencil_size_t *this_ );
 static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ );
 
 /*!
+ *  \brief determines the fraction of font-size that is above the baseline
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_standard_font_ascent( pencil_size_t *this_ );
+
+/*!
  *  \brief gets the attribute of pencil_size_t: larger_font_size
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ );
+
+/*!
+ *  \brief determines the fraction of font-size that is above the baseline
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_larger_font_ascent( pencil_size_t *this_ );
+
+/*!
+ *  \brief determines the gap between font lines
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_font_line_gap( pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_line_width
@@ -95,25 +127,25 @@ static inline double pencil_size_get_standard_object_border( pencil_size_t *this
 static inline GdkRGBA pencil_size_get_standard_color( pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: selected_color
+ *  \brief gets the attribute of pencil_size_t: select_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_selected_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_select_color( pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: highlighted_color
+ *  \brief gets the attribute of pencil_size_t: highlight_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_highlighted_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_highlight_color( pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: focused_color
+ *  \brief gets the attribute of pencil_size_t: focus_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_focused_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_focus_color( pencil_size_t *this_ );
 
 #include "pencil_size.inl"
 
