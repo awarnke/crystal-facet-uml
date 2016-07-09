@@ -1,5 +1,7 @@
 /* File: data_relationship.inl; Copyright and License: see below */
 
+#include "data_id.h"
+
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

@@ -1,5 +1,10 @@
 /* File: data_classifier.inl; Copyright and License: see below */
 
+#include "data_id.h"
+#include "trace.h"
+#include "log.h"
+#include <assert.h>
+
 static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                       data_classifier_type_t main_type,
                                                       const char* stereotype,

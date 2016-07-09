@@ -1,7 +1,8 @@
 /* File: data_diagram.inl; Copyright and License: see below */
 
-#include "log.h"
 #include "trace.h"
+#include "log.h"
+#include <assert.h>
 
 static inline data_error_t data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
 {

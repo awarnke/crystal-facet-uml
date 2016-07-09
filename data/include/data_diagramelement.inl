@@ -1,5 +1,10 @@
 /* File: data_diagramelement.inl; Copyright and License: see below */
 
+#include "data_id.h"
+#include "trace.h"
+#include "log.h"
+#include <assert.h>
+
 static inline void data_diagramelement_init_empty ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

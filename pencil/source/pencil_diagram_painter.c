@@ -36,17 +36,15 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
 {
     TRACE_BEGIN();
 
-    double left, top, right, bottom;
-    double width, height;
     pencil_size_t pencil_size_object;
     pencil_size_t *pencil_size = &pencil_size_object;
 
-    left = geometry_rectangle_get_left ( &destination );
-    top = geometry_rectangle_get_top ( &destination );
-    right = geometry_rectangle_get_right ( &destination );
-    bottom = geometry_rectangle_get_bottom ( &destination );
-    width = geometry_rectangle_get_width ( &destination );
-    height = geometry_rectangle_get_height ( &destination );
+    double left = geometry_rectangle_get_left ( &destination );
+    double top = geometry_rectangle_get_top ( &destination );
+    double right = geometry_rectangle_get_right ( &destination );
+    double bottom = geometry_rectangle_get_bottom ( &destination );
+    double width = geometry_rectangle_get_width ( &destination );
+    double height = geometry_rectangle_get_height ( &destination );
     pencil_size_init( pencil_size, width, height );
 
     TRACE_INFO_INT( "w", (int)(width) );
@@ -173,12 +171,17 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
 
     if ( geometry_rectangle_contains( &diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
     {
+        double left = geometry_rectangle_get_left ( &diagram_bounds );
+        double top = geometry_rectangle_get_top ( &diagram_bounds );
+        double width = geometry_rectangle_get_width ( &diagram_bounds );
+        double height = geometry_rectangle_get_height ( &diagram_bounds );
+
         geometry_rectangle_t classifier_bounds;
         geometry_rectangle_init( &classifier_bounds,
-                                 geometry_rectangle_get_left ( &diagram_bounds ) + 2.0 * gap + tenth_width,
-                                 geometry_rectangle_get_top ( &diagram_bounds ) + 2.0 * gap + f_size + f_line_gap,
-                                 geometry_rectangle_get_width ( &diagram_bounds ) - 4.0 * gap - 2.0 * tenth_width,
-                                 geometry_rectangle_get_height ( &diagram_bounds ) - 2.0 * gap - f_size - f_line_gap
+                                 left + 2.0 * gap + tenth_width,
+                                 top + 2.0 * gap + f_size + f_line_gap,
+                                 width - 4.0 * gap - 2.0 * tenth_width,
+                                 height - 4.0 * gap - f_size - f_line_gap
                                );
 
         result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds, dereference );
