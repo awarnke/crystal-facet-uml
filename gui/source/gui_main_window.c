@@ -5,6 +5,7 @@
 #include "gui_sketch_area.h"
 #include "trace.h"
 #include "storage/data_change_notifier.h"
+#include "meta/meta_info.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -30,7 +31,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).window = gtk_window_new(GTK_WINDOW_TOPLEVEL);
     const char *window_title;
     window_title = data_database_get_filename_ptr( database );
-    gtk_window_set_title(GTK_WINDOW((*this_).window), ( window_title == NULL ) ? "crystal facet uml" : window_title );
+    gtk_window_set_title(GTK_WINDOW((*this_).window), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
     gtk_widget_set_size_request((*this_).window, 810, 600);
 
     (*this_).layout = gtk_grid_new();
@@ -411,7 +412,7 @@ void gui_main_window_data_changed_callback( GtkWidget *window, data_id_t *id, gp
         const char *filename = data_database_get_filename_ptr( (*this_).database );
         if ( NULL == filename )
         {
-            gtk_window_set_title(GTK_WINDOW((*this_).window), "crystal facet uml" );
+            gtk_window_set_title(GTK_WINDOW((*this_).window), META_INFO_PROGRAM_NAME_STR );
         }
         else
         {

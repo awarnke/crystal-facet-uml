@@ -1,7 +1,7 @@
-/* File: version.h; Copyright and License: see below */
+/* File: meta_info.h; Copyright and License: see below */
 
-#ifndef VERSION_H
-#define VERSION_H
+#ifndef META_INFO_H
+#define META_INFO_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -9,9 +9,10 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_VERSION_VERSION_STR "v005"
+#define META_INFO_VERSION_STR "0.05"
+#define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 
-#endif  /* VERSION_H */
+#endif  /* META_INFO_H */
 
 
 /*

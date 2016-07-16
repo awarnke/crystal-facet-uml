@@ -7,6 +7,7 @@
 #include "data_id.h"
 #include "trace.h"
 #include "log.h"
+#include "meta/meta_info.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
@@ -124,7 +125,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 14 );
         cairo_show_text ( cr, "Welcome to" );
         cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 2*14 );
-        cairo_show_text ( cr, "crystal facet uml" );
+        cairo_show_text ( cr, META_INFO_PROGRAM_NAME_STR );
 
         GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
         double use_db_icon_width = gdk_pixbuf_get_width ( use_db_icon );
