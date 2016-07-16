@@ -104,7 +104,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                     utf8stringbuf_append_str( stereotype_buf, ">>" );
                     if ( utf8stringbuf_get_length( stereotype_buf ) == 4 )
                     {
-                        cairo_set_font_size ( cr, std_font_size );
+                        cairo_set_font_size ( cr, big_font_size );
                         cairo_move_to ( cr, left+2.0*gap, box_top+gap+f_line_gap+f_std_ascent );
                         cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
                     }

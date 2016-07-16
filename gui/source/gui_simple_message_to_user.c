@@ -3,6 +3,7 @@
 #include "gui_simple_message_to_user.h"
 #include "trace.h"
 #include "log.h"
+#include "meta/version.h"
 #include <assert.h>
 
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
@@ -108,7 +109,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
             {
                 utf8stringbuf_append_str( (*this_).content,
-                                          "This is crystal_facet_uml version v005\n"
+                                          "This is crystal_facet_uml version " META_VERSION_VERSION_STR "\n"
                                           "License: Apache 2.0\n"
                                           "Author+Copyright: 2016-2016 Andreas Warnke" );
             }

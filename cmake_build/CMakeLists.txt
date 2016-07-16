@@ -1,9 +1,12 @@
 PROJECT(crystal_facet_uml)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+INCLUDE(CPack)
+
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic" )
 INCLUDE_DIRECTORIES(../gui/source)
 INCLUDE_DIRECTORIES(../gui/include)
 INCLUDE_DIRECTORIES(../main/source)
+INCLUDE_DIRECTORIES(../main/include)
 INCLUDE_DIRECTORIES(../log/include)
 INCLUDE_DIRECTORIES(../trace/source)
 INCLUDE_DIRECTORIES(../trace/include)
