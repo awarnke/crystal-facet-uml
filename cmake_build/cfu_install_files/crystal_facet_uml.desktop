@@ -1,0 +1,12 @@
+Encoding=UTF-8
+Name=crystal facet uml
+Version=1.0
+Icon=/usr/share/pixmaps/crystal_facet_uml.png
+Comment=A tool to create a set of consistent uml diagrams
+Exec=/usr/bin/crystal_facet_uml
+Terminal=false
+StartupNotify=false
+Type=Application
+TryExec=/usr/bin/crystal_facet_uml
+Categories=UML;Development;Tools;Doc Generators
+

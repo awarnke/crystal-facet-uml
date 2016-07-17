@@ -53,7 +53,9 @@ ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
 TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
-INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin") # Add this for CPack to work
+INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Add this for CPack to work
+INSTALL(FILES "cfu_install_files/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../user_doc/doc/crystal_facet_uml.png" DESTINATION "/usr/share/pixmaps/")
 
 INCLUDE_DIRECTORIES(../embunit)
 INCLUDE_DIRECTORIES(../data/unittest)
