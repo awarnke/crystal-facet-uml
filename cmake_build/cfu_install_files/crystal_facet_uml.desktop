@@ -1,3 +1,4 @@
+[Desktop Entry]
 Encoding=UTF-8
 Name=crystal facet uml
 Version=1.0
@@ -8,5 +9,5 @@ Terminal=false
 StartupNotify=false
 Type=Application
 TryExec=/usr/bin/crystal_facet_uml
-Categories=UML;Development;Tools;Doc Generators
+Categories=Development;Engineering;GTK;ComputerScience;FlowChart;
 
