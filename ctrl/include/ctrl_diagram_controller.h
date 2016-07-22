@@ -10,6 +10,7 @@
  */
 
 #include "ctrl_error.h"
+#include "ctrl_undo_redo_list.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -26,6 +27,7 @@ struct ctrl_diagram_controller_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
@@ -34,11 +36,17 @@ typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
  *  \brief initializes the ctrl_diagram_controller_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param undo_redo_list pointer to list of undo/redo actions
  *  \param database pointer to database object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
-void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
+void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
+                                    ctrl_undo_redo_list_t *undo_redo_list,
+                                    data_database_t *database,
+                                    data_database_reader_t *db_reader,
+                                    data_database_writer_t *db_writer
+                                  );
 
 /*!
  *  \brief destroys the ctrl_diagram_controller_t struct
@@ -57,7 +65,12 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *  \param out_new_id id of the newly created diagram
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id );
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                      int64_t parent_diagram_id,
+                                                      data_diagram_type_t diagram_type,
+                                                      const char* diagram_name,
+                                                      int64_t* out_new_id
+                                                    );
 
 /*!
  *  \brief checks if a root diagram exists and creates one if not
@@ -68,7 +81,11 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param out_new_id id of the created root diagram or DATA_ID_VOID_ID if a root diagram already existed
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id );
+ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
+                                                                         data_diagram_type_t diagram_type,
+                                                                         const char* diagram_name,
+                                                                         int64_t* out_new_id
+                                                                       );
 
 /*!
  *  \brief updates the diagram attribute: description
@@ -78,7 +95,10 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
  *  \param new_diagram_description new description text of the diagram
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_, int64_t diagram_id, const char* new_diagram_description );
+ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+                                                                  int64_t diagram_id,
+                                                                  const char* new_diagram_description
+                                                                );
 
 /*!
  *  \brief updates the diagram attribute: name
@@ -88,7 +108,10 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
  *  \param new_diagram_name new name of the diagram
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_, int64_t diagram_id, const char* new_diagram_name );
+ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
+                                                           int64_t diagram_id,
+                                                           const char* new_diagram_name
+                                                         );
 
 /*!
  *  \brief updates the diagram attribute: diagram_type
@@ -98,7 +121,10 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
  *  \param new_diagram_type new diagram_type of the diagram
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
+ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+                                                           int64_t diagram_id,
+                                                           data_diagram_type_t new_diagram_type
+                                                         );
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */
 

@@ -13,8 +13,8 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     data_database_reader_init( &((*this_).db_reader), database );
     data_database_writer_init( &((*this_).db_writer), &((*this_).db_reader), database );
     ctrl_undo_redo_list_init ( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
-    ctrl_classifier_controller_init ( &((*this_).classifiers), database, &((*this_).db_reader), &((*this_).db_writer) );
-    ctrl_diagram_controller_init ( &((*this_).diagrams), database, &((*this_).db_reader), &((*this_).db_writer) );
+    ctrl_classifier_controller_init ( &((*this_).classifiers), &((*this_).undo_redo_list), database, &((*this_).db_reader), &((*this_).db_writer) );
+    ctrl_diagram_controller_init ( &((*this_).diagrams), &((*this_).undo_redo_list), database, &((*this_).db_reader), &((*this_).db_writer) );
 
     TRACE_END();
 }
@@ -41,6 +41,9 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
     data_error_t open_result;
 
     close_result = data_database_close( (*this_).database );
+
+    ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
+
     /* we do not care about errors at closing, ignore close_result */
     open_result = data_database_open( (*this_).database, db_file_path );
     result = (ctrl_error_t) open_result;

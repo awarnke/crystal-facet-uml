@@ -11,6 +11,7 @@
 
 #include "ctrl_error.h"
 #include "ctrl_consistency_checker.h"
+#include "ctrl_undo_redo_list.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -29,6 +30,7 @@ struct ctrl_classifier_controller_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
+    ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
@@ -37,11 +39,17 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
  *  \brief initializes the ctrl_classifier_controller_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param undo_redo_list pointer to list of undo/redo actions
  *  \param database pointer to database object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
-void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
+                                       ctrl_undo_redo_list_t *undo_redo_list,
+                                       data_database_t *database,
+                                       data_database_reader_t *db_reader,
+                                       data_database_writer_t *db_writer
+                                     );
 
 /*!
  *  \brief destroys the ctrl_classifier_controller_t struct
@@ -75,7 +83,10 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
  *  \param new_classifier_stereotype new description text of the classifier
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_stereotype );
+ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       const char* new_classifier_stereotype
+                                                                     );
 
 /*!
  *  \brief updates the classifier attribute: description
@@ -85,7 +96,10 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
  *  \param new_classifier_description new description text of the classifier
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_description );
+ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+                                                                        int64_t classifier_id,
+                                                                        const char* new_classifier_description
+                                                                      );
 
 /*!
  *  \brief updates the classifier attribute: name
@@ -95,7 +109,10 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
  *  \param new_classifier_name new name of the classifier
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_name );
+ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
+                                                                 int64_t classifier_id,
+                                                                 const char* new_classifier_name
+                                                               );
 
 /*!
  *  \brief updates the classifier attribute: main_type
@@ -105,7 +122,10 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
  *  \param new_classifier_main_type new main_type of the classifier
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+                                                                      int64_t classifier_id,
+                                                                      data_classifier_type_t new_classifier_main_type
+                                                                    );
 
 /*!
  *  \brief deletes a set of classifiers, diagramelements, features, relations
@@ -114,7 +134,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
  *  \param objects set of object ids to be deleted
  *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects );
+ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_,
+                                                     data_small_set_t objects
+                                                   );
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 

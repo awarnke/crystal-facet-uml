@@ -4,10 +4,15 @@
 #include "trace.h"
 #include "log.h"
 
-void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
+void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
+                                    ctrl_undo_redo_list_t *undo_redo_list,
+                                    data_database_t *database,
+                                    data_database_reader_t *db_reader,
+                                    data_database_writer_t *db_writer )
 {
     TRACE_BEGIN();
 
+    (*this_).undo_redo_list = undo_redo_list;
     (*this_).database = database;
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
@@ -19,6 +24,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).undo_redo_list = NULL;
     (*this_).database = NULL;
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
@@ -26,7 +32,11 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id )
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                      int64_t parent_diagram_id,
+                                                      data_diagram_type_t diagram_type,
+                                                      const char* diagram_name,
+                                                      int64_t* out_new_id )
 {
     TRACE_BEGIN();
     data_diagram_t to_be_created;
@@ -52,7 +62,10 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_, data_diagram_type_t diagram_type, const char* diagram_name, int64_t* out_new_id )
+ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
+                                                                         data_diagram_type_t diagram_type,
+                                                                         const char* diagram_name,
+                                                                         int64_t* out_new_id )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -91,7 +104,9 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_, int64_t diagram_id, const char* new_diagram_description )
+ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_controller_t *this_,
+                                                                  int64_t diagram_id,
+                                                                  const char* new_diagram_description )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -104,7 +119,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_, int64_t diagram_id, const char* new_diagram_name )
+ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controller_t *this_,
+                                                           int64_t diagram_id,
+                                                           const char* new_diagram_name )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -117,7 +134,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
     return result;
 }
 
-ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type )
+ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controller_t *this_,
+                                                           int64_t diagram_id,
+                                                           data_diagram_type_t new_diagram_type )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;

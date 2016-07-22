@@ -4,10 +4,15 @@
 #include "trace.h"
 #include "log.h"
 
-void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
+void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
+                                       ctrl_undo_redo_list_t *undo_redo_list,
+                                       data_database_t *database,
+                                       data_database_reader_t *db_reader,
+                                       data_database_writer_t *db_writer )
 {
     TRACE_BEGIN();
 
+    (*this_).undo_redo_list = undo_redo_list;
     (*this_).database = database;
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
@@ -21,6 +26,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
     TRACE_BEGIN();
 
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
+    (*this_).undo_redo_list = NULL;
     (*this_).database = NULL;
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
@@ -28,7 +34,11 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_, int64_t diagram_id, data_classifier_type_t classifier_type, const char* classifier_name, int64_t* out_new_id )
+ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t diagram_id,
+                                                                       data_classifier_type_t classifier_type,
+                                                                       const char* classifier_name,
+                                                                       int64_t* out_new_id )
 {
     TRACE_BEGIN();
     data_classifier_t to_be_created;
@@ -74,7 +84,9 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_stereotype )
+ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       const char* new_classifier_stereotype )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -87,7 +99,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_description )
+ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_classifier_controller_t *this_,
+                                                                        int64_t classifier_id,
+                                                                        const char* new_classifier_description )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -100,7 +114,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_, int64_t classifier_id, const char* new_classifier_name )
+ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier_controller_t *this_,
+                                                                 int64_t classifier_id,
+                                                                 const char* new_classifier_name )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -113,7 +129,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type )
+ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_classifier_controller_t *this_,
+                                                                      int64_t classifier_id,
+                                                                      data_classifier_type_t new_classifier_main_type )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
