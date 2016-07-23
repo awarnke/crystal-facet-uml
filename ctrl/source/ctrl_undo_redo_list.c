@@ -61,6 +61,36 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
     return result;
 }
 
+ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
+{
+    TRACE_BEGIN();
+
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    if ( 1 )
+    {
+        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
+{
+    TRACE_BEGIN();
+
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    if ( 1 )
+    {
+        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
