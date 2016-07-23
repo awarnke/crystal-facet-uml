@@ -5,33 +5,60 @@
 #include "log.h"
 #include <assert.h>
 
-void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
+ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )
 {
     TRACE_BEGIN();
-    assert( NULL != db_reader );
-    assert( NULL != db_writer );
+    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).current <= (*this_).length );
 
-    (*this_).db_reader = db_reader;
-    (*this_).db_writer = db_writer;
+    uint32_t index;
+    ctrl_undo_redo_entry_t *result;
+
+    if ( (*this_).current < (*this_).length )
+    {
+        /* overwrite an existing and new entry */
+        /* (*this_).start stays untouched */
+        (*this_).current ++;
+
+        /* call destructor of all later entries */
+        for ( uint32_t pos = (*this_).current; pos < (*this_).length; pos ++ )
+        {
+            uint32_t del_index = ((*this_).start + pos) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            ctrl_undo_redo_entry_destroy( &((*this_).buffer[del_index]) );
+        }
+
+        /* shrink the list */
+        (*this_).length = (*this_).current;
+
+        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+    }
+    else if ( (*this_).current < CTRL_UNDO_REDO_LIST_MAX_SIZE )
+    {
+        /* add a new entry */
+        /* (*this_).start stays untouched */
+        (*this_).current ++;
+        (*this_).length ++;
+
+        /* call the constructor */
+        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+        ctrl_undo_redo_entry_init_empty( result );
+    }
+    else
+    {
+        /* overwrite an existing old entry */
+        (*this_).start = ((*this_).start+1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        /* (*this_).current is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
+        /* (*this_).length is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
+
+        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+    }
 
     TRACE_END();
-}
-
-void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
-{
-    TRACE_BEGIN();
-
-    (*this_).db_reader = NULL;
-    (*this_).db_writer = NULL;
-
-    TRACE_END();
-}
-
-void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
-{
-    TRACE_BEGIN();
-
-    TRACE_END();
+    return result;
 }
 
 
