@@ -11,9 +11,11 @@ static void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_databa
 
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
+
+    ctrl_undo_redo_entry_init( &((*this_).buffer[0]), CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY );
     (*this_).start = 0;
-    (*this_).length = 0;
-    (*this_).current = 0;
+    (*this_).length = 1;
+    (*this_).current = 1;
 }
 
 static void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
@@ -37,16 +39,23 @@ static void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
     }
 
     /* reset: */
+    ctrl_undo_redo_entry_init( &((*this_).buffer[0]), CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY );
     (*this_).start = 0;
-    (*this_).length = 0;
-    (*this_).current = 0;
+    (*this_).length = 1;
+    (*this_).current = 1;
 }
 
 static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
 {
     ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
 
-    if ( 1 )
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY );
+
+    /* check if >=1 complete set of transactions is still in the undo-redo-list */
+    if ( 1 == ctrl_undo_redo_list_private_count_boundaries( this_, (*this_).start, (*this_).length ) )
     {
         result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
@@ -54,184 +63,229 @@ static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *th
     return result;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )
+static void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagram_t *list_entry_old;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagram_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value )
+static void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagram_t *list_entry_old;
+    data_diagram_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagram_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
+    list_entry_new = ctrl_undo_redo_entry_get_diagram_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value )
+static void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagram_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM );
 
-    return result;
+    /* copy the values */
+    list_entry_new = ctrl_undo_redo_entry_get_diagram_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value )
+static void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagramelement_t *list_entry_old;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
+static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagramelement_t *list_entry_old;
+    data_diagramelement_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
+    list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value )
+static void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_diagramelement_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT );
 
-    return result;
+    /* copy the values */
+    list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value )
+static void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_classifier_t *list_entry_old;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_classifier_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value )
+static void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_classifier_t *list_entry_old;
+    data_classifier_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_classifier_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
+    list_entry_new = ctrl_undo_redo_entry_get_classifier_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value )
+static void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_classifier_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER );
 
-    return result;
+    /* copy the values */
+    list_entry_new = ctrl_undo_redo_entry_get_classifier_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value )
+static void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_feature_t *list_entry_old;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_feature_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value )
+static void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_feature_t *list_entry_old;
+    data_feature_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_feature_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
+    list_entry_new = ctrl_undo_redo_entry_get_feature_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value )
+static void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_feature_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE );
 
-    return result;
+    /* copy the values */
+    list_entry_new = ctrl_undo_redo_entry_get_feature_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value )
+static void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_relationship_t *list_entry_old;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_relationship_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value )
+static void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_relationship_t *list_entry_old;
+    data_relationship_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP );
 
-    return result;
+    /* copy the values */
+    list_entry_old = ctrl_undo_redo_entry_get_relationship_before_action_ptr( list_entry );
+    *list_entry_old = *old_value;
+    list_entry_new = ctrl_undo_redo_entry_get_relationship_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value )
+static void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value )
 {
-    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *list_entry;
+    data_relationship_t *list_entry_new;
 
-    if ( 1 )
-    {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
-    }
+    /* add and re-initialize the list entry */
+    list_entry = ctrl_undo_redo_list_private_add_entry_ptr( this_ );
+    ctrl_undo_redo_entry_reinit( list_entry, CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP );
 
-    return result;
+    /* copy the values */
+    list_entry_new = ctrl_undo_redo_entry_get_relationship_after_action_ptr( list_entry );
+    *list_entry_new = *new_value;
 }
 
 static uint32_t ctrl_undo_redo_list_private_count_boundaries ( ctrl_undo_redo_list_t *this_, uint32_t start_idx, uint32_t search_len )

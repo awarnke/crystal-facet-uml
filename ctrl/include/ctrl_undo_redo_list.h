@@ -91,10 +91,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *th
  *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value );
+static void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM.
@@ -108,10 +106,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value );
+static void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM.
@@ -124,10 +120,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list
  *
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value );
+static void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT.
@@ -140,10 +134,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list
  *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value );
+static void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT.
@@ -157,10 +149,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_re
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value );
+static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT.
@@ -173,10 +163,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_re
  *
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value );
+static void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER.
@@ -189,10 +177,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_re
  *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value );
+static void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER.
@@ -206,10 +192,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_l
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value );
+static void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER.
@@ -222,10 +206,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_l
  *
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value );
+static void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE.
@@ -238,10 +220,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_l
  *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value );
+static void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE.
@@ -255,10 +235,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value );
+static void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE.
@@ -271,10 +249,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list
  *
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value );
+static void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP.
@@ -287,10 +263,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list
  *
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was deleted
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value );
+static void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP.
@@ -304,10 +278,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo
  *  \param this_ pointer to own object attributes
  *  \param old_value the record contents before the record was updated
  *  \param new_value the record contents after the record was updated
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value );
+static void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value );
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP.
@@ -320,10 +292,8 @@ static ctrl_error_t ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo
  *
  *  \param this_ pointer to own object attributes
  *  \param new_value the record contents after the record was created
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if the last boundary in the list is overwritten and the current set of actions cannot be undone.
- *          CTRL_ERROR_NONE otherwise.
  */
-static ctrl_error_t ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value );
+static void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value );
 
 /*!
  *  \brief un-does a set of actions till the last boundary.
