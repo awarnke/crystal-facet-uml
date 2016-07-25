@@ -2,7 +2,7 @@
 
 static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql_builder_t *this_ )
 {
-    return utf8stringbuf_get_string( (*this_).private_sql_stringbuf );
+    return utf8stringbuf_get_string( (*this_).sql_stringbuf );
 }
 
 

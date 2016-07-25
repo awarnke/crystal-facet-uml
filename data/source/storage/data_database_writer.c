@@ -260,7 +260,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_create_diagram_command( &((*this_).sql_builder), diagram );
+    result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
@@ -281,7 +281,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_diagram_description_cmd( &((*this_).sql_builder), diagram_id, new_diagram_description );
+    result |= data_database_sql_builder_build_update_diagram_description_cmd( &((*this_).sql_builder), diagram_id, new_diagram_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -302,7 +302,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_diagram_name_cmd( &((*this_).sql_builder), diagram_id, new_diagram_name );
+    result |= data_database_sql_builder_build_update_diagram_name_cmd( &((*this_).sql_builder), diagram_id, new_diagram_name );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -322,7 +322,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_diagram_type_cmd( &((*this_).sql_builder), diagram_id, new_diagram_type );
+    result |= data_database_sql_builder_build_update_diagram_type_cmd( &((*this_).sql_builder), diagram_id, new_diagram_type );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -344,7 +344,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_create_classifier_command( &((*this_).sql_builder), classifier );
+    result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
@@ -364,7 +364,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_classifier_stereotype_cmd( &((*this_).sql_builder), classifier_id, new_classifier_stereotype );
+    result |= data_database_sql_builder_build_update_classifier_stereotype_cmd( &((*this_).sql_builder), classifier_id, new_classifier_stereotype );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -384,7 +384,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_classifier_description_cmd( &((*this_).sql_builder), classifier_id, new_classifier_description );
+    result |= data_database_sql_builder_build_update_classifier_description_cmd( &((*this_).sql_builder), classifier_id, new_classifier_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -404,7 +404,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_classifier_name_cmd( &((*this_).sql_builder), classifier_id, new_classifier_name );
+    result |= data_database_sql_builder_build_update_classifier_name_cmd( &((*this_).sql_builder), classifier_id, new_classifier_name );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -424,7 +424,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
+    result |= data_database_sql_builder_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
@@ -446,7 +446,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_lock( this_ );
 
-    result |= data_database_writer_private_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
+    result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
@@ -474,7 +474,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
         result |= data_database_reader_get_diagramelement_by_id ( (*this_).db_reader, obj_id, out_old_diagramelement );
     }
 
-    result |= data_database_writer_private_build_delete_diagramelement_command ( &((*this_).sql_builder), obj_id );
+    result |= data_database_sql_builder_build_delete_diagramelement_command ( &((*this_).sql_builder), obj_id );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
@@ -525,7 +525,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
     }
     else
     {
-        result |= data_database_writer_private_build_delete_classifier_command ( &((*this_).sql_builder), obj_id );
+        result |= data_database_sql_builder_build_delete_classifier_command ( &((*this_).sql_builder), obj_id );
         char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
         result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
     }
@@ -586,7 +586,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
     }
     else
     {
-        result |= data_database_writer_private_build_delete_diagram_command ( &((*this_).sql_builder), obj_id );
+        result |= data_database_sql_builder_build_delete_diagram_command ( &((*this_).sql_builder), obj_id );
         char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
         result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
     }
