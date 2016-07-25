@@ -15,6 +15,7 @@
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_sql_builder.h"
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
@@ -34,10 +35,7 @@ struct data_database_writer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader which may be queried within write-transactions */
 
     pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
-    utf8stringbuf_t private_temp_stringbuf;
-    utf8stringbuf_t private_sql_stringbuf;
-    char private_temp_buffer[8192];
-    char private_sql_buffer[8192];
+    data_database_sql_builder_t sql_builder; /*!< own instance of an object that builds sql strings */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_writer_db_change_callback */
 };
@@ -195,54 +193,6 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement );
 
 /*!
- *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram diagram to be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_create_diagram_command ( data_database_writer_t *this_, const data_diagram_t *diagram );
-
-/*!
- *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to be updated
- *  \param new_diagram_name new name of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_diagram_name_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_name );
-
-/*!
- *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to be updated
- *  \param new_diagram_description new description of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_diagram_description_cmd ( data_database_writer_t *this_, int64_t diagram_id, const char *new_diagram_description );
-
-/*!
- *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to be updated
- *  \param new_diagram_type new type of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_diagram_type_cmd ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
-
-/*!
- *  \brief builds the sql command string to delete a diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to be deleted
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_delete_diagram_command ( data_database_writer_t *this_, int64_t diagram_id );
-
-/*!
  *  \brief executes a single SQL command
  *
  *  This function does not care about locks. It does not sent notifications.
@@ -285,80 +235,6 @@ data_error_t data_database_writer_private_transaction_commit ( data_database_wri
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise
  */
 data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement );
-
-/*!
- *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier classifier to be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_create_classifier_command ( data_database_writer_t *this_, const data_classifier_t *classifier );
-
-/*!
- *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_stereotype new stereotype of the classifier
- */
-data_error_t data_database_writer_private_build_update_classifier_stereotype_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_stereotype );
-
-/*!
- *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_name new name of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_classifier_name_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_name );
-
-/*!
- *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_description new description of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_classifier_description_cmd ( data_database_writer_t *this_, int64_t classifier_id, const char *new_classifier_description );
-
-/*!
- *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be updated
- *  \param new_classifier_main_type new description of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_update_classifier_main_type_cmd ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
-
-/*!
- *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be deleted
- */
-data_error_t data_database_writer_private_build_delete_classifier_command ( data_database_writer_t *this_, int64_t classifier_id );
-
-/*!
- *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagramelement diagramelement to be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_create_diagramelement_command ( data_database_writer_t *this_, const data_diagramelement_t *diagramelement );
-
-/*!
- *  \brief builds the sql command string to delete a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagramelement_id id of the diagramelement to be deleted.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_writer_private_build_delete_diagramelement_command ( data_database_writer_t *this_, int64_t diagramelement_id );
 
 /*!
  *  \brief gets a lock to protect data in data_database_writer_t from concurrent access.
