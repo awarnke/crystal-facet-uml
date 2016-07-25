@@ -57,7 +57,7 @@ static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram diagram to be created.
+ *  \param diagram diagram to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram );
@@ -105,7 +105,7 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
  *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier classifier to be created.
+ *  \param classifier classifier to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier );
@@ -161,7 +161,7 @@ data_error_t data_database_sql_builder_build_delete_classifier_command ( data_da
  *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement diagramelement to be created.
+ *  \param diagramelement diagramelement to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement );

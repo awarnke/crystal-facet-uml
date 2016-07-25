@@ -13,6 +13,12 @@ static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX =
     "INSERT INTO diagrams (parent_id,diagram_type,name,description,list_order) VALUES (";
 
 /*!
+ *  \brief prefix string constant to insert a diagram with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX =
+    "INSERT INTO diagrams (id,parent_id,diagram_type,name,description,list_order) VALUES (";
+
+/*!
  *  \brief postfix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX = ");";
@@ -39,6 +45,12 @@ static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX =
     "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
 
 /*!
+ *  \brief prefix string constant to insert a classifier with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX =
+    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order) VALUES (";
+
+/*!
  *  \brief postfix string constant to insert a classifier
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX = ");";
@@ -48,6 +60,12 @@ static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX = ");";
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX =
     "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
+
+/*!
+ *  \brief prefix string constant to insert a diagramelement with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX =
+    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagramelement
@@ -185,7 +203,16 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
+    if ( (*diagram).id == DATA_ID_VOID_ID )
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX );
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).id );
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    }
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).parent_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).diagram_type );
@@ -349,7 +376,16 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
 
     utf8stringbuf_clear( (*this_).sql_stringbuf );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
+    if ( (*classifier).id == DATA_ID_VOID_ID )
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX );
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).id );
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    }
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).main_type );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
 
@@ -559,7 +595,16 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
 
     utf8stringbuf_clear( (*this_).sql_stringbuf );
 
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
+    if ( (*diagramelement).id == DATA_ID_VOID_ID )
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX );
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).id );
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    }
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).diagram_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).classifier_id );
