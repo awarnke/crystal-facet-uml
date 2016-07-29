@@ -10,6 +10,10 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
     return &((*this_).diagrams);
 }
 
+static inline ctrl_undo_redo_list_t *ctrl_controller_get_undo_redo_list_ptr ( ctrl_controller_t *this_ )
+{
+    return &((*this_).undo_redo_list);
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

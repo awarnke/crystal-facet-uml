@@ -61,6 +61,13 @@ static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_contr
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 
 /*!
+ *  \brief gets the undo redo list
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline ctrl_undo_redo_list_t *ctrl_controller_get_undo_redo_list_ptr ( ctrl_controller_t *this_ );
+
+/*!
  *  \brief switches the currently used database file
  *
  *  \param this_ pointer to own object attributes
