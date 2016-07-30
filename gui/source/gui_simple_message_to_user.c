@@ -161,6 +161,24 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO:
+            {
+                utf8stringbuf_append_str( (*this_).content, "No more actions to be un-done." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE:
+            {
+                utf8stringbuf_append_str( (*this_).content, "No more actions can be un-done: undo list at limit." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_REDO:
+            {
+                utf8stringbuf_append_str( (*this_).content, "No more actions to be re-done." );
+            }
+            break;
+
             default:
             {
                 LOG_ERROR("unexptected gui_simple_message_content_t");

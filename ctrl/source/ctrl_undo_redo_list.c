@@ -84,7 +84,7 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
 
     if ( 1 )
     {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+        result = CTRL_ERROR_INVALID_REQUEST;
     }
 
     TRACE_END_ERR( result );

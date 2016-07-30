@@ -191,18 +191,16 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
-        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION,
-                                                             NULL
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
         );
     }
     else if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & ctrl_err ))
     {
-        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE,
-                                                             NULL
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
         );
     }
     else if ( CTRL_ERROR_NONE != ctrl_err )
@@ -227,12 +225,24 @@ void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data )
 
     undo_redo_list = ctrl_controller_get_undo_redo_list_ptr ( (*this_).controller );
     ctrl_err = ctrl_undo_redo_list_undo( undo_redo_list );
-
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Undo"
-    );
+    if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_UNDO
+        );
+    }
+    else if ( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED == ctrl_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE
+        );
+    }
+    else
+    {
+        /* success */
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -249,12 +259,17 @@ void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data )
 
     undo_redo_list = ctrl_controller_get_undo_redo_list_ptr ( (*this_).controller );
     ctrl_err = ctrl_undo_redo_list_redo( undo_redo_list );
-
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Redo"
-    );
+    if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_REDO
+        );
+    }
+    else
+    {
+        /* success */
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
