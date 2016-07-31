@@ -150,6 +150,11 @@ static inline int64_t data_classifier_get_id ( data_classifier_t *this_ )
     return (*this_).id;
 }
 
+static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id )
+{
+    (*this_).id = id;
+}
+
 static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ )
 {
     return (*this_).main_type;

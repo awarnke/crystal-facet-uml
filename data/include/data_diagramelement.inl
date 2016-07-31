@@ -75,6 +75,11 @@ static inline int64_t data_diagramelement_get_id ( data_diagramelement_t *this_ 
     return (*this_).id;
 }
 
+static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, int64_t id )
+{
+    (*this_).id = id;
+}
+
 static inline int64_t data_diagramelement_get_diagram_id ( data_diagramelement_t *this_ )
 {
     return (*this_).diagram_id;

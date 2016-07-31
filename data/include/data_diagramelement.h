@@ -127,6 +127,14 @@ static inline void data_diagramelement_trace ( data_diagramelement_t *this_ );
 static inline int64_t data_diagramelement_get_id ( data_diagramelement_t *this_ );
 
 /*!
+ *  \brief sets the attribute id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id new id of this object
+ */
+static inline void data_diagramelement_set_id ( data_diagramelement_t *this_, int64_t id );
+
+/*!
  *  \brief gets the attribute diagram_id
  *
  *  \param this_ pointer to own object attributes

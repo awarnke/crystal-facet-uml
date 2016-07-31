@@ -54,6 +54,13 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
+        /* store new id to classifier object */
+        data_classifier_set_id( &to_be_created, new_id );
+
+        /* store the new classifier to the undo redo list */
+        ctrl_undo_redo_list_add_create_classifier( (*this_).undo_redo_list, &to_be_created );
+
+        /* copy new id to out parameter */
         if ( NULL != out_new_id )
         {
             *out_new_id = new_id;
@@ -72,12 +79,20 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
         data_diagramelement_init_new( &link_to_be_created, diagram_id, new_id, DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE );
 
         data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &link_to_be_created, &new_link_id );
-        if ( DATA_ERROR_NONE != data_result )
+        if ( DATA_ERROR_NONE == data_result )
         {
-            result |= (ctrl_error_t) data_result;
+            /* store new id to diagramelement object */
+            data_diagramelement_set_id( &link_to_be_created, new_link_id );
+
+            /* store the new diagramelement to the undo redo list */
+            ctrl_undo_redo_list_add_create_diagramelement( (*this_).undo_redo_list, &link_to_be_created );
         }
+        result |= (ctrl_error_t) data_result;
 
         data_diagramelement_destroy( &link_to_be_created );
+
+        /* add a boundary to the undo redo list after two creations */
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
     }
 
     TRACE_END_ERR( result );
@@ -193,7 +208,13 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                                                                                 data_id_get_row_id( &current_id ),
                                                                                 &old_diagramelement
                                                                             );
-                    result |= current_result;
+                    result |= (ctrl_error_t) current_result;
+
+                    if ( DATA_ERROR_NONE == current_result )
+                    {
+                        /* store the deleted classifier to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
+                    }
 
                     /* try to also delete the classifier, ignore errors */
                     if ( DATA_ERROR_NONE == current_result )
@@ -201,9 +222,15 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                         data_error_t my_data_result;
                         data_classifier_t old_classifier;
                         my_data_result = data_database_writer_delete_classifier( (*this_).db_writer,
-                                                                                data_diagramelement_get_classifier_id( &old_diagramelement ),
-                                                                                &old_classifier
-                                                                            );
+                                                                                 data_diagramelement_get_classifier_id( &old_diagramelement ),
+                                                                                 &old_classifier
+                                                                               );
+
+                        if ( DATA_ERROR_NONE == my_data_result )
+                        {
+                            /* store the deleted classifier to the undo redo list */
+                            ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
+                        }
                     }
                 }
                 break;
@@ -232,8 +259,17 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    data_classifier_t old_classifier;
-                    result |= data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier );
+                    data_classifier_t old_classifier2;
+                    data_error_t current_result2;
+                    current_result2 = data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier2 );
+
+                    result |= (ctrl_error_t) current_result2;
+
+                    if ( DATA_ERROR_NONE == current_result2 )
+                    {
+                        /* store the deleted classifier to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier2 );
+                    }
                 }
                 break;
 
@@ -258,7 +294,16 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                 case DATA_TABLE_DIAGRAM:
                 {
                     data_diagram_t old_diagram;
-                    result |= data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
+                    data_error_t current_result3;
+                    current_result3 = data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
+
+                    result |= (ctrl_error_t) current_result3;
+
+                    if ( DATA_ERROR_NONE == current_result3 )
+                    {
+                        /* store the deleted diagram to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_diagram( (*this_).undo_redo_list, &old_diagram );
+                    }
                 }
                 break;
 
@@ -269,6 +314,9 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                 break;
             }
         }
+
+        /* add a boundary to the undo redo list after all deletions */
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
     }
 
     TRACE_END_ERR( result );

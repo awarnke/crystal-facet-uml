@@ -49,6 +49,14 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
     {
+        /* store new id to diagram object */
+        data_diagram_set_id( &to_be_created, new_id );
+
+        /* store the new diagram to the undo redo list */
+        ctrl_undo_redo_list_add_create_diagram( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
         if ( NULL != out_new_id )
         {
             *out_new_id = new_id;

@@ -147,13 +147,23 @@ static inline void data_classifier_trace ( data_classifier_t *this_ );
  *  \brief gets the attribute id
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline int64_t data_classifier_get_id ( data_classifier_t *this_ );
+
+/*!
+ *  \brief sets the attribute id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id new id of this object
+ */
+static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id );
 
 /*!
  *  \brief gets the attribute main_type
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ );
 
@@ -161,6 +171,7 @@ static inline data_classifier_type_t data_classifier_get_main_type ( data_classi
  *  \brief gets the attribute stereotype
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ );
 
@@ -168,6 +179,7 @@ static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t
  *  \brief gets the attribute name
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ );
 
@@ -175,6 +187,7 @@ static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this
  *  \brief gets the attribute description
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ );
 
@@ -182,6 +195,7 @@ static inline const char *data_classifier_get_description_ptr ( data_classifier_
  *  \brief gets the attribute x_order
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ );
 
@@ -189,6 +203,7 @@ static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ );
  *  \brief gets the attribute y_order
  *
  *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
  */
 static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ );
 
