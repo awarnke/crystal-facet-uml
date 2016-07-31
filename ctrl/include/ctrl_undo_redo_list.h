@@ -34,6 +34,7 @@ struct ctrl_undo_redo_list_struct {
     uint32_t start;  /*!< start position of the ring buffer (valid absolute index in buffer array: 0 <= start < CTRL_UNDO_REDO_LIST_MAX_SIZE) */
     uint32_t length;  /*!< length of valid entries in the ring buffer (0 <= length <= CTRL_UNDO_REDO_LIST_MAX_SIZE) */
     uint32_t current;  /*!< current position in the ring buffer (relative to start position: 0 <= current <= length). If length == current, there is no redo action left */
+    bool buffer_incomplete;  /*!< true if the first entry in the list is already overwritten. buffer_complete influences the error code of the undo function */
     ctrl_undo_redo_entry_t buffer[CTRL_UNDO_REDO_LIST_MAX_SIZE];  /*!< the ring buffer of undo/redo action entries and boundary entries */
 };
 

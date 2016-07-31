@@ -52,6 +52,7 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
         (*this_).start = ((*this_).start+1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
         /* (*this_).current is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
         /* (*this_).length is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
+        (*this_).buffer_incomplete = true;
 
         index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
         result = &((*this_).buffer[index]);
@@ -67,9 +68,38 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
 
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    if ( 1 )
+    if ( 2 > ctrl_undo_redo_list_private_count_boundaries( this_, (*this_).start, (*this_).current ) )
     {
-        result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+        if ( (*this_).buffer_incomplete )
+        {
+            result = CTRL_ERROR_ARRAY_BUFFER_EXCEEDED;
+        }
+        else
+        {
+            result = CTRL_ERROR_INVALID_REQUEST;
+        }
+    }
+    else
+    {
+        bool finished = false;
+        uint32_t index;
+        for ( uint32_t pos = 0; (pos < CTRL_UNDO_REDO_LIST_MAX_SIZE) && (! finished); pos ++ )
+        {
+            /* move the current pointer back in the list */
+            (*this_).current --;
+
+            /* check if we are done */
+            index = ((*this_).start + (*this_).current + CTRL_UNDO_REDO_LIST_MAX_SIZE - 1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+
+            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
+            {
+                finished = true;
+            }
+            else
+            {
+                TRACE_INFO("undo"); 
+            }
+        }
     }
 
     TRACE_END_ERR( result );
@@ -82,9 +112,35 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
 
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    if ( 1 )
+    if ( (*this_).current == (*this_).length )
     {
         result = CTRL_ERROR_INVALID_REQUEST;
+    }
+    else
+    {
+        bool finished = false;
+        uint32_t index;
+        for ( uint32_t pos = 0; (pos < CTRL_UNDO_REDO_LIST_MAX_SIZE) && (! finished); pos ++ )
+        {
+            /* move the current pointer forward in the list */
+            (*this_).current ++;
+
+            /* check if we are done */
+            index = ((*this_).start + (*this_).current + CTRL_UNDO_REDO_LIST_MAX_SIZE - 1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+
+            if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
+            {
+                finished = true;
+            }
+            if ( (*this_).current == (*this_).length )
+            {
+                finished = true;
+            }
+            if ( ! finished )
+            {
+                TRACE_INFO("redo"); 
+            }
+        }
     }
 
     TRACE_END_ERR( result );

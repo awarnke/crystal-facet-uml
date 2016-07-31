@@ -16,6 +16,7 @@ static void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_databa
     (*this_).start = 0;
     (*this_).length = 1;
     (*this_).current = 1;
+    (*this_).buffer_incomplete = false;
 }
 
 static void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
@@ -43,6 +44,7 @@ static void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
     (*this_).start = 0;
     (*this_).length = 1;
     (*this_).current = 1;
+    (*this_).buffer_incomplete = false;
 }
 
 static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
