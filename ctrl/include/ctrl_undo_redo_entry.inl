@@ -2,14 +2,17 @@
 
 static inline void ctrl_undo_redo_entry_init_empty ( ctrl_undo_redo_entry_t *this_ )
 {
+    (*this_).action_type = CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY;
 }
 
 static inline void ctrl_undo_redo_entry_init ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
 {
+    (*this_).action_type = action_type;
 }
 
 static inline void ctrl_undo_redo_entry_reinit ( ctrl_undo_redo_entry_t *this_, ctrl_undo_redo_entry_type_t action_type )
 {
+    (*this_).action_type = action_type;
 }
 
 static inline void ctrl_undo_redo_entry_destroy ( ctrl_undo_redo_entry_t *this_ )

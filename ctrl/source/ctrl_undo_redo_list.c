@@ -31,7 +31,7 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
         /* shrink the list */
         (*this_).length = (*this_).current;
 
-        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
         result = &((*this_).buffer[index]);
     }
     else if ( (*this_).current < CTRL_UNDO_REDO_LIST_MAX_SIZE )
@@ -42,7 +42,7 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
         (*this_).length ++;
 
         /* call the constructor */
-        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
         result = &((*this_).buffer[index]);
         ctrl_undo_redo_entry_init_empty( result );
     }
@@ -54,9 +54,11 @@ ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_re
         /* (*this_).length is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
         (*this_).buffer_incomplete = true;
 
-        index = ((*this_).start + (*this_).current) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
         result = &((*this_).buffer[index]);
     }
+
+    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
     TRACE_END();
     return result;
@@ -89,11 +91,12 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
             (*this_).current --;
 
             /* check if we are done */
-            index = ((*this_).start + (*this_).current + CTRL_UNDO_REDO_LIST_MAX_SIZE - 1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
                 finished = true;
+                TRACE_INFO("boundary"); 
             }
             else
             {
@@ -101,6 +104,8 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
             }
         }
     }
+
+    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
     TRACE_END_ERR( result );
     return result;
@@ -126,15 +131,17 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
             (*this_).current ++;
 
             /* check if we are done */
-            index = ((*this_).start + (*this_).current + CTRL_UNDO_REDO_LIST_MAX_SIZE - 1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
                 finished = true;
+                TRACE_INFO("boundary"); 
             }
-            if ( (*this_).current == (*this_).length )
+            else if ( (*this_).current == (*this_).length )
             {
                 finished = true;
+                TRACE_INFO("boundary"); 
             }
             if ( ! finished )
             {
@@ -142,6 +149,8 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
             }
         }
     }
+
+    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
     TRACE_END_ERR( result );
     return result;
