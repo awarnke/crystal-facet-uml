@@ -316,6 +316,16 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ );
 ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ );
 
 /*!
+ *  \brief re-does a set of actions till the next boundary.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param action pointer to the action to be undone or redone
+ *  \param undo true if the action shall be reverted, false if it shall be re-done.
+ *  \return CTRL_ERROR_NONE in case of success
+ */
+ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo );
+
+/*!
  *  \brief adds an entry to the list.
  *
  *  This method may overwrite the oldest entries in the list

@@ -33,7 +33,7 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a string and two integers
  */
-#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i %i\n",TRACE_INDENT,string_test,int_test,int_test2); }
+#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i, %i\n",TRACE_INDENT,string_test,int_test,int_test2); }
 
 /*!
  *  \brief traces a string and a hexadecimal integer

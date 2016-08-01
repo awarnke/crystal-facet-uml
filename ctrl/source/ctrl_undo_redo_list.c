@@ -95,12 +95,13 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
-                finished = true;
                 TRACE_INFO("boundary"); 
+                finished = true;
             }
             else
             {
                 TRACE_INFO("undo"); 
+                result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), true );
             }
         }
     }
@@ -135,22 +136,269 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
-                finished = true;
                 TRACE_INFO("boundary"); 
+                finished = true;
             }
             else if ( (*this_).current == (*this_).length )
             {
-                finished = true;
                 TRACE_INFO("boundary"); 
+                finished = true;
             }
             if ( ! finished )
             {
                 TRACE_INFO("redo"); 
+                result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), false );
             }
         }
     }
 
     TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this_, ctrl_undo_redo_entry_t *action, bool undo )
+{
+    TRACE_BEGIN();
+
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    switch ( ctrl_undo_redo_entry_get_action_type( action ) )
+    {
+        case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM" );
+            data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_before_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, &new_id );
+            }
+            else
+            {
+                int64_t obj_id = data_diagram_get_id ( diag );
+                result |= (ctrl_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM" );
+            data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_after_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t obj_id = data_diagram_get_id ( diag );
+                result |= (ctrl_error_t) data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, NULL );
+            }
+            else
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, &new_id );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT" );
+            data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, &new_id );
+            }
+            else
+            {
+                int64_t obj_id = data_diagramelement_get_id ( diag_ele );
+                result |= (ctrl_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT" );
+            data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t obj_id = data_diagramelement_get_id ( diag_ele );
+                result |= (ctrl_error_t) data_database_writer_delete_diagramelement ( (*this_).db_writer, obj_id, NULL );
+            }
+            else
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, &new_id );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER" );
+            data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_before_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, &new_id );
+            }
+            else
+            {
+                int64_t obj_id = data_classifier_get_id ( classfy );
+                result |= (ctrl_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER" );
+            data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_after_action_ptr ( action );
+            if ( undo )
+            {
+                int64_t obj_id = data_classifier_get_id ( classfy );
+                result |= (ctrl_error_t) data_database_writer_delete_classifier ( (*this_).db_writer, obj_id, NULL );
+            }
+            else
+            {
+                int64_t new_id;
+                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, &new_id );
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
+        {
+            TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
+            if ( undo )
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            else
+            {
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+        }
+        break;
+        
+        default:
+        {
+            LOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
+        }
+    }
 
     TRACE_END_ERR( result );
     return result;
