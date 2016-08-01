@@ -51,6 +51,16 @@ static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
     (*this_).display_flags = display_flags;
 }
 
+static inline void data_diagramelement_copy ( data_diagramelement_t *this_, data_diagramelement_t *original )
+{
+    (*this_) = (*original);
+}
+
+static inline void data_diagramelement_replace ( data_diagramelement_t *this_, data_diagramelement_t *that )
+{
+    (*this_) = (*that);
+}
+
 static inline void data_diagramelement_destroy ( data_diagramelement_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

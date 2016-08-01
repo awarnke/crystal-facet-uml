@@ -83,6 +83,22 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t di
     return result;
 }
 
+static inline void data_diagram_copy ( data_diagram_t *this_, data_diagram_t *original )
+{
+    (*this_) = (*original);
+    /* repair the overwritten pointers */
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+}
+
+static inline void data_diagram_replace ( data_diagram_t *this_, data_diagram_t *that )
+{
+    (*this_) = (*that);
+    /* repair the overwritten pointers */
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+}
+
 static inline void data_diagram_destroy ( data_diagram_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

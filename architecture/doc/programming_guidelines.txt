@@ -79,6 +79,8 @@
  *    external objects to NULL. It shall not do more: E.g. zero-ing the memory is not necessary.
  *  - Optionally, a "_reinit" de+constructor may be provided.
  *    \n This constructor shall re-initialize the struct that was already initialized before.
+ *  - Optionally, a "_replace" de+constructor may be provided.
+ *    \n This constructor shall re-initialize the struct that was already initialized before by a copy of the provided object
  *  .
  *
  *  \section cfu-programming-guidelines-apx Appendix

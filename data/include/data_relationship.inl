@@ -23,6 +23,22 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
     data_relationship_init_empty( this_ );
 }
 
+static inline void data_relationship_copy ( data_relationship_t *this_, data_relationship_t *original )
+{
+    (*this_) = (*original);
+    /* repair the overwritten pointers */
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+}
+
+static inline void data_relationship_replace ( data_relationship_t *this_, data_relationship_t *that )
+{
+    (*this_) = (*that);
+    /* repair the overwritten pointers */
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+}
+
 static inline void data_relationship_destroy ( data_relationship_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;

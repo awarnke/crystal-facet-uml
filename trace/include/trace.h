@@ -16,7 +16,9 @@
 #define TRACE_INDENT_MAX (16)
 extern __thread int trace_indent_depth;
 extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
+extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INDENT (&(trace_indent_pattern[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
+#define TRACE_INDENT_END (&(trace_indent_pattern_end[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
 #if 1  /* SWITCH, 1: on, 0: off */
 
@@ -60,12 +62,12 @@ extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a function return
  */
-#define TRACE_END() { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end]\n",TRACE_INDENT,__func__); }
+#define TRACE_END() { trace_indent_depth--; fprintf(TRACE_OUT_STREAM,"%s%s [end]\n",TRACE_INDENT_END,__func__); }
 
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT,__func__,int_test); }}
+#define TRACE_END_ERR(e) { if ( e==0 ) {TRACE_END();} else { trace_indent_depth--; const int int_test = e; fprintf(TRACE_OUT_STREAM,"%s%s [end] ERR=0x%x\n",TRACE_INDENT_END,__func__,int_test); }}
 
 /*!
  *  \brief ensures to flush all data.
