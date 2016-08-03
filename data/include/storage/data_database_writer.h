@@ -62,7 +62,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  *  \brief creates a new diagram and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram data of the new diagram record to be created.
+ *  \param diagram data of the new diagram record to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
@@ -114,7 +114,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
  *  \brief creates a new classifier and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier data of the new classifier record to be created.
+ *  \param classifier data of the new classifier record to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
@@ -176,7 +176,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
  *  \brief creates a new diagramelement and returns its id
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement data of the new diagramelement record to be created.
+ *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
