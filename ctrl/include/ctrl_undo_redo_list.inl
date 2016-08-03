@@ -121,7 +121,7 @@ static void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_old, list_entry_old);
+    data_diagramelement_replace( list_entry_old, old_value);
 }
 
 static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
@@ -136,7 +136,7 @@ static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_
 
     /* copy the values */
     list_entry_old = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr( list_entry );
-    data_diagramelement_replace( list_entry_old, list_entry_old);
+    data_diagramelement_replace( list_entry_old, old_value);
     list_entry_new = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr( list_entry );
     data_diagramelement_replace( list_entry_new, new_value);
 }
