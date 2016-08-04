@@ -17,40 +17,42 @@
 extern __thread int trace_indent_depth;
 extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
 extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];
+extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INDENT (&(trace_indent_pattern[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 #define TRACE_INDENT_END (&(trace_indent_pattern_end[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
+#define TRACE_INDENT_INFO (&(trace_indent_pattern_info[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
 #if 1  /* SWITCH, 1: on, 0: off */
 
 /*!
  *  \brief traces a string
  */
-#define TRACE_INFO(x) { const char *string_test = x; fprintf(TRACE_OUT_STREAM,"%s%s\n",TRACE_INDENT,string_test); }
+#define TRACE_INFO(x) { const char *string_test = x; fprintf(TRACE_OUT_STREAM,"%s%s\n",TRACE_INDENT_INFO,string_test); }
 
 /*!
  *  \brief traces a string and an integer
  */
-#define TRACE_INFO_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s %i\n",TRACE_INDENT,string_test,int_test); }
+#define TRACE_INFO_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s %i\n",TRACE_INDENT_INFO,string_test,int_test); }
 
 /*!
  *  \brief traces a string and two integers
  */
-#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i, %i\n",TRACE_INDENT,string_test,int_test,int_test2); }
+#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test = x; const int int_test = i; const int int_test2 = j; fprintf(TRACE_OUT_STREAM,"%s%s %i, %i\n",TRACE_INDENT_INFO,string_test,int_test,int_test2); }
 
 /*!
  *  \brief traces a string and a hexadecimal integer
  */
-#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT,string_test,int_test); }
+#define TRACE_INFO_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TRACE_OUT_STREAM,"%s%s 0x%x\n",TRACE_INDENT_INFO,string_test,int_test); }
 
 /*!
  *  \brief traces a string and a pointer
  */
-#define TRACE_INFO_PTR(x,p) { const char *string_test = x; const void *ptr_test = p; fprintf(TRACE_OUT_STREAM,"%s%s @:%x\n",TRACE_INDENT,string_test,ptr_test); }
+#define TRACE_INFO_PTR(x,p) { const char *string_test = x; const void *ptr_test = p; fprintf(TRACE_OUT_STREAM,"%s%s @:%x\n",TRACE_INDENT_INFO,string_test,ptr_test); }
 
 /*!
  *  \brief traces a string and and an information string
  */
-#define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT,string_test,string2_test); }
+#define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT_INFO,string_test,string2_test); }
 
 /*!
  *  \brief traces a function start
@@ -79,7 +81,7 @@ extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a timestamp
  */
-#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT,tp.tv_sec,(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
+#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT_INFO,tp.tv_sec,(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
 
 #else  /* SWITCH */
 

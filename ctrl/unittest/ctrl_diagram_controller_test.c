@@ -78,10 +78,10 @@ static void create_read_modify_read(void)
 
     /* create a record */
 
-    diagram_id = -1;
+    diagram_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( -1 != diagram_id );
+    TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
 
     /* read this record */
 

@@ -83,10 +83,10 @@ static void create_read_modify_read(void)
 
     /* create a record */
 
-    classifier_id = -1;
+    classifier_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl, DIAGRAM_ID, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "my_component", &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( -1 != classifier_id );
+    TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
     /* read this record */
 
@@ -169,16 +169,16 @@ static void create_diagramelements_and_delete(void)
     data_id_t element_id;
 
     /* create the root diagram */
-    diagram_id = -1;
+    diagram_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, "root_diagram", &diagram_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( -1 != diagram_id );
+    TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
 
     /* create a classifier */
-    classifier_id = -1;
+    classifier_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl, diagram_id, DATA_CLASSIFIER_TYPE_UML_INTERFACE, "my_if", &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( -1 != classifier_id );
+    TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
     /* get the id of the diagramelement */
     data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 2, &read_vis_classifiers, &read_vis_classifiers_count );

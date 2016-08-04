@@ -7,6 +7,7 @@
 __thread int trace_indent_depth = 0;
 const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1] = ": : : : : : : : : : : : : : : \0";
 const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1] = ": : : : : : : : : : : : : : \' \0";
+const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1] = ": : : : : : : : : : : : : :   \0";
 
 
 /*

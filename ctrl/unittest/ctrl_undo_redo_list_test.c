@@ -9,6 +9,7 @@
 static void set_up(void);
 static void tear_down(void);
 static void undo_redo_classifier(void);
+static void undo_redo_list_limits(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -34,6 +35,7 @@ TestRef ctrl_undo_redo_list_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("undo_redo_classifier",undo_redo_classifier),
+        new_TestFixture("undo_redo_list_limits",undo_redo_list_limits),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_undo_redo_list_test",set_up,tear_down,fixtures);
 
@@ -64,7 +66,196 @@ static void tear_down(void)
 
 static void undo_redo_classifier(void)
 {
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    int64_t root_diagram_id;
+    int64_t classifier_id;
+    ctrl_diagram_controller_t *diag_ctrl;
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    ctrl_classifier_controller_t *classifier_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    ctrl_undo_redo_list_t *undo_redo;
+    undo_redo = ctrl_controller_get_undo_redo_list_ptr ( &controller );
+
+    /* create the root diagram */
+    root_diagram_id = DATA_ID_VOID_ID;
+    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
+                                                                           DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM,
+                                                                           "my_root_diag",
+                                                                           &root_diagram_id
+                                                                         );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( DATA_ID_VOID_ID != root_diagram_id );
+
+    /* create a classifier and a diagramelement */
+    classifier_id = DATA_ID_VOID_ID;
+    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
+                                                                         root_diagram_id,
+                                                                         DATA_CLASSIFIER_TYPE_UML_NODE,
+                                                                         "my_node",
+                                                                         &classifier_id
+                                                                       );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+
+    /*
+    ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_stereo" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    */
+
+    /* undo classifier and diagramelement creation */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        uint32_t read_vis_classifiers_count;
+        data_visible_classifier_t read_vis_classifiers[1];
+
+        data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 0, read_vis_classifiers_count );
+    }
+
+    /* undo root diagram creation */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_diagram_t read_diagram;
+        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+    }
+
+    /* redo root diagram creation */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        data_diagram_t read_diagram;
+        data_err = data_database_reader_get_diagram_by_id ( &db_reader, root_diagram_id, &read_diagram );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagram_get_parent_id( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, data_diagram_get_type( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_root_diag", data_diagram_get_name_ptr( &read_diagram ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &read_diagram ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &read_diagram ) );
+    }
+
+    /* redo classifier and diagramelement creation */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    {
+        uint32_t read_vis_classifiers_count;
+        data_visible_classifier_t read_vis_classifiers[1];
+        data_classifier_t *first_classifier;
+        first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
+
+        data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_NODE, data_classifier_get_main_type( first_classifier ) );
+        /*
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
+        */
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_y_order( first_classifier ) );
+    }
+}
+
+static void undo_redo_list_limits(void)
+{
     /* tests not yet implemented */
+
+    ctrl_error_t ctrl_err;
+    int64_t root_diagram_id;
+    int64_t child_diag_id;
+    ctrl_diagram_controller_t *diag_ctrl;
+    diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+    ctrl_undo_redo_list_t *undo_redo;
+    undo_redo = ctrl_controller_get_undo_redo_list_ptr ( &controller );
+
+    /* create the root diagram */
+    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
+                                                                           DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM,
+                                                                           "my_root_diag",
+                                                                           &root_diagram_id
+    );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* undo root diagram creation */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* undo at start of list */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+
+    /* redo root diagram creation */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* redo at end of list */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+
+    /* fill the list by creating classifiers and diagramelements */
+    for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-1/*first boundary*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
+    {
+        /* create a diagram */
+        ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+                                                            root_diagram_id,
+                                                            DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                            "diagram_name",
+                                                            &child_diag_id );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    }
+
+    /* create one more classifier and diagramelement */
+    ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+                                                        root_diagram_id,
+                                                        DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                        "diagram_name",
+                                                        &child_diag_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* undo everything that is possible */
+    for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-0/*first boundary is overwritten*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
+    {
+        ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    }
+
+    /* undo one more */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+
+    /* redo one */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* create a new diagram somewhere in the middle of the list */
+    ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+                                                        root_diagram_id,
+                                                        DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                        "diagram_name",
+                                                        &child_diag_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* redo one but already at end of the list */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+
+    /* undo 2 existing and one not existing */
+    /* undo one more */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    /* undo one more */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    /* undo one more */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
 }
 
 
