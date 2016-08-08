@@ -255,19 +255,24 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 {
     TRACE_BEGIN();
     assert( NULL != diagram );
-    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+    int64_t new_id;
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
+    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, *out_new_id );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, new_id );
+
+    if ( NULL != out_new_id )
+    {
+        *out_new_id = new_id;
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -339,19 +344,24 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 {
     TRACE_BEGIN();
     assert( NULL != classifier );
-    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+    int64_t new_id;
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
+    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, *out_new_id );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, new_id );
+
+    if ( NULL != out_new_id )
+    {
+        *out_new_id = new_id;
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -441,19 +451,24 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 {
     TRACE_BEGIN();
     assert( NULL != diagramelement );
-    assert( NULL != out_new_id );
     data_error_t result = DATA_ERROR_NONE;
+    int64_t new_id;
 
     result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, out_new_id );
+    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, *out_new_id );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, new_id );
+
+    if ( NULL != out_new_id )
+    {
+        *out_new_id = new_id;
+    }
 
     TRACE_END_ERR( result );
     return result;

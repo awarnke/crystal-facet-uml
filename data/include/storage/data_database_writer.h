@@ -63,7 +63,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram data of the new diagram record to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored.
+ *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
@@ -115,7 +115,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier data of the new classifier record to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored.
+ *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
@@ -177,7 +177,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
- *  \param out_new_id storage, where the id of the newly created record is stored.
+ *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id );

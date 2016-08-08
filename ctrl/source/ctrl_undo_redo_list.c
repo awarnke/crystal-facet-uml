@@ -95,12 +95,12 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
-                TRACE_INFO("boundary"); 
+                TRACE_INFO("boundary");
                 finished = true;
             }
             else
             {
-                TRACE_INFO("undo"); 
+                TRACE_INFO("undo");
                 result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), true );
             }
         }
@@ -136,17 +136,17 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
 
             if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY == ctrl_undo_redo_entry_get_action_type( &((*this_).buffer[index]) ) )
             {
-                TRACE_INFO("boundary"); 
+                TRACE_INFO("boundary");
                 finished = true;
             }
             else if ( (*this_).current == (*this_).length )
             {
-                TRACE_INFO("boundary"); 
+                TRACE_INFO("boundary");
                 finished = true;
             }
             if ( ! finished )
             {
-                TRACE_INFO("redo"); 
+                TRACE_INFO("redo");
                 result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), false );
             }
         }
@@ -172,8 +172,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             data_diagram_t *diag = ctrl_undo_redo_entry_get_diagram_before_action_ptr ( action );
             if ( undo )
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
             }
             else
             {
@@ -182,7 +181,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM" );
@@ -196,7 +195,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAM" );
@@ -208,20 +207,18 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             else
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_diagram ( (*this_).db_writer, diag, NULL );
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT" );
             data_diagramelement_t *diag_ele = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( action );
             if ( undo )
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
             }
             else
             {
@@ -230,7 +227,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
@@ -244,7 +241,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_DIAGRAMELEMENT" );
@@ -256,20 +253,18 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             else
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_diagramelement ( (*this_).db_writer, diag_ele, NULL );
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER" );
             data_classifier_t *classfy = ctrl_undo_redo_entry_get_classifier_before_action_ptr ( action );
             if ( undo )
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
             }
             else
             {
@@ -278,7 +273,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER" );
@@ -292,7 +287,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_CLASSIFIER" );
@@ -304,12 +299,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             else
             {
-                int64_t new_id;
-                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, &new_id );
+                result |= (ctrl_error_t) data_database_writer_create_classifier ( (*this_).db_writer, classfy, NULL );
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
@@ -323,7 +317,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
@@ -337,7 +331,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
@@ -351,7 +345,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
@@ -365,7 +359,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
@@ -379,7 +373,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
@@ -393,7 +387,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
         }
         break;
-        
+
         default:
         {
             LOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
