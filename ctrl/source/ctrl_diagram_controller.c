@@ -120,7 +120,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description );
+    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -135,7 +135,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name );
+    data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -150,7 +150,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type );
+    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

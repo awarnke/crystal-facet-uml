@@ -107,7 +107,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype );
+    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -122,7 +122,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description );
+    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -137,7 +137,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name );
+    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -152,7 +152,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
-    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type );
+    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, NULL );
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

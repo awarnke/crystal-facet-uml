@@ -67,12 +67,10 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id )
+data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != sql_statement );
-    assert( !(fetch_new_id) || (NULL != out_new_id) );
-    int64_t new_id;
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     char *error_msg = NULL;
@@ -110,10 +108,11 @@ data_error_t data_database_writer_private_execute_single_command ( data_database
             error_msg = NULL;
         }
 
-        if ( fetch_new_id && ( NULL != out_new_id ))
+        if ( NULL != out_new_id )
         {
             if ( SQLITE_OK == sqlite_err )
             {
+                int64_t new_id;
                 new_id = sqlite3_last_insert_rowid(db);
                 LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
                 *out_new_id = new_id;
@@ -251,7 +250,9 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
     return result;
 }
 
-data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id )
+data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
+                                                   const data_diagram_t *diagram,
+                                                   int64_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagram );
@@ -263,7 +264,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
+    result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -278,7 +279,10 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     return result;
 }
 
-data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description )
+data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_,
+                                                               int64_t diagram_id,
+                                                               const char* new_diagram_description,
+                                                               data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_description );
@@ -286,10 +290,20 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 
     result |= data_database_writer_private_lock( this_ );
 
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
+    }
+
     result |= data_database_sql_builder_build_update_diagram_description_cmd( &((*this_).sql_builder), diagram_id, new_diagram_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -299,7 +313,10 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
     return result;
 }
 
-data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name )
+data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_,
+                                                        int64_t diagram_id,
+                                                        const char* new_diagram_name,
+                                                        data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram_name );
@@ -307,10 +324,20 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 
     result |= data_database_writer_private_lock( this_ );
 
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
+    }
+
     result |= data_database_sql_builder_build_update_diagram_name_cmd( &((*this_).sql_builder), diagram_id, new_diagram_name );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -320,17 +347,30 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
     return result;
 }
 
-data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type )
+data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_,
+                                                        int64_t diagram_id,
+                                                        data_diagram_type_t new_diagram_type,
+                                                        data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
 
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
+    }
+
     result |= data_database_sql_builder_build_update_diagram_type_cmd( &((*this_).sql_builder), diagram_id, new_diagram_type );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -340,7 +380,9 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     return result;
 }
 
-data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id )
+data_error_t data_database_writer_create_classifier( data_database_writer_t *this_,
+                                                     const data_classifier_t *classifier,
+                                                     int64_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != classifier );
@@ -352,7 +394,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
+    result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -367,17 +409,30 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     return result;
 }
 
-data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_stereotype )
+data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_,
+                                                                 int64_t classifier_id,
+                                                                 const char* new_classifier_stereotype,
+                                                                 data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
 
     result |= data_database_sql_builder_build_update_classifier_stereotype_cmd( &((*this_).sql_builder), classifier_id, new_classifier_stereotype );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -387,17 +442,30 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
     return result;
 }
 
-data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_description )
+data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_,
+                                                                  int64_t classifier_id,
+                                                                  const char* new_classifier_description,
+                                                                  data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
 
     result |= data_database_sql_builder_build_update_classifier_description_cmd( &((*this_).sql_builder), classifier_id, new_classifier_description );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -407,17 +475,30 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
     return result;
 }
 
-data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_name )
+data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_,
+                                                           int64_t classifier_id,
+                                                           const char* new_classifier_name,
+                                                           data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
 
     result |= data_database_sql_builder_build_update_classifier_name_cmd( &((*this_).sql_builder), classifier_id, new_classifier_name );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -427,17 +508,30 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
     return result;
 }
 
-data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type )
+data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_,
+                                                                int64_t classifier_id,
+                                                                data_classifier_type_t new_classifier_main_type,
+                                                                data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
     result |= data_database_writer_private_lock( this_ );
 
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
+
     result |= data_database_sql_builder_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, false, NULL );
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -447,7 +541,9 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
     return result;
 }
 
-data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id )
+data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_,
+                                                         const data_diagramelement_t *diagramelement,
+                                                         int64_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != diagramelement );
@@ -459,7 +555,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
-    result |= data_database_writer_private_execute_single_command( this_, sql_cmd, true, &new_id );
+    result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -474,7 +570,9 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     return result;
 }
 
-data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement )
+data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_,
+                                                         int64_t obj_id,
+                                                         data_diagramelement_t *out_old_diagramelement )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -504,7 +602,9 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
     return result;
 }
 
-data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier )
+data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_,
+                                                     int64_t obj_id,
+                                                     data_classifier_t *out_old_classifier )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -555,7 +655,9 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
     return result;
 }
 
-data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram )
+data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
+                                                   int64_t obj_id,
+                                                   data_diagram_t *out_old_diagram )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;

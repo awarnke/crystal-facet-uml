@@ -86,9 +86,10 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_description new description text of the diagram
+ *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description );
+data_error_t data_database_writer_update_diagram_description ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_description, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: name
@@ -96,9 +97,10 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
+ *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name );
+data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *this_, int64_t diagram_id, const char* new_diagram_name, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief updates the diagram attribute: diagram_type
@@ -106,9 +108,10 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new diagram_type of the diagram
+ *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
+data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type, data_diagram_t *out_old_diagram );
 
 /*!
  *  \brief creates a new classifier and returns its id
@@ -138,9 +141,10 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_stereotype new stereotype text of the classifier
+ *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_stereotype );
+data_error_t data_database_writer_update_classifier_stereotype ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_stereotype, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: description
@@ -148,9 +152,10 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_description new description text of the classifier
+ *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_description );
+data_error_t data_database_writer_update_classifier_description ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_description, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: name
@@ -158,9 +163,10 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_name new name of the classifier
+ *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_name );
+data_error_t data_database_writer_update_classifier_name ( data_database_writer_t *this_, int64_t classifier_id, const char* new_classifier_name, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief updates the classifier attribute: main_type
@@ -168,9 +174,10 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_main_type new main_type of the classifier
+ *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
-data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+data_error_t data_database_writer_update_classifier_main_type ( data_database_writer_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type, data_classifier_t *out_old_classifier );
 
 /*!
  *  \brief creates a new diagramelement and returns its id
@@ -199,11 +206,10 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
  *
  *  \param this_ pointer to own object attributes
  *  \param sql_statement statement to be executed.
- *  \param fetch_new_id true if the statement creates a new row of which the id shall be returned. This parameter is important to avoid fetching newly created ids when no record was created.
  *  \param out_new_id if fetch_new_id, the id of the newly created row is returned
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise
  */
-data_error_t data_database_writer_private_execute_single_command ( data_database_writer_t *this_, const char* sql_statement, bool fetch_new_id, int64_t* out_new_id );
+data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id );
 
 /*!
  *  \brief executes a "BEGIN TRANSACTION" command
