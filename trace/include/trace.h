@@ -15,10 +15,10 @@
 #define TRACE_OUT_STREAM stdout
 #define TRACE_INDENT_MAX (16)
 extern __thread int trace_indent_depth;
-extern const char trace_indent_pattern[2*(TRACE_INDENT_MAX-1)+1];
+extern const char trace_indent_pattern_begin[2*(TRACE_INDENT_MAX-1)+1];
 extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];
 extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
-#define TRACE_INDENT (&(trace_indent_pattern[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
+#define TRACE_INDENT_BEGIN (&(trace_indent_pattern_begin[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 #define TRACE_INDENT_END (&(trace_indent_pattern_end[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 #define TRACE_INDENT_INFO (&(trace_indent_pattern_info[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
@@ -59,7 +59,7 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
  *
  *  Note: For every TRACE_BEGIN, one TRACE_END shall be called to create a nicely indented trace output
  */
-#define TRACE_BEGIN() { fprintf(TRACE_OUT_STREAM,"%s%s [begin]\n",TRACE_INDENT,__func__); trace_indent_depth++; }
+#define TRACE_BEGIN() { fprintf(TRACE_OUT_STREAM,"%s%s [begin]\n",TRACE_INDENT_BEGIN,__func__); trace_indent_depth++; }
 
 /*!
  *  \brief traces a function return
