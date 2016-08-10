@@ -1,7 +1,7 @@
-2016-0x-xx v005 [xxxxxxx]
+2016-08-xx 0.05 [xxxxxxx]
   + The program integrates into a freedesktop.org desktop
   + rpm and deb installers are generated
-  + undo/redo works for creating and deleting objects (not yet for modifications)
+  + undo/redo works for creating, modifying and deleting objects
 2016-07-03 v004 [09e8ac4]
   + The user can delete classifiers and diagrams
   - DB format incompatible to version 0.03 (alt: in diagramelements, manually create the column "display_flags" as INTEGER)

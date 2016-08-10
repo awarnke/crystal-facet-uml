@@ -187,7 +187,7 @@ static inline data_classifier_type_t data_classifier_get_main_type ( data_classi
  *  \brief sets the attribute main_type
  *
  *  \param this_ pointer to own object attributes
- *  \param id new main_type of this object
+ *  \param main_type new main_type of this object
  */
 static inline void data_classifier_set_main_type ( data_classifier_t *this_, data_classifier_type_t main_type );
 
