@@ -119,8 +119,19 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, NULL );
+    data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, &old_diagram );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagram_t new_diagram;
+        data_diagram_copy( &new_diagram, &old_diagram );
+        data_diagram_set_description( &new_diagram, new_diagram_description );
+        /* store the change of the diagram to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -134,8 +145,19 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name, NULL );
+    data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name, &old_diagram );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagram_t new_diagram;
+        data_diagram_copy( &new_diagram, &old_diagram );
+        data_diagram_set_name( &new_diagram, new_diagram_name );
+        /* store the change of the diagram to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -149,8 +171,19 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_diagram_t old_diagram;
 
-    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, NULL );
+    data_result = data_database_writer_update_diagram_type( (*this_).db_writer, diagram_id, new_diagram_type, &old_diagram );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagram_t new_diagram;
+        data_diagram_copy( &new_diagram, &old_diagram );
+        data_diagram_set_diagram_type( &new_diagram, new_diagram_type );
+        /* store the change of the diagram to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

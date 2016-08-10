@@ -106,8 +106,19 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, NULL );
+    data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_stereotype( &new_classifier, new_classifier_stereotype );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -121,8 +132,19 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, NULL );
+    data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_description( &new_classifier, new_classifier_description );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -136,8 +158,19 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, NULL );
+    data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_name( &new_classifier, new_classifier_name );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );
@@ -151,8 +184,19 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+    data_classifier_t old_classifier;
 
-    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, NULL );
+    data_result = data_database_writer_update_classifier_main_type( (*this_).db_writer, classifier_id, new_classifier_main_type, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_main_type( &new_classifier, new_classifier_main_type );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
     result = (ctrl_error_t) data_result;
 
     TRACE_END_ERR( result );

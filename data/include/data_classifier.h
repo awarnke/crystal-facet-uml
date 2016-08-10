@@ -184,12 +184,29 @@ static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id
 static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ );
 
 /*!
+ *  \brief sets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param id new main_type of this object
+ */
+static inline void data_classifier_set_main_type ( data_classifier_t *this_, data_classifier_type_t main_type );
+
+/*!
  *  \brief gets the attribute stereotype
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ );
+
+/*!
+ *  \brief sets the attribute stereotype
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param stereotype new main_type of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *this_, const char *stereotype );
 
 /*!
  *  \brief gets the attribute name
@@ -200,12 +217,30 @@ static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t
 static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ );
 
 /*!
+ *  \brief sets the attribute name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param name new name of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, const char *name );
+
+/*!
  *  \brief gets the attribute description
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
 static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ );
+
+/*!
+ *  \brief sets the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param description new description of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_classifier_set_description ( data_classifier_t *this_, const char *description );
 
 /*!
  *  \brief gets the attribute x_order
@@ -216,12 +251,28 @@ static inline const char *data_classifier_get_description_ptr ( data_classifier_
 static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ );
 
 /*!
+ *  \brief sets the attribute x_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x_order new x_order of this object
+ */
+static inline void data_classifier_set_x_order ( data_classifier_t *this_, int32_t x_order );
+
+/*!
  *  \brief gets the attribute y_order
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
 static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ );
+
+/*!
+ *  \brief sets the attribute y_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param y_order new y_order of this object
+ */
+static inline void data_classifier_set_y_order ( data_classifier_t *this_, int32_t y_order );
 
 /*!
  *  \brief checks if attribute id is not DATA_ID_VOID_ID

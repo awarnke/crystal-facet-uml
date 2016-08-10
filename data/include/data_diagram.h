@@ -158,12 +158,29 @@ static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ );
 static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ );
 
 /*!
+ *  \brief sets the attribute diagram_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type new diagram_type of this object
+ */
+static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_diagram_type_t diagram_type );
+
+/*!
  *  \brief gets the attribute name
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
 static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ );
+
+/*!
+ *  \brief sets the attribute name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param name new name of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name );
 
 /*!
  *  \brief gets the attribute description
@@ -174,12 +191,29 @@ static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ );
 static inline const char *data_diagram_get_description_ptr ( data_diagram_t *this_ );
 
 /*!
+ *  \brief sets the attribute description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param description new description of this object
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if new string too long
+ */
+static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description );
+
+/*!
  *  \brief gets the attribute list_order
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
 static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
+
+/*!
+ *  \brief sets the attribute list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param list_order new list_order of this object
+ */
+static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order );
 
 /*!
  *  \brief checks if attribute id is not DATA_ID_VOID_ID

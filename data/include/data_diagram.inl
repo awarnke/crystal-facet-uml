@@ -136,9 +136,27 @@ static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ 
     return (*this_).diagram_type;
 }
 
+static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_diagram_type_t diagram_type )
+{
+    (*this_).diagram_type = diagram_type;
+}
+
 static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
+}
+
+static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
 }
 
 static inline const char *data_diagram_get_description_ptr ( data_diagram_t *this_ )
@@ -146,9 +164,27 @@ static inline const char *data_diagram_get_description_ptr ( data_diagram_t *thi
     return utf8stringbuf_get_string( (*this_).description );
 }
 
+static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ )
 {
     return (*this_).list_order;
+}
+
+static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t list_order )
+{
+    (*this_).list_order = list_order;
 }
 
 static inline bool data_diagram_is_valid ( data_diagram_t *this_ )

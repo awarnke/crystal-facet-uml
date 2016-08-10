@@ -178,9 +178,27 @@ static inline data_classifier_type_t data_classifier_get_main_type ( data_classi
     return (*this_).main_type;
 }
 
+static inline void data_classifier_set_main_type ( data_classifier_t *this_, data_classifier_type_t main_type )
+{
+    (*this_).main_type = main_type;
+}
+
 static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).stereotype );
+}
+
+static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *this_, const char *stereotype )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
 }
 
 static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ )
@@ -188,9 +206,35 @@ static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this
     return utf8stringbuf_get_string( (*this_).name );
 }
 
+static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, const char *name )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
 static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
+}
+
+static inline data_error_t data_classifier_set_description ( data_classifier_t *this_, const char *description )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
 }
 
 static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ )
@@ -198,15 +242,26 @@ static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ )
     return (*this_).x_order;
 }
 
+static inline void data_classifier_set_x_order ( data_classifier_t *this_, int32_t x_order )
+{
+    (*this_).x_order = x_order;
+}
+
 static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ )
 {
     return (*this_).y_order;
+}
+
+static inline void data_classifier_set_y_order ( data_classifier_t *this_, int32_t y_order )
+{
+    (*this_).y_order = y_order;
 }
 
 static inline bool data_classifier_is_valid ( data_classifier_t *this_ )
 {
     return ( DATA_ID_VOID_ID != (*this_).id );
 }
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
