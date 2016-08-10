@@ -185,14 +185,22 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAM" );
+            data_diagram_t *diag;
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                diag = ctrl_undo_redo_entry_get_diagram_before_action_ptr ( action );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                diag = ctrl_undo_redo_entry_get_diagram_after_action_ptr ( action );
             }
+            int64_t diag_id = data_diagram_get_id ( diag );
+            data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag );
+            const char* diag_name = data_diagram_get_name_ptr ( diag );
+            const char* diag_description = data_diagram_get_description_ptr ( diag );
+            result |= (ctrl_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_diagram_name ( (*this_).db_writer, diag_id, diag_name, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_diagram_description ( (*this_).db_writer, diag_id, diag_description, NULL );
         }
         break;
 
@@ -233,10 +241,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
             if ( undo )
             {
+                LOG_ERROR( "function not implemented, not expected to be needed." );
                 result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
             else
             {
+                LOG_ERROR( "function not implemented, not expected to be needed." );
                 result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
         }
@@ -277,14 +287,24 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_CLASSIFIER" );
+            data_classifier_t *classfy;
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                classfy = ctrl_undo_redo_entry_get_classifier_before_action_ptr ( action );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                classfy = ctrl_undo_redo_entry_get_classifier_after_action_ptr ( action );
             }
+            int64_t classfy_id = data_classifier_get_id ( classfy );
+            data_classifier_type_t classfy_main_type = data_classifier_get_main_type ( classfy );
+            const char* classfy_stereotype = data_classifier_get_stereotype_ptr ( classfy );
+            const char* classfy_name = data_classifier_get_name_ptr ( classfy );
+            const char* classfy_description = data_classifier_get_description_ptr ( classfy );
+            result |= (ctrl_error_t) data_database_writer_update_classifier_main_type ( (*this_).db_writer, classfy_id, classfy_main_type, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_classifier_stereotype ( (*this_).db_writer, classfy_id, classfy_stereotype, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_classifier_name ( (*this_).db_writer, classfy_id, classfy_name, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_classifier_description ( (*this_).db_writer, classfy_id, classfy_description, NULL );
         }
         break;
 

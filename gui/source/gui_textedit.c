@@ -381,7 +381,7 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
         case DATA_TABLE_DIAGRAM:
             {
                 data_diagram_type_t unchanged_type;
-                unchanged_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
+                unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
                 if ( obj_type != unchanged_type )
                 {
                     ctrl_diagram_controller_t *diag_ctrl;
@@ -595,7 +595,7 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
         case DATA_TABLE_DIAGRAM:
             {
                 data_diagram_type_t diag_type;
-                diag_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
+                diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
                 int index;
                 index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).diagram_types ), 0, diag_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).diagram_types ) );
@@ -907,7 +907,7 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, 
             case DATA_TABLE_DIAGRAM:
                 {
                     data_diagram_type_t diag_type;
-                    diag_type = data_diagram_get_type( &((*this_).private_diagram_cache) );
+                    diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
                     int index;
                     index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, diag_type );
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );

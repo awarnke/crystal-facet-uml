@@ -98,10 +98,13 @@ static void undo_redo_classifier(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
-    /*
+    /* update the classifier */
     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_stereo" );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    */
+
+    /* undo classifier update */
+    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo classifier and diagramelement creation */
     ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
@@ -133,13 +136,17 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagram_get_id( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagram_get_parent_id( &read_diagram ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, data_diagram_get_type( &read_diagram ) );
+        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, data_diagram_get_diagram_type( &read_diagram ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_root_diag", data_diagram_get_name_ptr( &read_diagram ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &read_diagram ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &read_diagram ) );
     }
 
     /* redo classifier and diagramelement creation */
+    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* redo classifier update */
     ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     {
@@ -153,9 +160,7 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
         TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_NODE, data_classifier_get_main_type( first_classifier ) );
-        /*
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
-        */
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( first_classifier ) );

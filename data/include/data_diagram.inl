@@ -131,7 +131,7 @@ static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ )
     return (*this_).parent_id;
 }
 
-static inline data_diagram_type_t data_diagram_get_type ( data_diagram_t *this_ )
+static inline data_diagram_type_t data_diagram_get_diagram_type ( data_diagram_t *this_ )
 {
     return (*this_).diagram_type;
 }

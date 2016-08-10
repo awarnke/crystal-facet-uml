@@ -90,7 +90,7 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_id( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_id( &(read_diagrams[0]) ) );
-    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_type( &(read_diagrams[0]) ) );
+    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
@@ -114,7 +114,7 @@ static void create_read_modify_read(void)
     /* check that old data is not overwritten: */
     TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_id( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_id( &(read_diagrams[0]) ) );
-    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_type( &(read_diagrams[0]) ) );
+    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "diagram_name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
@@ -127,7 +127,7 @@ static void create_read_modify_read(void)
     /* check that new data is available */
     TEST_ASSERT_EQUAL_INT( diagram_id, data_diagram_get_id( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( PARENT_ID, data_diagram_get_parent_id( &(read_diagrams[0]) ) );
-    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_type( &(read_diagrams[0]) ) );
+    TEST_ASSERT_EQUAL_INT( DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, data_diagram_get_diagram_type( &(read_diagrams[0]) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, data_diagram_get_list_order( &(read_diagrams[0]) ) );
