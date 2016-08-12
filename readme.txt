@@ -13,6 +13,10 @@ How to run?
 --
 ./crystal_facet_uml
 
+How to install?
+--
+sudo make install
+
 Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
 Author: Andreas Warnke
 Copyright: Apache 2.0 License
