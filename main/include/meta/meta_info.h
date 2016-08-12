@@ -9,7 +9,7 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_INFO_VERSION_STR "0.05"
+#define META_INFO_VERSION_STR "0.06"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 
 #endif  /* META_INFO_H */
