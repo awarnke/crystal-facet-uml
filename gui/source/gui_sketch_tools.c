@@ -135,6 +135,11 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+    data_small_set_t *set_to_be_cut;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -150,6 +155,11 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+    data_small_set_t *set_to_be_copied;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    set_to_be_copied = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
