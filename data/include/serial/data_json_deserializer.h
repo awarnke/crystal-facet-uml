@@ -15,7 +15,7 @@
  *  \brief all data attributes needed for deserializing data objects
  */
 struct data_json_deserializer_struct {
-    int32_t dummy;
+    int dummy;
 };
 
 typedef struct data_json_deserializer_struct data_json_deserializer_t;

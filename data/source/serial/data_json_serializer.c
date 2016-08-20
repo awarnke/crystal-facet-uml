@@ -9,6 +9,8 @@ void data_json_serializer_init ( data_json_serializer_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).in_array = false;
+
     TRACE_END();
 }
 
@@ -17,6 +19,62 @@ void data_json_serializer_destroy ( data_json_serializer_t *this_ )
     TRACE_BEGIN();
 
     TRACE_END();
+}
+
+/*
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was already called.
+ */
+data_error_t data_json_serializer_begin_array ( data_json_serializer_t *this_, utf8stringbuf_t out )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/*
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_end_array() was already called.
+ */
+data_error_t data_json_serializer_end_array ( data_json_serializer_t *this_, utf8stringbuf_t out )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/*
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
+ */
+data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_, data_classifier_t object, utf8stringbuf_t out )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/*
+ *  \return DATA_ERROR_NONE in case of success,
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
+ */
+data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t object, utf8stringbuf_t out )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 
