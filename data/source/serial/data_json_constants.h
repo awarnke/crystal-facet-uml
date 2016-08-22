@@ -9,6 +9,21 @@
  *  \brief Defines constants for key-strings in json format.
  */
 
+/* structure */
+#define DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL "{\n"
+#define DATA_JSON_CONSTANTS_END_OBJECT_NL "}\n"
+#define DATA_JSON_CONSTANTS_TAB "  "
+#define DATA_JSON_CONSTANTS_QUOTE "\""
+#define DATA_JSON_CONSTANTS_DEF ": "
+#define DATA_JSON_CONSTANTS_BEGIN_ARRAY_NL "[\n"
+#define DATA_JSON_CONSTANTS_END_ARRAY_NL "]\n"
+#define DATA_JSON_CONSTANTS_NEXT_NL ",\n"
+
+/* content */
+#define DATA_JSON_CONSTANTS_KEY_SET "set"
+#define DATA_JSON_CONSTANTS_KEY_NAME "name"
+#define DATA_JSON_CONSTANTS_KEY_DESCRIPTION "description"
+
 #endif  /* DATA_JSON_CONSTANTS_H */
 
 

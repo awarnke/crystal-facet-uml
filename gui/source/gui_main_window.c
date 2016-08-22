@@ -131,12 +131,23 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).toolbar = gtk_toolbar_new ();
 
+    /* determine the current/main clipboard */
+    GtkClipboard *current_clipboard;
+    {
+        GdkScreen *current_screen;
+        current_screen = gtk_window_get_screen ( GTK_WINDOW((*this_).window) );
+        GdkDisplay *current_display;
+        current_display = gdk_screen_get_display ( current_screen );
+        current_clipboard = gtk_clipboard_get_for_display ( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
+    }
+
     gui_sketch_marker_init( &((*this_).sketchmarker_data) );
     gui_sketch_tools_init( &((*this_).sketchtools_data),
                            (*this_).tool_navigate,
                            (*this_).tool_edit,
                            (*this_).tool_new_obj,
                            (*this_).tool_new_view,
+                           current_clipboard,
                            &((*this_).sketchmarker_data),
                            &((*this_).message_to_user),
                            controller

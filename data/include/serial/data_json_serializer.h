@@ -20,6 +20,7 @@
  */
 struct data_json_serializer_struct {
     bool in_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
+    bool is_first;  /*!< true if after begin_array(), no object was inserted yet. */
 };
 
 typedef struct data_json_serializer_struct data_json_serializer_t;
@@ -47,7 +48,7 @@ void data_json_serializer_destroy ( data_json_serializer_t *this_ );
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was already called.
  */
-data_error_t data_json_serializer_begin_array ( data_json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t data_json_serializer_begin_set ( data_json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief ends a json object containing an array of objects
@@ -58,31 +59,31 @@ data_error_t data_json_serializer_begin_array ( data_json_serializer_t *this_, u
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_end_array() was already called.
  */
-data_error_t data_json_serializer_end_array ( data_json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a classifier to the stringbuffer
  *
  *  \param this_ pointer to own object attributes
- *  \param object the object to serialize
+ *  \param object a pointer to the object to serialize
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
  */
-data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_, data_classifier_t object, utf8stringbuf_t out );
+data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_, data_classifier_t *object, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a diagram to the stringbuffer
  *
  *  \param this_ pointer to own object attributes
- *  \param object the object to serialize
+ *  \param object a pointer to the object to serialize
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
  */
-data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t object, utf8stringbuf_t out );
+data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t *object, utf8stringbuf_t out );
 
 #endif  /* DATA_JSON_SERIALIZER_H */
 

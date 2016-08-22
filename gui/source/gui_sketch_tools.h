@@ -10,7 +10,10 @@
 
 #include "gui_sketch_marker.h"
 #include "gui_simple_message_to_user.h"
+#include "serial/data_json_serializer.h"
+#include "serial/data_json_deserializer.h"
 #include "ctrl_controller.h"
+#include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -26,7 +29,7 @@ enum gui_sketch_tools_tool_enum {
 typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
 
 /*!
- *  \brief attributes of the sketch area widget
+ *  \brief attributes of the sketch tools object
  */
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;
@@ -35,10 +38,16 @@ struct gui_sketch_tools_struct {
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;
 
-    GtkToolItem *tool_navigate;  /* pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_edit;  /* pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_new_obj;  /* pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_new_view;  /* pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_new_obj;  /*!< pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_new_view;  /*!< pointer to external GtkRadioToolButton */
+
+    GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
+    utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
+    char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
+    data_json_serializer_t serializer;  /*!< own instance of a json serializer */
+    data_json_deserializer_t deserializer;  /*!< own instance of a json de-serializer */
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
@@ -49,6 +58,7 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_sketch_tools_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param clipboard pointer to the main/primary GtkClipboard
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
@@ -56,6 +66,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                              GtkToolItem *tool_edit,
                              GtkToolItem *tool_new_obj,
                              GtkToolItem *tool_new_view,
+                             GtkClipboard *clipboard,
                              gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              ctrl_controller_t *controller

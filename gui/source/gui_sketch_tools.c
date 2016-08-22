@@ -16,6 +16,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                              GtkToolItem *tool_edit,
                              GtkToolItem *tool_new_obj,
                              GtkToolItem *tool_new_view,
+                             GtkClipboard *clipboard,
                              gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              ctrl_controller_t *controller )
@@ -32,6 +33,11 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
     (*this_).tool_edit = tool_edit;
     (*this_).tool_new_obj = tool_new_obj;
     (*this_).tool_new_view = tool_new_view;
+    (*this_).the_clipboard = clipboard;
+    (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
+                                                       (*this_).private_clipboard_buffer );
+    data_json_serializer_init( &((*this_).serializer) );
+    data_json_deserializer_init( &((*this_).deserializer) );
 
     /* define a new signal */
     if ( ! gui_sketch_tools_glib_signal_initialized )
@@ -58,6 +64,9 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
 void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
 {
     TRACE_BEGIN();
+
+    data_json_serializer_destroy( &((*this_).serializer) );
+    data_json_deserializer_destroy( &((*this_).deserializer) );
 
     (*this_).controller = NULL;
     (*this_).listener = NULL;
@@ -141,6 +150,14 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
+    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+
+    data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+
+    gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
+    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                          GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
@@ -161,6 +178,14 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_copied = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
+    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+
+    data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+
+    gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
+    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                          GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
@@ -175,6 +200,8 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
