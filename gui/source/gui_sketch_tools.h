@@ -34,6 +34,7 @@ typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;
 struct gui_sketch_tools_struct {
     gui_sketch_tools_tool_t selected_tool;
     GObject *listener;
+    data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;
@@ -69,6 +70,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                              GtkClipboard *clipboard,
                              gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
+                             data_database_reader_t *db_reader,
                              ctrl_controller_t *controller
                            );
 
@@ -164,6 +166,16 @@ static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief copies a set of objects to the clipboard
+ */
+void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_copied );
+
+/*!
+ *  \brief deletes a set of objects
+ */
+void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_deleted );
 
 #include "gui_sketch_tools.inl"
 

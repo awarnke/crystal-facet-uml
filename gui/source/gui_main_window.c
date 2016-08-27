@@ -150,6 +150,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                            current_clipboard,
                            &((*this_).sketchmarker_data),
                            &((*this_).message_to_user),
+                           db_reader,
                            controller
     );
 

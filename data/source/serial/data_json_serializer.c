@@ -34,8 +34,8 @@ data_error_t data_json_serializer_begin_set ( data_json_serializer_t *this_, utf
 
         utf8error_t strerr = UTF8ERROR_SUCCESS;
 
-        strerr |= utf8stringbuf_append_str( out, DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL );
         strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_QUOTE
                                             DATA_JSON_CONSTANTS_KEY_SET
@@ -72,8 +72,8 @@ data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8s
 
         strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_TAB
-                                            DATA_JSON_CONSTANTS_END_ARRAY_NL );
-        strerr |= utf8stringbuf_append_str( out, DATA_JSON_CONSTANTS_END_OBJECT_NL );
+                                            DATA_JSON_CONSTANTS_END_ARRAY_NL
+                                            DATA_JSON_CONSTANTS_END_OBJECT_NL );
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {
@@ -105,6 +105,39 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
     {
         utf8error_t strerr = UTF8ERROR_SUCCESS;
 
+        /* separate objects if not first */
+        if ( (*this_).is_first )
+        {
+            (*this_).is_first = false;
+        }
+        else
+        {
+            strerr |= utf8stringbuf_append_str( out,
+                                                DATA_JSON_CONSTANTS_TAB
+                                                DATA_JSON_CONSTANTS_TAB
+                                                DATA_JSON_CONSTANTS_NEXT_NL );
+        }
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            "classifier"
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_END_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_END_OBJECT_NL );
+
         if ( strerr != UTF8ERROR_SUCCESS )
         {
             LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
@@ -134,6 +167,39 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
     if ( (*this_).in_array )
     {
         utf8error_t strerr = UTF8ERROR_SUCCESS;
+
+        /* separate objects if not first */
+        if ( (*this_).is_first )
+        {
+            (*this_).is_first = false;
+        }
+        else
+        {
+            strerr |= utf8stringbuf_append_str( out,
+                                                DATA_JSON_CONSTANTS_TAB
+                                                DATA_JSON_CONSTANTS_TAB
+                                                DATA_JSON_CONSTANTS_NEXT_NL );
+        }
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            "diagram"
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_END_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_END_OBJECT_NL );
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {

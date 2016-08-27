@@ -19,6 +19,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                              GtkClipboard *clipboard,
                              gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
+                             data_database_reader_t *db_reader,
                              ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
@@ -28,6 +29,7 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
     (*this_).listener = NULL;
     (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
+    (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     (*this_).tool_navigate = tool_navigate;
     (*this_).tool_edit = tool_edit;
@@ -68,6 +70,7 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
     data_json_serializer_destroy( &((*this_).serializer) );
     data_json_deserializer_destroy( &((*this_).deserializer) );
 
+    (*this_).db_reader = NULL;
     (*this_).controller = NULL;
     (*this_).listener = NULL;
     (*this_).marker = NULL;
@@ -150,19 +153,11 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+    gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_cut );
 
-    data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
-    data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    gui_sketch_tools_private_delete_set( this_, set_to_be_cut );
 
-    gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
-    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
-
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Cut"
-    );
+    gui_sketch_marker_clear_selected_set( (*this_).marker );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -178,21 +173,104 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_copied = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
-
-    data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
-    data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
-
-    gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
-    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
-
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Copy"
-    );
+    gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_copied );
 
     TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_copied )
+{
+    TRACE_BEGIN();
+    data_error_t serialize_error = DATA_ERROR_NONE;
+    data_error_t read_error;
+
+    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+
+    serialize_error |= data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
+    {
+        data_id_t current_id;
+        current_id = data_small_set_get_id( set_to_be_copied, index );
+        switch ( data_id_get_table( &current_id ) )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+                data_classifier_t out_classifier;
+                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                         data_id_get_row_id( &current_id ),
+                                                                         &out_classifier );
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    serialize_error |= data_json_serializer_append_classifier( &((*this_).serializer), &out_classifier, (*this_).clipboard_stringbuf );
+                }
+                else
+                {
+                    /* program internal error */
+                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                }
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            {
+                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            {
+                TRACE_INFO( "DATA_TABLE_DIAGRAMELEMENT skipped." );
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                data_diagram_t out_diagram;
+                read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
+                                                                      data_id_get_row_id( &current_id ),
+                                                                      &out_diagram );
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    serialize_error |= data_json_serializer_append_diagram( &((*this_).serializer), &out_diagram, (*this_).clipboard_stringbuf );
+                }
+                else
+                {
+                    /* program internal error */
+                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                }
+            }
+            break;
+
+            default:
+            {
+                serialize_error |= DATA_ERROR_VALUE_OUT_OF_RANGE;
+            }
+            break;
+        }
+    }
+    serialize_error |= data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+
+    if ( serialize_error == DATA_ERROR_NONE )
+    {
+        gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
+    }
+    else
+    {
+        /* error to be shown to the user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+        );
+    }
+    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
+
     TRACE_END();
 }
 
@@ -217,13 +295,26 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
-    ctrl_error_t ctrl_err;
     data_small_set_t *set_to_be_deleted;
-    ctrl_classifier_controller_t *c_controller;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+
+    gui_sketch_tools_private_delete_set( this_, set_to_be_deleted );
+
+    gui_sketch_marker_clear_selected_set( (*this_).marker );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_deleted )
+{
+    TRACE_BEGIN();
+    ctrl_error_t ctrl_err;
+    ctrl_classifier_controller_t *c_controller;
+
     c_controller = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
     ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
@@ -245,9 +336,6 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
         LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
 
-    gui_sketch_marker_clear_selected_set( (*this_).marker );
-
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
