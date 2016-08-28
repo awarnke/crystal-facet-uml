@@ -226,7 +226,35 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
 
             case DATA_TABLE_DIAGRAMELEMENT:
             {
-                TRACE_INFO( "DATA_TABLE_DIAGRAMELEMENT skipped." );
+                data_classifier_t out_classifier;
+                data_diagramelement_t out_diagramelement;
+                int64_t classifier_id;
+
+                read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
+                                                                             data_id_get_row_id( &current_id ),
+                                                                             &out_diagramelement );
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
+
+                    read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                             classifier_id,
+                                                                             &out_classifier );
+                    if ( read_error == DATA_ERROR_NONE )
+                    {
+                        serialize_error |= data_json_serializer_append_classifier( &((*this_).serializer), &out_classifier, (*this_).clipboard_stringbuf );
+                    }
+                    else
+                    {
+                        /* program internal error */
+                        LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    }
+                }
+                else
+                {
+                    /* program internal error */
+                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                }
             }
             break;
 
