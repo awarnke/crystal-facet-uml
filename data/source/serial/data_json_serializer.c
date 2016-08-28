@@ -99,6 +99,7 @@ data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8s
 data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_, data_classifier_t *object, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
+    assert ( NULL != object );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).in_array )
@@ -126,10 +127,26 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_QUOTE
-                                            "classifier"
+                                            DATA_JSON_CONSTANTS_KEY_CLASSIFIER
                                             DATA_JSON_CONSTANTS_QUOTE
                                             DATA_JSON_CONSTANTS_DEF
-                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_ID
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_classifier_get_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
@@ -162,6 +179,7 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
 data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t *object, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
+    assert ( NULL != object );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).in_array )
@@ -189,10 +207,26 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_QUOTE
-                                            "diagram"
+                                            DATA_JSON_CONSTANTS_KEY_DIAGRAM
                                             DATA_JSON_CONSTANTS_QUOTE
                                             DATA_JSON_CONSTANTS_DEF
-                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL
+                                            DATA_JSON_CONSTANTS_BEGIN_OBJECT_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_ID
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_diagram_get_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
                                             DATA_JSON_CONSTANTS_TAB
