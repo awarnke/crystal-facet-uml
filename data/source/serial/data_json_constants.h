@@ -25,6 +25,8 @@
 #define DATA_JSON_CONSTANTS_KEY_CLASSIFIER "classifier"
 #define DATA_JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define DATA_JSON_CONSTANTS_KEY_ID "id"
+#define DATA_JSON_CONSTANTS_KEY_DIAGRAM_TYPE "diagram_type"
+#define DATA_JSON_CONSTANTS_KEY_MAIN_TYPE "main_type"
 
 #endif  /* DATA_JSON_CONSTANTS_H */
 

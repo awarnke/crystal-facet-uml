@@ -144,6 +144,20 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
         strerr |= utf8stringbuf_append_int( out,
                                             data_classifier_get_id( object ));
         strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NEXT_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_MAIN_TYPE
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_classifier_get_main_type( object ));
+        strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_NL );
 
         strerr |= utf8stringbuf_append_str( out,
@@ -223,6 +237,20 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
                                             DATA_JSON_CONSTANTS_DEF );
         strerr |= utf8stringbuf_append_int( out,
                                             data_diagram_get_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NEXT_NL );
+
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_DIAGRAM_TYPE
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_diagram_get_diagram_type( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_NL );
 
