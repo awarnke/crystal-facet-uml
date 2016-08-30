@@ -132,6 +132,11 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data );
 void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
+ *  \brief callback that informs that the text from the clipboard is now available
+ */
+void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *text, gpointer data );
+
+/*!
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data );

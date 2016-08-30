@@ -309,11 +309,39 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
+    /*
+    gchar *clipboard_text;
+    clipboard_text = gtk_clipboard_wait_for_text ( (*this_).the_clipboard );
+    if ( clipboard_text != NULL )
+    {
+        TRACE_INFO ( clipboard_text );
+        g_free( clipboard_text );
+    }
+    */
+
+    /* this more complicated call avoids recursive calls of the gdk main loop */
+    gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_sketch_tools_clipboard_text_received_callback, this_);
+
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                          GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
                                                          "Paste"
     );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+
+void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_tools_t *this_ = data;
+
+    if ( clipboard_text != NULL )
+    {
+        TRACE_INFO ( clipboard_text );
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
