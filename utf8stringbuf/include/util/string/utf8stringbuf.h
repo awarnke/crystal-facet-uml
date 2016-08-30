@@ -635,6 +635,20 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
 static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
 
 /*!
+ * \brief Splits a string buffer into an ignored first part and the terminating zero part
+ *
+ * The end part can be modified till the original/whole string buffer is modified.
+ * This function may be useful when building an string using the append functions:
+ * Future append calls are faster because the utf8stringbuf is smaller and you may modify the last
+ * appended part by the replace functions without touching the first part.
+ * Do not call \link utf8stringbuf_join(utf8stringbuf_t) utf8stringbuf_join \endlink after this operation.
+ * \note Performance-Rating: [ ]single-operation   [x]fast   [ ]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ The string buffer
+ * \return an utf8stringbuf containing only the end
+ */
+static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ );
+
+/*!
  * \brief Splits a string buffer into two substrings
  *
  * This function changes the string buffer in a way that every substring is null-terminated.

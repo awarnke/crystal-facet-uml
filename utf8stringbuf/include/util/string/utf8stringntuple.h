@@ -4,19 +4,19 @@
 /*!
  *  \file utf8stringntuple.h
  *  \brief utf8stringNTuple provides types for pairs, triples and n-tuples of c-strings.
- * 
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */ 
+ */
 
 #include "util/string/utf8error.h"
 
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
-/*! 
- *  \brief A pair of standard utf8-encoded C-Strings. 
+
+/*!
+ *  \brief A pair of standard utf8-encoded C-Strings.
  */
 struct utf8string2tuple_struct {
     char* first;        /*!< pointer to the first 0-terminated and utf8-encoded string */
@@ -26,12 +26,12 @@ struct utf8string2tuple_struct {
 
 /*!
  *  \typedef utf8string2tuple_t
- *  \brief A pair of standard utf8-encoded C-Strings. 
+ *  \brief A pair of standard utf8-encoded C-Strings.
  */
 typedef struct utf8string2tuple_struct utf8string2tuple_t;
 
-/*! 
- *  \brief A triple of standard utf8-encoded C-Strings. 
+/*!
+ *  \brief A triple of standard utf8-encoded C-Strings.
  */
 struct utf8string3tuple_struct {
     char* first;        /*!< pointer to the first 0-terminated and utf8-encoded string */
@@ -42,12 +42,12 @@ struct utf8string3tuple_struct {
 
 /*!
  *  \typedef utf8string3tuple_t
- *  \brief A triple of standard utf8-encoded C-Strings. 
+ *  \brief A triple of standard utf8-encoded C-Strings.
  */
 typedef struct utf8string3tuple_struct utf8string3tuple_t;
 
-/*! 
- *  \brief A quadruple of standard utf8-encoded C-Strings. 
+/*!
+ *  \brief A quadruple of standard utf8-encoded C-Strings.
  */
 struct utf8string4tuple_struct {
     char* first;        /*!< pointer to the first 0-terminated and utf8-encoded string */
@@ -59,12 +59,12 @@ struct utf8string4tuple_struct {
 
 /*!
  *  \typedef utf8string4tuple_t
- *  \brief A quadruple of standard utf8-encoded C-Strings. 
+ *  \brief A quadruple of standard utf8-encoded C-Strings.
  */
 typedef struct utf8string4tuple_struct utf8string4tuple_t;
 
-/*! 
- *  \brief A quintuple of standard utf8-encoded C-Strings. 
+/*!
+ *  \brief A quintuple of standard utf8-encoded C-Strings.
  */
 struct utf8string5tuple_struct {
     char* first;        /*!< pointer to the first 0-terminated and utf8-encoded string */
@@ -77,7 +77,7 @@ struct utf8string5tuple_struct {
 
 /*!
  *  \typedef utf8string5tuple_t
- *  \brief A quintuple of standard utf8-encoded C-Strings. 
+ *  \brief A quintuple of standard utf8-encoded C-Strings.
  */
 typedef struct utf8string5tuple_struct utf8string5tuple_t;
 

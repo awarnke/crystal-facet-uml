@@ -1,9 +1,9 @@
 /*!
  *  \file utf8stringbuf.inl
- * 
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2016 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */ 
+ */
 
 /*#ifndef UTF8STRINGBUF_INL_*/
 /*#define UTF8STRINGBUF_INL_*/
@@ -16,7 +16,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 /*!
  *  \enum utf8stringbuf_bool_enum
  *  \private
@@ -316,7 +316,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
     }
     else {
         unsigned int start = strlen( this_.buf );
-        
+
         unsigned int appLen = strlen( appendix );
         if ( start + appLen < this_.size ) {
             memcpy( &(this_.buf[start]), appendix, appLen+1 );
@@ -326,7 +326,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
             utf8_string_buf_private_make_null_termination( this_ );
             result = UTF8ERROR_TRUNCATED;
         }
-        
+
         /* For the standard use case, strlen and memcpy are faster than strncpy; strncat does not provide an error */
     }
     return result;
@@ -335,7 +335,7 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
 static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const utf8stringbuf_t appendix ) {
     utf8error_t result = UTF8ERROR_SUCCESS;
     unsigned int start = strlen( this_.buf );
-    
+
     unsigned int appLen = strlen( appendix.buf );
     if ( start + appLen < this_.size ) {
         memcpy( &(this_.buf[start]), appendix.buf, appLen+1 );
@@ -345,7 +345,7 @@ static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const
         utf8_string_buf_private_make_null_termination( this_ );
         result = UTF8ERROR_TRUNCATED;
     }
-        
+
     /* For the standard use case, strlen and memcpy are faster than strncpy; strncat does not provide an error */
     return result;
 }
@@ -397,6 +397,11 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
 static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert ) {
     unsigned int this_Length = utf8stringbuf_get_length( this_ );
     return utf8_string_buf_private_replace_region_by_str( this_, this_Length, start, 0, insert.buf );
+}
+
+static inline utf8stringbuf_t utf8stringbuf_get_end( utf8stringbuf_t this_ ) {
+    unsigned int this_Length = utf8stringbuf_get_length( this_ );
+    return utf8stringbuf_init( this_.size-this_Length, &(this_.buf[this_Length]) );
 }
 
 #ifdef __cplusplus
