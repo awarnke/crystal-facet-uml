@@ -320,7 +320,7 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
     */
 
     /* this more complicated call avoids recursive calls of the gdk main loop */
-    gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_sketch_tools_clipboard_text_received_callback, this_);
+    gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_sketch_tools_clipboard_text_received_callback, this_ );
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
