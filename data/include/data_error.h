@@ -26,6 +26,7 @@ enum data_error_enum {
     DATA_ERROR_INVALID_REQUEST = (~(0x00ffffef)),  /*!< 0x000010: function call not allowed or parameters wrong */
     DATA_ERROR_INPUT_EMPTY = (~(0x00ffffdf)),  /*!< 0x000020: input parameter is empty or void */
     DATA_ERROR_OBJECT_STILL_REFERENCED = (~(0x00ffffbf)),  /*!< 0x000040: object cannot be deleted, it is still referenced */
+    DATA_ERROR_LEXICAL_STRUCTURE = (~(0x00ffff7f)),  /*!< 0x000080: the structure of the input-string is corrupted */
     DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< 0x010000: unexpected internal error at mutex */
     DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< 0x020000: unexpected internal error at database */
     DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< 0x040000: unexpected internal error: an id is used twice */

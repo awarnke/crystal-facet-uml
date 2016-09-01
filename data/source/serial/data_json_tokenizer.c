@@ -1,25 +1,21 @@
-/* File: data_json_deserializer.c; Copyright and License: see below */
+/* File: data_json_tokenizer.c; Copyright and License: see below */
 
-#include "serial/data_json_deserializer.h"
+#include "serial/data_json_tokenizer.h"
 #include "trace.h"
 #include "log.h"
 #include <assert.h>
 
-void data_json_deserializer_init ( data_json_deserializer_t *this_ )
+void data_json_tokenizer_init ( data_json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
-
-    data_json_tokenizer_init( &((*this_).tokenizer) );
 
     TRACE_END();
 }
 
-void data_json_deserializer_destroy ( data_json_deserializer_t *this_ )
+void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_json_tokenizer_destroy( &((*this_).tokenizer) );
-    
     TRACE_END();
 }
 

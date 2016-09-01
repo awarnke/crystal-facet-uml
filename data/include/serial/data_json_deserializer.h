@@ -8,13 +8,10 @@
  *  \file
  *  \brief Deserializes data objects from json format.
  *
- *  This data_json_deserializer verifies the JSON file structure and allows the caller to validate the data structure.
- *
- *  In contrast to a DOM parser, this data_json_deserializer parses the input sequentially and provides parsed contents step by step.
- *  In contrast to a SAX parser, this data_json_deserializer does not require callbacks that are called whenever the next token is parsed.
- *  This data_json_deserializer allows the caller to specify the expectation what the next token is and fails if this expectation is wrong.
+ *  This object is a json parser, using the data_json_tokenizer as lexer.
  */
 
+#include "serial/data_json_tokenizer.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -24,7 +21,7 @@
  *  \brief all data attributes needed for deserializing data objects
  */
 struct data_json_deserializer_struct {
-    int dummy;
+    data_json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
 };
 
 typedef struct data_json_deserializer_struct data_json_deserializer_t;
@@ -42,36 +39,6 @@ void data_json_deserializer_init ( data_json_deserializer_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void data_json_deserializer_destroy ( data_json_deserializer_t *this_ );
-
-data_error_t data_json_deserializer_is_object_begin ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, bool *object_begin );
-
-data_error_t data_json_deserializer_expect_object_begin ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos );
-
-data_error_t data_json_deserializer_expect_attribute_key ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, const char *key );
-
-data_error_t data_json_deserializer_get_attribute_key ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, utf8stringbuf_t out );
-
-data_error_t data_json_deserializer_is_object_end ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, bool *object_end );
-
-data_error_t data_json_deserializer_expect_object_end ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos );
-
-data_error_t data_json_deserializer_is_array_begin ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, bool *array_begin );
-
-data_error_t data_json_deserializer_expect_array_begin ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos );
-
-data_error_t data_json_deserializer_is_array_end ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, bool *array_end );
-
-data_error_t data_json_deserializer_expect_array_end ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos );
-
-data_error_t data_json_deserializer_get_value_type ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, int *value_type );
-
-data_error_t data_json_deserializer_get_string_value ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, utf8stringbuf_t out );
-
-data_error_t data_json_deserializer_get_int_value ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, int64_t *out );
-
-data_error_t data_json_deserializer_is_eof ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos, bool *eof );
-
-data_error_t data_json_deserializer_expect_eof ( data_json_deserializer_t *this_, utf8stringbuf_t in_data, uint32_t *io_read_pos );
 
 #endif  /* DATA_JSON_DESERIALIZER_H */
 
