@@ -2,6 +2,8 @@
 
 #include "gui_sketch_tools.h"
 #include "trace.h"
+#include "serial/data_json_serializer.h"
+#include "serial/data_json_deserializer.h"
 #include "ctrl_error.h"
 #include <assert.h>
 #include <gtk/gtk.h>
@@ -38,8 +40,6 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
     (*this_).the_clipboard = clipboard;
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
                                                        (*this_).private_clipboard_buffer );
-    data_json_serializer_init( &((*this_).serializer) );
-    data_json_deserializer_init( &((*this_).deserializer) );
 
     /* define a new signal */
     if ( ! gui_sketch_tools_glib_signal_initialized )
@@ -66,9 +66,6 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
 void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
 {
     TRACE_BEGIN();
-
-    data_json_serializer_destroy( &((*this_).serializer) );
-    data_json_deserializer_destroy( &((*this_).deserializer) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -184,10 +181,12 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
     TRACE_BEGIN();
     data_error_t serialize_error = DATA_ERROR_NONE;
     data_error_t read_error;
+    data_json_serializer_t serializer;
 
+    data_json_serializer_init( &serializer );
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
-    serialize_error |= data_json_serializer_begin_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    serialize_error |= data_json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
     {
         data_id_t current_id;
@@ -202,7 +201,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                                                                          &out_classifier );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= data_json_serializer_append_classifier( &((*this_).serializer), &out_classifier, (*this_).clipboard_stringbuf );
+                    serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
                 }
                 else
                 {
@@ -242,7 +241,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                                                                              &out_classifier );
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        serialize_error |= data_json_serializer_append_classifier( &((*this_).serializer), &out_classifier, (*this_).clipboard_stringbuf );
+                        serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
                     }
                     else
                     {
@@ -266,7 +265,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                                                                       &out_diagram );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= data_json_serializer_append_diagram( &((*this_).serializer), &out_diagram, (*this_).clipboard_stringbuf );
+                    serialize_error |= data_json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
                 }
                 else
                 {
@@ -283,7 +282,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
             break;
         }
     }
-    serialize_error |= data_json_serializer_end_set( &((*this_).serializer), (*this_).clipboard_stringbuf );
+    serialize_error |= data_json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
 
     if ( serialize_error == DATA_ERROR_NONE )
     {
@@ -299,6 +298,8 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
     }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
+    data_json_serializer_destroy( &serializer );
+
     TRACE_END();
 }
 
@@ -309,17 +310,7 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
-    /*
-    gchar *clipboard_text;
-    clipboard_text = gtk_clipboard_wait_for_text ( (*this_).the_clipboard );
-    if ( clipboard_text != NULL )
-    {
-        TRACE_INFO ( clipboard_text );
-        g_free( clipboard_text );
-    }
-    */
-
-    /* this more complicated call avoids recursive calls of the gdk main loop */
+    /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_sketch_tools_clipboard_text_received_callback, this_ );
 
     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
@@ -340,10 +331,24 @@ void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard
 
     if ( clipboard_text != NULL )
     {
-        TRACE_INFO ( clipboard_text );
+        gui_sketch_tools_private_copy_clipboard_to_db( this_, clipboard_text );
     }
 
     TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text )
+{
+    TRACE_BEGIN();
+    data_json_deserializer_t deserializer;
+
+    data_json_deserializer_init( &deserializer );
+
+    TRACE_INFO ( json_text );
+
+    data_json_deserializer_destroy( &deserializer );
+
     TRACE_END();
 }
 

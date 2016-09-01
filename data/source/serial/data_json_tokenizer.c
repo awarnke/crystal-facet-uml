@@ -9,6 +9,9 @@ void data_json_tokenizer_init ( data_json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).container_stack_size = 0;
+    (*this_).root_object_count = 0;
+
     TRACE_END();
 }
 

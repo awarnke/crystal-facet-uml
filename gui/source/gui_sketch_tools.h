@@ -47,8 +47,6 @@ struct gui_sketch_tools_struct {
     GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
     utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
     char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
-    data_json_serializer_t serializer;  /*!< own instance of a json serializer */
-    data_json_deserializer_t deserializer;  /*!< own instance of a json de-serializer */
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;
@@ -176,6 +174,11 @@ void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
  *  \brief copies a set of objects to the clipboard
  */
 void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_copied );
+
+/*!
+ *  \brief copies the clipboard contents to the database
+ */
+void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text );
 
 /*!
  *  \brief deletes a set of objects
