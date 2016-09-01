@@ -10,8 +10,6 @@
 
 #include "gui_sketch_marker.h"
 #include "gui_simple_message_to_user.h"
-#include "serial/data_json_serializer.h"
-#include "serial/data_json_deserializer.h"
 #include "ctrl_controller.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
