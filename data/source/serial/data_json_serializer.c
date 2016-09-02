@@ -1,7 +1,7 @@
 /* File: data_json_serializer.c; Copyright and License: see below */
 
 #include "serial/data_json_serializer.h"
-#include "data_json_constants.h"
+#include "serial/data_json_constants.h"
 #include "trace.h"
 #include "log.h"
 #include <assert.h>

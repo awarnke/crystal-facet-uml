@@ -26,6 +26,7 @@
  */
 enum data_json_tokenizer_max_enum {
     DATA_JSON_TOKENIZER_MAX_STACK_SIZE = 16,  /*!< maxmum number of stack size, objects and arrays that contain other objects and arrays. */
+    DATA_JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops. 16MB should be big enough. */
 };
 
 /*!
@@ -45,6 +46,13 @@ typedef struct data_json_tokenizer_struct data_json_tokenizer_t;
  *  \param this_ pointer to own object attributes
  */
 void data_json_tokenizer_init ( data_json_tokenizer_t *this_ );
+
+/*!
+ *  \brief re-initializes the data_json_tokenizer_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void data_json_tokenizer_reinit ( data_json_tokenizer_t *this_ );
 
 /*!
  *  \brief destroys the data_json_tokenizer_t struct
@@ -277,6 +285,19 @@ data_error_t data_json_tokenizer_is_eof ( data_json_tokenizer_t *this_, const ch
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
 data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+
+/*!
+ *  \brief skips whitespaces
+ *
+ *  Whitespaces are skipped as defined in http://rfc7159.net/rfc7159#rfc.section.2 .
+ *  If there is no whitespace as next chatacter, the read pointer is not modified.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position.
+ *                     The read position will be moved(changed) if there are whitespaces after the current read position.
+ */
+static inline void data_json_tokenizer_private_skip_whitespace ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 #endif  /* DATA_JSON_TOKENIZER_H */
 
