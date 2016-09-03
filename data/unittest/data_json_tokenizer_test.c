@@ -5,12 +5,12 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void test_simple_tokens(void);
+static void test_skip_whitespace(void);
 
 TestRef data_json_tokenizer_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_simple_tokens",test_simple_tokens),
+        new_TestFixture("test_skip_whitespace",test_skip_whitespace),
     };
     EMB_UNIT_TESTCALLER(result,"data_json_tokenizer_test_get_list",set_up,tear_down,fixtures);
 
@@ -25,8 +25,32 @@ static void tear_down(void)
 {
 }
 
-static void test_simple_tokens(void)
+static void test_skip_whitespace(void)
 {
+    const char test_Str[17] = "1234  \t\t\r\r\n\ndef0";
+    data_json_tokenizer_t tok;
+    uint32_t pos;
+
+    /* init */
+    data_json_tokenizer_init( &tok );
+
+    /* test skip nothing */
+    pos = 3;
+    data_json_tokenizer_private_skip_whitespace( &tok, test_Str, &pos );
+    TEST_ASSERT_EQUAL_INT( 3, pos );
+
+    /* test skip at string end */
+    pos = 16;
+    data_json_tokenizer_private_skip_whitespace( &tok, test_Str, &pos );
+    TEST_ASSERT_EQUAL_INT( 16, pos );
+
+    /* test skip all 4 whitespace types */
+    pos = 4;
+    data_json_tokenizer_private_skip_whitespace( &tok, test_Str, &pos );
+    TEST_ASSERT_EQUAL_INT( 12, pos );
+
+    /* destroy */
+    data_json_tokenizer_destroy( &tok );
 }
 
 

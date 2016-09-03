@@ -299,6 +299,8 @@ data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, cons
  */
 static inline void data_json_tokenizer_private_skip_whitespace ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
+#include "serial/data_json_tokenizer.inl"
+
 #endif  /* DATA_JSON_TOKENIZER_H */
 
 

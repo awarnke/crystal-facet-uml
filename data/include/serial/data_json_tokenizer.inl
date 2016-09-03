@@ -9,7 +9,8 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
     assert( NULL != io_read_pos );
 
     bool ws_end_reached = false;
-    for ( uint32_t pos = *io_read_pos; ( ! ws_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    uint32_t pos;
+    for ( pos = *io_read_pos; ( ! ws_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
     {
         char current = in_data[pos];
         if ( ( DATA_JSON_CONSTANTS_CHAR_NL != current )
@@ -20,7 +21,7 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
             ws_end_reached = true;
         }
     }
-    *io_read_pos = pos;
+    *io_read_pos = (pos-1);
 }
 
 
