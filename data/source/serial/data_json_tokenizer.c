@@ -3,6 +3,7 @@
 #include "serial/data_json_tokenizer.h"
 #include "trace.h"
 #include "log.h"
+#include <string.h>
 #include <assert.h>
 
 void data_json_tokenizer_init ( data_json_tokenizer_t *this_ )
@@ -56,6 +57,7 @@ data_error_t data_json_tokenizer_is_begin_object ( data_json_tokenizer_t *this_,
     *begin_object = ( DATA_JSON_VALUE_TYPE_OBJECT == value_type );
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a "begin-object".
@@ -78,6 +80,7 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param name name of the expected "member-name". This parameter must not be NULL.
@@ -101,6 +104,7 @@ data_error_t data_json_tokenizer_expect_member_name ( data_json_tokenizer_t *thi
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_name return value: name of the "member-name"
@@ -124,6 +128,7 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_name return value: true if the next token is an "end-object" token. This parameter must not be NULL.
@@ -146,6 +151,7 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -167,6 +173,7 @@ data_error_t data_json_tokenizer_expect_end_object ( data_json_tokenizer_t *this
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param begin_array return value: true if the next token is a "begin-array" token. This parameter must not be NULL.
@@ -189,6 +196,7 @@ data_error_t data_json_tokenizer_is_begin_array ( data_json_tokenizer_t *this_, 
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -210,6 +218,7 @@ data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *thi
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param end_array return value: true if the next token is an "end-array" token. This parameter must not be NULL.
@@ -232,6 +241,7 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -253,28 +263,73 @@ data_error_t data_json_tokenizer_expect_end_array ( data_json_tokenizer_t *this_
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
-/*  \param value_type return value: type of the next value-token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no value-token (e.g. we are at the end of an array),
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos, data_json_value_type_t *value_type )
+data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, data_json_value_type_t *value_type )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
-    assert( NULL != in_read_pos );
+    assert( NULL != io_read_pos );
     assert( NULL != value_type );
     data_error_t result_err = DATA_ERROR_NONE;
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *in_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    char current = in_data[*io_read_pos];
+    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT == current )
     {
+        *value_type = DATA_JSON_VALUE_TYPE_OBJECT;
+    }
+    else if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY == current )
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_ARRAY;
+    }
+    else if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == current )
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_STRING;
+    }
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_FALSE, sizeof(DATA_JSON_CONSTANTS_FALSE)-1 ) )
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_BOOLEAN;
+    }
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_TRUE, sizeof(DATA_JSON_CONSTANTS_TRUE)-1 ) )
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_BOOLEAN;
+    }
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_NULL, sizeof(DATA_JSON_CONSTANTS_NULL)-1 ) )
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_NULL;
+    }
+    else if ( ( '-' == current ) || (( '0' <= current ) && ( current <= '9')) )
+    {
+        /* assume integer */
+        *value_type = DATA_JSON_VALUE_TYPE_INTEGER;
+
+        /* check if there is an 'e', 'E' or '.' in the number */
+        bool finished = false;
+        uint32_t num_pos;
+        for ( uint32_t num_pos = *io_read_pos; ( ! finished ) && ( num_pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); num_pos ++ )
+        {
+            char probe = in_data[num_pos];
+            if ( ( '.' == probe ) || ( 'e' == probe ) || ( 'E' == probe ) )
+            {
+                *value_type = DATA_JSON_VALUE_TYPE_NUMBER;
+                finished = true;
+            }
+            else if (( probe < '0' )||( '9' < probe ))
+            {
+                finished = true;
+            }
+        }
+    }
+    else
+    {
+        *value_type = DATA_JSON_VALUE_TYPE_UNDEF;
+        result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_value return value: string-contents of the value-token
@@ -298,6 +353,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_int return value: integer-contents of the value-token. This parameter must not be NULL.
@@ -321,6 +377,7 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_number return value: number-contents of the value-token. This parameter must not be NULL.
@@ -336,6 +393,29 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     assert( NULL != out_number );
     data_error_t result_err = DATA_ERROR_NONE;
 
+    /* rfc
+     *
+     * number = [ minus ] int [ frac ] [ exp ]
+     *
+     * decimal-point = %x2E       ; .
+     *
+     * digit1-9 = %x31-39         ; 1-9
+     *
+     * e = %x65 / %x45            ; e E
+     *
+     * exp = e [ minus / plus ] 1*DIGIT
+     *
+     * frac = decimal-point 1*DIGIT
+     *
+     * int = zero / ( digit1-9 *DIGIT )
+     *
+     * minus = %x2D               ; -
+     *
+     * plus = %x2B                ; +
+     *
+     * zero = %x30                ; 0
+     */
+
     bool finished = false;
     uint32_t pos;
     for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
@@ -344,6 +424,7 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param out_bool return value: boolean-contents of the value-token. This parameter must not be NULL.
@@ -367,6 +448,7 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -388,6 +470,7 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \param end_array return value: true if the next token is EOF. This parameter must not be NULL.
@@ -410,6 +493,7 @@ data_error_t data_json_tokenizer_is_eof ( data_json_tokenizer_t *this_, const ch
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 /*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -431,6 +515,7 @@ data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, cons
     *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
+    return result_err;
 }
 
 

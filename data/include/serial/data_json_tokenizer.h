@@ -189,13 +189,13 @@ data_error_t data_json_tokenizer_expect_end_array ( data_json_tokenizer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param in_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an "end-array".
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) only by whitespaces, not over the next value.
  *  \param value_type return value: type of the next value-token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no value-token (e.g. we are at the end of an array),
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos, data_json_value_type_t *value_type );
+data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, data_json_value_type_t *value_type );
 
 /*!
  *  \brief determines the next value of type string
