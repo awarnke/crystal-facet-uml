@@ -8,7 +8,7 @@
  *  \file
  *  \brief Tokenizes a json input string.
  *
- *  This data_json_tokenizer verifies the JSON file structure (lexer) and allows the caller (parser) to validate the data structure.
+ *  This data_json_tokenizer verifies the JSON file tokens (lexer) and allows the caller (parser) to validate the data structure.
  *
  *  In contrast to a DOM parser, this data_json_tokenizer parses the input sequentially and provides parsed contents step by step.
  *  In contrast to a SAX parser, this data_json_tokenizer does not require callbacks that are called whenever the next token is parsed.
@@ -30,9 +30,6 @@ enum data_json_tokenizer_max_enum {
 
 /*!
  *  \brief all data attributes needed for tokenizing data objects
- *
- *  The attribute values keep track on the lexical structure of the tokens
- *  to check if these appear in the right order.
  */
 struct data_json_tokenizer_struct {
     int dummy;
@@ -314,8 +311,36 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position.
+ *  \return false if in_data[*in_read_pos] and in_data[*in_read_pos+1] belong to the same token
  */
 static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos );
+
+/*!
+ *  \brief deterines the string end of a string literal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to (before:) the position where the string literal starts; (after:) the position of the terminating quote character
+ */
+static inline void data_json_tokenizer_private_find_string_end ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+
+/*!
+ *  \brief parses the integer token
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
+ */
+static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+
+/*!
+ *  \brief parses the number token
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
+ */
+static inline double data_json_tokenizer_private_parse_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 #include "serial/data_json_tokenizer.inl"
 

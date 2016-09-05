@@ -67,6 +67,78 @@ static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenize
     return result;
 }
 
+/*!
+ *  \brief deterines the string end of a string literal
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to (before:) the position where the string literal starts; (after:) the position of the terminating quote character
+ */
+static inline void data_json_tokenizer_private_find_string_end ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+{
+    assert( NULL != in_data );
+    assert( NULL != io_read_pos );
+
+    bool str_end_reached = false;
+    uint32_t pos;
+    char esc_incomplete = false;
+    for ( pos = *io_read_pos; ( ! str_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    {
+        char current = in_data[pos];
+        if ( ( '\0' == current )
+            || (( DATA_JSON_CONSTANTS_CHAR_END_STRING == current )
+            && ( ! esc_incomplete )) )
+        {
+            str_end_reached = true;
+        }
+        if (( DATA_JSON_CONSTANTS_CHAR_ESC == current ) && ( ! esc_incomplete ))
+        {
+            esc_incomplete = true;
+        }
+        else
+        {
+            esc_incomplete = false;
+        }
+    }
+    *io_read_pos = (pos-1);
+}
+
+/*!
+ *  \brief parses the integer token
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
+ */
+static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+{
+    assert( NULL != in_data );
+    assert( NULL != io_read_pos );
+    int64_t result;
+
+    result = 17;
+
+    return result;
+}
+
+/*!
+ *  \brief parses the number token
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
+ */
+static inline double data_json_tokenizer_private_parse_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+{
+    assert( NULL != in_data );
+    assert( NULL != io_read_pos );
+    double result;
+
+    result = 3.14;
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
