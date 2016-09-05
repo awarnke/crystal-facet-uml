@@ -386,16 +386,22 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
-    {
-    }
-    *io_read_pos = pos;
+    uint32_t new_pos = *io_read_pos;
+    int64_t parsed_int;
+    parsed_int = data_json_tokenizer_private_parse_integer( this_, in_data, &new_pos );
 
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+    if ( new_pos <= *io_read_pos )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+    }
+    else if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+    {
+        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+    }
+    else
+    {
+        (*out_int) = parsed_int;
+        (*io_read_pos) = new_pos;
     }
 
     TRACE_END_ERR( result_err );
@@ -418,39 +424,22 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    /* rfc
-     *
-     * number = [ minus ] int [ frac ] [ exp ]
-     *
-     * decimal-point = %x2E       ; .
-     *
-     * digit1-9 = %x31-39         ; 1-9
-     *
-     * e = %x65 / %x45            ; e E
-     *
-     * exp = e [ minus / plus ] 1*DIGIT
-     *
-     * frac = decimal-point 1*DIGIT
-     *
-     * int = zero / ( digit1-9 *DIGIT )
-     *
-     * minus = %x2D               ; -
-     *
-     * plus = %x2B                ; +
-     *
-     * zero = %x30                ; 0
-     */
+    uint32_t new_pos = *io_read_pos;
+    data_json_tokenizer_private_skip_number( this_, in_data, &new_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
-    {
-    }
-    *io_read_pos = pos;
-
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+    if ( new_pos <= *io_read_pos )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+    }
+    else if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+    {
+        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+    }
+    else
+    {
+        (*out_number) = 0.0;
+        (*io_read_pos) = new_pos;
+        result_err = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
     }
 
     TRACE_END_ERR( result_err );
