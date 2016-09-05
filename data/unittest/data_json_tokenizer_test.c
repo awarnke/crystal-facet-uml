@@ -240,8 +240,8 @@ static void test_parse(void)
         "\n    {"
         "\n      \"classifier\"\t: {"
         "\n        \"id\"  \r\n:-99,"
-        "\n        \"main_type\"error: 90,"
-        "\n        \"stereotype\": \"\","
+        "\n        \"main_type\"error: 90.0e+0:"
+        "\n        \"stereotype\\r\\/\\\"\\\\\": \"\\f\\n\\t\\b\\r\\/\\\"\\\\\","
         "\n        \"name\": \"Master\","
         "\n        \"description\": \"\","
         "\n        \"x_order\": 0,"
@@ -266,6 +266,7 @@ static void test_parse(void)
     char my_buf[32];
     utf8stringbuf_t my_string = UTF8STRINGBUF( my_buf );
     int64_t my_int;
+    double my_double;
 
     res = data_json_tokenizer_expect_begin_object ( &tok, test_json, &pos );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
@@ -342,10 +343,35 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_LEXICAL_STRUCTURE, res );
     TEST_ASSERT_EQUAL_INT( 73, pos );
 
+    pos = 89; /* manually skip bad token */
+
     res = data_json_tokenizer_expect_name_separator( &tok, test_json, &pos );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
-    TEST_ASSERT_EQUAL_INT( 89, pos );
+    TEST_ASSERT_EQUAL_INT( 90, pos );
 
+    res = data_json_tokenizer_get_number_value ( &tok, test_json, &pos, &my_double );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED_ID, res );
+    TEST_ASSERT_EQUAL_INT( 98, pos );
+
+    res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, res );
+    TEST_ASSERT_EQUAL_INT( 98, pos );
+
+    pos = 99; /* manually skip bad token */
+
+    res = data_json_tokenizer_get_member_name ( &tok, test_json, &pos, my_string );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 128, pos );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "stereotype\r/\"\\", utf8stringbuf_get_string(my_string)) );
+
+    res = data_json_tokenizer_expect_name_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 129, pos );
+
+    res = data_json_tokenizer_get_string_value ( &tok, test_json, &pos, my_string );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 148, pos );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string(my_string)) );
 }
 
 /*

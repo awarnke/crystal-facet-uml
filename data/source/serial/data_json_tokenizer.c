@@ -64,12 +64,6 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
     return result_err;
 }
 
-/*  \param out_name return value: name of the "member-name"
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if out_name does not provide enough space,
- *          DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no member-name token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_name )
 {
     TRACE_BEGIN();
@@ -129,10 +123,6 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
     return result_err;
 }
 
-/*  \param out_name return value: true if the next token is an "end-object" token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object )
 {
     TRACE_BEGIN();
@@ -331,43 +321,65 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
     return result_err;
 }
 
-/*  \param out_value return value: string-contents of the value-token
- *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if out_value does not provide enough space,
- *          DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no string-value-token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_value )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
+    utf8error_t str_err;
 
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    /* expect string begin */
+    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
     {
-    }
-    *io_read_pos = pos;
+        /* expected token found */
+        uint32_t start = (*io_read_pos)+1;
+        uint32_t end = start;
 
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+        data_json_tokenizer_private_find_string_end ( this_, in_data, &end );
+
+        /* expect string end */
+        if ( DATA_JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
+        {
+            uint32_t token_end = end+1;
+            if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &token_end ) )
+            {
+                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            }
+            else
+            {
+                /* we are happy */
+                (*io_read_pos) = token_end;
+
+                /* copy and unescape the string */
+                str_err |= utf8stringbuf_copy_region_from_str( out_value, in_data, start, end-start );
+                str_err |= utf8stringbuf_replace_all( out_value,
+                                                      DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                if ( UTF8ERROR_SUCCESS != str_err )
+                {
+                    result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+                }
+            }
+        }
+        else
+        {
+            /* expected end token missing */
+            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        }
+    }
+    else
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        /* expected start token missing */
+        result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-/*  \param out_int return value: integer-contents of the value-token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no integer-value-token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, int64_t *out_int )
 {
     TRACE_BEGIN();
@@ -401,11 +413,6 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
     return result_err;
 }
 
-/*  \param out_number return value: number-contents of the value-token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no number-value-token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, double *out_number )
 {
     TRACE_BEGIN();
