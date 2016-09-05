@@ -240,7 +240,7 @@ static void test_parse(void)
         "\n    {"
         "\n      \"classifier\"\t: {"
         "\n        \"id\"  \r\n:-99,"
-        "\n        \"main_type\": 90,"
+        "\n        \"main_type\"error: 90,"
         "\n        \"stereotype\": \"\","
         "\n        \"name\": \"Master\","
         "\n        \"description\": \"\","
@@ -331,6 +331,16 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 63, pos );
     TEST_ASSERT_EQUAL_INT( -99, my_int );
+
+    /* skip test for end object here */
+
+    res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 64, pos );
+
+    res = data_json_tokenizer_get_member_name ( &tok, test_json, &pos, my_string );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_LEXICAL_STRUCTURE, res );
+    TEST_ASSERT_EQUAL_INT( 73, pos );
 
 }
 
