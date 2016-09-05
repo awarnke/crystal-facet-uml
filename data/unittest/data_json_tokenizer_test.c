@@ -241,22 +241,12 @@ static void test_parse(void)
         "\n      \"classifier\"\t: {"
         "\n        \"id\"  \r\n:-99,"
         "\n        \"main_type\"error: 90.0e+0:"
-        "\n        \"stereotype\\r\\/\\\"\\\\\": \"\\f\\n\\t\\b\\r\\/\\\"\\\\\","
-        "\n        \"name\": \"Master\","
-        "\n        \"description\": \"\","
-        "\n        \"x_order\": 0,"
-        "\n        \"y_order\": 0"
+        "\n        \"stereotype\\r\\/\\\"\\\\\": \"\\f\\n\\t\\b\\r\\/\\\"\\\\\""
         "\n      }"
         "\n    },"
-        "\n    {"
-        "\n      \"diagram\": {"
-        "\n        \"id\": 1,"
-        "\n        \"diagram_type\": 30,"
-        "\n        \"name\": \"Overview\","
-        "\n        \"description\": \"\","
-        "\n        \"list_order\": 0"
-        "\n      }"
-        "\n    }"
+        "\n    null,"
+        "\n    true,"
+        "\n    false"
         "\n  ]"
         "\n}"
         "\n";
@@ -267,6 +257,7 @@ static void test_parse(void)
     utf8stringbuf_t my_string = UTF8STRINGBUF( my_buf );
     int64_t my_int;
     double my_double;
+    bool my_bool;
 
     res = data_json_tokenizer_expect_begin_object ( &tok, test_json, &pos );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
@@ -353,6 +344,8 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED_ID, res );
     TEST_ASSERT_EQUAL_INT( 98, pos );
 
+    /* skip test for end object here */
+
     res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, res );
     TEST_ASSERT_EQUAL_INT( 98, pos );
@@ -372,7 +365,64 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 148, pos );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "\f\n\t\b\r/\"\\", utf8stringbuf_get_string(my_string)) );
+
+    res = data_json_tokenizer_is_end_object ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 156, pos );
+    TEST_ASSERT_EQUAL_INT( true, cond );
+
+    res = data_json_tokenizer_is_end_object ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 162, pos );
+    TEST_ASSERT_EQUAL_INT( true, cond );
+
+    /* skip test for end array here */
+
+    res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 163, pos );
+
+    res = data_json_tokenizer_expect_null_value ( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 172, pos );
+
+    /* skip test for end array here */
+
+    res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 173, pos );
+
+    res = data_json_tokenizer_get_boolean_value ( &tok, test_json, &pos, &my_bool );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 182, pos );
+    TEST_ASSERT_EQUAL_INT( true, my_bool );
+
+    /* skip test for end array here */
+
+    res = data_json_tokenizer_expect_value_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 183, pos );
+
+    res = data_json_tokenizer_get_boolean_value ( &tok, test_json, &pos, &my_bool );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 193, pos );
+    TEST_ASSERT_EQUAL_INT( false, my_bool );
+
+    res = data_json_tokenizer_is_end_array ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 197, pos );
+    TEST_ASSERT_EQUAL_INT( true, cond );
+
+    res = data_json_tokenizer_is_end_object ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 199, pos );
+    TEST_ASSERT_EQUAL_INT( true, cond );
+
+    res = data_json_tokenizer_expect_eof ( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 200, pos );
 }
+
 
 /*
  * Copyright 2016-2016 Andreas Warnke

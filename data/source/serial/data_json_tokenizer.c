@@ -446,11 +446,6 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     return result_err;
 }
 
-/*  \param out_bool return value: boolean-contents of the value-token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no boolean-value-token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *out_bool )
 {
     TRACE_BEGIN();
@@ -462,26 +457,42 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    uint32_t new_pos = *io_read_pos;
+    if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_FALSE, sizeof(DATA_JSON_CONSTANTS_FALSE)-1 ) )
     {
+        new_pos += sizeof(DATA_JSON_CONSTANTS_FALSE)-1;
+        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        {
+            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        }
+        else
+        {
+            (*out_bool) = false;
+            (*io_read_pos) = new_pos;
+        }
     }
-    *io_read_pos = pos;
-
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_TRUE, sizeof(DATA_JSON_CONSTANTS_TRUE)-1 ) )
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        new_pos += sizeof(DATA_JSON_CONSTANTS_TRUE)-1;
+        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        {
+            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        }
+        else
+        {
+            (*out_bool) = true;
+            (*io_read_pos) = new_pos;
+        }
+    }
+    else
+    {
+        result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-/*  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no null token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
 data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
@@ -492,16 +503,22 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    uint32_t new_pos = *io_read_pos;
+    if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_NULL, sizeof(DATA_JSON_CONSTANTS_NULL)-1 ) )
     {
+        new_pos += sizeof(DATA_JSON_CONSTANTS_NULL)-1;
+        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        {
+            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        }
+        else
+        {
+            (*io_read_pos) = new_pos;
+        }
     }
-    *io_read_pos = pos;
-
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+    else
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
