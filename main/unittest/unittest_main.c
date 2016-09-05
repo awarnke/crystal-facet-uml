@@ -25,12 +25,10 @@ int main (int argc, char *argv[]) {
     TestRunner_runTest( data_change_notifier_test_get_list() );
     TestRunner_runTest( data_database_listener_test_get_list() );
     TestRunner_runTest( data_json_tokenizer_test_get_list() );
-    /*
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
     TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
     TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
     TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
-    */
     TestRunner_end();
 
     TRACE_INFO( "--------------------" );
