@@ -330,17 +330,18 @@ static inline void data_json_tokenizer_private_find_string_end ( data_json_token
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
+ *  \result parsed integer or 0 in case of error
  */
 static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
- *  \brief parses the number token
+ *  \brief skips the number token, numbers are not supported by this parser
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
  */
-static inline double data_json_tokenizer_private_parse_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+static inline void data_json_tokenizer_private_skip_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 #include "serial/data_json_tokenizer.inl"
 

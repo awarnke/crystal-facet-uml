@@ -10,7 +10,7 @@ static void test_is_token_end(void);
 static void test_get_value_type(void);
 static void test_find_string_end(void);
 static void test_parse_integer(void);
-static void test_parse_double(void);
+static void test_skip_number(void);
 
 
 TestRef data_json_tokenizer_test_get_list(void)
@@ -21,29 +21,29 @@ TestRef data_json_tokenizer_test_get_list(void)
         new_TestFixture("test_get_value_type",test_get_value_type),
         new_TestFixture("test_find_string_end",test_find_string_end),
         new_TestFixture("test_parse_integer",test_parse_integer),
-        new_TestFixture("test_parse_double",test_parse_double),
+        new_TestFixture("test_skip_number",test_skip_number),
     };
     EMB_UNIT_TESTCALLER(result,"data_json_tokenizer_test_get_list",set_up,tear_down,fixtures);
 
     return (TestRef)&result;
 }
 
+static data_json_tokenizer_t tok;
+
 static void set_up(void)
 {
+    data_json_tokenizer_init( &tok );
 }
 
 static void tear_down(void)
 {
+    data_json_tokenizer_destroy( &tok );
 }
 
 static void test_skip_whitespace(void)
 {
     const char test_str[17] = "1234  \t\t\r\r\n\ndef0";
-    data_json_tokenizer_t tok;
     uint32_t pos;
-
-    /* init */
-    data_json_tokenizer_init( &tok );
 
     /* test skip nothing */
     pos = 3;
@@ -59,22 +59,15 @@ static void test_skip_whitespace(void)
     pos = 4;
     data_json_tokenizer_private_skip_whitespace( &tok, test_str, &pos );
     TEST_ASSERT_EQUAL_INT( 12, pos );
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
 static void test_is_token_end(void)
 {
     const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
     const char results[18] = "1001"  "1111"  "1111"  "10001";
-    data_json_tokenizer_t tok;
     uint32_t pos;
     bool is_end;
     assert( sizeof(test_str)+1 == sizeof(results) );
-
-    /* init */
-    data_json_tokenizer_init( &tok );
 
     /* test all positions */
     for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
@@ -82,21 +75,14 @@ static void test_is_token_end(void)
         is_end = data_json_tokenizer_private_is_token_end( &tok, test_str, &pos );
         TEST_ASSERT_EQUAL_INT( results[pos]=='1', is_end );
     }
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
 static void test_get_value_type(void)
 {
     data_error_t test_err;
     const char test_str[12*4+1] = "\n{a:"  " [\t\r"  "-12,"  "2.4,"  "\"s\","  "\tnull\r, "  "true   ,"  "false   "  " ] }";
-    data_json_tokenizer_t tok;
     uint32_t pos;
     data_json_value_type_t value_type;
-
-    /* init */
-    data_json_tokenizer_init( &tok );
 
     /* DATA_JSON_VALUE_TYPE_OBJECT */
     pos = 0;
@@ -167,9 +153,6 @@ static void test_get_value_type(void)
     TEST_ASSERT_EQUAL_INT( 48, pos );
     TEST_ASSERT_EQUAL_INT( DATA_JSON_VALUE_TYPE_UNDEF, value_type );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, test_err );
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
 static void test_find_string_end(void)
@@ -181,11 +164,7 @@ static void test_find_string_end(void)
         "\"\'\'2quote@end\\\"\"",
         "\"\'\'    no_end\\\"",
     };
-    data_json_tokenizer_t tok;
     uint32_t pos;
-
-    /* init */
-    data_json_tokenizer_init( &tok );
 
     /* test all positions */
     for ( int idx = 0; idx < 5; idx ++ )
@@ -194,55 +173,61 @@ static void test_find_string_end(void)
         data_json_tokenizer_private_find_string_end( &tok, test_str[idx], &pos );
         TEST_ASSERT_EQUAL_INT( 15, pos );
     }
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
 static void test_parse_integer(void)
 {
-    const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
-    const char results[18] = "1001"  "1111"  "1111"  "10001";
-    data_json_tokenizer_t tok;
+    const char test_str[8][18] = {
+        "  0",
+        "  00",
+        "  -33",
+        "  -0",
+        "  -12345678;other",
+        "  -hello",
+        "  123",
+        "  abc",
+    };
+    const int64_t int_results[8] = {0,0,-33,0,-12345678,0,123,0};
+    const uint32_t pos_results[8] = {3,3,5,2,11,2,5,2};
     uint32_t pos;
-    bool is_end;
-    assert( sizeof(test_str)+1 == sizeof(results) );
-
-    /* init */
-    data_json_tokenizer_init( &tok );
+    uint64_t int_result;
 
     /* test all positions */
-    for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
+    for ( int index = 0; index < 8; index ++ )
     {
-        is_end = data_json_tokenizer_private_is_token_end( &tok, test_str, &pos );
-        TEST_ASSERT_EQUAL_INT( results[pos]=='1', is_end );
+        pos = 2;
+        int_result = data_json_tokenizer_private_parse_integer( &tok, test_str[index], &pos );
+        TEST_ASSERT_EQUAL_INT( int_results[index], int_result );
+        TEST_ASSERT_EQUAL_INT( pos_results[index], pos );
     }
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
-static void test_parse_double(void)
+static void test_skip_number(void)
 {
-    const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
-    const char results[18] = "1001"  "1111"  "1111"  "10001";
-    data_json_tokenizer_t tok;
+    const char test_str[12][18] = {
+        "  0.000",
+        "  00.0",
+        "  -33",
+        "  -0.00",
+        "  -12.45678;other",
+        "  -hello",
+        "  123.5e+8",
+        "  123.4E88",
+        "  123.5E+8",
+        "  123.4E",
+        "  123.5e0",
+        "  123E888",
+    };
+    const uint32_t pos_results[12] = {7,6,5,7,11,3,10,10,10,8,9,9};
     uint32_t pos;
-    bool is_end;
-    assert( sizeof(test_str)+1 == sizeof(results) );
-
-    /* init */
-    data_json_tokenizer_init( &tok );
 
     /* test all positions */
-    for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
+    for ( int idx = 0; idx < 12; idx ++ )
     {
-        is_end = data_json_tokenizer_private_is_token_end( &tok, test_str, &pos );
-        TEST_ASSERT_EQUAL_INT( results[pos]=='1', is_end );
+        pos = 2;
+        data_json_tokenizer_private_skip_number( &tok, test_str[idx], &pos );
+        TEST_ASSERT_EQUAL_INT( pos_results[idx], pos );
     }
-
-    /* destroy */
-    data_json_tokenizer_destroy( &tok );
 }
 
 

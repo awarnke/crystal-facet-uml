@@ -67,13 +67,6 @@ static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenize
     return result;
 }
 
-/*!
- *  \brief deterines the string end of a string literal
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to (before:) the position where the string literal starts; (after:) the position of the terminating quote character
- */
 static inline void data_json_tokenizer_private_find_string_end ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
@@ -103,40 +96,97 @@ static inline void data_json_tokenizer_private_find_string_end ( data_json_token
     *io_read_pos = (pos-1);
 }
 
-/*!
- *  \brief parses the integer token
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
- */
 static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
     int64_t result;
 
-    result = 17;
+    uint32_t pos = *io_read_pos;
+    char first = in_data[pos];
+    if ( '0' == first )
+    {
+        /* only zero may begin with digit zero */
+        result = 0;
+        *io_read_pos = pos + 1;
+    }
+    else
+    {
+        bool minus = false;
+        bool has_digits = false;
+        bool minus_zero_error = false;
+        result = 0;
+
+        /* check for minus */
+        if ( '-' == first )
+        {
+            pos ++;
+            minus = true;
+            if ( '0' == in_data[pos])
+            {
+                /* number starts with -0 which is invalid */
+                minus_zero_error = true;
+            }
+        }
+
+        bool int_end_reached = false;
+        for ( ; ( ! int_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+        {
+            char current = in_data[pos];
+            if (( '0' <= current )&&( current <= '9'))
+            {
+                has_digits = true;
+                result = (result*10)+((int) (current-'0'));
+            }
+            else
+            {
+                int_end_reached = true;
+            }
+        }
+
+        if ( minus )
+        {
+            result = -result;
+        }
+
+        if ( has_digits && ( ! minus_zero_error ) )
+        {
+            *io_read_pos = (pos-1);
+        }
+        else
+        {
+            result = 0;
+        }
+    }
 
     return result;
 }
 
-/*!
- *  \brief parses the number token
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
- */
-static inline double data_json_tokenizer_private_parse_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+static inline void data_json_tokenizer_private_skip_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
-    double result;
 
-    result = 3.14;
-
-    return result;
+    bool num_end_reached = false;
+    uint32_t pos;
+    for ( pos = *io_read_pos; ( ! num_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    {
+        char current = in_data[pos];
+        if ( (( '0' <= current )&&( current <= '9'))
+            || ( 'e' == current )
+            || ( 'E' == current )
+            || ( '.' == current )
+            || ( '+' == current )
+            || ( '-' == current ) )
+        {
+            /* could be part of a valid number */
+        }
+        else
+        {
+            num_end_reached = true;
+        }
+    }
+    *io_read_pos = (pos-1);
 }
 
 
