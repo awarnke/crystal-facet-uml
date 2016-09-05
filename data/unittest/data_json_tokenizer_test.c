@@ -342,6 +342,10 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_LEXICAL_STRUCTURE, res );
     TEST_ASSERT_EQUAL_INT( 73, pos );
 
+    res = data_json_tokenizer_expect_name_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 89, pos );
+
 }
 
 /*
