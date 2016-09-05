@@ -283,6 +283,16 @@ static void test_parse(void)
     res = data_json_tokenizer_expect_name_separator( &tok, test_json, &pos );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
     TEST_ASSERT_EQUAL_INT( 11, pos );
+
+    res = data_json_tokenizer_expect_begin_array ( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 13, pos );
+
+    res = data_json_tokenizer_is_end_array ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 18, pos );
+    TEST_ASSERT_EQUAL_INT( false, cond );
+
 }
 
 /*
