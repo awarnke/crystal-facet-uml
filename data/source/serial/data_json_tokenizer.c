@@ -6,6 +6,18 @@
 #include <string.h>
 #include <assert.h>
 
+static const char * const DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[] = {
+    "\\t", "\x09",  /* tab */
+    "\\n", "\x0a",  /* newline */
+    "\\r", "\x0d",  /* return */
+    "\\b", "\x08",  /* backspace */
+    "\\f", "\x0c",  /* form feed */
+    "\\\"", "\"",  /* double quote */
+    "\\\\", "\\",  /* backslash*/
+    "\\/", "/",  /* slash */
+    NULL,  /* for JSON, see rfc7159 */
+};
+
 void data_json_tokenizer_init ( data_json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
@@ -27,40 +39,6 @@ void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_json_tokenizer_is_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *begin_object )
-{
-    TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
-    assert( NULL != begin_object );
-    data_error_t result_err = DATA_ERROR_NONE;
-    data_error_t test_err;
-    data_json_value_type_t value_type = DATA_JSON_VALUE_TYPE_UNDEF;
-
-    test_err = data_json_tokenizer_get_value_type ( this_, in_data, io_read_pos, &value_type );
-    if ( DATA_ERROR_PARSER_STRUCTURE == test_err )
-    {
-        /* there is no value-start as next token */
-        *begin_object = false;
-    }
-    else if ( DATA_ERROR_NONE == test_err )
-    {
-        if ( DATA_JSON_VALUE_TYPE_OBJECT == value_type )
-        {
-            /* move the read pointer forward: */
-            result_err = data_json_tokenizer_expect_begin_object ( this_, in_data, io_read_pos );
-            *begin_object = true;
-        }
-        else
-        {
-            *begin_object = false;
-        }
-    }
-
-    TRACE_END_ERR( result_err );
-    return result_err;
-}
-
 data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
@@ -71,8 +49,7 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    char begin_object = in_data[*io_read_pos];
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT == begin_object )
+    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -83,38 +60,6 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
         result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
-    TRACE_END_ERR( result_err );
-    return result_err;
-}
-
-/*  \param name name of the expected "member-name". This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no or the wrong member-name token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_expect_member_name ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, const char *name )
-{
-    TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
-    assert( NULL != name );
-    data_error_t result_err = DATA_ERROR_NONE;
-
-    /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
-
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
-    {
-    }
-    *io_read_pos = pos;
-
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
-    {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
-    }
-    
     TRACE_END_ERR( result_err );
     return result_err;
 }
@@ -131,20 +76,52 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
+    utf8error_t str_err = UTF8ERROR_SUCCESS;
 
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    /* expect string begin */
+    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
     {
-    }
-    *io_read_pos = pos;
+        /* expected token found */
+        uint32_t start = (*io_read_pos)+1;
+        uint32_t end = start;
 
-    if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+        data_json_tokenizer_private_find_string_end ( this_, in_data, &end );
+
+        /* expect string end */
+        if ( DATA_JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
+        {
+            if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, io_read_pos ) )
+            {
+                result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+            }
+            else
+            {
+                /* we are happy */
+                (*io_read_pos) = end+1;
+
+                /* copy and unescape the string */
+                str_err |= utf8stringbuf_copy_region_from_str( out_name, in_data, start, end-start );
+                str_err |= utf8stringbuf_replace_all( out_name,
+                                                      DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                if ( UTF8ERROR_SUCCESS != str_err )
+                {
+                    result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+                }
+            }
+        }
+        else
+        {
+            /* expected end token missing */
+            result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        }
+    }
+    else
     {
-        result_err = DATA_ERROR_LEXICAL_STRUCTURE;
+        /* expected start token missing */
+        result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
     TRACE_END_ERR( result_err );
@@ -166,18 +143,23 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    if ( DATA_JSON_CONSTANTS_CHAR_END_OBJECT == in_data[*io_read_pos] )
     {
+        /* object-end token found */
+        (*io_read_pos) ++;
+        (*end_object) = true;
     }
-    *io_read_pos = pos;
+    else
+    {
+        /* expected token missing */
+        (*end_object) = false;
+    }
 
     TRACE_END_ERR( result_err );
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -187,8 +169,7 @@ data_error_t data_json_tokenizer_expect_end_object ( data_json_tokenizer_t *this
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    char end_object = in_data[*io_read_pos];
-    if ( DATA_JSON_CONSTANTS_CHAR_END_OBJECT == end_object )
+    if ( DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -198,32 +179,6 @@ data_error_t data_json_tokenizer_expect_end_object ( data_json_tokenizer_t *this
         /* expected token missing */
         result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
-
-    TRACE_END_ERR( result_err );
-    return result_err;
-}
-
-/*  \param begin_array return value: true if the next token is a "begin-array" token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_is_begin_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *begin_array )
-{
-    TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
-    assert( NULL != begin_array );
-    data_error_t result_err = DATA_ERROR_NONE;
-
-    /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
-
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
-    {
-    }
-    *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
     return result_err;
@@ -239,8 +194,7 @@ data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *thi
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    char begin_array = in_data[*io_read_pos];
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY == begin_array )
+    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -270,6 +224,17 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
+    if ( DATA_JSON_CONSTANTS_CHAR_END_ARRAY == in_data[*io_read_pos] )
+    {
+        /* object-end token found */
+        (*io_read_pos) ++;
+        (*end_array) = true;
+    }
+    else
+    {
+        /* expected token missing */
+        (*end_array) = false;
+    }
 
     TRACE_END_ERR( result_err );
     return result_err;
@@ -289,8 +254,7 @@ data_error_t data_json_tokenizer_expect_end_array ( data_json_tokenizer_t *this_
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    char end_array = in_data[*io_read_pos];
-    if ( DATA_JSON_CONSTANTS_CHAR_END_ARRAY == end_array )
+    if ( DATA_JSON_CONSTANTS_CHAR_END_ARRAY == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -550,32 +514,6 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
     }
-
-    TRACE_END_ERR( result_err );
-    return result_err;
-}
-
-/*  \param end_array return value: true if the next token is EOF. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_is_eof ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *eof )
-{
-    TRACE_BEGIN();
-    assert( NULL != in_data );
-    assert( NULL != io_read_pos );
-    assert( NULL != eof );
-    data_error_t result_err = DATA_ERROR_NONE;
-
-    /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
-
-    bool finished = false;
-    uint32_t pos;
-    for ( pos = *io_read_pos; ( ! finished ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
-    {
-    }
-    *io_read_pos = pos;
 
     TRACE_END_ERR( result_err );
     return result_err;

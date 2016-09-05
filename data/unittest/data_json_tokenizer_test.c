@@ -11,6 +11,7 @@ static void test_get_value_type(void);
 static void test_find_string_end(void);
 static void test_parse_integer(void);
 static void test_skip_number(void);
+static void test_parse(void);
 
 
 TestRef data_json_tokenizer_test_get_list(void)
@@ -22,6 +23,7 @@ TestRef data_json_tokenizer_test_get_list(void)
         new_TestFixture("test_find_string_end",test_find_string_end),
         new_TestFixture("test_parse_integer",test_parse_integer),
         new_TestFixture("test_skip_number",test_skip_number),
+        new_TestFixture("test_parse",test_parse),
     };
     EMB_UNIT_TESTCALLER(result,"data_json_tokenizer_test_get_list",set_up,tear_down,fixtures);
 
@@ -230,6 +232,58 @@ static void test_skip_number(void)
     }
 }
 
+static void test_parse(void)
+{
+    static const char test_json[] =
+        "\n{"
+        "\n  \"set\": ["
+        "\n    {"
+        "\n      \"classifier\": {"
+        "\n        \"id\": 9,"
+        "\n        \"main_type\": 90,"
+        "\n        \"stereotype\": \"\","
+        "\n        \"name\": \"Master\","
+        "\n        \"description\": \"\","
+        "\n        \"x_order\": 0,"
+        "\n        \"y_order\": 0"
+        "\n      }"
+        "\n    },"
+        "\n    {"
+        "\n      \"diagram\": {"
+        "\n        \"id\": 1,"
+        "\n        \"diagram_type\": 30,"
+        "\n        \"name\": \"Overview\","
+        "\n        \"description\": \"\","
+        "\n        \"list_order\": 0"
+        "\n      }"
+        "\n    }"
+        "\n  ]"
+        "\n}"
+        "\n";
+    data_error_t res;
+    uint32_t pos = 0;
+    bool cond;
+    char my_buf[32];
+    utf8stringbuf_t my_string = UTF8STRINGBUF( my_buf );
+
+    res = data_json_tokenizer_expect_begin_object ( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 2, pos );
+
+    res = data_json_tokenizer_is_end_object ( &tok, test_json, &pos, &cond );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 5, pos );
+    TEST_ASSERT_EQUAL_INT( false, cond );
+
+    res = data_json_tokenizer_get_member_name ( &tok, test_json, &pos, my_string );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 10, pos );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "set", utf8stringbuf_get_string(my_string)) );
+
+    res = data_json_tokenizer_expect_name_separator( &tok, test_json, &pos );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, res );
+    TEST_ASSERT_EQUAL_INT( 11, pos );
+}
 
 /*
  * Copyright 2016-2016 Andreas Warnke

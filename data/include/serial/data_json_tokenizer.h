@@ -59,18 +59,6 @@ void data_json_tokenizer_reinit ( data_json_tokenizer_t *this_ );
 void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ );
 
 /*!
- *  \brief checks if the next token is a "begin-object" json token
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a "begin-object".
- *  \param begin_object return value: true if the next token is a "begin-object" token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_is_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *begin_object );
-
-/*!
  *  \brief checks that the next token is a "begin-object" json token
  *
  *  \param this_ pointer to own object attributes
@@ -81,19 +69,6 @@ data_error_t data_json_tokenizer_is_begin_object ( data_json_tokenizer_t *this_,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
 data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
-
-/*!
- *  \brief checks that the next token is a "member-name" json token
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is the expected member name..
- *  \param name name of the expected "member-name". This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
- *          DATA_ERROR_PARSER_STRUCTURE if there is no or the wrong member-name token,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_expect_member_name ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, const char *name );
 
 /*!
  *  \brief returns the next "member-name" json token
@@ -122,28 +97,16 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
 data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object );
 
 /*!
- *  \brief checks that the next token is an "end-object" json token
+ *  \brief checks that the next token is a "name-separator" json token
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an "end-object".
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a "name-separator".
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no end-object token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
-
-/*!
- *  \brief checks if the next token is a "begin-array" json token
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a "begin-array".
- *  \param begin_array return value: true if the next token is a "begin-array" token. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_is_begin_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *begin_array );
+data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief checks that the next token is a "begin-array" json token
@@ -261,18 +224,6 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
 data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
-
-/*!
- *  \brief checks if the next token is EOF
- *
- *  \param this_ pointer to own object attributes
- *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is EOF, but not after the terminating zero.
- *  \param end_array return value: true if the next token is EOF. This parameter must not be NULL.
- *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
- *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
- */
-data_error_t data_json_tokenizer_is_eof ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *eof );
 
 /*!
  *  \brief checks that the next token is EOF
