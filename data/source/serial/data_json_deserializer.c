@@ -11,6 +11,10 @@ void data_json_deserializer_init ( data_json_deserializer_t *this_ )
 
     data_json_tokenizer_init( &((*this_).tokenizer) );
 
+    (*this_).container_stack_size = 0;
+    (*this_).root_object_count = 0;
+    (*this_).last_token = DATA_JSON_DESERIALIZER_STATE_START;
+
     TRACE_END();
 }
 
@@ -19,7 +23,7 @@ void data_json_deserializer_destroy ( data_json_deserializer_t *this_ )
     TRACE_BEGIN();
 
     data_json_tokenizer_destroy( &((*this_).tokenizer) );
-    
+
     TRACE_END();
 }
 

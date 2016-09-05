@@ -22,20 +22,20 @@
 #include <stdint.h>
 
 /*!
- *  \brief constants for max stack size
+ *  \brief constants for max input size
  */
 enum data_json_tokenizer_max_enum {
-    DATA_JSON_TOKENIZER_MAX_STACK_SIZE = 16,  /*!< maxmum number of stack size, objects and arrays that contain other objects and arrays. */
     DATA_JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops. 16MB should be big enough. */
 };
 
 /*!
  *  \brief all data attributes needed for tokenizing data objects
+ *
+ *  The attribute values keep track on the lexical structure of the tokens
+ *  to check if these appear in the right order.
  */
 struct data_json_tokenizer_struct {
-    int container_stack_size;  /*!< current stack size: objects and arrays that contain other objects and arrays. */
-    data_json_value_type_t container_stack[ DATA_JSON_TOKENIZER_MAX_STACK_SIZE ];
-    int root_object_count;  /*!< number of objects at top-level; shall be 1 */
+    int dummy;
 };
 
 typedef struct data_json_tokenizer_struct data_json_tokenizer_t;
@@ -187,6 +187,9 @@ data_error_t data_json_tokenizer_expect_end_array ( data_json_tokenizer_t *this_
 /*!
  *  \brief determines the type of the next value without modifying the read-pointer
  *
+ *  This function reads only as many charactes as necessary to determine the type.
+ *  It does not verify if the type is valid.
+ *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) only by whitespaces, not over the next value.
@@ -267,7 +270,7 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is EOF.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is EOF, but not after the terminating zero.
  *  \param end_array return value: true if the next token is EOF. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
@@ -279,7 +282,7 @@ data_error_t data_json_tokenizer_is_eof ( data_json_tokenizer_t *this_, const ch
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is EOF.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is EOF, but not after the terminating zero.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no EOF,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
@@ -298,6 +301,21 @@ data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, cons
  *                     The read position will be moved(changed) if there are whitespaces after the current read position.
  */
 static inline void data_json_tokenizer_private_skip_whitespace ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+
+/*!
+ *  \brief checks if the current token is ended
+ *
+ *  If the previous character before the current position
+ *  or the next character after the current position
+ *  is one of the following:
+ *  {, }, [, ], :, comma, space, tab, newline, return,
+ *  then the current token is ended.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param in_data utf8 encoded string where to read from
+ *  \param io_read_pos pointer to current read position.
+ */
+static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos );
 
 #include "serial/data_json_tokenizer.inl"
 

@@ -6,12 +6,14 @@
 static void set_up(void);
 static void tear_down(void);
 static void test_skip_whitespace(void);
+static void test_is_token_end(void);
 static void test_get_value_type(void);
 
 TestRef data_json_tokenizer_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("test_skip_whitespace",test_skip_whitespace),
+        new_TestFixture("test_is_token_end",test_is_token_end),
         new_TestFixture("test_get_value_type",test_get_value_type),
     };
     EMB_UNIT_TESTCALLER(result,"data_json_tokenizer_test_get_list",set_up,tear_down,fixtures);
@@ -50,6 +52,29 @@ static void test_skip_whitespace(void)
     pos = 4;
     data_json_tokenizer_private_skip_whitespace( &tok, test_str, &pos );
     TEST_ASSERT_EQUAL_INT( 12, pos );
+
+    /* destroy */
+    data_json_tokenizer_destroy( &tok );
+}
+
+static void test_is_token_end(void)
+{
+    const char test_str[17] = "+2f\r"  "5,7:"  "9}b "  "\"e\".";
+    const char results[18] = "1001"  "1111"  "1111"  "10001";
+    data_json_tokenizer_t tok;
+    uint32_t pos;
+    bool is_end;
+    assert( sizeof(test_str)+1 == sizeof(results) );
+
+    /* init */
+    data_json_tokenizer_init( &tok );
+
+    /* test all positions */
+    for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
+    {
+        is_end = data_json_tokenizer_private_is_token_end( &tok, test_str, &pos );
+        TEST_ASSERT_EQUAL_INT( results[pos]=='1', is_end );
+    }
 
     /* destroy */
     data_json_tokenizer_destroy( &tok );

@@ -24,6 +24,49 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
     *io_read_pos = (pos-1);
 }
 
+static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos )
+{
+    assert( NULL != in_data );
+    assert( NULL != in_read_pos );
+    bool result;
+
+    if ( (*in_read_pos) > 0 )
+    {
+        char prev;
+        char next;
+        prev = in_data[(*in_read_pos)-1];
+        next = in_data[(*in_read_pos)];
+        result = (( next == '\0' )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_NL )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_CR )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_TAB )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_SPACE )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_END_OBJECT )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_END_ARRAY )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
+            || ( next == DATA_JSON_CONSTANTS_CHAR_VALUE_SEPARATOR )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_NL )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_CR )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_TAB )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_SPACE )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_END_OBJECT )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_END_ARRAY )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
+            || ( prev == DATA_JSON_CONSTANTS_CHAR_VALUE_SEPARATOR ));
+
+    }
+    else
+    {
+        result = true;
+    }
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
