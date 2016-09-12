@@ -308,16 +308,12 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
 
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_sketch_tools_clipboard_text_received_callback, this_ );
-
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                         "Paste"
-    );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -333,6 +329,13 @@ void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard
     {
         gui_sketch_tools_private_copy_clipboard_to_db( this_, clipboard_text );
     }
+    else
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                            GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
+        );
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -342,12 +345,23 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
 {
     TRACE_BEGIN();
     data_json_deserializer_t deserializer;
+    data_error_t parse_error = DATA_ERROR_NONE;
 
     TRACE_INFO ( json_text );
 
     data_json_deserializer_init( &deserializer, json_text );
 
+    parse_error |= data_json_deserializer_expect_begin_set( &deserializer );
+
+    parse_error |= data_json_deserializer_expect_end_set( &deserializer );
+
     data_json_deserializer_destroy( &deserializer );
+
+    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                         GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                         "Pos: 0"
+    );
 
     TRACE_END();
 }

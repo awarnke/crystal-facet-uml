@@ -11,6 +11,9 @@ void data_json_deserializer_init ( data_json_deserializer_t *this_, const char *
 
     data_json_tokenizer_init( &((*this_).tokenizer) );
 
+    (*this_).in_data = in_data;
+    (*this_).read_pos = 0;
+
     (*this_).container_stack_size = 0;
     (*this_).root_object_count = 0;
     (*this_).last_token = DATA_JSON_DESERIALIZER_STATE_START;
@@ -42,6 +45,8 @@ data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t 
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    
     TRACE_END_ERR( result );
     return result;
 }

@@ -179,6 +179,19 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA:
+            {
+                utf8stringbuf_append_str( (*this_).content, "No input data: " );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Invalid input data." );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+
             default:
             {
                 LOG_ERROR("unexptected gui_simple_message_content_t");
