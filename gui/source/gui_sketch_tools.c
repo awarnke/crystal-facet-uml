@@ -343,9 +343,9 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
     TRACE_BEGIN();
     data_json_deserializer_t deserializer;
 
-    data_json_deserializer_init( &deserializer );
-
     TRACE_INFO ( json_text );
+
+    data_json_deserializer_init( &deserializer, json_text );
 
     data_json_deserializer_destroy( &deserializer );
 

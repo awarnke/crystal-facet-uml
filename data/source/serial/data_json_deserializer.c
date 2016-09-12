@@ -5,7 +5,7 @@
 #include "log.h"
 #include <assert.h>
 
-void data_json_deserializer_init ( data_json_deserializer_t *this_ )
+void data_json_deserializer_init ( data_json_deserializer_t *this_, const char *in_data )
 {
     TRACE_BEGIN();
 
@@ -18,6 +18,16 @@ void data_json_deserializer_init ( data_json_deserializer_t *this_ )
     TRACE_END();
 }
 
+void data_json_deserializer_reinit ( data_json_deserializer_t *this_, const char *in_data )
+{
+    TRACE_BEGIN();
+
+    data_json_deserializer_destroy( this_ );
+    data_json_deserializer_init( this_, in_data );
+
+    TRACE_END();
+}
+
 void data_json_deserializer_destroy ( data_json_deserializer_t *this_ )
 {
     TRACE_BEGIN();
@@ -25,6 +35,62 @@ void data_json_deserializer_destroy ( data_json_deserializer_t *this_ )
     data_json_tokenizer_destroy( &((*this_).tokenizer) );
 
     TRACE_END();
+}
+
+data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deserializer_t *this_, data_table_t *out_type )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_type );
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_, data_classifier_t *out_object )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_object );
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t *this_, data_diagram_t *out_object )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_object );
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 
