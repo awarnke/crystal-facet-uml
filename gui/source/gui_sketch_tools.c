@@ -351,17 +351,29 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
 
     data_json_deserializer_init( &deserializer, json_text );
 
-    parse_error |= data_json_deserializer_expect_begin_set( &deserializer );
+    parse_error = data_json_deserializer_expect_begin_set( &deserializer );
 
-    parse_error |= data_json_deserializer_expect_end_set( &deserializer );
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = data_json_deserializer_expect_end_set( &deserializer );
+    }
 
     data_json_deserializer_destroy( &deserializer );
 
-    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                         GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                         "Pos: 0"
-    );
+    if ( DATA_ERROR_NONE != parse_error )
+    {
+        char pos_str_buf[32] = "character position: ";
+        utf8stringbuf_t pos_str = UTF8STRINGBUF( pos_str_buf );
+        uint32_t read_pos;
+
+        data_json_deserializer_get_read_pos ( &deserializer, &read_pos );
+        utf8stringbuf_append_int( pos_str, read_pos );
+        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                             utf8stringbuf_get_string( pos_str )
+        );
+    }
 
     TRACE_END();
 }

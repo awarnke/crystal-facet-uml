@@ -14,10 +14,6 @@ void data_json_deserializer_init ( data_json_deserializer_t *this_, const char *
     (*this_).in_data = in_data;
     (*this_).read_pos = 0;
 
-    (*this_).container_stack_size = 0;
-    (*this_).root_object_count = 0;
-    (*this_).last_token = DATA_JSON_DESERIALIZER_STATE_START;
-
     TRACE_END();
 }
 
@@ -44,9 +40,31 @@ data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t 
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
+    char member_name_buf[4] = "";
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
-    
+    result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+        if ( ! utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_SET ) )
+        {
+            LOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
+            result |= DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_name_separator( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_begin_array( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+
     TRACE_END_ERR( result );
     return result;
 }
@@ -55,8 +73,29 @@ data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *t
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
+    bool condition;
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    result = data_json_tokenizer_is_end_array ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &condition );
+    if ( ! condition )
+    {
+        LOG_ERROR_INT( "unexpected array contents at character", (*this_).read_pos );
+        result |= DATA_ERROR_PARSER_STRUCTURE;
+    }
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &condition );
+        if ( ! condition )
+        {
+            LOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
+            result |= DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_eof ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -96,6 +135,16 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
 
     TRACE_END_ERR( result );
     return result;
+}
+
+void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint32_t *out_read_pos )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_read_pos );
+
+    (*out_read_pos) = (*this_).read_pos;
+
+    TRACE_END();
 }
 
 

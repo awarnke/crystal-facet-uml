@@ -21,26 +21,6 @@
 #include <stdint.h>
 
 /*!
- *  \brief constants for max stack size
- */
-enum data_json_deserializer_max_enum {
-    DATA_JSON_DESERIALIZER_MAX_STACK_SIZE = 16,  /*!< maxmum number of stack size, objects and arrays that contain other objects and arrays. */
-};
-
-/*!
- *  \brief constants for parser state
- */
-enum data_json_deserializer_state_enum {
-    DATA_JSON_DESERIALIZER_STATE_START,  /*!< no token has been parsed yet */
-    DATA_JSON_DESERIALIZER_STATE_BEGIN_OBJECT, /*!< last parsed token is a begin-object */
-    DATA_JSON_DESERIALIZER_STATE_BEGIN_ARRAY, /*!< last parsed token is a begin-object */
-    DATA_JSON_DESERIALIZER_STATE_VALUE, /*!< last parsed token is a complete value, e.g. 17 or an array */
-    DATA_JSON_DESERIALIZER_STATE_VALUE_SEPARATOR, /*!< last parsed token is the value separator ',' */
-    DATA_JSON_DESERIALIZER_STATE_NAME_SEPARATOR, /*!< last parsed token is the name separator ':' */
-    DATA_JSON_DESERIALIZER_STATE_NAME, /*!< last parsed token is a member name */
-};
-
-/*!
  *  \brief all data attributes needed for deserializing data objects
  *
  *  The attribute values keep track on the structure of the input tokens
@@ -50,11 +30,6 @@ struct data_json_deserializer_struct {
     data_json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
     const char *in_data;  /*!< string to be parsed */
     uint32_t read_pos;  /*!< current read position in string to be parsed */
-
-    unsigned int container_stack_size;  /*!< current stack size: objects and arrays that contain other objects and arrays. */
-    data_json_value_type_t container_stack[ DATA_JSON_DESERIALIZER_MAX_STACK_SIZE ];
-    unsigned int root_object_count;  /*!< number of objects at top-level; shall be 1 */
-    enum data_json_deserializer_state_enum last_token;  /*!< type of last parsed token */
 };
 
 typedef struct data_json_deserializer_struct data_json_deserializer_t;
@@ -139,6 +114,16 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
 data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t *this_, data_diagram_t *out_object );
+
+/*!
+ *  \brief gets the current read position
+ *
+ *  May be used to determine the position where a parse error occurred.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
+ */
+void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint32_t *out_read_pos );
 
 #endif  /* DATA_JSON_DESERIALIZER_H */
 
