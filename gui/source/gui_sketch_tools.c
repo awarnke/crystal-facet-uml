@@ -355,6 +355,49 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
 
     if ( DATA_ERROR_NONE == parse_error )
     {
+        data_table_t next_object_type;
+        bool set_end = false;
+        static const uint32_t MAX_LOOP_COUNTER = CTRL_UNDO_REDO_LIST_MAX_SIZE-2;  /* no not import more things than can be undone */
+        for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        {
+            parse_error = data_json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
+            if ( DATA_ERROR_NONE == parse_error )
+            {
+                switch ( next_object_type )
+                {
+                    case DATA_TABLE_VOID:
+                    {
+                        /* we are finished */
+                        set_end = true;
+                    }
+                    break;
+
+                    case DATA_TABLE_CLASSIFIER:
+                    {
+                        data_classifier_t new_classifier;
+                        parse_error = data_json_deserializer_get_next_classifier ( &deserializer, &new_classifier );
+                    }
+                    break;
+
+                    case DATA_TABLE_DIAGRAM:
+                    {
+                        data_diagram_t new_diagram;
+                        parse_error = data_json_deserializer_get_next_diagram ( &deserializer, &new_diagram );
+                    }
+                    break;
+
+                    default:
+                    {
+                        LOG_ERROR( "unexpected error" );
+                        set_end = true;
+                    }
+                }
+            }
+        }
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
         parse_error = data_json_deserializer_expect_end_set( &deserializer );
     }
 
@@ -362,16 +405,12 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
 
     if ( DATA_ERROR_NONE != parse_error )
     {
-        char pos_str_buf[32] = "character position: ";
-        utf8stringbuf_t pos_str = UTF8STRINGBUF( pos_str_buf );
         uint32_t read_pos;
-
         data_json_deserializer_get_read_pos ( &deserializer, &read_pos );
-        utf8stringbuf_append_int( pos_str, read_pos );
-        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                             utf8stringbuf_get_string( pos_str )
+        gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
+                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                          GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                          read_pos
         );
     }
 
