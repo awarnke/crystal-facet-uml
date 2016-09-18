@@ -30,6 +30,7 @@ struct data_json_deserializer_struct {
     data_json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
     const char *in_data;  /*!< string to be parsed */
     uint32_t read_pos;  /*!< current read position in string to be parsed */
+    bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
 };
 
 typedef struct data_json_deserializer_struct data_json_deserializer_t;

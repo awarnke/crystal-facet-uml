@@ -57,7 +57,7 @@ void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ );
 static inline void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *this_,
                                                              gui_simple_message_type_t type_id,
                                                              gui_simple_message_content_t content_id
-);
+                                                           );
 
 /*!
  *  \brief shows a message

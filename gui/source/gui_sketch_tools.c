@@ -376,6 +376,11 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
                     {
                         data_classifier_t new_classifier;
                         parse_error = data_json_deserializer_get_next_classifier ( &deserializer, &new_classifier );
+                        if ( DATA_ERROR_NONE != parse_error )
+                        {
+                            /* parser error, break loop: */
+                            set_end = true;
+                        }
                     }
                     break;
 
@@ -383,6 +388,11 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
                     {
                         data_diagram_t new_diagram;
                         parse_error = data_json_deserializer_get_next_diagram ( &deserializer, &new_diagram );
+                        if ( DATA_ERROR_NONE != parse_error )
+                        {
+                            /* parser error, break loop: */
+                            set_end = true;
+                        }
                     }
                     break;
 
@@ -392,6 +402,11 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
                         set_end = true;
                     }
                 }
+            }
+            else
+            {
+                /* parser error, break loop: */
+                set_end = true;
             }
         }
     }
