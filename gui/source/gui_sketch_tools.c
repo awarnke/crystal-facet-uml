@@ -357,7 +357,7 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
     {
         data_table_t next_object_type;
         bool set_end = false;
-        static const uint32_t MAX_LOOP_COUNTER = CTRL_UNDO_REDO_LIST_MAX_SIZE-2;  /* no not import more things than can be undone */
+        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* no not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = data_json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );

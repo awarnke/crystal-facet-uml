@@ -126,7 +126,7 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
         {
             if ( (*this_).after_first_array_entry )
             {
-                result = data_json_tokenizer_expect_value_separator ( &((*this_).tokenizer), (*this_).in_data, &(*this_).read_pos );
+                result = data_json_tokenizer_expect_value_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
                 temp_read_pos = (*this_).read_pos;
             }
             if ( DATA_ERROR_NONE == result )
@@ -166,7 +166,141 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
     assert ( NULL != out_object );
     data_error_t result = DATA_ERROR_NONE;
 
-    result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+    char member_name_buf[16];
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
+
+    data_classifier_init_empty( out_object );
+
+    /* header */
+
+    result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        if ( ! utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER ) )
+        {
+            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+            result = DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+
+    /* members */
+
+    bool first_member_passed = false;
+    bool object_end = false;
+    static const int MAX_MEMBERS = 8;  /* mamimum number of members to parse */
+    if ( DATA_ERROR_NONE == result )
+    {
+        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        {
+            result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+            if ( DATA_ERROR_NONE == result )
+            {
+                if ( ! object_end )
+                {
+                    if ( first_member_passed )
+                    {
+                        result = data_json_tokenizer_expect_value_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    else
+                    {
+                        first_member_passed = true;
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = data_json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_classifier_set_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_MAIN_TYPE ) )
+                        {
+                            int64_t parsed_integer;
+                            result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_classifier_set_main_type ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_X_ORDER ) )
+                        {
+                            int64_t parsed_integer;
+                            result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_classifier_set_x_order ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_Y_ORDER ) )
+                        {
+                            int64_t parsed_integer;
+                            result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_classifier_set_y_order ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_classifier_get_stereotype_buf_ptr ( out_object );
+                            result = data_json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_NAME ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_classifier_get_name_buf_ptr ( out_object );
+                            result = data_json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_DESCRIPTION ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_classifier_get_description_buf_ptr ( out_object );
+                            result = data_json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else
+                        {
+                            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+                            result = DATA_ERROR_PARSER_STRUCTURE;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+                result = DATA_ERROR_PARSER_STRUCTURE;
+                object_end = true;
+            }
+        }
+    }
+
+    /* footer */
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        if ( ! object_end )
+        {
+            LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+            result = DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        data_classifier_trace( out_object );
+    }
 
     (*this_).after_first_array_entry = true;
 
@@ -179,6 +313,9 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
     TRACE_BEGIN();
     assert ( NULL != out_object );
     data_error_t result = DATA_ERROR_NONE;
+
+    char member_name_buf[16];
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     result = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
 

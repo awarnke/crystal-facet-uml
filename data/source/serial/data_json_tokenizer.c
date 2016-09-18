@@ -105,6 +105,10 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
                 }
+                else
+                {
+                    TRACE_INFO_STR( "member name:", utf8stringbuf_get_string( out_name ) );
+                }
             }
         }
         else
@@ -139,6 +143,7 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
         /* object-end token found */
         (*io_read_pos) ++;
         (*end_object) = true;
+        TRACE_INFO( "end object: true" );
     }
     else
     {
@@ -216,6 +221,7 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
         /* array-end token found */
         (*io_read_pos) ++;
         (*end_array) = true;
+        TRACE_INFO( "end array: true" );
     }
     else
     {
