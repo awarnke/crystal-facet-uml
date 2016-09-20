@@ -208,20 +208,20 @@ static void undo_redo_list_limits(void)
     for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-1/*first boundary*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
     {
         /* create a diagram */
-        ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
-                                                            root_diagram_id,
-                                                            DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
-                                                            "diagram_name",
-                                                            &child_diag_id );
+        ctrl_err = ctrl_diagram_controller_create_child_diagram ( diag_ctrl,
+                                                                  root_diagram_id,
+                                                                  DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                                  "diagram_name",
+                                                                  &child_diag_id );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }
 
     /* create one more classifier and diagramelement */
-    ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
-                                                        root_diagram_id,
-                                                        DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
-                                                        "diagram_name",
-                                                        &child_diag_id );
+    ctrl_err = ctrl_diagram_controller_create_child_diagram ( diag_ctrl,
+                                                              root_diagram_id,
+                                                              DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                              "diagram_name",
+                                                              &child_diag_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo everything that is possible */
@@ -240,11 +240,11 @@ static void undo_redo_list_limits(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* create a new diagram somewhere in the middle of the list */
-    ctrl_err = ctrl_diagram_controller_create_diagram ( diag_ctrl,
-                                                        root_diagram_id,
-                                                        DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
-                                                        "diagram_name",
-                                                        &child_diag_id );
+    ctrl_err = ctrl_diagram_controller_create_child_diagram ( diag_ctrl,
+                                                              root_diagram_id,
+                                                              DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM,
+                                                              "diagram_name",
+                                                              &child_diag_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* redo one but already at end of the list */

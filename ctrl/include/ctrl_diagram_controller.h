@@ -65,12 +65,12 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *  \param out_new_id id of the newly created diagram
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
-                                                      int64_t parent_diagram_id,
-                                                      data_diagram_type_t diagram_type,
-                                                      const char* diagram_name,
-                                                      int64_t* out_new_id
-                                                    );
+ctrl_error_t ctrl_diagram_controller_create_child_diagram ( ctrl_diagram_controller_t *this_,
+                                                            int64_t parent_diagram_id,
+                                                            data_diagram_type_t diagram_type,
+                                                            const char* diagram_name,
+                                                            int64_t* out_new_id
+                                                          );
 
 /*!
  *  \brief checks if a root diagram exists and creates one if not
@@ -125,6 +125,38 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
                                                            int64_t diagram_id,
                                                            data_diagram_type_t new_diagram_type
                                                          );
+
+/*!
+ *  \brief creates a new diagram.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_diagram data of the new diagram to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created diagram.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                      const data_diagram_t *new_diagram,
+                                                      bool add_to_latest_undo_set,
+                                                      int64_t* out_new_id
+                                                    );
+
+/*!
+ *  \brief creates a new diagramelement.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_diagramelement data of the new diagramelement to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created diagramelement.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
+                                                             const data_diagramelement_t *new_diagramelement,
+                                                             bool add_to_latest_undo_set,
+                                                             int64_t* out_new_id
+                                                           );
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */
 

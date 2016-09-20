@@ -697,7 +697,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                     int64_t new_diag_id;
                     ctrl_error_t c_result;
-                    c_result = ctrl_diagram_controller_create_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
+                    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
 
                     /* load/reload data to be drawn */
                     gui_sketch_area_private_load_cards( this_, new_diag_id );

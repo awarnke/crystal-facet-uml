@@ -65,7 +65,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *  \param diagram_id id of the diagram, to which to link the newly created classifier
  *  \param classifier_type main_type of the classifier to create
  *  \param classifier_name name of the classifier to create
- *  \param out_new_id of the newly created classifier. Note: the id of the newly created diagramelement link is not provided.
+ *  \param out_new_id id of the newly created classifier. Note: the id of the newly created diagramelement link is not provided.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
@@ -137,6 +137,22 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
 ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_,
                                                      data_small_set_t objects
                                                    );
+
+/*!
+ *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_classifier data of the new classifier to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created classifier.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
+                                                            const data_classifier_t *new_classifier,
+                                                            bool add_to_latest_undo_set,
+                                                            int64_t* out_new_id
+                                                          );
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 

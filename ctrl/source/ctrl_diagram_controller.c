@@ -32,11 +32,11 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     TRACE_END();
 }
 
-ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
-                                                      int64_t parent_diagram_id,
-                                                      data_diagram_type_t diagram_type,
-                                                      const char* diagram_name,
-                                                      int64_t* out_new_id )
+ctrl_error_t ctrl_diagram_controller_create_child_diagram ( ctrl_diagram_controller_t *this_,
+                                                            int64_t parent_diagram_id,
+                                                            data_diagram_type_t diagram_type,
+                                                            const char* diagram_name,
+                                                            int64_t* out_new_id )
 {
     TRACE_BEGIN();
     data_diagram_t to_be_created;
@@ -97,7 +97,7 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
         if ( 0 == count )
         {
             /* no root diagram exists */
-            result = ctrl_diagram_controller_create_diagram( this_, DATA_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
+            result = ctrl_diagram_controller_create_child_diagram( this_, DATA_ID_VOID_ID, diagram_type, diagram_name, out_new_id );
         }
         else
         {

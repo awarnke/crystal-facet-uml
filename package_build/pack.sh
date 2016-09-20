@@ -34,6 +34,8 @@ rm -f CMakeCache.txt
 rm -f cmake_install.cmake
 cd ../..
 
-echo "zipping package"
+echo "zipping src package"
 zip -r crystal_facet_uml.zip crystal_facet_uml/
 rm -fr crystal_facet_uml
+
+echo "binary packages are created by sudo make package"

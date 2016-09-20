@@ -297,6 +297,18 @@ static void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t 
 static void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value );
 
 /*!
+ *  \brief removes the last boundary entry (CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY) from the end of the list.
+ *
+ *  This function fails if the current position is not the end of the list.
+ *  This method may be useful if a boundary was already added but now, more actions shall be added to the latest set.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_INVALID_REQUEST if the last list entry is not a boundary or the current position is not the end of the list.
+ *          CTRL_ERROR_NONE otherwise.
+ */
+static ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ );
+
+/*!
  *  \brief un-does a set of actions till the last boundary.
  *
  *  \param this_ pointer to own object attributes
