@@ -57,6 +57,9 @@ INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Add this for CPack 
 INSTALL(FILES "cfu_install_files/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../user_doc/doc/crystal_facet_uml.png" DESTINATION "/usr/share/pixmaps/")
 
+MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release ." )
+MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug ." )
+
 INCLUDE_DIRECTORIES(../embunit)
 INCLUDE_DIRECTORIES(../data/unittest)
 INCLUDE_DIRECTORIES(../ctrl/unittest)

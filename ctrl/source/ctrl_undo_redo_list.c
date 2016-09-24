@@ -5,6 +5,62 @@
 #include "log.h"
 #include <assert.h>
 
+ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )
+{
+    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).current <= (*this_).length );
+
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    ctrl_undo_redo_entry_t *boundary_entry;
+
+    if ( (*this_).current == 0 )
+    {
+        /* there is no entry - therefore no boundary - to be removed */
+        result = CTRL_ERROR_INVALID_REQUEST;
+    }
+    else
+    {
+        /* check if current is a boundary */
+        uint32_t index;
+        ctrl_undo_redo_entry_type_t action;
+
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        boundary_entry = &((*this_).buffer[index]);
+        action = ctrl_undo_redo_entry_get_action_type ( boundary_entry );
+        if ( CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY != action )
+        {
+            /* current is not a boundary */
+            result = CTRL_ERROR_INVALID_REQUEST;
+        }
+        else
+        {
+            /* drop all list-entries newer than the current position */
+            if ( (*this_).current < (*this_).length )
+            {
+                /* call destructor of all later entries */
+                for ( uint32_t pos = (*this_).current; pos < (*this_).length; pos ++ )
+                {
+                    uint32_t del_index = ((*this_).start + pos) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+                    ctrl_undo_redo_entry_destroy( &((*this_).buffer[del_index]) );
+                }
+
+                /* shrink the list */
+                (*this_).length = (*this_).current;
+            }
+
+            /* call destructor of boundary and remove it */
+            ctrl_undo_redo_entry_destroy( boundary_entry );
+
+            /* remove the boundary */
+            (*this_).length --;
+            (*this_).current --;
+        }
+    }
+
+    return result;
+}
+
 ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )
 {
     TRACE_BEGIN();

@@ -4,7 +4,7 @@
 #include "log.h"
 #include <assert.h>
 
-static void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
+static inline void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer )
 {
     assert( NULL != db_reader );
     assert( NULL != db_writer );
@@ -19,14 +19,14 @@ static void ctrl_undo_redo_list_init ( ctrl_undo_redo_list_t *this_, data_databa
     (*this_).buffer_incomplete = false;
 }
 
-static void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
+static inline void ctrl_undo_redo_list_destroy ( ctrl_undo_redo_list_t *this_ )
 {
     ctrl_undo_redo_list_clear( this_ );
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
 }
 
-static void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
+static inline void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
 {
     assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
     assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
@@ -47,7 +47,7 @@ static void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ )
     (*this_).buffer_incomplete = false;
 }
 
-static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
+static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ )
 {
     ctrl_error_t result = CTRL_ERROR_NONE;
     ctrl_undo_redo_entry_t *list_entry;
@@ -65,7 +65,7 @@ static ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *th
     return result;
 }
 
-static void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )
+static inline void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagram_t *list_entry_old;
@@ -79,7 +79,7 @@ static void ctrl_undo_redo_list_add_delete_diagram ( ctrl_undo_redo_list_t *this
     data_diagram_replace( list_entry_old, old_value);
 }
 
-static void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value )
+static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *old_value, data_diagram_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagram_t *list_entry_old;
@@ -96,7 +96,7 @@ static void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_t *this
     data_diagram_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value )
+static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagram_t *list_entry_new;
@@ -110,7 +110,7 @@ static void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this
     data_diagram_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value )
+static inline void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagramelement_t *list_entry_old;
@@ -124,7 +124,7 @@ static void ctrl_undo_redo_list_add_delete_diagramelement ( ctrl_undo_redo_list_
     data_diagramelement_replace( list_entry_old, old_value);
 }
 
-static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
+static inline void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *old_value, data_diagramelement_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagramelement_t *list_entry_old;
@@ -141,7 +141,7 @@ static void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_redo_list_
     data_diagramelement_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value )
+static inline void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_diagramelement_t *list_entry_new;
@@ -155,7 +155,7 @@ static void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_
     data_diagramelement_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value )
+static inline void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_classifier_t *list_entry_old;
@@ -169,7 +169,7 @@ static void ctrl_undo_redo_list_add_delete_classifier ( ctrl_undo_redo_list_t *t
     data_classifier_replace( list_entry_old, old_value);
 }
 
-static void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value )
+static inline void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *old_value, data_classifier_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_classifier_t *list_entry_old;
@@ -186,7 +186,7 @@ static void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_list_t *t
     data_classifier_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value )
+static inline void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_classifier_t *list_entry_new;
@@ -200,7 +200,7 @@ static void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *t
     data_classifier_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value )
+static inline void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_feature_t *list_entry_old;
@@ -214,7 +214,7 @@ static void ctrl_undo_redo_list_add_delete_feature ( ctrl_undo_redo_list_t *this
     data_feature_replace( list_entry_old, old_value);
 }
 
-static void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value )
+static inline void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *old_value, data_feature_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_feature_t *list_entry_old;
@@ -231,7 +231,7 @@ static void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_t *this
     data_feature_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value )
+static inline void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_feature_t *list_entry_new;
@@ -245,7 +245,7 @@ static void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this
     data_feature_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value )
+static inline void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_relationship_t *list_entry_old;
@@ -259,7 +259,7 @@ static void ctrl_undo_redo_list_add_delete_relationship ( ctrl_undo_redo_list_t 
     data_relationship_replace( list_entry_old, old_value);
 }
 
-static void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value )
+static inline void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *old_value, data_relationship_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_relationship_t *list_entry_old;
@@ -276,7 +276,7 @@ static void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_list_t 
     data_relationship_replace( list_entry_new, new_value);
 }
 
-static void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value )
+static inline void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value )
 {
     ctrl_undo_redo_entry_t *list_entry;
     data_relationship_t *list_entry_new;
@@ -290,7 +290,7 @@ static void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t 
     data_relationship_replace( list_entry_new, new_value);
 }
 
-static uint32_t ctrl_undo_redo_list_private_count_boundaries ( ctrl_undo_redo_list_t *this_, uint32_t start_idx, uint32_t search_len )
+static inline uint32_t ctrl_undo_redo_list_private_count_boundaries ( ctrl_undo_redo_list_t *this_, uint32_t start_idx, uint32_t search_len )
 {
     assert( search_len <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
 

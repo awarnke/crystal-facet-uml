@@ -22,7 +22,7 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INDENT_END (&(trace_indent_pattern_end[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 #define TRACE_INDENT_INFO (&(trace_indent_pattern_info[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
 
-#if 1  /* SWITCH, 1: on, 0: off */
+#ifndef NDEBUG  /* SWITCH */
 
 /*!
  *  \brief traces a string
