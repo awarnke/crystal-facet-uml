@@ -190,6 +190,104 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     return result;
 }
 
+ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                      const data_diagram_t *new_diagram,
+                                                      bool add_to_latest_undo_set,
+                                                      int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_diagram );
+    data_diagram_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_diagram_copy( &to_be_created, new_diagram );
+
+    data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* store new id to diagram object */
+        data_diagram_set_id( &to_be_created, new_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                LOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the new diagram to the undo redo list */
+        ctrl_undo_redo_list_add_create_diagram( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_diagram_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
+                                                             const data_diagramelement_t *new_diagramelement,
+                                                             bool add_to_latest_undo_set,
+                                                             int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_diagramelement );
+    data_diagramelement_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_diagramelement_copy( &to_be_created, new_diagramelement );
+
+    data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* store new id to data_diagramelement_t object */
+        data_diagramelement_set_id( &to_be_created, new_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                LOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the new diagram to the undo redo list */
+        ctrl_undo_redo_list_add_create_diagramelement( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_diagramelement_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

@@ -128,7 +128,7 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
     return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order );
 }
 
-static inline void data_classifier_copy ( data_classifier_t *this_, data_classifier_t *original )
+static inline void data_classifier_copy ( data_classifier_t *this_, const data_classifier_t *original )
 {
     (*this_) = (*original);
     /* repair the overwritten pointers */
@@ -137,7 +137,7 @@ static inline void data_classifier_copy ( data_classifier_t *this_, data_classif
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
 }
 
-static inline void data_classifier_replace ( data_classifier_t *this_, data_classifier_t *that )
+static inline void data_classifier_replace ( data_classifier_t *this_, const data_classifier_t *that )
 {
     (*this_) = (*that);
     /* repair the overwritten pointers */

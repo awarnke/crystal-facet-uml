@@ -51,12 +51,12 @@ static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
     (*this_).display_flags = display_flags;
 }
 
-static inline void data_diagramelement_copy ( data_diagramelement_t *this_, data_diagramelement_t *original )
+static inline void data_diagramelement_copy ( data_diagramelement_t *this_, const data_diagramelement_t *original )
 {
     (*this_) = (*original);
 }
 
-static inline void data_diagramelement_replace ( data_diagramelement_t *this_, data_diagramelement_t *that )
+static inline void data_diagramelement_replace ( data_diagramelement_t *this_, const data_diagramelement_t *that )
 {
     (*this_) = (*that);
 }

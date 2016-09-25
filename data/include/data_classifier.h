@@ -135,7 +135,7 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes to copy
  */
-static inline void data_classifier_copy ( data_classifier_t *this_, data_classifier_t *original );
+static inline void data_classifier_copy ( data_classifier_t *this_, const data_classifier_t *original );
 
 /*!
  *  \brief overwrites the data_classifier_t struct with a copy
@@ -143,7 +143,7 @@ static inline void data_classifier_copy ( data_classifier_t *this_, data_classif
  *  \param this_ pointer to own object attributes
  *  \param that pointer to object attributes to copy
  */
-static inline void data_classifier_replace ( data_classifier_t *this_, data_classifier_t *that );
+static inline void data_classifier_replace ( data_classifier_t *this_, const data_classifier_t *that );
 
 /*!
  *  \brief destroys the data_classifier_t struct

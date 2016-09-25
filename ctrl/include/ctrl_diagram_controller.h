@@ -62,7 +62,7 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
  *  \param parent_diagram_id id of the parent diagram for which a child is created
  *  \param diagram_type type of the new diagram
  *  \param diagram_name name of the new diagram
- *  \param out_new_id id of the newly created diagram
+ *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_child_diagram ( ctrl_diagram_controller_t *this_,
@@ -78,7 +78,7 @@ ctrl_error_t ctrl_diagram_controller_create_child_diagram ( ctrl_diagram_control
  *  \param this_ pointer to own object attributes
  *  \param diagram_type type of the root diagram
  *  \param diagram_name name of the root diagram
- *  \param out_new_id id of the created root diagram or DATA_ID_VOID_ID if a root diagram already existed
+ *  \param out_new_id id of the created root diagram or DATA_ID_VOID_ID if a root diagram already existed, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_diagram_controller_t *this_,
@@ -133,7 +133,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
  *  \param new_diagram data of the new diagram to be created; the id is ignored.
  *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
  *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagram.
+ *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
@@ -149,7 +149,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param new_diagramelement data of the new diagramelement to be created; the id is ignored.
  *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
  *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagramelement.
+ *  \param out_new_id id of the newly created diagramelement, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,

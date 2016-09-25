@@ -66,7 +66,7 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes to copy
  */
-static inline void data_feature_copy ( data_feature_t *this_, data_feature_t *original );
+static inline void data_feature_copy ( data_feature_t *this_, const data_feature_t *original );
 
 /*!
  *  \brief overwrites the data_feature_t struct with a copy
@@ -74,7 +74,7 @@ static inline void data_feature_copy ( data_feature_t *this_, data_feature_t *or
  *  \param this_ pointer to own object attributes
  *  \param that pointer to object attributes to copy
  */
-static inline void data_feature_replace ( data_feature_t *this_, data_feature_t *that );
+static inline void data_feature_replace ( data_feature_t *this_, const data_feature_t *that );
 
 /*!
  *  \brief destroys the data_feature_t struct

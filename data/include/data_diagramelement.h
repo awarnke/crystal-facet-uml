@@ -102,7 +102,7 @@ static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes to copy
  */
-static inline void data_diagramelement_copy ( data_diagramelement_t *this_, data_diagramelement_t *original );
+static inline void data_diagramelement_copy ( data_diagramelement_t *this_, const data_diagramelement_t *original );
 
 /*!
  *  \brief overwrites the data_diagramelement_t struct with a copy
@@ -110,7 +110,7 @@ static inline void data_diagramelement_copy ( data_diagramelement_t *this_, data
  *  \param this_ pointer to own object attributes
  *  \param that pointer to object attributes to copy
  */
-static inline void data_diagramelement_replace ( data_diagramelement_t *this_, data_diagramelement_t *that );
+static inline void data_diagramelement_replace ( data_diagramelement_t *this_, const data_diagramelement_t *that );
 
 /*!
  *  \brief destroys the data_diagramelement_t struct

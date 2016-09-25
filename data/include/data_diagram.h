@@ -102,7 +102,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes to copy
  */
-static inline void data_diagram_copy ( data_diagram_t *this_, data_diagram_t *original );
+static inline void data_diagram_copy ( data_diagram_t *this_, const data_diagram_t *original );
 
 /*!
  *  \brief overwrites the data_diagram_t struct with a copy
@@ -110,7 +110,7 @@ static inline void data_diagram_copy ( data_diagram_t *this_, data_diagram_t *or
  *  \param this_ pointer to own object attributes
  *  \param that pointer to object attributes to copy
  */
-static inline void data_diagram_replace ( data_diagram_t *this_, data_diagram_t *that );
+static inline void data_diagram_replace ( data_diagram_t *this_, const data_diagram_t *that );
 
 /*!
  *  \brief destroys the data_diagram_t struct

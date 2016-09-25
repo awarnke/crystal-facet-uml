@@ -63,7 +63,7 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param original pointer to object attributes to copy
  */
-static inline void data_relationship_copy ( data_relationship_t *this_, data_relationship_t *original );
+static inline void data_relationship_copy ( data_relationship_t *this_, const data_relationship_t *original );
 
 /*!
  *  \brief overwrites the data_relationship_t struct with a copy
@@ -71,7 +71,7 @@ static inline void data_relationship_copy ( data_relationship_t *this_, data_rel
  *  \param this_ pointer to own object attributes
  *  \param that pointer to object attributes to copy
  */
-static inline void data_relationship_replace ( data_relationship_t *this_, data_relationship_t *that );
+static inline void data_relationship_replace ( data_relationship_t *this_, const data_relationship_t *that );
 
 /*!
  *  \brief destroys the data_relationship_t struct

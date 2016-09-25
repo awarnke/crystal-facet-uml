@@ -24,7 +24,7 @@ static inline void data_feature_reinit_empty ( data_feature_t *this_ )
     data_feature_init_empty( this_ );
 }
 
-static inline void data_feature_copy ( data_feature_t *this_, data_feature_t *original )
+static inline void data_feature_copy ( data_feature_t *this_, const data_feature_t *original )
 {
     (*this_) = (*original);
     /* repair the overwritten pointers */
@@ -33,7 +33,7 @@ static inline void data_feature_copy ( data_feature_t *this_, data_feature_t *or
     (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
 }
 
-static inline void data_feature_replace ( data_feature_t *this_, data_feature_t *that )
+static inline void data_feature_replace ( data_feature_t *this_, const data_feature_t *that )
 {
     (*this_) = (*that);
     /* repair the overwritten pointers */
