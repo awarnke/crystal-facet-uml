@@ -187,6 +187,11 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
 void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text );
 
 /*!
+ *  \brief copies the clipboard contents to the focused diagram
+ */
+void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *this_, const char *json_text, int64_t diagram_id );
+
+/*!
  *  \brief deletes a set of objects
  */
 void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_deleted );

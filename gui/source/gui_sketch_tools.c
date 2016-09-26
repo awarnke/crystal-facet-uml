@@ -352,13 +352,46 @@ void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard
 void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text )
 {
     TRACE_BEGIN();
+
+    int64_t focused_diagram;
+    {
+        focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
+
+        data_error_t diag_check_error;
+        data_diagram_t test_diagram;
+        diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, focused_diagram, &test_diagram );
+        if ( DATA_ERROR_NONE == diag_check_error )
+        {
+            TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
+        }
+        else
+        {
+            LOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
+            focused_diagram = DATA_ID_VOID_ID;
+        }
+    }
+
+    if ( DATA_ID_VOID_ID != focused_diagram )
+    {
+        gui_sketch_tools_private_copy_clipboard_to_diagram( this_, json_text, focused_diagram );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
+        );
+    }
+
+    TRACE_END();
+}
+
+void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *this_, const char *json_text, int64_t diagram_id )
+{
+    TRACE_BEGIN();
     data_json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
 
-    int64_t focused_diagram;
-    focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
-    TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
-    
     TRACE_INFO ( json_text );
 
     data_json_deserializer_init( &deserializer, json_text );
