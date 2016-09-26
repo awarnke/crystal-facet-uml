@@ -212,6 +212,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]) );
     gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
+    gui_sketch_marker_set_focused_diagram( (*this_).marker, main_diagram_id );
 
     gui_sketch_tools_tool_t selected_tool;
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );

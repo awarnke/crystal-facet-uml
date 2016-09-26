@@ -6,6 +6,7 @@ static inline void gui_sketch_marker_init ( gui_sketch_marker_t *this_ )
     data_id_init_void( &((*this_).focused_real_object) );
     data_id_init_void( &((*this_).highlighted) );
     data_small_set_init( &((*this_).selected_set) );
+    (*this_).focused_diagram = DATA_ID_VOID_ID;
 }
 
 static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ )
@@ -14,6 +15,7 @@ static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ )
     data_id_destroy( &((*this_).focused_real_object) );
     data_id_destroy( &((*this_).highlighted) );
     data_small_set_destroy( &((*this_).selected_set) );
+    (*this_).focused_diagram = DATA_ID_VOID_ID;
 }
 
 static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ )
@@ -24,6 +26,11 @@ static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *thi
 static inline data_id_t gui_sketch_marker_get_focused_real_object ( gui_sketch_marker_t *this_ )
 {
     return ( (*this_).focused_real_object );
+}
+
+static inline int64_t gui_sketch_marker_get_focused_diagram ( gui_sketch_marker_t *this_ )
+{
+    return( (*this_).focused_diagram );
 }
 
 static inline data_id_t gui_sketch_marker_get_highlighted ( gui_sketch_marker_t *this_ )
@@ -52,6 +59,11 @@ static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, d
     (*this_).focused = obj_id;
     data_id_destroy( &((*this_).focused_real_object) );
     (*this_).focused_real_object = real_obj_id;
+}
+
+static inline void gui_sketch_marker_set_focused_diagram ( gui_sketch_marker_t *this_, int64_t diag_id )
+{
+    (*this_).focused_diagram = diag_id;
 }
 
 static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this_, data_id_t obj_id )

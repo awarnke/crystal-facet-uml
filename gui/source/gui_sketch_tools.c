@@ -25,7 +25,15 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                              ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
+    assert( NULL != tool_navigate );
+    assert( NULL != tool_edit );
+    assert( NULL != tool_new_obj );
+    assert( NULL != tool_new_view );
+    assert( NULL != clipboard );
+    assert( NULL != marker );
     assert( NULL != message_to_user );
+    assert( NULL != db_reader );
+    assert( NULL != controller );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
     (*this_).listener = NULL;
@@ -347,6 +355,10 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
     data_json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
 
+    int64_t focused_diagram;
+    focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
+    TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
+    
     TRACE_INFO ( json_text );
 
     data_json_deserializer_init( &deserializer, json_text );
@@ -381,6 +393,11 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
                             /* parser error, break loop: */
                             set_end = true;
                         }
+                        else
+                        {
+                            /* check if the parsed classifier already exists in this database; if not, create it */
+                            /* link the classifier to the current diagram */
+                        }
                     }
                     break;
 
@@ -392,6 +409,10 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
                         {
                             /* parser error, break loop: */
                             set_end = true;
+                        }
+                        else
+                        {
+                            /* create the parsed diagram as child below the current diagram */
                         }
                     }
                     break;

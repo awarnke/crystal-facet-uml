@@ -35,7 +35,7 @@ struct gui_sketch_tools_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
-    gui_simple_message_to_user_t *message_to_user;
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
     GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
@@ -55,7 +55,14 @@ extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_sketch_tools_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param tool_navigate the GTK widget
+ *  \param tool_edit the GTK widget
+ *  \param tool_new_obj the GTK widget
+ *  \param tool_new_view the GTK widget
  *  \param clipboard pointer to the main/primary GtkClipboard
+ *  \param marker pointer to the set of marked items
+ *  \param message_to_user pointer to an object that can show a message to the user
+ *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
@@ -151,6 +158,7 @@ void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data );
  *  \brief sets the listener
  *
  *  \param this_ pointer to own object attributes
+ *  \param listener pointer the one listener to change tool events
  */
 static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GObject *listener );
 
