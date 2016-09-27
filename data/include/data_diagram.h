@@ -151,6 +151,14 @@ static inline void data_diagram_set_id ( data_diagram_t *this_, int64_t id );
 static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ );
 
 /*!
+ *  \brief sets the attribute parent_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_id new parent_id of this object
+ */
+static inline void data_diagram_set_parent_id ( data_diagram_t *this_, int64_t parent_id );
+
+/*!
  *  \brief gets the attribute diagram_type
  *
  *  \param this_ pointer to own object attributes

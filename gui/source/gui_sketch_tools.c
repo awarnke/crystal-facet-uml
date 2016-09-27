@@ -5,6 +5,7 @@
 #include "serial/data_json_serializer.h"
 #include "serial/data_json_deserializer.h"
 #include "ctrl_error.h"
+#include "util/string/utf8string.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -352,31 +353,21 @@ void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard
 void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text )
 {
     TRACE_BEGIN();
-
     int64_t focused_diagram;
-    {
-        focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
 
-        data_error_t diag_check_error;
-        data_diagram_t test_diagram;
-        diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, focused_diagram, &test_diagram );
-        if ( DATA_ERROR_NONE == diag_check_error )
-        {
-            TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
-        }
-        else
-        {
-            LOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
-            focused_diagram = DATA_ID_VOID_ID;
-        }
-    }
+    focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
 
-    if ( DATA_ID_VOID_ID != focused_diagram )
+    data_error_t diag_check_error;
+    static data_diagram_t test_diagram;  /* unsynchronized - but it is just a dummy ... */
+    diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, focused_diagram, &test_diagram );
+    if ( DATA_ERROR_NONE == diag_check_error )
     {
+        TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
         gui_sketch_tools_private_copy_clipboard_to_diagram( this_, json_text, focused_diagram );
     }
     else
     {
+        LOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
@@ -402,6 +393,7 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
     {
         data_table_t next_object_type;
         bool set_end = false;
+        bool is_first = true;
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* no not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
@@ -429,7 +421,63 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                         else
                         {
                             /* check if the parsed classifier already exists in this database; if not, create it */
+                            ctrl_classifier_controller_t *classifier_ctrl;
+                            classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
+
+                            data_error_t read_error;
+                            data_classifier_t existing_classifier;
+                            read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                                     data_classifier_get_id( &new_classifier ),
+                                                                                     &existing_classifier
+                            );
+                            bool classifier_exists = false;
+                            if ( DATA_ERROR_NONE == read_error )
+                            {
+                                /* if the name is equal, expect the objects to be equal */
+                                if ( utf8string_equals_str( data_classifier_get_name_ptr( &new_classifier ),
+                                                            data_classifier_get_name_ptr( &existing_classifier ) ) )
+                                {
+                                    classifier_exists = true;
+                                }
+                            }
+                            int64_t new_classifier_id;
+                            if ( ! classifier_exists )
+                            {
+                                ctrl_error_t write_error;
+                                write_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                                                            &new_classifier,
+                                                                                            ! is_first,
+                                                                                            &new_classifier_id
+                                );
+                                if ( CTRL_ERROR_NONE != write_error )
+                                {
+                                    LOG_ERROR( "unexpected error" );
+                                    set_end = true;
+                                }
+                                is_first = false;
+                            }
+
                             /* link the classifier to the current diagram */
+                            ctrl_diagram_controller_t *diag_ctrl;
+                            diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+                            ctrl_error_t write_error2;
+                            int64_t new_element_id;
+                            int64_t classifier_id = (classifier_exists) ? data_classifier_get_id( &existing_classifier ) : new_classifier_id;
+                            data_diagramelement_t diag_ele;
+                            data_diagramelement_init_new( &diag_ele, diagram_id, classifier_id, DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE );
+                            write_error2 = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
+                                                                                          &diag_ele,
+                                                                                          ! is_first,
+                                                                                          &new_element_id
+                            );
+                            if ( CTRL_ERROR_NONE != write_error2 )
+                            {
+                                LOG_ERROR( "unexpected error" );
+                                set_end = true;
+                            }
+
+                            is_first = false;
                         }
                     }
                     break;
@@ -446,6 +494,24 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                         else
                         {
                             /* create the parsed diagram as child below the current diagram */
+                            ctrl_diagram_controller_t *diag_ctrl;
+                            diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+                            ctrl_error_t write_error3;
+                            int64_t new_diag_id;
+                            data_diagram_set_parent_id( &new_diagram, diagram_id );
+                            write_error3 = ctrl_diagram_controller_create_diagram( diag_ctrl,
+                                                                                   &new_diagram,
+                                                                                   ! is_first,
+                                                                                   &new_diag_id
+                            );
+                            if ( CTRL_ERROR_NONE != write_error3 )
+                            {
+                                LOG_ERROR( "unexpected error" );
+                                set_end = true;
+                            }
+
+                            is_first = false;
                         }
                     }
                     break;
