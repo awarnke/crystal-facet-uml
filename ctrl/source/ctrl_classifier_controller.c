@@ -380,6 +380,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     int64_t new_id;
 
     data_classifier_copy( &to_be_created, new_classifier );
+    data_classifier_set_id( &to_be_created, DATA_ID_VOID_ID );
 
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )

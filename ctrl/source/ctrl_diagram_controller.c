@@ -203,6 +203,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
     int64_t new_id;
 
     data_diagram_copy( &to_be_created, new_diagram );
+    data_diagram_set_id( &to_be_created, DATA_ID_VOID_ID );
 
     data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
@@ -252,6 +253,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
     int64_t new_id;
 
     data_diagramelement_copy( &to_be_created, new_diagramelement );
+    data_diagramelement_set_id( &to_be_created, DATA_ID_VOID_ID );
 
     data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &to_be_created, &new_id );
     if ( DATA_ERROR_NONE == data_result )
