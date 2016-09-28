@@ -38,6 +38,8 @@ typedef struct gui_simple_message_to_user_struct gui_simple_message_to_user_t;
  *  \brief initializes the gui_simple_message_to_user_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param text_label pointer to GTK text label widget
+ *  \param icon_image pointer to GTK icon widget
  *  \param res pointer to a resource provider
  */
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res );
@@ -53,6 +55,8 @@ void gui_simple_message_to_user_destroy ( gui_simple_message_to_user_t *this_ );
  *  \brief shows a message
  *
  *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
  */
 static inline void gui_simple_message_to_user_show_message ( gui_simple_message_to_user_t *this_,
                                                              gui_simple_message_type_t type_id,
@@ -63,6 +67,9 @@ static inline void gui_simple_message_to_user_show_message ( gui_simple_message_
  *  \brief shows a message
  *
  *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param string_param a language-independant parameter that is printed with the content-message-string.
  */
 void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to_user_t *this_,
                                                            gui_simple_message_type_t type_id,
@@ -74,6 +81,9 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
  *  \brief shows a message
  *
  *  \param this_ pointer to own object attributes
+ *  \param type_id type of message to be shown
+ *  \param content_id id of the message to be shown. The id is language-independant and could be translated within this method.
+ *  \param int_param a language-independant parameter that is printed with the content-message-string.
  */
 void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_user_t *this_,
                                                         gui_simple_message_type_t type_id,

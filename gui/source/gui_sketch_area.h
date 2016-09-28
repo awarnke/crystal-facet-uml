@@ -106,6 +106,7 @@ void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ );
  *  \brief layouts the cards in the sketch area widget
  *
  *  \param this_ pointer to own object attributes
+ *  \param area_bounds bounding box within which the cards are layouted
  */
 void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds );
 
@@ -113,12 +114,15 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
  *  \brief draws all diagrams
  *
  *  \param this_ pointer to own object attributes
+ *  \param area_bounds bounding box within which the cards are drawn
+ *  \param cr cairo drawing context
  */
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
  *  \brief queues the currently marked widget area for redrawing
  *
+ *  \param widget the GTK widget on which the current mark-area shall be invalidated
  *  \param this_ pointer to own object attributes
  */
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
@@ -177,6 +181,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
  *
  *  \param this_ pointer to own object attributes
  *  \param index index in the array where to add the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
+ *  \param listener listener object which is called when the focus changes
  */
 static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener );
 

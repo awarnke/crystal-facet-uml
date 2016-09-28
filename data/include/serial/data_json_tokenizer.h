@@ -90,7 +90,7 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an "end-object".
- *  \param out_name return value: true if the next token is an "end-object" token. This parameter must not be NULL.
+ *  \param end_object return value: true if the next token is an "end-object" token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
@@ -165,7 +165,7 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param in_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a string.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a string.
  *  \param out_value return value: string-contents of the value-token
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if out_value does not provide enough space,
  *          DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
@@ -179,7 +179,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param in_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
  *  \param out_int return value: integer-contents of the value-token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no integer-value-token,
@@ -192,7 +192,7 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param in_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
  *  \param out_number return value: number-contents of the value-token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no number-value-token,
@@ -205,7 +205,7 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param in_read_pos pointer to current read position. The read position will be moved(changed) if the next token is boolean.
+ *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is boolean.
  *  \param out_bool return value: boolean-contents of the value-token. This parameter must not be NULL.
  *  \return DATA_ERROR_NONE if the lexical+parser structure of the input is valid,
  *          DATA_ERROR_PARSER_STRUCTURE if there is no boolean-value-token,
@@ -261,7 +261,7 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data utf8 encoded string where to read from
- *  \param io_read_pos pointer to current read position.
+ *  \param in_read_pos pointer to current read position.
  *  \return false if in_data[*in_read_pos] and in_data[*in_read_pos+1] belong to the same token
  */
 static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos );
