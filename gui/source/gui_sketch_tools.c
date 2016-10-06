@@ -159,6 +159,8 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
+    /* do not check if set is empty; gui_sketch_tools_private_delete_set will do this */
+
     gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_cut );
 
     gui_sketch_tools_private_delete_set( this_, set_to_be_cut );
@@ -178,6 +180,15 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     set_to_be_copied = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+
+    if ( data_small_set_is_empty( set_to_be_copied ) )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
+        );
+        /* continue nonetheless, it is possible to copy an empty set to the clipboard */
+    }
 
     gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_copied );
 
@@ -341,8 +352,8 @@ void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard
     else
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                            GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
         );
     }
 
@@ -392,8 +403,8 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
     if ( DATA_ERROR_NONE == parse_error )
     {
         data_table_t next_object_type;
-        bool set_end = false;
-        bool is_first = true;
+        bool set_end = false;  /* end of data set reached or error at parsing */
+        bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* no not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
@@ -420,64 +431,72 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                         }
                         else
                         {
-                            /* check if the parsed classifier already exists in this database; if not, create it */
-                            ctrl_classifier_controller_t *classifier_ctrl;
-                            classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
-
-                            data_error_t read_error;
-                            data_classifier_t existing_classifier;
-                            read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                                     data_classifier_get_id( &new_classifier ),
-                                                                                     &existing_classifier
-                            );
-                            bool classifier_exists = false;
-                            if ( DATA_ERROR_NONE == read_error )
+                            /* create classifier if not yet existing */
+                            int64_t the_classifier_id;
                             {
-                                /* if the name is equal, expect the objects to be equal */
-                                if ( utf8string_equals_str( data_classifier_get_name_ptr( &new_classifier ),
-                                                            data_classifier_get_name_ptr( &existing_classifier ) ) )
+                                /* check if the parsed classifier already exists in this database; if not, create it */
+                                ctrl_classifier_controller_t *classifier_ctrl;
+                                classifier_ctrl = ctrl_controller_get_classifier_control_ptr( (*this_).controller );
+
+                                data_error_t read_error;
+                                data_classifier_t existing_classifier;
+                                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                                        data_classifier_get_id( &new_classifier ),
+                                                                                        &existing_classifier
+                                );
+                                bool classifier_exists = false;
+                                if ( DATA_ERROR_NONE == read_error )
                                 {
-                                    classifier_exists = true;
+                                    /* if the name is equal, expect the objects to be equal */
+                                    if ( utf8string_equals_str( data_classifier_get_name_ptr( &new_classifier ),
+                                                                data_classifier_get_name_ptr( &existing_classifier ) ) )
+                                    {
+                                        classifier_exists = true;
+                                    }
+                                }
+                                if ( ! classifier_exists )
+                                {
+                                    ctrl_error_t write_error;
+                                    write_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
+                                                                                                &new_classifier,
+                                                                                                ! is_first,
+                                                                                                &the_classifier_id
+                                    );
+                                    if ( CTRL_ERROR_NONE != write_error )
+                                    {
+                                        LOG_ERROR( "unexpected error" );
+                                        set_end = true;
+                                    }
+                                    is_first = false;
+                                }
+                                else
+                                {
+                                    the_classifier_id = data_classifier_get_id( &existing_classifier );
                                 }
                             }
-                            int64_t new_classifier_id;
-                            if ( ! classifier_exists )
+
+                            if ( ! set_end )  /* no error */
                             {
-                                ctrl_error_t write_error;
-                                write_error = ctrl_classifier_controller_create_classifier( classifier_ctrl,
-                                                                                            &new_classifier,
+                                /* link the classifier to the current diagram */
+                                ctrl_diagram_controller_t *diag_ctrl;
+                                diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+                                ctrl_error_t write_error2;
+                                int64_t new_element_id;
+                                data_diagramelement_t diag_ele;
+                                data_diagramelement_init_new( &diag_ele, diagram_id, the_classifier_id, DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE );
+                                write_error2 = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
+                                                                                            &diag_ele,
                                                                                             ! is_first,
-                                                                                            &new_classifier_id
+                                                                                            &new_element_id
                                 );
-                                if ( CTRL_ERROR_NONE != write_error )
+                                if ( CTRL_ERROR_NONE != write_error2 )
                                 {
                                     LOG_ERROR( "unexpected error" );
                                     set_end = true;
                                 }
                                 is_first = false;
                             }
-
-                            /* link the classifier to the current diagram */
-                            ctrl_diagram_controller_t *diag_ctrl;
-                            diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
-
-                            ctrl_error_t write_error2;
-                            int64_t new_element_id;
-                            int64_t classifier_id = (classifier_exists) ? data_classifier_get_id( &existing_classifier ) : new_classifier_id;
-                            data_diagramelement_t diag_ele;
-                            data_diagramelement_init_new( &diag_ele, diagram_id, classifier_id, DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE );
-                            write_error2 = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
-                                                                                          &diag_ele,
-                                                                                          ! is_first,
-                                                                                          &new_element_id
-                            );
-                            if ( CTRL_ERROR_NONE != write_error2 )
-                            {
-                                LOG_ERROR( "unexpected error" );
-                                set_end = true;
-                            }
-
-                            is_first = false;
                         }
                     }
                     break;
@@ -561,6 +580,8 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+
+    /* do not check if set is empty; gui_sketch_tools_private_delete_set will do this */
 
     gui_sketch_tools_private_delete_set( this_, set_to_be_deleted );
 
