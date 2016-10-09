@@ -1,3 +1,4 @@
+2016-xx-xx 0.07 [xxxxxxx]
 2016-10-06 0.06 [e2b0e01]
   + cut+copy+paste allow to copy diagrams and classifiers to and from the clipboard
 2016-08-12 0.05 [fbae0f5]

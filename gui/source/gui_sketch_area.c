@@ -317,31 +317,25 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
     int32_t self_top;
     if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
     {
-        uint32_t max_top_heigth = ( height * 2 ) / 3;
-        uint32_t preferred_top_height = ( width * RATIO_HEIGHT ) / ( (RATIO_WIDTH*2)/3 + RATIO_WIDTH );
-        if ( preferred_top_height > max_top_heigth )
-        {
-            preferred_top_height = max_top_heigth;
-        }
-        children_top = top + preferred_top_height;
-        children_height = height - preferred_top_height;
-        parent_width = ( width * 4 ) / 10;
-        parent_height = preferred_top_height;
+        children_height = ( height * 2 ) / 10;
+        children_top = height - children_height;
+        parent_width = ( width * 2 ) / 10;
+        parent_height = height - children_height;
         self_width = width - parent_width;
-        self_height = preferred_top_height;
+        self_height = height - children_height;
         self_left = left + parent_width;
         self_top = top;
     }
     else
     {
+        children_height = ( height * 2 ) / 10;
+        children_top = height - children_height;
         parent_width = width;
         parent_height = ( height * 2 ) / 10;
         self_width = width;
         self_left = left;
         self_top = top + parent_height;
-        self_height = ( height * 4 ) / 10;
-        children_top = self_top + self_height;
-        children_height = height - self_height - parent_height;
+        self_height = height - children_height - parent_height;
     }
 
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )

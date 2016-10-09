@@ -9,8 +9,12 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_INFO_VERSION_STR "0.06"
+#define META_INFO_VERSION_STR "0.07"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
+
+/* Note: change also CPACK_PACKAGE_VERSION_MINOR in CMakeLists.txt and */
+/*       PROJECT_NUMBER in doxygen_config */
+/*       check the release_notes.txt */
 
 #endif  /* META_INFO_H */
 
