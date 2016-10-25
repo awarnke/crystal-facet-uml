@@ -2,49 +2,13 @@
 
 #include "trace.h"
 
-static inline void geometry_non_linear_scale_init ( geometry_non_linear_scale_t *this_, double left, double top, double width, double height )
+static inline void geometry_non_linear_scale_reinit ( geometry_non_linear_scale_t *this_, double lower_bound, double upper_bound )
 {
-    (*this_).left = left;
-    (*this_).top = top;
-    (*this_).width = width;
-    (*this_).height = height;
-}
-
-static inline void geometry_non_linear_scale_reinit ( geometry_non_linear_scale_t *this_, double left, double top, double width, double height )
-{
-    (*this_).left = left;
-    (*this_).top = top;
-    (*this_).width = width;
-    (*this_).height = height;
-}
-
-static inline void geometry_non_linear_scale_init_empty ( geometry_non_linear_scale_t *this_ )
-{
-    (*this_).left = 0.0;
-    (*this_).top = 0.0;
-    (*this_).width = 0.0;
-    (*this_).height = 0.0;
-}
-
-static inline void geometry_non_linear_scale_reinit_empty ( geometry_non_linear_scale_t *this_ )
-{
-    (*this_).left = 0.0;
-    (*this_).top = 0.0;
-    (*this_).width = 0.0;
-    (*this_).height = 0.0;
+    geometry_non_linear_scale_init( this_, lower_bound, upper_bound );
 }
 
 static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale_t *this_ )
 {
-}
-
-static inline void geometry_non_linear_scale_trace ( geometry_non_linear_scale_t *this_ )
-{
-    TRACE_INFO( "geometry_non_linear_scale_t" );
-    TRACE_INFO_INT( "- left:", (*this_).left );
-    TRACE_INFO_INT( "- top:", (*this_).top );
-    TRACE_INFO_INT( "- width:", (*this_).width );
-    TRACE_INFO_INT( "- height:", (*this_).height );
 }
 
 
