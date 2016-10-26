@@ -59,6 +59,30 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
  */
 void geometry_non_linear_scale_trace ( geometry_non_linear_scale_t *this_ );
 
+/*!
+ *  \brief adds an order-value to the non-linear scale, updates the locations of all defined points
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param order oder value for which a location shall be inserted to the scale
+ */
+void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, int32_t order );
+
+/*!
+ *  \brief gets a location given an order-value
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param order oder value for which the location shall be determined
+ */
+static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order );
+
+/*!
+ *  \brief gets an order-value given a location
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param order oder value for which the location shall be determined
+ */
+static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location );
+
 #include "util/geometry/geometry_non_linear_scale.inl"
 
 #endif  /* GEOMETRY_NON_LINEAR_SCALE_H */

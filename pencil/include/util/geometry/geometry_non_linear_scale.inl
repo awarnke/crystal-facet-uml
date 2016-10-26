@@ -11,6 +11,20 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
 {
 }
 
+static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order )
+{
+    double result = 0.0;
+
+    return result;
+}
+
+static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location )
+{
+    int32_t result = 0;
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
