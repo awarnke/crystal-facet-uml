@@ -47,11 +47,11 @@ static void test_scale_conversion(void)
 
     location = geometry_non_linear_scale_get_location( &my_scale, +200 );
 
-    TEST_ASSERT( ( +1.0 < location ) && ( location < +2.0 ) );
+    TEST_ASSERT( ( +1.0 < location ) && ( location < +1.1 ) );
 
     location = geometry_non_linear_scale_get_location( &my_scale, +100 );
 
-    TEST_ASSERT( ( +0.0 < location ) && ( location < +1.0 ) );
+    TEST_ASSERT( ( +0.3 < location ) && ( location < +0.4 ) );
 
     /* test get_order */
 
@@ -61,7 +61,7 @@ static void test_scale_conversion(void)
 
     order = geometry_non_linear_scale_get_order ( &my_scale, -1.0 );
 
-    TEST_ASSERT( ( -100 < order ) && ( order < 0 ) );
+    TEST_ASSERT( ( -100 < order ) && ( order < -80 ) );
 
     geometry_non_linear_scale_destroy ( &my_scale );
 }
