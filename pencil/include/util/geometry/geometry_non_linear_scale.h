@@ -9,6 +9,8 @@
  *  \brief Maps order-values to locations
  */
 
+#include <stdint.h>
+
 /*!
  *  \brief constants of geometry_non_linear_scale_t
  */
