@@ -18,6 +18,11 @@ static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, doub
     (*this_).height = height;
 }
 
+static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
+{
+    (*this_) = (*original);
+}
+
 static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ )
 {
     (*this_).left = 0.0;

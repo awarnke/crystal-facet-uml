@@ -41,6 +41,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
 {
     TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    assert( (*this_).num_points >= 2 );  /* prevent division by zero */
 
     /* check for duplicates and for possible insert position */
     bool duplicate = false;

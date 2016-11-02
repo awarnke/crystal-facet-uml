@@ -12,6 +12,9 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
 
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
     pencil_private_marker_init( &((*this_).marker) );
+    geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
+    geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
+    geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
 
     TRACE_END();
 }
@@ -22,29 +25,44 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 
     pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
     pencil_private_marker_destroy( &((*this_).marker) );
+    geometry_rectangle_destroy( &((*this_).diagram_bounds) );
+    geometry_non_linear_scale_destroy( &((*this_).x_scale) );
+    geometry_non_linear_scale_destroy( &((*this_).y_scale) );
+
+    TRACE_END();
+}
+
+void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
+                                        pencil_input_data_t *input_data,
+                                        geometry_rectangle_t diagram_bounds )
+{
+    TRACE_BEGIN();
+
+    (*this_).input_data = input_data;
+    geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), 0.0, 1.0 );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), 0.0, 1.0 );
 
     TRACE_END();
 }
 
 void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
-                                   pencil_input_data_t *input_data,
                                    data_id_t mark_focused,
                                    data_id_t mark_highlighted,
                                    data_small_set_t *mark_selected,
-                                   cairo_t *cr,
-                                   geometry_rectangle_t destination )
+                                   cairo_t *cr )
 {
     TRACE_BEGIN();
 
     pencil_size_t pencil_size_object;
     pencil_size_t *pencil_size = &pencil_size_object;
 
-    double left = geometry_rectangle_get_left ( &destination );
-    double top = geometry_rectangle_get_top ( &destination );
-    double right = geometry_rectangle_get_right ( &destination );
-    double bottom = geometry_rectangle_get_bottom ( &destination );
-    double width = geometry_rectangle_get_width ( &destination );
-    double height = geometry_rectangle_get_height ( &destination );
+    double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
+    double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
+    double right = geometry_rectangle_get_right ( &((*this_).diagram_bounds) );
+    double bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_bounds) );
+    double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
+    double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
     pencil_size_init( pencil_size, width, height );
 
     TRACE_INFO_INT( "w", (int)(width) );
@@ -58,7 +76,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     /* draw diagram border and name */
     {
         data_diagram_t *diag;
-        diag = pencil_input_data_get_diagram_ptr( input_data );
+        diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
         TRACE_INFO_INT("drawing diagram id",data_diagram_get_id(diag));
 
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
@@ -114,7 +132,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         geometry_rectangle_t classifier_bounds;
         geometry_rectangle_init ( &classifier_bounds, left + 2.0 * gap + tenth_width, top + 2.0 * gap + f_size + f_line_gap, width - 4.0 * gap - 2.0 * tenth_width, height - 4.0 * gap - f_size - f_line_gap );
         pencil_classifier_painter_draw ( &((*this_).classifier_painter),
-                                         input_data,
+                                         (*this_).input_data,
                                          mark_focused,
                                          mark_highlighted,
                                          mark_selected,
@@ -128,10 +146,10 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     /* mark focused and highlighted */
     {
         data_diagram_t *diag2;
-        diag2 = pencil_input_data_get_diagram_ptr( input_data );
+        diag2 = pencil_input_data_get_diagram_ptr( (*this_).input_data );
         if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
-            pencil_private_marker_mark_focused_rectangle( &((*this_).marker), destination, cr );
+            pencil_private_marker_mark_focused_rectangle( &((*this_).marker), (*this_).diagram_bounds, cr );
         }
 
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
@@ -148,33 +166,31 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
 }
 
 data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
-                                                        pencil_input_data_t *input_data,
                                                         double x,
                                                         double y,
-                                                        geometry_rectangle_t diagram_bounds,
                                                         bool dereference )
 {
     TRACE_BEGIN();
 
     data_id_t result;
     data_diagram_t *diag;
-    diag = pencil_input_data_get_diagram_ptr( input_data );
+    diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
     pencil_size_t pencil_size_object;
     pencil_size_t *pencil_size = &pencil_size_object;
-    pencil_size_init( pencil_size, geometry_rectangle_get_width( &diagram_bounds ), geometry_rectangle_get_height( &diagram_bounds ) );
+    pencil_size_init( pencil_size, geometry_rectangle_get_width( &((*this_).diagram_bounds) ), geometry_rectangle_get_height( &((*this_).diagram_bounds) ) );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_size = pencil_size_get_standard_font_size( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    double width = geometry_rectangle_get_width ( &diagram_bounds );
+    double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
     double tenth_width = width / 10.0;
 
-    if ( geometry_rectangle_contains( &diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
+    if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
     {
-        double left = geometry_rectangle_get_left ( &diagram_bounds );
-        double top = geometry_rectangle_get_top ( &diagram_bounds );
-        double width = geometry_rectangle_get_width ( &diagram_bounds );
-        double height = geometry_rectangle_get_height ( &diagram_bounds );
+        double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
+        double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
+        double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
+        double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
 
         geometry_rectangle_t classifier_bounds;
         geometry_rectangle_init( &classifier_bounds,
@@ -184,7 +200,7 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
                                  height - 4.0 * gap - f_size - f_line_gap
                                );
 
-        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), input_data, x, y, classifier_bounds, dereference );
+        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), (*this_).input_data, x, y, classifier_bounds, dereference );
 
         geometry_rectangle_destroy( &classifier_bounds );
 

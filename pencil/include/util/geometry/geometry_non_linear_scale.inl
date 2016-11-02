@@ -27,7 +27,14 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
             found = true;
             double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
             int32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
-            result = (*this_).location[pos-1] + ( loc_interval_width * (double)( order - (*this_).order[pos-1] ) / (double) ord_interval_width );
+            if ( ord_interval_width == 0 )
+            {
+                result = (*this_).location[pos-1];  /* prevent division by zero */
+            }
+            else
+            {
+                result = (*this_).location[pos-1] + ( loc_interval_width * (double)( order - (*this_).order[pos-1] ) / (double) ord_interval_width );
+            }
             TRACE_INFO_INT( "interval [i-1,1]:", pos );
             TRACE_INFO_INT( "result-%", result*100 );
         }
@@ -56,7 +63,14 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
             found = true;
             double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
             int32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
-            result = (*this_).order[pos-1] + (int32_t)(( ord_interval_width * ( location - (*this_).location[pos-1] )) / loc_interval_width);
+            if ( ( loc_interval_width > -0.000000001 ) && ( loc_interval_width < 0.000000001 ) )
+            {
+                result = (*this_).order[pos-1];  /* prevent division by zero */
+            }
+            else
+            {
+                result = (*this_).order[pos-1] + (int32_t)(( ord_interval_width * ( location - (*this_).location[pos-1] )) / loc_interval_width);
+            }
             TRACE_INFO_INT( "interval [i-1,1]:", pos );
             TRACE_INFO_INT( "result", result );
         }

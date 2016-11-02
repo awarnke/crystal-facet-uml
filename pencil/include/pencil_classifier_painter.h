@@ -43,7 +43,7 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ );
 void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
 
 /*!
- *  \brief draws the chosen classifier contents into the destination area of the cairo drawing context
+ *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
@@ -52,7 +52,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param mark_selected set of objects that are to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
- *  \param destination the destination rectangle where to draw the diagram
+ *  \param diagram_bounds the destination rectangle where to draw the diagram
  */
 void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       pencil_input_data_t *input_data,
@@ -61,7 +61,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       cairo_t *cr,
-                                      geometry_rectangle_t destination
+                                      geometry_rectangle_t diagram_bounds
                                     );
 
 /*!
@@ -71,7 +71,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param x x-position
  *  \param y y-position
- *  \param destination the boundary rectangle where the diagram is drawn
+ *  \param diagram_bounds the boundary rectangle where the diagram is drawn
  *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
  *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
@@ -80,7 +80,7 @@ data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_pai
                                                            pencil_input_data_t *input_data,
                                                            double x,
                                                            double y,
-                                                           geometry_rectangle_t destination,
+                                                           geometry_rectangle_t diagram_bounds,
                                                            bool dereference
                                                          );
 

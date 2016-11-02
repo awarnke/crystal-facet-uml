@@ -30,7 +30,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       cairo_t *cr,
-                                      geometry_rectangle_t destination )
+                                      geometry_rectangle_t diagram_bounds )
 {
     TRACE_BEGIN();
     geometry_rectangle_t focused_rect;
@@ -39,12 +39,12 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
     double left, top, right, bottom;
     double width, height;
 
-    left = geometry_rectangle_get_left ( &destination );
-    top = geometry_rectangle_get_top ( &destination );
-    right = geometry_rectangle_get_right ( &destination );
-    bottom = geometry_rectangle_get_bottom ( &destination );
-    width = geometry_rectangle_get_width ( &destination );
-    height = geometry_rectangle_get_height ( &destination );
+    left = geometry_rectangle_get_left ( &diagram_bounds );
+    top = geometry_rectangle_get_top ( &diagram_bounds );
+    right = geometry_rectangle_get_right ( &diagram_bounds );
+    bottom = geometry_rectangle_get_bottom ( &diagram_bounds );
+    width = geometry_rectangle_get_width ( &diagram_bounds );
+    height = geometry_rectangle_get_height ( &diagram_bounds );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
@@ -154,19 +154,19 @@ data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_pai
                                                            pencil_input_data_t *input_data,
                                                            double x,
                                                            double y,
-                                                           geometry_rectangle_t destination,
+                                                           geometry_rectangle_t diagram_bounds,
                                                            bool dereference )
 {
     TRACE_BEGIN();
     data_id_t result;
     data_id_init_void( &result );
 
-    if ( geometry_rectangle_contains( &destination, x, y ) )
+    if ( geometry_rectangle_contains( &diagram_bounds, x, y ) )
     {
         double top;
         double height;
-        top = geometry_rectangle_get_top ( &destination );
-        height = geometry_rectangle_get_height ( &destination );
+        top = geometry_rectangle_get_top ( &diagram_bounds );
+        height = geometry_rectangle_get_height ( &diagram_bounds );
 
         uint32_t count;
         count = pencil_input_data_get_visible_classifier_count ( input_data );
