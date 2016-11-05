@@ -15,6 +15,7 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ )
     geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
+    geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
 
     TRACE_END();
 }
@@ -28,6 +29,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     geometry_rectangle_destroy( &((*this_).diagram_bounds) );
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
+    geometry_rectangle_destroy( &((*this_).default_classifier_size) );
 
     TRACE_END();
 }
@@ -53,6 +55,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != mark_selected );
+    assert( NULL != cr );
 
     pencil_size_t pencil_size_object;
     pencil_size_t *pencil_size = &pencil_size_object;
@@ -131,7 +135,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     {
         geometry_rectangle_t classifier_bounds;
         geometry_rectangle_init ( &classifier_bounds, left + 2.0 * gap + tenth_width, top + 2.0 * gap + f_size + f_line_gap, width - 4.0 * gap - 2.0 * tenth_width, height - 4.0 * gap - f_size - f_line_gap );
-        pencil_classifier_painter_draw ( &((*this_).classifier_painter),
+        pencil_diagram_painter_private_draw_classifiers ( this_,
                                          (*this_).input_data,
                                          mark_focused,
                                          mark_highlighted,
@@ -162,6 +166,93 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     }
 
     pencil_size_destroy( pencil_size );
+    TRACE_END();
+}
+
+void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t *this_,
+                                                       pencil_input_data_t *input_data,
+                                                       data_id_t mark_focused,
+                                                       data_id_t mark_highlighted,
+                                                       data_small_set_t *mark_selected,
+                                                       pencil_size_t *pencil_size,
+                                                       cairo_t *cr,
+                                                       geometry_rectangle_t diagram_bounds )
+{
+    TRACE_BEGIN();
+    assert( NULL != input_data );
+    assert( NULL != mark_selected );
+    assert( NULL != pencil_size );
+    assert( NULL != cr );
+
+    geometry_rectangle_t focused_rect;
+    geometry_rectangle_init_empty( &focused_rect );
+
+    double left, top, right, bottom;
+    double width, height;
+
+    left = geometry_rectangle_get_left ( &diagram_bounds );
+    top = geometry_rectangle_get_top ( &diagram_bounds );
+    right = geometry_rectangle_get_right ( &diagram_bounds );
+    bottom = geometry_rectangle_get_bottom ( &diagram_bounds );
+    width = geometry_rectangle_get_width ( &diagram_bounds );
+    height = geometry_rectangle_get_height ( &diagram_bounds );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+
+    /* iterate over all classifiers */
+    {
+        uint32_t count;
+        count = pencil_input_data_get_visible_classifier_count ( input_data );
+        for ( uint32_t index = 0; index < count; index ++ )
+        {
+            data_visible_classifier_t *visible_classifier;
+            visible_classifier = pencil_input_data_get_visible_classifier_ptr ( input_data, index );
+
+            if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+            {
+                data_classifier_t *classifier;
+                data_diagramelement_t *diagramelement;
+                classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+                diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+
+                double box_top;
+                double box_height;
+                box_height = height/(double)count;
+                box_top = (double)index*box_height+top;
+                geometry_rectangle_t classifier_bounds;
+                geometry_rectangle_init( &classifier_bounds, left+gap, box_top+gap, width-2.0*gap, box_height-2.0*gap );
+
+                pencil_classifier_painter_draw( &((*this_).classifier_painter),
+                                                visible_classifier,
+                                                data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
+                                                data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
+                                                data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
+                                                pencil_size,
+                                                cr,
+                                                classifier_bounds );
+
+                if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ))
+                {
+                    geometry_rectangle_replace( &focused_rect, &classifier_bounds );
+                }
+
+                geometry_rectangle_destroy( &classifier_bounds );
+            }
+            else
+            {
+                LOG_ERROR("invalid visible classifier in array!");
+            }
+        }
+    }
+
+    /* mark focused */
+    if ( ! geometry_rectangle_is_empty( &focused_rect ) )
+    {
+        pencil_private_marker_mark_focused_rectangle( &((*this_).marker), focused_rect, cr );
+    }
+
+    geometry_rectangle_destroy( &focused_rect );
     TRACE_END();
 }
 

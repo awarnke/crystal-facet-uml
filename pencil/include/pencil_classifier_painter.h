@@ -46,22 +46,22 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be drawn
- *  \param mark_focused id of the object that is to be marked as "focused"
- *  \param mark_highlighted id of the object that is to be marked as "highlighted"
- *  \param mark_selected set of objects that are to be marked as "selected"
+ *  \param visible_classifier pointer to the data to be drawn
+ *  \param mark_focused true if the object is to be marked as "focused"
+ *  \param mark_highlighted true if the object is to be marked as "highlighted"
+ *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
- *  \param diagram_bounds the destination rectangle where to draw the diagram
+ *  \param classifier_bounds the destination rectangle where to draw the classifier
  */
 void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
-                                      pencil_input_data_t *input_data,
-                                      data_id_t mark_focused,
-                                      data_id_t mark_highlighted,
-                                      data_small_set_t *mark_selected,
+                                      data_visible_classifier_t *visible_classifier,
+                                      bool mark_focused,
+                                      bool mark_highlighted,
+                                      bool mark_selected,
                                       pencil_size_t *pencil_size,
                                       cairo_t *cr,
-                                      geometry_rectangle_t diagram_bounds
+                                      geometry_rectangle_t classifier_bounds
                                     );
 
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */

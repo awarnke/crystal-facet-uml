@@ -31,6 +31,7 @@ struct pencil_diagram_painter_struct {
     geometry_rectangle_t diagram_bounds;
     geometry_non_linear_scale_t x_scale;
     geometry_non_linear_scale_t y_scale;
+    geometry_rectangle_t default_classifier_size;
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
@@ -89,7 +90,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
  *  \param cr a cairo drawing context
  *  \param diagram_bounds the destination rectangle where to draw the diagram
  */
-void pencil_diagram_painter_private_draw_classifiers ( pencil_classifier_painter_t *this_,
+void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t *this_,
                                                        pencil_input_data_t *input_data,
                                                        data_id_t mark_focused,
                                                        data_id_t mark_highlighted,

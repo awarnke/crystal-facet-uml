@@ -4,6 +4,7 @@
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 void pencil_private_marker_init( pencil_private_marker_t *this_ )
 {
@@ -22,6 +23,7 @@ void pencil_private_marker_destroy( pencil_private_marker_t *this_ )
 void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     double left;
     double top;
@@ -65,6 +67,7 @@ void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *thi
 void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     double left;
     double top;

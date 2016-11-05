@@ -4,6 +4,7 @@
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <assert.h>
 
 void pencil_input_data_init( pencil_input_data_t *this_ )
 {
@@ -28,6 +29,7 @@ void pencil_input_data_destroy( pencil_input_data_t *this_ )
 void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
+    assert( NULL != db_reader );
 
     if ( DATA_ID_VOID_ID == diagram_id )
     {
