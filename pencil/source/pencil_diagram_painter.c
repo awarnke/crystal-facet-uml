@@ -41,7 +41,7 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     (*this_).input_data = input_data;
     geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
     geometry_non_linear_scale_reinit( &((*this_).x_scale), 0.0, 1.0 );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), 0.0, 1.0 );
+    geometry_non_linear_scale_reinit( &((*this_).y_scale), 0.0, 1.0 );
 
     TRACE_END();
 }
@@ -200,7 +200,7 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
                                  height - 4.0 * gap - f_size - f_line_gap
                                );
 
-        result = pencil_classifier_painter_get_object_id_at_pos( &((*this_).classifier_painter), (*this_).input_data, x, y, classifier_bounds, dereference );
+        result = pencil_diagram_painter_private_get_classifier_id_at_pos( this_, x, y, dereference );
 
         geometry_rectangle_destroy( &classifier_bounds );
 
@@ -221,6 +221,50 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
     return result;
 }
 
+data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagram_painter_t *this_,
+                                                                    double x,
+                                                                    double y,
+                                                                    bool dereference )
+{
+    TRACE_BEGIN();
+    data_id_t result;
+    data_id_init_void( &result );
+
+    if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) )
+    {
+        double top;
+        double height;
+        top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
+        height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
+
+        uint32_t count;
+        count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+        uint32_t index = (uint32_t) (((y-top) * count) / height);
+        if ( index < count )
+        {
+            data_visible_classifier_t *visible_classifier;
+            visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+            if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+            {
+                if ( dereference )
+                {
+                    data_classifier_t *classifier;
+                    classifier = data_visible_classifier_get_classifier_ptr ( visible_classifier );
+                    data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+                }
+                else
+                {
+                    data_diagramelement_t *diagramelement;
+                    diagramelement = data_visible_classifier_get_diagramelement_ptr ( visible_classifier );
+                    data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
+                }
+            }
+        }
+    }
+
+    TRACE_END();
+    return result;
+}
 
 /*
 Copyright 2016-2016 Andreas Warnke

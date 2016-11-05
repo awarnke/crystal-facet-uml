@@ -44,6 +44,14 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
 static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
 /*!
+ *  \brief replaces the already initialized geometry_rectangle_t struct by other data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to object attributes that shall be copied
+ */
+static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original );
+
+/*!
  *  \brief initializes the geometry_rectangle_t struct to an empty rect at position 0,0
  *
  *  \param this_ pointer to own object attributes

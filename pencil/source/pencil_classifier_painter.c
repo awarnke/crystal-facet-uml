@@ -150,53 +150,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
     TRACE_END();
 }
 
-data_id_t pencil_classifier_painter_get_object_id_at_pos ( pencil_classifier_painter_t *this_,
-                                                           pencil_input_data_t *input_data,
-                                                           double x,
-                                                           double y,
-                                                           geometry_rectangle_t diagram_bounds,
-                                                           bool dereference )
-{
-    TRACE_BEGIN();
-    data_id_t result;
-    data_id_init_void( &result );
-
-    if ( geometry_rectangle_contains( &diagram_bounds, x, y ) )
-    {
-        double top;
-        double height;
-        top = geometry_rectangle_get_top ( &diagram_bounds );
-        height = geometry_rectangle_get_height ( &diagram_bounds );
-
-        uint32_t count;
-        count = pencil_input_data_get_visible_classifier_count ( input_data );
-        uint32_t index = (uint32_t) (((y-top) * count) / height);
-        if ( index < count )
-        {
-            data_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_input_data_get_visible_classifier_ptr ( input_data, index );
-            if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
-            {
-                if ( dereference )
-                {
-                    data_classifier_t *classifier;
-                    classifier = data_visible_classifier_get_classifier_ptr ( visible_classifier );
-                    data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
-                }
-                else
-                {
-                    data_diagramelement_t *diagramelement;
-                    diagramelement = data_visible_classifier_get_diagramelement_ptr ( visible_classifier );
-                    data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
-                }
-            }
-        }
-    }
-
-    TRACE_END();
-    return result;
-}
-
 
 /*
 Copyright 2016-2016 Andreas Warnke
