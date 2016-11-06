@@ -48,6 +48,13 @@ typedef struct pencil_size_struct pencil_size_t;
 static inline void pencil_size_init( pencil_size_t *this_, double width, double height );
 
 /*!
+ *  \brief initializes the size values by defaults
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_size_init_empty( pencil_size_t *this_ );
+
+/*!
  *  \brief destroys the pencil_size_t
  *
  *  \param this_ pointer to own object attributes

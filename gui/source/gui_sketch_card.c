@@ -15,7 +15,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     pencil_input_data_init( &((*this_).painter_input_data) );
-    pencil_diagram_painter_init( &((*this_).painter) );
+    pencil_diagram_painter_init( &((*this_).painter), &((*this_).painter_input_data) );
 
     TRACE_END();
 }

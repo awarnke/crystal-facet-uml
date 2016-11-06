@@ -44,6 +44,14 @@ static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double
 static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, double left, double top, double width, double height );
 
 /*!
+ *  \brief copies original to this uninitialized geometry_rectangle_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to object attributes that shall be copied
+ */
+static inline void geometry_rectangle_copy ( geometry_rectangle_t *this_, const geometry_rectangle_t *original );
+
+/*!
  *  \brief replaces the already initialized geometry_rectangle_t struct by other data
  *
  *  \param this_ pointer to own object attributes
@@ -73,46 +81,53 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
 static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the left coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_left ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the top coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_top ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the right coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_right ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the bottom coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_bottom ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the width of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_width ( geometry_rectangle_t *this_ );
 
 /*!
- *  \brief gets the geometry_rectangle_t
+ *  \brief gets the height of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief gets the area-value of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_rectangle_get_area ( geometry_rectangle_t *this_ );
 
 /*!
  *  \brief determines if a given coordinate is within geometry_rectangle_t
@@ -131,6 +146,15 @@ static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, do
  *  \return true if the rectangle has a positive size.
  */
 static inline bool geometry_rectangle_is_empty ( geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief moves the geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param delta_x delta-x difference by which to shift the rectangle
+ *  \param delta_y delta-y difference by which to shift the rectangle
+ */
+static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, double delta_x, double delta_y );
 
 /*!
  *  \brief prints the geometry_rectangle_t struct to the trace output

@@ -18,6 +18,11 @@ static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, doub
     (*this_).height = height;
 }
 
+static inline void geometry_rectangle_copy ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
+{
+    (*this_) = (*original);
+}
+
 static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
 {
     (*this_) = (*original);
@@ -73,6 +78,11 @@ static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_
     return (*this_).height;
 }
 
+static inline double geometry_rectangle_get_area ( geometry_rectangle_t *this_ )
+{
+    return (*this_).width * (*this_).height;
+}
+
 static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, double x, double y )
 {
     return (( (*this_).left <= x )&&( x < (*this_).left + (*this_).width )&&( (*this_).top <= y )&&( y < (*this_).top + (*this_).height ));
@@ -81,6 +91,12 @@ static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, do
 static inline bool geometry_rectangle_is_empty ( geometry_rectangle_t *this_ )
 {
     return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );
+}
+
+static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, double delta_x, double delta_y )
+{
+    (*this_).left += delta_x;
+    (*this_).top += delta_y;
 }
 
 static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ )

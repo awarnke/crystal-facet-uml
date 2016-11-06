@@ -5,8 +5,16 @@
 
 static inline void pencil_size_init( pencil_size_t *this_, double width, double height )
 {
+    pencil_size_init_empty( this_ );
     pencil_size_reinit( this_, width, height);
+}
 
+static inline void pencil_size_destroy( pencil_size_t *this_ )
+{
+}
+
+static inline void pencil_size_init_empty( pencil_size_t *this_ )
+{
     (*this_).standard_color.red = 0.0;
     (*this_).standard_color.green = 0.0;
     (*this_).standard_color.blue = 0.0;
@@ -26,22 +34,18 @@ static inline void pencil_size_init( pencil_size_t *this_, double width, double 
     (*this_).focus_color.green = 0.85;
     (*this_).focus_color.blue = 0.0;
     (*this_).focus_color.alpha = 1.0;
-}
 
-static inline void pencil_size_destroy( pencil_size_t *this_ )
-{
-}
-
-static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
-{
-    double smaller_border = (width<height) ? width : height;
-    /*
+    /* guess some default values: */
     (*this_).standard_font_size = 9.0;
     (*this_).larger_font_size = 12.0;
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
     (*this_).standard_object_border = 2.0;
-    */
+}
+
+static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
+{
+    double smaller_border = (width<height) ? width : height;
     (*this_).standard_font_size = smaller_border/40.0;
     (*this_).larger_font_size = smaller_border/32.0;
     (*this_).standard_line_width = smaller_border/400.0;

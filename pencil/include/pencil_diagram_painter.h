@@ -12,6 +12,7 @@
 #include "pencil_input_data.h"
 #include "pencil_private_marker.h"
 #include "pencil_classifier_painter.h"
+#include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -27,11 +28,13 @@ struct pencil_diagram_painter_struct {
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
     pencil_private_marker_t marker;  /*!< own instance of a marker */
 
-    pencil_input_data_t *input_data;
-    geometry_rectangle_t diagram_bounds;
-    geometry_non_linear_scale_t x_scale;
-    geometry_non_linear_scale_t y_scale;
-    geometry_rectangle_t default_classifier_size;
+    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
+    geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle containing diagram border and inner contents */
+    pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
+    geometry_rectangle_t diagram_draw_area;  /*!< own instance of a drawing rectangle containing inner contents of the diagram */
+    geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
+    geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
+    geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
@@ -40,8 +43,9 @@ typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be drawn
  */
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data );
 
 /*!
  *  \brief destroys the painter
@@ -82,23 +86,26 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be drawn
  *  \param mark_focused id of the object that is to be marked as "focused"
  *  \param mark_highlighted id of the object that is to be marked as "highlighted"
  *  \param mark_selected set of objects that are to be marked as "selected"
- *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
- *  \param diagram_bounds the destination rectangle where to draw the diagram
  */
 void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t *this_,
-                                                       pencil_input_data_t *input_data,
                                                        data_id_t mark_focused,
                                                        data_id_t mark_highlighted,
                                                        data_small_set_t *mark_selected,
-                                                       pencil_size_t *pencil_size,
-                                                       cairo_t *cr,
-                                                       geometry_rectangle_t diagram_bounds
+                                                       cairo_t *cr
                                                      );
+
+/*!
+ *  \brief determines the bounding box of the given classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier the classifier of which to determine the bounding box
+ *  \return bounding box of the classifier
+ */
+geometry_rectangle_t pencil_diagram_painter_private_get_classifier_bounds ( pencil_diagram_painter_t *this_, data_classifier_t *classifier );
 
 /*!
  *  \brief gets the object-id of the object at a given position
