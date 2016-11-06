@@ -113,6 +113,25 @@ static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t
     return result;
 }
 
+static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
+{
+    assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+    gui_sketch_card_t *result = NULL;
+
+    for ( int idx = 0; idx < (*this_).card_num; idx ++ )
+    {
+        gui_sketch_card_t *card;
+        card = &((*this_).cards[idx]);
+        shape_int_rectangle_t card_bounds;
+        card_bounds = gui_sketch_card_get_bounds( card );
+        if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
+        {
+            result = card;
+        }
+    }
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

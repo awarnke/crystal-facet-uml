@@ -224,6 +224,16 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
  */
 static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y, bool dereference );
 
+/*!
+ *  \brief gets the gui_sketch_card_t at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return a sketch card pointer. The return value is NULL if there is no card at the given location!
+ */
+static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
+
 #include "gui_sketch_area.inl"
 
 #endif  /* GUI_SKETCH_AREA_H */

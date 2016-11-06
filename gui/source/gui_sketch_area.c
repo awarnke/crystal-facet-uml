@@ -437,6 +437,12 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
         cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
         cairo_rectangle ( cr, left, top, right-left, bottom-top );
         cairo_fill (cr);
+
+        /* draw a line */
+        cairo_set_source_rgba( cr, 0.8, 0.8, 0.0, 1.0 );
+        cairo_move_to ( cr, (*this_).mark_start_x, (*this_).mark_start_y );
+        cairo_line_to ( cr, (*this_).mark_end_x, (*this_).mark_end_y );
+        cairo_stroke (cr);
     }
 
     TRACE_END();
@@ -670,10 +676,36 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
-                TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+                }
                 break;
             case GUI_SKETCH_TOOLS_EDIT:
-                TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+                {
+                    TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+
+                    /* which object is selected? */
+                    data_id_t focused_visible;
+                    data_id_t focused_real;
+                    focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
+                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    data_id_trace( &focused_visible );
+                    data_id_trace( &focused_real );
+
+                    /* what is the target location? */
+                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( NULL == target )
+                    {
+                        TRACE_INFO_INT_INT("No card at",x,y);
+                    }
+                    else
+                    {
+                        int32_t x_order = x;
+                        int32_t y_order = y;
+                        TRACE_INFO_INT_INT("x-order/y-order (not yet implemented)",x_order,y_order);
+                        LOG_ERROR("resolving order is not yet implemented");
+                    }
+                }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
                 {
@@ -730,7 +762,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 break;
             default:
-                LOG_ERROR("selected_tool is out of range");
+                {
+                    LOG_ERROR("selected_tool is out of range");
+                }
                 break;
         }
     }
