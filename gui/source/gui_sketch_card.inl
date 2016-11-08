@@ -54,6 +54,18 @@ static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t
     return result;
 }
 
+static inline universial_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
+{
+    universial_int32_pair_t result;
+
+    result = pencil_diagram_painter_get_order_at_pos( &((*this_).painter),
+                                                      (double) x,
+                                                      (double) y
+                                                    );
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

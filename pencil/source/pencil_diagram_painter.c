@@ -386,6 +386,22 @@ data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagr
     return result;
 }
 
+universial_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
+                                                                  double x,
+                                                                  double y )
+{
+    TRACE_BEGIN();
+
+    universial_int32_pair_t result;
+    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x );
+    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), y );
+    universial_int32_pair_init( &result, x_order, y_order );
+
+    TRACE_END();
+    return result;
+}
+
+
 /*
 Copyright 2016-2016 Andreas Warnke
 

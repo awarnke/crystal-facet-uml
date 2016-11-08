@@ -18,6 +18,7 @@
 #include "data_diagram.h"
 #include "data_small_set.h"
 #include "data_id.h"
+#include "universial_int32_pair.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -138,6 +139,19 @@ data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagr
                                                                     double y,
                                                                     bool dereference
                                                                   );
+
+/*!
+ *  \brief gets the order values at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return the x- and y- order values as first and second element of the pair
+ */
+universial_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
+                                                                  double x,
+                                                                  double y
+);
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

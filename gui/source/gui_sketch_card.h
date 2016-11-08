@@ -14,6 +14,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_input_data.h"
+#include "universial_int32_pair.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -128,6 +129,16 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
 static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y, bool dereference );
+
+/*!
+ *  \brief gets the order values at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return the x- and y- order values as first and second element of the pair
+ */
+static inline universial_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y );
 
 #include "gui_sketch_card.inl"
 
