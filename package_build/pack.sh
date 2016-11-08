@@ -20,6 +20,7 @@ cp ../license.txt crystal_facet_uml/
 cp -r ../main crystal_facet_uml/
 cp -r ../pencil crystal_facet_uml/
 cp -r ../sqlite crystal_facet_uml/
+cp -r ../universal crystal_facet_uml/
 cp -r ../user_doc crystal_facet_uml/
 
 echo "building doc and binary"

@@ -8,7 +8,7 @@
 #include "trace.h"
 #include "log.h"
 #include "meta/meta_info.h"
-#include "universial_int32_pair.h"
+#include "universal_int32_pair.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
@@ -703,10 +703,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         int32_t x_order = x;
                         int32_t y_order = y;
-                        universial_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
                         TRACE_INFO_INT_INT( "x-order/y-order",
-                                            universial_int32_pair_get_first( &order ),
-                                            universial_int32_pair_get_second( &order ) );
+                                            universal_int32_pair_get_first( &order ),
+                                            universal_int32_pair_get_second( &order ) );
                     }
                 }
                 break;
