@@ -114,6 +114,12 @@ static void create_read_modify_read(void)
     ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( classifier_ctrl, classifier_id, DATA_CLASSIFIER_TYPE_UML_NODE );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
+    ctrl_err = ctrl_classifier_controller_update_classifier_x_order ( classifier_ctrl, classifier_id, 6789 );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_classifier_y_order ( classifier_ctrl, classifier_id, 789 );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
     /* search several records, result array too small */
 
     data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
@@ -144,8 +150,8 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_stereotype", data_classifier_get_stereotype_ptr( first_classifier ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_new_classifier_description", data_classifier_get_description_ptr( first_classifier ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( first_classifier ) );
-    TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_y_order( first_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 6789, data_classifier_get_x_order( first_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 789, data_classifier_get_y_order( first_classifier ) );
 }
 
 static void create_diagramelements_and_delete(void)

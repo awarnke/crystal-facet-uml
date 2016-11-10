@@ -699,6 +699,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
                     }
+                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
+                    {
+                        TRACE_INFO("Dragged object is no classifier");
+                    }
                     else
                     {
                         int32_t x_order = x;
@@ -707,6 +711,15 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         TRACE_INFO_INT_INT( "x-order/y-order",
                                             universal_int32_pair_get_first( &order ),
                                             universal_int32_pair_get_second( &order ) );
+
+                        /* update db */
+                        ctrl_classifier_controller_t *classifier_control;
+                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                        ctrl_error_t mov_result;
+                        mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
+                                                                                                    data_id_get_row_id( &focused_real ),
+                                                                                                    x_order,
+                                                                                                    y_order );
                     }
                 }
                 break;

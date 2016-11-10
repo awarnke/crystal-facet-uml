@@ -190,6 +190,32 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
     return result;
 }
 
+ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
+                                                                 int64_t diagram_id,
+                                                                 int32_t new_diagram_list_order )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_diagram_t old_diagram;
+
+    data_result = data_database_writer_update_diagram_list_order( (*this_).db_writer, diagram_id, new_diagram_list_order, &old_diagram );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagram_t new_diagram;
+        data_diagram_copy( &new_diagram, &old_diagram );
+        data_diagram_set_list_order( &new_diagram, new_diagram_list_order );
+        /* store the change of the diagram to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
                                                       bool add_to_latest_undo_set,

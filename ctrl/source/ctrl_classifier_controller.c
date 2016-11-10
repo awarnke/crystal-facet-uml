@@ -203,6 +203,90 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
     return result;
 }
 
+ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classifier_controller_t *this_,
+                                                                    int64_t classifier_id,
+                                                                    int32_t new_classifier_x_order )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_classifier_t old_classifier;
+
+    data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_x_order( &new_classifier, new_classifier_x_order );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classifier_controller_t *this_,
+                                                                    int64_t classifier_id,
+                                                                    int32_t new_classifier_y_order )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_classifier_t old_classifier;
+
+    data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_y_order( &new_classifier, new_classifier_y_order );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl_classifier_controller_t *this_,
+                                                                            int64_t classifier_id,
+                                                                            int32_t new_classifier_x_order,
+                                                                            int32_t new_classifier_y_order )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_classifier_t old_classifier;
+
+    data_result = data_database_writer_update_classifier_x_order( (*this_).db_writer, classifier_id, new_classifier_x_order, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        data_result = data_database_writer_update_classifier_y_order( (*this_).db_writer, classifier_id, new_classifier_y_order, NULL );
+        if ( DATA_ERROR_NONE == data_result )
+        {
+            /* prepare the new classifier */
+            data_classifier_t new_classifier;
+            data_classifier_copy( &new_classifier, &old_classifier );
+            data_classifier_set_x_order( &new_classifier, new_classifier_x_order );
+            data_classifier_set_y_order( &new_classifier, new_classifier_y_order );
+            /* store the change of the classifier to the undo redo list */
+            ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects )
 {
     TRACE_BEGIN();

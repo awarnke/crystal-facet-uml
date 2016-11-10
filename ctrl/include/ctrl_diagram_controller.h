@@ -127,6 +127,19 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
                                                          );
 
 /*!
+ *  \brief updates the diagram attribute: list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_list_order new list_order of the diagram
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_controller_t *this_,
+                                                                 int64_t diagram_id,
+                                                                 int32_t new_diagram_list_order
+                                                               );
+
+/*!
  *  \brief creates a new diagram.
  *
  *  \param this_ pointer to own object attributes
