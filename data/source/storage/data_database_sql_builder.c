@@ -90,6 +90,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_NAME = "name=";
 /*!
  *  \brief field name string constant to be used for updating a diagram
  */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_LIST_ORDER = "list_order=";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagram
+ */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_DESCRIPTION = "description=";
 
 /*!
@@ -126,6 +131,16 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME = "name=
  *  \brief field name string constant to be used for updating a classifier
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER = "x_order=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER = "y_order=";
 
 /*!
  *  \brief infix string constant to update a classifier
@@ -345,6 +360,31 @@ data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_data
     return( result );
 }
 
+data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int32_t new_diagram_list_order )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_LIST_ORDER );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_list_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
 data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id )
 {
     TRACE_BEGIN();
@@ -548,6 +588,58 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_MAIN_TYPE );
 
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_main_type );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_x_order )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_x_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_y_order )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_y_order );
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 

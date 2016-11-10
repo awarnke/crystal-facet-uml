@@ -380,6 +380,39 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     return result;
 }
 
+data_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_,
+                                                              int64_t diagram_id,
+                                                              int32_t new_diagram_list_order,
+                                                              data_diagram_t *out_old_diagram )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, out_old_diagram );
+    }
+
+    result |= data_database_sql_builder_build_update_diagram_list_order_cmd( &((*this_).sql_builder), diagram_id, new_diagram_list_order );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_,
                                                      const data_classifier_t *classifier,
                                                      int64_t* out_new_id )
@@ -527,6 +560,72 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
     }
 
     result |= data_database_sql_builder_build_update_classifier_main_type_cmd( &((*this_).sql_builder), classifier_id, new_classifier_main_type );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_update_classifier_x_order ( data_database_writer_t *this_,
+                                                              int64_t classifier_id,
+                                                              int32_t new_classifier_x_order,
+                                                              data_classifier_t *out_old_classifier )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
+
+    result |= data_database_sql_builder_build_update_classifier_x_order_cmd( &((*this_).sql_builder), classifier_id, new_classifier_x_order );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_,
+                                                              int64_t classifier_id,
+                                                              int32_t new_classifier_y_order,
+                                                              data_classifier_t *out_old_classifier )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_id, out_old_classifier );
+    }
+
+    result |= data_database_sql_builder_build_update_classifier_y_order_cmd( &((*this_).sql_builder), classifier_id, new_classifier_y_order );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );

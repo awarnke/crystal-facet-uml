@@ -93,6 +93,16 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
 data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
 
 /*!
+ *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_list_order new list_order of the diagram
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int32_t new_diagram_list_order );
+
+/*!
  *  \brief builds the sql command string to delete a diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
@@ -148,6 +158,26 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
+
+/*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_x_order new x_order of the classifier
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_x_order );
+
+/*!
+ *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_y_order new y_order of the classifier
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_y_order );
 
 /*!
  *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.
