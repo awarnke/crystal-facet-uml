@@ -705,12 +705,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     }
                     else
                     {
-                        int32_t x_order = x;
-                        int32_t y_order = y;
                         universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-                        TRACE_INFO_INT_INT( "x-order/y-order",
-                                            universal_int32_pair_get_first( &order ),
-                                            universal_int32_pair_get_second( &order ) );
+                        int32_t x_order = universal_int32_pair_get_first( &order );
+                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* update db */
                         ctrl_classifier_controller_t *classifier_control;
