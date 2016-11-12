@@ -481,7 +481,17 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     y = (int32_t) evt->y;
     state = (GdkModifierType) evt->state;
 
-    TRACE_INFO_INT_INT("x/y",x,y);
+    TRACE_INFO_INT_INT( "x/y", x, y );
+
+    /* what is the target location? */
+    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+    if ( NULL != target )
+    {
+        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+        int32_t x_order = universal_int32_pair_get_first( &order );
+        int32_t y_order = universal_int32_pair_get_second( &order );
+        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+    }
 
     if ( (*this_).mark_active )
     {
@@ -497,9 +507,8 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
-        TRACE_INFO("GDK_BUTTON1_MASK");
+        TRACE_INFO( "GDK_BUTTON1_MASK" );
     }
-
 
     /* do highlight */
     gui_sketch_tools_tool_t selected_tool;
@@ -551,8 +560,6 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             break;
     }
 
-
-
     TRACE_END();
     return TRUE;
 }
@@ -571,7 +578,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         int32_t y;
         x = (int32_t) evt->x;
         y = (int32_t) evt->y;
-        TRACE_INFO_INT_INT("x/y",x,y);
+        TRACE_INFO_INT_INT( "x/y", x, y );
 
         (*this_).mark_active = true;
         (*this_).mark_start_x = x;
@@ -589,7 +596,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
                 {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+                    TRACE_INFO( "GUI_SKETCH_TOOLS_NAVIGATE" );
 
                     /* search selected diagram */
                     data_id_t clicked_diagram_id;
@@ -614,7 +621,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 break;
             case GUI_SKETCH_TOOLS_EDIT:
                 {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+                    TRACE_INFO( "GUI_SKETCH_TOOLS_EDIT" );
 
                     data_id_t focused_id;
                     focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
@@ -636,13 +643,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
                 break;
             default:
-                TSLOG_ERROR("selected_tool is out of range");
+                TSLOG_ERROR( "selected_tool is out of range" );
                 break;
         }
     }

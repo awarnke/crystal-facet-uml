@@ -20,6 +20,12 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
     bool found;
 
     found = false;
+    if ( order <= (*this_).order[0] )
+    {
+        found = true;
+        result = (*this_).location[0];
+        TRACE_INFO_INT( "result-%", result*100 );
+    }
     for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
     {
         if ( order < (*this_).order[pos] )
@@ -35,7 +41,8 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
             {
                 result = (*this_).location[pos-1] + ( loc_interval_width * (double)( order - (*this_).order[pos-1] ) / (double) ord_interval_width );
             }
-            TRACE_INFO_INT( "interval [i-1,1]:", pos );
+            TRACE_INFO_INT( "interval id [i-1,i]:", pos );
+            TRACE_INFO_INT_INT( "interval [i-1,i]:", (*this_).location[pos-1], (*this_).location[pos] );
             TRACE_INFO_INT( "result-%", result*100 );
         }
         else if ( order == (*this_).order[pos] )
@@ -56,13 +63,19 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
     bool found;
 
     found = false;
+    if ( location <= (*this_).location[0] )
+    {
+        found = true;
+        result = (*this_).order[0];
+        TRACE_INFO_INT( "result", result );
+    }
     for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
     {
         if ( location <= (*this_).location[pos] )
         {
             found = true;
             double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
-            int32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
+            uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
             if ( ( loc_interval_width > -0.000000001 ) && ( loc_interval_width < 0.000000001 ) )
             {
                 result = (*this_).order[pos-1];  /* prevent division by zero */
@@ -71,7 +84,8 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
             {
                 result = (*this_).order[pos-1] + (int32_t)(( ord_interval_width * ( location - (*this_).location[pos-1] )) / loc_interval_width);
             }
-            TRACE_INFO_INT( "interval [i-1,1]:", pos );
+            TRACE_INFO_INT_INT( "interval id, width [i-1,i]:", pos, ord_interval_width );
+            TRACE_INFO_INT_INT( "interval [i-1,i]:", (*this_).order[pos-1], (*this_).order[pos] );
             TRACE_INFO_INT( "result", result );
         }
     }
