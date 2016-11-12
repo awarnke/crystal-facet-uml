@@ -6,7 +6,7 @@
 #include "data_table.h"
 #include "data_id.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include "meta/meta_info.h"
 #include "universal_int32_pair.h"
 #include <gdk/gdk.h>
@@ -179,19 +179,19 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
         {
-            LOG_WARNING( "database not open.");
+            TSLOG_WARNING( "database not open.");
         }
         else if ( DATA_ERROR_NONE != db_err )
         {
-            LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+            TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
         else if ( count > 1 )
         {
-            LOG_ERROR_INT( "more than one root diagram exists!", count );
+            TSLOG_ERROR_INT( "more than one root diagram exists!", count );
         }
         else if ( count < 1 )
         {
-            LOG_WARNING( "no root diagram exists!" );
+            TSLOG_WARNING( "no root diagram exists!" );
         }
         else
         {
@@ -244,11 +244,11 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
         {
-            LOG_WARNING( "database not open.");
+            TSLOG_WARNING( "database not open.");
         }
         else if ( DATA_ERROR_NONE != db_err )
         {
-            LOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
+            TSLOG_ERROR_HEX( "data_database_reader_get_diagrams_by_parent_id failed.", db_err );
         }
         else
         {
@@ -547,7 +547,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
             break;
         default:
-            LOG_ERROR("selected_tool is out of range");
+            TSLOG_ERROR("selected_tool is out of range");
             break;
     }
 
@@ -642,7 +642,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
                 break;
             default:
-                LOG_ERROR("selected_tool is out of range");
+                TSLOG_ERROR("selected_tool is out of range");
                 break;
         }
     }
@@ -777,7 +777,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 break;
             default:
                 {
-                    LOG_ERROR("selected_tool is out of range");
+                    TSLOG_ERROR("selected_tool is out of range");
                 }
                 break;
         }
@@ -822,7 +822,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
             TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
             break;
         default:
-            LOG_ERROR("selected_tool is out of range");
+            TSLOG_ERROR("selected_tool is out of range");
             break;
     }
 

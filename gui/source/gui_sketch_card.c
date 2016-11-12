@@ -4,7 +4,7 @@
 #include "pencil_diagram_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <gdk/gdk.h>
 #include <stdint.h>
 

@@ -3,7 +3,7 @@
 #include "serial/data_json_serializer.h"
 #include "serial/data_json_constants.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 static const char * const DATA_JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS[] = {
@@ -57,7 +57,7 @@ data_error_t data_json_serializer_begin_set ( data_json_serializer_t *this_, utf
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {
-            LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+            TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
             result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
         }
         (*this_).is_first = true;
@@ -91,7 +91,7 @@ data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8s
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {
-            LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+            TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
             result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
         }
         (*this_).is_first = false;
@@ -287,7 +287,7 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {
-            LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+            TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
             result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
         }
     }
@@ -445,7 +445,7 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
 
         if ( strerr != UTF8ERROR_SUCCESS )
         {
-            LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+            TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
             result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
         }
     }

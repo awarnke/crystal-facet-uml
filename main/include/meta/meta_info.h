@@ -11,6 +11,7 @@
 
 #define META_INFO_VERSION_STR "0.07"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
+#define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 
 /* Note: change also CPACK_PACKAGE_VERSION_MINOR in CMakeLists.txt and */
 /*       PROJECT_NUMBER in doxygen_config */

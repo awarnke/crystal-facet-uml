@@ -271,7 +271,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
         }
         else
         {
-            LOG_ERROR("invalid visible classifier in array!");
+            TSLOG_ERROR("invalid visible classifier in array!");
         }
     }
 
@@ -377,7 +377,7 @@ data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagr
             }
             else
             {
-                LOG_ERROR("invalid visible classifier in array!");
+                TSLOG_ERROR("invalid visible classifier in array!");
             }
         }
     }

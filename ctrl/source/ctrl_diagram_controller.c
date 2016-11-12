@@ -2,7 +2,7 @@
 
 #include "ctrl_diagram_controller.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
@@ -244,7 +244,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( CTRL_ERROR_NONE != internal_err )
             {
-                LOG_ERROR_HEX( "unexpected internal error", internal_err );
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 
@@ -294,7 +294,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
             internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
             if ( CTRL_ERROR_NONE != internal_err )
             {
-                LOG_ERROR_HEX( "unexpected internal error", internal_err );
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
         }
 

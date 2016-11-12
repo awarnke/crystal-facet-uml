@@ -2,7 +2,7 @@
 
 #include "ctrl_controller.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 
 void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database )
 {

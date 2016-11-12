@@ -1,7 +1,7 @@
 /* File: data_id.inl; Copyright and License: see below */
 
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id )
 {
@@ -67,7 +67,7 @@ static inline void data_id_trace ( data_id_t *this_ )
             TRACE_INFO("- table: DATA_TABLE_DIAGRAM");
             break;
         default:
-            LOG_ERROR("- table: out of range");
+            TSLOG_ERROR("- table: out of range");
             break;
     }
     TRACE_INFO_INT( "- row_id:", (*this_).row_id );

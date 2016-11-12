@@ -1,6 +1,6 @@
 /* File: observer.inl; Copyright and License: see below */
 
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 static inline void observer_init ( observer_t *this_, void *observer_instance, void (*observer_callback)(void *observer_instance, void *call_param) )
@@ -19,7 +19,7 @@ static inline void observer_notify ( observer_t *this_, void *call_param )
 {
     assert( (*this_).observer_instance != NULL );
     assert( (*this_).observer_callback != NULL );
-    LOG_EVENT("observer_notify()");
+    TSLOG_EVENT("observer_notify()");
     ((*this_).observer_callback)( (*this_).observer_instance, call_param );
 }
 

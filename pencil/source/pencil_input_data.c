@@ -47,11 +47,11 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 
         if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
         {
-            LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
         }
         if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
         {
-            LOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
+            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
         }
         if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {
@@ -70,11 +70,11 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
 
         if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
         {
-            LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
         if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
         {
-            LOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
+            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
         if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
         {

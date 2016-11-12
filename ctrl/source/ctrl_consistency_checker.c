@@ -2,7 +2,7 @@
 
 #include "ctrl_consistency_checker.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer )

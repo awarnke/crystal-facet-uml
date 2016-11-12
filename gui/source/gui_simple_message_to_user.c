@@ -2,7 +2,7 @@
 
 #include "gui_simple_message_to_user.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include "meta/meta_info.h"
 #include <assert.h>
 
@@ -99,7 +99,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
             default:
             {
-                LOG_ERROR("unexptected gui_simple_message_type_t");
+                TSLOG_ERROR("unexptected gui_simple_message_type_t");
             }
         }
 
@@ -194,7 +194,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
             default:
             {
-                LOG_ERROR("unexptected gui_simple_message_content_t");
+                TSLOG_ERROR("unexptected gui_simple_message_content_t");
             }
         }
         gtk_label_set_text ( GTK_LABEL( (*this_).text_label ), utf8stringbuf_get_string( (*this_).content ));
@@ -202,7 +202,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
         gtk_widget_show( GTK_WIDGET ( (*this_).text_label ) );
         gtk_widget_show( GTK_WIDGET ( (*this_).icon_image ) );
 
-        LOG_EVENT( utf8stringbuf_get_string( (*this_).content ) );
+        TSLOG_EVENT( utf8stringbuf_get_string( (*this_).content ) );
     }
 
     TRACE_END();

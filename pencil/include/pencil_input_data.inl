@@ -1,6 +1,6 @@
 /* File: pencil_input_data.inl; Copyright and License: see below */
 
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ )
@@ -47,7 +47,7 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     else
     {
         result = NULL;
-        LOG_ERROR_INT( "index out of bounds (>=(*this_).visible_classifier_count)", index );
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).visible_classifier_count)", index );
     }
     return result;
 }

@@ -3,7 +3,7 @@
 #define __STDC_LIMIT_MACROS
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -87,7 +87,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
         }
         else
         {
-            LOG_WARNING( "geometry_non_linear_scale_t has not enough points." );
+            TSLOG_WARNING( "geometry_non_linear_scale_t has not enough points." );
         }
     }
 

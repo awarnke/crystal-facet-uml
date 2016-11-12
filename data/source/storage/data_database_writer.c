@@ -3,7 +3,7 @@
 #include "storage/data_database_writer.h"
 #include "data_id.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <sqlite3.h>
 #include <assert.h>
 
@@ -35,7 +35,7 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_re
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
     }
 
     data_database_sql_builder_init( &((*this_).sql_builder) );
@@ -58,7 +58,7 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
     }
 
     (*this_).db_reader = NULL;
@@ -78,32 +78,32 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
         sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
 
-        LOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
@@ -114,29 +114,29 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
             {
                 int64_t new_id;
                 new_id = sqlite3_last_insert_rowid(db);
-                LOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
+                TSLOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
                 *out_new_id = new_id;
             }
         }
 
-        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
         sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
     }
     else
     {
-        LOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
         result = DATA_ERROR_NO_DB;
     }
 
@@ -154,24 +154,24 @@ data_error_t data_database_writer_private_transaction_begin ( data_database_writ
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
         sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
     }
     else
     {
-        LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
         result = DATA_ERROR_NO_DB;
     }
 
@@ -189,24 +189,24 @@ data_error_t data_database_writer_private_transaction_commit ( data_database_wri
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
         sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
     }
     else
     {
-        LOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
         result = DATA_ERROR_NO_DB;
     }
 
@@ -225,24 +225,24 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        LOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
-            LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
         {
-            LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
             sqlite3_free( error_msg );
             error_msg = NULL;
         }
     }
     else
     {
-        LOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
         result = DATA_ERROR_NO_DB;
     }
 
@@ -842,7 +842,7 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
 
         default:
         {
-            LOG_ERROR( "unexpected data_database_listener_signal_t" );
+            TSLOG_ERROR( "unexpected data_database_listener_signal_t" );
         }
     }
 

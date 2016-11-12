@@ -4,6 +4,8 @@
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "trace.h"
+#include "tslog.h"
+#include "meta/meta_info.h"
 #include <sys/types.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -19,6 +21,7 @@ int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
     int exit_code = 0;
+    TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
 
     TRACE_INFO("starting DB...");
     TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
@@ -44,6 +47,7 @@ int main (int argc, char *argv[]) {
     data_database_close( &database );
     data_database_destroy( &database );
 
+    TSLOG_DESTROY();
     TRACE_TIMESTAMP();
     TRACE_END_ERR(exit_code);
     return exit_code;

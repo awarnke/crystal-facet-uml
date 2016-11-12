@@ -1,6 +1,6 @@
 /* File: data_database_writer.inl; Copyright and License: see below */
 
-#include "log.h"
+#include "tslog.h"
 
 static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ )
 {
@@ -10,7 +10,7 @@ static inline data_error_t data_database_writer_private_lock ( data_database_wri
     perr = pthread_mutex_lock ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
 }
@@ -23,7 +23,7 @@ static inline data_error_t data_database_writer_private_unlock ( data_database_w
     perr = pthread_mutex_unlock ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
 }

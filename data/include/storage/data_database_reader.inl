@@ -1,6 +1,6 @@
 /* File: data_database_reader.inl; Copyright and License: see below */
 
-#include "log.h"
+#include "tslog.h"
 #include "trace.h"
 
 static inline data_error_t data_database_reader_private_lock ( data_database_reader_t *this_ )
@@ -11,7 +11,7 @@ static inline data_error_t data_database_reader_private_lock ( data_database_rea
     perr = pthread_mutex_lock ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
 
@@ -26,7 +26,7 @@ static inline data_error_t data_database_reader_private_unlock ( data_database_r
     perr = pthread_mutex_unlock ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
 
@@ -52,9 +52,9 @@ static inline data_error_t data_database_reader_private_prepare_statement ( data
     if (( SQLITE_OK != sqlite_err )
         || ( first_unused_statement_char != &(string_statement[string_size-1]) ))
     {
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
-        LOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
-        LOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
+        TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", string_statement );
+        TSLOG_ERROR_INT( "sqlite3_prepare_v2() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_prepare_v2() failed:", sqlite3_errmsg( db ) );
         result |= DATA_ERROR_AT_DB;
     }
 
@@ -70,8 +70,8 @@ static inline data_error_t data_database_reader_private_finalize_statement ( dat
     sqlite_err = sqlite3_finalize( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
-        LOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_finalize() failed:", sqlite3_sql(statement_ptr) );
+        TSLOG_ERROR_INT( "sqlite3_finalize() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
 
@@ -87,7 +87,7 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
     sqlite_err = sqlite3_reset( statement_ptr );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
 
@@ -96,7 +96,7 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
     sqlite_err = sqlite3_bind_int( statement_ptr, FIRST_SQL_BIND_PARAM, id );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        TSLOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
 

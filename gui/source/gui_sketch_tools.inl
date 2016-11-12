@@ -45,7 +45,7 @@ static inline gui_sketch_tools_tool_t gui_sketch_tools_set_selected_tool ( gui_s
 
         default:
         {
-            LOG_ERROR( "invalid enum value" );
+            TSLOG_ERROR( "invalid enum value" );
         }
         break;
     }

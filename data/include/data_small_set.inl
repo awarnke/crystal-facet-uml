@@ -1,7 +1,7 @@
 /* File: data_small_set.inl; Copyright and License: see below */
 
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 static inline void data_small_set_init ( data_small_set_t *this_ )
@@ -49,7 +49,7 @@ static inline void data_small_set_trace ( data_small_set_t *this_ )
                 TRACE_INFO_INT("- []: table = DATA_TABLE_DIAGRAM, row_id =", data_id_get_row_id( &((*this_).id_set[index]) ) );
                 break;
             default:
-                LOG_ERROR("- []: illegal value");
+                TSLOG_ERROR("- []: illegal value");
                 break;
         }
     }

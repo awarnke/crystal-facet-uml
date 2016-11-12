@@ -3,7 +3,7 @@
 #include "storage/data_database_sql_builder.h"
 #include "data_id.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 /*!
@@ -259,7 +259,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -293,7 +293,7 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -327,7 +327,7 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -352,7 +352,7 @@ data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_data
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -377,7 +377,7 @@ data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( dat
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -399,7 +399,7 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -468,7 +468,7 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -502,7 +502,7 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -536,7 +536,7 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -570,7 +570,7 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -596,7 +596,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -622,7 +622,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -648,7 +648,7 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -670,7 +670,7 @@ data_error_t data_database_sql_builder_build_delete_classifier_command ( data_da
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -706,7 +706,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -728,7 +728,7 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        LOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 

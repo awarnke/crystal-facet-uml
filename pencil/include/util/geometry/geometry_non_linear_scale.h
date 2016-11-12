@@ -81,7 +81,7 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
  *  \brief gets an order-value given a location
  *
  *  \param this_ pointer to own object attributes
- *  \param order oder value for which the location shall be determined
+ *  \param location location for which the order shall be determined
  */
 static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location );
 

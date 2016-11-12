@@ -73,7 +73,7 @@ gui_main_window_t *gui_window_manager_open_main_window( gui_window_manager_t *th
     }
     else
     {
-        LOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
+        TSLOG_ERROR_INT( "Maximum number of windows already open.", GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS );
         result = NULL;
     }
 
@@ -107,7 +107,7 @@ void gui_window_manager_close_main_window( gui_window_manager_t *this_, gui_main
 
     if ( count_closed == 0 )
     {
-        LOG_ERROR( "no window of given address found" );
+        TSLOG_ERROR( "no window of given address found" );
     }
     if ( count_active == 0 )
     {

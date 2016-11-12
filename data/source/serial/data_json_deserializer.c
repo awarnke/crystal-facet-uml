@@ -2,7 +2,7 @@
 
 #include "serial/data_json_deserializer.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 void data_json_deserializer_init ( data_json_deserializer_t *this_, const char *in_data )
@@ -51,7 +51,7 @@ data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t 
         result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
         if ( ! utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_SET ) )
         {
-            LOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
             result |= DATA_ERROR_PARSER_STRUCTURE;
         }
     }
@@ -79,7 +79,7 @@ data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *t
     result = data_json_tokenizer_is_end_array ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &condition );
     if ( ! condition )
     {
-        LOG_ERROR_INT( "unexpected array contents at character", (*this_).read_pos );
+        TSLOG_ERROR_INT( "unexpected array contents at character", (*this_).read_pos );
         result |= DATA_ERROR_PARSER_STRUCTURE;
     }
 
@@ -88,7 +88,7 @@ data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *t
         result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &condition );
         if ( ! condition )
         {
-            LOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
             result |= DATA_ERROR_PARSER_STRUCTURE;
         }
     }
@@ -149,7 +149,7 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
                 }
                 else
                 {
-                    LOG_ERROR_INT( "unexpected token before character", temp_read_pos );
+                    TSLOG_ERROR_INT( "unexpected token before character", temp_read_pos );
                     result = DATA_ERROR_PARSER_STRUCTURE;
                 }
             }
@@ -182,7 +182,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
     {
         if ( ! utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER ) )
         {
-            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
             result = DATA_ERROR_PARSER_STRUCTURE;
         }
     }
@@ -268,7 +268,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
                         }
                         else
                         {
-                            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+                            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
                             result = DATA_ERROR_PARSER_STRUCTURE;
                         }
                     }
@@ -276,7 +276,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
             }
             else
             {
-                LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+                TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
                 result = DATA_ERROR_PARSER_STRUCTURE;
                 object_end = true;
             }
@@ -293,7 +293,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
     {
         if ( ! object_end )
         {
-            LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
             result = DATA_ERROR_PARSER_STRUCTURE;
         }
     }
@@ -330,7 +330,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
     {
         if ( ! utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_DIAGRAM ) )
         {
-            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
             result = DATA_ERROR_PARSER_STRUCTURE;
         }
     }
@@ -405,7 +405,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
                         }
                         else
                         {
-                            LOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+                            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
                             result = DATA_ERROR_PARSER_STRUCTURE;
                         }
                     }
@@ -413,7 +413,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
             }
             else
             {
-                LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+                TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
                 result = DATA_ERROR_PARSER_STRUCTURE;
                 object_end = true;
             }
@@ -430,7 +430,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
     {
         if ( ! object_end )
         {
-            LOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+            TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
             result = DATA_ERROR_PARSER_STRUCTURE;
         }
     }

@@ -2,7 +2,7 @@
 
 #include "ctrl_undo_redo_list.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ )
@@ -299,12 +299,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
             if ( undo )
             {
-                LOG_ERROR( "function not implemented, not expected to be needed." );
+                TSLOG_ERROR( "function not implemented, not expected to be needed." );
                 result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
             else
             {
-                LOG_ERROR( "function not implemented, not expected to be needed." );
+                TSLOG_ERROR( "function not implemented, not expected to be needed." );
                 result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
             }
         }
@@ -472,7 +472,7 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
 
         default:
         {
-            LOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
+            TSLOG_ERROR( "unexptected ctrl_undo_redo_entry_type_t" );
         }
     }
 

@@ -4,7 +4,7 @@
 #include "data_id.h"
 #include "data_table.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <unistd.h>
 #include <assert.h>
 
@@ -98,77 +98,77 @@ data_error_t data_database_private_initialize_tables( sqlite3 *db )
     char *error_msg = NULL;
     data_error_t result = DATA_ERROR_NONE;
 
-    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
-        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
 
-    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
-        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
 
-    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
-        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
 
-    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAM_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
-        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_TABLE );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
 
-    LOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
-        LOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
-        LOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
         sqlite3_free( error_msg );
         error_msg = NULL;
     }
@@ -192,7 +192,7 @@ void data_database_init ( data_database_t *this_ )
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
     }
 
     data_change_notifier_init ( &((*this_).notifier) );
@@ -213,19 +213,19 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
 
     if ( (*this_).is_open )
     {
-        LOG_ERROR("data_database_open called on database that was not closed.");
+        TSLOG_ERROR("data_database_open called on database that was not closed.");
         result |= DATA_ERROR_INVALID_REQUEST;
     }
     else
     {
         utf8stringbuf_copy_str( (*this_).db_file_name, db_file_path );
 
-        LOG_EVENT_STR( "sqlite3_open:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        TSLOG_EVENT_STR( "sqlite3_open:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_open( utf8stringbuf_get_string( (*this_).db_file_name ), &((*this_).db) );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
-            LOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+            TSLOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
+            TSLOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             (*this_).is_open = false;
         }
         else
@@ -239,11 +239,11 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
             }
             else
             {
-                LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+                TSLOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
                 sqlite_err = sqlite3_close( (*this_).db );
                 if ( SQLITE_OK != sqlite_err )
                 {
-                    LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+                    TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
                 }
                 utf8stringbuf_clear( (*this_).db_file_name );
                 (*this_).is_open = false;
@@ -285,11 +285,11 @@ data_error_t data_database_close ( data_database_t *this_ )
     if ( (*this_).is_open )
     {
         /* perform close */
-        LOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+        TSLOG_EVENT_STR( "sqlite3_close:", utf8stringbuf_get_string( (*this_).db_file_name ) );
         sqlite_err = sqlite3_close( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
-            LOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_close() failed:", sqlite_err );
         }
 
         if ( SQLITE_BUSY == sqlite_err )
@@ -297,11 +297,11 @@ data_error_t data_database_close ( data_database_t *this_ )
             /* retry */
             sleep (1);
 
-            LOG_EVENT_STR( "sqlite3_close_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
+            TSLOG_EVENT_STR( "sqlite3_close_v2:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             sqlite_err = sqlite3_close_v2( (*this_).db );
             if ( SQLITE_OK != sqlite_err )
             {
-                LOG_ERROR_INT( "sqlite3_close_v2() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_close_v2() failed:", sqlite_err );
             }
         }
 
@@ -312,7 +312,7 @@ data_error_t data_database_close ( data_database_t *this_ )
     }
     else
     {
-        LOG_WARNING("data_database_close called on database that was not open.");
+        TSLOG_WARNING("data_database_close called on database that was not open.");
         result |= DATA_ERROR_INVALID_REQUEST;
     }
 
@@ -343,7 +343,7 @@ void data_database_destroy ( data_database_t *this_ )
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
     }
 
     TRACE_END();
@@ -373,7 +373,7 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
 
     if ( already_registered )
     {
-        LOG_ERROR( "Listener already registered." );
+        TSLOG_ERROR( "Listener already registered." );
         result |= DATA_ERROR_INVALID_REQUEST;
     }
     else if ( -1 != pos )
@@ -382,7 +382,7 @@ data_error_t data_database_add_db_listener( data_database_t *this_, data_databas
     }
     else
     {
-        LOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
+        TSLOG_ERROR_INT( "Maximum number of listeners reached.", GUI_DATABASE_MAX_LISTENERS );
         result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
     }
 
@@ -414,7 +414,7 @@ data_error_t data_database_remove_db_listener( data_database_t *this_, data_data
 
     if ( count_closed == 0 )
     {
-        LOG_ERROR( "listener not found" );
+        TSLOG_ERROR( "listener not found" );
         result |= DATA_ERROR_INVALID_REQUEST;
     }
 

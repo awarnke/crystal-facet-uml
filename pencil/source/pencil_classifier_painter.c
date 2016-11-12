@@ -111,7 +111,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
     }
     else
     {
-        LOG_ERROR("invalid visible classifier in array!");
+        TSLOG_ERROR("invalid visible classifier in array!");
     }
 
     TRACE_END();

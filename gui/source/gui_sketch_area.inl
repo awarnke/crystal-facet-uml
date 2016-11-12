@@ -1,6 +1,6 @@
 /* File: gui_sketch_area.inl; Copyright and License: see below */
 
-#include "log.h"
+#include "tslog.h"
 #include <assert.h>
 
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )

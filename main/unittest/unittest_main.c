@@ -10,6 +10,8 @@
 #include "ctrl_undo_redo_list_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "trace.h"
+#include "tslog.h"
+#include "meta/meta_info.h"
 #include <embUnit/embUnit.h>
 
 /*!
@@ -20,6 +22,7 @@ int main (int argc, char *argv[]) {
     TRACE_TIMESTAMP();
     TRACE_INFO( "--------------------" );
     int exit_code = 0;
+    TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
 
     TestRunner_start();
     TestRunner_runTest( data_small_set_test_get_list() );
@@ -33,6 +36,7 @@ int main (int argc, char *argv[]) {
     TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
     TestRunner_end();
 
+    TSLOG_DESTROY();
     TRACE_INFO( "--------------------" );
     TRACE_TIMESTAMP();
     TRACE_END_ERR( exit_code );

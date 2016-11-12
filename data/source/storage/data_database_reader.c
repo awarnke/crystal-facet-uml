@@ -2,7 +2,7 @@
 
 #include "storage/data_database_reader.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include "util/string/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <assert.h>
@@ -156,7 +156,7 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
     perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
         result |= DATA_ERROR_AT_MUTEX;
     }
 
@@ -223,7 +223,7 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
     else
     {
         result |= DATA_ERROR_INVALID_REQUEST;
-        LOG_WARNING( "Database is already open." );
+        TSLOG_WARNING( "Database is already open." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -258,7 +258,7 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
     else
     {
         result |= DATA_ERROR_INVALID_REQUEST;
-        LOG_WARNING( "Database was not open." );
+        TSLOG_WARNING( "Database was not open." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -280,7 +280,7 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
     perr = pthread_mutex_destroy ( &((*this_).private_lock) );
     if ( perr != 0 )
     {
-        LOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+        TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
         result |= DATA_ERROR_AT_MUTEX;
     }
 
@@ -310,7 +310,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            LOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step() did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -331,14 +331,14 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -376,7 +376,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -397,7 +397,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                LOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
+                TSLOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -409,7 +409,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -447,7 +447,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -468,7 +468,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                LOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
+                TSLOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -480,7 +480,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -509,7 +509,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            LOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step() did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -531,14 +531,14 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -576,7 +576,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -613,7 +613,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                LOG_ERROR_INT( "out_visible_classifier[] full:", (row_index+1) );
+                TSLOG_ERROR_INT( "out_visible_classifier[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -625,7 +625,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -654,7 +654,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            LOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step() did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -673,14 +673,14 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            LOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
     else
     {
         result |= DATA_ERROR_NO_DB;
-        LOG_WARNING( "Database not open, cannot request data." );
+        TSLOG_WARNING( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -712,7 +712,7 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
 
         default:
         {
-            LOG_ERROR( "unexpected data_database_listener_signal_t" );
+            TSLOG_ERROR( "unexpected data_database_listener_signal_t" );
         }
     }
 

@@ -145,7 +145,7 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
-            LOG_WARNING( "no object selected where name can be updated." );
+            TSLOG_WARNING( "no object selected where name can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
             {
@@ -159,19 +159,19 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                     ctrl_err = ctrl_classifier_controller_update_classifier_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                     }
                 }
             }
             break;
         case DATA_TABLE_FEATURE:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_RELATIONSHIP:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            LOG_WARNING( "no object selected where name can be updated." );
+            TSLOG_WARNING( "no object selected where name can be updated." );
             break;
         case DATA_TABLE_DIAGRAM:
             {
@@ -185,13 +185,13 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                     ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                     }
                 }
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -222,7 +222,7 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
-            LOG_WARNING( "no object selected where description can be updated." );
+            TSLOG_WARNING( "no object selected where description can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
             {
@@ -236,19 +236,19 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                     ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update name failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                     }
                 }
             }
             break;
         case DATA_TABLE_FEATURE:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_RELATIONSHIP:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            LOG_WARNING( "no object selected where description can be updated." );
+            TSLOG_WARNING( "no object selected where description can be updated." );
             break;
         case DATA_TABLE_DIAGRAM:
             {
@@ -262,13 +262,13 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                     ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update description failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                     }
                 }
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -292,7 +292,7 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
-            LOG_WARNING( "no object selected where stereotype can be updated." );
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
             {
@@ -306,25 +306,25 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
                     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
                     }
                 }
             }
             break;
         case DATA_TABLE_FEATURE:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_RELATIONSHIP:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            LOG_WARNING( "no object selected where stereotype can be updated." );
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
             break;
         case DATA_TABLE_DIAGRAM:
-            LOG_WARNING( "no object selected where stereotype can be updated." );
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -350,7 +350,7 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
     switch ( data_id_get_table( &((*this_).selected_object_id) ) )
     {
         case DATA_TABLE_VOID:
-            LOG_WARNING( "no object selected where type can be updated." );
+            TSLOG_WARNING( "no object selected where type can be updated." );
             break;
         case DATA_TABLE_CLASSIFIER:
             {
@@ -364,19 +364,19 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
                     ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
                     }
                 }
             }
             break;
         case DATA_TABLE_FEATURE:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_RELATIONSHIP:
-            LOG_ERROR( "not yet implemented." );
+            TSLOG_ERROR( "not yet implemented." );
             break;
         case DATA_TABLE_DIAGRAMELEMENT:
-            LOG_WARNING( "no object selected where type can be updated." );
+            TSLOG_WARNING( "no object selected where type can be updated." );
             break;
         case DATA_TABLE_DIAGRAM:
             {
@@ -390,13 +390,13 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
                     ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
                     if ( CTRL_ERROR_NONE != ctrl_err )
                     {
-                        LOG_ERROR_HEX( "update type failed:", ctrl_err );
+                        TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
                     }
                 }
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -455,7 +455,7 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
             break;
     }
@@ -501,7 +501,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
             gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             gtk_widget_hide( GTK_WIDGET ( widget ) );
             break;
     }
@@ -553,7 +553,7 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
             break;
     }
@@ -603,7 +603,7 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
             }
             break;
         default:
-            LOG_ERROR( "invalid data in data_id_t." );
+            TSLOG_ERROR( "invalid data in data_id_t." );
             break;
     }
 
@@ -645,7 +645,7 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
 
                     if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
                     {
-                        LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
+                        TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
@@ -699,7 +699,7 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
 
                     if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
                     {
-                        LOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+                        TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
@@ -716,7 +716,7 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             break;
         default:
             {
-                LOG_ERROR( "invalid data in data_id_t." );
+                TSLOG_ERROR( "invalid data in data_id_t." );
 
                 data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
                 data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
@@ -770,7 +770,7 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, 
                 }
                 break;
             default:
-                LOG_ERROR( "invalid data in data_id_t." );
+                TSLOG_ERROR( "invalid data in data_id_t." );
                 break;
         }
     }
@@ -812,7 +812,7 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t
             case DATA_TABLE_DIAGRAM:
                 break;
             default:
-                LOG_ERROR( "invalid data in data_id_t." );
+                TSLOG_ERROR( "invalid data in data_id_t." );
                 break;
         }
     }
@@ -863,7 +863,7 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
                 }
                 break;
             default:
-                LOG_ERROR( "invalid data in data_id_t." );
+                TSLOG_ERROR( "invalid data in data_id_t." );
                 break;
         }
     }
@@ -914,7 +914,7 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, 
                 }
                 break;
             default:
-                LOG_ERROR( "invalid data in data_id_t." );
+                TSLOG_ERROR( "invalid data in data_id_t." );
                 break;
         }
     }

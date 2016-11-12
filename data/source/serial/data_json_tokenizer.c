@@ -2,7 +2,7 @@
 
 #include "serial/data_json_tokenizer.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <string.h>
 #include <assert.h>
 

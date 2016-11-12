@@ -3,7 +3,7 @@
 #include "data_id.h"
 #include "storage/data_change_notifier.h"
 #include "trace.h"
-#include "log.h"
+#include "tslog.h"
 #include <glib-object.h>
 #include <unistd.h>
 #include <string.h>
@@ -79,7 +79,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
         {
             duplicate = true;
             result = DATA_ERROR_INVALID_REQUEST;
-            LOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
+            TSLOG_ERROR( "duplicate call to data_change_notifier_add_listener for same listener." );
         }
     }
 
@@ -93,7 +93,7 @@ data_error_t data_change_notifier_add_listener ( data_change_notifier_t *this_, 
         else
         {
             result = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
-            LOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
+            TSLOG_ERROR( "data_change_notifier_add_listener has too many listeners." );
         }
     }
 
@@ -130,7 +130,7 @@ data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this
     else
     {
         result = DATA_ERROR_INVALID_REQUEST;
-        LOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
+        TSLOG_ERROR( "data_change_notifier_remove_listener did not find listener to remove." );
     }
 
     TRACE_END_ERR( result );

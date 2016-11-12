@@ -226,7 +226,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                 else
                 {
                     /* program internal error */
-                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -266,13 +266,13 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                     else
                     {
                         /* program internal error */
-                        LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                        TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
                     }
                 }
                 else
                 {
                     /* program internal error */
-                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -290,7 +290,7 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
                 else
                 {
                     /* program internal error */
-                    LOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -378,7 +378,7 @@ void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, c
     }
     else
     {
-        LOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
+        TSLOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
@@ -464,7 +464,7 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                                     );
                                     if ( CTRL_ERROR_NONE != write_error )
                                     {
-                                        LOG_ERROR( "unexpected error" );
+                                        TSLOG_ERROR( "unexpected error" );
                                         set_end = true;
                                     }
                                     is_first = false;
@@ -492,7 +492,7 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                                 );
                                 if ( CTRL_ERROR_NONE != write_error2 )
                                 {
-                                    LOG_ERROR( "unexpected error" );
+                                    TSLOG_ERROR( "unexpected error" );
                                     set_end = true;
                                 }
                                 is_first = false;
@@ -526,7 +526,7 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                             );
                             if ( CTRL_ERROR_NONE != write_error3 )
                             {
-                                LOG_ERROR( "unexpected error" );
+                                TSLOG_ERROR( "unexpected error" );
                                 set_end = true;
                             }
 
@@ -537,7 +537,7 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
 
                     default:
                     {
-                        LOG_ERROR( "unexpected error" );
+                        TSLOG_ERROR( "unexpected error" );
                         set_end = true;
                     }
                 }
@@ -615,7 +615,7 @@ void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_
     }
     else if ( CTRL_ERROR_NONE != ctrl_err )
     {
-        LOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
+        TSLOG_ERROR_HEX( "Error in ctrl_classifier_controller_delete_set_from_diagram", ctrl_err );
     }
 
     TRACE_END();
