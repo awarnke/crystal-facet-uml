@@ -484,6 +484,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     TRACE_INFO_INT_INT( "x/y", x, y );
 
     /* what is the target location? */
+    /*
     gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
     if ( NULL != target )
     {
@@ -492,6 +493,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         int32_t y_order = universal_int32_pair_get_second( &order );
         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
     }
+    */
 
     if ( (*this_).mark_active )
     {

@@ -6,7 +6,9 @@
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
+#include "util/string/utf8string.h"
 #include <sys/types.h>
+#include <stdbool.h>
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
@@ -22,30 +24,53 @@ int main (int argc, char *argv[]) {
     TRACE_TIMESTAMP();
     int exit_code = 0;
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
+    char *database_file = NULL;
+    bool do_not_start = false;
 
-    TRACE_INFO("starting DB...");
-    TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
-    data_database_init( &database );
-    /*data_database_open( &database, "crystal_facet_uml_default.cfu.sqlite3" );*/
+    /* handle options */
+    if ( argc == 2 )
+    {
+        if ( utf8string_starts_with_str( argv[1], "-" ) )
+        {
+            fprintf( stdout, "\nUsage: %s database_file\n", argv[0] );
+            do_not_start = true;
+        }
+        else
+        {
+            database_file = argv[1];
+        }
+    }
 
-    TRACE_TIMESTAMP();
-    TRACE_INFO("initializing controller...");
-    TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
-    ctrl_controller_init( &controller, &database );
+    /* run program */
+    if ( ! do_not_start )
+    {
+        TRACE_INFO("starting DB...");
+        TRACE_INFO_INT("sizeof(data_database_t)/B:",sizeof(data_database_t));
+        data_database_init( &database );
+        if ( NULL != database_file )
+        {
+            data_database_open( &database, database_file );
+        }
 
-    TRACE_TIMESTAMP();
-    TRACE_INFO("running GUI...");
-    gui_main( argc, argv, &controller, &database );
-    TRACE_INFO("GUI stopped.");
+        TRACE_TIMESTAMP();
+        TRACE_INFO("initializing controller...");
+        TRACE_INFO_INT("sizeof(ctrl_controller_t)/B:",sizeof(ctrl_controller_t));
+        ctrl_controller_init( &controller, &database );
 
-    TRACE_TIMESTAMP();
-    TRACE_INFO("destroying controller...");
-    ctrl_controller_destroy( &controller );
+        TRACE_TIMESTAMP();
+        TRACE_INFO("running GUI...");
+        gui_main( argc, argv, &controller, &database );
+        TRACE_INFO("GUI stopped.");
 
-    TRACE_TIMESTAMP();
-    TRACE_INFO("stopping DB...");
-    data_database_close( &database );
-    data_database_destroy( &database );
+        TRACE_TIMESTAMP();
+        TRACE_INFO("destroying controller...");
+        ctrl_controller_destroy( &controller );
+
+        TRACE_TIMESTAMP();
+        TRACE_INFO("stopping DB...");
+        data_database_close( &database );
+        data_database_destroy( &database );
+    }
 
     TSLOG_DESTROY();
     TRACE_TIMESTAMP();
