@@ -1,5 +1,7 @@
 /* File: gui_sketch_card.inl; Copyright and License: see below */
 
+#include "tslog.h"
+
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
@@ -64,6 +66,21 @@ static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sket
                                                     );
 
     return result;
+}
+
+static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int32_t row_id, int32_t x_order, int32_t y_order )
+{
+    data_classifier_t *move_me;
+    move_me = pencil_input_data_get_classifier_ptr( &((*this_).painter_input_data), row_id );
+    if ( move_me == NULL )
+    {
+        TSLOG_WARNING_INT( "pencil input data does not contain the CLASSIFIER to be moved", row_id );
+    }
+    else
+    {
+        data_classifier_set_x_order( move_me, x_order );
+        data_classifier_set_y_order( move_me, y_order );
+    }
 }
 
 

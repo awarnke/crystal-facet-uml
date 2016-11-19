@@ -140,6 +140,16 @@ static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t
  */
 static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y );
 
+/*!
+ *  \brief moves a classifier to an order (without modifying the database)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id the id of the classifier
+ *  \param x_order x-order
+ *  \param y_order y-order
+ */
+static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int32_t row_id, int32_t x_order, int32_t y_order );
+
 #include "gui_sketch_card.inl"
 
 #endif  /* GUI_SKETCH_CARD_H */

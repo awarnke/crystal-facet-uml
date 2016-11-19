@@ -484,18 +484,6 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     TRACE_INFO_INT_INT( "x/y", x, y );
 
-    /* what is the target location? */
-    /*
-    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-    if ( NULL != target )
-    {
-        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-        int32_t x_order = universal_int32_pair_get_first( &order );
-        int32_t y_order = universal_int32_pair_get_second( &order );
-        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-    }
-    */
-
     if ( (*this_).mark_active )
     {
         /* mark old area as dirty rect */
@@ -542,6 +530,32 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             {
                 if ( dragging )
                 {
+                    /* what is dragged? */
+                    data_id_t focused_real;
+                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    /* mark again - in case the marker was lost */
+                    data_id_t focused;
+                    focused = gui_sketch_marker_get_focused ( (*this_).marker );
+                    gui_sketch_marker_set_highlighted( (*this_).marker, focused );
+
+                    /* what is the target location? */
+                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( NULL != target )
+                    {
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                        int32_t x_order = universal_int32_pair_get_first( &order );
+                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                        /* move the object in the display-cache accordingly */
+                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                        {
+                            gui_sketch_card_move_classifier_to_order( target, data_id_get_row_id( &focused_real ), x_order, y_order );
+
+                            /* mark dirty rect */
+                            gtk_widget_queue_draw( widget );
+                        }
+                    }
                 }
                 else
                 {
