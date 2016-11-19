@@ -58,7 +58,7 @@ void pencil_input_data_destroy( pencil_input_data_t *this_ );
 void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
- *  \brief gets the address of the diagram within the painter input data
+ *  \brief gets the diagram within the painter input data
  *
  *  \param this_ pointer to own object attributes
  *  \return pointer to current diagram cache
@@ -73,13 +73,22 @@ static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_d
 static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_input_data_t *this_ );
 
 /*!
- *  \brief gets the address of the diagram within the painter input data
+ *  \brief gets a visible classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the classifier to retrieve; 0 <= index < pencil_input_data_get_classifier_count.
- *  \return NULL if index >= pencil_input_data_get_classifier_count; pointer to data_visible_classifier_t otherwise.
+ *  \param index index of the visible classifier to retrieve; 0 <= index < pencil_input_data_get_visible_classifier_count.
+ *  \return NULL if index >= pencil_input_data_get_visible_classifier_count; pointer to data_visible_classifier_t otherwise.
  */
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets the classifier within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the classifier to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
+ */
+static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int32_t row_id );
 
 /*!
  *  \brief checks if the diagram and diagram-contents data is valid

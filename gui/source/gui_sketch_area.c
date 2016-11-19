@@ -480,6 +480,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     x = (int32_t) evt->x;
     y = (int32_t) evt->y;
     state = (GdkModifierType) evt->state;
+    bool dragging = false;
 
     TRACE_INFO_INT_INT( "x/y", x, y );
 
@@ -497,19 +498,21 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     if ( (*this_).mark_active )
     {
-        /* mark dirty rect */
+        /* mark old area as dirty rect */
         gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
         (*this_).mark_end_x = x;
         (*this_).mark_end_y = y;
+        dragging = true;
 
-        /* mark dirty rect */
+        /* mark new area as dirty rect */
         gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
     }
 
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
         TRACE_INFO( "GDK_BUTTON1_MASK" );
+        dragging = true;
     }
 
     /* do highlight */
@@ -537,18 +540,24 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             break;
         case GUI_SKETCH_TOOLS_EDIT:
             {
-                data_id_t object_under_mouse;
-                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
-                data_id_t object_highlighted;
-                object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+                if ( dragging )
                 {
-                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                }
+                else
+                {
+                    data_id_t object_under_mouse;
+                    object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
+                    data_id_t object_highlighted;
+                    object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+                    if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
                     {
-                        gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
+                        if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                        {
+                            gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
 
-                        /* mark dirty rect */
-                        gtk_widget_queue_draw( widget );
+                            /* mark dirty rect */
+                            gtk_widget_queue_draw( widget );
+                        }
                     }
                 }
             }
