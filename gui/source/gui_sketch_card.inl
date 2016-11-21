@@ -83,6 +83,28 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
     }
 }
 
+static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ )
+{
+    /* layout loaded classifiers */
+    int32_t left;
+    int32_t top;
+    uint32_t width;
+    uint32_t height;
+
+    left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+    geometry_rectangle_t destination;
+    geometry_rectangle_init( &destination, left, top, width, height );
+    pencil_diagram_painter_do_layout ( &((*this_).painter),
+                                       &((*this_).painter_input_data),
+                                       destination
+    );
+    geometry_rectangle_destroy( &destination );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

@@ -53,12 +53,6 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
         cairo_fill (cr);
 
         /* draw the current diagram */
-        geometry_rectangle_t destination;
-        geometry_rectangle_init( &destination, left, top, width, height );
-        pencil_diagram_painter_do_layout ( &((*this_).painter),
-                                           &((*this_).painter_input_data),
-                                           destination
-                                         );
         data_id_t mark_focused = gui_sketch_marker_get_focused( marker );
         data_id_t mark_highlighted = gui_sketch_marker_get_highlighted( marker );
         data_small_set_t *mark_selected_set = gui_sketch_marker_get_selected_set_ptr( marker );
@@ -68,7 +62,6 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
                                       mark_selected_set,
                                       cr
                                     );
-        geometry_rectangle_destroy( &destination );
     }
 
     TRACE_END();

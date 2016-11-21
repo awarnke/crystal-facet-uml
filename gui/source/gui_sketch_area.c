@@ -371,6 +371,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             }
 
             gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+            gui_sketch_card_do_layout( &((*this_).cards[card_idx]) );
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
         }
         else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE */
@@ -382,6 +383,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
                 shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
                 shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
                 gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+                gui_sketch_card_do_layout( &((*this_).cards[card_idx]) );
                 gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
             }
             else

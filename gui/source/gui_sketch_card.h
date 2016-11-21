@@ -150,6 +150,13 @@ static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sket
  */
 static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int32_t row_id, int32_t x_order, int32_t y_order );
 
+/*!
+ *  \brief lays out the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ );
+
 #include "gui_sketch_card.inl"
 
 #endif  /* GUI_SKETCH_CARD_H */
