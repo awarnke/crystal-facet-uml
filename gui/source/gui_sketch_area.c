@@ -145,7 +145,10 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     {
         shape_int_rectangle_t bounds;
         shape_int_rectangle_init( &bounds, 0, 0, width, height );
-        gui_sketch_area_private_layout_cards( this_, bounds );
+        if ( ! (*this_).mark_active )
+        {
+            gui_sketch_area_private_layout_cards( this_, bounds );
+        }
         gui_sketch_area_private_draw_cards( this_, bounds, cr );
     }
 
@@ -815,6 +818,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 break;
         }
+
+        /* mark dirty rect */
+        gtk_widget_queue_draw( widget );
     }
 
     TRACE_TIMESTAMP();

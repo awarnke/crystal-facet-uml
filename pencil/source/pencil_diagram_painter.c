@@ -393,8 +393,8 @@ universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_
     TRACE_BEGIN();
 
     universal_int32_pair_t result;
-    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x );
-    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y );
+    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 2.0 );
+    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 2.0 );
     universal_int32_pair_init( &result, x_order, y_order );
 
     TRACE_END();

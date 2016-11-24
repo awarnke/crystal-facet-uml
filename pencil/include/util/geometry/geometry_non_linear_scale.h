@@ -82,8 +82,9 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
  *
  *  \param this_ pointer to own object attributes
  *  \param location location for which the order shall be determined
+ *  \param snap_interval maximum distance from location to next point which snaps the location to the points location
  */
-static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location );
+static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location, double snap_interval );
 
 #include "util/geometry/geometry_non_linear_scale.inl"
 

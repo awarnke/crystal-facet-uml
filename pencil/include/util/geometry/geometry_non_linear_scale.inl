@@ -16,7 +16,7 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
 static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order )
 {
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
-    double result = (*this_).location[(*this_).num_points];
+    double result = (*this_).location[(*this_).num_points-1];
     bool found;
 
     found = false;
@@ -32,7 +32,7 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
         {
             found = true;
             double loc_interval_width = (*this_).location[pos] - (*this_).location[pos-1];
-            int32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
+            uint32_t ord_interval_width = (*this_).order[pos] - (*this_).order[pos-1];
             if ( ord_interval_width == 0 )
             {
                 result = (*this_).location[pos-1];  /* prevent division by zero */
@@ -56,10 +56,10 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
     return result;
 }
 
-static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location )
+static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location, double snap_interval )
 {
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
-    int32_t result = (*this_).order[(*this_).num_points];
+    int32_t result = (*this_).order[(*this_).num_points-1];
     bool found;
 
     found = false;
@@ -82,7 +82,7 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
             }
             else
             {
-                result = (*this_).order[pos-1] + (int32_t)(( ord_interval_width * ( location - (*this_).location[pos-1] )) / loc_interval_width);
+                result = (*this_).order[pos-1] + (int32_t)(( (double) ord_interval_width * ( location - (*this_).location[pos-1] )) / loc_interval_width);
             }
             TRACE_INFO_INT_INT( "interval id, width [i-1,i]:", pos, ord_interval_width );
             TRACE_INFO_INT_INT( "interval [i-1,i]:", (*this_).order[pos-1], (*this_).order[pos] );

@@ -55,11 +55,11 @@ static void test_scale_conversion(void)
 
     /* test get_order */
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1 );
+    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 2.0 );
 
     TEST_ASSERT( order < -1000000000 );
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0 );
+    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0, 2.0 );
 
     TEST_ASSERT( ( -100 < order ) && ( order < -80 ) );
 
