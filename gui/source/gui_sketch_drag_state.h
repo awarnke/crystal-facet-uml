@@ -20,6 +20,7 @@ struct gui_sketch_drag_state_struct {
     int32_t from_y;  /*!< y coordingate of the origin */
     int32_t to_x;  /*!< x coordingate of the destination */
     int32_t to_y;  /*!< y coordingate of the destination */
+    bool start_dragging_when_move;  /*!< true if dragging shall start when moving */
 };
 
 typedef struct gui_sketch_drag_state_struct gui_sketch_drag_state_t;
@@ -53,6 +54,13 @@ static inline bool gui_sketch_drag_state_is_dragging ( gui_sketch_drag_state_t *
  *  \param dragging true if an object is currently being dragged
  */
 static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t *this_, bool dragging );
+
+/*!
+ *  \brief sets the dragging attribute to true as soon as the to position has moved a small distance
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief gets the from_x attribute

@@ -117,14 +117,6 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
- *  \brief queues the currently marked widget area for redrawing
- *
- *  \param widget the GTK widget on which the current mark-area shall be invalidated
- *  \param this_ pointer to own object attributes
- */
-static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ );
-
-/*!
  *  \brief gets the currently selected diagram
  *
  *  \param this_ pointer to own object attributes

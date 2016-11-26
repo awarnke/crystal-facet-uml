@@ -3,35 +3,6 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
-{
-    gint left, right, top, bottom;
-    if ( gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ) )
-    {
-        left = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
-        right = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-    }
-    else
-    {
-        left = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-        right = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
-    }
-    if ( gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) )
-    {
-        top = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
-        bottom = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
-    }
-    else
-    {
-        top = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
-        bottom = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
-    }
-
-    /* mark dirty rect */
-    const double BORDER = 1.0;
-    gtk_widget_queue_draw_area( widget, left-BORDER, top-BORDER, right-left+BORDER+BORDER, bottom-top+BORDER+BORDER );
-}
-
 static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ )
 {
     gui_sketch_card_t *result_card;

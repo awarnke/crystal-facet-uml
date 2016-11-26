@@ -417,41 +417,6 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
         gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
     }
 
-    /* draw marking line */
-    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
-    {
-        gint left, right, top, bottom;
-        if ( gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ) )
-        {
-            left = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
-            right = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-        }
-        else
-        {
-            left = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
-            right = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
-        }
-        if ( gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) )
-        {
-            top = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
-            bottom = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
-        }
-        else
-        {
-            top = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
-            bottom = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
-        }
-        cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
-        cairo_rectangle ( cr, left, top, right-left, bottom-top );
-        cairo_fill (cr);
-
-        /* draw a line */
-        cairo_set_source_rgba( cr, 0.8, 0.8, 0.0, 1.0 );
-        cairo_move_to ( cr, gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ), gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) );
-        cairo_line_to ( cr, gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ), gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) );
-        cairo_stroke (cr);
-    }
-
     TRACE_END();
 }
 
@@ -486,26 +451,13 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     x = (int32_t) evt->x;
     y = (int32_t) evt->y;
     state = (GdkModifierType) evt->state;
-    bool dragging = false;
 
     TRACE_INFO_INT_INT( "x/y", x, y );
-
-    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
-    {
-        /* mark old area as dirty rect */
-        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
-
-        gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
-        dragging = true;
-
-        /* mark new area as dirty rect */
-        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
-    }
+    gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
     if ( (state & GDK_BUTTON1_MASK) != 0 )
     {
         TRACE_INFO( "GDK_BUTTON1_MASK" );
-        dragging = true;
     }
 
     /* do highlight */
@@ -533,7 +485,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             break;
         case GUI_SKETCH_TOOLS_EDIT:
             {
-                if ( dragging )
+                if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* what is dragged? */
                     data_id_t focused_real;
@@ -610,12 +562,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
-        gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), true );
         gui_sketch_drag_state_set_from ( &((*this_).drag_state), x, y );
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
-
-        /* mark dirty rect */
-        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
+        gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state) );
 
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
@@ -701,9 +650,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT("x/y",x,y);
 
-        /* mark dirty rect */
-        gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
-
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
         selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
@@ -718,39 +664,43 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 {
                     TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
 
-                    /* which object is selected? */
-                    data_id_t focused_visible;
-                    data_id_t focused_real;
-                    focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
-                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
-                    data_id_trace( &focused_visible );
-                    data_id_trace( &focused_real );
+                    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+                    {
 
-                    /* what is the target location? */
-                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                    if ( NULL == target )
-                    {
-                        TRACE_INFO_INT_INT("No card at",x,y);
-                    }
-                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
-                    {
-                        TRACE_INFO("Dragged object is no classifier");
-                    }
-                    else
-                    {
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-                        int32_t x_order = universal_int32_pair_get_first( &order );
-                        int32_t y_order = universal_int32_pair_get_second( &order );
-                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+                        /* which object is selected? */
+                        data_id_t focused_visible;
+                        data_id_t focused_real;
+                        focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
+                        focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                        data_id_trace( &focused_visible );
+                        data_id_trace( &focused_real );
 
-                        /* update db */
-                        ctrl_classifier_controller_t *classifier_control;
-                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                        ctrl_error_t mov_result;
-                        mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
-                                                                                                    data_id_get_row_id( &focused_real ),
-                                                                                                    x_order,
-                                                                                                    y_order );
+                        /* what is the target location? */
+                        gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                        if ( NULL == target )
+                        {
+                            TRACE_INFO_INT_INT("No card at",x,y);
+                        }
+                        else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
+                        {
+                            TRACE_INFO("Dragged object is no classifier");
+                        }
+                        else
+                        {
+                            universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                            int32_t x_order = universal_int32_pair_get_first( &order );
+                            int32_t y_order = universal_int32_pair_get_second( &order );
+                            TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                            /* update db */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            ctrl_error_t mov_result;
+                            mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
+                                                                                                        data_id_get_row_id( &focused_real ),
+                                                                                                        x_order,
+                                                                                                        y_order );
+                        }
                     }
                 }
                 break;
