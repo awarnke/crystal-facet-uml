@@ -38,6 +38,8 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
                                                                        int64_t diagram_id,
                                                                        data_classifier_type_t classifier_type,
                                                                        const char* classifier_name,
+                                                                       int32_t x_order,
+                                                                       int32_t y_order,
                                                                        int64_t* out_new_id )
 {
     TRACE_BEGIN();
@@ -48,7 +50,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
 
     /* create a classifier row */
 
-    data_result = data_classifier_init_new( &to_be_created, classifier_type, "", classifier_name, "", 0, 0 );
+    data_result = data_classifier_init_new( &to_be_created, classifier_type, "", classifier_name, "", x_order, y_order );
     result |= (ctrl_error_t) data_result;
 
     data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );

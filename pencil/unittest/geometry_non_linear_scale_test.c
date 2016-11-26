@@ -53,13 +53,19 @@ static void test_scale_conversion(void)
 
     TEST_ASSERT( ( +0.3 < location ) && ( location < +0.4 ) );
 
-    /* test get_order */
+    /* test get_order with snap */
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 2.0 );
+    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 0.1 );
 
-    TEST_ASSERT( order < -1000000000 );
+    TEST_ASSERT_EQUAL_INT( INT32_MIN, order );
 
-    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0, 2.0 );
+    /* test get_order without snap */
+
+    order = geometry_non_linear_scale_get_order ( &my_scale, -3.1, 0.01 );
+
+    TEST_ASSERT( ( INT32_MIN < order ) && ( order < -1000000000 ) );
+
+    order = geometry_non_linear_scale_get_order ( &my_scale, -1.0, 0.01 );
 
     TEST_ASSERT( ( -100 < order ) && ( order < -80 ) );
 

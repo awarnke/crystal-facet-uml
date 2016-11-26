@@ -93,6 +93,8 @@ static void undo_redo_classifier(void)
                                                                          root_diagram_id,
                                                                          DATA_CLASSIFIER_TYPE_UML_NODE,
                                                                          "my_node",
+                                                                         17,
+                                                                         1700,
                                                                          &classifier_id
                                                                        );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -163,8 +165,8 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_node", data_classifier_get_name_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( first_classifier ) );
-        TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_y_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 17, data_classifier_get_x_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 1700, data_classifier_get_y_order( first_classifier ) );
     }
 }
 

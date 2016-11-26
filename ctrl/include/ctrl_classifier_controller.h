@@ -65,6 +65,8 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *  \param diagram_id id of the diagram, to which to link the newly created classifier
  *  \param classifier_type main_type of the classifier to create
  *  \param classifier_name name of the classifier to create
+ *  \param x_order x_order value of the new classifier
+ *  \param y_order y_order value of the new classifier
  *  \param out_new_id id of the newly created classifier. Note: the id of the newly created diagramelement link is not provided.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
@@ -72,6 +74,8 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
                                                                        int64_t diagram_id,
                                                                        data_classifier_type_t classifier_type,
                                                                        const char* classifier_name,
+                                                                       int32_t x_order,
+                                                                       int32_t y_order,
                                                                        int64_t* out_new_id
                                                                      );
 

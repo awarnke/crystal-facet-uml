@@ -84,7 +84,13 @@ static void create_read_modify_read(void)
     /* create a record */
 
     classifier_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl, DIAGRAM_ID, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "my_component", &classifier_id );
+    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
+                                                                         DIAGRAM_ID,
+                                                                         DATA_CLASSIFIER_TYPE_UML_COMPONENT,
+                                                                         "my_component",
+                                                                         45,
+                                                                         4500,
+                                                                         &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
@@ -98,8 +104,8 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_stereotype_ptr( &read_classifier ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_component", data_classifier_get_name_ptr( &read_classifier ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( &read_classifier ) ) );
-    TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_x_order( &read_classifier ) );
-    TEST_ASSERT_EQUAL_INT( 0, data_classifier_get_y_order( &read_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 45, data_classifier_get_x_order( &read_classifier ) );
+    TEST_ASSERT_EQUAL_INT( 4500, data_classifier_get_y_order( &read_classifier ) );
 
     /* modify this record */
     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_new_stereotype" );
@@ -176,13 +182,22 @@ static void create_diagramelements_and_delete(void)
 
     /* create the root diagram */
     diagram_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, "root_diagram", &diagram_id );
+    ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl,
+                                                                           DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
+                                                                           "root_diagram",
+                                                                           &diagram_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
 
     /* create a classifier */
     classifier_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl, diagram_id, DATA_CLASSIFIER_TYPE_UML_INTERFACE, "my_if", &classifier_id );
+    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
+                                                                         diagram_id,
+                                                                         DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                                                         "my_if",
+                                                                         88,
+                                                                         8800,
+                                                                         &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 

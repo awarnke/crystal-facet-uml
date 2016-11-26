@@ -620,10 +620,47 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
+                {
+                    TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
+                }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
+                {
+                    TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
+
+                    /* what is the target location? */
+                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( NULL == target )
+                    {
+                        TRACE_INFO_INT_INT("No card at",x,y);
+                    }
+                    else
+                    {
+                        data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target );
+                        int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                        TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                        int32_t x_order = universal_int32_pair_get_first( &order );
+                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                        ctrl_classifier_controller_t *classifier_control;
+                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                        int64_t new_classifier_id;
+                        ctrl_error_t c_result;
+                        c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
+                                                                                             selected_diagram_id,
+                                                                                             DATA_CLASSIFIER_TYPE_BLOCK,
+                                                                                             "Hello World Block",
+                                                                                             x_order,
+                                                                                             y_order,
+                                                                                             &new_classifier_id );
+
+                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                    }
+                }
                 break;
             default:
                 TSLOG_ERROR( "selected_tool is out of range" );
@@ -740,19 +777,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
                 {
                     TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
-
-                    int64_t selected_diagram_id;
-                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                    ctrl_classifier_controller_t *classifier_control;
-                    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                    int64_t new_classifier_id;
-                    ctrl_error_t c_result;
-                    c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control, selected_diagram_id, DATA_CLASSIFIER_TYPE_BLOCK, "Hello World Block", &new_classifier_id );
-
-                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
                 }
                 break;
             default:

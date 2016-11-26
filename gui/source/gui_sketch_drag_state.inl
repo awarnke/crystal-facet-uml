@@ -62,8 +62,9 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
     (*this_).to_y = to_y;
     if ( (*this_).start_dragging_when_move )
     {
-        if ( ( (*this_).from_x + 2 < to_x ) || ( to_x < (*this_).from_x - 2 )
-            || ( (*this_).from_y + 2 < to_y ) || ( to_y < (*this_).from_y - 2 ) )
+        static const int ACTIVATION_BORDER = 2;
+        if ( ( (*this_).from_x + ACTIVATION_BORDER < to_x ) || ( to_x < (*this_).from_x - ACTIVATION_BORDER )
+            || ( (*this_).from_y + ACTIVATION_BORDER < to_y ) || ( to_y < (*this_).from_y - ACTIVATION_BORDER ) )
         {
             (*this_).dragging = true;
             (*this_).start_dragging_when_move = false;
