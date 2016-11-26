@@ -648,12 +648,16 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         ctrl_classifier_controller_t *classifier_control;
                         classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
+                        char* new_name;
+                        static char *(NAMES[8]) = {"off","on","debug","persistence","communication","boot loader","driver","application"};
+                        new_name = NAMES[(x+y)&0x07];
+
                         int64_t new_classifier_id;
                         ctrl_error_t c_result;
                         c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
                                                                                              selected_diagram_id,
                                                                                              DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                                             "Hello World Block",
+                                                                                             new_name,
                                                                                              x_order,
                                                                                              y_order,
                                                                                              &new_classifier_id );

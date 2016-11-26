@@ -74,8 +74,8 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
     double draw_width = geometry_rectangle_get_width ( &((*this_).diagram_draw_area) );
     double draw_height = geometry_rectangle_get_height ( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left + 0.1*draw_width, draw_right - 0.1*draw_width );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top +0.1*draw_height, draw_bottom - 0.1*draw_height );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left + 0.04*draw_width, draw_right - 0.04*draw_width );
+    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top +0.04*draw_height, draw_bottom - 0.04*draw_height );
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -101,14 +101,14 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     double classifier_area;
     if ( count > 0 )
     {
-        classifier_area = diagram_area / count * (0.23);
+        classifier_area = diagram_area / count * (0.10);
     }
     else
     {
-        classifier_area = diagram_area * (0.23);
+        classifier_area = diagram_area * (0.10);
     }
     double half_width = sqrt(classifier_area);
-    double half_height = half_width / 3.0;
+    double half_height = half_width / 2.1;
     geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
 
     TRACE_END();
