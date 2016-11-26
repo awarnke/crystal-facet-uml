@@ -18,6 +18,7 @@
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
 #include "gui_sketch_marker.h"
+#include "gui_sketch_drag_state.h"
 #include "gui_resources.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -42,11 +43,7 @@ struct gui_sketch_area_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_resources_t *res;  /*!< pointer to external resources */
 
-    bool mark_active;
-    int32_t mark_start_x;
-    int32_t mark_start_y;
-    int32_t mark_end_x;
-    int32_t mark_end_y;
+    gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
 
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */

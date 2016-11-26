@@ -27,7 +27,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 {
     TRACE_BEGIN();
 
-    (*this_).mark_active = false;
+    gui_sketch_drag_state_init ( &((*this_).drag_state) );
     (*this_).tools = tools;
     (*this_).res = res;
     (*this_).db_reader = db_reader;
@@ -85,6 +85,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     (*this_).res = NULL;
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
+    gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
 
     TRACE_END();
 }
@@ -145,7 +146,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     {
         shape_int_rectangle_t bounds;
         shape_int_rectangle_init( &bounds, 0, 0, width, height );
-        if ( ! (*this_).mark_active )
+        if ( ! gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
         {
             gui_sketch_area_private_layout_cards( this_, bounds );
         }
@@ -417,28 +418,28 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     }
 
     /* draw marking line */
-    if ( (*this_).mark_active )
+    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
     {
         gint left, right, top, bottom;
-        if ( (*this_).mark_start_x < (*this_).mark_end_x )
+        if ( gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ) )
         {
-            left = (*this_).mark_start_x;
-            right = (*this_).mark_end_x;
+            left = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
+            right = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
         }
         else
         {
-            left = (*this_).mark_end_x;
-            right = (*this_).mark_start_x;
+            left = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
+            right = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
         }
-        if ( (*this_).mark_start_y < (*this_).mark_end_y )
+        if ( gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) )
         {
-            top = (*this_).mark_start_y;
-            bottom = (*this_).mark_end_y;
+            top = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
+            bottom = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
         }
         else
         {
-            top = (*this_).mark_end_y;
-            bottom = (*this_).mark_start_y;
+            top = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
+            bottom = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
         }
         cairo_set_source_rgba( cr, 1.0, 1.0, 0.0, 0.5 );
         cairo_rectangle ( cr, left, top, right-left, bottom-top );
@@ -446,8 +447,8 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
 
         /* draw a line */
         cairo_set_source_rgba( cr, 0.8, 0.8, 0.0, 1.0 );
-        cairo_move_to ( cr, (*this_).mark_start_x, (*this_).mark_start_y );
-        cairo_line_to ( cr, (*this_).mark_end_x, (*this_).mark_end_y );
+        cairo_move_to ( cr, gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ), gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) );
+        cairo_line_to ( cr, gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ), gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) );
         cairo_stroke (cr);
     }
 
@@ -489,13 +490,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
     TRACE_INFO_INT_INT( "x/y", x, y );
 
-    if ( (*this_).mark_active )
+    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
     {
         /* mark old area as dirty rect */
         gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
-        (*this_).mark_end_x = x;
-        (*this_).mark_end_y = y;
+        gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
         dragging = true;
 
         /* mark new area as dirty rect */
@@ -610,11 +610,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
-        (*this_).mark_active = true;
-        (*this_).mark_start_x = x;
-        (*this_).mark_start_y = y;
-        (*this_).mark_end_x = x;
-        (*this_).mark_end_y = y;
+        gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), true );
+        gui_sketch_drag_state_set_from ( &((*this_).drag_state), x, y );
+        gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
         /* mark dirty rect */
         gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
@@ -703,8 +701,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT("x/y",x,y);
 
-        (*this_).mark_active = false;
-
         /* mark dirty rect */
         gui_sketch_area_private_queue_draw_mark_area( widget, this_ );
 
@@ -789,9 +785,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                     /* change the selected tool */
                     gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_CREATE_OBJECT );
-
-                    /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
                 }
                 break;
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
@@ -818,6 +811,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 break;
         }
+
+        /* stop dragging */
+        gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
 
         /* mark dirty rect */
         gtk_widget_queue_draw( widget );

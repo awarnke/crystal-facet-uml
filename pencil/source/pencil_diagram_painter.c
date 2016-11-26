@@ -72,8 +72,10 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     double draw_top = geometry_rectangle_get_top ( &((*this_).diagram_draw_area) );
     double draw_right = geometry_rectangle_get_right ( &((*this_).diagram_draw_area) );
     double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
+    double draw_width = geometry_rectangle_get_width ( &((*this_).diagram_draw_area) );
+    double draw_height = geometry_rectangle_get_height ( &((*this_).diagram_draw_area) );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left + 0.1*draw_width, draw_right - 0.1*draw_width );
+    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top +0.1*draw_height, draw_bottom - 0.1*draw_height );
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -99,14 +101,14 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     double classifier_area;
     if ( count > 0 )
     {
-        classifier_area = diagram_area / count * (3.0/8.0);
+        classifier_area = diagram_area / count * (0.23);
     }
     else
     {
-        classifier_area = diagram_area * (3.0/8.0);
+        classifier_area = diagram_area * (0.23);
     }
     double half_width = sqrt(classifier_area);
-    double half_height = half_width / 4.0;
+    double half_height = half_width / 3.0;
     geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
 
     TRACE_END();
@@ -393,8 +395,8 @@ universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_
     TRACE_BEGIN();
 
     universal_int32_pair_t result;
-    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 2.0 );
-    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 2.0 );
+    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 3.0 );
+    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 3.0 );
     universal_int32_pair_init( &result, x_order, y_order );
 
     TRACE_END();

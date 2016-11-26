@@ -6,25 +6,25 @@
 static inline void gui_sketch_area_private_queue_draw_mark_area( GtkWidget* widget, gui_sketch_area_t *this_ )
 {
     gint left, right, top, bottom;
-    if ( (*this_).mark_start_x < (*this_).mark_end_x )
+    if ( gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) ) )
     {
-        left = (*this_).mark_start_x;
-        right = (*this_).mark_end_x;
+        left = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
+        right = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
     }
     else
     {
-        left = (*this_).mark_end_x;
-        right = (*this_).mark_start_x;
+        left = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
+        right = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
     }
-    if ( (*this_).mark_start_y < (*this_).mark_end_y )
+    if ( gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) ) < gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) ) )
     {
-        top = (*this_).mark_start_y;
-        bottom = (*this_).mark_end_y;
+        top = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
+        bottom = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
     }
     else
     {
-        top = (*this_).mark_end_y;
-        bottom = (*this_).mark_start_y;
+        top = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
+        bottom = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
     }
 
     /* mark dirty rect */
