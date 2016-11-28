@@ -10,6 +10,7 @@
 void gui_file_manager_init ( gui_file_manager_t *this_,
                              ctrl_controller_t *controller,
                              data_database_t *database,
+                             data_database_reader_t *db_reader,
                              gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
@@ -19,6 +20,7 @@ void gui_file_manager_init ( gui_file_manager_t *this_,
 
     (*this_).controller = controller;
     (*this_).database = database;
+    (*this_).db_reader = db_reader;
     (*this_).message_to_user = message_to_user;
 
     TRACE_END();
@@ -30,6 +32,7 @@ void gui_file_manager_destroy( gui_file_manager_t *this_ )
 
     (*this_).controller = NULL;
     (*this_).database = NULL;
+    (*this_).db_reader = NULL;
     (*this_).message_to_user = NULL;
 
     TRACE_END();
@@ -171,6 +174,19 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
             TSLOG_ERROR( "unexpected response_id" );
         }
     }
+
+    data_error_t db_err;
+    data_small_set_t the_set;
+    data_small_set_init( &the_set );
+    db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, DATA_ID_VOID_ID, &the_set );
+    for ( uint32_t pos = 0; pos < data_small_set_get_count( &the_set ); pos ++ )
+    {
+        data_id_t probe;
+        probe = data_small_set_get_id( &the_set, pos );
+        data_id_trace( &probe );
+        data_id_destroy( &probe );
+    }
+    data_small_set_destroy( &the_set );
 
     TRACE_END();
 }

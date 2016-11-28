@@ -195,9 +195,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  NULL
     );
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1_sqlite3" );
-    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Filename Prefix",
+    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
                                                                  GTK_WINDOW( (*this_).window ),
-                                                                 GTK_FILE_CHOOSER_ACTION_SAVE,
+                                                                 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                                                  "Cancel",
                                                                  GTK_RESPONSE_CANCEL,
                                                                  "Export svg Files",
@@ -206,7 +206,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GUI_FILEMANAGER_CONST_EXPORT_PNG,
                                                                  NULL
     );
-    gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
+    gui_file_manager_init( &((*this_).file_manager), controller, database, db_reader, &((*this_).message_to_user) );
 
     TRACE_INFO("GTK+ Widgets are created.");
 

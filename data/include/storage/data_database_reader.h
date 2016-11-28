@@ -15,6 +15,7 @@
 #include "data_error.h"
 #include "data_classifier.h"
 #include "data_visible_classifier.h"
+#include "data_small_set.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -32,6 +33,7 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
+    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
     sqlite3_stmt *private_prepared_query_diagramelement_by_id;
@@ -88,7 +90,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \brief reads all child-diagrams from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent diagram
+ *  \param parent_id id of the parent diagram, DATA_ID_VOID_ID to get all root diagrams
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \param out_diagram_count number of diagram records stored in out_diagram
@@ -117,6 +119,19 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
                                                                   data_diagram_t (*out_diagram)[],
                                                                   uint32_t *out_diagram_count
                                                                 );
+
+/*!
+ *  \brief reads all child-diagram ids from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_id id of the parent diagram, DATA_ID_VOID_ID to get all root diagram ids
+ *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
+                                                                 int64_t parent_id,
+                                                                 data_small_set_t *out_diagram_ids
+                                                               );
 
 /*!
  *  \brief reads a classifier from the database

@@ -28,6 +28,7 @@ enum gui_file_manager_const_enum {
 struct gui_file_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
     data_database_t *database;  /*!< pointer to external data_database_t */
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 };
 
@@ -39,11 +40,13 @@ typedef struct gui_file_manager_struct gui_file_manager_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to the controller object to use
  *  \param database pointer to the database object to use
+ *  \param db_reader pointer to a database reader object
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_manager_init( gui_file_manager_t *this_,
                             ctrl_controller_t *controller,
                             data_database_t *database,
+                            data_database_reader_t *db_reader,
                             gui_simple_message_to_user_t *message_to_user
                           );
 
