@@ -10,7 +10,7 @@
  */
 
 /*!
- *  \brief database table in which an object is stored
+ *  \brief id for a database table in which an object is stored
  *
  *  A data_table_t and an id allow to uniquely specify any object in the database
  */

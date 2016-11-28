@@ -324,7 +324,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -345,7 +345,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
@@ -390,7 +390,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -416,7 +416,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
@@ -461,7 +461,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -487,7 +487,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
@@ -529,14 +529,13 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < DATA_SMALL_SET_MAX_SET_SIZE))
             {
                 data_id_t current_diag_id;
                 data_id_init( &current_diag_id, DATA_TABLE_DIAGRAM, sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ) );
-                data_id_trace( &current_diag_id );
                 result |= data_small_set_add_obj( out_diagram_ids, current_diag_id );
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
@@ -546,9 +545,10 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
+        data_small_set_trace( out_diagram_ids );
     }
     else
     {
@@ -582,7 +582,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -604,7 +604,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }
@@ -649,7 +649,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             sqlite_err = sqlite3_step( prepared_statement );
             if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
             {
-                TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
                 result |= DATA_ERROR_AT_DB;
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
@@ -691,7 +691,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if ( SQLITE_DONE == sqlite_err )
             {
-                TRACE_INFO( "sqlite3_step() finished: SQLITE_DONE" );
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
             }
         }
     }
@@ -727,7 +727,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step() did not find a row." );
+            TSLOG_ERROR( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -746,7 +746,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_DONE != sqlite_err )
         {
-            TSLOG_ERROR_INT( "sqlite3_step() failed:", sqlite_err );
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
     }

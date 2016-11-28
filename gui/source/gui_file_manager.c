@@ -132,10 +132,12 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
             TSLOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_PNG" );
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
-            TRACE_INFO_STR( "File chosen:", filename );
-            g_free (filename);
-
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            TRACE_INFO_STR( "File chosen:", filename );
+
+            gui_file_manager_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, filename );
+
+            g_free (filename);
 
             gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -150,10 +152,12 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
             TSLOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_SVG" );
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
-            TRACE_INFO_STR( "File chosen:", filename );
-            g_free (filename);
-
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            TRACE_INFO_STR( "File chosen:", filename );
+
+            gui_file_manager_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, filename );
+
+            g_free (filename);
 
             gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -175,6 +179,23 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
         }
     }
 
+    TRACE_END();
+}
+
+int gui_file_manager_private_export_image_files( gui_file_manager_t *this_,
+                                                 int64_t diagram_id,
+                                                 uint32_t max_recursion,
+                                                 gui_file_export_format_t export_type,
+                                                 const char* target_folder )
+{
+    TRACE_BEGIN();
+    int result = 0;
+
+
+    TRACE_INFO_STR( "target_folder chosen:", target_folder );
+
+
+
     data_error_t db_err;
     data_small_set_t the_set;
     data_small_set_init( &the_set );
@@ -188,7 +209,10 @@ void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response
     }
     data_small_set_destroy( &the_set );
 
-    TRACE_END();
+
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

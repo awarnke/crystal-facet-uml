@@ -134,6 +134,18 @@ static void create_read_modify_read(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "\"new\" diagram name", data_diagram_get_name_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "'new' diagram\ndescription", data_diagram_get_description_ptr( &(read_diagrams[0]) ) ) );
     TEST_ASSERT_EQUAL_INT( -4321, data_diagram_get_list_order( &(read_diagrams[0]) ) );
+
+    /* search several record ids to a result set */
+    data_small_set_t the_set;
+    data_small_set_init( &the_set );
+    data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader, PARENT_ID, &the_set );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &the_set ) );
+    /* check that new data is available */
+    data_id_t the_set_entry = data_small_set_get_id( &the_set, 0 );
+    TEST_ASSERT_EQUAL_INT( diagram_id, data_id_get_row_id( &the_set_entry ) );
+    TEST_ASSERT_EQUAL_INT( DATA_TABLE_DIAGRAM, data_id_get_table( &the_set_entry ) );
+    data_small_set_destroy( &the_set );
 }
 
 

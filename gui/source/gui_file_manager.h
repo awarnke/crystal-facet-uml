@@ -10,6 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
+#include "gui_file_export_format.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>
@@ -66,6 +67,21 @@ void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response
  *  \brief callback function of a GtkDialog
  */
 void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+
+/*!
+ *  \brief renders diagrams and exports these to picture files
+ *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
+ *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
+ *  \param export_type image file format
+ *  \param target_folder path name to a folder where to store the images
+ *  \result 0 in case of success, -1 otherwise
+ */
+int gui_file_manager_private_export_image_files( gui_file_manager_t *this_,
+                                                  int64_t diagram_id,
+                                                  uint32_t max_recursion,
+                                                  gui_file_export_format_t export_type,
+                                                  const char* target_folder
+                                               );
 
 #endif  /* GUI_FILE_MANAGER_H */
 
