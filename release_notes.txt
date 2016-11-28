@@ -1,3 +1,5 @@
+2016-xx-xx 0.08 [xxxxxxx]
+  + 
 2016-11-26 0.07 [874f539]
   + The user can move classifiers
 2016-10-06 0.06 [e2b0e01]

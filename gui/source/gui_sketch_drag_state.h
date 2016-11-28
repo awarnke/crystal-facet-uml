@@ -110,7 +110,7 @@ static inline int32_t gui_sketch_drag_state_get_to_y ( gui_sketch_drag_state_t *
  *  \param to_x x coordinate of the dragging destination
  *  \param to_y y coordinate of the dragging destination
  */
-static inline void gui_sketch_drag_state_set_from ( gui_sketch_drag_state_t *this_, int32_t to_x, int32_t to_y );
+static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_, int32_t to_x, int32_t to_y );
 
 
 #include "gui_sketch_drag_state.inl"

@@ -55,6 +55,11 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_INFO_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TRACE_OUT_STREAM,"%s%s %s\n",TRACE_INDENT_INFO,string_test,string2_test); }
 
 /*!
+ *  \brief traces a string and a double
+ */
+#define TRACE_INFO_FLT(x,r) { const char *string_test = x; const double real_test = r; fprintf(TRACE_OUT_STREAM,"%s%s %f\n",TRACE_INDENT_INFO,string_test,real_test); }
+
+/*!
  *  \brief traces a function start
  *
  *  Note: For every TRACE_BEGIN, one TRACE_END shall be called to create a nicely indented trace output

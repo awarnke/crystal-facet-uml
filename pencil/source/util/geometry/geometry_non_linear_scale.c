@@ -91,6 +91,17 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
         }
     }
 
+    /* check for monotonic increase of order values and location values */
+#ifndef NDEBUG
+    assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    assert( (*this_).num_points >= 2 );
+    for ( uint32_t pos2 = 1; pos2 < (*this_).num_points; pos2 ++ )
+    {
+        assert( (*this_).order[pos2-1] < (*this_).order[pos2] );
+        assert( (*this_).location[pos2-1]+0.000000001 < (*this_).location[pos2] );
+    }
+#endif
+
     TRACE_END();
 }
 
