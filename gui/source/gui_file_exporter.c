@@ -3,6 +3,7 @@
 #include "gui_file_exporter.h"
 #include "trace.h"
 #include <gtk/gtk.h>
+#include <cairo-svg.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -17,6 +18,11 @@ void gui_file_exporter_init ( gui_file_exporter_t *this_,
 
     (*this_).db_reader = db_reader;
     (*this_).message_to_user = message_to_user;
+    (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
+
+    geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
+    pencil_input_data_init( &((*this_).painter_input_data) );
+    pencil_diagram_painter_init( &((*this_).painter), &((*this_).painter_input_data) );
 
     TRACE_END();
 }
@@ -24,6 +30,10 @@ void gui_file_exporter_init ( gui_file_exporter_t *this_,
 void gui_file_exporter_destroy( gui_file_exporter_t *this_ )
 {
     TRACE_BEGIN();
+
+    pencil_diagram_painter_destroy( &((*this_).painter) );
+    pencil_input_data_destroy( &((*this_).painter_input_data) );
+    geometry_rectangle_destroy(&((*this_).bounds));
 
     (*this_).db_reader = NULL;
     (*this_).message_to_user = NULL;
@@ -35,6 +45,7 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
 {
     TRACE_BEGIN();
     gui_file_exporter_t *this_ = user_data;
+    int export_err;
 
     switch ( response_id )
     {
@@ -53,15 +64,18 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
             TRACE_INFO_STR( "File chosen:", filename );
 
-            gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, filename );
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, filename );
 
             g_free (filename);
 
-            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                                 "Export png"
-                                                               );
+            if ( 0 != export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                     "png"
+                                                                   );
+            }
         }
         break;
 
@@ -73,15 +87,18 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
             TRACE_INFO_STR( "File chosen:", filename );
 
-            gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, filename );
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, filename );
 
             g_free (filename);
 
-            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,
-                                                                 "Export svg"
-            );
+            if ( 0 != export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                     "svg"
+                                                                   );
+            }
         }
         break;
 
@@ -115,57 +132,187 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                  const char* target_folder )
 {
     TRACE_BEGIN();
+    assert( NULL != target_folder );
     int result = 0;
 
-
-    TRACE_INFO_STR( "target_folder chosen:", target_folder );
-
-
-
-    data_error_t db_err;
-    data_small_set_t the_set;
-    data_small_set_init( &the_set );
-    db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, DATA_ID_VOID_ID, &the_set );
-    for ( uint32_t pos = 0; pos < data_small_set_get_count( &the_set ); pos ++ )
+    /* draw current diagram */
+    if ( DATA_ID_VOID_ID != diagram_id )
     {
-        data_id_t probe;
-        probe = data_small_set_get_id( &the_set, pos );
-        data_id_trace( &probe );
-        data_id_destroy( &probe );
+        /* load data to be drawn */
+        pencil_input_data_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
+        data_diagram_t *diag_ptr;
+        diag_ptr = pencil_input_data_get_diagram_ptr ( &((*this_).painter_input_data) );
+        const char *diag_name;
+        diag_name = data_diagram_get_name_ptr( diag_ptr );
+
+        /* determine filename */
+        utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
+        utf8stringbuf_append_str( (*this_).temp_filename, "/" );
+        utf8stringbuf_append_int( (*this_).temp_filename, diagram_id );
+        utf8stringbuf_append_str( (*this_).temp_filename, "_" );
+        gui_file_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );
+        if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".svg" );
+        }
+        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".png" );
+        }
+        TRACE_INFO_STR( "target_file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+
+        /* create surface */
+        cairo_surface_t *surface;
+        if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
+        {
+            surface = (cairo_surface_t *) cairo_svg_surface_create( utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                                    geometry_rectangle_get_width( &((*this_).bounds) ),
+                                                                    geometry_rectangle_get_height( &((*this_).bounds) )
+                                                                  );
+        }
+        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        {
+            surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
+                                                  (uint32_t) geometry_rectangle_get_width( &((*this_).bounds) ),
+                                                  (uint32_t) geometry_rectangle_get_height( &((*this_).bounds) )
+                                                );
+        }
+
+        if ( CAIRO_STATUS_SUCCESS != cairo_surface_status( surface ) )
+        {
+            TSLOG_ERROR_INT( "surface could not be created", cairo_surface_status( surface ) );
+            result = -1;
+        }
+        else
+        {
+            cairo_t *cr;
+            cr = cairo_create (surface);
+
+            /* draw diagram */
+            /* draw paper */
+            cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
+            cairo_rectangle ( cr,
+                            geometry_rectangle_get_left( &((*this_).bounds) ),
+                            geometry_rectangle_get_top( &((*this_).bounds) ),
+                            geometry_rectangle_get_width( &((*this_).bounds) ),
+                            geometry_rectangle_get_height( &((*this_).bounds) )
+                            );
+            cairo_fill (cr);
+
+            /* layout diagram */
+            pencil_diagram_painter_do_layout ( &((*this_).painter),
+                                               &((*this_).painter_input_data),
+                                               (*this_).bounds
+            );
+
+            /* draw the current diagram */
+            data_id_t void_id;
+            data_id_init_void( &void_id );
+            data_small_set_t void_set;
+            data_small_set_init( &void_set );
+            pencil_diagram_painter_draw ( &((*this_).painter),
+                                        void_id,
+                                        void_id,
+                                        &void_set,
+                                        cr
+            );
+
+            /* finish surface */
+            cairo_destroy (cr);
+        }
+
+        if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
+        {
+            cairo_surface_finish ( surface );
+        }
+        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        {
+            cairo_status_t png_result;
+            png_result = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( (*this_).temp_filename ) );
+            if ( CAIRO_STATUS_SUCCESS != png_result )
+            {
+                TSLOG_ERROR("error writing png.");
+                result = -1;
+            }
+        }
+        cairo_surface_destroy ( surface );
     }
-    data_small_set_destroy( &the_set );
 
+    /* recursive calls of children */
+    if ( max_recursion > 0 )
+    {
+        data_error_t db_err;
+        data_small_set_t the_set;
+        data_small_set_init( &the_set );
+        db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_id, &the_set );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            TSLOG_ERROR("error reading database.");
+            result = -1;
+        }
+        else
+        {
+            for ( uint32_t pos = 0; pos < data_small_set_get_count( &the_set ); pos ++ )
+            {
+                data_id_t probe;
+                probe = data_small_set_get_id( &the_set, pos );
+                int64_t probe_row_id;
+                probe_row_id = data_id_get_row_id( &probe );
 
-    /*
-     *
-       cairo_status_t
-       cairo_surface_write_to_png (cairo_surface_t *surfa*ce,
-       const char *filename);
+                result |= gui_file_exporter_private_export_image_files( this_, probe_row_id, max_recursion-1, export_type, target_folder );
 
-
-       cairo_surface_t *surface;
-       cairo_t *cr;
-       surface = cairo_image_surface_create (CAIRO_FORMAT_ARGB32, 240, 80);
-       cr = cairo_create (surface);
-       cairo_set_font_size (cr, 32.0);
-       cairo_set_source_rgb (cr, 0.0, 0.0, 1.0);
-       cairo_move_to (cr, 10.0, 50.0);
-       cairo_show_text (cr, "Hello, world");
-       cairo_destroy (cr);
-       cairo_surface_write_to_png (surface, "hello.png");
-       cairo_surface_destroy (surface);
-
-
-
-       cairo_surface_t *
-       cairo_svg_surface_create (const char *filename,
-       double width_in_points,
-       double height_in_points);
-     */
-
+                data_id_destroy( &probe );
+            }
+        }
+        data_small_set_destroy( &the_set );
+    }
 
     TRACE_END_ERR( result );
     return result;
+}
+
+void gui_file_exporter_private_append_valid_chars_to_filename( gui_file_exporter_t *this_, const char* name, utf8stringbuf_t filename )
+{
+    TRACE_BEGIN();
+    assert( NULL != name );
+    TRACE_INFO_STR( "name:", name );
+
+    bool finished = false;
+    static const int MAX_APPEND_CHARS = 64;
+    for ( int pos = 0; ( pos < MAX_APPEND_CHARS ) && ( ! finished ); pos ++ )
+    {
+        char probe = name[pos];
+        if ( probe == '\0' )
+        {
+            finished = true;
+        }
+        else if (( 'A' <= probe ) && ( probe <= 'Z' ))
+        {
+            utf8stringbuf_append_char( filename, probe );
+        }
+        else if (( 'a' <= probe ) && ( probe <= 'z' ))
+        {
+            utf8stringbuf_append_char( filename, probe );
+        }
+        else if (( '0' <= probe ) && ( probe <= '9' ))
+        {
+            utf8stringbuf_append_char( filename, probe );
+        }
+        else if ( '-' == probe )
+        {
+            utf8stringbuf_append_char( filename, probe );
+        }
+        else if ( '_' == probe )
+        {
+            utf8stringbuf_append_char( filename, probe );
+        }
+        else if ( ' ' == probe )
+        {
+            utf8stringbuf_append_char( filename, '_' );
+        }
+    }
+
+    TRACE_END();
 }
 
 
