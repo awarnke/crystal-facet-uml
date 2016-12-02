@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Switches the currently used database, exports all diagrams
+ *  \brief Switches the currently used database
  */
 
 #include "gui_simple_message_to_user.h"
@@ -16,20 +16,11 @@
 #include <gtk/gtk.h>
 
 /*!
- *  \brief constants of gui_file_manager_t
- */
-enum gui_file_manager_const_enum {
-    GUI_FILEMANAGER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
-    GUI_FILEMANAGER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
-};
-
-/*!
  *  \brief attributes of the file manager
  */
 struct gui_file_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
     data_database_t *database;  /*!< pointer to external data_database_t */
-    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 };
 
@@ -41,13 +32,11 @@ typedef struct gui_file_manager_struct gui_file_manager_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to the controller object to use
  *  \param database pointer to the database object to use
- *  \param db_reader pointer to a database reader object
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_manager_init( gui_file_manager_t *this_,
                             ctrl_controller_t *controller,
                             data_database_t *database,
-                            data_database_reader_t *db_reader,
                             gui_simple_message_to_user_t *message_to_user
                           );
 
@@ -62,26 +51,6 @@ void gui_file_manager_destroy( gui_file_manager_t *this_ );
  *  \brief callback function of a GtkDialog
  */
 void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
-
-/*!
- *  \brief callback function of a GtkDialog
- */
-void gui_file_manager_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
-
-/*!
- *  \brief renders diagrams and exports these to picture files
- *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
- *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
- *  \param export_type image file format
- *  \param target_folder path name to a folder where to store the images
- *  \result 0 in case of success, -1 otherwise
- */
-int gui_file_manager_private_export_image_files( gui_file_manager_t *this_,
-                                                  int64_t diagram_id,
-                                                  uint32_t max_recursion,
-                                                  gui_file_export_format_t export_type,
-                                                  const char* target_folder
-                                               );
 
 #endif  /* GUI_FILE_MANAGER_H */
 

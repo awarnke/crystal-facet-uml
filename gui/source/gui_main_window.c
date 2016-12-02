@@ -195,6 +195,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  NULL
     );
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1_sqlite3" );
+    gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
+
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
                                                                  GTK_WINDOW( (*this_).window ),
                                                                  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
@@ -206,7 +208,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GUI_FILEMANAGER_CONST_EXPORT_PNG,
                                                                  NULL
     );
-    gui_file_manager_init( &((*this_).file_manager), controller, database, db_reader, &((*this_).message_to_user) );
+    gui_file_exporter_init( &((*this_).file_exporter), db_reader, &((*this_).message_to_user) );
 
     TRACE_INFO("GTK+ Widgets are created.");
 
@@ -277,7 +279,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_manager_use_db_response_callback), &((*this_).file_manager) );
-    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_manager_export_response_callback), &((*this_).file_manager) );
+    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_exporter_export_response_callback), &((*this_).file_exporter) );
     g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
     g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 
@@ -334,6 +336,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_marker_destroy( &((*this_).sketchmarker_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_file_manager_destroy( &((*this_).file_manager) );
+    gui_file_exporter_destroy( &((*this_).file_exporter) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).database = NULL;
 
