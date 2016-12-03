@@ -2,6 +2,7 @@
 
 #include "gui_file_exporter.h"
 #include "trace.h"
+#include "tslog.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
 #include <stdio.h>
@@ -159,7 +160,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".png" );
         }
-        TRACE_INFO_STR( "target_file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
+        TSLOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
         /* create surface */
         cairo_surface_t *surface;
