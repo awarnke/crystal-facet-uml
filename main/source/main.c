@@ -30,14 +30,25 @@ int main (int argc, char *argv[]) {
     /* handle options */
     if ( argc == 2 )
     {
-        if ( utf8string_starts_with_str( argv[1], "-" ) )
+        if ( utf8string_equals_str( argv[1], "-h" ) )
         {
-            fprintf( stdout, "\nUsage: %s database_file\n", argv[0] );
+            fprintf( stdout, "\nUsage:\n" );
+            fprintf( stdout, "    %s -h for help\n", argv[0] );
+            fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
+            fprintf( stdout, "    %s -r <database_file> to check and repair the database file\n", argv[0] );
             do_not_start = true;
         }
-        else
+    }
+    if ( argc == 3 )
+    {
+        if ( utf8string_equals_str( argv[1], "-r" ) )
         {
-            database_file = argv[1];
+            database_file = argv[2];
+            do_not_start = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-u" ) )
+        {
+            database_file = argv[2];
         }
     }
 
