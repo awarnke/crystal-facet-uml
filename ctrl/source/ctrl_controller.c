@@ -15,6 +15,7 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     ctrl_undo_redo_list_init ( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
     ctrl_classifier_controller_init ( &((*this_).classifiers), &((*this_).undo_redo_list), database, &((*this_).db_reader), &((*this_).db_writer) );
     ctrl_diagram_controller_init ( &((*this_).diagrams), &((*this_).undo_redo_list), database, &((*this_).db_reader), &((*this_).db_writer) );
+    ctrl_consistency_checker_init ( &((*this_).consistency_checker), &((*this_).db_reader), &((*this_).db_writer) );
 
     TRACE_END();
 }
@@ -24,6 +25,7 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     TRACE_BEGIN();
 
     /* destroy member attributes */
+    ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     ctrl_diagram_controller_destroy ( &((*this_).diagrams) );
     ctrl_classifier_controller_destroy ( &((*this_).classifiers) );
     ctrl_undo_redo_list_destroy ( &((*this_).undo_redo_list) );

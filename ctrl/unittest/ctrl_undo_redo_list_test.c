@@ -74,8 +74,6 @@ static void undo_redo_classifier(void)
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     ctrl_classifier_controller_t *classifier_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    ctrl_undo_redo_list_t *undo_redo;
-    undo_redo = ctrl_controller_get_undo_redo_list_ptr ( &controller );
 
     /* create the root diagram */
     root_diagram_id = DATA_ID_VOID_ID;
@@ -105,11 +103,11 @@ static void undo_redo_classifier(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo classifier update */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo classifier and diagramelement creation */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     {
         uint32_t read_vis_classifiers_count;
@@ -121,7 +119,7 @@ static void undo_redo_classifier(void)
     }
 
     /* undo root diagram creation */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     {
         data_diagram_t read_diagram;
@@ -130,7 +128,7 @@ static void undo_redo_classifier(void)
     }
 
     /* redo root diagram creation */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     {
         data_diagram_t read_diagram;
@@ -145,11 +143,11 @@ static void undo_redo_classifier(void)
     }
 
     /* redo classifier and diagramelement creation */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* redo classifier update */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     {
         uint32_t read_vis_classifiers_count;
@@ -179,8 +177,6 @@ static void undo_redo_list_limits(void)
     int64_t child_diag_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
-    ctrl_undo_redo_list_t *undo_redo;
-    undo_redo = ctrl_controller_get_undo_redo_list_ptr ( &controller );
 
     /* create the root diagram */
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diag_ctrl,
@@ -191,19 +187,19 @@ static void undo_redo_list_limits(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo root diagram creation */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* undo at start of list */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
 
     /* redo root diagram creation */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* redo at end of list */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
 
     /* fill the list by creating classifiers and diagramelements */
@@ -229,16 +225,16 @@ static void undo_redo_list_limits(void)
     /* undo everything that is possible */
     for ( int32_t pos = 0; pos < (CTRL_UNDO_REDO_LIST_MAX_SIZE-0/*first boundary is overwritten*/-2/*diagram and boundary*/)/2/*list entries per diagram*/; pos ++ )
     {
-        ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+        ctrl_err = ctrl_controller_undo ( &controller );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }
 
     /* undo one more */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
 
     /* redo one */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* create a new diagram somewhere in the middle of the list */
@@ -250,18 +246,18 @@ static void undo_redo_list_limits(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* redo one but already at end of the list */
-    ctrl_err = ctrl_undo_redo_list_redo ( undo_redo );
+    ctrl_err = ctrl_controller_redo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
 
     /* undo 2 existing and one not existing */
     /* undo one more */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     /* undo one more */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     /* undo one more */
-    ctrl_err = ctrl_undo_redo_list_undo ( undo_redo );
+    ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
 }
 

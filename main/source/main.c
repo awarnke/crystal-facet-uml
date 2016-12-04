@@ -26,6 +26,8 @@ int main (int argc, char *argv[]) {
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
     char *database_file = NULL;
     bool do_not_start = false;
+    bool do_repair = false;
+    bool do_check = false;
 
     /* handle options */
     if ( argc == 2 )
@@ -35,6 +37,7 @@ int main (int argc, char *argv[]) {
             fprintf( stdout, "\nUsage:\n" );
             fprintf( stdout, "    %s -h for help\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
+            fprintf( stdout, "    %s -c <database_file> to check the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to check and repair the database file\n", argv[0] );
             do_not_start = true;
         }
@@ -45,11 +48,40 @@ int main (int argc, char *argv[]) {
         {
             database_file = argv[2];
             do_not_start = true;
+            do_repair = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-c" ) )
+        {
+            database_file = argv[2];
+            do_not_start = true;
+            do_check = true;
         }
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
             database_file = argv[2];
         }
+    }
+
+    /* repair database */
+    if ( do_repair || do_check )
+    {
+        TRACE_INFO("starting DB...");
+        data_database_init( &database );
+        data_database_open( &database, database_file );
+
+        TRACE_INFO("initializing controller...");
+        ctrl_controller_init( &controller, &database );
+
+        TRACE_INFO("reparing/checking...");
+        ctrl_controller_repair_database( &controller, do_repair );
+        TRACE_INFO("reparing/checking finished.");
+
+        TRACE_INFO("destroying controller...");
+        ctrl_controller_destroy( &controller );
+
+        TRACE_INFO("stopping DB...");
+        data_database_close( &database );
+        data_database_destroy( &database );
     }
 
     /* run program */

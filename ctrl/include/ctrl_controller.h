@@ -27,6 +27,7 @@ struct ctrl_controller_struct {
     data_database_writer_t db_writer;  /*!< own instance of a database writer */
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
+    ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;
@@ -61,11 +62,23 @@ static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_contr
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 
 /*!
- *  \brief gets the undo redo list
+ *  \brief un-does a set of actions.
  *
  *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
+ *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
+ *          CTRL_ERROR_NONE otherwise.
  */
-static inline ctrl_undo_redo_list_t *ctrl_controller_get_undo_redo_list_ptr ( ctrl_controller_t *this_ );
+static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_ );
+
+/*!
+ *  \brief re-does a set of actions.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
+ *          CTRL_ERROR_NONE otherwise.
+ */
+static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ );
 
 /*!
  *  \brief switches the currently used database file
@@ -74,6 +87,17 @@ static inline ctrl_undo_redo_list_t *ctrl_controller_get_undo_redo_list_ptr ( ct
  *  \param db_file_path file name of the new database to be used
  */
 ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
+
+/*!
+ *  \brief checks and repairs the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_, bool modify_db );
 
 #include "ctrl_controller.inl"
 

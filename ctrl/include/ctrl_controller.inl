@@ -10,9 +10,19 @@ static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr
     return &((*this_).diagrams);
 }
 
-static inline ctrl_undo_redo_list_t *ctrl_controller_get_undo_redo_list_ptr ( ctrl_controller_t *this_ )
+static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_ )
 {
-    return &((*this_).undo_redo_list);
+    return ctrl_undo_redo_list_undo( &((*this_).undo_redo_list) );
+}
+
+static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ )
+{
+    return ctrl_undo_redo_list_redo( &((*this_).undo_redo_list) );
+}
+
+static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_, bool modify_db )
+{
+    return ctrl_consistency_checker_repair_database( &((*this_).consistency_checker), modify_db );
 }
 
 /*

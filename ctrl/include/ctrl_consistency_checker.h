@@ -6,7 +6,15 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Performs all consistency checks in the database
+ *  \brief Performs consistency checks in the database
+ *
+ *  References shall be valid: diagramelements.diagram_id, diagramelements.classifier_id, diagrams.parent_id,
+ *                             features.classifier_id, relationships.from_classifier_id, relationships.to_classifier_id.
+ *  Objects shall be linked: classifiers shall be referenced by diagrams
+ *  Circular link structures are forbidden in: diagrams.parent_id.
+ *  Names shall be unique: classifiers.name, features.key.
+ *  Enumerations shall be valid constants: classifiers.main_type, relationships.main_type, features.main_type,
+ *                                         diagrams.diagram_type, diagramelements.display_flags.
  */
 
 #include "ctrl_error.h"
@@ -17,7 +25,7 @@
 #include <stdint.h>
 
 /*!
- *  \brief all data attributes needed for the diagram functions
+ *  \brief data attributes needed for the consistency functions
  */
 struct ctrl_consistency_checker_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
@@ -41,6 +49,39 @@ void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_dat
  *  \param this_ pointer to own object attributes
  */
 void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
+
+/*!
+ *  \brief checks and repairs the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db );
+
+/*!
+ *  \brief checks if a given classifier name is not yet existant in the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_name new classifier name
+ *  \return CTRL_ERROR_NONE if the name is unique,
+ *          CTRL_ERROR_DUPLICATE_NAME if the name already exists
+ *          CTRL_ERROR_NO_DB if database not open/loaded
+ */
+ctrl_error_t ctrl_consistency_checker_is_classifier_name_unique ( ctrl_consistency_checker_t *this_, const char* classifier_name );
+
+/*!
+ *  \brief proposes an alternative classifier name that is not yet existant in the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_name new classifier name which might not be unique
+ *  \param result unique classifier name
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded
+ */
+ctrl_error_t ctrl_consistency_checker_propose_unique_classifier_name ( ctrl_consistency_checker_t* *this_, const char* classifier_name, utf8stringbuf_t result );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

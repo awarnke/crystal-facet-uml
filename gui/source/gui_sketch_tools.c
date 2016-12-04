@@ -626,12 +626,10 @@ void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
-    ctrl_undo_redo_list_t *undo_redo_list;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    undo_redo_list = ctrl_controller_get_undo_redo_list_ptr ( (*this_).controller );
-    ctrl_err = ctrl_undo_redo_list_undo( undo_redo_list );
+    ctrl_err = ctrl_controller_undo( (*this_).controller );
     if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
@@ -660,12 +658,10 @@ void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
-    ctrl_undo_redo_list_t *undo_redo_list;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    undo_redo_list = ctrl_controller_get_undo_redo_list_ptr ( (*this_).controller );
-    ctrl_err = ctrl_undo_redo_list_redo( undo_redo_list );
+    ctrl_err = ctrl_controller_redo( (*this_).controller );
     if ( CTRL_ERROR_INVALID_REQUEST == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
