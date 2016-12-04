@@ -8,13 +8,26 @@
  *  \file
  *  \brief Performs consistency checks in the database
  *
- *  References shall be valid: diagramelements.diagram_id, diagramelements.classifier_id, diagrams.parent_id,
- *                             features.classifier_id, relationships.from_classifier_id, relationships.to_classifier_id.
- *  Objects shall be linked: classifiers shall be referenced by diagrams
- *  Circular link structures are forbidden in: diagrams.parent_id.
- *  Names shall be unique: classifiers.name, features.key.
- *  Enumerations shall be valid constants: classifiers.main_type, relationships.main_type, features.main_type,
- *                                         diagrams.diagram_type, diagramelements.display_flags.
+ *  - References shall be valid:
+ *      - diagramelements.diagram_id,
+ *      - diagramelements.classifier_id,
+ *      - diagrams.parent_id,
+ *      - features.classifier_id,
+ *      - relationships.from_classifier_id,
+ *      - relationships.to_classifier_id.
+ *  - Objects shall be linked:
+ *      - classifiers shall be referenced by diagrams
+ *  - Circular link structures are forbidden in:
+ *      - diagrams.parent_id.
+ *  - Names shall be unique:
+ *      - classifiers.name,
+ *      - features.key.
+ *  - Enumerations shall be valid constants:
+ *      - classifiers.main_type,
+ *      - relationships.main_type,
+ *      - features.main_type,
+ *      - diagrams.diagram_type,
+ *      - diagramelements.display_flags.
  */
 
 #include "ctrl_error.h"

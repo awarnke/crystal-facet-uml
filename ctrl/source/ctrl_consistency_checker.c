@@ -27,13 +27,22 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
     TRACE_END();
 }
 
+/*
+ *  \brief checks and repairs the database
+ *
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
 ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db )
 {
     TRACE_BEGIN();
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
 
     TSLOG_ERROR( "not yet implemented" );
 
-    TRACE_END();
+    TRACE_END_ERR( err_result );
 }
 
 /*
@@ -47,10 +56,11 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
 ctrl_error_t ctrl_consistency_checker_is_classifier_name_unique ( ctrl_consistency_checker_t *this_, const char* classifier_name )
 {
     TRACE_BEGIN();
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
 
     TSLOG_ERROR( "not yet implemented" );
 
-    TRACE_END();
+    TRACE_END_ERR( err_result );
 }
 
 /*
@@ -64,10 +74,11 @@ ctrl_error_t ctrl_consistency_checker_is_classifier_name_unique ( ctrl_consisten
 ctrl_error_t ctrl_consistency_checker_propose_unique_classifier_name ( ctrl_consistency_checker_t* *this_, const char* classifier_name, utf8stringbuf_t result )
 {
     TRACE_BEGIN();
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
 
     TSLOG_ERROR( "not yet implemented" );
 
-    TRACE_END();
+    TRACE_END_ERR( err_result );
 }
 
 
