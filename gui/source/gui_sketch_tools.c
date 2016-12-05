@@ -462,7 +462,17 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
                                                                                                 ! is_first,
                                                                                                 &the_classifier_id
                                     );
-                                    if ( CTRL_ERROR_NONE != write_error )
+                                    if ( CTRL_ERROR_DUPLICATE_NAME == write_error )
+                                    {
+                                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                             data_classifier_get_name_ptr( &new_classifier )
+                                        );
+                                        set_end = true;
+                                        parse_error = DATA_ERROR_DUPLICATE_NAME;
+                                    }
+                                    else if ( CTRL_ERROR_NONE != write_error )
                                     {
                                         TSLOG_ERROR( "unexpected error" );
                                         set_end = true;
@@ -557,7 +567,11 @@ void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *thi
 
     data_json_deserializer_destroy( &deserializer );
 
-    if ( DATA_ERROR_NONE != parse_error )
+    if ( DATA_ERROR_DUPLICATE_NAME == parse_error )
+    {
+        /* error message is already displayed */
+    }
+    else if ( DATA_ERROR_NONE != parse_error )
     {
         uint32_t read_pos;
         data_json_deserializer_get_read_pos ( &deserializer, &read_pos );

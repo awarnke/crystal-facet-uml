@@ -20,6 +20,7 @@
 #include "gui_sketch_marker.h"
 #include "gui_sketch_drag_state.h"
 #include "gui_resources.h"
+#include "gui_simple_message_to_user.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -42,11 +43,10 @@ struct gui_sketch_area_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_resources_t *res;  /*!< pointer to external resources */
-
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
-
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
     int32_t card_num;
@@ -65,6 +65,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param this_ pointer to own object attributes
  *  \param marker pointer to an object which references all focused, highlichted and selected ojects
  *  \param tools pointer to an object which represents the tool buttons
+ *  \param message_to_user pointer to an object that can show a message to the user
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
  *  \param res pointer to a resource provider
@@ -72,6 +73,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             gui_sketch_marker_t *marker,
                             gui_sketch_tools_t *tools,
+                            gui_simple_message_to_user_t *message_to_user,
                             gui_resources_t *res,
                             ctrl_controller_t *controller,
                             data_database_reader_t *db_reader

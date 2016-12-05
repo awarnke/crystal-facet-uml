@@ -163,7 +163,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( (*this_).sketcharea, TRUE);
     gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
     /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
-    gui_sketch_area_init( &((*this_).sketcharea_data), &((*this_).sketchmarker_data), &((*this_).sketchtools_data), res, controller, db_reader );
+    gui_sketch_area_init( &((*this_).sketcharea_data),
+                          &((*this_).sketchmarker_data),
+                          &((*this_).sketchtools_data),
+                          &((*this_).message_to_user),
+                          res,
+                          controller,
+                          db_reader
+                        );
 
     /* init text edit widgets */
 

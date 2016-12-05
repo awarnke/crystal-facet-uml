@@ -157,7 +157,15 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                     class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                     ctrl_err = ctrl_classifier_controller_update_classifier_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                    if ( CTRL_ERROR_NONE != ctrl_err )
+                    if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
+                    {
+                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                             text
+                        );
+                    }
+                    else if ( CTRL_ERROR_NONE != ctrl_err )
                     {
                         TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                     }

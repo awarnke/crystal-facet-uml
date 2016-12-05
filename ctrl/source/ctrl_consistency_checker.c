@@ -45,42 +45,6 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     TRACE_END_ERR( err_result );
 }
 
-/*
- *  \brief checks if a given classifier name is not yet existant in the database
- *
- *  \param classifier_name new classifier name
- *  \return CTRL_ERROR_NONE if the name is unique,
- *          CTRL_ERROR_DUPLICATE_NAME if the name already exists
- *          CTRL_ERROR_NO_DB if database not open/loaded
- */
-ctrl_error_t ctrl_consistency_checker_is_classifier_name_unique ( ctrl_consistency_checker_t *this_, const char* classifier_name )
-{
-    TRACE_BEGIN();
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-
-    TSLOG_ERROR( "not yet implemented" );
-
-    TRACE_END_ERR( err_result );
-}
-
-/*
- *  \brief proposes an alternative classifier name that is not yet existant in the database
- *
- *  \param classifier_name new classifier name which might not be unique
- *  \param result unique classifier name
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded
- */
-ctrl_error_t ctrl_consistency_checker_propose_unique_classifier_name ( ctrl_consistency_checker_t* *this_, const char* classifier_name, utf8stringbuf_t result )
-{
-    TRACE_BEGIN();
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-
-    TSLOG_ERROR( "not yet implemented" );
-
-    TRACE_END_ERR( err_result );
-}
-
 
 /*
 Copyright 2016-2016 Andreas Warnke

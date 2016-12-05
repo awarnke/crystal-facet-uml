@@ -21,6 +21,7 @@ const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 void gui_sketch_area_init( gui_sketch_area_t *this_,
                            gui_sketch_marker_t *marker,
                            gui_sketch_tools_t *tools,
+                           gui_simple_message_to_user_t *message_to_user,
                            gui_resources_t *res,
                            ctrl_controller_t *controller,
                            data_database_reader_t *db_reader )
@@ -29,6 +30,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
     (*this_).tools = tools;
+    (*this_).message_to_user = message_to_user;
     (*this_).res = res;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
@@ -82,6 +84,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 
     (*this_).marker = NULL;
     (*this_).tools = NULL;
+    (*this_).message_to_user = NULL;
     (*this_).res = NULL;
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -648,19 +651,30 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         ctrl_classifier_controller_t *classifier_control;
                         classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                        char* new_name;
-                        static char *(NAMES[8]) = {"off","on","debug","persistence","communication","boot loader","driver","application"};
-                        new_name = NAMES[(x+y)&0x07];
+                        static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
+                        static uint8_t my_counter = 0;
+                        char newname_buf[24];
+                        utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+                        utf8stringbuf_copy_str( full_new_name, NAMES[(x+y)&0x07] );
+                        utf8stringbuf_append_int( full_new_name, my_counter++ );
 
                         int64_t new_classifier_id;
                         ctrl_error_t c_result;
                         c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
                                                                                              selected_diagram_id,
                                                                                              DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                                             new_name,
+                                                                                             utf8stringbuf_get_string( full_new_name ),
                                                                                              x_order,
                                                                                              y_order,
                                                                                              &new_classifier_id );
+                        if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                        {
+                            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                 utf8stringbuf_get_string( full_new_name )
+                            );
+                        }
 
                         TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
                     }

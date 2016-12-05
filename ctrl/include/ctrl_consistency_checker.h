@@ -20,8 +20,8 @@
  *  - Circular link structures are forbidden in:
  *      - diagrams.parent_id.
  *  - Names shall be unique:
- *      - classifiers.name,
- *      - features.key.
+ *      - classifiers.name (checked by DB-contraint),
+ *      - features.key (checked by DB-contraint).
  *  - Enumerations shall be valid constants:
  *      - classifiers.main_type,
  *      - relationships.main_type,
@@ -73,28 +73,6 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
 ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db );
-
-/*!
- *  \brief checks if a given classifier name is not yet existant in the database
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_name new classifier name
- *  \return CTRL_ERROR_NONE if the name is unique,
- *          CTRL_ERROR_DUPLICATE_NAME if the name already exists
- *          CTRL_ERROR_NO_DB if database not open/loaded
- */
-ctrl_error_t ctrl_consistency_checker_is_classifier_name_unique ( ctrl_consistency_checker_t *this_, const char* classifier_name );
-
-/*!
- *  \brief proposes an alternative classifier name that is not yet existant in the database
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_name new classifier name which might not be unique
- *  \param result unique classifier name
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded
- */
-ctrl_error_t ctrl_consistency_checker_propose_unique_classifier_name ( ctrl_consistency_checker_t* *this_, const char* classifier_name, utf8stringbuf_t result );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

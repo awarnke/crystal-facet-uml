@@ -95,7 +95,12 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
 
         TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= DATA_ERROR_DUPLICATE_NAME;
+        }
+        else if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
@@ -227,7 +232,12 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
     {
         TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= DATA_ERROR_DUPLICATE_NAME;
+        }
+        else if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
