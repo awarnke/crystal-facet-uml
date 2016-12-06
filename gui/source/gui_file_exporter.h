@@ -21,9 +21,10 @@
 /*!
  *  \brief constants of gui_file_exporter_t
  */
-enum gui_file_manager_const_enum {
-    GUI_FILEMANAGER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
-    GUI_FILEMANAGER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
+enum gui_file_exporter_const_enum {
+    GUI_FILE_EXPORTER_CONST_EXPORT_TXT = 0x70a0,  /*!< response code to export txt files */
+    GUI_FILE_EXPORTER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
+    GUI_FILE_EXPORTER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
 };
 
 /*!
@@ -80,7 +81,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                   uint32_t max_recursion,
                                                   gui_file_export_format_t export_type,
                                                   const char* target_folder
-                                                 );
+                                                );
 
 /*!
  *  \brief appends all characters that are valid within a filename to filename

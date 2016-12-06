@@ -206,6 +206,13 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Files exported, type: " );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");

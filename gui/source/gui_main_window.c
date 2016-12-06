@@ -209,10 +209,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
                                                                  "Cancel",
                                                                  GTK_RESPONSE_CANCEL,
+                                                                 "Export txt Files",
+                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_TXT,
                                                                  "Export svg Files",
-                                                                 GUI_FILEMANAGER_CONST_EXPORT_SVG,
+                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_SVG,
                                                                  "Export png Files",
-                                                                 GUI_FILEMANAGER_CONST_EXPORT_PNG,
+                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_PNG,
                                                                  NULL
     );
     gui_file_exporter_init( &((*this_).file_exporter), db_reader, &((*this_).message_to_user) );

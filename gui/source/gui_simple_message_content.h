@@ -26,6 +26,7 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,  /*!< paste failed, parser error at input data */
     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,  /*!< some or all diagrams could not be exported */
     GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,  /*!< object not created or name not changed */
+    GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,  /*!< files exported successfully */
 
     GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };

@@ -57,9 +57,9 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         }
         break;
 
-        case GUI_FILEMANAGER_CONST_EXPORT_PNG:
+        case GUI_FILE_EXPORTER_CONST_EXPORT_PNG:
         {
-            TSLOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_PNG" );
+            TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_PNG" );
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
@@ -69,7 +69,15 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
 
             g_free (filename);
 
-            if ( 0 != export_err )
+            if ( 0 == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     "png"
+                                                                   );
+            }
+            else
             {
                 gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
@@ -80,9 +88,9 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         }
         break;
 
-        case GUI_FILEMANAGER_CONST_EXPORT_SVG:
+        case GUI_FILE_EXPORTER_CONST_EXPORT_SVG:
         {
-            TSLOG_EVENT( "GUI_FILEMANAGER_CONST_EXPORT_SVG" );
+            TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_SVG" );
             gchar *filename;
             filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
@@ -92,13 +100,52 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
 
             g_free (filename);
 
-            if ( 0 != export_err )
+            if ( 0 == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     "svg"
+                );
+            }
+            else
             {
                 gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                                      GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
                                                                      "svg"
                                                                    );
+            }
+        }
+        break;
+
+        case GUI_FILE_EXPORTER_CONST_EXPORT_TXT:
+        {
+            TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_TXT" );
+            gchar *filename;
+            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            TRACE_INFO_STR( "File chosen:", filename );
+
+            export_err = -1;
+
+            g_free (filename);
+
+            if ( 0 == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     "txt"
+                );
+            }
+            else
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                     "txt"
+                );
             }
         }
         break;

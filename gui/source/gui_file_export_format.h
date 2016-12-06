@@ -13,8 +13,8 @@
  *  \brief file format of exported images
  */
 enum gui_file_export_format_enum {
-    GUI_FILE_EXPORT_FORMAT_SVG = 0,  /*!< scalable vector graphics */
-    GUI_FILE_EXPORT_FORMAT_PNG = 1,  /*!< portable network graphics */
+    GUI_FILE_EXPORT_FORMAT_SVG,  /*!< scalable vector graphics */
+    GUI_FILE_EXPORT_FORMAT_PNG,  /*!< portable network graphics */
 };
 
 typedef enum gui_file_export_format_enum gui_file_export_format_t;
