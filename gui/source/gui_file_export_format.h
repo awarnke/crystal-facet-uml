@@ -6,15 +6,16 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief defines the export formats of diagram-image files
+ *  \brief defines the export formats of diagram-image/text files
  */
 
-/*!
- *  \brief file format of exported images
+/*!t
+ *  \brief file format of exported images/text
  */
 enum gui_file_export_format_enum {
     GUI_FILE_EXPORT_FORMAT_SVG,  /*!< scalable vector graphics */
     GUI_FILE_EXPORT_FORMAT_PNG,  /*!< portable network graphics */
+    GUI_FILE_EXPORT_FORMAT_TXT,  /*!< utf8 encoded text */
 };
 
 typedef enum gui_file_export_format_enum gui_file_export_format_t;

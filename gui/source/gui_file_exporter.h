@@ -13,6 +13,7 @@
 #include "gui_file_export_format.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_painter.h"
+#include "pencil_description_writer.h"
 #include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
@@ -36,6 +37,7 @@ struct gui_file_exporter_struct {
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_painter_t painter;  /*!< own instance of a diagram painter */
+    pencil_description_writer_t description_writer;  /*!< own instance of a description writer */
 
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */
@@ -68,7 +70,7 @@ void gui_file_exporter_destroy( gui_file_exporter_t *this_ );
 void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 
 /*!
- *  \brief renders diagrams and exports these to picture files
+ *  \brief renders diagrams and exports these to picture (or text) files
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively

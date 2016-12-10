@@ -24,6 +24,7 @@ void gui_file_exporter_init ( gui_file_exporter_t *this_,
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
     pencil_input_data_init( &((*this_).painter_input_data) );
     pencil_diagram_painter_init( &((*this_).painter), &((*this_).painter_input_data) );
+    pencil_description_writer_init( &((*this_).description_writer), &((*this_).painter_input_data) );
 
     TRACE_END();
 }
@@ -32,6 +33,7 @@ void gui_file_exporter_destroy( gui_file_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
+    pencil_description_writer_destroy( &((*this_).description_writer) );
     pencil_diagram_painter_destroy( &((*this_).painter) );
     pencil_input_data_destroy( &((*this_).painter_input_data) );
     geometry_rectangle_destroy(&((*this_).bounds));
@@ -60,14 +62,14 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         case GUI_FILE_EXPORTER_CONST_EXPORT_PNG:
         {
             TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_PNG" );
-            gchar *filename;
-            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gchar *folder_path;
+            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", filename );
+            TRACE_INFO_STR( "File chosen:", folder_path );
 
-            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, filename );
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, folder_path );
 
-            g_free (filename);
+            g_free (folder_path);
 
             if ( 0 == export_err )
             {
@@ -91,14 +93,14 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         case GUI_FILE_EXPORTER_CONST_EXPORT_SVG:
         {
             TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_SVG" );
-            gchar *filename;
-            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gchar *folder_path;
+            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", filename );
+            TRACE_INFO_STR( "File chosen:", folder_path );
 
-            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, filename );
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, folder_path );
 
-            g_free (filename);
+            g_free (folder_path);
 
             if ( 0 == export_err )
             {
@@ -122,14 +124,14 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         case GUI_FILE_EXPORTER_CONST_EXPORT_TXT:
         {
             TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_TXT" );
-            gchar *filename;
-            filename = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gchar *folder_path;
+            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", filename );
+            TRACE_INFO_STR( "File chosen:", folder_path );
 
-            export_err = -1;
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_TXT, folder_path );
 
-            g_free (filename);
+            g_free (folder_path);
 
             if ( 0 == export_err )
             {
@@ -203,14 +205,19 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".svg" );
         }
-        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        else if ( GUI_FILE_EXPORT_FORMAT_PNG == export_type )
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".png" );
+        }
+        else /* GUI_FILE_EXPORT_FORMAT_TXT */
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".txt" );
         }
         TSLOG_EVENT_STR( "exporting diagram to file:", utf8stringbuf_get_string( (*this_).temp_filename ) );
 
         /* create surface */
         cairo_surface_t *surface;
+        FILE *text_output;
         if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
         {
             surface = (cairo_surface_t *) cairo_svg_surface_create( utf8stringbuf_get_string( (*this_).temp_filename ),
@@ -218,15 +225,38 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                                     geometry_rectangle_get_height( &((*this_).bounds) )
                                                                   );
         }
-        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        else if ( GUI_FILE_EXPORT_FORMAT_PNG == export_type )
         {
             surface = cairo_image_surface_create( CAIRO_FORMAT_ARGB32,
                                                   (uint32_t) geometry_rectangle_get_width( &((*this_).bounds) ),
                                                   (uint32_t) geometry_rectangle_get_height( &((*this_).bounds) )
                                                 );
         }
+        else /* GUI_FILE_EXPORT_FORMAT_TXT */
+        {
+            text_output = fopen( utf8stringbuf_get_string( (*this_).temp_filename ), "w" );
+            if ( NULL == text_output )
+            {
+                TSLOG_ERROR("error creating txt.");
+                result = -1;
+            }
+        }
 
-        if ( CAIRO_STATUS_SUCCESS != cairo_surface_status( surface ) )
+        /* draw on surface */
+        if ( GUI_FILE_EXPORT_FORMAT_TXT == export_type )
+        {
+            if ( NULL != text_output )
+            {
+                int write_err;
+                write_err = pencil_description_writer_draw ( &((*this_).description_writer), text_output );
+                if ( 0 != write_err )
+                {
+                    TSLOG_ERROR("error writing txt.");
+                    result = -1;
+                }
+            }
+        }
+        else if ( CAIRO_STATUS_SUCCESS != cairo_surface_status( surface ) )
         {
             TSLOG_ERROR_INT( "surface could not be created", cairo_surface_status( surface ) );
             result = -1;
@@ -269,11 +299,13 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             cairo_destroy (cr);
         }
 
+        /* finish surface */
         if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
         {
             cairo_surface_finish ( surface );
+            cairo_surface_destroy ( surface );
         }
-        else /* GUI_FILE_EXPORT_FORMAT_PNG */
+        else if ( GUI_FILE_EXPORT_FORMAT_PNG == export_type )
         {
             cairo_status_t png_result;
             png_result = cairo_surface_write_to_png ( surface, utf8stringbuf_get_string( (*this_).temp_filename ) );
@@ -282,8 +314,21 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                 TSLOG_ERROR("error writing png.");
                 result = -1;
             }
+            cairo_surface_destroy ( surface );
         }
-        cairo_surface_destroy ( surface );
+        else /* GUI_FILE_EXPORT_FORMAT_TXT */
+        {
+            if ( NULL != text_output )
+            {
+                int close_err;
+                close_err = fclose( text_output );
+                if ( 0 != close_err )
+                {
+                    TSLOG_ERROR("error finishing txt.");
+                    result = -1;
+                }
+            }
+        }
     }
 
     /* recursive calls of children */
