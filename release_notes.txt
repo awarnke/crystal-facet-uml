@@ -1,5 +1,5 @@
-2016-12-xx 0.08 [xxxxxxx]
-  + Export of png and svg diagrams
+2016-12-11 0.08 [xxxxxxx]
+  + Export of png and svg diagrams (and txt descriptions)
   + DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)
 2016-11-26 0.07 [874f539]
   + The user can move classifiers
