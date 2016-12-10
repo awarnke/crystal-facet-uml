@@ -1,0 +1,19 @@
+External Libraries:
+
+
+sqlite3:
+
+
+gtk3:
+
+
+utf8stringbuf:
+
+
+gdk:
+
+
+cairo:
+
+
+glib:

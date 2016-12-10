@@ -1,0 +1,22 @@
+Layers:
+
+
+gui:
+the gui layer provides
+- user interaction to database-selection, uml-model modifications
+
+pencil:
+The pencil component provides
+- rendering of uml-model parts to cairo drawing contexts
+- highlighting of uml-model parts as requested by the gui layer
+
+ctrl:
+The ctrl component provides
+- write access to the database
+- high-level consistency, ensuring that the uml-model is consistent, e.g. no duplicate object names, no circular contains-relations
+
+data:
+The data layer provides
+- read access to ctrl, pencil and gui components
+- write acccess to ctrl component
+- low-level consistency of database, ensuring that all referenced objects exist.

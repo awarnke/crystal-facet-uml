@@ -65,7 +65,7 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
             gchar *folder_path;
             folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", folder_path );
+            TRACE_INFO_STR( "chosen folder:", folder_path );
 
             export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PNG, folder_path );
 
@@ -96,7 +96,7 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
             gchar *folder_path;
             folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", folder_path );
+            TRACE_INFO_STR( "chosen folder:", folder_path );
 
             export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_SVG, folder_path );
 
@@ -127,7 +127,7 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
             gchar *folder_path;
             folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
             gtk_widget_hide( GTK_WIDGET ( dialog ) );
-            TRACE_INFO_STR( "File chosen:", folder_path );
+            TRACE_INFO_STR( "chosen folder:", folder_path );
 
             export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_TXT, folder_path );
 
@@ -270,10 +270,10 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             /* draw paper */
             cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );
             cairo_rectangle ( cr,
-                            geometry_rectangle_get_left( &((*this_).bounds) ),
-                            geometry_rectangle_get_top( &((*this_).bounds) ),
-                            geometry_rectangle_get_width( &((*this_).bounds) ),
-                            geometry_rectangle_get_height( &((*this_).bounds) )
+                              geometry_rectangle_get_left( &((*this_).bounds) ),
+                              geometry_rectangle_get_top( &((*this_).bounds) ),
+                              geometry_rectangle_get_width( &((*this_).bounds) ),
+                              geometry_rectangle_get_height( &((*this_).bounds) )
                             );
             cairo_fill (cr);
 
@@ -289,10 +289,10 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             data_small_set_t void_set;
             data_small_set_init( &void_set );
             pencil_diagram_painter_draw ( &((*this_).painter),
-                                        void_id,
-                                        void_id,
-                                        &void_set,
-                                        cr
+                                          void_id,
+                                          void_id,
+                                          &void_set,
+                                          cr
             );
 
             /* finish surface */

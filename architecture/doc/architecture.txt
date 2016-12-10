@@ -50,8 +50,10 @@
  *
  *  \subsubsection Overview
  *
- *  \image html arc_layers.png
- *  \image latex arc_layers.png "" width=15cm
+ *  \image html exported_diagrams/2_Layers.png
+ *  \image latex exported_diagrams/2_Layers.png "" width=15cm
+ *
+ *  \verbinclude exported_diagrams/2_Layers.txt
  *
  *  - __Layers and Components__
  *      - __View-Layer__

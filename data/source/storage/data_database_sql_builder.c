@@ -604,7 +604,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_x_order )
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_x_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;
@@ -630,7 +630,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_y_order )
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order )
 {
     TRACE_BEGIN();
     utf8error_t strerr = UTF8ERROR_SUCCESS;

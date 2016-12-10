@@ -28,6 +28,17 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
     ");";
 
 /*!
+ *  \brief string constant to create an sql database index
+ *
+ *  This index helps sqlite in sorting signed integers
+ */
+static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
+    "CREATE INDEX IF NOT EXISTS classifier_ordering ON classifiers ( "
+        "y_order ASC, "
+        "x_order ASC "
+    ");";
+
+/*!
  *  \brief string constant to create an sql database table
  *
  *  This table contains instances of generalizations, associations (which are relationships)
@@ -44,6 +55,16 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
         "list_order INTEGER, "
         "FOREIGN KEY(from_classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(to_classifier_id) REFERENCES classifiers(id) "
+    ");";
+
+/*!
+ *  \brief string constant to create an sql database index
+ *
+ *  This index helps sqlite in sorting signed integers
+ */
+static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
+    "CREATE INDEX IF NOT EXISTS relationship_ordering ON relationships ( "
+        "list_order ASC "
     ");";
 
 /*!
@@ -65,6 +86,16 @@ static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
     ");";
 
 /*!
+ *  \brief string constant to create an sql database index
+ *
+ *  This index helps sqlite in sorting signed integers
+ */
+static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
+    "CREATE INDEX IF NOT EXISTS feature_ordering ON features ( "
+        "list_order ASC "
+    ");";
+
+/*!
  *  \brief string constant to create an sql database table
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
@@ -76,6 +107,16 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
         "description TEXT, "
         "list_order INTEGER, "
         "FOREIGN KEY(parent_id) REFERENCES diagrams(id) "
+    ");";
+
+/*!
+ *  \brief string constant to create an sql database index
+ *
+ *  This index helps sqlite in sorting signed integers
+ */
+static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
+    "CREATE INDEX IF NOT EXISTS diagram_ordering ON diagrams ( "
+        "list_order ASC "
     ");";
 
 /*!
@@ -177,6 +218,79 @@ data_error_t data_database_private_initialize_tables( sqlite3 *db )
     return result;
 }
 
+data_error_t data_database_private_initialize_indexes( sqlite3 *db )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+    char *error_msg = NULL;
+    data_error_t result = DATA_ERROR_NONE;
+
+    /*
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_FEATUREORDERING_INDEX );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_FEATUREORDERING_INDEX, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_FEATUREORDERING_INDEX );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result = DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+    */
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
@@ -232,6 +346,11 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
         {
             data_error_t init_err;
             init_err = data_database_private_initialize_tables( (*this_).db );
+            if ( init_err == DATA_ERROR_NONE )
+            {
+                init_err = data_database_private_initialize_indexes( (*this_).db );
+            }
+
             if ( init_err == DATA_ERROR_NONE )
             {
                 (*this_).is_open = true;

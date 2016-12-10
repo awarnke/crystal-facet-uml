@@ -167,7 +167,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
  *  \param new_classifier_x_order new x_order of the classifier
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_x_order );
+data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_x_order );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -177,7 +177,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
  *  \param new_classifier_y_order new y_order of the classifier
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, uint32_t new_classifier_y_order );
+data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order );
 
 /*!
  *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.

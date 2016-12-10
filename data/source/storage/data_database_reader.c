@@ -17,7 +17,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
  *  \brief predefined search statement to find diagrams by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagrams by classifier-id
@@ -25,7 +25,7 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
     "SELECT diagrams.id,parent_id,diagram_type,name,description,list_order "
     "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
-    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order;";
+    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -61,7 +61,7 @@ static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
  *  \brief predefined search statement to find diagram ids by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID[] =
-"SELECT id FROM diagrams WHERE parent_id=? ORDER BY list_order;";
+    "SELECT id FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find a classifier by id
@@ -76,7 +76,7 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order,"
     "diagramelements.id,diagramelements.display_flags "
     "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order,x_order;";
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

@@ -1,0 +1,25 @@
+Features:
+
+
+Classifier has many relations:
+
+
+Classifier is marked in one diagram:
+
+
+Classifier is contained (child):
+
+
+Diagrams are hierarchical:
+
+
+Classifier is implicit instance:
+
+
+Classifier is shown:
+
+
+Classifier is explicit instance:
+
+
+Multiple instances of a classifier are shown:
