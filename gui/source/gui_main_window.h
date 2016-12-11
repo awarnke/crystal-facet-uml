@@ -65,6 +65,10 @@ struct gui_main_window_struct {
     GtkToolItem *edit_paste;
     GtkWidget *edit_delete_icon;
     GtkToolItem *edit_delete;
+    GtkWidget *edit_instantiate_icon;
+    GtkToolItem *edit_instantiate;
+    GtkWidget *edit_highlight_icon;
+    GtkToolItem *edit_highlight;
     GtkWidget *edit_undo_icon;
     GtkToolItem *edit_undo;
     GtkWidget *edit_redo_icon;

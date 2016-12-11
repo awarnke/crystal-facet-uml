@@ -25,6 +25,16 @@ static inline GdkPixbuf *gui_resources_get_edit_delete ( gui_resources_t *this_ 
     return (*this_).edit_delete;
 }
 
+static inline GdkPixbuf *gui_resources_get_edit_instantiate ( gui_resources_t *this_ )
+{
+    return (*this_).edit_instantiate;
+}
+
+static inline GdkPixbuf *gui_resources_get_edit_highlight ( gui_resources_t *this_ )
+{
+    return (*this_).edit_highlight;
+}
+
 static inline GdkPixbuf *gui_resources_get_edit_paste ( gui_resources_t *this_ )
 {
     return (*this_).edit_paste;

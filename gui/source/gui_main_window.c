@@ -114,6 +114,16 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_delete), (*this_).edit_delete_icon);
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete" );
 
+    (*this_).edit_instantiate = gtk_tool_button_new( NULL, "Instantiate" );
+    (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_instantiate), (*this_).edit_instantiate_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_instantiate), "Instantiate" );
+
+    (*this_).edit_highlight = gtk_tool_button_new( NULL, "Highlight" );
+    (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
+
     (*this_).edit_undo = gtk_tool_button_new( NULL, "Undo" );
     (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_undo), (*this_).edit_undo_icon);
@@ -232,6 +242,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_copy,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_paste,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_delete,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_instantiate,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_highlight,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_undo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);

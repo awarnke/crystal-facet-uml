@@ -12,6 +12,8 @@
 #include "resources/edit_cut.c"
 #include "resources/edit_delete.c"
 #include "resources/edit_paste.c"
+#include "resources/edit_instantiate.c"
+#include "resources/edit_highlight.c"
 #include "resources/edit_redo.c"
 #include "resources/edit_undo.c"
 #include "resources/file_export.c"
@@ -97,6 +99,30 @@ void gui_resources_init ( gui_resources_t *this_ )
         edit_paste.width,
         edit_paste.height,
         edit_paste.width * edit_paste.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_instantiate = gdk_pixbuf_new_from_data(
+        &(edit_instantiate.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_instantiate.width,
+        edit_instantiate.height,
+        edit_instantiate.width * edit_instantiate.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_highlight = gdk_pixbuf_new_from_data(
+        &(edit_highlight.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_highlight.width,
+        edit_highlight.height,
+        edit_highlight.width * edit_highlight.bytes_per_pixel,
         NULL,
         NULL
     );

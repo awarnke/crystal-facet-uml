@@ -24,6 +24,8 @@ struct gui_resources_struct {
     GdkPixbuf *edit_paste;
     GdkPixbuf *edit_redo;
     GdkPixbuf *edit_undo;
+    GdkPixbuf *edit_instantiate;
+    GdkPixbuf *edit_highlight;
     GdkPixbuf *file_export;
     GdkPixbuf *file_new_window;
     GdkPixbuf *file_use_db;
@@ -86,6 +88,20 @@ static inline GdkPixbuf *gui_resources_get_edit_cut ( gui_resources_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_edit_delete ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_instantiate
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_instantiate ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_highlight
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_highlight ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_paste
