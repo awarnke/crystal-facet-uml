@@ -1,10 +1,11 @@
 Utilities:
-
+This diagram shows small utility modules.
 
 main:
-
+Starts the software, evaluates command line parameters
 
 trace:
-
+Provides trace macros
 
 log:
+Provides macros for event-logging and error-logging

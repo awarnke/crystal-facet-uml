@@ -1,19 +1,22 @@
 External Libraries:
-
+This diagram shows the base libraries.
 
 sqlite3:
-
+SQL database
 
 gtk3:
-
+Toolkit which provides
+- Windows and Widgets
+- User Input handling
 
 utf8stringbuf:
-
+String library
 
 gdk:
-
+Drawing library
 
 cairo:
-
+Library providing drawing primitives
 
 glib:
+Platform abstraction layer

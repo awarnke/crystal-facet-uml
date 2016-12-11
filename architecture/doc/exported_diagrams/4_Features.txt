@@ -1,5 +1,5 @@
 Features:
-
+This diagram lists the main features of crystal facet uml.
 
 Classifier has many relations:
 

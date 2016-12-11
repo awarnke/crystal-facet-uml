@@ -1,13 +1,14 @@
 Arc+Build+Config Tools:
-
+This diagram shows the tools for designing, implementing, documenting, configuring and building the software.
 
 cmake (+make +rpmbuild +gcc):
-
+cmake and cpack are meta-build files which generate e.g. make files, rpm and deb package files.
 
 c + doxygen:
-
+c code and doxygen are the source code and documentation formats
 
 crystal facet uml:
 
 
 git:
+version control
