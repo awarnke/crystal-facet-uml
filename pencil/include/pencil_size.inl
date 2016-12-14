@@ -11,6 +11,10 @@ static inline void pencil_size_init( pencil_size_t *this_, double width, double 
 
 static inline void pencil_size_destroy( pencil_size_t *this_ )
 {
+    pango_font_description_free ( (*this_).standard_font_desc );
+    (*this_).standard_font_desc = NULL;
+    pango_font_description_free ( (*this_).larger_font_desc );
+    (*this_).larger_font_desc = NULL;
 }
 
 static inline void pencil_size_init_empty( pencil_size_t *this_ )
@@ -37,10 +41,13 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
 
     /* guess some default values: */
     (*this_).standard_font_size = 9.0;
+    (*this_).standard_font_desc = pango_font_description_from_string ("Sans 9px");;
     (*this_).larger_font_size = 12.0;
+    (*this_).larger_font_desc = pango_font_description_from_string ("Sans 12px");;
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
     (*this_).standard_object_border = 2.0;
+
 }
 
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )

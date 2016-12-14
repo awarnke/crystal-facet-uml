@@ -51,7 +51,7 @@ FILE(GLOB utestSource ../main/unittest/*.c ../embunit/embUnit/*.c ../embunit/tex
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
 ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
-TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m)
+TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Add this for CPack to work
@@ -68,7 +68,7 @@ INCLUDE_DIRECTORIES(../pencil/unittest)
 
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m)
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m)
 SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # see https://cmake.org/cmake/help/v3.0/module/CPack.html

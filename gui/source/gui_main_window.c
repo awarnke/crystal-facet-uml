@@ -283,6 +283,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_sketch_tools_instantiate_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_sketch_tools_highlight_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );

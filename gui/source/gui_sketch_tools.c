@@ -635,6 +635,31 @@ void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_
     TRACE_END();
 }
 
+void gui_sketch_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_tools_t *this_ = data;
+    ctrl_error_t ctrl_err;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_tools_t *this_ = data;
+    ctrl_error_t ctrl_err;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();

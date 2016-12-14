@@ -2,6 +2,7 @@
 
 #include "pencil_classifier_painter.h"
 #include "trace.h"
+#include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -92,6 +93,27 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 cairo_set_font_size ( cr, big_font_size );
                 cairo_move_to ( cr, left+2.0*gap, top+gap+f_line_gap+f_big_ascent );
                 cairo_show_text ( cr, data_classifier_get_name_ptr( classifier ));
+
+                {
+                    PangoLayout *layout;
+                    PangoFontDescription *desc;
+
+                    layout = pango_cairo_create_layout (cr);
+
+                    desc = pango_font_description_from_string ("Sans 18px");
+                    pango_layout_set_font_description (layout, desc);
+                    pango_font_description_free (desc);
+
+                    pango_layout_set_text (layout, data_classifier_get_name_ptr( classifier ), -1);
+
+                    int text_width, text_height;
+                    pango_layout_get_pixel_size (layout, &text_width, &text_height);
+
+                    cairo_move_to ( cr, left+2.0*gap + 0.5 *(width-text_width), top+gap+f_line_gap+f_big_ascent );
+                    pango_cairo_show_layout (cr, layout);
+
+                    g_object_unref (layout);
+                }
             }
             else
             {

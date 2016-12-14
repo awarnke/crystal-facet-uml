@@ -2,14 +2,12 @@ Layers:
 This diagram shows the layering of the main software modules.
 
 gui:
-the gui layer provides
-- user interaction 
+- allows a user 
     - to select the database
     - to export diagrams
     - to modify the uml-model
 
 pencil:
-The pencil component
 - renders diagrams to cairo drawing contexts
 - highlights of uml-elements as requested by the gui module
 
@@ -18,8 +16,7 @@ ctrl:
 - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
 
 data:
-The data module provides
-- read access to ctrl, pencil and gui components
-- write acccess to only the ctrl component
-- low-level consistency of database, ensuring that all referenced objects exist.
-- notifications on changes
+- provides read access to ctrl, pencil and gui components
+- provides write acccess to only the ctrl component
+- ensures low-level consistency of database: all referenced objects exist.
+- sends notifications on changes

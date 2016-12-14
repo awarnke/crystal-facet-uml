@@ -9,6 +9,7 @@
  *  \brief Provides a set of size values used to draw one diagram
  */
 
+#include <pango/pangocairo.h>
 #include <cairo.h>
 #include <gdk/gdk.h>
 #include <stdint.h>
@@ -26,7 +27,9 @@ enum pencil_size_const_enum {
  */
 struct pencil_size_struct {
     double standard_font_size;  /*! text size of standard text */
+    PangoFontDescription *standard_font_desc;  /*! text description of standard text */
     double larger_font_size;  /*! text size of larger text */
+    PangoFontDescription *larger_font_desc;  /*! text description of larger text */
     double standard_line_width;  /*! line width of standard lines */
     double bold_line_width;  /*! line width of bold lines */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */

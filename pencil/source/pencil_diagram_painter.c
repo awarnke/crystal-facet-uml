@@ -2,6 +2,7 @@
 
 #include "pencil_diagram_painter.h"
 #include "trace.h"
+#include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>

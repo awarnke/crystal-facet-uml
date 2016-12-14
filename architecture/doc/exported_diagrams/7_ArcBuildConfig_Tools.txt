@@ -8,7 +8,7 @@ c + doxygen:
 c code and doxygen are the source code and documentation formats
 
 crystal facet uml:
-
+- drafts the software design (using this crystal facet uml tool which is under construction)
 
 git:
-version control
+version control system
