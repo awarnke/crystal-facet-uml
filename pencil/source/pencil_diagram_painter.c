@@ -141,9 +141,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     TRACE_INFO_INT( "h", (int)(height) );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
-    double f_size = pencil_size_get_standard_font_size( pencil_size );
-    double f_ascent = pencil_size_get_standard_font_ascent( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    double f_tab_size = pencil_size_get_font_tab_size( pencil_size );
 
     /* draw diagram border and name */
     {
@@ -177,13 +176,19 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
             pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (layout, data_diagram_get_name_ptr( diag ), -1);
             pango_layout_get_pixel_size (layout, &text_width, &text_height);
-            cairo_move_to ( cr, left +2.0*gap, top+gap );
+            cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
             pango_cairo_show_layout (cr, layout);
 
-            cairo_move_to ( cr, left+gap, top+gap+f_size+f_line_gap );
-            cairo_line_to ( cr, left+(width/3.0), top+gap+f_size+f_line_gap );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap+f_size+f_line_gap-4.0 );
-            cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap );
+            static const double EDGE_45 = 4.0;
+            double title_corner_width = text_width + gap + 2.0*f_tab_size + EDGE_45;
+            if ( title_corner_width > width*0.9 )
+            {
+                title_corner_width = width*0.9;
+            }
+            cairo_move_to ( cr, left+gap, top+gap+text_height+f_line_gap );
+            cairo_line_to ( cr, left+title_corner_width - EDGE_45, top+gap+text_height+f_line_gap );
+            cairo_line_to ( cr, left+title_corner_width, top+gap+text_height+f_line_gap-EDGE_45 );
+            cairo_line_to ( cr, left+title_corner_width, top+gap );
             cairo_stroke (cr);
         }
         else

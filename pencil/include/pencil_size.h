@@ -81,13 +81,6 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
 static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ );
 
 /*!
- *  \brief determines the fraction of font-size that is above the baseline
- *
- *  \param this_ pointer to own object attributes
- */
-static inline double pencil_size_get_standard_font_ascent( pencil_size_t *this_ );
-
-/*!
  *  \brief gets the PangoFontDescription for the standard font
  *
  *  \param this_ pointer to own object attributes
@@ -102,18 +95,18 @@ static inline PangoFontDescription *pencil_size_get_standard_font_description( p
 static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ );
 
 /*!
- *  \brief determines the fraction of font-size that is above the baseline
- *
- *  \param this_ pointer to own object attributes
- */
-static inline double pencil_size_get_larger_font_ascent( pencil_size_t *this_ );
-
-/*!
  *  \brief determines PangoFontDescription for the larger font
  *
  *  \param this_ pointer to own object attributes
  */
 static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ );
+
+/*!
+ *  \brief proposes a tab size
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_font_tab_size( pencil_size_t *this_ );
 
 /*!
  *  \brief determines the gap between font lines

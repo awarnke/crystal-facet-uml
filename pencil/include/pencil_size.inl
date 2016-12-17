@@ -63,7 +63,7 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
 {
     double smaller_border = (width<height) ? width : height;
-    (*this_).standard_font_size = smaller_border/48.0;
+    (*this_).standard_font_size = smaller_border/56.0;
     if ( (*this_).standard_font_size < 1.0 )
     {
         (*this_).standard_font_size = 1.0;
@@ -85,11 +85,6 @@ static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ )
     return (*this_).standard_font_size;
 }
 
-static inline double pencil_size_get_standard_font_ascent( pencil_size_t *this_ )
-{
-    return (PENCIL_SIZE_CONST_ASCENT_PERCENT / 100.0) * (*this_).standard_font_size;
-}
-
 static inline PangoFontDescription *pencil_size_get_standard_font_description( pencil_size_t *this_ )
 {
     return (*this_).standard_font_description;
@@ -100,14 +95,14 @@ static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ )
     return (*this_).larger_font_size;
 }
 
-static inline double pencil_size_get_larger_font_ascent( pencil_size_t *this_ )
-{
-    return (PENCIL_SIZE_CONST_ASCENT_PERCENT / 100.0) * (*this_).larger_font_size;
-}
-
 static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ )
 {
     return (*this_).larger_font_description;
+}
+
+static inline double pencil_size_get_font_tab_size( pencil_size_t *this_ )
+{
+    return 3.0 * (*this_).standard_font_size;
 }
 
 static inline double pencil_size_get_font_line_gap( pencil_size_t *this_ )

@@ -78,12 +78,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         cairo_stroke (cr);
 
         {
-            double std_font_size = pencil_size_get_standard_font_size(pencil_size);
-            double big_font_size = pencil_size_get_larger_font_size(pencil_size);
-            double f_std_size = pencil_size_get_standard_font_size( pencil_size );
-            double f_std_ascent = pencil_size_get_standard_font_ascent( pencil_size );
-            double f_big_ascent = pencil_size_get_larger_font_ascent( pencil_size );
-
             char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
             utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
             utf8stringbuf_copy_str( stereotype_buf, "<<" );
