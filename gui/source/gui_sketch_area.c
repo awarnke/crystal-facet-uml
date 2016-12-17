@@ -323,6 +323,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
     uint32_t self_height;
     int32_t self_left;
     int32_t self_top;
+    /*
     if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
     {
         children_height = ( height * 2 ) / 10;
@@ -335,11 +336,12 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
         self_top = top;
     }
     else
+        */
     {
-        children_height = ( height * 2 ) / 10;
+        children_height = ( height * 3 ) / 10;
         children_top = height - children_height;
         parent_width = width;
-        parent_height = ( height * 2 ) / 10;
+        parent_height = ( height * 3 ) / 10;
         self_width = width;
         self_left = left;
         self_top = top + parent_height;
@@ -366,7 +368,8 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             {
                 shape_int_rectangle_init( &card_bounds, left, top, parent_width, parent_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_LEFT );
+                /*shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_LEFT );*/
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
             }
             else
             {

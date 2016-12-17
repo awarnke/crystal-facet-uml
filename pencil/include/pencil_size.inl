@@ -69,7 +69,7 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
         (*this_).standard_font_size = 1.0;
     }
     pango_font_description_set_size ( (*this_).standard_font_description, ((int)(*this_).standard_font_size) * PANGO_SCALE );
-    (*this_).larger_font_size = smaller_border/40.0;
+    (*this_).larger_font_size = smaller_border/44.0;
     if ( (*this_).larger_font_size < 1.0 )
     {
         (*this_).larger_font_size = 1.0;
