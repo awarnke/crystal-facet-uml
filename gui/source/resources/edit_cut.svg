@@ -14,8 +14,8 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.5 r10040"
-   sodipodi:docname="edit_copy.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/edit_copy.png"
+   sodipodi:docname="edit_cut.svg"
+   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/edit_cut.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,8 +28,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.66"
-     inkscape:cx="9.9262734"
-     inkscape:cy="15.862411"
+     inkscape:cx="-10.242582"
+     inkscape:cy="15.909315"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
@@ -56,7 +56,7 @@
      id="layer1"
      transform="translate(0,-1020.3622)">
     <path
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:3,3;stroke-dashoffset:0"
+       style="fill:none;stroke:#777777;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:0.94117647;stroke-miterlimit:4;stroke-dasharray:3, 3;stroke-dashoffset:0"
        d="m 14.91557,1040.3545 0,-11.6322 -9.6622883,0 -10e-7,14.9155 6.7542203,-0.094 2.908068,-3.1895"
        id="path3058"
        inkscape:connector-curvature="0"
@@ -99,7 +99,7 @@
        sodipodi:cy="30.9212"
        sodipodi:rx="2.7673545"
        sodipodi:ry="2.9549718"
-       d="m 15.572233,30.9212 a 2.7673545,2.9549718 0 1 1 -5.534709,0 2.7673545,2.9549718 0 1 1 5.534709,0 z"
+       d="m 15.572233,30.9212 c 0,1.631986 -1.238987,2.954972 -2.767355,2.954972 -1.528367,0 -2.767354,-1.322986 -2.767354,-2.954972 0,-1.631986 1.238987,-2.954972 2.767354,-2.954972 1.528368,0 2.767355,1.322986 2.767355,2.954972 z"
        transform="translate(0.1876172,1017.9232)" />
     <path
        sodipodi:type="arc"
@@ -109,7 +109,7 @@
        sodipodi:cy="30.9212"
        sodipodi:rx="2.7673545"
        sodipodi:ry="2.9549718"
-       d="m 15.572233,30.9212 a 2.7673545,2.9549718 0 1 1 -5.534709,0 2.7673545,2.9549718 0 1 1 5.534709,0 z"
+       d="m 15.572233,30.9212 c 0,1.631986 -1.238987,2.954972 -2.767355,2.954972 -1.528367,0 -2.767354,-1.322986 -2.767354,-2.954972 0,-1.631986 1.238987,-2.954972 2.767354,-2.954972 1.528368,0 2.767355,1.322986 2.767355,2.954972 z"
        transform="translate(7.7392119,1014.6869)" />
     <path
        style="fill:none;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
