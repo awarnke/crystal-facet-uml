@@ -27,9 +27,9 @@ enum pencil_size_const_enum {
  */
 struct pencil_size_struct {
     double standard_font_size;  /*! text size of standard text */
-    PangoFontDescription *standard_font_desc;  /*! text description of standard text */
+    PangoFontDescription *standard_font_description;  /*! text description of standard text */
     double larger_font_size;  /*! text size of larger text */
-    PangoFontDescription *larger_font_desc;  /*! text description of larger text */
+    PangoFontDescription *larger_font_description;  /*! text description of larger text */
     double standard_line_width;  /*! line width of standard lines */
     double bold_line_width;  /*! line width of bold lines */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
@@ -88,6 +88,13 @@ static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ );
 static inline double pencil_size_get_standard_font_ascent( pencil_size_t *this_ );
 
 /*!
+ *  \brief gets the PangoFontDescription for the standard font
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline PangoFontDescription *pencil_size_get_standard_font_description( pencil_size_t *this_ );
+
+/*!
  *  \brief gets the attribute of pencil_size_t: larger_font_size
  *
  *  \param this_ pointer to own object attributes
@@ -100,6 +107,13 @@ static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline double pencil_size_get_larger_font_ascent( pencil_size_t *this_ );
+
+/*!
+ *  \brief determines PangoFontDescription for the larger font
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ );
 
 /*!
  *  \brief determines the gap between font lines

@@ -11,10 +11,10 @@ static inline void pencil_size_init( pencil_size_t *this_, double width, double 
 
 static inline void pencil_size_destroy( pencil_size_t *this_ )
 {
-    pango_font_description_free ( (*this_).standard_font_desc );
-    (*this_).standard_font_desc = NULL;
-    pango_font_description_free ( (*this_).larger_font_desc );
-    (*this_).larger_font_desc = NULL;
+    pango_font_description_free ( (*this_).standard_font_description );
+    (*this_).standard_font_description = NULL;
+    pango_font_description_free ( (*this_).larger_font_description );
+    (*this_).larger_font_description = NULL;
 }
 
 static inline void pencil_size_init_empty( pencil_size_t *this_ )
@@ -41,9 +41,19 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
 
     /* guess some default values: */
     (*this_).standard_font_size = 9.0;
-    (*this_).standard_font_desc = pango_font_description_from_string ("Sans 9px");;
+    (*this_).standard_font_description = pango_font_description_new ();
+    pango_font_description_set_family_static ( (*this_).standard_font_description, "Sans" );
+    pango_font_description_set_style ( (*this_).standard_font_description, PANGO_STYLE_NORMAL );
+    pango_font_description_set_weight ( (*this_).standard_font_description, PANGO_WEIGHT_MEDIUM );
+    pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
+    pango_font_description_set_size ( (*this_).standard_font_description, 9 * PANGO_SCALE );
     (*this_).larger_font_size = 12.0;
-    (*this_).larger_font_desc = pango_font_description_from_string ("Sans 12px");;
+    (*this_).larger_font_description = pango_font_description_new ();
+    pango_font_description_set_family_static ( (*this_).larger_font_description, "Sans" );
+    pango_font_description_set_style ( (*this_).larger_font_description, PANGO_STYLE_NORMAL );
+    pango_font_description_set_weight ( (*this_).larger_font_description, PANGO_WEIGHT_BOLD );
+    pango_font_description_set_stretch ( (*this_).larger_font_description, PANGO_STRETCH_NORMAL );
+    pango_font_description_set_size ( (*this_).larger_font_description, 12 * PANGO_SCALE );
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
     (*this_).standard_object_border = 2.0;
@@ -53,8 +63,18 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
 {
     double smaller_border = (width<height) ? width : height;
-    (*this_).standard_font_size = smaller_border/40.0;
-    (*this_).larger_font_size = smaller_border/32.0;
+    (*this_).standard_font_size = smaller_border/48.0;
+    if ( (*this_).standard_font_size < 1.0 )
+    {
+        (*this_).standard_font_size = 1.0;
+    }
+    pango_font_description_set_size ( (*this_).standard_font_description, ((int)(*this_).standard_font_size) * PANGO_SCALE );
+    (*this_).larger_font_size = smaller_border/40.0;
+    if ( (*this_).larger_font_size < 1.0 )
+    {
+        (*this_).larger_font_size = 1.0;
+    }
+    pango_font_description_set_size ( (*this_).larger_font_description, ((int)(*this_).larger_font_size) * PANGO_SCALE );
     (*this_).standard_line_width = smaller_border/400.0;
     (*this_).bold_line_width = smaller_border/200.0;
     (*this_).standard_object_border = smaller_border/200.0;
@@ -70,6 +90,11 @@ static inline double pencil_size_get_standard_font_ascent( pencil_size_t *this_ 
     return (PENCIL_SIZE_CONST_ASCENT_PERCENT / 100.0) * (*this_).standard_font_size;
 }
 
+static inline PangoFontDescription *pencil_size_get_standard_font_description( pencil_size_t *this_ )
+{
+    return (*this_).standard_font_description;
+}
+
 static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ )
 {
     return (*this_).larger_font_size;
@@ -78,6 +103,11 @@ static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ )
 static inline double pencil_size_get_larger_font_ascent( pencil_size_t *this_ )
 {
     return (PENCIL_SIZE_CONST_ASCENT_PERCENT / 100.0) * (*this_).larger_font_size;
+}
+
+static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ )
+{
+    return (*this_).larger_font_description;
 }
 
 static inline double pencil_size_get_font_line_gap( pencil_size_t *this_ )

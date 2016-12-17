@@ -125,6 +125,9 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
+    PangoLayout *layout;
+    layout = pango_cairo_create_layout (cr);
+
     pencil_size_t *pencil_size = &((*this_).pencil_size);
 
     double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
@@ -169,15 +172,19 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
             cairo_stroke (cr);
 
             /* draw title corner */
+            int text_width;
+            int text_height;
+            pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (layout, data_diagram_get_name_ptr( diag ), -1);
+            pango_layout_get_pixel_size (layout, &text_width, &text_height);
+            cairo_move_to ( cr, left +2.0*gap, top+gap );
+            pango_cairo_show_layout (cr, layout);
+
             cairo_move_to ( cr, left+gap, top+gap+f_size+f_line_gap );
             cairo_line_to ( cr, left+(width/3.0), top+gap+f_size+f_line_gap );
             cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap+f_size+f_line_gap-4.0 );
             cairo_line_to ( cr, left+(width/3.0)+4.0, top+gap );
             cairo_stroke (cr);
-
-            cairo_set_font_size ( cr, f_size );
-            cairo_move_to ( cr, left+2.0*gap, top+gap+f_ascent+f_line_gap );
-            cairo_show_text ( cr, data_diagram_get_name_ptr( diag ) );
         }
         else
         {
@@ -200,6 +207,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                                           mark_focused,
                                                           mark_highlighted,
                                                           mark_selected,
+                                                          layout,
                                                           cr
                                                         );
     }
@@ -222,6 +230,8 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         }
     }
 
+    g_object_unref (layout);
+
     TRACE_END();
 }
 
@@ -229,6 +239,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
                                                        data_id_t mark_focused,
                                                        data_id_t mark_highlighted,
                                                        data_small_set_t *mark_selected,
+                                                       PangoLayout *layout,
                                                        cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -262,6 +273,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
                                             data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
                                             data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
                                             &((*this_).pencil_size),
+                                            layout,
                                             cr,
                                             classifier_bounds );
 
