@@ -344,7 +344,8 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
 
 ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_diagram_controller_t *this_,
                                                                            int64_t diagramelement_id,
-                                                                           data_diagramelement_flag_t new_diagramelement_display_flags )
+                                                                           data_diagramelement_flag_t new_diagramelement_display_flags,
+                                                                           bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -358,6 +359,18 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
         data_diagramelement_t new_diagramelement;
         data_diagramelement_copy( &new_diagramelement, &old_diagramelement );
         data_diagramelement_set_display_flags( &new_diagramelement, new_diagramelement_display_flags );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
         /* store the change of the diagramelement to the undo redo list */
         ctrl_undo_redo_list_add_update_diagramelement( (*this_).undo_redo_list, &old_diagramelement, &new_diagramelement );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );

@@ -33,10 +33,12 @@ struct pencil_size_struct {
     double standard_line_width;  /*! line width of standard lines */
     double bold_line_width;  /*! line width of bold lines */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
-    GdkRGBA standard_color;  /*!< color of all standard objects */
-    GdkRGBA select_color;  /*!< color of all selected objects */
-    GdkRGBA highlight_color;  /*!< color of the highlighted/mouse over object */
-    GdkRGBA focus_color;  /*!< color of the one focused object */
+    GdkRGBA standard_color;  /*!< foreground color of all standard objects */
+    GdkRGBA select_color;  /*!< foreground color of all currently selected objects (user selected set): pink */
+    GdkRGBA highlight_color;  /*!< foreground color of the current highlighted/mouse over object: turquoise */
+    GdkRGBA focus_color;  /*!< foreground color of the one currently focused object: yellow */
+    GdkRGBA emphasized_color;  /*!< background color of the durable-emphasized objects: yellow */
+    GdkRGBA gray_out_color;  /*!< foreground color of the durable-greyed_out objects: gray */
 };
 
 typedef struct pencil_size_struct pencil_size_t;
@@ -163,6 +165,20 @@ static inline GdkRGBA pencil_size_get_highlight_color( pencil_size_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline GdkRGBA pencil_size_get_focus_color( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: emphasized_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_emphasized_color( pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: gray_out_color
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkRGBA pencil_size_get_gray_out_color( pencil_size_t *this_ );
 
 #include "pencil_size.inl"
 

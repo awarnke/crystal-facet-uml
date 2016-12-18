@@ -39,6 +39,16 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).focus_color.blue = 0.0;
     (*this_).focus_color.alpha = 1.0;
 
+    (*this_).emphasized_color.red = 1.0;
+    (*this_).emphasized_color.green = 1.0;
+    (*this_).emphasized_color.blue = 0.3;
+    (*this_).emphasized_color.alpha = 1.0;
+
+    (*this_).gray_out_color.red = 0.7;
+    (*this_).gray_out_color.green = 0.7;
+    (*this_).gray_out_color.blue = 0.7;
+    (*this_).gray_out_color.alpha = 1.0;
+
     /* guess some default values: */
     (*this_).standard_font_size = 9.0;
     (*this_).standard_font_description = pango_font_description_new ();
@@ -143,6 +153,16 @@ static inline GdkRGBA pencil_size_get_highlight_color( pencil_size_t *this_ )
 static inline GdkRGBA pencil_size_get_focus_color( pencil_size_t *this_ )
 {
     return (*this_).focus_color;
+}
+
+static inline GdkRGBA pencil_size_get_emphasized_color( pencil_size_t *this_ )
+{
+    return (*this_).emphasized_color;
+}
+
+static inline GdkRGBA pencil_size_get_gray_out_color( pencil_size_t *this_ )
+{
+    return (*this_).gray_out_color;
 }
 
 

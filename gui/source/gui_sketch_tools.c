@@ -641,7 +641,15 @@ void gui_sketch_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
     gui_sketch_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
+    data_small_set_t *set_to_be_highlighted;
+
     gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    set_to_be_highlighted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+
+    /* do not check if set is empty; gui_sketch_tools_private_toggle_display_flag_in_set will do this */
+
+    gui_sketch_tools_private_toggle_display_flag_in_set( this_, set_to_be_highlighted, DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GREY_OUT );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -653,10 +661,146 @@ void gui_sketch_tools_instantiate_btn_callback( GtkWidget* button, gpointer data
     gui_sketch_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
+    data_small_set_t *set_to_be_instantiated;
+
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
+    set_to_be_instantiated = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+
+    /* do not check if set is empty; gui_sketch_tools_private_toggle_display_flag_in_set will do this */
+
+    gui_sketch_tools_private_toggle_display_flag_in_set( this_, set_to_be_instantiated, DATA_DIAGRAMELEMENT_FLAG_INSTANCE );
 
     TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
+{
+    TRACE_BEGIN();
+    ctrl_error_t error = CTRL_ERROR_NONE;
+    bool new_pattern_initialized = false;
+    data_diagramelement_flag_t new_pattern;
+    bool is_first = true;
+
+    for ( int index = 0; index < data_small_set_get_count( set_to_be_toggled ); index ++ )
+    {
+        data_id_t current_id;
+        current_id = data_small_set_get_id( set_to_be_toggled, index );
+        switch ( data_id_get_table( &current_id ) )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+                /* program internal error */
+                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                error |= CTRL_ERROR_INVALID_REQUEST;
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            {
+                /* program internal error */
+                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                error |= CTRL_ERROR_INVALID_REQUEST;
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                /* program internal error */
+                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                error |= CTRL_ERROR_INVALID_REQUEST;
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            {
+                data_diagramelement_t out_diagramelement;
+                int64_t diag_elem_id = data_id_get_row_id( &current_id );
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr( (*this_).controller );
+
+                error |= (ctrl_error_t) data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
+                                                                                        diag_elem_id,
+                                                                                        &out_diagramelement
+                                                                                      );
+                data_diagramelement_flag_t current_flags;
+                current_flags = data_diagramelement_get_display_flags( &out_diagramelement );
+
+                if ( ! new_pattern_initialized )
+                {
+                    /* select zero or one bit to set. alg: select the next highest bit */
+                    bool last_was_set = true;
+                    new_pattern = 0;
+                    for ( int bit = 0; bit < 8*sizeof(data_diagramelement_flag_t); bit ++ )
+                    {
+                        data_diagramelement_flag_t probe = (1 << bit);
+                        if ( 0 != ( probe & flag_bits_to_toggle ) )
+                        {
+                            /* this is a relevant bit */
+                            if ( 0 != ( probe & current_flags ) )
+                            {
+                                new_pattern = 0;
+                                last_was_set = true;
+                            }
+                            else
+                            {
+                                if ( last_was_set )
+                                {
+                                    new_pattern = probe;
+                                }
+                                last_was_set = false;
+                            }
+                        }
+                    }
+                    new_pattern_initialized = true;
+                }
+
+                current_flags = current_flags & (~flag_bits_to_toggle) | new_pattern;
+
+                error |= ctrl_diagram_controller_update_diagramelement_display_flags( diag_ctrl,
+                                                                                      diag_elem_id,
+                                                                                      current_flags,
+                                                                                      ! is_first
+                                                                                    );
+                is_first = false;
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                /* program internal error */
+                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                error |= CTRL_ERROR_INVALID_REQUEST;
+            }
+            break;
+
+            default:
+            {
+                /* program internal error */
+                TSLOG_ERROR( "gui_sketch_tools_private_toggle_display_flag_in_set fould illegal data_table_t enum value." );
+            }
+            break;
+        }
+    }
+
+    if ( error != CTRL_ERROR_NONE )
+    {
+        /* error to be shown to the user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE
+        );
+    }
+    else if ( 0 == data_small_set_get_count( set_to_be_toggled ) )
+    {
+        /* error to be shown to the user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
+        );
+    }
+
     TRACE_END();
 }
 

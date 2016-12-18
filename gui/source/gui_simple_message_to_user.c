@@ -213,6 +213,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Operation cannot be performed on all elements in the set." );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");
