@@ -45,8 +45,50 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     TRACE_BEGIN();
     ctrl_error_t err_result = CTRL_ERROR_NONE;
     data_error_t data_err;
-    int error_count = 0;
-    int fix_count = 0;
+    uint32_t error_count = 0;
+    uint32_t fix_count = 0;
+
+    /* get all root diagrams */
+    err_result |= ctrl_consistency_checker_private_ensure_single_root( this_, modify_db, &error_count, &fix_count, out_report );
+
+    /* find unreferenced objects */
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_diagrams ( &((*this_).db_checker), &unref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        error_count += data_small_set_get_count( &unref );
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+    }
+
+    /* prepare results and return */
+    if ( NULL != out_err )
+    {
+        (*out_err) = error_count;
+    }
+    if ( NULL != out_fix )
+    {
+        (*out_fix) = fix_count;
+    }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_single_root ( ctrl_consistency_checker_t *this_,
+                                                                   bool modify_db,
+                                                                   uint32_t *io_err,
+                                                                   uint32_t *io_fix,
+                                                                   utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    assert ( NULL != io_fix );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
 
     /* get all root diagrams */
     uint32_t out_diagram_count;
@@ -55,7 +97,7 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
                                                                 CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
                                                                 &((*this_).temp_diagram_buffer),
                                                                 & out_diagram_count
-                                                              );
+    );
 
     if ( DATA_ERROR_NONE == data_err )
     {
@@ -72,16 +114,17 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
         }
         if ( out_diagram_count == 0 )
         {
-            error_count ++;
+            (*io_err) ++;
             utf8stringbuf_append_str( out_report, "PROPOSED FIX: Create a diagram via the GUI.\n" );
         }
         else if ( out_diagram_count > 1 )
         {
-            error_count += (out_diagram_count-1) ;
+            (*io_err) += (out_diagram_count-1) ;
+            int64_t proposed_root_diagram_id = data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) );
             if ( ! modify_db )
             {
                 utf8stringbuf_append_str( out_report, "PROPOSED FIX: Attach additional root diagrams below the first: " );
-                utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+                utf8stringbuf_append_int( out_report, proposed_root_diagram_id );
                 utf8stringbuf_append_str( out_report, "\n" );
             }
             else
@@ -89,18 +132,18 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
                 for ( int list_pos = 1; list_pos < out_diagram_count; list_pos ++ )
                 {
                     data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
-                                                                                data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ),
-                                                                                data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ),
-                                                                                NULL
-                                                                             );
+                                                                               data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ),
+                                                                               proposed_root_diagram_id,
+                                                                               NULL
+                    );
                     if ( DATA_ERROR_NONE == data_err )
                     {
                         utf8stringbuf_append_str( out_report, "FIX: Diagram " );
                         utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
                         utf8stringbuf_append_str( out_report, " attached to " );
-                        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+                        utf8stringbuf_append_int( out_report, proposed_root_diagram_id);
                         utf8stringbuf_append_str( out_report, "\n" );
-                        fix_count ++;
+                        (*io_fix) ++;
                     }
                     else
                     {
@@ -113,29 +156,6 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     else
     {
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-    }
-
-    /* find unreferenced objects */
-    data_small_set_t unref;
-    data_small_set_init( &unref );
-    data_err = data_database_consistency_checker_find_unreferenced_diagrams ( &((*this_).db_checker), &unref );
-
-    if ( DATA_ERROR_NONE == data_err )
-    {
-        error_count += data_small_set_get_count( &unref );
-    }
-    else
-    {
-        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
-    }
-
-    if ( NULL != out_err )
-    {
-        (*out_err) = error_count;
-    }
-    if ( NULL != out_fix )
-    {
-        (*out_fix) = fix_count;
     }
 
     TRACE_END_ERR( err_result );

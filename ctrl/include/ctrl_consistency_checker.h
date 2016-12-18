@@ -99,6 +99,25 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
                                                         utf8stringbuf_t out_report
                                                       );
 
+/*!
+ *  \brief checks and repairs the database with regards to providing a single root diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_single_root ( ctrl_consistency_checker_t *this_,
+                                                                   bool modify_db,
+                                                                   uint32_t *io_err,
+                                                                   uint32_t *io_fix,
+                                                                   utf8stringbuf_t out_report
+                                                                 );
+
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 
 

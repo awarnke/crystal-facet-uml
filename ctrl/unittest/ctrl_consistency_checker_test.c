@@ -9,7 +9,8 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void diagram_consistency(void);
+static void diagram_two_roots_consistency(void);
+static void diagram_missing_parent_consistency(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -39,7 +40,8 @@ static ctrl_controller_t controller;
 TestRef ctrl_consistency_checker_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("diagram_consistency",diagram_consistency),
+        new_TestFixture("diagram_two_roots_consistency",diagram_two_roots_consistency),
+        new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
 
@@ -70,12 +72,76 @@ static void tear_down(void)
     err = remove( DATABASE_FILENAME );
 }
 
-static void diagram_consistency(void)
+static void diagram_two_roots_consistency(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[512] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create first root diagrams */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   2 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name",
+                                   "diagram_description",
+                                   10222 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create second root diagrams */
+    data_err = data_diagram_init ( &current_diagram,
+                                   4 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name_2",
+                                   "diagram_description_2",
+                                   10333 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, true /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
+    TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );  /* two roots */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
+
+static void diagram_missing_parent_consistency(void)
 {
     /* tests not yet implemented */
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    char out_report_buf[2000] = "";
+    char out_report_buf[512] = "";
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;
