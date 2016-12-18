@@ -125,6 +125,17 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 data_error_t data_database_writer_update_diagram_list_order ( data_database_writer_t *this_, int64_t diagram_id, int32_t new_diagram_list_order, data_diagram_t *out_old_diagram );
 
 /*!
+ *  \brief updates the diagram attribute: parent_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be updated
+ *  \param new_diagram_parent_id new parent diagram id of the diagram
+ *  \param out_old_diagram storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
+
+/*!
  *  \brief creates a new classifier and returns its id
  *
  *  \param this_ pointer to own object attributes
@@ -231,6 +242,17 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement );
+
+/*!
+ *  \brief updates the diagramelement attribute: display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be updated
+ *  \param new_display_flags new display flags of the diagramelement
+ *  \param out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
 
 /*!
  *  \brief executes a single SQL command

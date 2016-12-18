@@ -78,7 +78,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
         data_diagramelement_t link_to_be_created;
         int64_t new_link_id;
 
-        data_diagramelement_init_new( &link_to_be_created, diagram_id, new_id, DATA_DIAGRAMELEMENT_DISPLAY_FLAG_NONE );
+        data_diagramelement_init_new( &link_to_be_created, diagram_id, new_id, DATA_DIAGRAMELEMENT_FLAG_NONE );
 
         data_result = data_database_writer_create_diagramelement( (*this_).db_writer, &link_to_be_created, &new_link_id );
         if ( DATA_ERROR_NONE == data_result )

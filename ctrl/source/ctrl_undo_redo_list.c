@@ -251,10 +251,12 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
                 diag = ctrl_undo_redo_entry_get_diagram_after_action_ptr ( action );
             }
             int64_t diag_id = data_diagram_get_id ( diag );
+            int64_t diag_parent_id = data_diagram_get_parent_id ( diag );
             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag );
             const char* diag_name = data_diagram_get_name_ptr ( diag );
             const char* diag_description = data_diagram_get_description_ptr ( diag );
             int32_t diag_list_oder = data_diagram_get_list_order ( diag );
+            result |= (ctrl_error_t) data_database_writer_update_diagram_parent_id ( (*this_).db_writer, diag_id, diag_parent_id, NULL );
             result |= (ctrl_error_t) data_database_writer_update_diagram_type ( (*this_).db_writer, diag_id, diag_type, NULL );
             result |= (ctrl_error_t) data_database_writer_update_diagram_name ( (*this_).db_writer, diag_id, diag_name, NULL );
             result |= (ctrl_error_t) data_database_writer_update_diagram_description ( (*this_).db_writer, diag_id, diag_description, NULL );
@@ -297,16 +299,18 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_DIAGRAMELEMENT" );
+            data_diagramelement_t *diag_element;
             if ( undo )
             {
-                TSLOG_ERROR( "function not implemented, not expected to be needed." );
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                diag_element = ctrl_undo_redo_entry_get_diagramelement_before_action_ptr ( action );
             }
             else
             {
-                TSLOG_ERROR( "function not implemented, not expected to be needed." );
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                diag_element = ctrl_undo_redo_entry_get_diagramelement_after_action_ptr ( action );
             }
+            int64_t diag_elem_id = data_diagramelement_get_id ( diag_element );
+            data_diagramelement_flag_t diag_elem_display_flags = data_diagramelement_get_display_flags ( diag_element );
+            result |= (ctrl_error_t) data_database_writer_update_diagramelement_display_flags ( (*this_).db_writer, diag_elem_id, diag_elem_display_flags, NULL );
         }
         break;
 
