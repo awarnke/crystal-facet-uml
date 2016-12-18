@@ -34,6 +34,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
+#include "util/string/utf8stringbuf.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -80,11 +81,12 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
  *  \return CTRL_ERROR_NONE in case of success,
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db );
+ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db, utf8stringbuf_t out_report );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

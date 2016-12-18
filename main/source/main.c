@@ -65,6 +65,9 @@ int main (int argc, char *argv[]) {
     /* repair database */
     if ( do_repair || do_check )
     {
+        char repair_log_buffer[10000] = "";
+        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+
         TRACE_INFO("starting DB...");
         data_database_init( &database );
         data_database_open( &database, database_file );
@@ -73,7 +76,7 @@ int main (int argc, char *argv[]) {
         ctrl_controller_init( &controller, &database );
 
         TRACE_INFO("reparing/checking...");
-        ctrl_controller_repair_database( &controller, do_repair );
+        ctrl_controller_repair_database( &controller, do_repair, repair_log );
         TRACE_INFO("reparing/checking finished.");
 
         TRACE_INFO("destroying controller...");
@@ -82,6 +85,8 @@ int main (int argc, char *argv[]) {
         TRACE_INFO("stopping DB...");
         data_database_close( &database );
         data_database_destroy( &database );
+
+        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
     }
 
     /* run program */

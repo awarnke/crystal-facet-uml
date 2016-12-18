@@ -40,7 +40,7 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db )
+ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db, utf8stringbuf_t out_report )
 {
     TRACE_BEGIN();
     ctrl_error_t err_result = CTRL_ERROR_NONE;
@@ -57,10 +57,14 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
                                                                 & out_diagram_count
     );
 
-    TSLOG_EVENT_INT( "ROOT DIAGRAM COUNT:", out_diagram_count );
+    utf8stringbuf_append_str( out_report, "ROOT DIAGRAM COUNT: " );
+    utf8stringbuf_append_int( out_report, out_diagram_count );
+    utf8stringbuf_append_str( out_report, "\n" );
     for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
     {
-        TSLOG_EVENT_STR( "ROOT DIAGRAM:", data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
+        utf8stringbuf_append_str( out_report, "ROOT DIAGRAM: " );
+        utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
+        utf8stringbuf_append_str( out_report, "\n" );
     }
 
     TRACE_END_ERR( err_result );

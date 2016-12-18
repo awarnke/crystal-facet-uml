@@ -20,9 +20,9 @@ static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ )
     return ctrl_undo_redo_list_redo( &((*this_).undo_redo_list) );
 }
 
-static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_, bool modify_db )
+static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_, bool modify_db, utf8stringbuf_t out_report )
 {
-    return ctrl_consistency_checker_repair_database( &((*this_).consistency_checker), modify_db );
+    return ctrl_consistency_checker_repair_database( &((*this_).consistency_checker), modify_db, out_report );
 }
 
 /*
