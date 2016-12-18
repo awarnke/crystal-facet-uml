@@ -45,6 +45,7 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     TRACE_BEGIN();
     ctrl_error_t err_result = CTRL_ERROR_NONE;
     data_error_t data_err;
+    int error_count = 0;
 
     TSLOG_ERROR( "not yet implemented" );
 
@@ -63,8 +64,28 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
     {
         utf8stringbuf_append_str( out_report, "ROOT DIAGRAM: " );
+        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+        utf8stringbuf_append_str( out_report, ": " );
         utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
         utf8stringbuf_append_str( out_report, "\n" );
+    }
+    if ( out_diagram_count == 0 )
+    {
+        error_count ++;
+        utf8stringbuf_append_str( out_report, "PROPOSED FIX: Create a diagram via the GUI.\n" );
+    }
+    else if ( out_diagram_count > 1 )
+    {
+        error_count += (out_diagram_count-1) ;
+        if ( ! modify_db )
+        {
+            utf8stringbuf_append_str( out_report, "PROPOSED FIX: Attach additional root diagrams below the first: " );
+            utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+            utf8stringbuf_append_str( out_report, "\n" );
+        }
+        else
+        {
+        }
     }
 
     TRACE_END_ERR( err_result );
