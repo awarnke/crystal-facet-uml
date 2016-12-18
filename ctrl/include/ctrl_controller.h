@@ -94,12 +94,19 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
+ *  \param out_err number of errors detected (NULL if not requested)
+ *  \param out_fix number of errors fixed (NULL if not requested)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
  *  \return CTRL_ERROR_NONE in case of success,
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
-static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_, bool modify_db, utf8stringbuf_t out_report );
+static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *this_,
+                                                             bool modify_db,
+                                                             uint32_t *out_err,
+                                                             uint32_t *out_fix,
+                                                             utf8stringbuf_t out_report
+                                                           );
 
 #include "ctrl_controller.inl"
 

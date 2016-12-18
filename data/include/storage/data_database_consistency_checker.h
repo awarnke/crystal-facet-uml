@@ -50,10 +50,10 @@ data_error_t data_database_consistency_checker_destroy ( data_database_consisten
  *  \brief reads a diagram from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param out_set the set of unrefereenced diagrams. must not be NULL.
+ *  \param io_set the set of unrefereenced diagrams. out_set must not be NULL. out_set shall be initialized already.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB is database not open).
  */
-data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *out_set );
+data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 #endif  /* DATA_DATABASE_CONSISTENCY_CHECKER_H */
 

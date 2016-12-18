@@ -8,6 +8,8 @@
  *  \file
  *  \brief Performs consistency checks in the database
  *
+ *  - There shall be 1 root diagram
+ *      - diagrams.parent_id == DATA_ID_VOID_ID (is checked)
  *  - References shall be valid:
  *      - diagramelements.diagram_id,
  *      - diagramelements.classifier_id,
@@ -33,6 +35,7 @@
 #include "ctrl_error.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_consistency_checker.h"
 #include "data_diagram.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdio.h>
@@ -53,6 +56,7 @@ struct ctrl_consistency_checker_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    data_database_consistency_checker_t db_checker;  /*!< own instance of a db_checker */
 
     data_diagram_t temp_diagram_buffer[CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER];  /*!< buffer for reading diagrams */
 };
@@ -81,12 +85,19 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
+ *  \param out_err number of errors detected (NULL if not requested)
+ *  \param out_fix number of errors fixed (NULL if not requested)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
  *  \return CTRL_ERROR_NONE in case of success,
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db, utf8stringbuf_t out_report );
+ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
+                                                        bool modify_db,
+                                                        uint32_t *out_err,
+                                                        uint32_t *out_fix,
+                                                        utf8stringbuf_t out_report
+                                                      );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

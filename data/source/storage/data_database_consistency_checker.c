@@ -31,12 +31,93 @@ data_error_t data_database_consistency_checker_destroy ( data_database_consisten
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *out_set )
+static const int AUTO_DETECT_SQL_LENGTH = -1;
+static void* NO_SQL_DEBUG_INFORMATION = NULL;
+static const int MAX_DIAGRAMS_TO_CHECK = 100000;
+static const char SELECT_DIAGRAMS_AND_PARENTS[] =
+    "SELECT child.id,child.parent_id,parent.id "
+    "FROM diagrams AS child LEFT JOIN diagrams AS parent ON child.parent_id=parent.id;";
+
+data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
-    assert( NULL != out_set );
+    assert( NULL != io_set );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        sqlite3 *native_db;
+        char *error_msg = NULL;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_AND_PARENTS );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_DIAGRAMS_AND_PARENTS,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+                                         );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_DIAGRAMS_TO_CHECK); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+
+                    int64_t child_id = sqlite3_column_int64( prepared_statement, 0 /*=RESULT_ID_COLUMN*/ );
+                    int64_t child_parent_id = sqlite3_column_int64( prepared_statement, 1 /*=RESULT_ID_COLUMN*/ );
+                    int64_t parent_id = sqlite3_column_int64( prepared_statement, 2 /*=RESULT_ID_COLUMN*/ );
+                    if ( child_parent_id == parent_id )
+                    {
+                        TRACE_INFO_INT( "success:", child_id );
+                    }
+                    else if ( child_parent_id == DATA_ID_VOID_ID )
+                    {
+                        TRACE_INFO_INT( "root:", child_id );
+                    }
+                    else
+                    {
+                        TSLOG_ERROR_INT( "referenced parent not existing:", child_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, child_id );
+                    }
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+    }
 
     TRACE_END_ERR( result );
     return result;

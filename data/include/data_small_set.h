@@ -90,6 +90,17 @@ static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, dat
 static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, data_id_t obj_id );
 
 /*!
+ *  \brief adds a obj_id to data_small_set_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table table-id to be seached
+ *  \param row_id row-id to be seached
+ *  \return DATA_ERROR_DUPLICATE_ID if id is already contained, DATA_ERROR_ARRAY_BUFFER_EXCEEDED if DATA_SMALL_SET_MAX_SET_SIZE exceeded,
+ *          DATA_ERROR_INVALID_REQUEST if object id is invalid, DATA_ERROR_NONE else.
+ */
+static inline data_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, int64_t row_id );
+
+/*!
  *  \brief deletes an obj_id from data_small_set_t
  *
  *  \param this_ pointer to own object attributes

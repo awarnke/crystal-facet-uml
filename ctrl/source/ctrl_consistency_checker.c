@@ -18,12 +18,16 @@ void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_dat
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
 
+    data_database_consistency_checker_init( &((*this_).db_checker), database );
+
     TRACE_END();
 }
 
 void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
 {
     TRACE_BEGIN();
+
+    data_database_consistency_checker_destroy( &((*this_).db_checker) );
 
     (*this_).database = NULL;
     (*this_).db_reader = NULL;
@@ -32,22 +36,17 @@ void ctrl_consistency_checker_destroy ( ctrl_consistency_checker_t *this_ )
     TRACE_END();
 }
 
-/*
- *  \brief checks and repairs the database
- *
- *  \param modify_db true if the database shall be repaired and modified
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
- */
-ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_, bool modify_db, utf8stringbuf_t out_report )
+ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker_t *this_,
+                                                        bool modify_db,
+                                                        uint32_t *out_err,
+                                                        uint32_t *out_fix,
+                                                        utf8stringbuf_t out_report )
 {
     TRACE_BEGIN();
     ctrl_error_t err_result = CTRL_ERROR_NONE;
     data_error_t data_err;
     int error_count = 0;
-
-    TSLOG_ERROR( "not yet implemented" );
+    int fix_count = 0;
 
     /* get all root diagrams */
     uint32_t out_diagram_count;
@@ -56,39 +55,91 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
                                                                 CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER,
                                                                 &((*this_).temp_diagram_buffer),
                                                                 & out_diagram_count
-    );
+                                                              );
 
-    utf8stringbuf_append_str( out_report, "ROOT DIAGRAM COUNT: " );
-    utf8stringbuf_append_int( out_report, out_diagram_count );
-    utf8stringbuf_append_str( out_report, "\n" );
-    for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
+    if ( DATA_ERROR_NONE == data_err )
     {
-        utf8stringbuf_append_str( out_report, "ROOT DIAGRAM: " );
-        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
-        utf8stringbuf_append_str( out_report, ": " );
-        utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
+        utf8stringbuf_append_str( out_report, "ROOT DIAGRAM COUNT: " );
+        utf8stringbuf_append_int( out_report, out_diagram_count );
         utf8stringbuf_append_str( out_report, "\n" );
-    }
-    if ( out_diagram_count == 0 )
-    {
-        error_count ++;
-        utf8stringbuf_append_str( out_report, "PROPOSED FIX: Create a diagram via the GUI.\n" );
-    }
-    else if ( out_diagram_count > 1 )
-    {
-        error_count += (out_diagram_count-1) ;
-        if ( ! modify_db )
+        for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
         {
-            utf8stringbuf_append_str( out_report, "PROPOSED FIX: Attach additional root diagrams below the first: " );
-            utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+            utf8stringbuf_append_str( out_report, "ROOT DIAGRAM: " );
+            utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+            utf8stringbuf_append_str( out_report, ": " );
+            utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, "\n" );
         }
-        else
+        if ( out_diagram_count == 0 )
         {
+            error_count ++;
+            utf8stringbuf_append_str( out_report, "PROPOSED FIX: Create a diagram via the GUI.\n" );
         }
+        else if ( out_diagram_count > 1 )
+        {
+            error_count += (out_diagram_count-1) ;
+            if ( ! modify_db )
+            {
+                utf8stringbuf_append_str( out_report, "PROPOSED FIX: Attach additional root diagrams below the first: " );
+                utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+                utf8stringbuf_append_str( out_report, "\n" );
+            }
+            else
+            {
+                for ( int list_pos = 1; list_pos < out_diagram_count; list_pos ++ )
+                {
+                    data_err = data_database_writer_update_diagram_parent_id ( (*this_).db_writer,
+                                                                                data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ),
+                                                                                data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ),
+                                                                                NULL
+                                                                             );
+                    if ( DATA_ERROR_NONE == data_err )
+                    {
+                        utf8stringbuf_append_str( out_report, "FIX: Diagram " );
+                        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
+                        utf8stringbuf_append_str( out_report, " attached to " );
+                        utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[0]) ) );
+                        utf8stringbuf_append_str( out_report, "\n" );
+                        fix_count ++;
+                    }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+    }
+
+    /* find unreferenced objects */
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_diagrams ( &((*this_).db_checker), &unref );
+
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        error_count += data_small_set_get_count( &unref );
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+    }
+
+    if ( NULL != out_err )
+    {
+        (*out_err) = error_count;
+    }
+    if ( NULL != out_fix )
+    {
+        (*out_fix) = fix_count;
     }
 
     TRACE_END_ERR( err_result );
+    return err_result;
 }
 
 

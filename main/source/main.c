@@ -76,7 +76,7 @@ int main (int argc, char *argv[]) {
         ctrl_controller_init( &controller, &database );
 
         TRACE_INFO("reparing/checking...");
-        ctrl_controller_repair_database( &controller, do_repair, repair_log );
+        ctrl_controller_repair_database( &controller, do_repair, NULL, NULL, repair_log );
         TRACE_INFO("reparing/checking finished.");
 
         TRACE_INFO("destroying controller...");

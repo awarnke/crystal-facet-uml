@@ -123,6 +123,16 @@ static inline data_error_t data_small_set_add_obj ( data_small_set_t *this_, dat
     return result;
 }
 
+static inline data_error_t data_small_set_add_row_id ( data_small_set_t *this_, data_table_t table, int64_t row_id )
+{
+    bool result;
+    data_id_t my_id;
+    data_id_init( &my_id, table, row_id );
+    result = data_small_set_add_obj( this_, my_id );
+    data_id_destroy( &my_id );
+    return result;
+}
+
 static inline data_error_t data_small_set_delete_obj ( data_small_set_t *this_, data_id_t obj_id )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );

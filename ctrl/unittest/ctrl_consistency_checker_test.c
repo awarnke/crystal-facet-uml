@@ -2,14 +2,14 @@
 
 #include "ctrl_consistency_checker_test.h"
 #include "ctrl_controller.h"
-#include "ctrl_classifier_controller.h"
 #include "storage/data_database.h"
+#include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include <stdio.h>
 
 static void set_up(void);
 static void tear_down(void);
-static void classifier_consistency(void);
+static void diagram_consistency(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -27,6 +27,11 @@ static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu.s
 static data_database_reader_t db_reader;
 
 /*!
+ *  \brief database writer to access the database
+ */
+static data_database_writer_t db_writer;
+
+/*!
  *  \brief controller instance on which the tests are performed
  */
 static ctrl_controller_t controller;
@@ -34,7 +39,7 @@ static ctrl_controller_t controller;
 TestRef ctrl_consistency_checker_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("classifier_consistency",classifier_consistency),
+        new_TestFixture("diagram_consistency",diagram_consistency),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
 
@@ -47,6 +52,7 @@ static void set_up(void)
     data_database_open( &database, DATABASE_FILENAME );
 
     data_database_reader_init( &db_reader, &database );
+    data_database_writer_init( &db_writer, &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
 }
@@ -56,6 +62,7 @@ static void tear_down(void)
     int err;
     ctrl_controller_destroy( &controller );
 
+    data_database_writer_destroy( &db_writer );
     data_database_reader_destroy( &db_reader );
 
     data_database_close( &database );
@@ -63,9 +70,38 @@ static void tear_down(void)
     err = remove( DATABASE_FILENAME );
 }
 
-static void classifier_consistency(void)
+static void diagram_consistency(void)
 {
     /* tests not yet implemented */
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[2000] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create some diagrams */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   2 /*=diagram_id*/,
+                                   5 /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name",
+                                   "diagram_description",
+                                   10222 /*=list_order*/
+                                 );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* no root, id-2 without parent */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 
