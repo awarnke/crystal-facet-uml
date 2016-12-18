@@ -20,8 +20,8 @@
  *  - Circular link structures are forbidden in:
  *      - diagrams.parent_id.
  *  - Names shall be unique:
- *      - classifiers.name (checked by DB-contraint),
- *      - features.key (checked by DB-contraint).
+ *      - classifiers.name (checked by DB-constraint),
+ *      - features.key (checked by DB-constraint).
  *  - Enumerations shall be valid constants:
  *      - classifiers.main_type,
  *      - relationships.main_type,
@@ -33,16 +33,27 @@
 #include "ctrl_error.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "data_diagram.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
 
 /*!
+ *  \brief constants to define maximum array sizes
+ */
+enum ctrl_consistency_checker_max_enum {
+    CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER = 16,  /*!< maximum size of diagram buffer */
+};
+
+/*!
  *  \brief data attributes needed for the consistency functions
  */
 struct ctrl_consistency_checker_struct {
+    data_database_t *database;  /*!< pointer to external database */
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+
+    data_diagram_t temp_diagram_buffer[CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER];  /*!< buffer for reading diagrams */
 };
 
 typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;
@@ -51,10 +62,11 @@ typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;
  *  \brief initializes the ctrl_consistency_checker_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param database pointer to database
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
-void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
+void ctrl_consistency_checker_init ( ctrl_consistency_checker_t *this_, data_database_t *database, data_database_reader_t *db_reader, data_database_writer_t *db_writer );
 
 /*!
  *  \brief destroys the ctrl_consistency_checker_t struct
