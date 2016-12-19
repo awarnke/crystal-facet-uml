@@ -135,7 +135,6 @@ static void diagram_two_roots_consistency(void)
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
-
 static void diagram_missing_parent_consistency(void)
 {
     /* tests not yet implemented */
@@ -181,6 +180,22 @@ static void diagram_missing_parent_consistency(void)
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* no root, id-2+id-4 without parent */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, true /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* no root, id-2+id-4 without parent */
+    TEST_ASSERT_EQUAL_INT( 2, fixed_errors );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* no root */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 

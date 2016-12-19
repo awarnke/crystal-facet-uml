@@ -9,7 +9,7 @@ gui:
 
 pencil:
 - renders diagrams to cairo drawing contexts
-- highlights of uml-elements as requested by the gui module
+- highlights uml-elements as requested by the gui module
 
 ctrl:
 - provides write access to the database

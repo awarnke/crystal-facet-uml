@@ -1,11 +1,11 @@
 Features:
 This diagram lists the main features of crystal facet uml.
 
-Classifier has many relations:
+Classifier has relations:
 A classifier can have zero, one or many relations; these may be of one or of differnet types.
 Circular dependencies may be forbidden if semantics undefined.
 
-Classifier is marked in one diagram:
+Classifier is marked:
 A classifier can be highlighted in one or several diagrams.
 The highlighting may be different in different diagrams where the classifier is shown.
 
@@ -20,6 +20,7 @@ A classifier can represent an anonymous (implicit) instance without defining an 
 
 Classifier is shown:
 Classifiers are drawn to diagrams
+one classifier is visible in one or multiple diagrams
 
 Classifier is explicit instance:
 A classifier can be an explicitly modelled instance of another classifier

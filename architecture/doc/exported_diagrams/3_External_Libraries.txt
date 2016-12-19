@@ -15,6 +15,9 @@ String library
 gdk:
 Drawing library
 
+pango:
+- font rendering engine
+
 cairo:
 Library providing drawing primitives
 
