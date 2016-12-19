@@ -445,7 +445,7 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     {
         (*out_number) = 0.0;
         (*io_read_pos) = new_pos;
-        result_err = DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+        result_err = DATA_ERROR_NOT_YET_IMPLEMENTED;
     }
 
     TRACE_END_ERR( result_err );

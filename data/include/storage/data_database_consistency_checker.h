@@ -47,13 +47,54 @@ data_error_t data_database_consistency_checker_init ( data_database_consistency_
 data_error_t data_database_consistency_checker_destroy ( data_database_consistency_checker_t *this_ );
 
 /*!
- *  \brief reads a diagram from the database
+ *  \brief reads the set of unreferenced diagrams from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param io_set the set of unrefereenced diagrams. out_set must not be NULL. out_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB is database not open).
+ *  \param io_set the set of unreferenced diagrams (invalid diagrams.parent_id).
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
+ *  \brief reads the set of unreferenced diagramelements from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of unreferenced diagramelements (invalid diagramelements.diagram_id or diagramelements.classifier_id).
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_unreferenced_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
+ *  \brief reads the set of unreferenced classifiers from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of unreferenced classifiers (no references from diagramelements.classifier_id).
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
+ *  \brief reads the set of unreferenced features from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of unreferenced features (invalid features.classifier_id).
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
+ *  \brief reads the set of unreferenced relationships from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of unreferenced relationships (invalid relationships.from_classifier_id or relationships.to_classifier_id).
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 #endif  /* DATA_DATABASE_CONSISTENCY_CHECKER_H */
 

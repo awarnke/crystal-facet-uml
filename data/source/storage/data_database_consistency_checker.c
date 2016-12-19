@@ -33,10 +33,13 @@ data_error_t data_database_consistency_checker_destroy ( data_database_consisten
 
 static const int AUTO_DETECT_SQL_LENGTH = -1;
 static void* NO_SQL_DEBUG_INFORMATION = NULL;
-static const int MAX_DIAGRAMS_TO_CHECK = 100000;
+static const int MAX_ROWS_TO_CHECK = 1000000;
 static const char SELECT_DIAGRAMS_AND_PARENTS[] =
     "SELECT child.id,child.parent_id,parent.id "
     "FROM diagrams AS child LEFT JOIN diagrams AS parent ON child.parent_id=parent.id;";
+static const char SELECT_DIAGRAMELEMENTS_AND_RELATED[] =
+    "SELECT diagramelements.id,diagramelements.diagram_id,diagramelements.classifier_id,diagrams.id,classifiers.id "
+    "FROM diagramelements LEFT JOIN diagrams ON diagramelements.diagram_id=diagrams.id LEFT JOIN classifiers ON diagramelements.classifier_id=classifiers.id;";
 
 data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
@@ -53,10 +56,8 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
     else
     {
         sqlite3 *native_db;
-        char *error_msg = NULL;
         native_db = data_database_get_database_ptr( (*this_).database );
         sqlite3_stmt *prepared_statement;
-
 
         TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_AND_PARENTS );
         sqlite_err =  sqlite3_prepare_v2 ( native_db,
@@ -74,7 +75,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_DIAGRAMS_TO_CHECK); row_index ++ )
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -119,6 +120,94 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
             TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
             result |= DATA_ERROR_AT_DB;
         }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_unreferenced_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
+        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
+        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
+        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
+        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
     }
 
     TRACE_END_ERR( result );

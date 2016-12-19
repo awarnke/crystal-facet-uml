@@ -341,7 +341,7 @@ static void test_parse(void)
     TEST_ASSERT_EQUAL_INT( 90, pos );
 
     res = data_json_tokenizer_get_number_value ( &tok, test_json, &pos, &my_double );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED_ID, res );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NOT_YET_IMPLEMENTED, res );
     TEST_ASSERT_EQUAL_INT( 98, pos );
 
     /* skip test for end object here */

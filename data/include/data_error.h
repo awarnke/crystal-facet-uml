@@ -33,7 +33,7 @@ enum data_error_enum {
     DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< 0x040000: unexpected internal error: an id is used twice */
     DATA_ERROR_DUPLICATE_NAME = (~(0x00f7ffff)),  /*!< 0x080000: internal error: a name is used twice */
     DATA_ERROR_VALUE_OUT_OF_RANGE = (~(0x00efffff)),  /*!< 0x100000: unexpected internal error: enum/integer out of range */
-    DATA_ERROR_NOT_YET_IMPLEMENTED_ID = (~(0x007fffff)),  /*!< 0x800000: internal error: function not yet implemented */
+    DATA_ERROR_NOT_YET_IMPLEMENTED = (~(0x007fffff)),  /*!< 0x800000: internal error: function not yet implemented */
     DATA_ERROR_MASK = (0x00ffffff),  /*!< 0xffffff: a mask to filter error bits after collecting possibly multiple errors */
 };
 

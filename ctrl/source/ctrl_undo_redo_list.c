@@ -395,11 +395,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;
@@ -409,11 +409,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;
@@ -423,11 +423,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;
@@ -437,11 +437,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;
@@ -451,11 +451,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;
@@ -465,11 +465,11 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
             }
         }
         break;

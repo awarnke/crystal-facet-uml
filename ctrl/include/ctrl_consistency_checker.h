@@ -9,7 +9,7 @@
  *  \brief Performs consistency checks in the database
  *
  *  - There shall be 1 root diagram
- *      - diagrams.parent_id == DATA_ID_VOID_ID (is checked)
+ *      - diagrams.parent_id == DATA_ID_VOID_ID
  *  - References shall be valid:
  *      - diagramelements.diagram_id,
  *      - diagramelements.classifier_id,

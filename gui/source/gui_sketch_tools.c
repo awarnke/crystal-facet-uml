@@ -233,13 +233,13 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
 
             case DATA_TABLE_FEATURE:
             {
-                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED;
             }
             break;
 
             case DATA_TABLE_RELATIONSHIP:
             {
-                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED_ID;
+                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED;
             }
             break;
 

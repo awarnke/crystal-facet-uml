@@ -319,13 +319,13 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
                 case DATA_TABLE_FEATURE:
                 {
-                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED_ID;
+                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
                 }
                 break;
 
