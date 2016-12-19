@@ -146,11 +146,11 @@ static void diagram_missing_parent_consistency(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create some diagrams */
+    /* create 1 diagram */
     data_diagram_t current_diagram;
     data_err = data_diagram_init ( &current_diagram,
                                    2 /*=diagram_id*/,
-                                   5 /*=parent_diagram_id*/,
+                                   0 /*=parent_diagram_id*/,
                                    DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
                                    "diagram_name",
                                    "diagram_description",
@@ -161,12 +161,26 @@ static void diagram_missing_parent_consistency(void)
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* create another diagram */
+    data_err = data_diagram_init ( &current_diagram,
+                                   4 /*=diagram_id*/,
+                                   17 /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-4",
+                                   "diagram_description-4",
+                                   10333 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* no root, id-2 without parent */
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* no root, id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 

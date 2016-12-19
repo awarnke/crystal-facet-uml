@@ -89,18 +89,20 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
                     int64_t child_id = sqlite3_column_int64( prepared_statement, 0 /*=RESULT_ID_COLUMN*/ );
                     int64_t child_parent_id = sqlite3_column_int64( prepared_statement, 1 /*=RESULT_ID_COLUMN*/ );
                     int64_t parent_id = sqlite3_column_int64( prepared_statement, 2 /*=RESULT_ID_COLUMN*/ );
-                    if ( child_parent_id == parent_id )
-                    {
-                        TRACE_INFO_INT( "success:", child_id );
-                    }
-                    else if ( child_parent_id == DATA_ID_VOID_ID )
+                    bool parent_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, 2 /*=RESULT_ID_COLUMN*/ ) );
+                    if ( child_parent_id == DATA_ID_VOID_ID )
                     {
                         TRACE_INFO_INT( "root:", child_id );
                     }
-                    else
+                    else if ( ! parent_exists )
                     {
-                        TSLOG_ERROR_INT( "referenced parent not existing:", child_id );
+                        TSLOG_ERROR_INT( "referenced parent not existing, child :", child_id );
+                        TSLOG_ERROR_INT( "referenced parent not existing, parent:", child_parent_id );
                         data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, child_id );
+                    }
+                    else /*if ( child_parent_id == parent_id )*/
+                    {
+                        TRACE_INFO_INT( "success:", child_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
