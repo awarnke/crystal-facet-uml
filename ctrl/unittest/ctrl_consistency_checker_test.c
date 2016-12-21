@@ -11,6 +11,8 @@ static void set_up(void);
 static void tear_down(void);
 static void diagram_two_roots_consistency(void);
 static void diagram_missing_parent_consistency(void);
+static void diagram_nonreferencing_diagramelements_consistency(void);
+static void diagram_unreferenced_classifiers_consistency(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -42,6 +44,8 @@ TestRef ctrl_consistency_checker_test_get_list(void)
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("diagram_two_roots_consistency",diagram_two_roots_consistency),
         new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
+        new_TestFixture("diagram_nonreferencing_diagramelements_consistency",diagram_nonreferencing_diagramelements_consistency),
+        new_TestFixture("diagram_unreferenced_classifiers_consistency",diagram_unreferenced_classifiers_consistency),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
 
@@ -174,12 +178,26 @@ static void diagram_missing_parent_consistency(void)
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* create a root diagram */
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* no root, id-2+id-4 without parent */
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
@@ -187,7 +205,7 @@ static void diagram_missing_parent_consistency(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, true /*modify_db*/, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* no root, id-2+id-4 without parent */
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
@@ -195,8 +213,16 @@ static void diagram_missing_parent_consistency(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* no root */
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
+static void diagram_nonreferencing_diagramelements_consistency(void)
+{
+}
+
+static void diagram_unreferenced_classifiers_consistency(void)
+{
 }
 
 

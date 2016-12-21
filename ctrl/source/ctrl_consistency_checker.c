@@ -61,8 +61,14 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     /* get all root diagrams */
     err_result |= ctrl_consistency_checker_private_ensure_single_root_diagram( this_, modify_db, &error_count, &fix_count, out_report );
 
-    /* find unreferenced objects */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parent( this_, modify_db, &error_count, &fix_count, out_report );
+    /* find unreferenced diagrams */
+    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &error_count, &fix_count, out_report );
+
+    /* find nonreferencing diagramelements */
+    err_result |=  ctrl_consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_report );
+
+    /* find unreferenced classifiers */
+    err_result |= ctrl_consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_report );
 
     /* prepare results and return */
     if ( NULL != out_err )
@@ -174,11 +180,11 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
     return err_result;
 }
 
-ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parent ( ctrl_consistency_checker_t *this_,
-                                                                            bool modify_db,
-                                                                            uint32_t *io_err,
-                                                                            uint32_t *io_fix,
-                                                                            utf8stringbuf_t out_report )
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
+                                                                             bool modify_db,
+                                                                             uint32_t *io_err,
+                                                                             uint32_t *io_fix,
+                                                                             utf8stringbuf_t out_report )
 {
     TRACE_BEGIN();
     assert ( NULL != io_err );
@@ -221,6 +227,144 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parent ( ctrl
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Diagram " );
                         utf8stringbuf_append_int( out_report, diagram_row_id );
+                        utf8stringbuf_append_str( out_report, " deleted.\n" );
+                        (*io_fix) ++;
+                    }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
+                        err_result |= (ctrl_error_t) data_err;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+        err_result |= (ctrl_error_t) data_err;
+    }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctrl_consistency_checker_t *this_,
+                                                                             bool modify_db,
+                                                                             uint32_t *io_err,
+                                                                             uint32_t *io_fix,
+                                                                             utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    assert ( NULL != io_fix );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
+
+    /* write report title */
+    utf8stringbuf_append_str( out_report, "STEP: Ensure that diagramelements reference valid diagrams and classifiers\n" );
+
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_nonreferencing_diagramelements ( &((*this_).db_checker), &unref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        uint32_t unref_count = data_small_set_get_count( &unref );
+
+        utf8stringbuf_append_str( out_report, "    NONREFERENCING DIAGRAMELEMENTS COUNT: " );
+        utf8stringbuf_append_int( out_report, unref_count );
+        utf8stringbuf_append_str( out_report, "\n" );
+
+        if ( unref_count != 0 )
+        {
+            (*io_err) += unref_count;
+
+            if ( ! modify_db )
+            {
+                utf8stringbuf_append_str( out_report, "    PROPOSED FIX: Delete " );
+                utf8stringbuf_append_int( out_report, unref_count );
+                utf8stringbuf_append_str( out_report, " diagramelements.\n" );
+            }
+            else
+            {
+                for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
+                {
+                    data_id_t diagramelement_id = data_small_set_get_id( &unref, list_pos );
+                    int64_t diagramelement_row_id = data_id_get_row_id( &diagramelement_id );
+                    data_err = data_database_writer_delete_diagramelement ( (*this_).db_writer, diagramelement_row_id, NULL );
+                    if ( DATA_ERROR_NONE == data_err )
+                    {
+                        utf8stringbuf_append_str( out_report, "    FIX: Diagramelement " );
+                        utf8stringbuf_append_int( out_report, diagramelement_row_id );
+                        utf8stringbuf_append_str( out_report, " deleted.\n" );
+                        (*io_fix) ++;
+                    }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
+                        err_result |= (ctrl_error_t) data_err;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+        err_result |= (ctrl_error_t) data_err;
+    }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
+                                                                              bool modify_db,
+                                                                              uint32_t *io_err,
+                                                                              uint32_t *io_fix,
+                                                                              utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    assert ( NULL != io_fix );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
+
+    /* write report title */
+    utf8stringbuf_append_str( out_report, "STEP: Ensure that classifiers are referenced\n" );
+
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_classifiers ( &((*this_).db_checker), &unref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        uint32_t unref_count = data_small_set_get_count( &unref );
+
+        utf8stringbuf_append_str( out_report, "    UNREFERENCED CLASSIFIER COUNT: " );
+        utf8stringbuf_append_int( out_report, unref_count );
+        utf8stringbuf_append_str( out_report, "\n" );
+
+        if ( unref_count != 0 )
+        {
+            (*io_err) += unref_count;
+
+            if ( ! modify_db )
+            {
+                utf8stringbuf_append_str( out_report, "    PROPOSED FIX: Delete " );
+                utf8stringbuf_append_int( out_report, unref_count );
+                utf8stringbuf_append_str( out_report, " classifiers.\n" );
+            }
+            else
+            {
+                for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
+                {
+                    data_id_t classifier_id = data_small_set_get_id( &unref, list_pos );
+                    int64_t classifier_row_id = data_id_get_row_id( &classifier_id );
+                    data_err = data_database_writer_delete_classifier ( (*this_).db_writer, classifier_row_id, NULL );
+                    if ( DATA_ERROR_NONE == data_err )
+                    {
+                        utf8stringbuf_append_str( out_report, "    FIX: Classifier " );
+                        utf8stringbuf_append_int( out_report, classifier_row_id );
                         utf8stringbuf_append_str( out_report, " deleted.\n" );
                         (*io_fix) ++;
                     }

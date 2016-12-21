@@ -57,14 +57,14 @@ data_error_t data_database_consistency_checker_destroy ( data_database_consisten
 data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 /*!
- *  \brief reads the set of unreferenced diagramelements from the database
+ *  \brief reads the set of nonreferencing diagramelements from the database
  *
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of unreferenced diagramelements (invalid diagramelements.diagram_id or diagramelements.classifier_id).
  *                io_set must not be NULL. io_set shall be initialized already.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
-data_error_t data_database_consistency_checker_find_unreferenced_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+data_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 /*!
  *  \brief reads the set of unreferenced classifiers from the database
