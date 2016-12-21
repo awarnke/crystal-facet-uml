@@ -20,16 +20,16 @@
  *  - Objects shall be linked:
  *      - classifiers shall be referenced by diagrams
  *  - Circular link structures are forbidden in:
- *      - diagrams.parent_id.
+ *      - diagrams.parent_id  (checked but cannot be repaired due to high effort to probability to severity ratio).
  *  - Names shall be unique:
  *      - classifiers.name (checked by DB-constraint),
  *      - features.key (checked by DB-constraint).
  *  - Enumerations shall be valid constants:
- *      - classifiers.main_type,
- *      - relationships.main_type,
- *      - features.main_type,
- *      - diagrams.diagram_type,
- *      - diagramelements.display_flags.
+ *      - classifiers.main_type (not checked, repairable via GUI),
+ *      - relationships.main_type (not checked, repairable via GUI),
+ *      - features.main_type (not checked, repairable via GUI),
+ *      - diagrams.diagram_type (not checked, repairable via GUI),
+ *      - diagramelements.display_flags (not checked).
  */
 
 #include "ctrl_error.h"
@@ -123,6 +123,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
+ *  \param out_total_diagrams number of total diagrams in teh database (not NULL)
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
@@ -132,6 +133,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
  */
 ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
+                                                                             uint32_t *out_total_diagrams,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
                                                                              utf8stringbuf_t out_report
@@ -174,6 +176,23 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
                                                                               uint32_t *io_fix,
                                                                               utf8stringbuf_t out_report
                                                                             );
+
+/*!
+ *  \brief checks the database with regards to circular references to parent diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param total_diagrams total number of diagrams in the database
+ *  \param io_err number of errors detected (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( ctrl_consistency_checker_t *this_,
+                                                                                uint32_t total_diagrams,
+                                                                                uint32_t *io_err,
+                                                                                utf8stringbuf_t out_report
+                                                                              );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

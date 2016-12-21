@@ -47,6 +47,7 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     data_error_t data_err;
     uint32_t error_count = 0;
     uint32_t fix_count = 0;
+    uint32_t total_diagrams;
 
     /* write report title */
     if ( modify_db )
@@ -62,7 +63,10 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     err_result |= ctrl_consistency_checker_private_ensure_single_root_diagram( this_, modify_db, &error_count, &fix_count, out_report );
 
     /* find unreferenced diagrams */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &error_count, &fix_count, out_report );
+    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &total_diagrams, &error_count, &fix_count, out_report );
+
+    /* find circular diagram parent links */
+    err_result |= ctrl_consistency_checker_private_detect_circular_diagram_parents ( this_, total_diagrams, &error_count, out_report );
 
     /* find nonreferencing diagramelements */
     err_result |=  ctrl_consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_report );
@@ -182,11 +186,13 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
 
 ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
+                                                                             uint32_t *out_total_diagrams,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
                                                                              utf8stringbuf_t out_report )
 {
     TRACE_BEGIN();
+    assert ( NULL != out_total_diagrams );
     assert ( NULL != io_err );
     assert ( NULL != io_fix );
     ctrl_error_t err_result = CTRL_ERROR_NONE;
@@ -197,7 +203,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctr
 
     data_small_set_t unref;
     data_small_set_init( &unref );
-    data_err = data_database_consistency_checker_find_unreferenced_diagrams ( &((*this_).db_checker), &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_diagrams ( &((*this_).db_checker), out_total_diagrams, &unref );
     if ( DATA_ERROR_NONE == data_err )
     {
         uint32_t unref_count = data_small_set_get_count( &unref );
@@ -382,6 +388,29 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
         err_result |= (ctrl_error_t) data_err;
     }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( ctrl_consistency_checker_t *this_,
+                                                                                uint32_t total_diagrams,
+                                                                                uint32_t *io_err,
+                                                                                utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
+
+    /* write report title */
+    utf8stringbuf_append_str( out_report, "STEP: Ensure that no circular references of diagram parents exist\n" );
+
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+
+    utf8stringbuf_append_str( out_report, "    implemented\n" );
+    TSLOG_ERROR( "not yet implemented" );
 
     TRACE_END_ERR( err_result );
     return err_result;

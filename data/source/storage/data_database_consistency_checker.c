@@ -122,12 +122,16 @@ static const int RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN = 1;
  */
 static const int RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN = 2;
 
-data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_,
+                                                                            uint32_t *out_total_count,
+                                                                            data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );
+    assert( NULL != out_total_count );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
+    (*out_total_count) = 0;
 
     if ( ! data_database_is_open( (*this_).database ) )
     {
@@ -185,6 +189,9 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
                     {
                         TRACE_INFO_INT( "ok:", child_id );
                     }
+
+                    /* diagram found */
+                    (*out_total_count)++;
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
