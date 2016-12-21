@@ -39,6 +39,16 @@ static data_database_writer_t db_writer;
  */
 static ctrl_controller_t controller;
 
+/*!
+ *  \brief database consistency is checked, errors are not fixed
+ */
+static const bool TEST_ONLY = false;
+
+/*!
+ *  \brief database consistency is checked and errors are fixed
+ */
+static const bool FIX_ERRORS = true;
+
 TestRef ctrl_consistency_checker_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
@@ -116,7 +126,7 @@ static void diagram_two_roots_consistency(void)
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
@@ -124,7 +134,7 @@ static void diagram_two_roots_consistency(void)
 
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, true /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
@@ -132,16 +142,15 @@ static void diagram_two_roots_consistency(void)
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 0, found_errors );  /* two roots */
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );  /* ok */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 static void diagram_missing_parent_consistency(void)
 {
-    /* tests not yet implemented */
     ctrl_error_t ctrl_err;
     data_error_t data_err;
     char out_report_buf[512] = "";
@@ -194,7 +203,7 @@ static void diagram_missing_parent_consistency(void)
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
@@ -202,7 +211,7 @@ static void diagram_missing_parent_consistency(void)
 
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, true /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
@@ -210,7 +219,7 @@ static void diagram_missing_parent_consistency(void)
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
-    ctrl_err = ctrl_controller_repair_database ( &controller, false /*modify_db*/, &found_errors, &fixed_errors, out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
@@ -219,10 +228,177 @@ static void diagram_missing_parent_consistency(void)
 
 static void diagram_nonreferencing_diagramelements_consistency(void)
 {
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[512] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create a root diagram */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create 1 classifier */
+    data_classifier_t current_classifier;
+    data_err = data_classifier_init ( &current_classifier,
+                                      12 /*=classifier id*/,
+                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      "stereotype-12",
+                                      "name-12",
+                                      "description-12",
+                                      -34000 /*=x_order*/,
+                                      -16000 /*=y_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create valid diagramelement */
+    data_diagramelement_t current_diagramelement;
+    data_diagramelement_init ( &current_diagramelement,
+                               13 /*=id*/,
+                               6 /*=diagram_id*/,
+                               12 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create diagramelement without classifier */
+    data_diagramelement_init ( &current_diagramelement,
+                               15 /*=id*/,
+                               6 /*=diagram_id*/,
+                               18 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create diagramelement without diagram */
+    data_diagramelement_init ( &current_diagramelement,
+                               17 /*=id*/,
+                               2 /*=diagram_id*/,
+                               12 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create diagramelement without diagram and without classifier */
+    data_diagramelement_init ( &current_diagramelement,
+                               19 /*=id*/,
+                               2 /*=diagram_id*/,
+                               18 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
+    TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 static void diagram_unreferenced_classifiers_consistency(void)
 {
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[512] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create a root diagram */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create 1 unreferenced classifier */
+    data_classifier_t current_classifier;
+    data_err = data_classifier_init ( &current_classifier,
+                                      12 /*=classifier id*/,
+                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      "stereotype-12",
+                                      "name-12",
+                                      "description-12",
+                                      -34000 /*=x_order*/,
+                                      -16000 /*=y_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 
