@@ -1,4 +1,6 @@
-2016-12-xx 0.09 [xxxxxxx]
+2016-12-22 0.09 [xxxxxxx]
+  + Mark and instantiate classifiers
+  + Test the database for errors and fix them
 2016-12-11 0.08 [225a0cf]
   + Export of png and svg diagrams (and txt descriptions)
   + DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)

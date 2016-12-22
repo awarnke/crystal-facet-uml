@@ -1,7 +1,7 @@
 
 crystal_facet_uml
 is a uml drawing tool
-based on glib, gdk, gtk, cairo, sqlite, embunit, utf8stringbuf
+based on glib, gdk, gtk, cairo, pango, sqlite, embunit, utf8stringbuf
 
 How to build?
 --
