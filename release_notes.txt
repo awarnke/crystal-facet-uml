@@ -1,4 +1,4 @@
-2016-12-22 0.09 [xxxxxxx]
+2016-12-22 0.09 [6d5cfac]
   + Mark and instantiate classifiers
   + Test the database for errors and fix them
 2016-12-11 0.08 [225a0cf]
