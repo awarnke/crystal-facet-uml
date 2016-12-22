@@ -13,6 +13,7 @@ static void diagram_two_roots_consistency(void);
 static void diagram_missing_parent_consistency(void);
 static void diagram_nonreferencing_diagramelements_consistency(void);
 static void diagram_unreferenced_classifiers_consistency(void);
+static void diagram_circular_referenced_diagrams_consistency(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -54,6 +55,7 @@ TestRef ctrl_consistency_checker_test_get_list(void)
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("diagram_two_roots_consistency",diagram_two_roots_consistency),
         new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
+        new_TestFixture("diagram_circular_referenced_diagrams_consistency",diagram_circular_referenced_diagrams_consistency),
         new_TestFixture("diagram_nonreferencing_diagramelements_consistency",diagram_nonreferencing_diagramelements_consistency),
         new_TestFixture("diagram_unreferenced_classifiers_consistency",diagram_unreferenced_classifiers_consistency),
     };
@@ -90,7 +92,7 @@ static void diagram_two_roots_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    char out_report_buf[512] = "";
+    char out_report_buf[1024] = "";
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;
@@ -153,7 +155,7 @@ static void diagram_missing_parent_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    char out_report_buf[512] = "";
+    char out_report_buf[1024] = "";
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;
@@ -226,11 +228,88 @@ static void diagram_missing_parent_consistency(void)
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
+static void diagram_circular_referenced_diagrams_consistency( void )
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[1024] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create 1 diagram */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   2 /*=diagram_id*/,
+                                   4 /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-2",
+                                   "diagram_description-2",
+                                   10222 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create another diagram */
+    data_err = data_diagram_init ( &current_diagram,
+                                   4 /*=diagram_id*/,
+                                   2 /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-4",
+                                   "diagram_description-4",
+                                   10333 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a root diagram */
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );  /* cannot fix */
+
+    /* check the diagrams */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
 static void diagram_nonreferencing_diagramelements_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    char out_report_buf[512] = "";
+    char out_report_buf[1024] = "";
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;
@@ -340,7 +419,7 @@ static void diagram_unreferenced_classifiers_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
-    char out_report_buf[512] = "";
+    char out_report_buf[1024] = "";
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;

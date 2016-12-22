@@ -63,10 +63,12 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     err_result |= ctrl_consistency_checker_private_ensure_single_root_diagram( this_, modify_db, &error_count, &fix_count, out_report );
 
     /* find unreferenced diagrams */
-    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &total_diagrams, &error_count, &fix_count, out_report );
+    uint32_t errors_in_parent_link = 0;
+    err_result |= ctrl_consistency_checker_private_ensure_valid_diagram_parents( this_, modify_db, &total_diagrams, &errors_in_parent_link, &fix_count, out_report );
+    error_count += errors_in_parent_link;
 
     /* find circular diagram parent links */
-    err_result |= ctrl_consistency_checker_private_detect_circular_diagram_parents ( this_, total_diagrams, &error_count, out_report );
+    err_result |= ctrl_consistency_checker_private_detect_circular_diagram_parents ( this_, total_diagrams-errors_in_parent_link, &error_count, out_report );
 
     /* find nonreferencing diagramelements */
     err_result |=  ctrl_consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_report );
@@ -85,9 +87,11 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     }
 
     /* write report summary */
-    utf8stringbuf_append_str( out_report, "SUMMARY: Errors found: " );
+    utf8stringbuf_append_str( out_report, "SUMMARY: Diagrams checked: " );
+    utf8stringbuf_append_int( out_report, total_diagrams );
+    utf8stringbuf_append_str( out_report, "\n    Errors found: " );
     utf8stringbuf_append_int( out_report, error_count );
-    utf8stringbuf_append_str( out_report, "\n         Errors fixed: " );
+    utf8stringbuf_append_str( out_report, "\n    Errors fixed: " );
     utf8stringbuf_append_int( out_report, fix_count );
     utf8stringbuf_append_str( out_report, "\n" );
 
@@ -126,7 +130,7 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
         utf8stringbuf_append_str( out_report, "\n" );
         for ( int list_pos = 0; list_pos < out_diagram_count; list_pos ++ )
         {
-            utf8stringbuf_append_str( out_report, "    ROOT DIAGRAM: " );
+            utf8stringbuf_append_str( out_report, "    INFO: Root diagram: " );
             utf8stringbuf_append_int( out_report, data_diagram_get_id( &((*this_).temp_diagram_buffer[list_pos]) ) );
             utf8stringbuf_append_str( out_report, ": " );
             utf8stringbuf_append_str( out_report, data_diagram_get_name_ptr( &((*this_).temp_diagram_buffer[list_pos]) ) );
@@ -393,6 +397,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
     return err_result;
 }
 
+static const uint32_t MAX_DIAGRAM_TREE_DEPTH = 64;
+
 ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( ctrl_consistency_checker_t *this_,
                                                                                 uint32_t total_diagrams,
                                                                                 uint32_t *io_err,
@@ -406,14 +412,80 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that no circular references of diagram parents exist\n" );
 
-    data_small_set_t unref;
-    data_small_set_init( &unref );
-
-    utf8stringbuf_append_str( out_report, "    implemented\n" );
-    TSLOG_ERROR( "not yet implemented" );
+    uint32_t referenced_diagrams;
+    err_result |= ctrl_consistency_checker_private_count_diagrams ( this_,
+                                                                    DATA_ID_VOID_ID,
+                                                                    MAX_DIAGRAM_TREE_DEPTH,
+                                                                    &referenced_diagrams
+                                                                  );
+    /* write findings */
+    utf8stringbuf_append_str( out_report, "    DIAGRAMS IN CIRCLUAR REFERENCES: " );
+    utf8stringbuf_append_int( out_report, total_diagrams - referenced_diagrams );
+    utf8stringbuf_append_str( out_report, "\n" );
+    (*io_err) += ( total_diagrams - referenced_diagrams );
 
     TRACE_END_ERR( err_result );
     return err_result;
+}
+
+/*!
+ *  \brief counts the number of diagrams in the subtree below the giben root: children and further descendants (root is excluded)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param root_diagram_id id of the root diagram of the subtree
+ *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
+ *  \param out_diagram_count number of diagrams in the subtree (not NULL)
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if max_recursion is 0 and therefore exceeded.
+ */
+ctrl_error_t ctrl_consistency_checker_private_count_diagrams ( ctrl_consistency_checker_t *this_,
+                                                               int64_t root_diagram_id,
+                                                               uint32_t max_recursion,
+                                                               uint32_t *out_diagram_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagram_count );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    (*out_diagram_count) = 0;
+
+    /* recursive calls of children */
+    if ( max_recursion > 0 )
+    {
+        data_error_t db_err;
+        data_small_set_t the_set;
+        data_small_set_init( &the_set );
+        db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, root_diagram_id, &the_set );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            TSLOG_ERROR("error reading database.");
+            result = (ctrl_error_t) db_err;
+        }
+        else
+        {
+            for ( uint32_t pos = 0; pos < data_small_set_get_count( &the_set ); pos ++ )
+            {
+                data_id_t probe;
+                probe = data_small_set_get_id( &the_set, pos );
+                int64_t probe_row_id;
+                probe_row_id = data_id_get_row_id( &probe );
+
+                uint32_t diagrams_below_probe;
+                result |= ctrl_consistency_checker_private_count_diagrams( this_, probe_row_id, max_recursion-1, &diagrams_below_probe );
+                (*out_diagram_count) += diagrams_below_probe + 1;
+
+                data_id_destroy( &probe );
+            }
+        }
+        data_small_set_destroy( &the_set );
+    }
+    else
+    {
+        result = CTRL_ERROR_DB_STRUCTURE;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

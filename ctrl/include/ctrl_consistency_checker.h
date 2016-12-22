@@ -123,7 +123,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
- *  \param out_total_diagrams number of total diagrams in teh database (not NULL)
+ *  \param out_total_diagrams number of total diagrams in the database (not NULL)
+ *                            without these where errors in parent linkage are known.
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
@@ -193,6 +194,23 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
                                                                                 uint32_t *io_err,
                                                                                 utf8stringbuf_t out_report
                                                                               );
+
+/*!
+ *  \brief counts the number of diagrams in the subtree below the giben root: children and further descendants (root is excluded)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param root_diagram_id id of the root diagram of the subtree
+ *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
+ *  \param out_diagram_count number of diagrams in the subtree (not NULL)
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if max_recursion is 0 and therefore exceeded.
+ */
+ctrl_error_t ctrl_consistency_checker_private_count_diagrams ( ctrl_consistency_checker_t *this_,
+                                                               int64_t root_diagram_id,
+                                                               uint32_t max_recursion,
+                                                               uint32_t *out_diagram_count
+                                                             );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 
