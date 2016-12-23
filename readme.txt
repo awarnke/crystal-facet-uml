@@ -5,6 +5,8 @@ based on glib, gdk, gtk, cairo, pango, sqlite, embunit, utf8stringbuf
 
 How to build?
 --
+sudo apt-get install cmake
+sudo apt-get install libgtk-3-dev
 cd cmake_build
 cmake .
 make
