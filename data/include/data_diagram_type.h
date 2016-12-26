@@ -15,7 +15,10 @@
 enum data_diagram_type_enum {
     DATA_DIAGRAM_TYPE_LIST = 0,
     DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM = 1,
-    DATA_DIAGRAM_TYPE_REQUIREMENT_DIAGRAM = 9,
+    DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM = 4,
+    DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM = 5,
+    DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM = 7,
+    DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM = 9,
     DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM = 10,
     DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM = 11,
     DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM = 12,
@@ -30,6 +33,20 @@ enum data_diagram_type_enum {
     DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM = 34,
     /*DATA_DIAGRAM_TYPE_UML_OBJECT_DIAGRAM = 35,*/ /* - obsolete in UML 2.5, use a class diagram instead */
     DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM = 39,
+
+    /* todo: SysML
+
+    Block definition diagram
+    Internal block diagram
+    Package diagram
+    Use case diagram
+    Requirements diagram
+    Activity diagram
+    Sequence diagram
+    State machine diagram
+    Parametric diagram
+
+    */
 };
 
 typedef enum data_diagram_type_enum data_diagram_type_t;

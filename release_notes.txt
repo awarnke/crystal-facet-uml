@@ -5,7 +5,7 @@
   + Test the database for errors and fix them
   + Diagrams show also non-ascii names now
 2016-12-11 0.08 [225a0cf]
-  + Export of png and svg diagrams (and txt descriptions)
+  + Export of png and svg diagrams and txt descriptions
   + DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)
 2016-11-26 0.07 [874f539]
   + The user can move classifiers
@@ -17,7 +17,7 @@
   + undo/redo works for creating, modifying and deleting objects
 2016-07-03 v004 [09e8ac4]
   + The user can delete classifiers and diagrams
-  - DB format incompatible to version 0.03 (alt: in diagramelements, manually create the column "display_flags" as INTEGER)
+  - DB format incompatible to version 0.03 (todo: in diagramelements, manually create the column "display_flags" as INTEGER)
 2016-05-22 v003 [e0c0196]
   + The user can select and switch the database file
 2016-05-01 v002 [1d03746]

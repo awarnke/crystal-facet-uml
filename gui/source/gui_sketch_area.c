@@ -409,13 +409,32 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
 void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
+
     int32_t width = shape_int_rectangle_get_width( &area_bounds );
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
 
+    gui_sketch_tools_tool_t selected_tool;
+    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+
     /* draw background */
-    cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-    cairo_rectangle ( cr, 0, 0, width, height );
-    cairo_fill (cr);
+    if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
+    {
+        cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
+        cairo_rectangle ( cr, 0, 0, width, (height*3)/10 );
+        cairo_fill (cr);
+        cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, 0, (height*3)/10, width, (height*4)/10 );
+        cairo_fill (cr);
+        cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
+        cairo_rectangle ( cr, 0, (height*7)/10, width, (height*3)/10 );
+        cairo_fill (cr);
+    }
+    else
+    {
+        cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+        cairo_rectangle ( cr, 0, 0, width, height );
+        cairo_fill (cr);
+    }
 
     /* draw all cards */
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
