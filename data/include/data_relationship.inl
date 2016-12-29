@@ -44,6 +44,119 @@ static inline void data_relationship_destroy ( data_relationship_t *this_ )
     (*this_).id = DATA_ID_VOID_ID;
 }
 
+static inline int64_t data_relationship_get_id ( data_relationship_t *this_ )
+{
+    return (*this_).id;
+}
+
+static inline void data_relationship_set_id ( data_relationship_t *this_, int64_t id )
+{
+    (*this_).id = id;
+}
+
+static inline data_relationship_type_t data_relationship_get_main_type ( data_relationship_t *this_ )
+{
+    return (*this_).main_type;
+}
+
+static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type )
+{
+    (*this_).main_type = main_type;
+}
+
+static inline int64_t data_relationship_get_from_classifier_id ( data_relationship_t *this_ )
+{
+    return (*this_).from_classifier_id;
+}
+
+static inline void data_relationship_set_from_classifier_id ( data_relationship_t *this_, int64_t from_classifier_id )
+{
+    (*this_).from_classifier_id = from_classifier_id;
+}
+
+static inline int64_t data_relationship_get_to_classifier_id ( data_relationship_t *this_ )
+{
+    return (*this_).to_classifier_id;
+}
+
+static inline void data_relationship_set_to_classifier_id ( data_relationship_t *this_, int64_t to_classifier_id )
+{
+    (*this_).to_classifier_id = to_classifier_id;
+}
+
+static inline const char *data_relationship_get_name_ptr ( data_relationship_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).name );
+}
+
+static inline utf8stringbuf_t data_relationship_get_name_buf_ptr ( data_relationship_t *this_ )
+{
+    return (*this_).name;
+}
+
+static inline data_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).name, name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
+static inline const char *data_relationship_get_description_ptr ( data_relationship_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).description );
+}
+
+static inline utf8stringbuf_t data_relationship_get_description_buf_ptr ( data_relationship_t *this_ )
+{
+    return (*this_).description;
+}
+
+static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description )
+{
+    data_error_t result = DATA_ERROR_NONE;
+    utf8error_t strerr;
+    strerr = utf8stringbuf_copy_str( (*this_).description, description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    return result;
+}
+
+static inline int32_t data_relationship_get_list_order ( data_relationship_t *this_ )
+{
+    return (*this_).list_order;
+}
+
+static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order )
+{
+    (*this_).list_order = list_order;
+}
+
+static inline bool data_relationship_is_valid ( data_relationship_t *this_ )
+{
+    return ( DATA_ID_VOID_ID != (*this_).id );
+}
+
+static inline void data_relationship_trace ( data_relationship_t *this_ )
+{
+    TRACE_INFO( "data_relationship_t" );
+    TRACE_INFO_INT( "- id:", (*this_).id );
+    TRACE_INFO_INT( "- main_type:", (*this_).main_type );
+    TRACE_INFO_INT( "- from_classifier_id:", (*this_).from_classifier_id );
+    TRACE_INFO_INT( "- to_classifier_id:", (*this_).to_classifier_id );
+    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
+    TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
+    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke
