@@ -231,6 +231,10 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
  */
 data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
 
+/* ================================ FEATURE ================================ */
+
+/* ================================ RELATIONSHIP ================================ */
+
 #include "storage/data_database_sql_builder.inl"
 
 #endif  /* DATA_DATABASE_SQL_BUILDER_H */

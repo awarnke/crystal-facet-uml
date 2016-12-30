@@ -268,6 +268,10 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
  */
 data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
 
+/* ================================ FEATURE ================================ */
+
+/* ================================ RELATIONSHIP ================================ */
+
 /* ================================ private ================================ */
 
 /*!
