@@ -236,6 +236,8 @@ void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
     TRACE_END();
 }
 
+/* ================================ DIAGRAM ================================ */
+
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram )
 {
     TRACE_BEGIN();
@@ -281,6 +283,28 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -435,27 +459,7 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id )
-{
-    TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
-    data_error_t result = DATA_ERROR_NONE;
-
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
-
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagram_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-    }
-
-    TRACE_END_ERR( result );
-    return( result );
-}
+/* ================================ CLASSIFIER ================================ */
 
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier )
 {
@@ -515,6 +519,28 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).y_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {
@@ -706,27 +732,7 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
     return( result );
 }
 
-data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id )
-{
-    TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
-    data_error_t result = DATA_ERROR_NONE;
-
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
-
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-    }
-
-    TRACE_END_ERR( result );
-    return( result );
-}
+/* ================================ DIAGRAMELEMENT ================================ */
 
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement )
 {
@@ -764,6 +770,28 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     return( result );
 }
 
+data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
 data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags )
 {
     TRACE_BEGIN();
@@ -779,28 +807,6 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
 
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
-
-    if ( strerr != UTF8ERROR_SUCCESS )
-    {
-        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
-        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
-    }
-
-    TRACE_END_ERR( result );
-    return( result );
-}
-
-data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id )
-{
-    TRACE_BEGIN();
-    utf8error_t strerr = UTF8ERROR_SUCCESS;
-    data_error_t result = DATA_ERROR_NONE;
-
-    utf8stringbuf_clear( (*this_).sql_stringbuf );
-
-    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
-    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
     {

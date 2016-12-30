@@ -67,198 +67,34 @@ void data_database_writer_destroy ( data_database_writer_t *this_ )
     TRACE_END();
 }
 
-data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id )
+void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id )
 {
     TRACE_BEGIN();
-    assert( NULL != sql_statement );
-    data_error_t result = DATA_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
 
-    if ( data_database_is_open( (*this_).database ) )
+    switch ( signal_id )
     {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
+        case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
+            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
         }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        break;
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
-        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
-        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
-            result |= DATA_ERROR_DUPLICATE_NAME;
+            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
         }
-        else if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
+        break;
 
-        if ( NULL != out_new_id )
+        default:
         {
-            if ( SQLITE_OK == sqlite_err )
-            {
-                int64_t new_id;
-                new_id = sqlite3_last_insert_rowid(db);
-                TSLOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
-                *out_new_id = new_id;
-            }
-        }
-
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
+            TSLOG_ERROR( "unexpected data_database_listener_signal_t" );
         }
     }
-    else
-    {
-        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
-        result = DATA_ERROR_NO_DB;
-    }
 
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END();
 }
 
-data_error_t data_database_writer_private_transaction_begin ( data_database_writer_t *this_ )
-{
-    TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
-
-    if ( data_database_is_open( (*this_).database ) )
-    {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
-    }
-    else
-    {
-        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
-        result = DATA_ERROR_NO_DB;
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
-data_error_t data_database_writer_private_transaction_commit ( data_database_writer_t *this_ )
-{
-    TRACE_BEGIN();
-    data_error_t result = DATA_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
-
-    if ( data_database_is_open( (*this_).database ) )
-    {
-        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
-        if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
-    }
-    else
-    {
-        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
-        result = DATA_ERROR_NO_DB;
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
-data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement )
-{
-    TRACE_BEGIN();
-    assert( NULL != sql_statement );
-    data_error_t result = DATA_ERROR_NONE;
-    int sqlite_err;
-    char *error_msg = NULL;
-    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
-
-    if ( data_database_is_open( (*this_).database ) )
-    {
-        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
-        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
-        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
-            result |= DATA_ERROR_DUPLICATE_NAME;
-        }
-        else if ( SQLITE_OK != sqlite_err )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
-            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        if ( error_msg != NULL )
-        {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
-            sqlite3_free( error_msg );
-            error_msg = NULL;
-        }
-    }
-    else
-    {
-        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
-        result = DATA_ERROR_NO_DB;
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
+/* ================================ DIAGRAM ================================ */
 
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_,
                                                    const data_diagram_t *diagram,
@@ -284,6 +120,69 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     {
         *out_new_id = new_id;
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
+                                                   int64_t obj_id,
+                                                   data_diagram_t *out_old_diagram )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    bool object_still_referenced;
+    data_diagram_t referencing_diagram[1];
+    uint32_t referencing_diagram_count;
+    data_visible_classifier_t referencing_classifier[1];
+    uint32_t referencing_classifier_count;
+    data_error_t reference_check_err;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagram is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagram )
+    {
+        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, obj_id, out_old_diagram );
+    }
+
+    /* Note: This function fails if the diagram is still referenced. */
+    reference_check_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
+    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+    {
+        object_still_referenced = true;
+    }
+    else
+    {
+        reference_check_err = data_database_reader_get_classifiers_by_diagram_id ( (*this_).db_reader, obj_id, 1, &referencing_classifier, &referencing_classifier_count );
+        if ( ( 0 != referencing_classifier_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+        {
+            object_still_referenced = true;
+        }
+        else
+        {
+            object_still_referenced = false;
+        }
+    }
+
+    if ( object_still_referenced )
+    {
+        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
+    }
+    else
+    {
+        result |= data_database_sql_builder_build_delete_diagram_command ( &((*this_).sql_builder), obj_id );
+        char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+        result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    }
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -456,6 +355,8 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
     return result;
 }
 
+/* ================================ CLASSIFIER ================================ */
+
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_,
                                                      const data_classifier_t *classifier,
                                                      int64_t* out_new_id )
@@ -480,6 +381,59 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     {
         *out_new_id = new_id;
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_,
+                                                     int64_t obj_id,
+                                                     data_classifier_t *out_old_classifier )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    bool object_still_referenced;
+    data_diagram_t referencing_diagram[1];
+    uint32_t referencing_diagram_count;
+    data_error_t reference_check_err;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_classifier is NULL if old data shall not be returned */
+    if ( NULL != out_old_classifier )
+    {
+        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, obj_id, out_old_classifier );
+    }
+
+    /* Note: This function fails if the classifier is still referenced. */
+    reference_check_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
+    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+    {
+        object_still_referenced = true;
+    }
+    else
+    {
+        object_still_referenced = false;
+    }
+
+    if ( object_still_referenced )
+    {
+        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
+    }
+    else
+    {
+        result |= data_database_sql_builder_build_delete_classifier_command ( &((*this_).sql_builder), obj_id );
+        char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+        result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    }
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -683,6 +637,8 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
     return result;
 }
 
+/* ================================ DIAGRAMELEMENT ================================ */
+
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_,
                                                          const data_diagramelement_t *diagramelement,
                                                          int64_t* out_new_id )
@@ -707,6 +663,38 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     {
         *out_new_id = new_id;
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_,
+                                                         int64_t obj_id,
+                                                         data_diagramelement_t *out_old_diagramelement )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagramelement )
+    {
+        result |= data_database_reader_get_diagramelement_by_id ( (*this_).db_reader, obj_id, out_old_diagramelement );
+    }
+
+    result |= data_database_sql_builder_build_delete_diagramelement_command ( &((*this_).sql_builder), obj_id );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
 
     TRACE_END_ERR( result );
     return result;
@@ -745,179 +733,199 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
     return result;
 }
 
-data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_,
-                                                         int64_t obj_id,
-                                                         data_diagramelement_t *out_old_diagramelement )
+/* ================================ private ================================ */
+
+data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id )
 {
     TRACE_BEGIN();
+    assert( NULL != sql_statement );
     data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
 
-    result |= data_database_writer_private_lock( this_ );
-
-    result |= data_database_writer_private_transaction_begin ( this_ );
-
-    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
-    if ( NULL != out_old_diagramelement )
+    if ( data_database_is_open( (*this_).database ) )
     {
-        result |= data_database_reader_get_diagramelement_by_id ( (*this_).db_reader, obj_id, out_old_diagramelement );
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= DATA_ERROR_DUPLICATE_NAME;
+        }
+        else if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        if ( NULL != out_new_id )
+        {
+            if ( SQLITE_OK == sqlite_err )
+            {
+                int64_t new_id;
+                new_id = sqlite3_last_insert_rowid(db);
+                TSLOG_EVENT_INT( "sqlite3_last_insert_rowid():", new_id );
+                *out_new_id = new_id;
+            }
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
     }
-
-    result |= data_database_sql_builder_build_delete_diagramelement_command ( &((*this_).sql_builder), obj_id );
-    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
-
-    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-
-    result |= data_database_writer_private_transaction_commit ( this_ );
-
-    result |= data_database_writer_private_unlock( this_ );
-
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
+    else
+    {
+        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        result = DATA_ERROR_NO_DB;
+    }
 
     TRACE_END_ERR( result );
     return result;
 }
 
-data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_,
-                                                     int64_t obj_id,
-                                                     data_classifier_t *out_old_classifier )
+data_error_t data_database_writer_private_transaction_begin ( data_database_writer_t *this_ )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    bool object_still_referenced;
-    data_diagram_t referencing_diagram[1];
-    uint32_t referencing_diagram_count;
-    data_error_t reference_check_err;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
 
-    result |= data_database_writer_private_lock( this_ );
-
-    result |= data_database_writer_private_transaction_begin ( this_ );
-
-    /* Note: out_old_classifier is NULL if old data shall not be returned */
-    if ( NULL != out_old_classifier )
+    if ( data_database_is_open( (*this_).database ) )
     {
-        result |= data_database_reader_get_classifier_by_id ( (*this_).db_reader, obj_id, out_old_classifier );
-    }
-
-    /* Note: This function fails if the classifier is still referenced. */
-    reference_check_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
-    {
-        object_still_referenced = true;
-    }
-    else
-    {
-        object_still_referenced = false;
-    }
-
-    if ( object_still_referenced )
-    {
-        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
     }
     else
     {
-        result |= data_database_sql_builder_build_delete_classifier_command ( &((*this_).sql_builder), obj_id );
-        char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
-        result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_BEGIN_TRANSACTION );
+        result = DATA_ERROR_NO_DB;
     }
-
-    result |= data_database_writer_private_transaction_commit ( this_ );
-
-    result |= data_database_writer_private_unlock( this_ );
-
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
 
     TRACE_END_ERR( result );
     return result;
 }
 
-data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_,
-                                                   int64_t obj_id,
-                                                   data_diagram_t *out_old_diagram )
+data_error_t data_database_writer_private_transaction_commit ( data_database_writer_t *this_ )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    bool object_still_referenced;
-    data_diagram_t referencing_diagram[1];
-    uint32_t referencing_diagram_count;
-    data_visible_classifier_t referencing_classifier[1];
-    uint32_t referencing_classifier_count;
-    data_error_t reference_check_err;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
 
-    result |= data_database_writer_private_lock( this_ );
-
-    result |= data_database_writer_private_transaction_begin ( this_ );
-
-    /* Note: out_old_diagram is NULL if old data shall not be returned */
-    if ( NULL != out_old_diagram )
+    if ( data_database_is_open( (*this_).database ) )
     {
-        result |= data_database_reader_get_diagram_by_id ( (*this_).db_reader, obj_id, out_old_diagram );
-    }
-
-    /* Note: This function fails if the diagram is still referenced. */
-    reference_check_err = data_database_reader_get_diagrams_by_parent_id ( (*this_).db_reader, obj_id, 1, &referencing_diagram, &referencing_diagram_count );
-    if ( ( 0 != referencing_diagram_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
-    {
-        object_still_referenced = true;
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_WRITER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
     }
     else
     {
-        reference_check_err = data_database_reader_get_classifiers_by_diagram_id ( (*this_).db_reader, obj_id, 1, &referencing_classifier, &referencing_classifier_count );
-        if ( ( 0 != referencing_classifier_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
-        {
-            object_still_referenced = true;
-        }
-        else
-        {
-            object_still_referenced = false;
-        }
+        TSLOG_WARNING_STR( "database not open. cannot execute", DATA_DATABASE_WRITER_COMMIT_TRANSACTION );
+        result = DATA_ERROR_NO_DB;
     }
-
-    if ( object_still_referenced )
-    {
-        result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
-    }
-    else
-    {
-        result |= data_database_sql_builder_build_delete_diagram_command ( &((*this_).sql_builder), obj_id );
-        char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
-        result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
-    }
-
-    result |= data_database_writer_private_transaction_commit ( this_ );
-
-    result |= data_database_writer_private_unlock( this_ );
-
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
 
     TRACE_END_ERR( result );
     return result;
 }
 
-void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id )
+data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement )
 {
     TRACE_BEGIN();
+    assert( NULL != sql_statement );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
 
-    switch ( signal_id )
+    if ( data_database_is_open( (*this_).database ) )
     {
-        case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
+        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
+        if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
         {
-            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            result |= DATA_ERROR_DUPLICATE_NAME;
         }
-        break;
-
-        case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
+        else if ( SQLITE_OK != sqlite_err )
         {
-            TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
         }
-        break;
-
-        default:
+        if ( error_msg != NULL )
         {
-            TSLOG_ERROR( "unexpected data_database_listener_signal_t" );
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
         }
     }
+    else
+    {
+        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        result = DATA_ERROR_NO_DB;
+    }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

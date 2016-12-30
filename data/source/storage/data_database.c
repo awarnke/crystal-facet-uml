@@ -29,8 +29,6 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
 
 /*!
  *  \brief string constant to create an sql database index
- *
- *  This index helps sqlite in sorting signed integers
  */
 static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS classifier_ordering ON classifiers ( "
@@ -59,8 +57,6 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
 
 /*!
  *  \brief string constant to create an sql database index
- *
- *  This index helps sqlite in sorting signed integers
  */
 static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS relationship_ordering ON relationships ( "
@@ -87,8 +83,6 @@ static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
 
 /*!
  *  \brief string constant to create an sql database index
- *
- *  This index helps sqlite in sorting signed integers
  */
 static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS feature_ordering ON features ( "
@@ -111,8 +105,6 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
 
 /*!
  *  \brief string constant to create an sql database index
- *
- *  This index helps sqlite in sorting signed integers
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS diagram_ordering ON diagrams ( "
@@ -122,7 +114,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
 /*!
  *  \brief string constant to create an sql database table
  */
-static const char *DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE =
+static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
     "CREATE TABLE IF NOT EXISTS diagramelements ( "
         "id INTEGER PRIMARY KEY ASC, "
         "diagram_id INTEGER, "
@@ -199,11 +191,11 @@ data_error_t data_database_private_initialize_tables( sqlite3 *db )
         error_msg = NULL;
     }
 
-    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
-    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE, NULL, NULL, &error_msg );
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAM_ELEMENTS_TABLE );
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result = DATA_ERROR_AT_DB;
     }

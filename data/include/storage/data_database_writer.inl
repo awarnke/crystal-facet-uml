@@ -2,6 +2,8 @@
 
 #include "tslog.h"
 
+/* ================================ private ================================ */
+
 static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ )
 {
     data_error_t result = DATA_ERROR_NONE;

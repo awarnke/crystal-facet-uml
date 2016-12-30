@@ -53,6 +53,8 @@ void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ );
  */
 static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql_builder_t *this_ );
 
+/* ================================ DIAGRAM ================================ */
+
 /*!
  *  \brief builds the sql command string to create a new diagram record. The result is stored in (*this_).private_sql_stringbuf.
  *
@@ -61,6 +63,15 @@ static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram );
+
+/*!
+ *  \brief builds the sql command string to delete a diagram record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to be deleted
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id );
 
 /*!
  *  \brief builds the sql command string to update a diagram record. The result is stored in (*this_).private_sql_stringbuf.
@@ -112,14 +123,7 @@ data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( dat
  */
 data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id );
 
-/*!
- *  \brief builds the sql command string to delete a diagram record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to be deleted
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id );
+/* ================================ CLASSIFIER ================================ */
 
 /*!
  *  \brief builds the sql command string to create a new classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -129,6 +133,14 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier );
+
+/*!
+ *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be deleted
+ */
+data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id );
 
 /*!
  *  \brief builds the sql command string to update a classifier record. The result is stored in (*this_).private_sql_stringbuf.
@@ -189,13 +201,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
  */
 data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order );
 
-/*!
- *  \brief builds the sql command string to delete a classifier record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier to be deleted
- */
-data_error_t data_database_sql_builder_build_delete_classifier_command ( data_database_sql_builder_t *this_, int64_t classifier_id );
+/* ================================ DIAGRAMELEMENT ================================ */
 
 /*!
  *  \brief builds the sql command string to create a new diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
@@ -207,6 +213,15 @@ data_error_t data_database_sql_builder_build_delete_classifier_command ( data_da
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement );
 
 /*!
+ *  \brief builds the sql command string to delete a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be deleted.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id );
+
+/*!
  *  \brief builds the sql command string to update a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
  *
  *  \param this_ pointer to own object attributes
@@ -215,15 +230,6 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
-
-/*!
- *  \brief builds the sql command string to delete a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
- *
- *  \param this_ pointer to own object attributes
- *  \param diagramelement_id id of the diagramelement to be deleted.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
- */
-data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id );
 
 #include "storage/data_database_sql_builder.inl"
 

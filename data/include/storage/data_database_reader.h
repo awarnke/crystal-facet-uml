@@ -53,28 +53,30 @@ typedef struct data_database_reader_struct data_database_reader_t;
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database );
 
 /*!
- *  \brief initializes the data_database_reader_t struct and allows access to the database after the database is opened
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
- */
-data_error_t data_database_reader_private_open ( data_database_reader_t *this_ );
-
-/*!
- *  \brief closes the data_database_reader_t struct (prohibits access to the database) before the database is closed
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success
- */
-data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
-
-/*!
  *  \brief destroys the data_database_reader_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_destroy ( data_database_reader_t *this_ );
+
+/*!
+ *  \brief prepares a database change and re-initializes afterwards
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param signal_id state of database change
+ */
+void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id );
+
+/*!
+ *  \brief checks if the database reader is open
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the database reader is open
+ */
+static inline bool data_database_reader_is_open( data_database_reader_t *this_ );
+
+/* ================================ DIAGRAM ================================ */
 
 /*!
  *  \brief reads a diagram from the database
@@ -133,6 +135,8 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
                                                                  data_small_set_t *out_diagram_ids
                                                                );
 
+/* ================================ CLASSIFIER ================================ */
+
 /*!
  *  \brief reads a classifier from the database
  *
@@ -160,6 +164,8 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                                                   uint32_t *out_visible_classifier_count
                                                                 );
 
+/* ================================ DIAGRAMELEMENT ================================ */
+
 /*!
  *  \brief reads a diagramelement from the database
  *
@@ -169,6 +175,24 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
  */
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
+
+/* ================================ private ================================ */
+
+/*!
+ *  \brief initializes the data_database_reader_t struct and allows access to the database after the database is opened
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
+ */
+data_error_t data_database_reader_private_open ( data_database_reader_t *this_ );
+
+/*!
+ *  \brief closes the data_database_reader_t struct (prohibits access to the database) before the database is closed
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
+ */
+data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
 
 /*!
  *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
@@ -221,22 +245,6 @@ static inline data_error_t data_database_reader_private_finalize_statement ( dat
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
-
-/*!
- *  \brief prepares a database change and re-initializes afterwards
- *
- *  \param this_ pointer to own object attributes
- *  \param signal_id state of database change
- */
-void data_database_reader_db_change_callback ( data_database_reader_t *this_, data_database_listener_signal_t signal_id );
-
-/*!
- *  \brief checks if the database reader is open
- *
- *  \param this_ pointer to own object attributes
- *  \return true if the database reader is open
- */
-static inline bool data_database_reader_is_open( data_database_reader_t *this_ );
 
 #include "storage/data_database_reader.inl"
 

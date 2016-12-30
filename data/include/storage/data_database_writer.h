@@ -59,6 +59,16 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_re
 void data_database_writer_destroy ( data_database_writer_t *this_ );
 
 /*!
+ *  \brief prepares a database change and re-initializes afterwards
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param signal_id state of database change
+ */
+void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id );
+
+/* ================================ DIAGRAM ================================ */
+
+/*!
  *  \brief creates a new diagram and returns its id
  *
  *  \param this_ pointer to own object attributes
@@ -134,6 +144,8 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagram_parent_id ( data_database_writer_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id, data_diagram_t *out_old_diagram );
+
+/* ================================ CLASSIFIER ================================ */
 
 /*!
  *  \brief creates a new classifier and returns its id
@@ -223,6 +235,8 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
  */
 data_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_, int64_t classifier_id, int32_t new_classifier_y_order, data_classifier_t *out_old_classifier );
 
+/* ================================ DIAGRAMELEMENT ================================ */
+
 /*!
  *  \brief creates a new diagramelement and returns its id
  *
@@ -253,6 +267,8 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
  *  \return error id in case of an error, DATA_ERROR_NONE otherwise
  */
 data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
+
+/* ================================ private ================================ */
 
 /*!
  *  \brief executes a single SQL command
@@ -312,14 +328,6 @@ static inline data_error_t data_database_writer_private_lock ( data_database_wri
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
-
-/*!
- *  \brief prepares a database change and re-initializes afterwards
- *
- *  \param this_ pointer to own object attributes
- *  \param signal_id state of database change
- */
-void data_database_writer_db_change_callback ( data_database_writer_t *this_, data_database_listener_signal_t signal_id );
 
 #include "storage/data_database_writer.inl"
 
