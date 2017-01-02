@@ -331,7 +331,7 @@ data_error_t data_database_sql_builder_build_delete_relationship_command ( data_
  *  \param new_relationship_type new type of the relationship
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-data_error_t data_database_sql_builder_build_update_relationship_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type );
+data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type );
 
 /*!
  *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.

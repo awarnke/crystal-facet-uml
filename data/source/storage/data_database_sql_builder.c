@@ -7,6 +7,49 @@
 #include <assert.h>
 
 /*!
+ *  \brief value separator string constant to insert a diagram or classifier or other table-row
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR = ",";
+
+/*!
+ *  \brief string start marker string constant to insert/update a diagram
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START = "\'";
+
+/*!
+ *  \brief string end marker string constant to insert/update a diagram
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END = "\'";
+
+/*!
+ *  \brief translation table to encode strings for usage in string literals
+ *
+ *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
+ */
+const char *const DATA_DATABASE_SQL_BUILDER_SQL_ENCODE[] = {
+    "'", "''",
+    NULL,
+};
+
+void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
+{
+    TRACE_BEGIN();
+
+    (*this_).temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
+    (*this_).sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
+
+    TRACE_END();
+}
+
+void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
+{
+    TRACE_BEGIN();
+    TRACE_END();
+}
+
+/* ================================ DIAGRAM ================================ */
+
+/*!
  *  \brief prefix string constant to insert a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX =
@@ -24,53 +67,15 @@ static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_WITH_ID_PREFIX =
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_POSTFIX = ");";
 
 /*!
- *  \brief value separator string constant to insert a diagram or classifier or other table-row
+ *  \brief prefix string constant to delete a diagram
  */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR = ",";
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX =
+    "DELETE FROM diagrams WHERE (id=";
 
 /*!
- *  \brief string start marker string constant to insert/update a diagram
+ *  \brief postfix string constant to delete a diagram
  */
-static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START = "\'";
-
-/*!
- *  \brief string end marker string constant to insert/update a diagram
- */
-static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END = "\'";
-
-/*!
- *  \brief prefix string constant to insert a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX =
-    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
-
-/*!
- *  \brief prefix string constant to insert a classifier with predefined id
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX =
-    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order) VALUES (";
-
-/*!
- *  \brief postfix string constant to insert a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX = ");";
-
-/*!
- *  \brief prefix string constant to insert a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX =
-    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
-
-/*!
- *  \brief prefix string constant to insert a diagramelement with predefined id
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX =
-    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags) VALUES (";
-
-/*!
- *  \brief postfix string constant to insert a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX = ");";
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX = ");";
 
 /*!
  *  \brief prefix string constant to update a diagram
@@ -111,132 +116,6 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX = " WHERE id="
  *  \brief postfix string constant to update a diagram
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_POSTFIX = ";";
-
-/*!
- *  \brief prefix string constant to update a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX = "UPDATE classifiers SET ";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_STEREOTYPE = "stereotype=";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_MAIN_TYPE = "main_type=";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME = "name=";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION = "description=";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER = "x_order=";
-
-/*!
- *  \brief field name string constant to be used for updating a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER = "y_order=";
-
-/*!
- *  \brief infix string constant to update a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX = " WHERE id=";
-
-/*!
- *  \brief postfix string constant to update a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX = ";";
-
-/*!
- *  \brief prefix string constant to update a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX = "UPDATE diagramelements SET ";
-
-/*!
- *  \brief field name string constant to be used for updating a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS = "display_flags=";
-
-/*!
- *  \brief infix string constant to update a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX = " WHERE id=";
-
-/*!
- *  \brief postfix string constant to update a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX = ";";
-
-/*!
- *  \brief prefix string constant to delete a diagram
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_PREFIX =
-    "DELETE FROM diagrams WHERE (id=";
-
-/*!
- *  \brief postfix string constant to delete a diagram
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAM_POSTFIX = ");";
-
-/*!
- *  \brief prefix string constant to delete a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX =
-    "DELETE FROM classifiers WHERE (id=";
-
-/*!
- *  \brief postfix string constant to delete a classifier
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX = ");";
-
-/*!
- *  \brief prefix string constant to delete a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX =
-    "DELETE FROM diagramelements WHERE (id=";
-
-/*!
- *  \brief postfix string constant to delete a diagramelement
- */
-static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX = ");";
-
-/*!
- *  \brief translation table to encode strings for usage in string literals
- *
- *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
- */
-const char *const DATA_DATABASE_SQL_BUILDER_SQL_ENCODE[] = {
-    "'", "''",
-    NULL,
-};
-
-void data_database_sql_builder_init ( data_database_sql_builder_t *this_ )
-{
-    TRACE_BEGIN();
-
-    (*this_).temp_stringbuf = utf8stringbuf_init( sizeof((*this_).private_temp_buffer), (*this_).private_temp_buffer );
-    (*this_).sql_stringbuf = utf8stringbuf_init( sizeof((*this_).private_sql_buffer), (*this_).private_sql_buffer );
-
-    TRACE_END();
-}
-
-void data_database_sql_builder_destroy ( data_database_sql_builder_t *this_ )
-{
-    TRACE_BEGIN();
-    TRACE_END();
-}
-
-/* ================================ DIAGRAM ================================ */
 
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram )
 {
@@ -460,6 +339,79 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
 }
 
 /* ================================ CLASSIFIER ================================ */
+
+/*!
+ *  \brief prefix string constant to insert a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX =
+    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+
+/*!
+ *  \brief prefix string constant to insert a classifier with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX =
+    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_PREFIX =
+    "DELETE FROM classifiers WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_CLASSIFIER_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX = "UPDATE classifiers SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_STEREOTYPE = "stereotype=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_MAIN_TYPE = "main_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_NAME = "name=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER = "x_order=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER = "y_order=";
+
+/*!
+ *  \brief infix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX = ";";
 
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier )
 {
@@ -734,6 +686,54 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
+/*!
+ *  \brief prefix string constant to insert a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX =
+    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
+
+/*!
+ *  \brief prefix string constant to insert a diagramelement with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX =
+    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_PREFIX =
+    "DELETE FROM diagramelements WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_DIAGRAMELEMENT_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to update a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX = "UPDATE diagramelements SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS = "display_flags=";
+
+/*!
+ *  \brief infix string constant to update a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX = ";";
+
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement )
 {
     TRACE_BEGIN();
@@ -820,84 +820,580 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
 
 /* ================================ FEATURE ================================ */
 
+/*!
+ *  \brief prefix string constant to insert a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX =
+    "INSERT INTO features (main_type,classifier_id,key,value,description,list_order) VALUES (";
+
+/*!
+ *  \brief prefix string constant to insert a feature with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX =
+    "INSERT INTO features (id,main_type,classifier_id,key,value,description,list_order) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_PREFIX =
+    "DELETE FROM features WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to update a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX = "UPDATE features SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_MAIN_TYPE = "main_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_KEY = "key=";
+
+/*!
+ *  \brief field name string constant to be used for updating a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_VALUE = "value=";
+
+/*!
+ *  \brief field name string constant to be used for updating a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief field name string constant to be used for updating a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_LIST_ORDER = "list_order=";
+
+/*!
+ *  \brief infix string constant to update a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a feature
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX = ";";
+
 data_error_t data_database_sql_builder_build_create_feature_command ( data_database_sql_builder_t *this_, const data_feature_t *feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != feature );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    if ( (*feature).id == DATA_ID_VOID_ID )
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_PREFIX );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_WITH_ID_PREFIX );
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*feature).id );
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    }
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*feature).main_type );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*feature).classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).key );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).value );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*feature).description );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*feature).list_order );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_MAIN_TYPE );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_feature_type );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_feature_key );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_KEY );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_key );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_feature_value );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_VALUE );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_value );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_feature_description );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_DESCRIPTION );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_description );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_COL_LIST_ORDER );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_feature_list_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_FEATURE_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 /* ================================ RELATIONSHIP ================================ */
 
+/*!
+ *  \brief prefix string constant to insert a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX =
+    "INSERT INTO relationships (main_type,from_classifier_id,to_classifier_id,name,description,list_order) VALUES (";
+
+/*!
+ *  \brief prefix string constant to insert a relationship with predefined id
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX =
+    "INSERT INTO relationships (id,main_type,from_classifier_id,to_classifier_id,name,description,list_order) VALUES (";
+
+/*!
+ *  \brief postfix string constant to insert a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to delete a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_PREFIX =
+    "DELETE FROM relationships WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_POSTFIX = ");";
+
+/*!
+ *  \brief prefix string constant to update a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX = "UPDATE relationships SET ";
+
+/*!
+ *  \brief field name string constant to be used for updating a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_MAIN_TYPE = "main_type=";
+
+/*!
+ *  \brief field name string constant to be used for updating a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_NAME = "name=";
+
+/*!
+ *  \brief field name string constant to be used for updating a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_DESCRIPTION = "description=";
+
+/*!
+ *  \brief field name string constant to be used for updating a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_LIST_ORDER = "list_order=";
+
+/*!
+ *  \brief infix string constant to update a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX = " WHERE id=";
+
+/*!
+ *  \brief postfix string constant to update a relationship
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX = ";";
+
 data_error_t data_database_sql_builder_build_create_relationship_command ( data_database_sql_builder_t *this_, const data_relationship_t *relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != relationship );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    if ( (*relationship).id == DATA_ID_VOID_ID )
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX );
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).id );
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    }
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).main_type );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).from_classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).to_classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*relationship).name );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_buf( (*this_).temp_stringbuf, (*relationship).description );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).list_order );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    utf8stringbuf_clear( (*this_).sql_stringbuf );
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_DELETE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
-data_error_t data_database_sql_builder_build_update_relationship_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type )
+data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_MAIN_TYPE );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_relationship_type );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_relationship_name );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_NAME );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_relationship_name );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_relationship_description );
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_DESCRIPTION );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
+    {
+        /* prepare temp buf */
+        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_relationship_description );
+        strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
+    }
+    strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_COL_LIST_ORDER );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_relationship_list_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, relationship_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_RELATIONSHIP_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
 }
 
 

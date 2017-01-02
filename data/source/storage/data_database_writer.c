@@ -737,14 +737,59 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
 
 data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, int64_t* out_new_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != feature );
+    data_error_t result = DATA_ERROR_NONE;
+    int64_t new_id;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_sql_builder_build_create_feature_command( &((*this_).sql_builder), feature );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, new_id );
+
+    if ( NULL != out_new_id )
+    {
+        *out_new_id = new_id;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, int64_t obj_id, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, obj_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_delete_feature_command ( &((*this_).sql_builder), obj_id );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, obj_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, int64_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature )
@@ -781,14 +826,59 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
 
 data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, int64_t* out_new_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != relationship );
+    data_error_t result = DATA_ERROR_NONE;
+    int64_t new_id;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_sql_builder_build_create_relationship_command( &((*this_).sql_builder), relationship );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, new_id );
+
+    if ( NULL != out_new_id )
+    {
+        *out_new_id = new_id;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, int64_t obj_id, data_relationship_t *out_old_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, obj_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_delete_relationship_command ( &((*this_).sql_builder), obj_id );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, obj_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )

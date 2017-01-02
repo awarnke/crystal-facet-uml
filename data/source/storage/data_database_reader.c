@@ -696,6 +696,42 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
     return result;
 }
 
+/* ================================ FEATURE ================================ */
+
+data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
+                                                               int64_t diagram_id,
+                                                               uint32_t max_out_array_size,
+                                                               data_feature_t (*out_feature)[],
+                                                               uint32_t *out_feature_count )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+/* ================================ RELATIONSHIP ================================ */
+
+data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
+                                                                    int64_t diagram_id,
+                                                                    uint32_t max_out_array_size,
+                                                                    data_relationship_t (*out_relationship)[],
+                                                                    uint32_t *out_relationship_count )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
 /* ================================ private ================================ */
 
 data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
