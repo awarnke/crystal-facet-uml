@@ -19,6 +19,8 @@
 #include "data_classifier_type.h"
 #include "data_diagram.h"
 #include "data_small_set.h"
+#include "data_feature.h"
+#include "data_relationship.h"
 #include <stdio.h>
 #include <stdbool.h>
 
@@ -58,6 +60,8 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
  */
 void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 
+/* ================================ CLASSIFIER ================================ */
+
 /*!
  *  \brief creates a new classifier or package or other object and attaches it to a diagram
  *
@@ -78,6 +82,22 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
                                                                        int32_t y_order,
                                                                        int64_t* out_new_id
                                                                      );
+
+/*!
+ *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_classifier data of the new classifier to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created classifier.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
+                                                            const data_classifier_t *new_classifier,
+                                                            bool add_to_latest_undo_set,
+                                                            int64_t* out_new_id
+);
 
 /*!
  *  \brief updates the classifier attribute: stereotype
@@ -172,6 +192,8 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
                                                                             int32_t new_classifier_y_order
                                                                           );
 
+/* ================================ COMMON ================================ */
+
 /*!
  *  \brief deletes a set of classifiers, diagramelements, features, relations
  *
@@ -183,21 +205,9 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                                                      data_small_set_t objects
                                                    );
 
-/*!
- *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
- *
- *  \param this_ pointer to own object attributes
- *  \param new_classifier data of the new classifier to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created classifier.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
- */
-ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
-                                                            const data_classifier_t *new_classifier,
-                                                            bool add_to_latest_undo_set,
-                                                            int64_t* out_new_id
-                                                          );
+/* ================================ FEATURE ================================ */
+
+/* ================================ RELATIONSHIP ================================ */
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 

@@ -61,65 +61,6 @@ ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_
     return result;
 }
 
-ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )
-{
-    TRACE_BEGIN();
-    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
-    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
-    assert( (*this_).current <= (*this_).length );
-
-    uint32_t index;
-    ctrl_undo_redo_entry_t *result;
-
-    if ( (*this_).current < (*this_).length )
-    {
-        /* overwrite an existing and new entry */
-        /* (*this_).start stays untouched */
-        (*this_).current ++;
-
-        /* call destructor of all later entries */
-        for ( uint32_t pos = (*this_).current; pos < (*this_).length; pos ++ )
-        {
-            uint32_t del_index = ((*this_).start + pos) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
-            ctrl_undo_redo_entry_destroy( &((*this_).buffer[del_index]) );
-        }
-
-        /* shrink the list */
-        (*this_).length = (*this_).current;
-
-        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
-        result = &((*this_).buffer[index]);
-    }
-    else if ( (*this_).current < CTRL_UNDO_REDO_LIST_MAX_SIZE )
-    {
-        /* add a new entry */
-        /* (*this_).start stays untouched */
-        (*this_).current ++;
-        (*this_).length ++;
-
-        /* call the constructor */
-        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
-        result = &((*this_).buffer[index]);
-        ctrl_undo_redo_entry_init_empty( result );
-    }
-    else
-    {
-        /* overwrite an existing old entry */
-        (*this_).start = ((*this_).start+1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
-        /* (*this_).current is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
-        /* (*this_).length is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
-        (*this_).buffer_incomplete = true;
-
-        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
-        result = &((*this_).buffer[index]);
-    }
-
-    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
-
-    TRACE_END();
-    return result;
-}
-
 ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
 {
     TRACE_BEGIN();
@@ -211,6 +152,67 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
     TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
 
     TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ private ================================ */
+
+ctrl_undo_redo_entry_t *ctrl_undo_redo_list_private_add_entry_ptr ( ctrl_undo_redo_list_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).start < CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).length <= CTRL_UNDO_REDO_LIST_MAX_SIZE );
+    assert( (*this_).current <= (*this_).length );
+
+    uint32_t index;
+    ctrl_undo_redo_entry_t *result;
+
+    if ( (*this_).current < (*this_).length )
+    {
+        /* overwrite an existing and new entry */
+        /* (*this_).start stays untouched */
+        (*this_).current ++;
+
+        /* call destructor of all later entries */
+        for ( uint32_t pos = (*this_).current; pos < (*this_).length; pos ++ )
+        {
+            uint32_t del_index = ((*this_).start + pos) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+            ctrl_undo_redo_entry_destroy( &((*this_).buffer[del_index]) );
+        }
+
+        /* shrink the list */
+        (*this_).length = (*this_).current;
+
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+    }
+    else if ( (*this_).current < CTRL_UNDO_REDO_LIST_MAX_SIZE )
+    {
+        /* add a new entry */
+        /* (*this_).start stays untouched */
+        (*this_).current ++;
+        (*this_).length ++;
+
+        /* call the constructor */
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+        ctrl_undo_redo_entry_init_empty( result );
+    }
+    else
+    {
+        /* overwrite an existing old entry */
+        (*this_).start = ((*this_).start+1) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        /* (*this_).current is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
+        /* (*this_).length is already CTRL_UNDO_REDO_LIST_MAX_SIZE */
+        (*this_).buffer_incomplete = true;
+
+        index = ((*this_).start + (*this_).current + (CTRL_UNDO_REDO_LIST_MAX_SIZE-1)) % CTRL_UNDO_REDO_LIST_MAX_SIZE;
+        result = &((*this_).buffer[index]);
+    }
+
+    TRACE_INFO_INT_INT( "current, length:", (*this_).current, (*this_).length );
+
+    TRACE_END();
     return result;
 }
 

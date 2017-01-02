@@ -55,6 +55,8 @@ void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
  */
 void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ );
 
+/* ================================ DIAGRAM ================================ */
+
 /*!
  *  \brief creates a new diagram.
  *
@@ -167,6 +169,8 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
                                                                  int64_t diagram_id,
                                                                  int32_t new_diagram_list_order
                                                                );
+
+/* ================================ DIAGRAMELEMENT ================================ */
 
 /*!
  *  \brief creates a new diagramelement.

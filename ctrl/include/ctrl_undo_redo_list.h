@@ -82,6 +82,39 @@ static inline void ctrl_undo_redo_list_clear ( ctrl_undo_redo_list_t *this_ );
 static inline ctrl_error_t ctrl_undo_redo_list_add_boundary ( ctrl_undo_redo_list_t *this_ );
 
 /*!
+ *  \brief removes the last boundary entry (CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY) from the end of the list.
+ *
+ *  This method drops all list-entries newer than the current position (if there are any).
+ *  This method may be useful if a boundary was already added but more actions shall be added to the latest set.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_INVALID_REQUEST if the last list entry is not a boundary.
+ *          CTRL_ERROR_NONE otherwise.
+ */
+ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ );
+
+/*!
+ *  \brief un-does a set of actions till the last boundary.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
+ *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
+ *          CTRL_ERROR_NONE otherwise.
+ */
+ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ );
+
+/*!
+ *  \brief re-does a set of actions till the next boundary.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
+ *          CTRL_ERROR_NONE otherwise.
+ */
+ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ );
+
+/* ================================ DIAGRAM ================================ */
+
+/*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAM.
  *
  *  This method may overwrite the oldest entries in the list
@@ -123,6 +156,8 @@ static inline void ctrl_undo_redo_list_add_update_diagram ( ctrl_undo_redo_list_
  *  \param new_value the record contents after the record was created
  */
 static inline void ctrl_undo_redo_list_add_create_diagram ( ctrl_undo_redo_list_t *this_, data_diagram_t *new_value );
+
+/* ================================ DIAGRAMELEMENT ================================ */
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_DIAGRAMELEMENT.
@@ -167,6 +202,8 @@ static inline void ctrl_undo_redo_list_add_update_diagramelement ( ctrl_undo_red
  */
 static inline void ctrl_undo_redo_list_add_create_diagramelement ( ctrl_undo_redo_list_t *this_, data_diagramelement_t *new_value );
 
+/* ================================ CLASSIFIER ================================ */
+
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_CLASSIFIER.
  *
@@ -209,6 +246,8 @@ static inline void ctrl_undo_redo_list_add_update_classifier ( ctrl_undo_redo_li
  *  \param new_value the record contents after the record was created
  */
 static inline void ctrl_undo_redo_list_add_create_classifier ( ctrl_undo_redo_list_t *this_, data_classifier_t *new_value );
+
+/* ================================ FEATURE ================================ */
 
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE.
@@ -253,6 +292,8 @@ static inline void ctrl_undo_redo_list_add_update_feature ( ctrl_undo_redo_list_
  */
 static inline void ctrl_undo_redo_list_add_create_feature ( ctrl_undo_redo_list_t *this_, data_feature_t *new_value );
 
+/* ================================ RELATIONSHIP ================================ */
+
 /*!
  *  \brief adds an action entry to the list of type CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP.
  *
@@ -296,36 +337,7 @@ static inline void ctrl_undo_redo_list_add_update_relationship ( ctrl_undo_redo_
  */
 static inline void ctrl_undo_redo_list_add_create_relationship ( ctrl_undo_redo_list_t *this_, data_relationship_t *new_value );
 
-/*!
- *  \brief removes the last boundary entry (CTRL_UNDO_REDO_ENTRY_TYPE_BOUNDARY) from the end of the list.
- *
- *  This method drops all list-entries newer than the current position (if there are any).
- *  This method may be useful if a boundary was already added but more actions shall be added to the latest set.
- *
- *  \param this_ pointer to own object attributes
- *  \return CTRL_ERROR_INVALID_REQUEST if the last list entry is not a boundary.
- *          CTRL_ERROR_NONE otherwise.
- */
-ctrl_error_t ctrl_undo_redo_list_remove_boundary_from_end ( ctrl_undo_redo_list_t *this_ );
-
-/*!
- *  \brief un-does a set of actions till the last boundary.
- *
- *  \param this_ pointer to own object attributes
- *  \return CTRL_ERROR_ARRAY_BUFFER_EXCEEDED if there is no more complete set of actions to be un-done due to limits of buffer.
- *          CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be un-done
- *          CTRL_ERROR_NONE otherwise.
- */
-ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ );
-
-/*!
- *  \brief re-does a set of actions till the next boundary.
- *
- *  \param this_ pointer to own object attributes
- *  \return CTRL_ERROR_INVALID_REQUEST if there is no more set of actions to be re-done.
- *          CTRL_ERROR_NONE otherwise.
- */
-ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ );
+/* ================================ private ================================ */
 
 /*!
  *  \brief re-does a set of actions till the next boundary.

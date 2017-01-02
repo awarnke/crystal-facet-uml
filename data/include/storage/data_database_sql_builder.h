@@ -15,6 +15,8 @@
 #include "data_error.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
+#include "data_feature.h"
+#include "data_relationship.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -233,7 +235,133 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
 
 /* ================================ FEATURE ================================ */
 
+/*!
+ *  \brief builds the sql command string to create a new feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature feature to be created. The id should be DATA_ID_VOID_ID unless a feature with known, unique id shall be created.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_create_feature_command ( data_database_sql_builder_t *this_, const data_feature_t *feature );
+
+/*!
+ *  \brief builds the sql command string to delete a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be deleted
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id );
+
+/*!
+ *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_type new type of the feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type );
+
+/*!
+ *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_key new key of the feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key );
+
+/*!
+ *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_value new value of the feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value );
+
+/*!
+ *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_description new description of the feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description );
+
+/*!
+ *  \brief builds the sql command string to update a feature record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_list_order new list_order of the feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order );
+
 /* ================================ RELATIONSHIP ================================ */
+
+/*!
+ *  \brief builds the sql command string to create a new relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship relationship to be created. The id should be DATA_ID_VOID_ID unless a relationship with known, unique id shall be created.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_create_relationship_command ( data_database_sql_builder_t *this_, const data_relationship_t *relationship );
+
+/*!
+ *  \brief builds the sql command string to delete a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be deleted
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id );
+
+/*!
+ *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_type new type of the relationship
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_relationship_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type );
+
+/*!
+ *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_name new name of the relationship
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name );
+
+/*!
+ *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_description new description of the relationship
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description );
+
+/*!
+ *  \brief builds the sql command string to update a relationship record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_list_order new list_order of the relationship
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order );
 
 #include "storage/data_database_sql_builder.inl"
 

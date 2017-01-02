@@ -34,6 +34,8 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
     TRACE_END();
 }
 
+/* ================================ CLASSIFIER ================================ */
+
 ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
                                                                        int64_t diagram_id,
                                                                        data_classifier_type_t classifier_type,
@@ -96,6 +98,56 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
         /* add a boundary to the undo redo list after two creations */
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
+                                                            const data_classifier_t *new_classifier,
+                                                            bool add_to_latest_undo_set,
+                                                            int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_classifier );
+    data_classifier_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_classifier_copy( &to_be_created, new_classifier );
+    data_classifier_set_id( &to_be_created, DATA_ID_VOID_ID );
+
+    data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* store new id to data_classifier_t object */
+        data_classifier_set_id( &to_be_created, new_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the new diagram to the undo redo list */
+        ctrl_undo_redo_list_add_create_classifier( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_classifier_destroy( &to_be_created );
 
     TRACE_END_ERR( result );
     return result;
@@ -289,6 +341,8 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
     return result;
 }
 
+/* ================================ COMMON ================================ */
+
 ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects )
 {
     TRACE_BEGIN();
@@ -453,55 +507,9 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_controller_t *this_,
-                                                            const data_classifier_t *new_classifier,
-                                                            bool add_to_latest_undo_set,
-                                                            int64_t* out_new_id )
-{
-    TRACE_BEGIN();
-    assert( NULL != new_classifier );
-    data_classifier_t to_be_created;
-    ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
-    int64_t new_id;
+/* ================================ FEATURE ================================ */
 
-    data_classifier_copy( &to_be_created, new_classifier );
-    data_classifier_set_id( &to_be_created, DATA_ID_VOID_ID );
-
-    data_result = data_database_writer_create_classifier( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
-    {
-        /* store new id to data_classifier_t object */
-        data_classifier_set_id( &to_be_created, new_id );
-
-        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
-        {
-            ctrl_error_t internal_err;
-            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
-            {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-            }
-        }
-
-        /* store the new diagram to the undo redo list */
-        ctrl_undo_redo_list_add_create_classifier( (*this_).undo_redo_list, &to_be_created );
-        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-        /* copy new id to out parameter */
-        if ( NULL != out_new_id )
-        {
-            *out_new_id = new_id;
-        }
-    }
-    result = (ctrl_error_t) data_result;
-
-    data_classifier_destroy( &to_be_created );
-
-    TRACE_END_ERR( result );
-    return result;
-}
+/* ================================ RELATIONSHIP ================================ */
 
 
 /*

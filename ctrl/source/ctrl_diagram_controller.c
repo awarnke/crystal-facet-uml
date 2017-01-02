@@ -32,6 +32,8 @@ void ctrl_diagram_controller_destroy ( ctrl_diagram_controller_t *this_ )
     TRACE_END();
 }
 
+/* ================================ DIAGRAM ================================ */
+
 ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
                                                       const data_diagram_t *new_diagram,
                                                       bool add_to_latest_undo_set,
@@ -291,6 +293,8 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
     TRACE_END_ERR( result );
     return result;
 }
+
+/* ================================ DIAGRAMELEMENT ================================ */
 
 ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_controller_t *this_,
                                                              const data_diagramelement_t *new_diagramelement,
