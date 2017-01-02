@@ -207,7 +207,156 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
 /* ================================ FEATURE ================================ */
 
+/*!
+ *  \brief creates a new feature.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_feature data of the new feature to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created feature, NULL if the new id is not needed.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
+                                                         const data_feature_t *new_feature,
+                                                         bool add_to_latest_undo_set,
+                                                         int64_t* out_new_id
+                                                       );
+
+/*!
+ *  \brief updates the feature attribute: main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_type new main_type of the feature
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
+                                                                   int64_t feature_id,
+                                                                   data_feature_type_t new_feature_type
+                                                                 );
+
+/*!
+ *  \brief updates the feature attribute: key
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_key new key of the feature
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
+                                                             int64_t feature_id,
+                                                             const char* new_feature_key
+                                                           );
+
+/*!
+ *  \brief updates the feature attribute: value
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_value new value of the feature
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
+                                                               int64_t feature_id,
+                                                               const char* new_feature_value
+                                                             );
+
+/*!
+ *  \brief updates the feature attribute: description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_description new description text of the feature
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
+                                                                     int64_t feature_id,
+                                                                     const char* new_feature_description
+                                                                   );
+
+/*!
+ *  \brief updates the feature attribute: list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature to be updated
+ *  \param new_feature_list_order new list_order of the feature
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
+                                                                    int64_t feature_id,
+                                                                    int32_t new_feature_list_order
+                                                                  );
+
 /* ================================ RELATIONSHIP ================================ */
+
+/*!
+ *  \brief creates a new relationship.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param new_relationship data of the new relationship to be created; the id is ignored.
+ *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \param out_new_id id of the newly created relationship, NULL if the new id is not needed.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
+                                                              const data_relationship_t *new_relationship,
+                                                              bool add_to_latest_undo_set,
+                                                              int64_t* out_new_id
+                                                            );
+
+/*!
+ *  \brief updates the relationship attribute: main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the diagram to be updated
+ *  \param new_relationship_type new main_type of the diagram
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
+                                                                        int64_t relationship_id,
+                                                                        data_relationship_type_t new_relationship_type
+                                                                      );
+
+/*!
+ *  \brief updates the relationship attribute: name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_name new name of the relationship
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
+                                                                   int64_t relationship_id,
+                                                                   const char* new_relationship_name
+                                                                 );
+
+/*!
+ *  \brief updates the relationship attribute: description
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_description new description text of the relationship
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
+                                                                          int64_t relationship_id,
+                                                                          const char* new_relationship_description
+                                                                        );
+
+/*!
+ *  \brief updates the relationship attribute: list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship to be updated
+ *  \param new_relationship_list_order new list_order of the relationship
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
+                                                                         int64_t relationship_id,
+                                                                         int32_t new_relationship_list_order
+                                                                       );
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_H */
 
