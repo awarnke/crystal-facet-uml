@@ -818,6 +818,88 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
     return( result );
 }
 
+/* ================================ FEATURE ================================ */
+
+data_error_t data_database_sql_builder_build_create_feature_command ( data_database_sql_builder_t *this_, const data_feature_t *feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+/* ================================ RELATIONSHIP ================================ */
+
+data_error_t data_database_sql_builder_build_create_relationship_command ( data_database_sql_builder_t *this_, const data_relationship_t *relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_relationship_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
 
 /*
 Copyright 2016-2016 Andreas Warnke

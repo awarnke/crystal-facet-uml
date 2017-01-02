@@ -509,7 +509,97 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
 /* ================================ FEATURE ================================ */
 
+ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
+                                                         const data_feature_t *new_feature,
+                                                         bool add_to_latest_undo_set,
+                                                         int64_t* out_new_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
+                                                                   int64_t feature_id,
+                                                                   data_feature_type_t new_feature_type )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
+                                                             int64_t feature_id,
+                                                             const char* new_feature_key )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
+                                                               int64_t feature_id,
+                                                               const char* new_feature_value )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
+                                                                     int64_t feature_id,
+                                                                     const char* new_feature_description )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
+                                                                    int64_t feature_id,
+                                                                    int32_t new_feature_list_order )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
 /* ================================ RELATIONSHIP ================================ */
+
+ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_controller_t *this_,
+                                                              const data_relationship_t *new_relationship,
+                                                              bool add_to_latest_undo_set,
+                                                              int64_t* out_new_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
+                                                                        int64_t relationship_id,
+                                                                        data_relationship_type_t new_relationship_type )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
+                                                                   int64_t relationship_id,
+                                                                   const char* new_relationship_name )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
+                                                                          int64_t relationship_id,
+                                                                          const char* new_relationship_description )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
+                                                                         int64_t relationship_id,
+                                                                         int32_t new_relationship_list_order )
+{
+    TSLOG_ERROR("not yet implemented");
+    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+}
 
 
 /*

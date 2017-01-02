@@ -733,6 +733,88 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
     return result;
 }
 
+/* ================================ FEATURE ================================ */
+
+data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, int64_t* out_new_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, int64_t obj_id, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, int64_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, int64_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+/* ================================ RELATIONSHIP ================================ */
+
+data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, int64_t* out_new_id )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, int64_t obj_id, data_relationship_t *out_old_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, int64_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
 /* ================================ private ================================ */
 
 data_error_t data_database_writer_private_execute_create_command ( data_database_writer_t *this_, const char* sql_statement, int64_t* out_new_id )
