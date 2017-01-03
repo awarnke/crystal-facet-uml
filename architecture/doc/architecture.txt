@@ -78,6 +78,6 @@
  *  \verbinclude exported_diagrams/5_Unit-Test.txt
  *
  *  \section cfu-arc-apx Appendix
- *  \author (c) 2016-2016 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2017 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
  */
 

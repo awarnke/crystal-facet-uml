@@ -418,6 +418,11 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
         object_still_referenced = false;
     }
 
+    /* TODO: check that the classifier is not referenced by features anymore */
+    /* TODO: check that the classifier is not referenced by relationships anymore */
+    TSLOG_WARNING("data_database_writer_delete_classifier() only partly implemented!!!");
+    TSLOG_WARNING("data_database_writer_delete_classifier(): consistency checks missing!!!");
+
     if ( object_still_referenced )
     {
         result |= DATA_ERROR_OBJECT_STILL_REFERENCED;
@@ -794,32 +799,152 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
 
 data_error_t data_database_writer_update_feature_main_type ( data_database_writer_t *this_, int64_t feature_id, data_feature_type_t new_feature_type, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, feature_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_update_feature_main_type_cmd( &((*this_).sql_builder), feature_id, new_feature_type );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_feature_key ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_key, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, feature_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_update_feature_key_cmd( &((*this_).sql_builder), feature_id, new_feature_key );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_feature_value ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_value, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, feature_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_update_feature_value_cmd( &((*this_).sql_builder), feature_id, new_feature_value );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_feature_description ( data_database_writer_t *this_, int64_t feature_id, const char* new_feature_description, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, feature_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_update_feature_description_cmd( &((*this_).sql_builder), feature_id, new_feature_description );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_feature_list_order ( data_database_writer_t *this_, int64_t feature_id, int32_t new_feature_list_order, data_feature_t *out_old_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_feature is NULL if old data shall not be returned */
+    if ( NULL != out_old_feature )
+    {
+        result |= data_database_reader_get_feature_by_id ( (*this_).db_reader, feature_id, out_old_feature );
+    }
+
+    result |= data_database_sql_builder_build_update_feature_list_order_cmd( &((*this_).sql_builder), feature_id, new_feature_list_order );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 /* ================================ RELATIONSHIP ================================ */
@@ -883,26 +1008,122 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
 
 data_error_t data_database_writer_update_relationship_main_type ( data_database_writer_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type, data_relationship_t *out_old_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, relationship_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_update_relationship_main_type_cmd( &((*this_).sql_builder), relationship_id, new_relationship_type );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_relationship_name ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_name, data_relationship_t *out_old_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, relationship_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_update_relationship_name_cmd( &((*this_).sql_builder), relationship_id, new_relationship_name );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_relationship_description ( data_database_writer_t *this_, int64_t relationship_id, const char* new_relationship_description, data_relationship_t *out_old_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, relationship_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_update_relationship_description_cmd( &((*this_).sql_builder), relationship_id, new_relationship_description );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_writer_update_relationship_list_order ( data_database_writer_t *this_, int64_t relationship_id, int32_t new_relationship_list_order, data_relationship_t *out_old_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_relationship is NULL if old data shall not be returned */
+    if ( NULL != out_old_relationship )
+    {
+        result |= data_database_reader_get_relationship_by_id ( (*this_).db_reader, relationship_id, out_old_relationship );
+    }
+
+    result |= data_database_sql_builder_build_update_relationship_list_order_cmd( &((*this_).sql_builder), relationship_id, new_relationship_list_order );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 /* ================================ private ================================ */
@@ -1102,7 +1323,7 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

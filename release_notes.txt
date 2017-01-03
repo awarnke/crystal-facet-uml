@@ -1,5 +1,5 @@
-2016-xx-xx 0.10 [xxxxxxx]
-  +
+2017-xx-xx 0.10 [xxxxxxx]
+  + DB format changed: features.key is not UNIQUE anymore (compatible change)
 2016-12-22 0.09 [6d5cfac]
   + Mark and instantiate classifiers
   + Test the database for errors and fix them

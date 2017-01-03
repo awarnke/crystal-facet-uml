@@ -74,7 +74,7 @@ static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
         "id INTEGER PRIMARY KEY ASC, "
         "main_type INTEGER, "
         "classifier_id INTEGER, "
-        "key TEXT UNIQUE, "
+        "key TEXT, "
         "value TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
@@ -559,7 +559,7 @@ data_error_t data_database_private_notify_db_listeners( data_database_t *this_, 
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

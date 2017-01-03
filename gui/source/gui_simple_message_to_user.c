@@ -111,7 +111,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                 utf8stringbuf_append_str( (*this_).content,
                                           "This is " META_INFO_PROGRAM_NAME_STR " version " META_INFO_VERSION_STR "\n"
                                           "License: Apache 2.0\n"
-                                          "Author+Copyright: 2016-2016 Andreas Warnke" );
+                                          "Author+Copyright: 2016-2017 Andreas Warnke" );
             }
             break;
 
@@ -247,7 +247,7 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

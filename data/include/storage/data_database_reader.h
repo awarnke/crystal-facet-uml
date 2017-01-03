@@ -312,7 +312,7 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

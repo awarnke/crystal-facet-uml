@@ -7,148 +7,6 @@
 #include <sqlite3.h>
 #include <assert.h>
 
-/*!
- *  \brief predefined search statement to find a diagram by id
- */
-static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE id=?;";
-
-/*!
- *  \brief predefined search statement to find diagrams by parent-id
- */
-static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
-
-/*!
- *  \brief predefined search statement to find diagrams by classifier-id
- */
-static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    "SELECT diagrams.id,parent_id,diagram_type,name,description,list_order "
-    "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
-    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
-
-/*!
- *  \brief the column id of the result where this parameter is stored: id
- */
-static const int RESULT_DIAGRAM_ID_COLUMN = 0;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: parent_id
- */
-static const int RESULT_DIAGRAM_PARENT_ID_COLUMN = 1;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: type
- */
-static const int RESULT_DIAGRAM_TYPE_COLUMN = 2;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: name
- */
-static const int RESULT_DIAGRAM_NAME_COLUMN = 3;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: description
- */
-static const int RESULT_DIAGRAM_DESCRIPTION_COLUMN = 4;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: list_order
- */
-static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
-
-/*!
- *  \brief predefined search statement to find diagram ids by parent-id
- */
-static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID[] =
-    "SELECT id FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
-
-/*!
- *  \brief predefined search statement to find a classifier by id
- */
-static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
-
-/*!
- *  \brief predefined search statement to find classifier by diagram-id
- */
-static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
-    "SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order,"
-    "diagramelements.id,diagramelements.display_flags "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
-
-/*!
- *  \brief the column id of the result where this parameter is stored: id
- */
-static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: main_type
- */
-static const int RESULT_CLASSIFIER_MAIN_TYPE_COLUMN = 1;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: stereotype
- */
-static const int RESULT_CLASSIFIER_STEREOTYPE_COLUMN = 2;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: name
- */
-static const int RESULT_CLASSIFIER_NAME_COLUMN = 3;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: description
- */
-static const int RESULT_CLASSIFIER_DESCRIPTION_COLUMN = 4;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: x_order
- */
-static const int RESULT_CLASSIFIER_X_ORDER_COLUMN = 5;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: y_order
- */
-static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.id
- */
-static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 7;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagramelements.display_flags
- */
-static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 8;
-
-/*!
- *  \brief predefined search statement to find a diagramelement by id
- */
-static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID[] =
-    "SELECT id,diagram_id,classifier_id,display_flags FROM diagramelements WHERE id=?;";
-
-/*!
- *  \brief the column id of the result where this parameter is stored: id
- */
-static const int RESULT_DIAGRAMELEMENT_ID_COLUMN = 0;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: diagram_id
- */
-static const int RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN = 1;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: classifier_id
- */
-static const int RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN = 2;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: display_flags
- */
-static const int RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN = 3;
-
 data_error_t data_database_reader_init ( data_database_reader_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -233,6 +91,62 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
 }
 
 /* ================================ DIAGRAM ================================ */
+
+/*!
+ *  \brief predefined search statement to find a diagram by id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
+    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE id=?;";
+
+/*!
+ *  \brief predefined search statement to find diagrams by parent-id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
+    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
+
+/*!
+ *  \brief predefined search statement to find diagrams by classifier-id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
+    "SELECT diagrams.id,parent_id,diagram_type,name,description,list_order "
+    "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
+    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_DIAGRAM_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: parent_id
+ */
+static const int RESULT_DIAGRAM_PARENT_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: type
+ */
+static const int RESULT_DIAGRAM_TYPE_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_DIAGRAM_NAME_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: description
+ */
+static const int RESULT_DIAGRAM_DESCRIPTION_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: list_order
+ */
+static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
+
+/*!
+ *  \brief predefined search statement to find diagram ids by parent-id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID[] =
+    "SELECT id FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
@@ -494,6 +408,66 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
 
 /* ================================ CLASSIFIER ================================ */
 
+/*!
+ *  \brief predefined search statement to find a classifier by id
+ */
+static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
+
+/*!
+ *  \brief predefined search statement to find classifier by diagram-id
+ */
+static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
+    "SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order,"
+    "diagramelements.id,diagramelements.display_flags "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: main_type
+ */
+static const int RESULT_CLASSIFIER_MAIN_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: stereotype
+ */
+static const int RESULT_CLASSIFIER_STEREOTYPE_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_CLASSIFIER_NAME_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: description
+ */
+static const int RESULT_CLASSIFIER_DESCRIPTION_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: x_order
+ */
+static const int RESULT_CLASSIFIER_X_ORDER_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: y_order
+ */
+static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.id
+ */
+static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.display_flags
+ */
+static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 8;
+
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
 {
     TRACE_BEGIN();
@@ -641,6 +615,32 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
 
 /* ================================ DIAGRAMELEMENT ================================ */
 
+/*!
+ *  \brief predefined search statement to find a diagramelement by id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID[] =
+    "SELECT id,diagram_id,classifier_id,display_flags FROM diagramelements WHERE id=?;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_DIAGRAMELEMENT_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagram_id
+ */
+static const int RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifier_id
+ */
+static const int RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: display_flags
+ */
+static const int RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN = 3;
+
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement )
 {
     TRACE_BEGIN();
@@ -704,6 +704,16 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
     return DATA_ERROR_NOT_YET_IMPLEMENTED;
 }
 
+data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
+                                                                  int64_t classifier_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_feature_t (*out_feature)[],
+                                                                  uint32_t *out_feature_count )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                int64_t diagram_id,
                                                                uint32_t max_out_array_size,
@@ -717,6 +727,16 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
 /* ================================ RELATIONSHIP ================================ */
 
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
+{
+    TSLOG_ERROR("not yet implemented");
+    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+}
+
+data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       uint32_t max_out_array_size,
+                                                                       data_relationship_t (*out_relationship)[],
+                                                                       uint32_t *out_relationship_count )
 {
     TSLOG_ERROR("not yet implemented");
     return DATA_ERROR_NOT_YET_IMPLEMENTED;
@@ -838,7 +858,7 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

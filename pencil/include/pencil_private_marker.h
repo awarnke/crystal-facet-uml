@@ -62,7 +62,7 @@ void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *th
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

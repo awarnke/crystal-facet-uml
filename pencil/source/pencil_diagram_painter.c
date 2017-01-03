@@ -423,7 +423,7 @@ universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

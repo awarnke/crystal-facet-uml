@@ -285,7 +285,7 @@ void gui_resources_destroy ( gui_resources_t *this_ )
 
 
 /*
-Copyright 2016-2016 Andreas Warnke
+Copyright 2016-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
