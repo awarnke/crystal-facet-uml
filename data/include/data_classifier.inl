@@ -13,6 +13,9 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                       int32_t x_order,
                                                       int32_t y_order )
 {
+    assert( NULL != stereotype );
+    assert( NULL != name );
+    assert( NULL != description );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -80,6 +83,9 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   int32_t x_order,
                                                   int32_t y_order )
 {
+    assert( NULL != stereotype );
+    assert( NULL != name );
+    assert( NULL != description );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -130,6 +136,8 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
 
 static inline void data_classifier_copy ( data_classifier_t *this_, const data_classifier_t *original )
 {
+    assert( NULL != original );
+
     (*this_) = (*original);
     /* repair the overwritten pointers */
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -139,6 +147,8 @@ static inline void data_classifier_copy ( data_classifier_t *this_, const data_c
 
 static inline void data_classifier_replace ( data_classifier_t *this_, const data_classifier_t *that )
 {
+    assert( NULL != that );
+
     (*this_) = (*that);
     /* repair the overwritten pointers */
     (*this_).stereotype = utf8stringbuf_init( sizeof((*this_).private_stereotype_buffer), (*this_).private_stereotype_buffer );
@@ -195,6 +205,8 @@ static inline utf8stringbuf_t data_classifier_get_stereotype_buf_ptr ( data_clas
 
 static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *this_, const char *stereotype )
 {
+    assert( NULL != stereotype );
+
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).stereotype, stereotype );
@@ -218,6 +230,8 @@ static inline utf8stringbuf_t data_classifier_get_name_buf_ptr ( data_classifier
 
 static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, const char *name )
 {
+    assert( NULL != name );
+
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
@@ -241,6 +255,8 @@ static inline utf8stringbuf_t data_classifier_get_description_buf_ptr ( data_cla
 
 static inline data_error_t data_classifier_set_description ( data_classifier_t *this_, const char *description )
 {
+    assert( NULL != description );
+
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).description, description );

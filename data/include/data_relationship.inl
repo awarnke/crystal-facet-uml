@@ -1,6 +1,7 @@
 /* File: data_relationship.inl; Copyright and License: see below */
 
 #include "data_id.h"
+#include <assert.h>
 
 static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
@@ -23,8 +24,49 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
     data_relationship_init_empty( this_ );
 }
 
+static inline data_error_t data_relationship_init ( data_relationship_t *this_,
+                                                    int64_t relationship_id,
+                                                    data_relationship_type_t relationship_main_type,
+                                                    int64_t from_classifier_id,
+                                                    int64_t to_classifier_id,
+                                                    const char* relationship_name,
+                                                    const char* relationship_description,
+                                                    int32_t list_order )
+{
+    assert( NULL != relationship_name );
+    assert( NULL != relationship_description );
+    utf8error_t strerr;
+    data_error_t result = DATA_ERROR_NONE;
+
+    (*this_).id = relationship_id;
+    (*this_).main_type = relationship_main_type;
+    (*this_).from_classifier_id = from_classifier_id;
+    (*this_).to_classifier_id = to_classifier_id;
+
+    (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    (*this_).description = utf8stringbuf_init( sizeof((*this_).private_description_buffer), (*this_).private_description_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+    (*this_).list_order = list_order;
+
+    return result;
+}
+
 static inline void data_relationship_copy ( data_relationship_t *this_, const data_relationship_t *original )
 {
+    assert( NULL != original );
+
     (*this_) = (*original);
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -33,6 +75,8 @@ static inline void data_relationship_copy ( data_relationship_t *this_, const da
 
 static inline void data_relationship_replace ( data_relationship_t *this_, const data_relationship_t *that )
 {
+    assert( NULL != that );
+
     (*this_) = (*that);
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -96,6 +140,7 @@ static inline utf8stringbuf_t data_relationship_get_name_buf_ptr ( data_relation
 
 static inline data_error_t data_relationship_set_name ( data_relationship_t *this_, const char *name )
 {
+    assert( NULL != name );
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
@@ -119,6 +164,7 @@ static inline utf8stringbuf_t data_relationship_get_description_buf_ptr ( data_r
 
 static inline data_error_t data_relationship_set_description ( data_relationship_t *this_, const char *description )
 {
+    assert( NULL != description );
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).description, description );

@@ -39,6 +39,12 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
     sqlite3_stmt *private_prepared_query_diagramelement_by_id;
+    sqlite3_stmt *private_prepared_query_feature_by_id;
+    sqlite3_stmt *private_prepared_query_features_by_classifier_id;
+    sqlite3_stmt *private_prepared_query_features_by_diagram_id;
+    sqlite3_stmt *private_prepared_query_relationship_by_id;
+    sqlite3_stmt *private_prepared_query_relationships_by_classifier_id;
+    sqlite3_stmt *private_prepared_query_relationships_by_diagram_id;
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_reader_db_change_callback */
 };
@@ -191,6 +197,23 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
 data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature );
 
 /*!
+ *  \brief reads all features of a classifier from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the parent classifier
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_feature array of features read from the database (in case of success)
+ *  \param out_feature_count number of feature records stored in out_feature
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
+                                                                  int64_t classifier_id,
+                                                                  uint32_t max_out_array_size,
+                                                                  data_feature_t (*out_feature)[],
+                                                                  uint32_t *out_feature_count
+                                                                );
+
+/*!
  *  \brief reads all features of a diagram from the database
  *
  *  \param this_ pointer to own object attributes
@@ -218,6 +241,23 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
  */
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship );
+
+/*!
+ *  \brief reads all relationships of a classifier from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the source(from) or destination(to) classifier
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_relationship array of relationships read from the database (in case of success)
+ *  \param out_relationship_count number of relationship records stored in out_relationship
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       uint32_t max_out_array_size,
+                                                                       data_relationship_t (*out_relationship)[],
+                                                                       uint32_t *out_relationship_count
+                                                                     );
 
 /*!
  *  \brief reads all relationships of a diagram from the database

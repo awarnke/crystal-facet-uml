@@ -61,6 +61,29 @@ static inline void data_feature_init_empty ( data_feature_t *this_ );
 static inline void data_feature_reinit_empty ( data_feature_t *this_ );
 
 /*!
+ *  \brief initializes the data_feature_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_id id of the feature
+ *  \param feature_main_type main_type of the feature
+ *  \param classifier_id classifier_id of the feature's parent classifier
+ *  \param feature_key key/name of the feature. feature_key must not be NULL.
+ *  \param feature_value value/type of the feature. feature_value must not be NULL.
+ *  \param feature_description description of the feature. feature_description must not be NULL.
+ *  \param list_order list_order of the feature
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_feature_init ( data_feature_t *this_,
+                                               int64_t feature_id,
+                                               data_feature_type_t feature_main_type,
+                                               int64_t classifier_id,
+                                               const char* feature_key,
+                                               const char* feature_value,
+                                               const char* feature_description,
+                                               int32_t list_order
+                                             );
+
+/*!
  *  \brief initializes the data_feature_t struct with a copy
  *
  *  \param this_ pointer to own object attributes

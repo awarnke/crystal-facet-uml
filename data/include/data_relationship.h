@@ -58,6 +58,29 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ );
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ );
 
 /*!
+ *  \brief initializes the data_relationship_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relationship_id id of the relationship
+ *  \param relationship_main_type type of the relationship
+ *  \param from_classifier_id id of the source classifier
+ *  \param to_classifier_id id of the destination classifier
+ *  \param relationship_name name of the relationship. relationship_name must not be NULL.
+ *  \param relationship_description description of the relationship. relationship_description must not be NULL.
+ *  \param list_order list_order of the relationship
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
+ */
+static inline data_error_t data_relationship_init ( data_relationship_t *this_,
+                                                    int64_t relationship_id,
+                                                    data_relationship_type_t relationship_main_type,
+                                                    int64_t from_classifier_id,
+                                                    int64_t to_classifier_id,
+                                                    const char* relationship_name,
+                                                    const char* relationship_description,
+                                                    int32_t list_order
+                                                  );
+
+/*!
  *  \brief initializes the data_relationship_t struct with a copy
  *
  *  \param this_ pointer to own object attributes

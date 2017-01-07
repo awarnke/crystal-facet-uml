@@ -698,10 +698,121 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
 
 /* ================================ FEATURE ================================ */
 
+/*!
+ *  \brief predefined search statement to find a feature by id
+ */
+static const char DATA_DATABASE_READER_SELECT_FEATURE_BY_ID[] =
+    "SELECT id,main_type,classifier_id,key,value,description,list_order FROM features WHERE id=?;";
+
+/*!
+ *  \brief predefined search statement to find features by diagram-id
+ */
+static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
+    "SELECT id,main_type,classifier_id,key,value,description,list_order,"
+    "diagramelements.id,diagramelements.display_flags "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+
+/*!
+ *  \brief predefined search statement to find features by classifier-id
+ */
+static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
+    "SELECT id,main_type,classifier_id,key,value,description,list_order,"
+    "diagramelements.id,diagramelements.display_flags "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_FEATURE_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: main_type
+ */
+static const int RESULT_FEATURE_MAIN_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifier_id
+ */
+static const int RESULT_FEATURE_CLASSIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: key
+ */
+static const int RESULT_FEATURE_KEY_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: value
+ */
+static const int RESULT_FEATURE_VALUE_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: description
+ */
+static const int RESULT_FEATURE_DESCRIPTION_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: list_order
+ */
+static const int RESULT_FEATURE_LIST_ORDER_COLUMN = 6;
+
 data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_feature );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_feature_by_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, id );
+
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_ROW != sqlite_err )
+        {
+            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+
+        if ( SQLITE_ROW == sqlite_err )
+        {
+            result |= data_feature_init( out_feature,
+                                         sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
+                                         sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
+                                         sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
+                                         (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
+                                         (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
+                                         (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
+                                         sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN )
+            );
+
+            data_feature_trace( out_feature );
+        }
+
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_DONE != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
@@ -726,10 +837,122 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
 
 /* ================================ RELATIONSHIP ================================ */
 
+/*!
+ *  \brief predefined search statement to find a relationship by id
+ */
+static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM classifiers WHERE id=?;";
+
+/*!
+ *  \brief predefined search statement to find relationships by diagram-id
+ */
+static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
+    "SELECT classifiers.id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "diagramelements.id,diagramelements.display_flags "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+
+/*!
+ *  \brief predefined search statement to find relationships by classifier-id
+ */
+static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
+    "SELECT classifiers.id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "diagramelements.id,diagramelements.display_flags "
+    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_RELATIONSHIP_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: main_type
+ */
+static const int RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: from_classifier_id
+ */
+static const int RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: to_classifier_id
+ */
+static const int RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_RELATIONSHIP_NAME_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: description
+ */
+static const int RESULT_RELATIONSHIP_DESCRIPTION_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: list_order
+ */
+static const int RESULT_RELATIONSHIP_LIST_ORDER_COLUMN = 6;
+
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_relationship );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_relationship_by_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, id );
+
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_ROW != sqlite_err )
+        {
+            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+
+        if ( SQLITE_ROW == sqlite_err )
+        {
+            result |= data_relationship_init( out_relationship,
+                                              sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
+                                              sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
+                                              sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
+                                              sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
+                                              (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
+                                              sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
+            );
+
+            data_relationship_trace( out_relationship );
+        }
+
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_DONE != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
@@ -805,6 +1028,42 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
                                                                    &((*this_).private_prepared_query_diagramelement_by_id)
         );
 
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                                   &((*this_).private_prepared_query_feature_by_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                                   &((*this_).private_prepared_query_features_by_classifier_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                                   &((*this_).private_prepared_query_features_by_diagram_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                                   &((*this_).private_prepared_query_relationship_by_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                                   &((*this_).private_prepared_query_relationships_by_classifier_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                                   &((*this_).private_prepared_query_relationships_by_diagram_id)
+        );
+
         (*this_).is_open = true;
     }
     else
@@ -841,6 +1100,18 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_feature_by_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_features_by_classifier_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_features_by_diagram_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_by_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_classifier_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_diagram_id );
 
         (*this_).is_open = false;
     }

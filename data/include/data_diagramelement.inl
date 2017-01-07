@@ -19,7 +19,9 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
     data_diagramelement_init_empty( this_ );
 }
 
-static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id, int64_t classifier_id, data_diagramelement_flag_t display_flags )
+static inline void data_diagramelement_init_new ( data_diagramelement_t *this_, int64_t diagram_id,
+                                                  int64_t classifier_id,
+                                                  data_diagramelement_flag_t display_flags )
 {
     (*this_).id = DATA_ID_VOID_ID;
     (*this_).diagram_id = diagram_id;

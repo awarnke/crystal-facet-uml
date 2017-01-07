@@ -4,8 +4,15 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline data_error_t data_diagram_init_new ( data_diagram_t *this_, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
+static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
+                                                   int64_t parent_diagram_id,
+                                                   data_diagram_type_t diagram_type,
+                                                   const char* diagram_name,
+                                                   const char* diagram_description,
+                                                   int32_t list_order )
 {
+    assert( NULL != diagram_name );
+    assert( NULL != diagram_description );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -54,8 +61,16 @@ static inline void data_diagram_reinit_empty ( data_diagram_t *this_ )
     data_diagram_init_empty( this_ );
 }
 
-static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t diagram_id, int64_t parent_diagram_id, data_diagram_type_t diagram_type, const char* diagram_name, const char* diagram_description, int32_t list_order )
+static inline data_error_t data_diagram_init ( data_diagram_t *this_,
+                                               int64_t diagram_id,
+                                               int64_t parent_diagram_id,
+                                               data_diagram_type_t diagram_type,
+                                               const char* diagram_name,
+                                               const char* diagram_description,
+                                               int32_t list_order )
 {
+    assert( NULL != diagram_name );
+    assert( NULL != diagram_description );
     utf8error_t strerr;
     data_error_t result = DATA_ERROR_NONE;
 
@@ -85,6 +100,8 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_, int64_t di
 
 static inline void data_diagram_copy ( data_diagram_t *this_, const data_diagram_t *original )
 {
+    assert( NULL != original );
+
     (*this_) = (*original);
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -93,6 +110,8 @@ static inline void data_diagram_copy ( data_diagram_t *this_, const data_diagram
 
 static inline void data_diagram_replace ( data_diagram_t *this_, const data_diagram_t *that )
 {
+    assert( NULL != that );
+
     (*this_) = (*that);
     /* repair the overwritten pointers */
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -158,6 +177,7 @@ static inline utf8stringbuf_t data_diagram_get_name_buf_ptr ( data_diagram_t *th
 
 static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const char *name )
 {
+    assert( NULL != name );
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
@@ -181,6 +201,7 @@ static inline utf8stringbuf_t data_diagram_get_description_buf_ptr ( data_diagra
 
 static inline data_error_t data_diagram_set_description ( data_diagram_t *this_, const char *description )
 {
+    assert( NULL != description );
     data_error_t result = DATA_ERROR_NONE;
     utf8error_t strerr;
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
