@@ -464,8 +464,66 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
     }
     else
     {
-        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
-        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
+        sqlite3 *native_db;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURES_AND_CLASSIFIERS );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_FEATURES_AND_CLASSIFIERS,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+        );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+                    int64_t feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_ID_COLUMN );
+                    int64_t feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
+                    /*int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN );*/
+                    bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_FEATURES_CLASSIFIER_ID_COLUMN ) );
+                    if ( ! classifier_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced classifier not existing, feature:", feature_id );
+                        TRACE_INFO_INT_INT( "referenced classifier not existing: feature, classifier:", feature_id, feature_classifier_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_FEATURE, feature_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT( "ok:", feature_id );
+                    }
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
     }
 
     TRACE_END_ERR( result );
@@ -486,8 +544,82 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
     }
     else
     {
-        TSLOG_ERROR( "NOT YET IMPLEMENTED" );
-        result = DATA_ERROR_NOT_YET_IMPLEMENTED;
+        sqlite3 *native_db;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_RELATIONSHIPS_AND_CLASSIFIERS );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_RELATIONSHIPS_AND_CLASSIFIERS,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+        );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+                    int64_t relation_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN );
+                    int64_t relation_from_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN );
+                    int64_t relation_to_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN );
+                    /*int64_t source_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN );*/
+                    /*int64_t dest_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN );*/
+                    bool source_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN ) );
+                    bool dest_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN ) );
+                    if (( ! source_exists ) && ( ! dest_exists ))
+                    {
+                        TSLOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else if ( ! source_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else if ( ! dest_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT( "ok:", relation_id );
+                    }
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
     }
 
     TRACE_END_ERR( result );

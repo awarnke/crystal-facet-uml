@@ -346,6 +346,19 @@ static inline data_error_t data_database_reader_private_finalize_statement ( dat
  */
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
 
+/*!
+ *  \brief binds two integers to a prepared statement.
+ *
+ *  The prepared statement shall have exactly two variables of type integer.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \param id1 first integer to bind to the prepared statement.
+ *  \param id2 second integer to bind to the prepared statement.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id1, int64_t id2 );
+
 #include "storage/data_database_reader.inl"
 
 #endif  /* DATA_DATABASE_READER_H */
