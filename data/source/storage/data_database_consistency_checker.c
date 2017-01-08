@@ -51,7 +51,8 @@ static const int MAX_ROWS_TO_CHECK = 1000000;
  */
 static const char SELECT_DIAGRAMS_AND_PARENTS[] =
     "SELECT child.id,child.parent_id,parent.id "
-    "FROM diagrams AS child LEFT JOIN diagrams AS parent ON child.parent_id=parent.id;";
+    "FROM diagrams AS child "
+    "LEFT JOIN diagrams AS parent ON child.parent_id=parent.id;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: child.id
@@ -73,7 +74,9 @@ static const int RESULT_DIAGRAMS_PARENT_ID_COLUMN = 2;
  */
 static const char SELECT_DIAGRAMELEMENTS_AND_RELATED[] =
     "SELECT diagramelements.id,diagramelements.diagram_id,diagramelements.classifier_id,diagrams.id,classifiers.id "
-    "FROM diagramelements LEFT JOIN diagrams ON diagramelements.diagram_id=diagrams.id LEFT JOIN classifiers ON diagramelements.classifier_id=classifiers.id;";
+    "FROM diagramelements "
+    "LEFT JOIN diagrams ON diagramelements.diagram_id=diagrams.id "
+    "LEFT JOIN classifiers ON diagramelements.classifier_id=classifiers.id;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: diagramelements.id
@@ -104,13 +107,14 @@ static const int RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN = 4;
  *  \brief search statement to find classifiers that are not referenced
  */
 static const char SELECT_CLASSIFIERS_AND_DIAGRAMELEMENTS[] =
-    "SELECT classifiers.id,diagramelements.classifier_id,diagramelements.id "
+    "SELECT classifiers.id,diagramelements.classifier_id,"
+    "diagramelements.id " /* diagramelements.id needed only for debugging */
     "FROM classifiers LEFT JOIN diagramelements ON classifiers.id=diagramelements.classifier_id;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: classifiers.id
  */
-static const int RESULT_CLASSIFIERS_CLASSIFIERS_ID_COLUMN = 0;
+static const int RESULT_CLASSIFIERS_CLASSIFIER_ID_COLUMN = 0;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: diagramelements.classifier_id
@@ -121,6 +125,63 @@ static const int RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN = 1;
  *  \brief the column id of the result where this parameter is stored: diagramelements.id
  */
 static const int RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN = 2;
+
+/*!
+ *  \brief search statement to find features that are not referenced
+ */
+static const char SELECT_FEATURES_AND_CLASSIFIERS[] =
+    "SELECT features.id,features.classifier_id,classifiers.id "
+    "FROM features "
+    "LEFT JOIN classifiers ON features.classifier_id=classifiers.id;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: features.id
+ */
+static const int RESULT_FEATURES_FEATURE_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: features.classifier_id
+ */
+static const int RESULT_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifiers.id
+ */
+static const int RESULT_FEATURES_CLASSIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief search statement to find relationships that contain invalid references
+ */
+static const char SELECT_RELATIONSHIPS_AND_CLASSIFIERS[] =
+    "SELECT relationships.id,relationships.from_classifier_id,relationships.to_classifier_id,source.id,dest.id "
+    "FROM relationships "
+    "LEFT JOIN classifiers AS source ON relationships.from_classifier_id=source.id "
+    "LEFT JOIN classifiers AS dest ON relationships.to_classifier_id=dest.id;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.id
+ */
+static const int RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.from_classifier_id
+ */
+static const int RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.to_classifier_id
+ */
+static const int RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: source.id
+ */
+static const int RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: dest.id
+ */
+static const int RESULT_RELATIONSHIPS_DEST_ID_COLUMN = 4;
 
 data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_,
                                                                             uint32_t *out_total_count,
@@ -354,7 +415,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_CLASSIFIERS_ID_COLUMN );
+                    int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_CLASSIFIER_ID_COLUMN );
                     /*int64_t diagele_classifier_parent_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN );*/
                     /*int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN );*/
                     bool diagele_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN ) );
