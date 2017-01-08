@@ -108,7 +108,8 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
  *  \brief predefined search statement to find diagrams by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    "SELECT diagrams.id,parent_id,diagram_type,name,description,list_order "
+    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
+    "diagrams.name,diagrams.description,diagrams.list_order "
     "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
     "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
 
@@ -418,10 +419,11 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
  *  \brief predefined search statement to find classifier by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
-    "SELECT classifiers.id,main_type,stereotype,name,description,x_order,y_order,"
+    "SELECT classifiers.id,classifiers.main_type,classifiers.stereotype,"
+    "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,"
     "diagramelements.id,diagramelements.display_flags "
     "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+    "WHERE diagramelements.diagram_id=? ORDER BY classifiers.y_order ASC,classifiers.x_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -708,19 +710,18 @@ static const char DATA_DATABASE_READER_SELECT_FEATURE_BY_ID[] =
  *  \brief predefined search statement to find features by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
-    "SELECT id,main_type,classifier_id,key,value,description,list_order,"
-    "diagramelements.id,diagramelements.display_flags "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+    "SELECT features.id,features.main_type,features.classifier_id,"
+    "features.key,features.value,features.description,features.list_order,"
+    "diagramelements.id " /* diagramelements.id needed only for debugging */
+    "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
+    "WHERE diagramelements.diagram_id=? ORDER BY features.list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,classifier_id,key,value,description,list_order,"
-    "diagramelements.id,diagramelements.display_flags "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+    "SELECT id,main_type,classifier_id,key,value,description,list_order FROM features "
+    "WHERE classifier_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -841,26 +842,25 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \brief predefined search statement to find a relationship by id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM classifiers WHERE id=?;";
+"SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM relationships WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find relationships by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
-    "SELECT classifiers.id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
-    "diagramelements.id,diagramelements.display_flags "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
+    "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
+    "relationships.name,relationships.description,relationships.list_order,"
+    "diagramelements.id " /* diagramelements.id needed only for debugging */
+    "FROM relationships INNER JOIN diagramelements "
+    "ON ((diagramelements.classifier_id=relationships.from_classifier_id)OR(diagramelements.classifier_id=relationships.to_classifier_id)) "
+    "WHERE diagramelements.diagram_id=? ORDER BY relationships.list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
-    "SELECT classifiers.id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
-    "diagramelements.id,diagramelements.display_flags "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY y_order ASC,x_order ASC;";
-
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM relationships "
+    "WHERE from_classifier_id=? OR to_classifier_id=?;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -1035,14 +1035,14 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
-                                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
-                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_features_by_classifier_id)
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
-                                                                   DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
-                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
+                                                                   DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_features_by_diagram_id)
         );
 
@@ -1053,14 +1053,14 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
-                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
-                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_classifier_id)
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
-                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
-                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_diagram_id)
         );
 
