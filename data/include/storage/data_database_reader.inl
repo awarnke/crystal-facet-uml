@@ -2,6 +2,7 @@
 
 #include "tslog.h"
 #include "trace.h"
+#include <assert.h>
 
 static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
 {
@@ -45,8 +46,13 @@ static inline data_error_t data_database_reader_private_unlock ( data_database_r
     return result;
 }
 
-static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_, const char *string_statement, int string_size, sqlite3_stmt **out_statement_ptr )
+static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,
+                                                                            const char *string_statement,
+                                                                            int string_size,
+                                                                            sqlite3_stmt **out_statement_ptr )
 {
+    assert( NULL != string_statement );
+    assert( NULL != out_statement_ptr );
     data_error_t result = DATA_ERROR_NONE;
     const char *first_unused_statement_char;
     int sqlite_err;
@@ -75,6 +81,7 @@ static inline data_error_t data_database_reader_private_prepare_statement ( data
 
 static inline data_error_t data_database_reader_private_finalize_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr )
 {
+    assert( NULL != statement_ptr );
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
 
@@ -94,6 +101,7 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
                                                                                sqlite3_stmt *statement_ptr,
                                                                                int64_t id )
 {
+    assert( NULL != statement_ptr );
     data_error_t result = DATA_ERROR_NONE;
     static const int FIRST_SQL_BIND_PARAM = 1;
     int sqlite_err;
@@ -122,6 +130,7 @@ static inline data_error_t data_database_reader_private_bind_two_ids_to_statemen
                                                                                     int64_t id1,
                                                                                     int64_t id2 )
 {
+    assert( NULL != statement_ptr );
     data_error_t result = DATA_ERROR_NONE;
     static const int FIRST_SQL_BIND_PARAM = 1;
     static const int SECOND_SQL_BIND_PARAM = 2;

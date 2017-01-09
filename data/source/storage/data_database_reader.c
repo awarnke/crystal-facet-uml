@@ -758,6 +758,11 @@ static const int RESULT_FEATURE_DESCRIPTION_COLUMN = 5;
  */
 static const int RESULT_FEATURE_LIST_ORDER_COLUMN = 6;
 
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.id
+ */
+static const int RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN = 7;
+
 data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature )
 {
     TRACE_BEGIN();
@@ -822,8 +827,71 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
                                                                   data_feature_t (*out_feature)[],
                                                                   uint32_t *out_feature_count )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_feature_count );
+    assert( NULL != out_feature );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_features_by_classifier_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, classifier_id );
+
+        *out_feature_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_feature_count = row_index+1;
+                data_feature_t *current_feature;
+                current_feature = &((*out_feature)[row_index]);
+
+                result |= data_feature_init( current_feature,
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN )
+                );
+
+                data_feature_trace( current_feature );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ERROR_INT( "out_feature[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
@@ -832,8 +900,72 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
                                                                data_feature_t (*out_feature)[],
                                                                uint32_t *out_feature_count )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_feature_count );
+    assert( NULL != out_feature );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_features_by_diagram_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
+
+        *out_feature_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_feature_count = row_index+1;
+                data_feature_t *current_feature;
+                current_feature = &((*out_feature)[row_index]);
+
+                result |= data_feature_init( current_feature,
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN )
+                );
+
+                TRACE_INFO_INT( "diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_FEATURE_DIAGRAMELEMENTS_ID_COLUMN ) );
+                data_feature_trace( current_feature );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ERROR_INT( "out_feature[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 /* ================================ RELATIONSHIP ================================ */
@@ -850,10 +982,13 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
     "relationships.name,relationships.description,relationships.list_order,"
-    "diagramelements.id " /* diagramelements.id needed only for debugging */
-    "FROM relationships INNER JOIN diagramelements "
-    "ON ((diagramelements.classifier_id=relationships.from_classifier_id)OR(diagramelements.classifier_id=relationships.to_classifier_id)) "
-    "WHERE diagramelements.diagram_id=? ORDER BY relationships.list_order ASC;";
+    "source.id, dest.id " /* source.id, dest.id needed only for debugging */
+    "FROM relationships "
+    "INNER JOIN diagramelements AS source "
+    "ON source.classifier_id=relationships.from_classifier_id "
+    "INNER JOIN diagramelements AS dest "
+    "ON dest.classifier_id=relationships.to_classifier_id "
+    "WHERE source.diagram_id=? OR dest.diagram_id=? ORDER BY relationships.list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
@@ -896,6 +1031,16 @@ static const int RESULT_RELATIONSHIP_DESCRIPTION_COLUMN = 5;
  *  \brief the column id of the result where this parameter is stored: list_order
  */
 static const int RESULT_RELATIONSHIP_LIST_ORDER_COLUMN = 6;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: source diagramelements.id
+ */
+static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: dest diagramelements.id
+ */
+static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 8;
 
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
 {
@@ -961,8 +1106,71 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
                                                                        data_relationship_t (*out_relationship)[],
                                                                        uint32_t *out_relationship_count )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_relationship_count );
+    assert( NULL != out_relationship );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_relationships_by_classifier_id;
+
+        result |= data_database_reader_private_bind_two_ids_to_statement( this_, prepared_statement, classifier_id, classifier_id );
+
+        *out_relationship_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_relationship_count = row_index+1;
+                data_relationship_t *current_relation;
+                current_relation = &((*out_relationship)[row_index]);
+
+                result |= data_relationship_init( current_relation,
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
+                );
+
+                data_relationship_trace( current_relation );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ERROR_INT( "out_relationship[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
@@ -971,8 +1179,73 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
                                                                     data_relationship_t (*out_relationship)[],
                                                                     uint32_t *out_relationship_count )
 {
-    TSLOG_ERROR("not yet implemented");
-    return DATA_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != out_relationship_count );
+    assert( NULL != out_relationship );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_relationships_by_diagram_id;
+
+        result |= data_database_reader_private_bind_two_ids_to_statement( this_, prepared_statement, diagram_id, diagram_id );
+
+        *out_relationship_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_relationship_count = row_index+1;
+                data_relationship_t *current_relation;
+                current_relation = &((*out_relationship)[row_index]);
+
+                result |= data_relationship_init( current_relation,
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
+                );
+
+                TRACE_INFO_INT( "(source)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN ) );
+                TRACE_INFO_INT( "(dest)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN ) );
+                data_relationship_trace( current_relation );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ERROR_INT( "out_relationship[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 /* ================================ private ================================ */
