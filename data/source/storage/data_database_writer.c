@@ -395,6 +395,10 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
     bool object_still_referenced;
     data_diagram_t referencing_diagram[1];
     uint32_t referencing_diagram_count;
+    data_feature_t referencing_feature[1];
+    uint32_t referencing_feature_count;
+    data_relationship_t referencing_relationship[1];
+    uint32_t referencing_relationship_count;
     data_error_t reference_check_err;
 
     result |= data_database_writer_private_lock( this_ );
@@ -415,13 +419,24 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
     }
     else
     {
-        object_still_referenced = false;
+        reference_check_err = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_feature, &referencing_feature_count );
+        if ( ( 0 != referencing_feature_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+        {
+            object_still_referenced = true;
+        }
+        else
+        {
+            reference_check_err = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader, obj_id, 1, &referencing_relationship, &referencing_relationship_count );
+            if ( ( 0 != referencing_relationship_count ) || ( ( reference_check_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & DATA_ERROR_MASK ) != 0 ) )
+            {
+                object_still_referenced = true;
+            }
+            else
+            {
+                object_still_referenced = false;
+            }
+        }
     }
-
-    /* TODO: check that the classifier is not referenced by features anymore */
-    /* TODO: check that the classifier is not referenced by relationships anymore */
-    TSLOG_WARNING("data_database_writer_delete_classifier() only partly implemented!!!");
-    TSLOG_WARNING("data_database_writer_delete_classifier(): consistency checks missing!!!");
 
     if ( object_still_referenced )
     {
