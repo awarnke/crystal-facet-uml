@@ -411,14 +411,26 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_FEATURE" );
+            data_feature_t *feat;
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                feat = ctrl_undo_redo_entry_get_feature_before_action_ptr ( action );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                feat = ctrl_undo_redo_entry_get_feature_after_action_ptr ( action );
             }
+            int64_t feature_id = data_feature_get_id ( feat );
+            data_feature_type_t new_feature_type = data_feature_get_main_type ( feat );
+            const char* new_feature_key = data_feature_get_key_ptr ( feat );
+            const char* new_feature_value = data_feature_get_value_ptr ( feat );
+            const char* new_feature_description = data_feature_get_description_ptr ( feat );
+            int32_t new_feature_list_order = data_feature_get_list_order ( feat );
+            result |= (ctrl_error_t) data_database_writer_update_feature_main_type ( (*this_).db_writer, feature_id, new_feature_type, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_feature_key ( (*this_).db_writer, feature_id, new_feature_key, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_feature_value ( (*this_).db_writer, feature_id, new_feature_value, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_feature_description ( (*this_).db_writer, feature_id, new_feature_description, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_feature_list_order ( (*this_).db_writer, feature_id, new_feature_list_order, NULL );
         }
         break;
 
@@ -457,14 +469,24 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_UPDATE_RELATIONSHIP" );
+            data_relationship_t *relation;
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                relation = ctrl_undo_redo_entry_get_relationship_before_action_ptr ( action );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                relation = ctrl_undo_redo_entry_get_relationship_after_action_ptr ( action );
             }
+            int64_t relationship_id = data_relationship_get_id ( relation );
+            data_relationship_type_t new_relationship_type = data_relationship_get_main_type ( relation );
+            const char* new_relationship_name = data_relationship_get_name_ptr ( relation );
+            const char* new_relationship_description = data_relationship_get_description_ptr ( relation );
+            int32_t new_relationship_list_order = data_relationship_get_list_order ( relation );
+            result |= (ctrl_error_t) data_database_writer_update_relationship_main_type ( (*this_).db_writer, relationship_id, new_relationship_type, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_relationship_name ( (*this_).db_writer, relationship_id, new_relationship_name, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_relationship_description ( (*this_).db_writer, relationship_id, new_relationship_description, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_relationship_list_order ( (*this_).db_writer, relationship_id, new_relationship_list_order, NULL );
         }
         break;
 
