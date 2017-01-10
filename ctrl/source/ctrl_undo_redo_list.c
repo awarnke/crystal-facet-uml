@@ -395,13 +395,15 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_FEATURE" );
+            data_feature_t *feat = ctrl_undo_redo_entry_get_feature_before_action_ptr ( action );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                result |= (ctrl_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                int64_t obj_id = data_feature_get_id ( feat );
+                result |= (ctrl_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -423,13 +425,15 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_FEATURE" );
+            data_feature_t *feat = ctrl_undo_redo_entry_get_feature_after_action_ptr ( action );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                int64_t obj_id = data_feature_get_id ( feat );
+                result |= (ctrl_error_t) data_database_writer_delete_feature ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                result |= (ctrl_error_t) data_database_writer_create_feature ( (*this_).db_writer, feat, NULL );
             }
         }
         break;
@@ -437,13 +441,15 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_DELETE_RELATIONSHIP" );
+            data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_before_action_ptr ( action );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                result |= (ctrl_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                int64_t obj_id = data_relationship_get_id ( relation );
+                result |= (ctrl_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
         }
         break;
@@ -465,13 +471,15 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
         case CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP:
         {
             TRACE_INFO( "CTRL_UNDO_REDO_ENTRY_TYPE_CREATE_RELATIONSHIP" );
+            data_relationship_t *relation = ctrl_undo_redo_entry_get_relationship_after_action_ptr ( action );
             if ( undo )
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                int64_t obj_id = data_relationship_get_id ( relation );
+                result |= (ctrl_error_t) data_database_writer_delete_relationship ( (*this_).db_writer, obj_id, NULL );
             }
             else
             {
-                result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                result |= (ctrl_error_t) data_database_writer_create_relationship ( (*this_).db_writer, relation, NULL );
             }
         }
         break;
