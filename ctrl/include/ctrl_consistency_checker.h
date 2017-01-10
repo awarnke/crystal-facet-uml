@@ -20,10 +20,10 @@
  *  - Objects shall be linked:
  *      - classifiers shall be referenced by diagrams
  *  - Circular link structures are forbidden in:
- *      - diagrams.parent_id  (checked but cannot be repaired due to high effort to probability to severity ratio).
+ *      - diagrams.parent_id  (checked but cannot be repaired due to high effort compared to probability to severity ratio).
  *  - Names shall be unique:
  *      - classifiers.name (checked by DB-constraint),
- *      - features.key (checked by DB-constraint).
+ *      - features.key (not checked, low importance).
  *  - Enumerations shall be valid constants:
  *      - classifiers.main_type (not checked, repairable via GUI),
  *      - relationships.main_type (not checked, repairable via GUI),
@@ -211,6 +211,44 @@ ctrl_error_t ctrl_consistency_checker_private_count_diagrams ( ctrl_consistency_
                                                                uint32_t max_recursion,
                                                                uint32_t *out_diagram_count
                                                              );
+
+/*!
+ *  \brief checks and repairs the database with regards to features having a valid parent classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
+                                                                             bool modify_db,
+                                                                             uint32_t *io_err,
+                                                                             uint32_t *io_fix,
+                                                                             utf8stringbuf_t out_report
+                                                                           );
+
+/*!
+ *  \brief checks and repairs the database with regards to relationships referencing valid to and from classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
+                                                                                      bool modify_db,
+                                                                                      uint32_t *io_err,
+                                                                                      uint32_t *io_fix,
+                                                                                      utf8stringbuf_t out_report
+                                                                                    );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 

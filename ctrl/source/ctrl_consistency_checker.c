@@ -76,6 +76,12 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     /* find unreferenced classifiers */
     err_result |= ctrl_consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_report );
 
+    /* find nonreferencing features */
+    err_result |= ctrl_consistency_checker_private_ensure_valid_feature_parents ( this_, modify_db, &error_count, &fix_count, out_report );
+
+    /* find nonreferencing relationships */
+    err_result |= ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( this_, modify_db, &error_count, &fix_count, out_report );
+
     /* prepare results and return */
     if ( NULL != out_err )
     {
@@ -428,17 +434,6 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
     return err_result;
 }
 
-/*!
- *  \brief counts the number of diagrams in the subtree below the giben root: children and further descendants (root is excluded)
- *
- *  \param this_ pointer to own object attributes
- *  \param root_diagram_id id of the root diagram of the subtree
- *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
- *  \param out_diagram_count number of diagrams in the subtree (not NULL)
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if max_recursion is 0 and therefore exceeded.
- */
 ctrl_error_t ctrl_consistency_checker_private_count_diagrams ( ctrl_consistency_checker_t *this_,
                                                                int64_t root_diagram_id,
                                                                uint32_t max_recursion,
@@ -486,6 +481,144 @@ ctrl_error_t ctrl_consistency_checker_private_count_diagrams ( ctrl_consistency_
 
     TRACE_END_ERR( result );
     return result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_feature_parents ( ctrl_consistency_checker_t *this_,
+                                                                             bool modify_db,
+                                                                             uint32_t *io_err,
+                                                                             uint32_t *io_fix,
+                                                                             utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    assert ( NULL != io_fix );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
+
+    /* write report title */
+    utf8stringbuf_append_str( out_report, "STEP: Ensure that features have valid classifiers\n" );
+
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_features ( &((*this_).db_checker), &unref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        uint32_t unref_count = data_small_set_get_count( &unref );
+
+        utf8stringbuf_append_str( out_report, "    NONREFERENCING FEATURES COUNT: " );
+        utf8stringbuf_append_int( out_report, unref_count );
+        utf8stringbuf_append_str( out_report, "\n" );
+
+        if ( unref_count != 0 )
+        {
+            (*io_err) += unref_count;
+
+            if ( ! modify_db )
+            {
+                utf8stringbuf_append_str( out_report, "    PROPOSED FIX: Delete " );
+                utf8stringbuf_append_int( out_report, unref_count );
+                utf8stringbuf_append_str( out_report, " features.\n" );
+            }
+            else
+            {
+                for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
+                {
+                    data_id_t feature_id = data_small_set_get_id( &unref, list_pos );
+                    int64_t feature_row_id = data_id_get_row_id( &feature_id );
+                    data_err = data_database_writer_delete_feature ( (*this_).db_writer, feature_row_id, NULL );
+                    if ( DATA_ERROR_NONE == data_err )
+                    {
+                        utf8stringbuf_append_str( out_report, "    FIX: Feature " );
+                        utf8stringbuf_append_int( out_report, feature_row_id );
+                        utf8stringbuf_append_str( out_report, " deleted.\n" );
+                        (*io_fix) ++;
+                    }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
+                        err_result |= (ctrl_error_t) data_err;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+        err_result |= (ctrl_error_t) data_err;
+    }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( ctrl_consistency_checker_t *this_,
+                                                                                      bool modify_db,
+                                                                                      uint32_t *io_err,
+                                                                                      uint32_t *io_fix,
+                                                                                      utf8stringbuf_t out_report )
+{
+    TRACE_BEGIN();
+    assert ( NULL != io_err );
+    assert ( NULL != io_fix );
+    ctrl_error_t err_result = CTRL_ERROR_NONE;
+    data_error_t data_err;
+
+    /* write report title */
+    utf8stringbuf_append_str( out_report, "STEP: Ensure that relationships link valid classifiers\n" );
+
+    data_small_set_t unref;
+    data_small_set_init( &unref );
+    data_err = data_database_consistency_checker_find_unreferenced_relationships ( &((*this_).db_checker), &unref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        uint32_t unref_count = data_small_set_get_count( &unref );
+
+        utf8stringbuf_append_str( out_report, "    NONREFERENCING RELATIONSHIPS COUNT: " );
+        utf8stringbuf_append_int( out_report, unref_count );
+        utf8stringbuf_append_str( out_report, "\n" );
+
+        if ( unref_count != 0 )
+        {
+            (*io_err) += unref_count;
+
+            if ( ! modify_db )
+            {
+                utf8stringbuf_append_str( out_report, "    PROPOSED FIX: Delete " );
+                utf8stringbuf_append_int( out_report, unref_count );
+                utf8stringbuf_append_str( out_report, " relationships.\n" );
+            }
+            else
+            {
+                for ( int list_pos = 0; list_pos < unref_count; list_pos ++ )
+                {
+                    data_id_t relationship_id = data_small_set_get_id( &unref, list_pos );
+                    int64_t relation_row_id = data_id_get_row_id( &relationship_id );
+                    data_err = data_database_writer_delete_relationship ( (*this_).db_writer, relation_row_id, NULL );
+                    if ( DATA_ERROR_NONE == data_err )
+                    {
+                        utf8stringbuf_append_str( out_report, "    FIX: Relationship " );
+                        utf8stringbuf_append_int( out_report, relation_row_id );
+                        utf8stringbuf_append_str( out_report, " deleted.\n" );
+                        (*io_fix) ++;
+                    }
+                    else
+                    {
+                        utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
+                        err_result |= (ctrl_error_t) data_err;
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
+        err_result |= (ctrl_error_t) data_err;
+    }
+
+    TRACE_END_ERR( err_result );
+    return err_result;
 }
 
 
