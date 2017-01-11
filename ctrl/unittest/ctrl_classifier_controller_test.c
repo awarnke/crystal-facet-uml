@@ -12,8 +12,10 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void create_read_modify_read(void);
+static void classifier_create_read_modify_read(void);
 static void create_diagramelements_and_delete(void);
+static void features_CRURDR(void);
+static void relationship_CRURDR(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -38,8 +40,10 @@ static ctrl_controller_t controller;
 TestRef ctrl_classifier_controller_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("create_read_modify_read",create_read_modify_read),
+        new_TestFixture("classifier_create_read_modify_read",classifier_create_read_modify_read),
         new_TestFixture("create_diagramelements_and_delete",create_diagramelements_and_delete),
+        new_TestFixture("features_CRURDR",features_CRURDR),
+        new_TestFixture("relationship_CRURDR",relationship_CRURDR),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_classifier_controller_test",set_up,tear_down,fixtures);
 
@@ -68,7 +72,7 @@ static void tear_down(void)
     err = remove( DATABASE_FILENAME );
 }
 
-static void create_read_modify_read(void)
+static void classifier_create_read_modify_read(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
@@ -244,6 +248,138 @@ static void create_diagramelements_and_delete(void)
     data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 0, out_diagram_count );
+}
+
+static void features_CRURDR(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    ctrl_classifier_controller_t *classifier_ctrl;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+
+    /* define a feature */
+    const static int64_t FEATURE_ID = 17;
+    data_feature_t probe;
+    data_err = data_feature_init ( &probe,
+                                   FEATURE_ID, /* feature_id */
+                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                   35000, /* classifier_id */
+                                   "startup_time", /* feature_key */
+                                   "uint64_t", /* feature_value */
+                                   "time in nano seconds to start", /* feature_description */
+                                   5000000 /* list order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create the feature in the db */
+    int64_t out_new_id;
+    ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
+                                                           &probe,
+                                                           false, /* add_to_latest_undo_set */
+                                                           &out_new_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( FEATURE_ID, out_new_id );  /* not a bug - this is intentionally not equal ! */
+
+    ctrl_err = ctrl_classifier_controller_update_feature_main_type ( classifier_ctrl,
+                                                                     FEATURE_ID,
+                                                                     DATA_FEATURE_TYPE_OPERATION );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_feature_key ( classifier_ctrl,
+                                                               FEATURE_ID,
+                                                               "get_startup_time()" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_feature_value ( classifier_ctrl,
+                                                                 FEATURE_ID,
+                                                                 "(void)->(uint64_t)" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_feature_description ( classifier_ctrl,
+                                                                       FEATURE_ID,
+                                                                       "gets the startup time in nanoseconds" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_feature_list_order ( classifier_ctrl,
+                                                                      FEATURE_ID,
+                                                                      -40 );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* delete the feature from the database */
+    data_small_set_t small_set;
+    data_id_t element_id;
+    data_small_set_init( &small_set );
+    data_id_init( &element_id, DATA_TABLE_FEATURE, FEATURE_ID );
+    data_err = data_small_set_add_obj ( &small_set, element_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    ctrl_err = ctrl_classifier_controller_delete_set ( classifier_ctrl, small_set );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+}
+
+static void relationship_CRURDR(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    ctrl_classifier_controller_t *classifier_ctrl;
+    ctrl_diagram_controller_t *diagram_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
+
+    /* define a relationship */
+    const static int64_t RELATIONSHIP_ID = 34;
+    data_relationship_t probe;
+    data_err = data_relationship_init ( &probe,
+                                        RELATIONSHIP_ID, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        86000, /* from_classifier_id */
+                                        86001, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create the relationship in the db */
+    int64_t out_new_id;
+    ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
+                                                                &probe,
+                                                                false, /* add_to_latest_undo_set */
+                                                                &out_new_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( RELATIONSHIP_ID, out_new_id ); /* not a bug - this is intentionally not equal ! */
+
+    ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
+                                                                          RELATIONSHIP_ID,
+                                                                          DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_relationship_name ( classifier_ctrl,
+                                                                     RELATIONSHIP_ID,
+                                                                     "async message" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_relationship_description ( classifier_ctrl,
+                                                                            RELATIONSHIP_ID,
+                                                                            "good for modularization" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    ctrl_err = ctrl_classifier_controller_update_relationship_list_order ( classifier_ctrl,
+                                                                           RELATIONSHIP_ID,
+                                                                           -88000 );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+
+    /* delete the relationship from the database */
+    data_small_set_t small_set;
+    data_id_t element_id;
+    data_small_set_init( &small_set );
+    data_id_init( &element_id, DATA_TABLE_RELATIONSHIP, RELATIONSHIP_ID );
+    data_err = data_small_set_add_obj ( &small_set, element_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    ctrl_err = ctrl_classifier_controller_delete_set ( classifier_ctrl, small_set );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 }
 
 
