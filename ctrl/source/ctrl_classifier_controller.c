@@ -172,6 +172,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -198,6 +201,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -224,6 +230,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -250,6 +259,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_main_type ( ctrl_class
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -276,6 +288,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order ( ctrl_classif
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -302,6 +317,9 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_y_order ( ctrl_classif
         /* store the change of the classifier to the undo redo list */
         ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -333,7 +351,10 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
             /* store the change of the classifier to the undo redo list */
             ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
             ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+            data_classifier_destroy( &new_classifier );
         }
+        data_classifier_destroy( &old_classifier );
     }
     result = (ctrl_error_t) data_result;
 
@@ -357,7 +378,7 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
     {
         int index;
 
-        /* STEP ONE: Delete all objects that can be immediately deleted */
+        /* STEP ZERO: Delete all objects that can be immediately deleted */
 
         for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
         {
@@ -373,13 +394,83 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
                 case DATA_TABLE_FEATURE:
                 {
-                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                    data_feature_t old_feat;
+                    data_error_t current_result4;
+                    current_result4 = data_database_writer_delete_feature( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_feat );
+
+                    result |= (ctrl_error_t) current_result4;
+
+                    if ( DATA_ERROR_NONE == current_result4 )
+                    {
+                        /* store the deleted feature to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feat );
+
+                        data_feature_destroy( &old_feat );
+                    }
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
+                    data_relationship_t old_relation;
+                    data_error_t current_result5;
+                    current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_relation );
+
+                    result |= (ctrl_error_t) current_result5;
+
+                    if ( DATA_ERROR_NONE == current_result5 )
+                    {
+                        /* store the deleted relationship to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &old_relation );
+
+                        data_relationship_destroy( &old_relation );
+                    }
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAMELEMENT:
+                {
+                    /* see step one */
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAM:
+                {
+                    /* see step two */
+                }
+                break;
+
+                default:
+                {
+                    result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
+                }
+                break;
+            }
+        }
+
+        /* STEP ONE: Delete all objects that can be deleted after relationships and features are gone */
+
+        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
+        {
+            data_id_t current_id;
+            current_id = data_small_set_get_id( &objects, index );
+            switch ( data_id_get_table( &current_id ) )
+            {
+                case DATA_TABLE_CLASSIFIER:
+                {
+                    /* see step two */
+                }
+                break;
+
+                case DATA_TABLE_FEATURE:
+                {
+                    /* see step zero */
+                }
+                break;
+
+                case DATA_TABLE_RELATIONSHIP:
+                {
+                    /* see step zero */
                 }
                 break;
 
@@ -414,7 +505,10 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                         {
                             /* store the deleted classifier to the undo redo list */
                             ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
+
+                            data_classifier_destroy( &old_classifier );
                         }
+                        data_diagramelement_destroy( &old_diagramelement );
                     }
                 }
                 break;
@@ -427,7 +521,7 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 
                 default:
                 {
-                    result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
+                    /* see step zero */
                 }
                 break;
             }
@@ -453,19 +547,21 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                     {
                         /* store the deleted classifier to the undo redo list */
                         ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier2 );
+
+                        data_classifier_destroy( &old_classifier2 );
                     }
                 }
                 break;
 
                 case DATA_TABLE_FEATURE:
                 {
-                    /* see step one */
+                    /* see step zero */
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
-                    /* see step one */
+                    /* see step zero */
                 }
                 break;
 
@@ -487,13 +583,15 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                     {
                         /* store the deleted diagram to the undo redo list */
                         ctrl_undo_redo_list_add_delete_diagram( (*this_).undo_redo_list, &old_diagram );
+
+                        data_diagram_destroy( &old_diagram );
                     }
                 }
                 break;
 
                 default:
                 {
-                    /* see step one */
+                    /* see step zero */
                 }
                 break;
             }
@@ -514,48 +612,194 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
                                                          bool add_to_latest_undo_set,
                                                          int64_t* out_new_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_feature );
+    data_feature_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_feature_copy( &to_be_created, new_feature );
+    data_feature_set_id( &to_be_created, DATA_ID_VOID_ID );
+
+    data_result = data_database_writer_create_feature( (*this_).db_writer, &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* store new id to data_feature_t object */
+        data_feature_set_id( &to_be_created, new_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the new feature to the undo redo list */
+        ctrl_undo_redo_list_add_create_feature( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_feature_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_main_type ( ctrl_classifier_controller_t *this_,
                                                                    int64_t feature_id,
                                                                    data_feature_type_t new_feature_type )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_feature_t old_feature;
+
+    data_result = data_database_writer_update_feature_main_type( (*this_).db_writer, feature_id, new_feature_type, &old_feature );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new feature */
+        data_feature_t new_feature;
+        data_feature_copy( &new_feature, &old_feature );
+        data_feature_set_main_type( &new_feature, new_feature_type );
+        /* store the change of the feature to the undo redo list */
+        ctrl_undo_redo_list_add_update_feature( (*this_).undo_redo_list, &old_feature, &new_feature );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_feature_destroy( &new_feature );
+        data_feature_destroy( &old_feature );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_controller_t *this_,
                                                              int64_t feature_id,
                                                              const char* new_feature_key )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_feature_t old_feature;
+
+    data_result = data_database_writer_update_feature_key( (*this_).db_writer, feature_id, new_feature_key, &old_feature );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new feature */
+        data_feature_t new_feature;
+        data_feature_copy( &new_feature, &old_feature );
+        data_feature_set_key( &new_feature, new_feature_key );
+        /* store the change of the feature to the undo redo list */
+        ctrl_undo_redo_list_add_update_feature( (*this_).undo_redo_list, &old_feature, &new_feature );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_feature_destroy( &new_feature );
+        data_feature_destroy( &old_feature );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_controller_t *this_,
                                                                int64_t feature_id,
                                                                const char* new_feature_value )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_feature_t old_feature;
+
+    data_result = data_database_writer_update_feature_value( (*this_).db_writer, feature_id, new_feature_value, &old_feature );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new feature */
+        data_feature_t new_feature;
+        data_feature_copy( &new_feature, &old_feature );
+        data_feature_set_value( &new_feature, new_feature_value );
+        /* store the change of the feature to the undo redo list */
+        ctrl_undo_redo_list_add_update_feature( (*this_).undo_redo_list, &old_feature, &new_feature );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_feature_destroy( &new_feature );
+        data_feature_destroy( &old_feature );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classifier_controller_t *this_,
                                                                      int64_t feature_id,
                                                                      const char* new_feature_description )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_feature_t old_feature;
+
+    data_result = data_database_writer_update_feature_description( (*this_).db_writer, feature_id, new_feature_description, &old_feature );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new feature */
+        data_feature_t new_feature;
+        data_feature_copy( &new_feature, &old_feature );
+        data_feature_set_description( &new_feature, new_feature_description );
+        /* store the change of the feature to the undo redo list */
+        ctrl_undo_redo_list_add_update_feature( (*this_).undo_redo_list, &old_feature, &new_feature );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_feature_destroy( &new_feature );
+        data_feature_destroy( &old_feature );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_feature_list_order ( ctrl_classifier_controller_t *this_,
                                                                     int64_t feature_id,
                                                                     int32_t new_feature_list_order )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_feature_t old_feature;
+
+    data_result = data_database_writer_update_feature_list_order( (*this_).db_writer, feature_id, new_feature_list_order, &old_feature );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new feature */
+        data_feature_t new_feature;
+        data_feature_copy( &new_feature, &old_feature );
+        data_feature_set_list_order( &new_feature, new_feature_list_order );
+        /* store the change of the feature to the undo redo list */
+        ctrl_undo_redo_list_add_update_feature( (*this_).undo_redo_list, &old_feature, &new_feature );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_feature_destroy( &new_feature );
+        data_feature_destroy( &old_feature );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 /* ================================ RELATIONSHIP ================================ */
@@ -565,40 +809,165 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
                                                               bool add_to_latest_undo_set,
                                                               int64_t* out_new_id )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    assert( NULL != new_relationship );
+    data_relationship_t to_be_created;
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    int64_t new_id;
+
+    data_relationship_copy( &to_be_created, new_relationship );
+    data_relationship_set_id( &to_be_created, DATA_ID_VOID_ID );
+
+    data_result = data_database_writer_create_relationship( (*this_).db_writer, &to_be_created, &new_id );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* store new id to data_relationship_t object */
+        data_relationship_set_id( &to_be_created, new_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the new relationship to the undo redo list */
+        ctrl_undo_redo_list_add_create_relationship( (*this_).undo_redo_list, &to_be_created );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        /* copy new id to out parameter */
+        if ( NULL != out_new_id )
+        {
+            *out_new_id = new_id;
+        }
+    }
+    result = (ctrl_error_t) data_result;
+
+    data_relationship_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_main_type ( ctrl_classifier_controller_t *this_,
                                                                         int64_t relationship_id,
                                                                         data_relationship_type_t new_relationship_type )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_relationship_t old_relation;
+
+    data_result = data_database_writer_update_relationship_main_type( (*this_).db_writer, relationship_id, new_relationship_type, &old_relation );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new relation */
+        data_relationship_t new_relation;
+        data_relationship_copy( &new_relation, &old_relation );
+        data_relationship_set_main_type( &new_relation, new_relationship_type );
+        /* store the change of the relation to the undo redo list */
+        ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &new_relation );
+        data_relationship_destroy( &old_relation );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifier_controller_t *this_,
                                                                    int64_t relationship_id,
                                                                    const char* new_relationship_name )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_relationship_t old_relation;
+
+    data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_name, &old_relation );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new relation */
+        data_relationship_t new_relation;
+        data_relationship_copy( &new_relation, &old_relation );
+        data_relationship_set_name( &new_relation, new_relationship_name );
+        /* store the change of the relation to the undo redo list */
+        ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &new_relation );
+        data_relationship_destroy( &old_relation );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_classifier_controller_t *this_,
                                                                           int64_t relationship_id,
                                                                           const char* new_relationship_description )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_relationship_t old_relation;
+
+    data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new relation */
+        data_relationship_t new_relation;
+        data_relationship_copy( &new_relation, &old_relation );
+        data_relationship_set_name( &new_relation, new_relationship_description );
+        /* store the change of the relation to the undo redo list */
+        ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &new_relation );
+        data_relationship_destroy( &old_relation );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 ctrl_error_t ctrl_classifier_controller_update_relationship_list_order ( ctrl_classifier_controller_t *this_,
                                                                          int64_t relationship_id,
                                                                          int32_t new_relationship_list_order )
 {
-    TSLOG_ERROR("not yet implemented");
-    return CTRL_ERROR_NOT_YET_IMPLEMENTED;
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_relationship_t old_relation;
+
+    data_result = data_database_writer_update_relationship_list_order( (*this_).db_writer, relationship_id, new_relationship_list_order, &old_relation );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new relation */
+        data_relationship_t new_relation;
+        data_relationship_copy( &new_relation, &old_relation );
+        data_relationship_set_list_order( &new_relation, new_relationship_list_order );
+        /* store the change of the relation to the undo redo list */
+        ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &new_relation );
+        data_relationship_destroy( &old_relation );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

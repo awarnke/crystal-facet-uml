@@ -183,6 +183,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
     }
     result = (ctrl_error_t) data_result;
 
@@ -209,6 +212,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
     }
     result = (ctrl_error_t) data_result;
 
@@ -235,6 +241,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
     }
     result = (ctrl_error_t) data_result;
 
@@ -261,6 +270,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
     }
     result = (ctrl_error_t) data_result;
 
@@ -287,6 +299,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_list_order ( ctrl_diagram_co
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagram_destroy( &new_diagram );
+        data_diagram_destroy( &old_diagram );
     }
     result = (ctrl_error_t) data_result;
 
@@ -378,6 +393,9 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
         /* store the change of the diagramelement to the undo redo list */
         ctrl_undo_redo_list_add_update_diagramelement( (*this_).undo_redo_list, &old_diagramelement, &new_diagramelement );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagramelement_destroy( &new_diagramelement );
+        data_diagramelement_destroy( &old_diagramelement );
     }
     result = (ctrl_error_t) data_result;
 
