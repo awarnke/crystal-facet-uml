@@ -921,13 +921,13 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
     data_error_t data_result;
     data_relationship_t old_relation;
 
-    data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
+    data_result = data_database_writer_update_relationship_description( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
         data_relationship_copy( &new_relation, &old_relation );
-        data_relationship_set_name( &new_relation, new_relationship_description );
+        data_relationship_set_description( &new_relation, new_relationship_description );
         /* store the change of the relation to the undo redo list */
         ctrl_undo_redo_list_add_update_relationship( (*this_).undo_redo_list, &old_relation, &new_relation );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
