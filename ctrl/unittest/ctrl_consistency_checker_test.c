@@ -11,9 +11,11 @@ static void set_up(void);
 static void tear_down(void);
 static void diagram_two_roots_consistency(void);
 static void diagram_missing_parent_consistency(void);
-static void diagram_nonreferencing_diagramelements_consistency(void);
-static void diagram_unreferenced_classifiers_consistency(void);
 static void diagram_circular_referenced_diagrams_consistency(void);
+static void diagram_nonreferencing_diagramelements_consistency(void);
+static void repair_unreferenced_classifiers(void);
+static void repair_invalid_feature_parent(void);
+static void repair_invalid_relationship(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -57,7 +59,9 @@ TestRef ctrl_consistency_checker_test_get_list(void)
         new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
         new_TestFixture("diagram_circular_referenced_diagrams_consistency",diagram_circular_referenced_diagrams_consistency),
         new_TestFixture("diagram_nonreferencing_diagramelements_consistency",diagram_nonreferencing_diagramelements_consistency),
-        new_TestFixture("diagram_unreferenced_classifiers_consistency",diagram_unreferenced_classifiers_consistency),
+        new_TestFixture("repair_unreferenced_classifiers",repair_unreferenced_classifiers),
+        new_TestFixture("repair_invalid_feature_parent",repair_invalid_feature_parent),
+        new_TestFixture("repair_invalid_relationship",repair_invalid_relationship),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
 
@@ -415,7 +419,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
-static void diagram_unreferenced_classifiers_consistency(void)
+static void repair_unreferenced_classifiers(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
@@ -470,6 +474,251 @@ static void diagram_unreferenced_classifiers_consistency(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
+static void repair_invalid_feature_parent(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[1024] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create a valid root diagram */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a valid classifier */
+    data_classifier_t current_classifier;
+    data_err = data_classifier_init ( &current_classifier,
+                                      12 /*=classifier id*/,
+                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      "stereotype-12",
+                                      "name-12",
+                                      "description-12",
+                                      -34000 /*=x_order*/,
+                                      -16000 /*=y_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a valid diagramelement */
+    data_diagramelement_t current_diagramelement;
+    data_diagramelement_init ( &current_diagramelement,
+                               13 /*=id*/,
+                               6 /*=diagram_id*/,
+                               12 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a valid feature */
+    data_feature_t v_feature;
+    data_err = data_feature_init ( &v_feature,
+                                   17, /* feature_id */
+                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                   12, /* classifier_id */
+                                   "startup_time", /* feature_key */
+                                   "uint64_t", /* feature_value */
+                                   "time in nano seconds to start", /* feature_description */
+                                   5000000 /* list order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* create an invalid feature */
+    data_feature_t i_feature;
+    data_err = data_feature_init ( &i_feature,
+                                   19, /* feature_id */
+                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                   12121212, /* classifier_id */
+                                   "startup_time", /* feature_key */
+                                   "uint64_t", /* feature_value */
+                                   "time in nano seconds to start", /* feature_description */
+                                   5000000 /* list order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_feature ( &db_writer, &i_feature, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
+static void repair_invalid_relationship(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[1024] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* create a valid root diagram */
+    data_diagram_t current_diagram;
+    data_err = data_diagram_init ( &current_diagram,
+                                   6 /*=diagram_id*/,
+                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                   "diagram_name-6",
+                                   "diagram_description-6",
+                                   10444 /*=list_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a valid classifier */
+    data_classifier_t current_classifier;
+    data_err = data_classifier_init ( &current_classifier,
+                                      12 /*=classifier id*/,
+                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                      "stereotype-12",
+                                      "name-12",
+                                      "description-12",
+                                      -34000 /*=x_order*/,
+                                      -16000 /*=y_order*/
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* create a valid diagramelement */
+    data_diagramelement_t current_diagramelement;
+    data_diagramelement_init ( &current_diagramelement,
+                               13 /*=id*/,
+                               6 /*=diagram_id*/,
+                               12 /*=classifier_id*/,
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+    );
+
+    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* define a valid relationship */
+    data_relationship_t v_relation;
+    data_err = data_relationship_init ( &v_relation,
+                                        34, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        12, /* from_classifier_id */
+                                        12, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* define first invalid relationship */
+    data_relationship_t i1_relation;
+    data_err = data_relationship_init ( &i1_relation,
+                                        35, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        12, /* from_classifier_id */
+                                        12121212, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_relationship ( &db_writer, &i1_relation, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* define second invalid relationship */
+    data_relationship_t i2_relation;
+    data_err = data_relationship_init ( &i2_relation,
+                                        36, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        12121212, /* from_classifier_id */
+                                        12, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_relationship ( &db_writer, &i2_relation, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* define third invalid relationship */
+    data_relationship_t i3_relation;
+    data_err = data_relationship_init ( &i3_relation,
+                                        37, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        12121212, /* from_classifier_id */
+                                        12121212, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    data_err = data_database_writer_create_relationship ( &db_writer, &i3_relation, NULL /*=out_new_id*/ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+
+    /* check the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the database */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     utf8stringbuf_clear( out_report );
