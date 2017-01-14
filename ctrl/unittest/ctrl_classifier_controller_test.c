@@ -257,9 +257,7 @@ static void features_CRURDR(void)
     ctrl_error_t ctrl_err;
     data_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
-    ctrl_diagram_controller_t *diagram_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
     /* define a feature */
     data_feature_t probe;
@@ -350,9 +348,7 @@ static void relationship_CRURDR(void)
     ctrl_error_t ctrl_err;
     data_error_t data_err;
     ctrl_classifier_controller_t *classifier_ctrl;
-    ctrl_diagram_controller_t *diagram_ctrl;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
-    diagram_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
 
     /* define a relationship */
     data_relationship_t probe;

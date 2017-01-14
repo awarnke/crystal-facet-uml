@@ -10,6 +10,7 @@ static void set_up(void);
 static void tear_down(void);
 static void undo_redo_classifier(void);
 static void undo_redo_list_limits(void);
+static void undo_redo_feature_and_relationship(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -36,6 +37,7 @@ TestRef ctrl_undo_redo_list_test_get_list(void)
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("undo_redo_classifier",undo_redo_classifier),
         new_TestFixture("undo_redo_list_limits",undo_redo_list_limits),
+        new_TestFixture("undo_redo_feature_and_relationship",undo_redo_feature_and_relationship),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_undo_redo_list_test",set_up,tear_down,fixtures);
 
@@ -170,8 +172,6 @@ static void undo_redo_classifier(void)
 
 static void undo_redo_list_limits(void)
 {
-    /* tests not yet implemented */
-
     ctrl_error_t ctrl_err;
     int64_t root_diagram_id;
     int64_t child_diag_id;
@@ -259,6 +259,230 @@ static void undo_redo_list_limits(void)
     /* undo one more */
     ctrl_err = ctrl_controller_undo ( &controller );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_ARRAY_BUFFER_EXCEEDED, ctrl_err );
+}
+
+static void undo_redo_feature_and_relationship(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    ctrl_classifier_controller_t *classifier_ctrl;
+    classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    data_feature_t check_f;
+    data_relationship_t check_r;
+
+    /* define a feature */
+    data_feature_t step1;
+    data_err = data_feature_init ( &step1,
+                                   17, /* feature_id */
+                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                   35000, /* classifier_id */
+                                   "startup_time", /* feature_key */
+                                   "uint64_t", /* feature_value */
+                                   "time in nano seconds to start", /* feature_description */
+                                   5000000 /* list order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* 1. create the feature in the db */
+    int64_t new_feature_id;
+    ctrl_err = ctrl_classifier_controller_create_feature ( classifier_ctrl,
+                                                           &step1,
+                                                           false, /* add_to_latest_undo_set */
+                                                           &new_feature_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* 2. update the feature in the db */
+    ctrl_err = ctrl_classifier_controller_update_feature_main_type ( classifier_ctrl,
+                                                                     new_feature_id,
+                                                                     DATA_FEATURE_TYPE_OPERATION );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* 3a. update the feature in the db */
+    ctrl_err = ctrl_classifier_controller_update_feature_value ( classifier_ctrl,
+                                                                 new_feature_id,
+                                                                 "(void)->(uint64_t)" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* define a relationship */
+    data_relationship_t step3b;
+    data_err = data_relationship_init ( &step3b,
+                                        34, /* relationship_id */
+                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                        86000, /* from_classifier_id */
+                                        86001, /* to_classifier_id */
+                                        "the composition is more", /* relationship_name */
+                                        "than the sum of its parts", /* relationship_description */
+                                        -66000 /* list_order */ );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* 3b. create the relationship in the db */
+    int64_t new_relationship_id;
+    ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
+                                                                &step3b,
+                                                                true, /* add_to_latest_undo_set */
+                                                                &new_relationship_id );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* 4. update the relationship in the db */
+    ctrl_err = ctrl_classifier_controller_update_relationship_description ( classifier_ctrl,
+                                                                            new_relationship_id,
+                                                                            "good for modularization" );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* 5. delete the feature and the relationship from the database */
+    data_small_set_t small_set;
+    data_id_t element_id;
+    data_small_set_init( &small_set );
+    data_id_init( &element_id, DATA_TABLE_FEATURE, new_feature_id );
+    data_err = data_small_set_add_obj ( &small_set, element_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    data_id_reinit( &element_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
+    data_err = data_small_set_add_obj ( &small_set, element_id );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    ctrl_err = ctrl_classifier_controller_delete_set ( classifier_ctrl, small_set );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* the undo-list is filled now. test undo */
+
+    /* undo step 5 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
+    TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+
+    /* undo step 4 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+
+    /* undo step 3 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    /* undo step 2 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+
+    /* undo step 1 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    /* undo step 0 */
+    ctrl_err = ctrl_controller_undo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
+
+    /* redo step 1 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_PROPERTY, data_feature_get_main_type( &check_f ) );
+
+    /* redo step 2 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "uint64_t", data_feature_get_value_ptr( &check_f ) ) );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    /* redo step 3 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check_r ) ) );
+
+    /* redo step 4 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( new_feature_id, data_feature_get_id( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_OPERATION, data_feature_get_main_type( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( 35000, data_feature_get_classifier_id( &check_f ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "startup_time", data_feature_get_key_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "(void)->(uint64_t)", data_feature_get_value_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "time in nano seconds to start", data_feature_get_description_ptr( &check_f ) ) );
+    TEST_ASSERT_EQUAL_INT( 5000000, data_feature_get_list_order( &check_f ) );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( new_relationship_id, data_relationship_get_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, data_relationship_get_main_type( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 86000, data_relationship_get_from_classifier_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 86001, data_relationship_get_to_classifier_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
+    TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
+    TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+
+    /* redo step 5 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+
+    /* check what is in the database */
+    data_err = data_database_reader_get_feature_by_id ( &db_reader, new_feature_id, &check_f );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    data_err = data_database_reader_get_relationship_by_id ( &db_reader, new_relationship_id, &check_r );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
+
+    /* redo step 6 */
+    ctrl_err = ctrl_controller_redo ( &controller );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_INVALID_REQUEST, ctrl_err );
 }
 
 
