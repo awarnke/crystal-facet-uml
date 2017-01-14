@@ -4,6 +4,7 @@
 #include "data_small_set_test.h"
 #include "data_database_listener_test.h"
 #include "data_json_tokenizer_test.h"
+#include "data_database_reader_test.h"
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_classifier_controller_test.h"
 #include "ctrl_consistency_checker_test.h"
@@ -25,15 +26,20 @@ int main (int argc, char *argv[]) {
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
 
     TestRunner_start();
+    /*
     TestRunner_runTest( data_small_set_test_get_list() );
     TestRunner_runTest( data_change_notifier_test_get_list() );
     TestRunner_runTest( data_database_listener_test_get_list() );
     TestRunner_runTest( data_json_tokenizer_test_get_list() );
+    */
+    TestRunner_runTest( data_database_reader_test_get_list() );
+    /*
     TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
     TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
     TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
     TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
     TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
+    */
     TestRunner_end();
 
     TSLOG_DESTROY();
