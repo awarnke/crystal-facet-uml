@@ -156,7 +156,9 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
 
 /*!
- *  \brief reads all classifiers of a diagram from the database
+ *  \brief reads all classifiers of a diagram from the database.
+ *
+ *  If a classifier is contained multiple times in a diagram, it is returned multiple times in the out_visible_classifier result list.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram

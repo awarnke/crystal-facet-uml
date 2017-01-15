@@ -7,6 +7,9 @@
 
 static void set_up(void);
 static void tear_down(void);
+static void test_search_diagrams(void);
+static void test_search_diagramelements(void);
+static void test_search_classifiers(void);
 static void test_search_features(void);
 static void test_search_relationships(void);
 
@@ -33,6 +36,9 @@ static data_database_writer_t db_writer;
 TestRef data_database_reader_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
+        new_TestFixture("test_search_diagrams",test_search_diagrams),
+        new_TestFixture("test_search_diagramelements",test_search_diagramelements),
+        new_TestFixture("test_search_classifiers",test_search_classifiers),
         new_TestFixture("test_search_features",test_search_features),
         new_TestFixture("test_search_relationships",test_search_relationships),
     };
@@ -246,6 +252,77 @@ static void tear_down(void)
     assert( err == 0 );
 }
 
+static void test_search_diagrams(void)
+{
+    data_error_t data_err;
+    data_diagram_t diagram_list[3];
+    static const int MAX_ARRAY_SIZE = 3;
+    uint32_t out_diagram_count;
+
+    /* test 1 */
+    data_err = data_database_reader_get_diagram_by_id ( &db_reader, 7, &(diagram_list[0]) );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test 2 */
+    data_err = data_database_reader_get_diagrams_by_parent_id ( &db_reader,
+                                                                6,
+                                                                MAX_ARRAY_SIZE,
+                                                                &(diagram_list),
+                                                                &out_diagram_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
+
+    /* test 3 */
+    data_small_set_t out_diagram_ids;
+    data_small_set_init( &out_diagram_ids );
+    data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader,
+                                                                   6,
+                                                                   &out_diagram_ids );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
+
+    /* test 4 */
+    data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader,
+                                                                    12,
+                                                                    MAX_ARRAY_SIZE,
+                                                                    &(diagram_list),
+                                                                    &out_diagram_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 2, out_diagram_count );
+}
+
+static void test_search_diagramelements(void)
+{
+    data_error_t data_err;
+    data_diagramelement_t out_diagramelement;
+
+    /* test 1 */
+    data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, 130, &out_diagramelement );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+}
+
+static void test_search_classifiers(void)
+{
+    data_error_t data_err;
+    data_classifier_t out_classifier;
+    data_visible_classifier_t visible_classifier_list[3];
+    static const int MAX_ARRAY_SIZE = 3;
+    uint32_t out_classifier_count;
+
+    /* test 1 */
+    data_err = data_database_reader_get_classifier_by_id ( &db_reader, 13, &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+    /* test 2 */
+    data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader,
+                                                                    7,
+                                                                    MAX_ARRAY_SIZE,
+                                                                    &(visible_classifier_list),
+                                                                    &out_classifier_count );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 3, out_classifier_count );
+}
+
 static void test_search_features(void)
 {
     data_error_t data_err;
@@ -253,9 +330,11 @@ static void test_search_features(void)
     static const int MAX_ARRAY_SIZE = 4;
     uint32_t out_feature_count;
 
+    /* test 1 */
     data_err = data_database_reader_get_feature_by_id ( &db_reader, 19, &(feature_list[0]) );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* test 2 */
     data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
                                                                     13, /* classifier_id*/
                                                                     MAX_ARRAY_SIZE,
@@ -264,6 +343,7 @@ static void test_search_features(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_feature_count );
 
+    /* test 3 */
     data_err = data_database_reader_get_features_by_diagram_id ( &db_reader,
                                                                  7, /* diagram_id */
                                                                  MAX_ARRAY_SIZE,
@@ -280,9 +360,11 @@ static void test_search_relationships(void)
     static const int MAX_ARRAY_SIZE = 3;
     uint32_t out_relationship_count;
 
+    /* test 1 */
     data_err = data_database_reader_get_relationship_by_id ( &db_reader, 34, &(relation_list[0]) );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
+    /* test 2 */
     data_err = data_database_reader_get_relationships_by_classifier_id ( &db_reader,
                                                                          13, /*classifier_id*/
                                                                          MAX_ARRAY_SIZE,
@@ -291,6 +373,7 @@ static void test_search_relationships(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
 
+    /* test 3 */
     data_err = data_database_reader_get_relationships_by_diagram_id ( &db_reader,
                                                                       7, /* diagram_id */
                                                                       MAX_ARRAY_SIZE,

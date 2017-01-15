@@ -549,7 +549,7 @@ static void repair_invalid_feature_parent(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* create an invalid feature */
     data_feature_t i_feature;
