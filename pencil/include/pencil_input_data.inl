@@ -15,7 +15,7 @@ static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ )
 
 static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
 {
-    data_diagram_init_empty( &((*this_).diagram) );
+    data_diagram_reinit_empty( &((*this_).diagram) );
 }
 
 static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ )
@@ -28,6 +28,30 @@ static inline void pencil_input_data_private_destroy_visible_classifiers( pencil
     }
 
     (*this_).visible_classifier_count = 0;
+}
+
+static inline void pencil_input_data_private_destroy_features( pencil_input_data_t *this_ )
+{
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+
+    for ( int index = 0; index < (*this_).feature_count; index ++ )
+    {
+        data_feature_destroy ( &((*this_).features[index]) );
+    }
+
+    (*this_).feature_count = 0;
+}
+
+static inline void pencil_input_data_private_destroy_relationships( pencil_input_data_t *this_ )
+{
+    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+
+    for ( int index = 0; index < (*this_).relationship_count; index ++ )
+    {
+        data_relationship_destroy ( &((*this_).relationships[index]) );
+    }
+
+    (*this_).relationship_count = 0;
 }
 
 static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_input_data_t *this_ )
@@ -66,6 +90,52 @@ static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_i
         {
             result = probe;
         }
+    }
+
+    return result;
+}
+
+static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t *this_ )
+{
+    return (*this_).feature_count;
+}
+
+static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+
+    data_feature_t *result;
+    if ( index < (*this_).feature_count )
+    {
+        result = &((*this_).features[index]);
+    }
+    else
+    {
+        result = NULL;
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
+    }
+
+    return result;
+}
+
+static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_data_t *this_ )
+{
+    return (*this_).relationship_count;
+}
+
+static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+
+    data_relationship_t *result;
+    if ( index < (*this_).relationship_count )
+    {
+        result = &((*this_).relationships[index]);
+    }
+    else
+    {
+        result = NULL;
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
     }
 
     return result;

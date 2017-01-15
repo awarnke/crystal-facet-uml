@@ -12,6 +12,8 @@
 #include "data_diagram.h"
 #include "data_visible_classifier.h"
 #include "storage/data_database_reader.h"
+#include "data_relationship.h"
+#include "data_feature.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -20,7 +22,9 @@
  *  \brief constants for maximum values of pencil_input_data_t
  */
 enum pencil_input_data_max_enum {
-    PENCIL_INPUT_DATA_MAX_CLASSIFIERS = 256,  /*!< maximum number of classifiers to be shown in one single diagram */
+    PENCIL_INPUT_DATA_MAX_CLASSIFIERS = 128,  /*!< maximum number of classifiers to be shown in one single diagram */
+    PENCIL_INPUT_DATA_MAX_FEATURES = 256,  /*!< maximum number of features to be shown in one single diagram */
+    PENCIL_INPUT_DATA_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships to be shown in one single diagram */
 };
 
 /*!
@@ -30,6 +34,10 @@ struct pencil_input_data_struct {
     data_diagram_t diagram;  /*!< the diagram record */
     uint32_t visible_classifier_count;  /*!< number of all contained visible classifier records */
     data_visible_classifier_t visible_classifiers[PENCIL_INPUT_DATA_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
+    uint32_t feature_count;  /*!< number of all contained feature records */
+    data_feature_t features[PENCIL_INPUT_DATA_MAX_FEATURES];  /*!< all contained feature records */
+    uint32_t relationship_count;  /*!< number of all contained relationship records */
+    data_relationship_t relationships[PENCIL_INPUT_DATA_MAX_RELATIONSHIPS];  /*!< all contained relationship records */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;
@@ -76,8 +84,8 @@ static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_i
  *  \brief gets a visible classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the visible classifier to retrieve; 0 <= index < pencil_input_data_get_visible_classifier_count.
- *  \return NULL if index >= pencil_input_data_get_visible_classifier_count; pointer to data_visible_classifier_t otherwise.
+ *  \param index index of the visible classifier to retrieve; 0 <= index < pencil_input_data_get_visible_classifier_count().
+ *  \return NULL if index >= pencil_input_data_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
  */
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
 
@@ -89,6 +97,38 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
  *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
  */
 static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int32_t row_id );
+
+/*!
+ *  \brief gets the number of features within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief gets a feature within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the feature to retrieve; 0 <= index < pencil_input_data_get_feature_count().
+ *  \return NULL if index >= pencil_input_data_get_feature_count(); pointer to data_feature_t otherwise.
+ */
+static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets the number of relationships within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief gets a relationship within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the relationship to retrieve; 0 <= index < pencil_input_data_get_relationship_count().
+ *  \return NULL if index >= pencil_input_data_get_relationship_count(); pointer to data_relationship_t otherwise.
+ */
+static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
  *  \brief checks if the diagram and diagram-contents data is valid
@@ -113,6 +153,24 @@ static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief destroys all contained deatures
+ *
+ *  feature_count is set to zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_input_data_private_destroy_features( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief destroys all contained relationships
+ *
+ *  relationship_count is set to zero.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_input_data_private_destroy_relationships( pencil_input_data_t *this_ );
 
 #include "pencil_input_data.inl"
 

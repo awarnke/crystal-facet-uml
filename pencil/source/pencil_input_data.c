@@ -12,6 +12,8 @@ void pencil_input_data_init( pencil_input_data_t *this_ )
 
     data_diagram_init_empty( &((*this_).diagram) );
     (*this_).visible_classifier_count = 0;
+    (*this_).feature_count = 0;
+    (*this_).relationship_count = 0;
 
     TRACE_END();
 }
@@ -22,6 +24,8 @@ void pencil_input_data_destroy( pencil_input_data_t *this_ )
 
     data_diagram_destroy( &((*this_).diagram) );
     pencil_input_data_private_destroy_visible_classifiers( this_ );
+    pencil_input_data_private_destroy_features( this_ );
+    pencil_input_data_private_destroy_relationships( this_ );
 
     TRACE_END();
 }
@@ -37,10 +41,17 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         data_diagram_reinit_empty( &((*this_).diagram) );
 
         pencil_input_data_private_destroy_visible_classifiers( this_ );
+        pencil_input_data_private_destroy_features( this_ );
+        pencil_input_data_private_destroy_relationships( this_ );
     }
     else
     {
         data_error_t db_err;
+
+        data_diagram_destroy( &((*this_).diagram) );
+        pencil_input_data_private_destroy_visible_classifiers( this_ );
+        pencil_input_data_private_destroy_features( this_ );
+        pencil_input_data_private_destroy_relationships( this_ );
 
         /* load diagram */
         db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
@@ -60,7 +71,6 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         }
 
         /* load classifiers */
-        pencil_input_data_private_destroy_visible_classifiers( this_ );
         db_err = data_database_reader_get_classifiers_by_diagram_id ( db_reader,
                                                                       diagram_id,
                                                                       PENCIL_INPUT_DATA_MAX_CLASSIFIERS,
@@ -80,6 +90,50 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         {
             /* error at loading */
             (*this_).visible_classifier_count = 0;
+        }
+
+        /* load features */
+        db_err = data_database_reader_get_features_by_diagram_id ( db_reader,
+                                                                   diagram_id,
+                                                                   PENCIL_INPUT_DATA_MAX_FEATURES,
+                                                                   &((*this_).features),
+                                                                   &((*this_).feature_count)
+                                                                 );
+
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        {
+            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        {
+            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        {
+            /* error at loading */
+            (*this_).feature_count = 0;
+        }
+
+        /* load relationships */
+        db_err = data_database_reader_get_relationships_by_diagram_id ( db_reader,
+                                                                        diagram_id,
+                                                                        PENCIL_INPUT_DATA_MAX_RELATIONSHIPS,
+                                                                        &((*this_).relationships),
+                                                                        &((*this_).relationship_count)
+                                                                      );
+
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        {
+            TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        {
+            TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
+        }
+        if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED|DATA_ERROR_ARRAY_BUFFER_EXCEEDED)) )
+        {
+            /* error at loading */
+            (*this_).relationship_count = 0;
         }
     }
 
