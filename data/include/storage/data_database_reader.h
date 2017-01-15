@@ -116,6 +116,8 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
 /*!
  *  \brief reads all classifier-displaying diagrams from the database
  *
+ *  If a diagram shows the classifier multiple times, the diagram is returned just once (DISTINCT).
+ *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
@@ -218,6 +220,8 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
 /*!
  *  \brief reads all features of a diagram from the database
  *
+ *  If a classifier is contained multiple times in a diagram, the classifiers associated features are returned only once nonetheless (DISTINCT).
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
@@ -247,6 +251,8 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
 /*!
  *  \brief reads all relationships of a classifier from the database
  *
+ *  This includes relationships where the classifier is source-only, destination-only or both.
+ *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the source(from) or destination(to) classifier
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
@@ -263,6 +269,8 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
 
 /*!
  *  \brief reads all relationships of a diagram from the database
+ *
+ *  If classifiers are contained multiple times in a diagram, each relationship is returned only once nonetheless (DISTINCT).
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the containing diagram

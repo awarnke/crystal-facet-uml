@@ -108,10 +108,11 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
  *  \brief predefined search statement to find diagrams by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
+    "SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
     "diagrams.name,diagrams.description,diagrams.list_order "
     "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
     "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
+    /* Note: DISTINCT works here because all returend values are only from the diagrams table */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -714,7 +715,8 @@ static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
     "features.key,features.value,features.description,features.list_order,"
     "diagramelements.id " /* diagramelements.id needed only for debugging */
     "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
-    "WHERE diagramelements.diagram_id=? ORDER BY features.list_order ASC;";
+    "WHERE diagramelements.diagram_id=? GROUP BY features.id ORDER BY features.list_order ASC;";
+    /* Note: DISTINCT does not work here because returend values are from different tables --> GROUP BY */
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
@@ -988,7 +990,8 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "ON source.classifier_id=relationships.from_classifier_id "
     "INNER JOIN diagramelements AS dest "
     "ON dest.classifier_id=relationships.to_classifier_id "
-    "WHERE source.diagram_id=? OR dest.diagram_id=? ORDER BY relationships.list_order ASC;";
+    "WHERE source.diagram_id=? OR dest.diagram_id=? GROUP BY relationships.id ORDER BY relationships.list_order ASC;";
+    /* Note: DISTINCT does not work here because returend values are from different tables --> GROUP BY */
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
