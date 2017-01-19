@@ -1,12 +1,12 @@
-/* File: pencil_classifier_painter.h; Copyright and License: see below */
+/* File: pencil_feature_painter.h; Copyright and License: see below */
 
-#ifndef PENCIL_CLASSIFIER_PAINTER_H
-#define PENCIL_CLASSIFIER_PAINTER_H
+#ifndef PENCIL_FEATURE_PAINTER_H
+#define PENCIL_FEATURE_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a classifier and its contents into a cairo drawing context
+ *  \brief Renders a feature into a cairo drawing context
  */
 
 #include "pencil_input_data.h"
@@ -20,27 +20,27 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the classifier painter
+ *  \brief attributes of the feature painter
  */
-struct pencil_classifier_painter_struct {
+struct pencil_feature_painter_struct {
     pencil_private_marker_t marker;  /*!< own instance of a marker */
 };
 
-typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
+typedef struct pencil_feature_painter_struct pencil_feature_painter_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ );
+void pencil_feature_painter_init( pencil_feature_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
+void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
 
 /*!
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
@@ -55,7 +55,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param cr a cairo drawing context
  *  \param classifier_bounds the destination rectangle where to draw the classifier
  */
-void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
+void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                       data_visible_classifier_t *visible_classifier,
                                       bool mark_focused,
                                       bool mark_highlighted,
@@ -66,7 +66,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       geometry_rectangle_t classifier_bounds
                                     );
 
-#endif  /* PENCIL_CLASSIFIER_PAINTER_H */
+#endif  /* PENCIL_FEATURE_PAINTER_H */
 
 
 /*

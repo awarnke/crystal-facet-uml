@@ -1,12 +1,12 @@
-/* File: pencil_classifier_painter.h; Copyright and License: see below */
+/* File: pencil_relationship_painter.h; Copyright and License: see below */
 
-#ifndef PENCIL_CLASSIFIER_PAINTER_H
-#define PENCIL_CLASSIFIER_PAINTER_H
+#ifndef PENCIL_RELATIONSHIP_PAINTER_H
+#define PENCIL_RELATIONSHIP_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a classifier and its contents into a cairo drawing context
+ *  \brief Renders a relationship into a cairo drawing context
  */
 
 #include "pencil_input_data.h"
@@ -20,27 +20,27 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the classifier painter
+ *  \brief attributes of the relationship painter
  */
-struct pencil_classifier_painter_struct {
+struct pencil_relationship_painter_struct {
     pencil_private_marker_t marker;  /*!< own instance of a marker */
 };
 
-typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
+typedef struct pencil_relationship_painter_struct pencil_relationship_painter_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ );
+void pencil_relationship_painter_init( pencil_relationship_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
+void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ );
 
 /*!
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
@@ -55,7 +55,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param cr a cairo drawing context
  *  \param classifier_bounds the destination rectangle where to draw the classifier
  */
-void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
+void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                                       data_visible_classifier_t *visible_classifier,
                                       bool mark_focused,
                                       bool mark_highlighted,
@@ -66,11 +66,11 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       geometry_rectangle_t classifier_bounds
                                     );
 
-#endif  /* PENCIL_CLASSIFIER_PAINTER_H */
+#endif  /* PENCIL_RELATIONSHIP_PAINTER_H */
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2017-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

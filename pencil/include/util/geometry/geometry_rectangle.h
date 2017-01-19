@@ -9,6 +9,8 @@
  *  \brief Stores coordinates of a rectangle
  */
 
+#include <stdbool.h>
+
 /*!
  *  \brief attributes of a rectangle
  */
