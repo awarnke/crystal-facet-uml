@@ -27,18 +27,12 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_painter_struct {
-    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
-    pencil_marker_t marker;  /*!< own instance of a marker */
-
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
 
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
-    geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle containing diagram border and inner contents */
-    geometry_rectangle_t diagram_draw_area;  /*!< own instance of a drawing rectangle containing inner contents of the diagram */
-    geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
-    geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
-    geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
+    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
+    pencil_marker_t marker;  /*!< own instance of a marker */
 };
 
 typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;

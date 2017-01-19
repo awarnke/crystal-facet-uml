@@ -8,6 +8,10 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
     return &((*this_).pencil_size);
 }
 
+static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pencil_layouter_t *this_ )
+{
+    return &((*this_).diagram_bounds);
+}
 
 /*
 Copyright 2017-2017 Andreas Warnke

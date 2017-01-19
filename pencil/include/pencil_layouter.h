@@ -72,6 +72,13 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
 static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layouter_t *this_ );
 
 /*!
+ *  \brief returns the diagram bounds object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pencil_layouter_t *this_ );
+
+/*!
  *  \brief determines the bounding box of the given classifier
  *
  *  \param this_ pointer to own object attributes

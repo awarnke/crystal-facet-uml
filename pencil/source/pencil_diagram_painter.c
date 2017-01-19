@@ -17,11 +17,6 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_
 
     pencil_layouter_init( &((*this_).layouter), input_data );
 
-    geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
-    geometry_rectangle_init_empty( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
-    geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
-    geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
     (*this_).input_data = input_data;
 
     TRACE_END();
@@ -36,11 +31,6 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 
     pencil_layouter_destroy( &((*this_).layouter) );
 
-    geometry_rectangle_destroy( &((*this_).diagram_bounds) );
-    geometry_rectangle_destroy( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_destroy( &((*this_).x_scale) );
-    geometry_non_linear_scale_destroy( &((*this_).y_scale) );
-    geometry_rectangle_destroy( &((*this_).default_classifier_size) );
     (*this_).input_data = NULL;
 
     TRACE_END();
@@ -53,70 +43,7 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     TRACE_BEGIN();
     assert( NULL != input_data );
 
-    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
-
-    /* update the pointer to the input data */
-    (*this_).input_data = input_data;
-
-    /* update the bounding rectangle */
-    geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
-
-    /* calculate the pencil-sizes and the drawing rectangle */
-    double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
-    double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
-    double right = geometry_rectangle_get_right ( &((*this_).diagram_bounds) );
-    double bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_bounds) );
-    double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
-    double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
-    pencil_size_reinit( pencil_size, width, height );
-    double gap = pencil_size_get_standard_object_border( pencil_size );
-    double f_size = pencil_size_get_standard_font_size( pencil_size );
-    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-    geometry_rectangle_reinit( &((*this_).diagram_draw_area), left+gap, top+gap+f_size+f_line_gap, width-2.0*gap, height-2.0*gap-f_size-f_line_gap );
-
-    /* calculate the axis scales */
-    double draw_left = geometry_rectangle_get_left ( &((*this_).diagram_draw_area) );
-    double draw_top = geometry_rectangle_get_top ( &((*this_).diagram_draw_area) );
-    double draw_right = geometry_rectangle_get_right ( &((*this_).diagram_draw_area) );
-    double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
-    double draw_width = geometry_rectangle_get_width ( &((*this_).diagram_draw_area) );
-    double draw_height = geometry_rectangle_get_height ( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left + 0.04*draw_width, draw_right - 0.04*draw_width );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top +0.04*draw_height, draw_bottom - 0.04*draw_height );
-
-    /* iterate over all classifiers */
-    uint32_t count;
-    count = pencil_input_data_get_visible_classifier_count ( input_data );
-    for ( uint32_t index = 0; index < count; index ++ )
-    {
-        data_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_input_data_get_visible_classifier_ptr ( input_data, index );
-
-        if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
-        {
-            data_classifier_t *classifier;
-            classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-
-            /* adjust the non-linear scales for this classifier */
-            geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier ) );
-            geometry_non_linear_scale_add_order ( &((*this_).y_scale), data_classifier_get_y_order( classifier ) );
-        }
-    }
-
-    /* adjust the default classifier rectangle */
-    double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
-    double classifier_area;
-    if ( count > 0 )
-    {
-        classifier_area = diagram_area / count * (0.10);
-    }
-    else
-    {
-        classifier_area = diagram_area * (0.10);
-    }
-    double half_width = sqrt(classifier_area);
-    double half_height = half_width / 2.1;
-    geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
+    pencil_layouter_do_layout( &((*this_).layouter), input_data, diagram_bounds );
 
     TRACE_END();
 }
@@ -135,13 +62,14 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     layout = pango_cairo_create_layout (cr);
 
     pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+    geometry_rectangle_t *diagram_bounds = pencil_layouter_get_diagram_bounds_ptr ( &((*this_).layouter) );
 
-    double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
-    double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
-    double right = geometry_rectangle_get_right ( &((*this_).diagram_bounds) );
-    double bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_bounds) );
-    double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
-    double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
+    double left = geometry_rectangle_get_left ( diagram_bounds );
+    double top = geometry_rectangle_get_top ( diagram_bounds );
+    double right = geometry_rectangle_get_right ( diagram_bounds );
+    double bottom = geometry_rectangle_get_bottom ( diagram_bounds );
+    double width = geometry_rectangle_get_width ( diagram_bounds );
+    double height = geometry_rectangle_get_height ( diagram_bounds );
 
     TRACE_INFO_INT( "w", (int)(width) );
     TRACE_INFO_INT( "h", (int)(height) );
@@ -229,7 +157,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         diag2 = pencil_input_data_get_diagram_ptr( (*this_).input_data );
         if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
-            pencil_marker_mark_focused_rectangle( &((*this_).marker), (*this_).diagram_bounds, cr );
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), *diagram_bounds, cr );
         }
 
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
@@ -317,12 +245,8 @@ geometry_rectangle_t pencil_diagram_painter_private_get_classifier_bounds ( penc
     assert( NULL != classifier );
 
     geometry_rectangle_t result_rect;
-    geometry_rectangle_copy( &result_rect, &((*this_).default_classifier_size) );
-    int32_t order_x = data_classifier_get_x_order( classifier );
-    int32_t order_y = data_classifier_get_y_order( classifier );
-    double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
-    double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
-    geometry_rectangle_shift( &result_rect, center_x, center_y );
+
+    result_rect = pencil_layouter_private_get_classifier_bounds( &((*this_).layouter), classifier );
 
     TRACE_END();
     return result_rect;
@@ -336,23 +260,8 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
     TRACE_BEGIN();
 
     data_id_t result;
-    data_diagram_t *diag;
-    diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
 
-    if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
-    {
-        result = pencil_diagram_painter_private_get_classifier_id_at_pos( this_, x, y, dereference );
-
-        if ( ! data_id_is_valid( &result ) )
-        {
-            data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
-        }
-    }
-    else
-    {
-        TRACE_INFO( "no object at given location or no diagram chosen" );
-        data_id_init_void( &result );
-    }
+    result = pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
 
     TRACE_END();
     return result;
@@ -365,48 +274,8 @@ data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagr
 {
     TRACE_BEGIN();
     data_id_t result;
-    data_id_init_void( &result );
 
-    if ( geometry_rectangle_contains( &((*this_).diagram_draw_area), x, y ) )
-    {
-        /* iterate over all classifiers */
-        uint32_t count;
-        count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-        for ( uint32_t index = 0; index < count; index ++ )
-        {
-            data_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
-
-            if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
-            {
-                data_classifier_t *classifier;
-                data_diagramelement_t *diagramelement;
-                classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-                diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
-
-                geometry_rectangle_t classifier_bounds;
-                classifier_bounds = pencil_diagram_painter_private_get_classifier_bounds( this_, classifier );
-
-                if ( geometry_rectangle_contains( &classifier_bounds, x, y ) )
-                {
-                    if ( dereference )
-                    {
-                        data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
-                    }
-                    else
-                    {
-                        data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
-                    }
-                }
-
-                geometry_rectangle_destroy( &classifier_bounds );
-            }
-            else
-            {
-                TSLOG_ERROR("invalid visible classifier in array!");
-            }
-        }
-    }
+    result = pencil_layouter_private_get_classifier_id_at_pos ( &((*this_).layouter), x, y, dereference );
 
     TRACE_END();
     return result;
@@ -419,9 +288,8 @@ universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_
     TRACE_BEGIN();
 
     universal_int32_pair_t result;
-    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 3.0 );
-    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 3.0 );
-    universal_int32_pair_init( &result, x_order, y_order );
+
+    result = pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
 
     TRACE_END();
     return result;
