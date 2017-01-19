@@ -18,7 +18,6 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_
     pencil_layouter_init( &((*this_).layouter), input_data );
 
     geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
-    pencil_size_init_empty( &((*this_).pencil_size) );
     geometry_rectangle_init_empty( &((*this_).diagram_draw_area) );
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
@@ -38,7 +37,6 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     pencil_layouter_destroy( &((*this_).layouter) );
 
     geometry_rectangle_destroy( &((*this_).diagram_bounds) );
-    pencil_size_destroy( &((*this_).pencil_size) );
     geometry_rectangle_destroy( &((*this_).diagram_draw_area) );
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
@@ -55,6 +53,8 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     TRACE_BEGIN();
     assert( NULL != input_data );
 
+    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+
     /* update the pointer to the input data */
     (*this_).input_data = input_data;
 
@@ -68,10 +68,10 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     double bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_bounds) );
     double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
     double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
-    pencil_size_reinit( &((*this_).pencil_size), width, height );
-    double gap = pencil_size_get_standard_object_border( &((*this_).pencil_size) );
-    double f_size = pencil_size_get_standard_font_size( &((*this_).pencil_size) );
-    double f_line_gap = pencil_size_get_font_line_gap( &((*this_).pencil_size) );
+    pencil_size_reinit( pencil_size, width, height );
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double f_size = pencil_size_get_standard_font_size( pencil_size );
+    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
     geometry_rectangle_reinit( &((*this_).diagram_draw_area), left+gap, top+gap+f_size+f_line_gap, width-2.0*gap, height-2.0*gap-f_size-f_line_gap );
 
     /* calculate the axis scales */
@@ -134,7 +134,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     PangoLayout *layout;
     layout = pango_cairo_create_layout (cr);
 
-    pencil_size_t *pencil_size = &((*this_).pencil_size);
+    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
     double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
     double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
@@ -283,7 +283,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
                                             data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
                                             data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
                                             data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
-                                            &((*this_).pencil_size),
+                                            pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
                                             layout,
                                             cr,
                                             classifier_bounds );

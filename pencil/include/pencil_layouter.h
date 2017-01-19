@@ -65,6 +65,13 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
                                );
 
 /*!
+ *  \brief returns the pencil size object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layouter_t *this_ );
+
+/*!
  *  \brief determines the bounding box of the given classifier
  *
  *  \param this_ pointer to own object attributes
@@ -117,6 +124,8 @@ universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *thi
                                                           double x,
                                                           double y
                                                         );
+
+#include "pencil_layouter.inl"
 
 #endif  /* PENCIL_LAYOUTER_H */
 
