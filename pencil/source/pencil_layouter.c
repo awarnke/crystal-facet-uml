@@ -111,7 +111,7 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
     TRACE_END();
 }
 
-geometry_rectangle_t pencil_layouter_private_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier )
+geometry_rectangle_t pencil_layouter_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier )
 {
     TRACE_BEGIN();
     assert( NULL != classifier );
@@ -141,7 +141,7 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
 
     if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
     {
-        result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
+        result = pencil_layouter_get_classifier_id_at_pos( this_, x, y, dereference );
 
         if ( ! data_id_is_valid( &result ) )
         {
@@ -158,7 +158,7 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     return result;
 }
 
-data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+data_id_t pencil_layouter_get_classifier_id_at_pos ( pencil_layouter_t *this_,
                                                              double x,
                                                              double y,
                                                              bool dereference )
@@ -185,7 +185,7 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                 diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
                 geometry_rectangle_t classifier_bounds;
-                classifier_bounds = pencil_layouter_private_get_classifier_bounds( this_, classifier );
+                classifier_bounds = pencil_layouter_get_classifier_bounds( this_, classifier );
 
                 if ( geometry_rectangle_contains( &classifier_bounds, x, y ) )
                 {

@@ -85,7 +85,7 @@ static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pen
  *  \param classifier the classifier of which to determine the bounding box
  *  \return bounding box of the classifier
  */
-geometry_rectangle_t pencil_layouter_private_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier );
+geometry_rectangle_t pencil_layouter_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier );
 
 /*!
  *  \brief gets the object-id of the object at a given position
@@ -113,11 +113,11 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
  *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
-data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
-                                                             double x,
-                                                             double y,
-                                                             bool dereference
-                                                           );
+data_id_t pencil_layouter_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+                                                     double x,
+                                                     double y,
+                                                     bool dereference
+                                                   );
 
 /*!
  *  \brief gets the order values at a given position

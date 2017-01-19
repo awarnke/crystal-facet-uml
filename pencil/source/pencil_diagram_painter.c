@@ -246,7 +246,7 @@ geometry_rectangle_t pencil_diagram_painter_private_get_classifier_bounds ( penc
 
     geometry_rectangle_t result_rect;
 
-    result_rect = pencil_layouter_private_get_classifier_bounds( &((*this_).layouter), classifier );
+    result_rect = pencil_layouter_get_classifier_bounds( &((*this_).layouter), classifier );
 
     TRACE_END();
     return result_rect;
@@ -275,7 +275,7 @@ data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagr
     TRACE_BEGIN();
     data_id_t result;
 
-    result = pencil_layouter_private_get_classifier_id_at_pos ( &((*this_).layouter), x, y, dereference );
+    result = pencil_layouter_get_classifier_id_at_pos ( &((*this_).layouter), x, y, dereference );
 
     TRACE_END();
     return result;
