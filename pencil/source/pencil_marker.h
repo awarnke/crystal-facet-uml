@@ -1,7 +1,7 @@
-/* File: pencil_private_marker.h; Copyright and License: see below */
+/* File: pencil_marker.h; Copyright and License: see below */
 
-#ifndef PENCIL_PRIVATE_MARKER_H
-#define PENCIL_PRIVATE_MARKER_H
+#ifndef PENCIL_MARKER_H
+#define PENCIL_MARKER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -20,25 +20,25 @@
 /*!
  *  \brief attributes of the marker
  */
-struct pencil_private_marker_struct {
+struct pencil_marker_struct {
     void *dummy;
 };
 
-typedef struct pencil_private_marker_struct pencil_private_marker_t;
+typedef struct pencil_marker_struct pencil_marker_t;
 
 /*!
  *  \brief initializes the marker
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_private_marker_init( pencil_private_marker_t *this_ );
+void pencil_marker_init( pencil_marker_t *this_ );
 
 /*!
  *  \brief destroys the marker
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_private_marker_destroy( pencil_private_marker_t *this_ );
+void pencil_marker_destroy( pencil_marker_t *this_ );
 
 /*!
  *  \brief draws markers around the destination area of the cairo drawing context
@@ -47,7 +47,7 @@ void pencil_private_marker_destroy( pencil_private_marker_t *this_ );
  *  \param rect the rectangle which to mark as focused. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
 /*!
  *  \brief draws markers around the destination area of the cairo drawing context
@@ -56,9 +56,9 @@ void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *thi
  *  \param rect the rectangle which to mark as selected. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+void pencil_marker_mark_selected_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
-#endif  /* PENCIL_PRIVATE_MARKER_H */
+#endif  /* PENCIL_MARKER_H */
 
 
 /*

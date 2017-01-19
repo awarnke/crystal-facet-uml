@@ -10,7 +10,8 @@
  */
 
 #include "pencil_input_data.h"
-#include "pencil_private_marker.h"
+#include "pencil_layouter.h"
+#include "pencil_marker.h"
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
@@ -27,9 +28,12 @@
  */
 struct pencil_diagram_painter_struct {
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
-    pencil_private_marker_t marker;  /*!< own instance of a marker */
+    pencil_marker_t marker;  /*!< own instance of a marker */
 
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
+
+    pencil_layouter_t layouter;  /* own instance of a layouter */
+
     geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle containing diagram border and inner contents */
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_rectangle_t diagram_draw_area;  /*!< own instance of a drawing rectangle containing inner contents of the diagram */

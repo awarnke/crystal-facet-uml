@@ -10,7 +10,7 @@
  */
 
 #include "pencil_input_data.h"
-#include "pencil_private_marker.h"
+#include "pencil_marker.h"
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
@@ -23,7 +23,7 @@
  *  \brief attributes of the relationship painter
  */
 struct pencil_relationship_painter_struct {
-    pencil_private_marker_t marker;  /*!< own instance of a marker */
+    pencil_marker_t marker;  /*!< own instance of a marker */
 };
 
 typedef struct pencil_relationship_painter_struct pencil_relationship_painter_t;

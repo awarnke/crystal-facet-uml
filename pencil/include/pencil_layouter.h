@@ -10,7 +10,7 @@
  */
 
 #include "pencil_input_data.h"
-#include "pencil_private_marker.h"
+#include "pencil_marker.h"
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"

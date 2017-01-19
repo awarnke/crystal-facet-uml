@@ -13,7 +13,10 @@ void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_
     assert( NULL != input_data );
 
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
-    pencil_private_marker_init( &((*this_).marker) );
+    pencil_marker_init( &((*this_).marker) );
+
+    pencil_layouter_init( &((*this_).layouter), input_data );
+
     geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
     pencil_size_init_empty( &((*this_).pencil_size) );
     geometry_rectangle_init_empty( &((*this_).diagram_draw_area) );
@@ -30,7 +33,10 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
-    pencil_private_marker_destroy( &((*this_).marker) );
+    pencil_marker_destroy( &((*this_).marker) );
+
+    pencil_layouter_destroy( &((*this_).layouter) );
+
     geometry_rectangle_destroy( &((*this_).diagram_bounds) );
     pencil_size_destroy( &((*this_).pencil_size) );
     geometry_rectangle_destroy( &((*this_).diagram_draw_area) );
@@ -223,14 +229,14 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
         diag2 = pencil_input_data_get_diagram_ptr( (*this_).input_data );
         if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
-            pencil_private_marker_mark_focused_rectangle( &((*this_).marker), (*this_).diagram_bounds, cr );
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), (*this_).diagram_bounds, cr );
         }
 
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag2) ))
         {
             geometry_rectangle_t selected_rect;
             geometry_rectangle_init( &selected_rect, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
-            pencil_private_marker_mark_selected_rectangle( &((*this_).marker), selected_rect, cr );
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), selected_rect, cr );
             geometry_rectangle_destroy( &selected_rect );
         }
     }
@@ -298,7 +304,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
     /* mark focused */
     if ( ! geometry_rectangle_is_empty( &focused_rect ) )
     {
-        pencil_private_marker_mark_focused_rectangle( &((*this_).marker), focused_rect, cr );
+        pencil_marker_mark_focused_rectangle( &((*this_).marker), focused_rect, cr );
     }
 
     geometry_rectangle_destroy( &focused_rect );

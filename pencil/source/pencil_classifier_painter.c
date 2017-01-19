@@ -11,7 +11,7 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_private_marker_init( &((*this_).marker) );
+    pencil_marker_init( &((*this_).marker) );
 
     TRACE_END();
 }
@@ -20,7 +20,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_private_marker_destroy( &((*this_).marker) );
+    pencil_marker_destroy( &((*this_).marker) );
 
     TRACE_END();
 }
@@ -148,7 +148,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
         if ( mark_selected )
         {
-            pencil_private_marker_mark_selected_rectangle( &((*this_).marker), classifier_bounds, cr );
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), classifier_bounds, cr );
         }
     }
     else

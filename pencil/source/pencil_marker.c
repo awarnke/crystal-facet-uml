@@ -1,26 +1,26 @@
-/* File: pencil_private_marker.c; Copyright and License: see below */
+/* File: pencil_marker.c; Copyright and License: see below */
 
-#include "pencil_private_marker.h"
+#include "pencil_marker.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
-void pencil_private_marker_init( pencil_private_marker_t *this_ )
+void pencil_marker_init( pencil_marker_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void pencil_private_marker_destroy( pencil_private_marker_t *this_ )
+void pencil_marker_destroy( pencil_marker_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -64,7 +64,7 @@ void pencil_private_marker_mark_focused_rectangle ( pencil_private_marker_t *thi
     TRACE_END();
 }
 
-void pencil_private_marker_mark_selected_rectangle ( pencil_private_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+void pencil_marker_mark_selected_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
