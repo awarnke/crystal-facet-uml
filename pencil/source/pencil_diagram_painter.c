@@ -43,7 +43,8 @@ void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
     TRACE_BEGIN();
     assert( NULL != input_data );
 
-    pencil_layouter_do_layout( &((*this_).layouter), input_data, diagram_bounds );
+    pencil_layouter_prepare_layout_grid ( &((*this_).layouter), input_data, diagram_bounds );
+    pencil_layouter_do_layout_classifiers ( &((*this_).layouter) );
 
     TRACE_END();
 }

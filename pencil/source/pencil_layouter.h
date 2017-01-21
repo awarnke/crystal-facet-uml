@@ -56,16 +56,23 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
 void pencil_layouter_destroy( pencil_layouter_t *this_ );
 
 /*!
- *  \brief layouts the chosen diagram contents into the diagram_bounds area
+ *  \brief layouts the grid
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-void pencil_layouter_do_layout ( pencil_layouter_t *this_,
-                                 pencil_input_data_t *input_data,
-                                 geometry_rectangle_t diagram_bounds
-                               );
+void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
+                                           pencil_input_data_t *input_data,
+                                           geometry_rectangle_t diagram_bounds
+);
+
+/*!
+ *  \brief layouts the chosen diagram contents into the diagram_bounds area
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_do_layout_classifiers ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief returns the pencil size object

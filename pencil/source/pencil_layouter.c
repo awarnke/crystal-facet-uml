@@ -42,9 +42,11 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_layouter_do_layout ( pencil_layouter_t *this_,
-                                 pencil_input_data_t *input_data,
-                                 geometry_rectangle_t diagram_bounds )
+
+
+void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
+                                           pencil_input_data_t *input_data,
+                                           geometry_rectangle_t diagram_bounds )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -97,7 +99,16 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
         }
     }
 
+    TRACE_END();
+}
+
+void pencil_layouter_do_layout_classifiers ( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
     /* adjust the default classifier rectangle */
+    uint32_t count;
+    count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
     double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
     double classifier_area;
     if ( count > 0 )
@@ -113,11 +124,10 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
     geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
 
     /* store the classifier bounds into input_data_layouter_t */
-    count = pencil_input_data_get_visible_classifier_count ( input_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         data_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( input_data, index );
+        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
 
         if (( visible_classifier2 != NULL ) && ( data_visible_classifier_is_valid( visible_classifier2 ) ))
         {
