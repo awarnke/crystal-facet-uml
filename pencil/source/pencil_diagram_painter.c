@@ -204,7 +204,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
             diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
             geometry_rectangle_t classifier_bounds;
-            classifier_bounds = pencil_diagram_painter_private_get_classifier_bounds( this_, classifier );
+            classifier_bounds = pencil_layouter_get_classifier_bounds( &((*this_).layouter), classifier );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
                                             visible_classifier,
@@ -239,19 +239,6 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
     TRACE_END();
 }
 
-geometry_rectangle_t pencil_diagram_painter_private_get_classifier_bounds ( pencil_diagram_painter_t *this_, data_classifier_t *classifier )
-{
-    TRACE_BEGIN();
-    assert( NULL != classifier );
-
-    geometry_rectangle_t result_rect;
-
-    result_rect = pencil_layouter_get_classifier_bounds( &((*this_).layouter), classifier );
-
-    TRACE_END();
-    return result_rect;
-}
-
 data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
                                                         double x,
                                                         double y,
@@ -262,20 +249,6 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
     data_id_t result;
 
     result = pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
-
-    TRACE_END();
-    return result;
-}
-
-data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagram_painter_t *this_,
-                                                                    double x,
-                                                                    double y,
-                                                                    bool dereference )
-{
-    TRACE_BEGIN();
-    data_id_t result;
-
-    result = pencil_layouter_get_classifier_id_at_pos ( &((*this_).layouter), x, y, dereference );
 
     TRACE_END();
     return result;

@@ -99,15 +99,6 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
                                                      );
 
 /*!
- *  \brief determines the bounding box of the given classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier the classifier of which to determine the bounding box
- *  \return bounding box of the classifier
- */
-geometry_rectangle_t pencil_diagram_painter_private_get_classifier_bounds ( pencil_diagram_painter_t *this_, data_classifier_t *classifier );
-
-/*!
  *  \brief gets the object-id of the object at a given position
  *
  *  \param this_ pointer to own object attributes
@@ -122,22 +113,6 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
                                                         double y,
                                                         bool dereference
                                                       );
-
-/*!
- *  \brief gets the classifier-id of the classifier at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
- *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
- *  \return an object id. The id is invalid if there is no object at the given location.
- */
-data_id_t pencil_diagram_painter_private_get_classifier_id_at_pos ( pencil_diagram_painter_t *this_,
-                                                                    double x,
-                                                                    double y,
-                                                                    bool dereference
-                                                                  );
 
 /*!
  *  \brief gets the order values at a given position

@@ -27,7 +27,8 @@
  */
 struct pencil_layouter_struct {
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
-    geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle containing diagram border and inner contents */
+
+    geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle defining the diagram border */
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_rectangle_t diagram_draw_area;  /*!< own instance of a drawing rectangle containing inner contents of the diagram */
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
