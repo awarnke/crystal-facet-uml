@@ -42,14 +42,14 @@ typedef struct pencil_input_data_layout_struct pencil_input_data_layout_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void inline pencil_input_data_layout_init( pencil_input_data_layout_t *this_ );
+static inline void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ );
 
 /*!
  *  \brief destroys the painter input data layout
  *
  *  \param this_ pointer to own object attributes
  */
-void inline pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ );
+static inline void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ );
 
 /*!
  *  \brief gets the outer geometry of a classifier

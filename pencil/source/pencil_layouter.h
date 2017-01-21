@@ -13,6 +13,7 @@
 #include "pencil_marker.h"
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
+#include "pencil_input_data_layout.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -27,6 +28,7 @@
  */
 struct pencil_layouter_struct {
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
+    pencil_input_data_layout_t layout_data;  /* own instance of layout data */
 
     geometry_rectangle_t diagram_bounds;  /*!< own instance of a boundary rectangle defining the diagram border */
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
@@ -114,7 +116,7 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
  *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
-data_id_t pencil_layouter_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
                                                      double x,
                                                      double y,
                                                      bool dereference

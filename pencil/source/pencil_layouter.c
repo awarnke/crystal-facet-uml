@@ -18,6 +18,8 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
     geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
+
+    pencil_input_data_layout_init( &((*this_).layout_data) );
     (*this_).input_data = input_data;
 
     TRACE_END();
@@ -33,6 +35,8 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
     geometry_rectangle_destroy( &((*this_).default_classifier_size) );
+
+    pencil_input_data_layout_destroy( &((*this_).layout_data) );
     (*this_).input_data = NULL;
 
     TRACE_END();
@@ -108,6 +112,31 @@ void pencil_layouter_do_layout ( pencil_layouter_t *this_,
     double half_height = half_width / 2.1;
     geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
 
+    /* store the classifier bounds into input_data_layouter_t */
+    count = pencil_input_data_get_visible_classifier_count ( input_data );
+    for ( uint32_t index = 0; index < count; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier2;
+        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( input_data, index );
+
+        if (( visible_classifier2 != NULL ) && ( data_visible_classifier_is_valid( visible_classifier2 ) ))
+        {
+            data_classifier_t *classifier2;
+            classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
+
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
+
+            /* overwrite directly internal attributes of (*this_).layout_data */
+            geometry_rectangle_replace( classifier_bounds, &((*this_).default_classifier_size) );
+            int32_t order_x = data_classifier_get_x_order( classifier2 );
+            int32_t order_y = data_classifier_get_y_order( classifier2 );
+            double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
+            double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
+            geometry_rectangle_shift( classifier_bounds, center_x, center_y );
+        }
+    }
+
     TRACE_END();
 }
 
@@ -141,7 +170,7 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
 
     if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
     {
-        result = pencil_layouter_get_classifier_id_at_pos( this_, x, y, dereference );
+        result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
 
         if ( ! data_id_is_valid( &result ) )
         {
@@ -158,7 +187,7 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     return result;
 }
 
-data_id_t pencil_layouter_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
                                                              double x,
                                                              double y,
                                                              bool dereference )

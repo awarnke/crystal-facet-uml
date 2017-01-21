@@ -3,7 +3,7 @@
 #include "tslog.h"
 #include <assert.h>
 
-void inline pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
+static inline void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
 {
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
     {
@@ -23,7 +23,7 @@ void inline pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
     }
 }
 
-void inline pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ )
+static inline void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ )
 {
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
     {

@@ -19,12 +19,12 @@ static inline void geometry_connector_reinit_vertical ( geometry_connector_t *th
     (*this_).destination_end_y = destination_end_y;
 }
 
-static inline void geometry_connector_reinit_vertical ( geometry_connector_t *this_,
-                                                        double source_end_x,
-                                                        double source_end_y,
-                                                        double destination_end_x,
-                                                        double destination_end_y,
-                                                        double main_line_y )
+static inline void geometry_connector_reinit_horizontal ( geometry_connector_t *this_,
+                                                          double source_end_x,
+                                                          double source_end_y,
+                                                          double destination_end_x,
+                                                          double destination_end_y,
+                                                          double main_line_y )
 {
     (*this_).source_end_x = source_end_x;
     (*this_).source_end_y = source_end_y;
@@ -35,7 +35,6 @@ static inline void geometry_connector_reinit_vertical ( geometry_connector_t *th
     (*this_).destination_end_x = destination_end_x;
     (*this_).destination_end_y = destination_end_y;
 }
-
 
 static inline void geometry_connector_copy ( geometry_connector_t *this_, const geometry_connector_t *original )
 {

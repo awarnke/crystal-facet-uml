@@ -45,7 +45,8 @@ static inline void geometry_connector_reinit_vertical ( geometry_connector_t *th
                                                         double source_end_y,
                                                         double destination_end_x,
                                                         double destination_end_y,
-                                                        double main_line_x );
+                                                        double main_line_x
+                                                      );
 
 /*!
  *  \brief re-initializes the geometry_connector_t struct for a horizontal main-line
@@ -57,12 +58,13 @@ static inline void geometry_connector_reinit_vertical ( geometry_connector_t *th
  *  \param destination_end_y y coordinate of the destination end point
  *  \param main_line_y y coordinate of the horizontal main bar
  */
-static inline void geometry_connector_reinit_vertical ( geometry_connector_t *this_,
-                                                        double source_end_x,
-                                                        double source_end_y,
-                                                        double destination_end_x,
-                                                        double destination_end_y,
-                                                        double main_line_y );
+static inline void geometry_connector_reinit_horizontal ( geometry_connector_t *this_,
+                                                          double source_end_x,
+                                                          double source_end_y,
+                                                          double destination_end_x,
+                                                          double destination_end_y,
+                                                          double main_line_y
+                                                        );
 
 /*!
  *  \brief copies original to this uninitialized geometry_connector_t struct
