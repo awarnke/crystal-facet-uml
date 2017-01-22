@@ -37,21 +37,12 @@ static inline void pencil_diagram_painter_layout_grid ( pencil_diagram_painter_t
                                                         pencil_input_data_t *input_data,
                                                         geometry_rectangle_t diagram_bounds )
 {
-    TRACE_BEGIN();
-    assert( NULL != input_data );
-
     pencil_layouter_layout_grid ( &((*this_).layouter), input_data, diagram_bounds );
-
-    TRACE_END();
 }
 
 static inline void pencil_diagram_layout_elements ( pencil_diagram_painter_t *this_ )
 {
-    TRACE_BEGIN();
-
     pencil_layouter_layout_elements ( &((*this_).layouter) );
-
-    TRACE_END();
 }
 
 static inline data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
@@ -59,28 +50,14 @@ static inline data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_dia
                                                         double y,
                                                         bool dereference )
 {
-    TRACE_BEGIN();
-
-    data_id_t result;
-
-    result = pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
-
-    TRACE_END();
-    return result;
+    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
 }
 
 static inline universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
                                                                  double x,
                                                                  double y )
 {
-    TRACE_BEGIN();
-
-    universal_int32_pair_t result;
-
-    result = pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
-
-    TRACE_END();
-    return result;
+    return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
 }
 
 

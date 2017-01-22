@@ -20,8 +20,8 @@
 enum gui_sketch_tools_tool_enum {
     GUI_SKETCH_TOOLS_NAVIGATE,
     GUI_SKETCH_TOOLS_EDIT,
-    GUI_SKETCH_TOOLS_CREATE_DIAGRAM,
     GUI_SKETCH_TOOLS_CREATE_OBJECT,
+    GUI_SKETCH_TOOLS_CREATE_DIAGRAM,
 };
 
 typedef enum gui_sketch_tools_tool_enum gui_sketch_tools_tool_t;

@@ -442,6 +442,47 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
         gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
     }
 
+    /* overlay tool-helper lines */
+    switch ( selected_tool )
+    {
+        case GUI_SKETCH_TOOLS_NAVIGATE:
+        {
+        }
+        break;
+        case GUI_SKETCH_TOOLS_EDIT:
+        {
+        }
+        break;
+        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+        {
+            if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+            {
+                int32_t from_x;
+                int32_t from_y;
+                int32_t to_x;
+                int32_t to_y;
+                from_x = gui_sketch_drag_state_get_from_x ( &((*this_).drag_state) );
+                from_y = gui_sketch_drag_state_get_from_y ( &((*this_).drag_state) );
+                to_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
+                to_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
+                cairo_set_source_rgba( cr, 0.0, 0.8, 0.5, 1.0 );
+                cairo_move_to ( cr, from_x, from_y );
+                cairo_line_to ( cr, to_x, to_y );
+                cairo_stroke (cr);
+            }
+        }
+        break;
+        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+        {
+        }
+        break;
+        default:
+        {
+            TSLOG_ERROR("selected_tool is out of range");
+        }
+        break;
+    }
+
     TRACE_END();
 }
 
@@ -491,9 +532,59 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     switch ( selected_tool )
     {
         case GUI_SKETCH_TOOLS_NAVIGATE:
+        {
+            data_id_t object_under_mouse;
+            object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+            data_id_t object_highlighted;
+            object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+            if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+            {
+                if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                {
+                    gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
+
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( widget );
+                }
+            }
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_EDIT:
+        {
+            if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+            {
+                /* what is dragged? */
+                data_id_t focused_real;
+                focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                /* mark again - in case the marker was lost */
+                data_id_t focused;
+                focused = gui_sketch_marker_get_focused ( (*this_).marker );
+                gui_sketch_marker_set_highlighted( (*this_).marker, focused );
+
+                /* what is the target location? */
+                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                if ( NULL != target )
+                {
+                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                    int32_t x_order = universal_int32_pair_get_first( &order );
+                    int32_t y_order = universal_int32_pair_get_second( &order );
+                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                    /* move the object in the display-cache accordingly */
+                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                    {
+                        gui_sketch_card_move_classifier_to_order( target, data_id_get_row_id( &focused_real ), x_order, y_order );
+
+                        /* mark dirty rect */
+                        gtk_widget_queue_draw( widget );
+                    }
+                }
+            }
+            else
             {
                 data_id_t object_under_mouse;
-                object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
@@ -507,64 +598,43 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     }
                 }
             }
-            break;
-        case GUI_SKETCH_TOOLS_EDIT:
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+        {
+        }
+        break;
+
+        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+        {
+            data_id_t object_under_mouse;
+            object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
+            data_id_t object_highlighted;
+            object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+            if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
             {
-                if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+                if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                 {
-                    /* what is dragged? */
-                    data_id_t focused_real;
-                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
-                    /* mark again - in case the marker was lost */
-                    data_id_t focused;
-                    focused = gui_sketch_marker_get_focused ( (*this_).marker );
-                    gui_sketch_marker_set_highlighted( (*this_).marker, focused );
+                    gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
 
-                    /* what is the target location? */
-                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                    if ( NULL != target )
-                    {
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-                        int32_t x_order = universal_int32_pair_get_first( &order );
-                        int32_t y_order = universal_int32_pair_get_second( &order );
-                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                        /* move the object in the display-cache accordingly */
-                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
-                        {
-                            gui_sketch_card_move_classifier_to_order( target, data_id_get_row_id( &focused_real ), x_order, y_order );
-
-                            /* mark dirty rect */
-                            gtk_widget_queue_draw( widget );
-                        }
-                    }
-                }
-                else
-                {
-                    data_id_t object_under_mouse;
-                    object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
-                    data_id_t object_highlighted;
-                    object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-                    if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
-                    {
-                        if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
-                        {
-                            gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
-
-                            /* mark dirty rect */
-                            gtk_widget_queue_draw( widget );
-                        }
-                    }
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( widget );
                 }
             }
-            break;
-        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-            break;
-        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-            break;
+            else if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+            {
+                /* always redraw while dragging */
+                gtk_widget_queue_draw( widget );
+            }
+        }
+        break;
+
         default:
+        {
             TSLOG_ERROR("selected_tool is out of range");
-            break;
+        }
+        break;
     }
 
     TRACE_END();
@@ -597,114 +667,140 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
+            {
+                TRACE_INFO( "GUI_SKETCH_TOOLS_NAVIGATE" );
+
+                /* search selected diagram */
+                data_id_t clicked_diagram_id;
+                clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                data_id_trace( &clicked_diagram_id );
+
+                /* load diagram */
+                if ( data_id_is_valid( &clicked_diagram_id ) )
                 {
-                    TRACE_INFO( "GUI_SKETCH_TOOLS_NAVIGATE" );
-
-                    /* search selected diagram */
-                    data_id_t clicked_diagram_id;
-                    clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
-                    data_id_trace( &clicked_diagram_id );
-
-                    /* load diagram */
-                    if ( data_id_is_valid( &clicked_diagram_id ) )
-                    {
-                        /* load/reload data to be drawn */
-                        gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
-
-                        /* notify listener */
-                        gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id, clicked_diagram_id );
-                        gui_sketch_area_private_notify_listener( this_ );
-                        gui_sketch_marker_clear_selected_set( (*this_).marker );
-
-                        /* mark dirty rect */
-                        gtk_widget_queue_draw( widget );
-                    }
-                }
-                break;
-            case GUI_SKETCH_TOOLS_EDIT:
-                {
-                    TRACE_INFO( "GUI_SKETCH_TOOLS_EDIT" );
-
-                    data_id_t focused_id;
-                    focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
-                    data_id_trace( &focused_id );
-                    data_id_t focused_real_object_id;
-                    focused_real_object_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, true );
-                    data_id_trace( &focused_real_object_id );
+                    /* load/reload data to be drawn */
+                    gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
 
                     /* notify listener */
-                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_object_id );
+                    gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id, clicked_diagram_id );
                     gui_sketch_area_private_notify_listener( this_ );
-                    /* if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &focused_id ) ) */
-                    {
-                        gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_id );
-                    }
+                    gui_sketch_marker_clear_selected_set( (*this_).marker );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
                 }
-                break;
+            }
+            break;
+
+            case GUI_SKETCH_TOOLS_EDIT:
+            {
+                TRACE_INFO( "GUI_SKETCH_TOOLS_EDIT" );
+
+                /* determine the focused object */
+                data_id_t focused_id;
+                focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ false );
+                data_id_trace( &focused_id );
+                data_id_t focused_real_object_id;
+                focused_real_object_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
+                data_id_trace( &focused_real_object_id );
+
+                /* store focused object and notify listener */
+                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_object_id );
+                gui_sketch_area_private_notify_listener( this_ );
+                /* if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &focused_id ) ) */
+                {
+                    gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_id );
+                }
+
+                /* mark dirty rect */
+                gtk_widget_queue_draw( widget );
+            }
+            break;
+
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                {
-                    TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
-                }
-                break;
+            {
+                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
+            }
+            break;
+
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+            {
+                TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
+
+                /* what is the target location? */
+                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+
+                /* determine the object at click location */
+                data_id_t clicked_id;
+                clicked_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ false );
+                data_id_trace( &clicked_id );
+                data_id_t clicked_real_object_id;
+                clicked_real_object_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
+                data_id_trace( &clicked_real_object_id );
+
+                if ( NULL == target )
                 {
-                    TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
-
-                    /* what is the target location? */
-                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                    if ( NULL == target )
-                    {
-                        TRACE_INFO_INT_INT("No card at",x,y);
-                    }
-                    else
-                    {
-                        data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target );
-                        int64_t selected_diagram_id = data_diagram_get_id( target_diag );
-                        TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-                        int32_t x_order = universal_int32_pair_get_first( &order );
-                        int32_t y_order = universal_int32_pair_get_second( &order );
-                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                        ctrl_classifier_controller_t *classifier_control;
-                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                        static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
-                        static uint8_t my_counter = 0;
-                        char newname_buf[24];
-                        utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-                        utf8stringbuf_copy_str( full_new_name, NAMES[(x+y)&0x07] );
-                        utf8stringbuf_append_int( full_new_name, my_counter++ );
-
-                        int64_t new_classifier_id;
-                        ctrl_error_t c_result;
-                        c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
-                                                                                             selected_diagram_id,
-                                                                                             DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                                             utf8stringbuf_get_string( full_new_name ),
-                                                                                             x_order,
-                                                                                             y_order,
-                                                                                             &new_classifier_id );
-                        if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
-                        {
-                            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                                 utf8stringbuf_get_string( full_new_name )
-                            );
-                        }
-
-                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
-                    }
+                    TRACE_INFO_INT_INT("No card at",x,y);
                 }
-                break;
+                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &clicked_real_object_id ) )
+                {
+                    /* store focused object and notify listener */
+                    gui_sketch_marker_set_focused( (*this_).marker, clicked_id, clicked_real_object_id );
+                    gui_sketch_area_private_notify_listener( this_ );
+                }
+                else
+                {
+                    /* stop dragging */
+                    gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
+
+                    /* create a new classifier */
+                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target );
+                    int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                    int32_t x_order = universal_int32_pair_get_first( &order );
+                    int32_t y_order = universal_int32_pair_get_second( &order );
+                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                    ctrl_classifier_controller_t *classifier_control;
+                    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                    static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
+                    static uint8_t my_counter = 0;
+                    char newname_buf[24];
+                    utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+                    utf8stringbuf_copy_str( full_new_name, NAMES[(x+y)&0x07] );
+                    utf8stringbuf_append_int( full_new_name, my_counter++ );
+
+                    int64_t new_classifier_id;
+                    ctrl_error_t c_result;
+                    c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
+                                                                                            selected_diagram_id,
+                                                                                            DATA_CLASSIFIER_TYPE_BLOCK,
+                                                                                            utf8stringbuf_get_string( full_new_name ),
+                                                                                            x_order,
+                                                                                            y_order,
+                                                                                            &new_classifier_id );
+                    if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                    {
+                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                utf8stringbuf_get_string( full_new_name )
+                        );
+                    }
+
+                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                }
+            }
+            break;
+
             default:
+            {
                 TSLOG_ERROR( "selected_tool is out of range" );
-                break;
+            }
+            break;
         }
     }
 
@@ -733,97 +829,101 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
-                {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
-                }
-                break;
+            {
+                TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
+            }
+            break;
+
             case GUI_SKETCH_TOOLS_EDIT:
+            {
+                TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
+
+                if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
 
-                    if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+                    /* which object is selected? */
+                    data_id_t focused_visible;
+                    data_id_t focused_real;
+                    focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
+                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    data_id_trace( &focused_visible );
+                    data_id_trace( &focused_real );
+
+                    /* what is the target location? */
+                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( NULL == target )
                     {
+                        TRACE_INFO_INT_INT("No card at",x,y);
+                    }
+                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
+                    {
+                        TRACE_INFO("Dragged object is no classifier");
+                    }
+                    else
+                    {
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                        int32_t x_order = universal_int32_pair_get_first( &order );
+                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
-                        /* which object is selected? */
-                        data_id_t focused_visible;
-                        data_id_t focused_real;
-                        focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
-                        focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
-                        data_id_trace( &focused_visible );
-                        data_id_trace( &focused_real );
-
-                        /* what is the target location? */
-                        gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                        if ( NULL == target )
-                        {
-                            TRACE_INFO_INT_INT("No card at",x,y);
-                        }
-                        else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
-                        {
-                            TRACE_INFO("Dragged object is no classifier");
-                        }
-                        else
-                        {
-                            universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
-                            int32_t x_order = universal_int32_pair_get_first( &order );
-                            int32_t y_order = universal_int32_pair_get_second( &order );
-                            TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                            /* update db */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                            ctrl_error_t mov_result;
-                            mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
-                                                                                                        data_id_get_row_id( &focused_real ),
-                                                                                                        x_order,
-                                                                                                        y_order );
-                        }
+                        /* update db */
+                        ctrl_classifier_controller_t *classifier_control;
+                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                        ctrl_error_t mov_result;
+                        mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
+                                                                                                    data_id_get_row_id( &focused_real ),
+                                                                                                    x_order,
+                                                                                                    y_order );
                     }
                 }
-                break;
+            }
+            break;
+
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
+            {
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
 
-                    int64_t selected_diagram_id;
-                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+                int64_t selected_diagram_id;
+                selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
-                    ctrl_diagram_controller_t *diag_control;
-                    diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+                ctrl_diagram_controller_t *diag_control;
+                diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                    char* new_name;
-                    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
-                    new_name = NAMES[(x+y)&0x07];
+                char* new_name;
+                static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
+                new_name = NAMES[(x+y)&0x07];
 
-                    int64_t new_diag_id;
-                    ctrl_error_t c_result;
-                    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
+                int64_t new_diag_id;
+                ctrl_error_t c_result;
+                c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
 
-                    /* load/reload data to be drawn */
-                    gui_sketch_area_private_load_cards( this_, new_diag_id );
+                /* load/reload data to be drawn */
+                gui_sketch_area_private_load_cards( this_, new_diag_id );
 
-                    /* notify listener */
-                    data_id_t focused_id;
-                    data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                    gui_sketch_area_private_notify_listener( this_ );
-                    gui_sketch_marker_clear_selected_set( (*this_).marker );
+                /* notify listener */
+                data_id_t focused_id;
+                data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                gui_sketch_area_private_notify_listener( this_ );
+                gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-                    /* change the selected tool */
-                    gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_CREATE_OBJECT );
-                }
-                break;
+                /* change the selected tool */
+                gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_CREATE_OBJECT );
+            }
+            break;
+
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                {
-                    TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
-                }
-                break;
+            {
+                TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+            }
+            break;
+
             default:
-                {
-                    TSLOG_ERROR("selected_tool is out of range");
-                }
-                break;
+            {
+                TSLOG_ERROR("selected_tool is out of range");
+            }
+            break;
         }
 
         /* stop dragging */
@@ -860,20 +960,34 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     switch ( tool )
     {
         case GUI_SKETCH_TOOLS_NAVIGATE:
+        {
             TRACE_INFO("GUI_SKETCH_TOOLS_NAVIGATE");
-            break;
+        }
+        break;
+
         case GUI_SKETCH_TOOLS_EDIT:
+        {
             TRACE_INFO("GUI_SKETCH_TOOLS_EDIT");
-            break;
+        }
+        break;
+
         case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+        {
             TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
-            break;
+        }
+        break;
+
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+        {
             TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
-            break;
+        }
+        break;
+
         default:
+        {
             TSLOG_ERROR("selected_tool is out of range");
-            break;
+        }
+        break;
     }
 
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
