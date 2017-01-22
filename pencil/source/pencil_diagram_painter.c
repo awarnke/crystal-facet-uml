@@ -7,48 +7,6 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data )
-{
-    TRACE_BEGIN();
-    assert( NULL != input_data );
-
-    pencil_classifier_painter_init( &((*this_).classifier_painter) );
-    pencil_marker_init( &((*this_).marker) );
-
-    pencil_layouter_init( &((*this_).layouter), input_data );
-
-    (*this_).input_data = input_data;
-
-    TRACE_END();
-}
-
-void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
-{
-    TRACE_BEGIN();
-
-    pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
-    pencil_marker_destroy( &((*this_).marker) );
-
-    pencil_layouter_destroy( &((*this_).layouter) );
-
-    (*this_).input_data = NULL;
-
-    TRACE_END();
-}
-
-void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
-                                        pencil_input_data_t *input_data,
-                                        geometry_rectangle_t diagram_bounds )
-{
-    TRACE_BEGIN();
-    assert( NULL != input_data );
-
-    pencil_layouter_prepare_layout_grid ( &((*this_).layouter), input_data, diagram_bounds );
-    pencil_layouter_do_layout_classifiers ( &((*this_).layouter) );
-
-    TRACE_END();
-}
-
 void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
                                    data_id_t mark_focused,
                                    data_id_t mark_highlighted,
@@ -188,6 +146,8 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
 
     geometry_rectangle_t focused_rect;
     geometry_rectangle_init_empty( &focused_rect );
+    pencil_input_data_layout_t *layout_data;
+    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -205,7 +165,7 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
             diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
             geometry_rectangle_t classifier_bounds;
-            classifier_bounds = pencil_layouter_get_classifier_bounds( &((*this_).layouter), classifier );
+            geometry_rectangle_copy( &classifier_bounds, pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index ) );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
                                             visible_classifier,
@@ -238,35 +198,6 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
 
     geometry_rectangle_destroy( &focused_rect );
     TRACE_END();
-}
-
-data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        bool dereference )
-{
-    TRACE_BEGIN();
-
-    data_id_t result;
-
-    result = pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
-
-    TRACE_END();
-    return result;
-}
-
-universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
-                                                                 double x,
-                                                                 double y )
-{
-    TRACE_BEGIN();
-
-    universal_int32_pair_t result;
-
-    result = pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
-
-    TRACE_END();
-    return result;
 }
 
 

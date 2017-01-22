@@ -80,6 +80,8 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
     {
         data_classifier_set_x_order( move_me, x_order );
         data_classifier_set_y_order( move_me, y_order );
+
+        pencil_diagram_layout_elements ( &((*this_).painter) );
     }
 }
 
@@ -98,10 +100,12 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ )
 
     geometry_rectangle_t destination;
     geometry_rectangle_init( &destination, left, top, width, height );
-    pencil_diagram_painter_do_layout ( &((*this_).painter),
-                                       &((*this_).painter_input_data),
-                                       destination
-    );
+    pencil_diagram_painter_layout_grid ( &((*this_).painter),
+                                         &((*this_).painter_input_data),
+                                         destination
+                                       );
+    pencil_diagram_layout_elements ( &((*this_).painter) );
+
     geometry_rectangle_destroy( &destination );
 }
 

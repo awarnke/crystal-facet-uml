@@ -278,10 +278,11 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             cairo_fill (cr);
 
             /* layout diagram */
-            pencil_diagram_painter_do_layout ( &((*this_).painter),
-                                               &((*this_).painter_input_data),
-                                               (*this_).bounds
-            );
+            pencil_diagram_painter_layout_grid ( &((*this_).painter),
+                                                 &((*this_).painter_input_data),
+                                                 (*this_).bounds
+                                               );
+            pencil_diagram_layout_elements ( &((*this_).painter) );
 
             /* draw the current diagram */
             data_id_t void_id;
@@ -293,7 +294,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                           void_id,
                                           &void_set,
                                           cr
-            );
+                                        );
 
             /* finish surface */
             cairo_destroy (cr);

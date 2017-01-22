@@ -44,7 +44,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 
 
 
-void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
+void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
                                            pencil_input_data_t *input_data,
                                            geometry_rectangle_t diagram_bounds )
 {
@@ -102,7 +102,7 @@ void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
     TRACE_END();
 }
 
-void pencil_layouter_do_layout_classifiers ( pencil_layouter_t *this_ )
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -148,23 +148,6 @@ void pencil_layouter_do_layout_classifiers ( pencil_layouter_t *this_ )
     }
 
     TRACE_END();
-}
-
-geometry_rectangle_t pencil_layouter_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier )
-{
-    TRACE_BEGIN();
-    assert( NULL != classifier );
-
-    geometry_rectangle_t result_rect;
-    geometry_rectangle_copy( &result_rect, &((*this_).default_classifier_size) );
-    int32_t order_x = data_classifier_get_x_order( classifier );
-    int32_t order_y = data_classifier_get_y_order( classifier );
-    double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
-    double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
-    geometry_rectangle_shift( &result_rect, center_x, center_y );
-
-    TRACE_END();
-    return result_rect;
 }
 
 data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
@@ -223,10 +206,11 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                 classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
                 diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
-                geometry_rectangle_t classifier_bounds;
-                classifier_bounds = pencil_layouter_get_classifier_bounds( this_, classifier );
+                geometry_rectangle_t *classifier_bounds;
 
-                if ( geometry_rectangle_contains( &classifier_bounds, x, y ) )
+                classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), index );
+
+                if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
                 {
                     if ( dereference )
                     {
@@ -237,8 +221,6 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                         data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
                     }
                 }
-
-                geometry_rectangle_destroy( &classifier_bounds );
             }
             else
             {

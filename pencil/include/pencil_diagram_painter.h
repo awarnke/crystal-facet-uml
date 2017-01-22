@@ -43,26 +43,33 @@ typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  */
-void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data );
+static inline void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
+static inline void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
 
 /*!
- *  \brief layouts the chosen diagram contents into the diagram_bounds area
+ *  \brief layouts the grid / defines coordinates
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-void pencil_diagram_painter_do_layout ( pencil_diagram_painter_t *this_,
-                                        pencil_input_data_t *input_data,
-                                        geometry_rectangle_t diagram_bounds
-                                      );
+static inline void pencil_diagram_painter_layout_grid ( pencil_diagram_painter_t *this_,
+                                                        pencil_input_data_t *input_data,
+                                                        geometry_rectangle_t diagram_bounds
+                                                      );
+
+/*!
+ *  \brief layouts the chosen diagram contents into the diagram_bounds area
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_diagram_layout_elements ( pencil_diagram_painter_t *this_ );
 
 /*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context
@@ -108,11 +115,11 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
  *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
-data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        bool dereference
-                                                      );
+static inline data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
+                                                                      double x,
+                                                                      double y,
+                                                                      bool dereference
+                                                                    );
 
 /*!
  *  \brief gets the order values at a given position
@@ -122,10 +129,12 @@ data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t
  *  \param y y-position
  *  \return the x- and y- order values as first and second element of the pair
  */
-universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
-                                                                  double x,
-                                                                  double y
-);
+static inline universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
+                                                                               double x,
+                                                                               double y
+                                                                             );
+
+#include "pencil_diagram_painter.inl"
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

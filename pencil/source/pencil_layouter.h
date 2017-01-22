@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Determines positions of classifiers, features and relationships in a diagram
+ *  \brief Calculates positions of classifiers, features and relationships in a diagram
  */
 
 #include "pencil_input_data.h"
@@ -62,9 +62,9 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ );
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
-                                           pencil_input_data_t *input_data,
-                                           geometry_rectangle_t diagram_bounds
+void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
+                                   pencil_input_data_t *input_data,
+                                   geometry_rectangle_t diagram_bounds
 );
 
 /*!
@@ -72,7 +72,14 @@ void pencil_layouter_prepare_layout_grid ( pencil_layouter_t *this_,
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_layouter_do_layout_classifiers ( pencil_layouter_t *this_ );
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief returns the pencil_input_data_layout_t object
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline pencil_input_data_layout_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief returns the pencil size object
@@ -87,15 +94,6 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
  *  \param this_ pointer to own object attributes
  */
 static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pencil_layouter_t *this_ );
-
-/*!
- *  \brief determines the bounding box of the given classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier the classifier of which to determine the bounding box
- *  \return bounding box of the classifier
- */
-geometry_rectangle_t pencil_layouter_get_classifier_bounds ( pencil_layouter_t *this_, data_classifier_t *classifier );
 
 /*!
  *  \brief gets the object-id of the object at a given position
