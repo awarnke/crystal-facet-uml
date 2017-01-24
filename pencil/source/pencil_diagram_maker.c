@@ -8,10 +8,10 @@
 #include <math.h>
 
 void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
-                                   data_id_t mark_focused,
-                                   data_id_t mark_highlighted,
-                                   data_small_set_t *mark_selected,
-                                   cairo_t *cr )
+                                 data_id_t mark_focused,
+                                 data_id_t mark_highlighted,
+                                 data_small_set_t *mark_selected,
+                                 cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != mark_selected );
@@ -98,16 +98,30 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
         }
     }
 
+    /* draw diagram */
+    data_diagram_t *diag3;
+    diag3 = pencil_input_data_get_diagram_ptr( (*this_).input_data );
+    pencil_diagram_painter_draw ( &((*this_).diagram_painter),
+                                  diag3,
+                                  data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag3) ),
+                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag3) ),
+                                  data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag3) ),
+                                  pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                  diagram_bounds,
+                                  layout,
+                                  cr
+                                );
+
     /* draw all contained classifiers */
     if (( width > 10.0 ) && ( height > 25.0 ))
     {
         pencil_diagram_maker_private_draw_classifiers ( this_,
-                                                          mark_focused,
-                                                          mark_highlighted,
-                                                          mark_selected,
-                                                          layout,
-                                                          cr
-                                                        );
+                                                        mark_focused,
+                                                        mark_highlighted,
+                                                        mark_selected,
+                                                        layout,
+                                                        cr
+                                                      );
     }
 
     /* mark focused and highlighted */
@@ -134,11 +148,11 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 }
 
 void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
-                                                       data_id_t mark_focused,
-                                                       data_id_t mark_highlighted,
-                                                       data_small_set_t *mark_selected,
-                                                       PangoLayout *layout,
-                                                       cairo_t *cr )
+                                                     data_id_t mark_focused,
+                                                     data_id_t mark_highlighted,
+                                                     data_small_set_t *mark_selected,
+                                                     PangoLayout *layout,
+                                                     cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != mark_selected );

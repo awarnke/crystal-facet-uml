@@ -9,7 +9,9 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, pen
     TRACE_BEGIN();
     assert( NULL != input_data );
 
+    pencil_diagram_painter_init( &((*this_).diagram_painter) );
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
+    pencil_relationship_painter_init( &((*this_).relationship_painter) );
     pencil_marker_init( &((*this_).marker) );
 
     pencil_layouter_init( &((*this_).layouter), input_data );
@@ -23,7 +25,9 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 {
     TRACE_BEGIN();
 
+    pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
     pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
+    pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
     pencil_marker_destroy( &((*this_).marker) );
 
     pencil_layouter_destroy( &((*this_).layouter) );
@@ -34,8 +38,8 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 }
 
 static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
-                                                        pencil_input_data_t *input_data,
-                                                        geometry_rectangle_t diagram_bounds )
+                                                      pencil_input_data_t *input_data,
+                                                      geometry_rectangle_t diagram_bounds )
 {
     pencil_layouter_layout_grid ( &((*this_).layouter), input_data, diagram_bounds );
 }
@@ -46,16 +50,16 @@ static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this
 }
 
 static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        bool dereference )
+                                                                    double x,
+                                                                    double y,
+                                                                    bool dereference )
 {
     return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
 }
 
 static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                 double x,
-                                                                 double y )
+                                                                             double x,
+                                                                             double y )
 {
     return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
 }

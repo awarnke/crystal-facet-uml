@@ -1,7 +1,7 @@
 /* File: pencil_diagram_maker.h; Copyright and License: see below */
 
-#ifndef PENCIL_DIAGRAM_PAINTER_H
-#define PENCIL_DIAGRAM_PAINTER_H
+#ifndef PENCIL_DIAGRAM_MAKER_H
+#define PENCIL_DIAGRAM_MAKER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -12,7 +12,9 @@
 #include "pencil_input_data.h"
 #include "pencil_layouter.h"
 #include "pencil_marker.h"
+#include "pencil_diagram_painter.h"
 #include "pencil_classifier_painter.h"
+#include "pencil_relationship_painter.h"
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -31,7 +33,9 @@ struct pencil_diagram_maker_struct {
 
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
+    pencil_diagram_painter_t diagram_painter;  /*!< own instance of a diagram_painter */
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a classifier painter */
+    pencil_relationship_painter_t relationship_painter;  /*!< own instance of a relationship_painter */
     pencil_marker_t marker;  /*!< own instance of a marker */
 };
 
@@ -60,9 +64,9 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
 static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
-                                                        pencil_input_data_t *input_data,
-                                                        geometry_rectangle_t diagram_bounds
-                                                      );
+                                                      pencil_input_data_t *input_data,
+                                                      geometry_rectangle_t diagram_bounds
+                                                    );
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
@@ -81,11 +85,11 @@ static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this
  *  \param cr a cairo drawing context
  */
 void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
-                                   data_id_t mark_focused,
-                                   data_id_t mark_highlighted,
-                                   data_small_set_t *mark_selected,
-                                   cairo_t *cr
-                                 );
+                                 data_id_t mark_focused,
+                                 data_id_t mark_highlighted,
+                                 data_small_set_t *mark_selected,
+                                 cairo_t *cr
+                               );
 
 /*!
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
@@ -98,12 +102,12 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
  *  \param cr a cairo drawing context
  */
 void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
-                                                       data_id_t mark_focused,
-                                                       data_id_t mark_highlighted,
-                                                       data_small_set_t *mark_selected,
-                                                       PangoLayout *layout,
-                                                       cairo_t *cr
-                                                     );
+                                                     data_id_t mark_focused,
+                                                     data_id_t mark_highlighted,
+                                                     data_small_set_t *mark_selected,
+                                                     PangoLayout *layout,
+                                                     cairo_t *cr
+                                                   );
 
 /*!
  *  \brief gets the object-id of the object at a given position
@@ -116,10 +120,10 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
 static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
-                                                                      double x,
-                                                                      double y,
-                                                                      bool dereference
-                                                                    );
+                                                                    double x,
+                                                                    double y,
+                                                                    bool dereference
+                                                                  );
 
 /*!
  *  \brief gets the order values at a given position
@@ -130,13 +134,13 @@ static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagr
  *  \return the x- and y- order values as first and second element of the pair
  */
 static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                               double x,
-                                                                               double y
-                                                                             );
+                                                                             double x,
+                                                                             double y
+                                                                           );
 
 #include "pencil_diagram_maker.inl"
 
-#endif  /* PENCIL_DIAGRAM_PAINTER_H */
+#endif  /* PENCIL_DIAGRAM_MAKER_H */
 
 
 /*
