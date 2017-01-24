@@ -1,12 +1,12 @@
-/* File: pencil_feature_painter.h; Copyright and License: see below */
+/* File: pencil_diagram_painter.h; Copyright and License: see below */
 
-#ifndef PENCIL_FEATURE_PAINTER_H
-#define PENCIL_FEATURE_PAINTER_H
+#ifndef PENCIL_DIAGRAM_PAINTER_H
+#define PENCIL_DIAGRAM_PAINTER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a feature into a cairo drawing context
+ *  \brief Renders a diagram into a cairo drawing context
  */
 
 #include "pencil_input_data.h"
@@ -20,53 +20,53 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the feature painter
+ *  \brief attributes of the diagram painter
  */
-struct pencil_feature_painter_struct {
+struct pencil_diagram_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
 };
 
-typedef struct pencil_feature_painter_struct pencil_feature_painter_t;
+typedef struct pencil_diagram_painter_struct pencil_diagram_painter_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_feature_painter_init( pencil_feature_painter_t *this_ );
+void pencil_diagram_painter_init( pencil_diagram_painter_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
+void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
 
 /*!
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param the_feature pointer to the data to be drawn
+ *  \param the_diagram pointer to the data to be drawn
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param feature_bounds the destination rectangle where to draw the classifier
+ *  \param diagram_bounds the destination rectangle where to draw the diagram
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   data_feature_t *the_feature,
+void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+                                   data_diagram_t *the_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    pencil_size_t *pencil_size,
-                                   geometry_rectangle_t *feature_bounds,
+                                   geometry_rectangle_t *diagram_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr
                                  );
 
-#endif  /* PENCIL_FEATURE_PAINTER_H */
+#endif  /* PENCIL_DIAGRAM_PAINTER_H */
 
 
 /*

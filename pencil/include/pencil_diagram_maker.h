@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a diagram and its contents into a cairo drawing context
+ *  \brief Layouts and paints a diagram with all its contents into a cairo drawing context
  */
 
 #include "pencil_input_data.h"
