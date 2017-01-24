@@ -31,21 +31,24 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       bool mark_highlighted,
                                       bool mark_selected,
                                       pencil_size_t *pencil_size,
+                                      geometry_rectangle_t *classifier_bounds,
                                       PangoLayout *layout,
-                                      cairo_t *cr,
-                                      geometry_rectangle_t classifier_bounds )
+                                      cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
+    assert( NULL != visible_classifier );
+    assert( NULL != classifier_bounds );
+    assert( NULL != layout );
     assert( NULL != cr );
 
     double left, top;
     double width, height;
 
-    left = geometry_rectangle_get_left ( &classifier_bounds );
-    top = geometry_rectangle_get_top ( &classifier_bounds );
-    width = geometry_rectangle_get_width ( &classifier_bounds );
-    height = geometry_rectangle_get_height ( &classifier_bounds );
+    left = geometry_rectangle_get_left ( classifier_bounds );
+    top = geometry_rectangle_get_top ( classifier_bounds );
+    width = geometry_rectangle_get_width ( classifier_bounds );
+    height = geometry_rectangle_get_height ( classifier_bounds );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
@@ -148,7 +151,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
         if ( mark_selected )
         {
-            pencil_marker_mark_selected_rectangle( &((*this_).marker), classifier_bounds, cr );
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_bounds, cr );
         }
     }
     else

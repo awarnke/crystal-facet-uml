@@ -26,134 +26,57 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 }
 
 void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
-                                      data_visible_classifier_t *visible_classifier,
-                                      bool mark_focused,
-                                      bool mark_highlighted,
-                                      bool mark_selected,
-                                      pencil_size_t *pencil_size,
-                                      PangoLayout *layout,
-                                      cairo_t *cr,
-                                      geometry_rectangle_t classifier_bounds )
+                                        data_relationship_t *the_relationship,
+                                        bool mark_focused,
+                                        bool mark_highlighted,
+                                        bool mark_selected,
+                                        pencil_size_t *pencil_size,
+                                        geometry_connector_t *connector_shape,
+                                        PangoLayout *layout,
+                                        cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
+    assert( NULL != the_relationship );
+    assert( NULL != connector_shape );
+    assert( NULL != layout );
     assert( NULL != cr );
 
-    double left, top;
-    double width, height;
-
-    left = geometry_rectangle_get_left ( &classifier_bounds );
-    top = geometry_rectangle_get_top ( &classifier_bounds );
-    width = geometry_rectangle_get_width ( &classifier_bounds );
-    height = geometry_rectangle_get_height ( &classifier_bounds );
-
-    double gap = pencil_size_get_standard_object_border( pencil_size );
-    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
-
-    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+    if ( data_relationship_is_valid( the_relationship ) )
     {
-        data_classifier_t *classifier;
-        data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
-
-        TRACE_INFO_INT("drawing classifier id", data_classifier_get_id( classifier ) );
+        TRACE_INFO_INT("drawing relationship id", data_relationship_get_id( the_relationship ) );
 
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
 
-        /* draw rectangle */
+        /* draw connector */
         GdkRGBA foreground_color;
+        if ( mark_highlighted )
         {
-            if ( mark_highlighted )
-            {
-                foreground_color = pencil_size_get_highlight_color( pencil_size );
-            }
-            else if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT ))
-            {
-                foreground_color = pencil_size_get_gray_out_color( pencil_size );
-            }
-            else
-            {
-                foreground_color = pencil_size_get_standard_color( pencil_size );
-            }
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
-            cairo_stroke (cr);
+            foreground_color = pencil_size_get_highlight_color( pencil_size );
         }
-
-        /* draw stereotype text */
-        int text1_height = 0;
+        else
         {
-            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, "<<" );
-            utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-            utf8stringbuf_append_str( stereotype_buf, ">>" );
-            if ( utf8stringbuf_get_length( stereotype_buf ) != 4 )
-            {
-                int text1_width;
-                pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (layout, utf8stringbuf_get_string( stereotype_buf ), -1);
-                pango_layout_get_pixel_size (layout, &text1_width, &text1_height);
-                cairo_move_to ( cr, left + 0.5*( width - text1_width ), top+gap );
-                pango_cairo_show_layout (cr, layout);
-            }
+            foreground_color = pencil_size_get_standard_color( pencil_size );
         }
-        /* draw name text */
-        {
-            /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
-            utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
-            {
-                utf8stringbuf_clear( name_buf );
-            }
-            utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
-
-            int text2_width;
-            int text2_height;
-            pango_layout_set_font_description (layout, pencil_size_get_larger_font_description(pencil_size) );
-            pango_layout_set_text (layout, utf8stringbuf_get_string( name_buf ), -1);
-            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
-
-            /* highlight */
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
-            {
-                GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
-                cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
-                cairo_rectangle ( cr, left + 0.5*( width - text2_width ), top+gap+text1_height+f_line_gap, text2_width, text2_height );
-                cairo_fill (cr);
-            }
-
-            /* draw text */
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+gap+text1_height+f_line_gap );
-            pango_cairo_show_layout (cr, layout);
-
-            /* underline instances */
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            {
-                cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+gap+text1_height+f_line_gap+text2_height );
-                cairo_line_to ( cr, left + 0.5*( width + text2_width ), top+gap+text1_height+f_line_gap+text2_height );
-                cairo_stroke (cr);
-            }
-        }
-
-        if ( mark_selected )
-        {
-            pencil_marker_mark_selected_rectangle( &((*this_).marker), classifier_bounds, cr );
-        }
+        cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        double p1x = geometry_connector_get_source_end_x ( connector_shape );
+        double p1y = geometry_connector_get_source_end_y ( connector_shape );
+        double p2x = geometry_connector_get_main_line_source_x ( connector_shape );
+        double p2y = geometry_connector_get_main_line_source_y ( connector_shape );
+        double p3x = geometry_connector_get_main_line_destination_x ( connector_shape );
+        double p3y = geometry_connector_get_main_line_destination_y ( connector_shape );
+        double p4x = geometry_connector_destination_end_x ( connector_shape );
+        double p4y = geometry_connector_get_destination_end_y ( connector_shape );
+        cairo_move_to ( cr, p1x, p1y );
+        cairo_line_to ( cr, p2x, p2y );
+        cairo_line_to ( cr, p3x, p3y );
+        cairo_line_to ( cr, p4x, p4y );
+        cairo_stroke (cr);
     }
     else
     {
-        TSLOG_ERROR("invalid visible classifier in array!");
+        TSLOG_ERROR("invalid relationship in array!");
     }
 
     TRACE_END();

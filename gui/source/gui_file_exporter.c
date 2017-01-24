@@ -23,7 +23,7 @@ void gui_file_exporter_init ( gui_file_exporter_t *this_,
 
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
     pencil_input_data_init( &((*this_).painter_input_data) );
-    pencil_diagram_painter_init( &((*this_).painter), &((*this_).painter_input_data) );
+    pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
     pencil_description_writer_init( &((*this_).description_writer), &((*this_).painter_input_data) );
 
     TRACE_END();
@@ -34,7 +34,7 @@ void gui_file_exporter_destroy( gui_file_exporter_t *this_ )
     TRACE_BEGIN();
 
     pencil_description_writer_destroy( &((*this_).description_writer) );
-    pencil_diagram_painter_destroy( &((*this_).painter) );
+    pencil_diagram_maker_destroy( &((*this_).painter) );
     pencil_input_data_destroy( &((*this_).painter_input_data) );
     geometry_rectangle_destroy(&((*this_).bounds));
 
@@ -278,7 +278,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             cairo_fill (cr);
 
             /* layout diagram */
-            pencil_diagram_painter_layout_grid ( &((*this_).painter),
+            pencil_diagram_maker_layout_grid ( &((*this_).painter),
                                                  &((*this_).painter_input_data),
                                                  (*this_).bounds
                                                );
@@ -289,7 +289,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
             data_id_init_void( &void_id );
             data_small_set_t void_set;
             data_small_set_init( &void_set );
-            pencil_diagram_painter_draw ( &((*this_).painter),
+            pencil_diagram_maker_draw ( &((*this_).painter),
                                           void_id,
                                           void_id,
                                           &void_set,

@@ -47,7 +47,7 @@ static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t
 {
     data_id_t result;
 
-    result = pencil_diagram_painter_get_object_id_at_pos( &((*this_).painter),
+    result = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),
                                                           (double) x,
                                                           (double) y,
                                                           dereference
@@ -60,7 +60,7 @@ static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sket
 {
     universal_int32_pair_t result;
 
-    result = pencil_diagram_painter_get_order_at_pos( &((*this_).painter),
+    result = pencil_diagram_maker_get_order_at_pos( &((*this_).painter),
                                                       (double) x,
                                                       (double) y
                                                     );
@@ -100,7 +100,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ )
 
     geometry_rectangle_t destination;
     geometry_rectangle_init( &destination, left, top, width, height );
-    pencil_diagram_painter_layout_grid ( &((*this_).painter),
+    pencil_diagram_maker_layout_grid ( &((*this_).painter),
                                          &((*this_).painter_input_data),
                                          destination
                                        );

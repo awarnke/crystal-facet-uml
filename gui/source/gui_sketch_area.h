@@ -13,7 +13,7 @@
 #include "data_diagram.h"
 #include "data_table.h"
 #include "ctrl_controller.h"
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"

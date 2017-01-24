@@ -12,7 +12,7 @@
 #include "gui_simple_message_to_user.h"
 #include "gui_file_export_format.h"
 #include "storage/data_database.h"
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "pencil_description_writer.h"
 #include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"
@@ -36,7 +36,7 @@ struct gui_file_exporter_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
-    pencil_diagram_painter_t painter;  /*!< own instance of a diagram painter */
+    pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
     pencil_description_writer_t description_writer;  /*!< own instance of a description writer */
 
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */

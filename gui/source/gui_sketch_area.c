@@ -1,7 +1,7 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
 #include "gui_sketch_area.h"
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_table.h"
 #include "data_id.h"

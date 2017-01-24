@@ -51,20 +51,20 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param feature_bounds the destination rectangle where to draw the classifier
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
- *  \param classifier_bounds the destination rectangle where to draw the classifier
  */
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                      data_visible_classifier_t *visible_classifier,
-                                      bool mark_focused,
-                                      bool mark_highlighted,
-                                      bool mark_selected,
-                                      pencil_size_t *pencil_size,
-                                      PangoLayout *layout,
-                                      cairo_t *cr,
-                                      geometry_rectangle_t classifier_bounds
-                                    );
+                                   data_feature_t *the_feature,
+                                   bool mark_focused,
+                                   bool mark_highlighted,
+                                   bool mark_selected,
+                                   pencil_size_t *pencil_size,
+                                   geometry_rectangle_t *feature_bounds,
+                                   PangoLayout *layout,
+                                   cairo_t *cr
+                                 );
 
 #endif  /* PENCIL_FEATURE_PAINTER_H */
 

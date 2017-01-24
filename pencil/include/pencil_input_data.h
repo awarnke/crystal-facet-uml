@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Loads all input data for the pencil_diagram_painter from the database
+ *  \brief Loads all input data for the pencil_diagram_maker from the database
  */
 
 #include "data_diagram.h"

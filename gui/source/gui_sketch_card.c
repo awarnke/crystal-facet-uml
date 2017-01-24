@@ -1,7 +1,7 @@
 /* File: gui_sketch_card.c; Copyright and License: see below */
 
 #include "gui_sketch_card.h"
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
 #include "tslog.h"
@@ -15,7 +15,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     pencil_input_data_init( &((*this_).painter_input_data) );
-    pencil_diagram_painter_init( &((*this_).painter), &((*this_).painter_input_data) );
+    pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
 
     TRACE_END();
 }
@@ -24,7 +24,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_diagram_painter_destroy( &((*this_).painter) );
+    pencil_diagram_maker_destroy( &((*this_).painter) );
     pencil_input_data_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
 
@@ -56,7 +56,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
         data_id_t mark_focused = gui_sketch_marker_get_focused( marker );
         data_id_t mark_highlighted = gui_sketch_marker_get_highlighted( marker );
         data_small_set_t *mark_selected_set = gui_sketch_marker_get_selected_set_ptr( marker );
-        pencil_diagram_painter_draw ( &((*this_).painter),
+        pencil_diagram_maker_draw ( &((*this_).painter),
                                       mark_focused,
                                       mark_highlighted,
                                       mark_selected_set,

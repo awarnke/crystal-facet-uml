@@ -12,7 +12,7 @@
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
 #include "universal_int32_pair.h"
 #include <stdbool.h>
@@ -25,7 +25,7 @@ struct gui_sketch_card_struct {
     bool visible;
     shape_int_rectangle_t bounds;  /*!< bounding box of the card */
     pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
-    pencil_diagram_painter_t painter;  /*!< own instance of a diagram painter */
+    pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;

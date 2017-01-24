@@ -1,13 +1,13 @@
-/* File: pencil_diagram_painter.c; Copyright and License: see below */
+/* File: pencil_diagram_maker.c; Copyright and License: see below */
 
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                    data_id_t mark_focused,
                                    data_id_t mark_highlighted,
                                    data_small_set_t *mark_selected,
@@ -101,7 +101,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     /* draw all contained classifiers */
     if (( width > 10.0 ) && ( height > 25.0 ))
     {
-        pencil_diagram_painter_private_draw_classifiers ( this_,
+        pencil_diagram_maker_private_draw_classifiers ( this_,
                                                           mark_focused,
                                                           mark_highlighted,
                                                           mark_selected,
@@ -133,7 +133,7 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
     TRACE_END();
 }
 
-void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t *this_,
+void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
                                                        data_id_t mark_focused,
                                                        data_id_t mark_highlighted,
                                                        data_small_set_t *mark_selected,
@@ -173,9 +173,10 @@ void pencil_diagram_painter_private_draw_classifiers ( pencil_diagram_painter_t 
                                             data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
                                             data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
                                             pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                            &classifier_bounds,
                                             layout,
-                                            cr,
-                                            classifier_bounds );
+                                            cr
+                                          );
 
             if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ))
             {

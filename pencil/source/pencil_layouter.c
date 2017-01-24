@@ -107,24 +107,26 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
     TRACE_BEGIN();
 
     /* adjust the default classifier rectangle */
-    uint32_t count;
-    count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-    double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
-    double classifier_area;
-    if ( count > 0 )
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
     {
-        classifier_area = diagram_area / count * (0.10);
+        double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
+        double classifier_area;
+        if ( count_clasfy > 0 )
+        {
+            classifier_area = diagram_area / count_clasfy * (0.10);
+        }
+        else
+        {
+            classifier_area = diagram_area * (0.10);
+        }
+        double half_width = sqrt(classifier_area);
+        double half_height = half_width / 2.1;
+        geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
     }
-    else
-    {
-        classifier_area = diagram_area * (0.10);
-    }
-    double half_width = sqrt(classifier_area);
-    double half_height = half_width / 2.1;
-    geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
 
     /* store the classifier bounds into input_data_layouter_t */
-    for ( uint32_t index = 0; index < count; index ++ )
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
         data_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
@@ -144,6 +146,24 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
             double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
             geometry_rectangle_shift( classifier_bounds, center_x, center_y );
+        }
+    }
+
+    /* calculate the relationship shapes */
+    {
+        uint32_t count_relations;
+        count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+
+        for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+        {
+            data_relationship_t *current_relation;
+            current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
+
+            geometry_connector_t *relationship_shape;
+            relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
+
+/* todo */
+            geometry_connector_reinit_horizontal ( relationship_shape, 70.0, 50.0, 200.0, 80.0, 65.0 );
         }
     }
 

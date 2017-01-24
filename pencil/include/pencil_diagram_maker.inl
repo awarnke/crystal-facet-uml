@@ -1,10 +1,10 @@
-/* File: pencil_diagram_painter.inl; Copyright and License: see below */
+/* File: pencil_diagram_maker.inl; Copyright and License: see below */
 
-#include "pencil_diagram_painter.h"
+#include "pencil_diagram_maker.h"
 #include "trace.h"
 #include <assert.h>
 
-static inline void pencil_diagram_painter_init( pencil_diagram_painter_t *this_, pencil_input_data_t *input_data )
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, pencil_input_data_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -19,7 +19,7 @@ static inline void pencil_diagram_painter_init( pencil_diagram_painter_t *this_,
     TRACE_END();
 }
 
-static inline void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
+static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -33,19 +33,19 @@ static inline void pencil_diagram_painter_destroy( pencil_diagram_painter_t *thi
     TRACE_END();
 }
 
-static inline void pencil_diagram_painter_layout_grid ( pencil_diagram_painter_t *this_,
+static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
                                                         pencil_input_data_t *input_data,
                                                         geometry_rectangle_t diagram_bounds )
 {
     pencil_layouter_layout_grid ( &((*this_).layouter), input_data, diagram_bounds );
 }
 
-static inline void pencil_diagram_layout_elements ( pencil_diagram_painter_t *this_ )
+static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this_ )
 {
     pencil_layouter_layout_elements ( &((*this_).layouter) );
 }
 
-static inline data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_diagram_painter_t *this_,
+static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
                                                         double x,
                                                         double y,
                                                         bool dereference )
@@ -53,7 +53,7 @@ static inline data_id_t pencil_diagram_painter_get_object_id_at_pos ( pencil_dia
     return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
 }
 
-static inline universal_int32_pair_t pencil_diagram_painter_get_order_at_pos ( pencil_diagram_painter_t *this_,
+static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
                                                                  double x,
                                                                  double y )
 {
