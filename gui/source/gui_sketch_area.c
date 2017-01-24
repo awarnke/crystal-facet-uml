@@ -718,12 +718,14 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
         gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
 
+        /* get position */
         int32_t x;
         int32_t y;
         x = (int32_t) evt->x;
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
+        /* update drag state */
         gui_sketch_drag_state_set_from ( &((*this_).drag_state), x, y );
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
         gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state) );
@@ -884,6 +886,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     if ( evt->button == 1 ) {
         TRACE_INFO("release");
 
+        /* get position */
         int32_t x;
         int32_t y;
         x = (int32_t) evt->x;
@@ -983,6 +986,52 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_SKETCH_TOOLS_CREATE_OBJECT:
             {
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_OBJECT");
+
+                if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+                {
+                    /* which object is selected? */
+                    data_id_t focused_real;
+                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+
+                    /* which object is at the target location? */
+                    data_id_t destination_real;
+                    destination_real = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
+
+                    if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
+                    {
+                        if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                            && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_real ) ) )
+                        {
+                            /* get classifier controller */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                            /* define relationship */
+                            data_relationship_t new_relationship;
+                            data_error_t d_err;
+                            d_err = data_relationship_init ( &new_relationship,
+                                                             DATA_ID_VOID_ID,
+                                                             DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                                             data_id_get_row_id( &focused_real ),
+                                                             data_id_get_row_id( &destination_real ),
+                                                             "depends on", /* =relationship_name */
+                                                             "", /* =relationship_description */
+                                                             0 /* =list_order */
+                                                           );
+
+                            /* create relationship */
+                            int64_t new_relationship_id;
+                            ctrl_error_t c_result;
+                            c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
+                                                                                        &new_relationship,
+                                                                                        false, /*=add_to_latest_undo_set*/
+                                                                                        &new_relationship_id
+                                                                                      );
+                            data_relationship_destroy ( &new_relationship );
+
+                        }
+                    }
+                }
             }
             break;
 
