@@ -24,6 +24,8 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     geometry_rectangle_t *diagram_bounds = pencil_layouter_get_diagram_bounds_ptr ( &((*this_).layouter) );
     double width = geometry_rectangle_get_width ( diagram_bounds );
     double height = geometry_rectangle_get_height ( diagram_bounds );
+    pencil_input_data_layout_t *layout_data;
+    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     /* draw diagram */
     data_diagram_t *diag;
@@ -33,15 +35,15 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                   data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
-                                  pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                  pencil_size,
                                   diagram_bounds,
                                   layout,
                                   cr
                                 );
 
-    /* draw all contained classifiers */
-    if (( width > 10.0 ) && ( height > 25.0 ))
+    if (( width > 20.0 ) && ( height > 20.0 ))
     {
+        /* draw all contained classifiers */
         pencil_diagram_maker_private_draw_classifiers ( this_,
                                                         mark_focused,
                                                         mark_highlighted,
@@ -49,6 +51,45 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                                         layout,
                                                         cr
                                                       );
+
+        /* draw all contained features */
+        uint32_t feat_count;
+        feat_count = pencil_input_data_get_feature_count ( (*this_).input_data );
+        for ( uint32_t index = 0; index < feat_count; index ++ )
+        {
+            data_feature_t *the_feature;
+            the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, index );
+            pencil_feature_painter_draw ( &((*this_).feature_painter),
+                                          the_feature,
+                                          data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
+                                          data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
+                                          data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
+                                          pencil_size,
+                                          pencil_input_data_layout_get_feature_bounds_ptr ( layout_data, index ),
+                                          layout,
+                                          cr
+                                        );
+        }
+
+        /* draw all contained relationships */
+        uint32_t rel_count;
+        rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
+        for ( uint32_t index = 0; index < rel_count; index ++ )
+        {
+            data_relationship_t *the_relationship;
+            the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+            pencil_relationship_painter_draw ( &((*this_).relationship_painter),
+                                               the_relationship,
+                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
+                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                               pencil_size,
+                                               pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
+                                               layout,
+                                               cr
+                                             );
+        }
+
     }
 
     g_object_unref (layout);
