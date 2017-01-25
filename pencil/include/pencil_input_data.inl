@@ -77,7 +77,7 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     return result;
 }
 
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int32_t row_id )
+static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int64_t row_id )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     data_classifier_t *result = NULL;
@@ -89,6 +89,24 @@ static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_i
         if ( row_id == data_classifier_get_id( probe ) )
         {
             result = probe;
+        }
+    }
+
+    return result;
+}
+
+static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data_t *this_, int64_t row_id )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    int32_t result = -1;
+
+    for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
+    {
+        data_classifier_t *probe;
+        probe = data_visible_classifier_get_classifier_ptr( &((*this_).visible_classifiers[index]) );
+        if ( row_id == data_classifier_get_id( probe ) )
+        {
+            result = index;
         }
     }
 

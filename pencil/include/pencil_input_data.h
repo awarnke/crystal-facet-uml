@@ -96,7 +96,16 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
  *  \param row_id id of the classifier to retrieve
  *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
  */
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int32_t row_id );
+static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int64_t row_id );
+
+/*!
+ *  \brief gets the classifier index within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the classifier to retrieve
+ *  \return -1 if row_id not in cache; index of data_classifier_t otherwise.
+ */
+static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets the number of features within the painter input data

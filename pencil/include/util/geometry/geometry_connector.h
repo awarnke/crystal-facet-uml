@@ -108,56 +108,56 @@ static inline void geometry_connector_destroy ( geometry_connector_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_source_end_x ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_source_end_x ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute source_end_y from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_source_end_y ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_source_end_y ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute main_line_source_x from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_main_line_source_x ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_main_line_source_x ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute main_line_source_y from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_main_line_source_y ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_main_line_source_y ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute main_line_destination_x from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_main_line_destination_x ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_main_line_destination_x ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute main_line_destination_y from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_main_line_destination_y ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_main_line_destination_y ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute destination_end_x from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_destination_end_x ( geometry_connector_t *this_ );
+static inline double geometry_connector_destination_end_x ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief gets the attribute destination_end_y from geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_connector_get_destination_end_y ( geometry_connector_t *this_ );
+static inline double geometry_connector_get_destination_end_y ( const geometry_connector_t *this_ );
 
 /*!
  *  \brief determines if a given coordinate is close to geometry_connector_t
@@ -168,14 +168,14 @@ static inline double geometry_connector_get_destination_end_y ( geometry_connect
  *  \param max_distance maximum distance between (x,y) to the connector
  *  \return true if the location is close to the connector.
  */
-static inline bool geometry_connector_is_close ( geometry_connector_t *this_, double x, double y, double max_distance );
+static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance );
 
 /*!
  *  \brief prints the geometry_connector_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void geometry_connector_trace ( geometry_connector_t *this_ );
+static inline void geometry_connector_trace ( const geometry_connector_t *this_ );
 
 #include "util/geometry/geometry_connector.inl"
 

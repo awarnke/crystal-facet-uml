@@ -74,47 +74,47 @@ static inline void geometry_connector_destroy ( geometry_connector_t *this_ )
 {
 }
 
-static inline double geometry_connector_get_source_end_x ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_source_end_x ( const geometry_connector_t *this_ )
 {
     return (*this_).source_end_x;
 }
 
-static inline double geometry_connector_get_source_end_y ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_source_end_y ( const geometry_connector_t *this_ )
 {
     return (*this_).source_end_y;
 }
 
-static inline double geometry_connector_get_main_line_source_x ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_main_line_source_x ( const geometry_connector_t *this_ )
 {
     return (*this_).main_line_source_x;
 }
 
-static inline double geometry_connector_get_main_line_source_y ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_main_line_source_y ( const geometry_connector_t *this_ )
 {
     return (*this_).main_line_source_y;
 }
 
-static inline double geometry_connector_get_main_line_destination_x ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_main_line_destination_x ( const geometry_connector_t *this_ )
 {
     return (*this_).main_line_destination_x;
 }
 
-static inline double geometry_connector_get_main_line_destination_y ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_main_line_destination_y ( const geometry_connector_t *this_ )
 {
     return (*this_).main_line_destination_y;
 }
 
-static inline double geometry_connector_destination_end_x ( geometry_connector_t *this_ )
+static inline double geometry_connector_destination_end_x ( const geometry_connector_t *this_ )
 {
     return (*this_).destination_end_x;
 }
 
-static inline double geometry_connector_get_destination_end_y ( geometry_connector_t *this_ )
+static inline double geometry_connector_get_destination_end_y ( const geometry_connector_t *this_ )
 {
     return (*this_).destination_end_y;
 }
 
-static inline bool geometry_connector_is_close ( geometry_connector_t *this_, double x, double y, double max_distance )
+static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance )
 {
     bool close_to_source_end_line;
     bool close_to_main_line;
@@ -134,7 +134,7 @@ static inline bool geometry_connector_is_close ( geometry_connector_t *this_, do
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
 }
 
-static inline void geometry_connector_trace ( geometry_connector_t *this_ )
+static inline void geometry_connector_trace ( const geometry_connector_t *this_ )
 {
     TRACE_INFO( "geometry_connector_t" );
     TRACE_INFO_INT( "- source_end_x:", (*this_).source_end_x );

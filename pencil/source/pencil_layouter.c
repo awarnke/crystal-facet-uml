@@ -162,9 +162,149 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             geometry_connector_t *relationship_shape;
             relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
 
-/* todo */
-            geometry_connector_reinit_horizontal ( relationship_shape, 70.0, 50.0, 200.0, 80.0, 65.0 );
+            int32_t source_index;
+            int32_t dest_index;
+            source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                                   data_relationship_get_from_classifier_id(current_relation)
+                                                                 );
+            dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                                 data_relationship_get_to_classifier_id(current_relation)
+                                                               );
+            geometry_rectangle_t *source_rect;
+            geometry_rectangle_t *dest_rect;
+            if (( -1 != source_index ) && ( -1 != dest_index ))
+            {
+                source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
+                dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
+                pencil_layouter_private_connect_rectangles( this_, source_rect, dest_rect, relationship_shape );
+            }
+            else if ( -1 != source_index )
+            {
+                source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
+                double y_coord = geometry_rectangle_get_top(source_rect) + 0.5*geometry_rectangle_get_height(source_rect);
+                geometry_connector_reinit_horizontal ( relationship_shape,
+                                                       geometry_rectangle_get_right(source_rect),
+                                                       y_coord,
+                                                       geometry_rectangle_get_right(source_rect) + 20.0,
+                                                       y_coord,
+                                                       y_coord
+                                                     );
+            }
+            else if ( -1 != dest_index )
+            {
+                dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
+                double y_coord = geometry_rectangle_get_top(dest_rect) + 0.5*geometry_rectangle_get_height(dest_rect);
+                geometry_connector_reinit_horizontal ( relationship_shape,
+                                                       geometry_rectangle_get_left(dest_rect) - 20.0,
+                                                       y_coord,
+                                                       geometry_rectangle_get_left(dest_rect),
+                                                       y_coord,
+                                                       y_coord
+                                                     );
+            }
+            else
+            {
+                TSLOG_ERROR( "relationship has neither a source nor a destination in the current diagram." );
+            }
         }
+    }
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
+                                                  const geometry_rectangle_t *source_rect,
+                                                  const geometry_rectangle_t *dest_rect,
+                                                  geometry_connector_t *out_connection )
+{
+    TRACE_BEGIN();
+    assert( NULL != source_rect );
+    assert( NULL != dest_rect );
+    assert( NULL != out_connection );
+
+    double x_dist;
+    double y_dist;
+
+    if ( geometry_rectangle_get_left(source_rect) > geometry_rectangle_get_right(dest_rect) )
+    {
+        /* source is right of destination, x_dist is negative */
+        x_dist = geometry_rectangle_get_right(dest_rect) - geometry_rectangle_get_left(source_rect);
+    }
+    else if ( geometry_rectangle_get_right(source_rect) < geometry_rectangle_get_left(dest_rect) )
+    {
+        /* source is left of destination, x_dist is positive */
+        x_dist = geometry_rectangle_get_left(dest_rect) - geometry_rectangle_get_right(source_rect);
+    }
+    else
+    {
+        /* overlap */
+        x_dist = 0.0;
+    }
+
+    if ( geometry_rectangle_get_top(source_rect) > geometry_rectangle_get_bottom(dest_rect) )
+    {
+        /* source is below destination, y_dist is negative */
+        y_dist = geometry_rectangle_get_bottom(dest_rect) - geometry_rectangle_get_top(source_rect);
+    }
+    else if ( geometry_rectangle_get_bottom(source_rect) < geometry_rectangle_get_top(dest_rect) )
+    {
+        /* source is atop of destination, y_dist is positive */
+        y_dist = geometry_rectangle_get_top(dest_rect) - geometry_rectangle_get_bottom(source_rect);
+    }
+    else
+    {
+        /* overlap */
+        y_dist = 0.0;
+    }
+
+    if ( fabs(x_dist) > fabs(y_dist) )
+    {
+        /* main line is vertical */
+        if ( x_dist < 0.0 )
+        {
+            geometry_connector_reinit_vertical ( out_connection,
+                                                 geometry_rectangle_get_left(source_rect),
+                                                 geometry_rectangle_get_y_center(source_rect),
+                                                 geometry_rectangle_get_right(dest_rect),
+                                                 geometry_rectangle_get_y_center(dest_rect),
+                                                 0.5*( geometry_rectangle_get_left(source_rect)+geometry_rectangle_get_right(dest_rect) )
+                                               );
+        }
+        else
+        {
+            geometry_connector_reinit_vertical ( out_connection,
+                                                 geometry_rectangle_get_right(source_rect),
+                                                 geometry_rectangle_get_y_center(source_rect),
+                                                 geometry_rectangle_get_left(dest_rect),
+                                                 geometry_rectangle_get_y_center(dest_rect),
+                                                 0.5*( geometry_rectangle_get_right(source_rect)+geometry_rectangle_get_left(dest_rect) )
+                                               );
+        }
+    }
+    else
+    {
+        /* main line is horizontal */
+        if ( y_dist < 0.0 )
+        {
+            geometry_connector_reinit_horizontal ( out_connection,
+                                                   geometry_rectangle_get_x_center(source_rect),
+                                                   geometry_rectangle_get_top(source_rect),
+                                                   geometry_rectangle_get_x_center(dest_rect),
+                                                   geometry_rectangle_get_bottom(dest_rect),
+                                                   0.5*( geometry_rectangle_get_top(source_rect)+geometry_rectangle_get_bottom(dest_rect) )
+                                                 );
+        }
+        else
+        {
+            geometry_connector_reinit_horizontal ( out_connection,
+                                                   geometry_rectangle_get_x_center(source_rect),
+                                                   geometry_rectangle_get_bottom(source_rect),
+                                                   geometry_rectangle_get_x_center(dest_rect),
+                                                   geometry_rectangle_get_top(dest_rect),
+                                                   0.5*( geometry_rectangle_get_bottom(source_rect)+geometry_rectangle_get_top(dest_rect) )
+                                                 );
+        }
+
     }
 
     TRACE_END();

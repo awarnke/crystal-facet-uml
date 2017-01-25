@@ -140,6 +140,20 @@ universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *thi
                                                           double y
                                                         );
 
+/*!
+ *  \brief layouts a connection from one rectangle to another
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param source_rect pointer to the source rectangle
+ *  \param dest_rect pointer to the destination rectangle
+ *  \param out_connection pointer to an already initialized geometry_connector_t which is overwritten
+ */
+void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
+                                                  const geometry_rectangle_t *source_rect,
+                                                  const geometry_rectangle_t *dest_rect,
+                                                  geometry_connector_t *out_connection
+                                                );
+
 #include "pencil_layouter.inl"
 
 #endif  /* PENCIL_LAYOUTER_H */

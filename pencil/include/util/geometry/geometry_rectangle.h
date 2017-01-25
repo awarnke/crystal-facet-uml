@@ -87,49 +87,63 @@ static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_left ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_left ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the top coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_top ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_top ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the right coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_right ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_right ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the bottom coordinate of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_bottom ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_bottom ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the width of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_width ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_width ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the height of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_height ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_height ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief gets the x-center of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_rectangle_get_x_center ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief gets the y-center of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_rectangle_get_y_center ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the area-value of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_area ( geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_area ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief determines if a given coordinate is within geometry_rectangle_t
@@ -139,7 +153,7 @@ static inline double geometry_rectangle_get_area ( geometry_rectangle_t *this_ )
  *  \param y y coordinate
  *  \return true if the location is within the rectangle.
  */
-static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, double x, double y );
+static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *this_, double x, double y );
 
 /*!
  *  \brief determines if the given rectangle has a valid (positive) size
@@ -147,7 +161,7 @@ static inline bool geometry_rectangle_contains ( geometry_rectangle_t *this_, do
  *  \param this_ pointer to own object attributes
  *  \return true if the rectangle has a positive size.
  */
-static inline bool geometry_rectangle_is_empty ( geometry_rectangle_t *this_ );
+static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief moves the geometry_rectangle_t
@@ -163,7 +177,7 @@ static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, doubl
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void geometry_rectangle_trace ( geometry_rectangle_t *this_ );
+static inline void geometry_rectangle_trace ( const geometry_rectangle_t *this_ );
 
 #include "util/geometry/geometry_rectangle.inl"
 
