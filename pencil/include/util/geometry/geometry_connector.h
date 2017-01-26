@@ -171,6 +171,13 @@ static inline double geometry_connector_get_destination_end_y ( const geometry_c
 static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance );
 
 /*!
+ *  \brief gets the bounding rectangle of geometry_connector_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ );
+
+/*!
  *  \brief prints the geometry_connector_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes

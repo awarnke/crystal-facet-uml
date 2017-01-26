@@ -77,12 +77,18 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         /* draw markers */
         if ( mark_selected )
         {
-            pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_bounds, cr );
+            geometry_rectangle_t bounds;
+            bounds = geometry_connector_get_bounding_rectangle( connector_shape );
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), bounds, cr );
+            geometry_rectangle_destroy( &bounds );
         }
 
         if ( mark_focused )
         {
-            pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_bounds, cr );
+            geometry_rectangle_t bounds;
+            bounds = geometry_connector_get_bounding_rectangle( connector_shape );
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), bounds, cr );
+            geometry_rectangle_destroy( &bounds );
         }
     }
     else

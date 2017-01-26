@@ -1,6 +1,7 @@
 /* File: geometry_connector.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include <math.h>
 
 static inline void geometry_connector_reinit_vertical ( geometry_connector_t *this_,
                                                         double source_end_x,
@@ -132,6 +133,18 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
                                     && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).destination_end_y + max_distance ))
                                     || (( (*this_).destination_end_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
+}
+
+static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )
+{
+    geometry_rectangle_t result;
+    geometry_rectangle_init( &result,
+                             fmin( (*this_).source_end_x, (*this_).destination_end_x ),
+                             fmin( (*this_).source_end_y, (*this_).destination_end_y ),
+                             fabs( (*this_).source_end_x - (*this_).destination_end_x ),
+                             fabs( (*this_).source_end_y - (*this_).destination_end_y )
+                           );
+    return result;
 }
 
 static inline void geometry_connector_trace ( const geometry_connector_t *this_ )
