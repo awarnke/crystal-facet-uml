@@ -153,6 +153,11 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_bounds, cr );
         }
+
+        if ( mark_focused )
+        {
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_bounds, cr );
+        }
     }
     else
     {

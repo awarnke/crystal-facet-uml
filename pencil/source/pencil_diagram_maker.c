@@ -108,8 +108,6 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    geometry_rectangle_t focused_rect;
-    geometry_rectangle_init_empty( &focused_rect );
     pencil_input_data_layout_t *layout_data;
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
@@ -128,8 +126,8 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
             diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
-            geometry_rectangle_t classifier_bounds;
-            geometry_rectangle_copy( &classifier_bounds, pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index ) );
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
                                             visible_classifier,
@@ -137,17 +135,10 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                             data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
                                             data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
                                             pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
-                                            &classifier_bounds,
+                                            classifier_bounds,
                                             layout,
                                             cr
                                           );
-
-            if ( data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ))
-            {
-                geometry_rectangle_replace( &focused_rect, &classifier_bounds );
-            }
-
-            geometry_rectangle_destroy( &classifier_bounds );
         }
         else
         {
@@ -155,13 +146,6 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
         }
     }
 
-    /* mark focused */
-    if ( ! geometry_rectangle_is_empty( &focused_rect ) )
-    {
-        pencil_marker_mark_focused_rectangle( &((*this_).marker), focused_rect, cr );
-    }
-
-    geometry_rectangle_destroy( &focused_rect );
     TRACE_END();
 }
 

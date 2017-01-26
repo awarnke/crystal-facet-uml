@@ -73,6 +73,17 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_line_to ( cr, p3x, p3y );
         cairo_line_to ( cr, p4x, p4y );
         cairo_stroke (cr);
+
+        /* draw markers */
+        if ( mark_selected )
+        {
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_bounds, cr );
+        }
+
+        if ( mark_focused )
+        {
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_bounds, cr );
+        }
     }
     else
     {
