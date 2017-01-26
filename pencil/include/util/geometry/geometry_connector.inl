@@ -121,16 +121,16 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
     bool close_to_destination_end_line;
     close_to_source_end_line = ((( (*this_).source_end_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
                                || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).source_end_x + max_distance )))
-                               && ((( (*this_).source_end_y - max_distance < x ) && ( x < (*this_).main_line_source_y + max_distance ))
-                               || (( (*this_).main_line_source_y - max_distance < x ) && ( x < (*this_).source_end_y + max_distance )));
+                               && ((( (*this_).source_end_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
+                               || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).source_end_y + max_distance )));
     close_to_main_line = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).main_line_source_x + max_distance ))
                          || (( (*this_).main_line_source_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
-                         && ((( (*this_).main_line_destination_y - max_distance < x ) && ( x < (*this_).main_line_source_y + max_distance ))
-                         || (( (*this_).main_line_source_y - max_distance < x ) && ( x < (*this_).main_line_destination_y + max_distance )));
+                         && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).main_line_source_y + max_distance ))
+                         || (( (*this_).main_line_source_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
     close_to_destination_end_line = ((( (*this_).main_line_destination_x - max_distance < x ) && ( x < (*this_).destination_end_x + max_distance ))
                                     || (( (*this_).destination_end_x - max_distance < x ) && ( x < (*this_).main_line_destination_x + max_distance )))
-                                    && ((( (*this_).main_line_destination_y - max_distance < x ) && ( x < (*this_).destination_end_y + max_distance ))
-                                    || (( (*this_).destination_end_y - max_distance < x ) && ( x < (*this_).main_line_destination_y + max_distance )));
+                                    && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).destination_end_y + max_distance ))
+                                    || (( (*this_).destination_end_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
 }
 

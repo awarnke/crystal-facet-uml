@@ -323,8 +323,31 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
 
     if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
     {
+        /* determine a classifier at the given position */
         result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
 
+        /* check the relationship shapes */
+        if ( ! data_id_is_valid( &result ) )
+        {
+            uint32_t count_relations;
+            count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+
+            for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+            {
+                geometry_connector_t *relationship_shape;
+                relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
+
+                if ( geometry_connector_is_close( relationship_shape, x, y, 3.0 /*=distance*/ ) )
+                {
+                    data_relationship_t *current_relation;
+                    current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
+
+                    data_id_reinit( &result, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( current_relation ) );
+                }
+            }
+        }
+
+        /* fallback: return the diagram */
         if ( ! data_id_is_valid( &result ) )
         {
             data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
@@ -335,6 +358,9 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
         TRACE_INFO( "no object at given location or no diagram chosen" );
         data_id_init_void( &result );
     }
+
+
+
 
     TRACE_END();
     return result;
