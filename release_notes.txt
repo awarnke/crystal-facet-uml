@@ -1,4 +1,6 @@
-2017-01-28 0.10 [xxxxxxx]
+2017-0x-xx 0.11 [xxxxxxx]
+  + 
+2017-01-28 0.10 [e93e7ec]
   + DB format changed: features.key is not UNIQUE anymore (compatible change)
   + Relationships can be created, modified, deleted (incl. undo/redo)
 2016-12-22 0.09 [6d5cfac]
