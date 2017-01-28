@@ -112,6 +112,52 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMMENT, 1, "UML_COMMENT", -1 );
     }
 
+    {
+        GtkTreeIter iter;
+        (*this_).feature_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).feature_types, &iter);
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY", -1 );
+        gtk_list_store_append( (*this_).feature_types, &iter);
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION", -1 );
+    }
+
+    {
+        GtkTreeIter iter;
+        (*this_).relationship_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, 1, "UML_DEPENDENCY", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "UML_ASSOCIATION (class)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "UML_COMPOSITION (class)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "UML_GENERALIZATION (class)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "UML_REALIZATION (class)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, 1, "UML_ASYNC_CALL (sequence)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, 1, "UML_SYNC_CALL (sequence)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, 1, "UML_RETURN_CALL (sequence)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, 1, "UML_COMMUNICATION_PATH (component)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, 1, "UML_CONTROL_FLOW (activity)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "UML_OBJECT_FLOW (activity)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case)", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "UML_INCLUDE (use-case)", -1 );
+    }
+
     TRACE_END();
 }
 
@@ -130,6 +176,12 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     g_object_unref((*this_).classifier_types);
     (*this_).classifier_types = NULL;
+
+    g_object_unref((*this_).relationship_types);
+    (*this_).relationship_types = NULL;
+
+    g_object_unref((*this_).feature_types);
+    (*this_).feature_types = NULL;
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -186,13 +238,37 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
 
         case DATA_TABLE_FEATURE:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            const char* unchanged_text;
+            unchanged_text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_key ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update key/name failed:", ctrl_err );
+                }
+            }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            const char* unchanged_text;
+            unchanged_text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_relationship_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
+                }
+            }
         }
         break;
 
@@ -271,7 +347,7 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                 ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
                 if ( CTRL_ERROR_NONE != ctrl_err )
                 {
-                    TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
+                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
             }
         }
@@ -279,13 +355,37 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
 
         case DATA_TABLE_FEATURE:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            const char* unchanged_text;
+            unchanged_text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                }
+            }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            const char* unchanged_text;
+            unchanged_text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_relationship_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
+                }
+            }
         }
         break;
 
@@ -365,13 +465,25 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
 
         case DATA_TABLE_FEATURE:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            const char* unchanged_text;
+            unchanged_text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
+                }
+            }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
         }
         break;
 
@@ -441,13 +553,37 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
 
         case DATA_TABLE_FEATURE:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            data_feature_type_t unchanged_main_type;
+            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TSLOG_ERROR( "not yet implemented." );
+            data_relationship_type_t unchanged_main_type;
+            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
         }
         break;
 
@@ -529,19 +665,27 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_widget_show ( GTK_WIDGET ( widget ) );
+
+            const char* text;
+            text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
+            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_widget_show ( GTK_WIDGET ( widget ) );
+
+            const char* text;
+            text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
+            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_widget_hide ( GTK_WIDGET ( widget ) );
         }
         break;
 
@@ -598,7 +742,11 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            gtk_widget_show( GTK_WIDGET ( widget ) );
+
+            const char* text;
+            text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
         }
         break;
 
@@ -666,7 +814,9 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
         {
             gtk_widget_show ( GTK_WIDGET ( widget ) );
 
-            gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
+            const char* text;
+            text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
+            gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;
 
@@ -674,7 +824,9 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
         {
             gtk_widget_show ( GTK_WIDGET ( widget ) );
 
-            gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
+            const char* text;
+            text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
+            gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
         }
         break;
 
@@ -740,12 +892,26 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
         case DATA_TABLE_FEATURE:
         {
             gtk_widget_show ( GTK_WIDGET ( widget ) );
+
+            data_feature_type_t feature_type;
+            feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            int index;
+            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
             gtk_widget_show ( GTK_WIDGET ( widget ) );
+
+            data_relationship_type_t relationship_type;
+            relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            int index;
+            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).relationship_types ), 0, relationship_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).relationship_types ) );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
         }
         break;
 
@@ -834,8 +1000,30 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
         {
             data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
             data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
             data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+
+            if ( force_reload || ( data_feature_get_id( &((*this_).private_feature_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                db_err= data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                }
+            }
         }
         break;
 
@@ -844,7 +1032,29 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
             data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
             data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
             data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+
+            if ( force_reload || ( data_relationship_get_id( &((*this_).private_relationship_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+                db_err= data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+                }
+            }
         }
         break;
 
@@ -936,11 +1146,17 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, 
 
             case DATA_TABLE_FEATURE:
             {
+                const char* text;
+                text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
+                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
             }
             break;
 
             case DATA_TABLE_RELATIONSHIP:
             {
+                const char* text;
+                text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
+                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
             }
             break;
 
@@ -999,6 +1215,9 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t
 
             case DATA_TABLE_FEATURE:
             {
+                const char* text;
+                text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
             }
             break;
 
@@ -1062,11 +1281,19 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
 
             case DATA_TABLE_FEATURE:
             {
+                const char* text;
+                text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
+
+                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
             }
             break;
 
             case DATA_TABLE_RELATIONSHIP:
             {
+                const char* text;
+                text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
+
+                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
             }
             break;
 
@@ -1128,11 +1355,21 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, 
 
             case DATA_TABLE_FEATURE:
             {
+                data_feature_type_t feature_type;
+                feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+                int index;
+                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, feature_type );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
             }
             break;
 
             case DATA_TABLE_RELATIONSHIP:
             {
+                data_relationship_type_t relationship_type;
+                relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+                int index;
+                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, relationship_type );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
             }
             break;
 

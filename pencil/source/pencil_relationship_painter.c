@@ -74,6 +74,43 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_line_to ( cr, p4x, p4y );
         cairo_stroke (cr);
 
+        /* draw arrow */
+        int clock_direction; /* wall-clock direction assuming ascending y direction to top */
+        if ( fabs( p3x-p4x ) > 0.5 )
+        {
+            clock_direction = ( p3x < p4x ) ? 3 : 9;
+        }
+        else
+        {
+            if ( fabs( p3y-p4y ) > 0.5 )
+            {
+                clock_direction = ( p3y < p4y ) ? 0 : 6;
+            }
+            else
+            {
+                if ( fabs( p2x-p4x ) > 0.5 )
+                {
+                    clock_direction = ( p2x < p4x ) ? 3 : 9;
+                }
+                else
+                {
+                    if ( fabs( p2y-p4y ) > 0.5 )
+                    {
+                        clock_direction = ( p2y < p4y ) ? 0 : 6;
+                    }
+                    else
+                    {
+                    }
+                }
+            }
+        }
+        const static int32_t DX[12][2]={{-6,+6},{-9,  0},{-11,-4},{-9,-9},{-4,-11},{  0,-9},{+6,-6},{+9,  0},{+11,+4},{+9,+9},{+4,+11},{  0,+9}};
+        const static int32_t DY[12][2]={{-9,-9},{-4,-11},{  0,-9},{+6,-6},{+9,  0},{+11,+4},{+9,+9},{+4,+11},{  0,+9},{+6,-6},{-9,  0},{-11,-4}};
+        cairo_move_to ( cr, p4x + DX[clock_direction][0], p4y + DY[clock_direction][0] );
+        cairo_line_to ( cr, p4x, p4y );
+        cairo_line_to ( cr, p4x + DX[clock_direction][1], p4y + DY[clock_direction][1] );
+        cairo_stroke (cr);
+
         /* draw markers */
         if ( mark_selected )
         {
