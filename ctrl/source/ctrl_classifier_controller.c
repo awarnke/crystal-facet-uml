@@ -368,7 +368,6 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
 
     if ( data_small_set_is_empty( &objects ) )
     {
@@ -491,7 +490,7 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                         ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
                     }
 
-                    /* try to also delete the classifier, ignore errors */
+                    /* try to also delete the classifier, report errors */
                     if ( DATA_ERROR_NONE == current_result )
                     {
                         data_error_t my_data_result;
@@ -500,6 +499,8 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                                                                                  data_diagramelement_get_classifier_id( &old_diagramelement ),
                                                                                  &old_classifier
                                                                                );
+
+                        result |= (ctrl_error_t) my_data_result;
 
                         if ( DATA_ERROR_NONE == my_data_result )
                         {
