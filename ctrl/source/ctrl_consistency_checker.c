@@ -376,8 +376,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
                 {
                     data_id_t classifier_id = data_small_set_get_id( &unref, list_pos );
                     int64_t classifier_row_id = data_id_get_row_id( &classifier_id );
-                    data_err = data_database_writer_delete_classifier ( (*this_).db_writer, classifier_row_id, NULL );
-                    if ( DATA_ERROR_NONE == data_err )
+                    err_result |= data_database_consistency_checker_kill_classifier ( &((*this_).db_checker), classifier_row_id );
+                    if ( CTRL_ERROR_NONE == err_result )
                     {
                         utf8stringbuf_append_str( out_report, "    FIX: Classifier " );
                         utf8stringbuf_append_int( out_report, classifier_row_id );
@@ -387,7 +387,6 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
                     else
                     {
                         utf8stringbuf_append_str( out_report, "ERROR WRITING DATABASE.\n" );
-                        err_result |= (ctrl_error_t) data_err;
                     }
                 }
             }

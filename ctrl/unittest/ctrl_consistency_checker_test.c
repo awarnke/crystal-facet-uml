@@ -569,8 +569,8 @@ static void repair_unreferenced_classifiers_2(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
-    TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-12 is unreferenced, after deleting the relatoinshif and the feature are unreferenced. */
+    TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
     utf8stringbuf_clear( out_report );
