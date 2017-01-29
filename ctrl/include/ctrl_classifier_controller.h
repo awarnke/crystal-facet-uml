@@ -100,6 +100,19 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
 );
 
 /*!
+ *  \brief deletes a classifier record and associated relationships and features
+ *         and stores all actions in the undo redo list.
+ *
+ *  Note: The classifier is not deleted if still referenced by diagramelements.
+ *  Note: No boundary is added to the undo redo list. Therefore this function is private.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the classifier record to be deleted.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifier_controller_t *this_, int64_t obj_id );
+
+/*!
  *  \brief updates the classifier attribute: stereotype
  *
  *  \param this_ pointer to own object attributes
