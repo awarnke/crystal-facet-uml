@@ -100,6 +100,15 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
  */
 data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
+/*!
+ *  \brief deletes a classifier record even if it is still referenced
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the classifier record to be deleted.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, int64_t obj_id );
+
 #endif  /* DATA_DATABASE_CONSISTENCY_CHECKER_H */
 
 

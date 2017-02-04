@@ -153,6 +153,152 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     return result;
 }
 
+ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifier_controller_t *this_, int64_t obj_id )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    /* check if the classifier is still referenced by diagramelements */
+    bool is_still_referenced = true;
+    {
+        data_diagram_t out_diagram[1];
+        uint32_t out_diagram_count;
+        data_result = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader,
+                                                                           obj_id,
+                                                                           1,
+                                                                           &out_diagram,
+                                                                           &out_diagram_count
+                                                                         );
+
+        if ( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result )
+        {
+            is_still_referenced = true;
+        }
+        else if ( DATA_ERROR_NONE == data_result )
+        {
+            is_still_referenced = ( out_diagram_count == 0 ) ? false : true;
+        }
+        else
+        {
+            /* some other error */
+            result |= (ctrl_error_t) data_result;
+        }
+    }
+
+    /* if the classifier is still referenced by diagramelements, do not do anything, report an error */
+    if ( is_still_referenced )
+    {
+        result |= CTRL_ERROR_OBJECT_STILL_REFERENCED;
+    }
+    else
+    {
+        /* delete all features */
+        {
+            bool no_more_features = false;
+            static const uint32_t MAX_FEATURES_PER_CLASSIFIER = 10000;
+            for ( uint32_t feature_count = 0; ( feature_count < MAX_FEATURES_PER_CLASSIFIER ) && ( no_more_features == false ); feature_count ++ )
+            {
+                data_feature_t out_feature[1];
+                uint32_t out_feature_count;
+                data_result = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
+                                                                                   obj_id,
+                                                                                   1,
+                                                                                   &out_feature,
+                                                                                   &out_feature_count
+                                                                                 );
+
+                if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_feature_count == 1 ))
+                {
+                    data_result = data_database_writer_delete_feature( (*this_).db_writer, data_feature_get_id( &(out_feature[0]) ), NULL );
+
+                    result |= (ctrl_error_t) data_result;
+                    if ( DATA_ERROR_NONE == data_result )
+                    {
+                        /* store the deleted feature to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &(out_feature[0]) );
+                    }
+                    data_feature_destroy( &(out_feature[0]) );
+                }
+                else
+                {
+                    result |= (ctrl_error_t) data_result;
+                    no_more_features = true;
+                }
+            }
+
+        }
+
+        /* delete all relationships */
+        {
+            bool no_more_relationships = false;
+            static const uint32_t MAX_RELATIONSHIPS_PER_CLASSIFIER = 10000;
+            for ( uint32_t relationship_count = 0; ( relationship_count < MAX_RELATIONSHIPS_PER_CLASSIFIER ) && ( no_more_relationships == false ); relationship_count ++ )
+            {
+
+                data_relationship_t out_relationship[1];
+                uint32_t out_relationship_count;
+                data_result = data_database_reader_get_relationships_by_classifier_id ( (*this_).db_reader,
+                                                                                        obj_id,
+                                                                                        1,
+                                                                                        &out_relationship,
+                                                                                        &out_relationship_count
+                                                                                      );
+
+                if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+                {
+                    data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_id( &(out_relationship[0]) ), NULL );
+
+                    result |= (ctrl_error_t) data_result;
+
+                    if ( DATA_ERROR_NONE == data_result )
+                    {
+                        /* store the deleted relationship to the undo redo list */
+                        ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
+                    }
+                    data_relationship_destroy( &(out_relationship[0]) );
+                }
+                else
+                {
+                    result |= (ctrl_error_t) data_result;
+                    no_more_relationships = true;
+                }
+            }
+        }
+
+        /* delete the classifier */
+        {
+            data_classifier_t old_classifier;
+            data_result = data_database_writer_delete_classifier( (*this_).db_writer,
+                                                                    obj_id,
+                                                                    &old_classifier
+            );
+
+            if ( DATA_ERROR_NONE == data_result )
+            {
+                /* store the deleted classifier to the undo redo list */
+                ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
+
+                data_classifier_destroy( &old_classifier );
+            }
+            else if ( 0 != ( DATA_ERROR_MASK & DATA_ERROR_OBJECT_STILL_REFERENCED & data_result ))
+            {
+                /* report this unexpected error */
+                TSLOG_ERROR( "The classifier cannot be deleted because it is still referenced." );
+                result |= (ctrl_error_t) data_result;
+            }
+            else
+            {
+                /* report this unexpected error */
+                result |= (ctrl_error_t) data_result;
+            }
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_classifier_controller_t *this_,
                                                                        int64_t classifier_id,
                                                                        const char* new_classifier_stereotype )
@@ -368,7 +514,6 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
 
     if ( data_small_set_is_empty( &objects ) )
     {
@@ -491,22 +636,23 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
                         ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
                     }
 
-                    /* try to also delete the classifier, ignore errors */
+                    /* try to also delete the classifier, ignore errors because it is ok if the clasifier is still referenced */
                     if ( DATA_ERROR_NONE == current_result )
                     {
-                        data_error_t my_data_result;
-                        data_classifier_t old_classifier;
-                        my_data_result = data_database_writer_delete_classifier( (*this_).db_writer,
-                                                                                 data_diagramelement_get_classifier_id( &old_diagramelement ),
-                                                                                 &old_classifier
-                                                                               );
+                        ctrl_error_t my_ctrl_result;
 
-                        if ( DATA_ERROR_NONE == my_data_result )
+                        my_ctrl_result = ctrl_classifier_controller_private_delete_classifier( this_,
+                                                                                               data_diagramelement_get_classifier_id( &old_diagramelement )
+                                                                                             );
+
+                        if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & my_ctrl_result ))
                         {
-                            /* store the deleted classifier to the undo redo list */
-                            ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier );
-
-                            data_classifier_destroy( &old_classifier );
+                            TSLOG_WARNING( "The classifier cannot be deleted because it is still referenced." );
+                        }
+                        else
+                        {
+                            /* report this unexpected error */
+                            result |= my_ctrl_result;
                         }
                         data_diagramelement_destroy( &old_diagramelement );
                     }
@@ -537,19 +683,11 @@ ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    data_classifier_t old_classifier2;
-                    data_error_t current_result2;
-                    current_result2 = data_database_writer_delete_classifier( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_classifier2 );
+                    ctrl_error_t current_result2;
 
-                    result |= (ctrl_error_t) current_result2;
+                    current_result2 = ctrl_classifier_controller_private_delete_classifier( this_, data_id_get_row_id( &current_id ) );
 
-                    if ( DATA_ERROR_NONE == current_result2 )
-                    {
-                        /* store the deleted classifier to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_classifier( (*this_).undo_redo_list, &old_classifier2 );
-
-                        data_classifier_destroy( &old_classifier2 );
-                    }
+                    result |= current_result2;
                 }
                 break;
 

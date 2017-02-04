@@ -626,6 +626,99 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
     return result;
 }
 
+/*!
+ *  \brief string constant to start a transaction
+ */
+static const char *DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION =
+    "BEGIN TRANSACTION;";
+
+/*!
+ *  \brief string constant to commit a transaction
+ */
+static const char *DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION =
+    "COMMIT TRANSACTION;";
+
+/*!
+ *  \brief prefix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX =
+    "DELETE FROM classifiers WHERE (id=";
+
+/*!
+ *  \brief postfix string constant to delete a classifier
+ */
+static const char *DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX = ");";
+
+data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, int64_t obj_id )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    char *error_msg = NULL;
+    sqlite3 *db = data_database_get_database_ptr( (*this_).database );
+
+    if ( data_database_is_open( (*this_).database ) )
+    {
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_BEGIN_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        char delete_statement_buf[56];
+        utf8stringbuf_t delete_statement = UTF8STRINGBUF( delete_statement_buf );
+        utf8stringbuf_copy_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_PREFIX );
+        utf8stringbuf_append_int( delete_statement, obj_id );
+        utf8stringbuf_append_str( delete_statement, DATA_DATABASE_CONSISTENCY_CHECKER_DELETE_CLASSIFIER_POSTFIX );
+        TSLOG_EVENT_STR( "sqlite3_exec:", utf8stringbuf_get_string(delete_statement) );
+        sqlite_err = sqlite3_exec( db, utf8stringbuf_get_string(delete_statement), NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", utf8stringbuf_get_string(delete_statement) );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+
+        TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION );
+        sqlite_err = sqlite3_exec( db, DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION, NULL, NULL, &error_msg );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_CONSISTENCY_CHECKER_COMMIT_TRANSACTION );
+            TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        if ( error_msg != NULL )
+        {
+            TSLOG_ERROR_STR( "sqlite3_exec() failed:", error_msg );
+            sqlite3_free( error_msg );
+            error_msg = NULL;
+        }
+    }
+    else
+    {
+        TSLOG_WARNING( "database not open." );
+        result = DATA_ERROR_NO_DB;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke
