@@ -67,7 +67,8 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
     (*this_).standard_object_border = 2.0;
-
+    (*this_).arrow_stroke_length = 10.0;
+    (*this_).arrow_stroke_087_length = 8.66;
 }
 
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
@@ -88,6 +89,8 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
     (*this_).standard_line_width = smaller_border/400.0;
     (*this_).bold_line_width = smaller_border/200.0;
     (*this_).standard_object_border = smaller_border/200.0;
+    (*this_).arrow_stroke_length = smaller_border/67;
+    (*this_).arrow_stroke_087_length = (*this_).arrow_stroke_length*0.866025403784; /* =sqrt(0.75) */
 }
 
 static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ )
@@ -133,6 +136,16 @@ static inline double pencil_size_get_bold_line_width( pencil_size_t *this_ )
 static inline double pencil_size_get_standard_object_border( pencil_size_t *this_ )
 {
     return (*this_).standard_object_border;
+}
+
+static inline double pencil_size_get_arrow_stroke_length( pencil_size_t *this_ )
+{
+    return (*this_).arrow_stroke_length;
+}
+
+static inline double pencil_size_get_arrow_stroke_087_length( pencil_size_t *this_ )
+{
+    return (*this_).arrow_stroke_087_length;
 }
 
 static inline GdkRGBA pencil_size_get_standard_color( pencil_size_t *this_ )

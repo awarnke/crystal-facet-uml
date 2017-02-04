@@ -104,12 +104,53 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                 }
             }
         }
-        const static int32_t DX[12][2]={{-6,+6},{-9,  0},{-11,-4},{-9,-9},{-4,-11},{  0,-9},{+6,-6},{+9,  0},{+11,+4},{+9,+9},{+4,+11},{  0,+9}};
-        const static int32_t DY[12][2]={{-9,-9},{-4,-11},{  0,-9},{+6,-6},{+9,  0},{+11,+4},{+9,+9},{+4,+11},{  0,+9},{+6,-6},{-9,  0},{-11,-4}};
-        cairo_move_to ( cr, p4x + DX[clock_direction][0], p4y + DY[clock_direction][0] );
-        cairo_line_to ( cr, p4x, p4y );
-        cairo_line_to ( cr, p4x + DX[clock_direction][1], p4y + DY[clock_direction][1] );
-        cairo_stroke (cr);
+
+        double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+        double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
+        switch ( clock_direction )
+        {
+            case 0:
+            {
+                cairo_move_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
+                cairo_line_to ( cr, p4x, p4y );
+                cairo_line_to ( cr, p4x + half_stroke_length, p4y - part_stroke_length );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case 3:
+            {
+                cairo_move_to ( cr, p4x - part_stroke_length, p4y - half_stroke_length );
+                cairo_line_to ( cr, p4x, p4y );
+                cairo_line_to ( cr, p4x - part_stroke_length, p4y + half_stroke_length );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case 6:
+            {
+                cairo_move_to ( cr, p4x + half_stroke_length, p4y + part_stroke_length );
+                cairo_line_to ( cr, p4x, p4y );
+                cairo_line_to ( cr, p4x - half_stroke_length, p4y + part_stroke_length );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case 9:
+            {
+                cairo_move_to ( cr, p4x + part_stroke_length, p4y + half_stroke_length );
+                cairo_line_to ( cr, p4x, p4y );
+                cairo_line_to ( cr, p4x + part_stroke_length, p4y - half_stroke_length );
+                cairo_stroke (cr);
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("illegal case");
+            }
+            break;
+        }
 
         /* draw markers */
         if ( mark_selected )
