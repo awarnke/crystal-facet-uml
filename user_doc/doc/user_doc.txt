@@ -1,8 +1,8 @@
 /*!
  *  \mainpage
  *
- *  \image html crystal_facet_uml.png
- *  \image latex crystal_facet_uml.png "" width=5cm
+ *  \image html crystal_facet_uml_80x80.png
+ *  \image latex crystal_facet_uml_80x80.png "" width=5cm
  *
  *  \section cfu-intro Introduction
  *
