@@ -33,10 +33,10 @@
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1347"
-     inkscape:window-height="905"
-     inkscape:window-x="92"
-     inkscape:window-y="39"
+     inkscape:window-width="1598"
+     inkscape:window-height="1118"
+     inkscape:window-x="1"
+     inkscape:window-y="1"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata7">
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -70,16 +70,9 @@
        x="0.56197697"
        y="1025.8564" />
     <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#777777;stroke-width:0.30000000999999998;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 20.825516,13.5197 4.033771,-6.8480302 -6.472795,-5.2532833 7.035647,4.315197 4.690432,-6.00375235 -3.846154,6.56660415 6.75422,5.1594747 -7.317072,-4.2213884 z"
-       id="path3848"
-       inkscape:connector-curvature="0"
-       transform="translate(0,1020.3622)"
-       sodipodi:nodetypes="ccccccccc" />
-    <path
-       style="fill:#ffffff;fill-opacity:1;stroke:#999999;stroke-width:0.24953123999999999;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
-       d="m 18.713634,1033.8603 3.375387,-5.6619 -5.416318,-4.3433 5.887303,3.5677 3.924869,-4.9638 -3.218393,5.4292 5.65181,4.2658 -6.122794,-3.4902 z"
-       id="path3848-4"
+       style="fill:#e5ff34;fill-opacity:1;stroke:#ffffff;stroke-width:0.30000001;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none"
+       d="m 20.499439,1033.6416 3.569234,-6.5826 -5.676447,-5.386 6.902923,3.5189 5.022245,-5.1411 -3.182531,6.5003 5.692423,5.2922 -6.985262,-3.6242 z"
+       id="path3848-7"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccc" />
   </g>

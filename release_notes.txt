@@ -1,5 +1,6 @@
-2017-0x-xx 0.11 [xxxxxxx]
+2017-02-05 0.11 [xxxxxxx]
   + Align objects vertically and horizontally (snap)
+  + Edit new classifiers or relationships immediately
 2017-01-28 0.10 [e93e7ec]
   + DB format changed: features.key is not UNIQUE anymore (compatible change)
   + Relationships can be created, modified, deleted (incl. undo/redo)
