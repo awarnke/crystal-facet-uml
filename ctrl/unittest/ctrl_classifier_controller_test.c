@@ -80,6 +80,7 @@ static void classifier_create_read_modify_read(void)
     data_error_t data_err;
     const static int64_t DIAGRAM_ID = 19;
     int64_t classifier_id;
+    int64_t diagele_id;
     data_classifier_t read_classifier;
     ctrl_classifier_controller_t *classifier_ctrl;
     uint32_t read_vis_classifiers_count;
@@ -96,8 +97,10 @@ static void classifier_create_read_modify_read(void)
                                                                          "my_component",
                                                                          45,
                                                                          4500,
+                                                                         &diagele_id,
                                                                          &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
     /* read this record */
@@ -203,8 +206,10 @@ static void create_diagramelements_and_delete(void)
                                                                          "my_if",
                                                                          88,
                                                                          8800,
+                                                                         &diag_element_id,
                                                                          &classifier_id );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT( DATA_ID_VOID_ID != diag_element_id );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
     /* get the id of the diagramelement */

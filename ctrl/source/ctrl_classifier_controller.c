@@ -42,7 +42,8 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
                                                                        const char* classifier_name,
                                                                        int32_t x_order,
                                                                        int32_t y_order,
-                                                                       int64_t* out_new_id )
+                                                                       int64_t* out_new_diagramelement_id,
+                                                                       int64_t* out_new_classifier_id )
 {
     TRACE_BEGIN();
     data_classifier_t to_be_created;
@@ -65,9 +66,9 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
         ctrl_undo_redo_list_add_create_classifier( (*this_).undo_redo_list, &to_be_created );
 
         /* copy new id to out parameter */
-        if ( NULL != out_new_id )
+        if ( NULL != out_new_classifier_id )
         {
-            *out_new_id = new_id;
+            *out_new_classifier_id = new_id;
         }
     }
     result |= (ctrl_error_t) data_result;
@@ -90,6 +91,12 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
 
             /* store the new diagramelement to the undo redo list */
             ctrl_undo_redo_list_add_create_diagramelement( (*this_).undo_redo_list, &link_to_be_created );
+
+            /* copy new id to out parameter */
+            if ( NULL != out_new_diagramelement_id )
+            {
+                *out_new_diagramelement_id = new_link_id;
+            }
         }
         result |= (ctrl_error_t) data_result;
 

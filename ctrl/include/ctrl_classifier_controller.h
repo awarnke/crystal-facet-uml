@@ -71,7 +71,8 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
  *  \param classifier_name name of the classifier to create
  *  \param x_order x_order value of the new classifier
  *  \param y_order y_order value of the new classifier
- *  \param out_new_id id of the newly created classifier. Note: the id of the newly created diagramelement link is not provided.
+ *  \param out_new_diagramelement_id id of the newly created diagramelement.
+ *  \param out_new_classifier_id id of the newly created classifier.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
@@ -80,8 +81,9 @@ ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_clas
                                                                        const char* classifier_name,
                                                                        int32_t x_order,
                                                                        int32_t y_order,
-                                                                       int64_t* out_new_id
-                                                                     );
+                                                                       int64_t* out_new_diagramelement_id,
+                                                                       int64_t* out_new_classifier_id
+);
 
 /*!
  *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.

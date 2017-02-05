@@ -18,7 +18,10 @@
  *  \brief attributes of the sketch overlay
  */
 struct gui_sketch_overlay_struct {
-    void* dummy;  /*!< no attributes */
+    double overlay_std_red;  /*!< standard overlay color */
+    double overlay_std_green;  /*!< standard overlay color */
+    double overlay_std_blue;  /*!< standard overlay color */
+    double overlay_std_alpha;  /*!< standard overlay opaqueness */
 };
 
 typedef struct gui_sketch_overlay_struct gui_sketch_overlay_t;

@@ -225,7 +225,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
 
     gui_sketch_tools_tool_t selected_tool;
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
-    if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
+    if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
     {
         /* determine ids */
         int64_t selected_diagram_id;
@@ -309,7 +309,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
     gui_sketch_tools_tool_t selected_tool;
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
 
-    /* pre-calculate numbers needed in case of GUI_SKETCH_TOOLS_NAVIGATE */
+    /* pre-calculate numbers needed in case of GUI_SKETCH_TOOLS_NAVIGATE and GUI_SKETCH_TOOLS_CREATE_DIAGRAM */
     uint32_t width = shape_int_rectangle_get_width( &area_bounds );
     uint32_t height = shape_int_rectangle_get_height( &area_bounds );
     int32_t left = shape_int_rectangle_get_left( &area_bounds );
@@ -324,20 +324,6 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
     uint32_t self_height;
     int32_t self_left;
     int32_t self_top;
-    /*
-    if ( GUI_SKETCH_AREA_LAYOUT_HORIZONTAL == layout_type )
-    {
-        children_height = ( height * 2 ) / 10;
-        children_top = height - children_height;
-        parent_width = ( width * 2 ) / 10;
-        parent_height = height - children_height;
-        self_width = width - parent_width;
-        self_height = height - children_height;
-        self_left = left + parent_width;
-        self_top = top;
-    }
-    else
-        */
     {
         children_height = ( height * 3 ) / 10;
         children_top = height - children_height;
@@ -355,7 +341,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
         {
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
         }
-        else /* ==gui_sketch_card_is_valid */ if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
+        else if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
         {
             shape_int_rectangle_t card_bounds;
 
@@ -385,7 +371,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             gui_sketch_card_do_layout( &((*this_).cards[card_idx]) );
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
         }
-        else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE */
+        else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE and not GUI_SKETCH_TOOLS_CREATE_DIAGRAM */
         {
             if ( card_idx == 0 )
             {
@@ -418,7 +404,7 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
 
     /* draw background */
-    if ( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool )
+    if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
     {
         cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, (height*3)/10 );
@@ -619,6 +605,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
 
+    /* in general, hide the last message */
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
     if ( evt->button == 1 ) {
         TRACE_INFO("press");
 
@@ -749,21 +738,35 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     utf8stringbuf_append_int( full_new_name, my_counter++ );
 
                     int64_t new_classifier_id;
+                    int64_t new_diagele_id;
                     ctrl_error_t c_result;
                     c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
-                                                                                            selected_diagram_id,
-                                                                                            DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                                            utf8stringbuf_get_string( full_new_name ),
-                                                                                            x_order,
-                                                                                            y_order,
-                                                                                            &new_classifier_id );
+                                                                                         selected_diagram_id,
+                                                                                         DATA_CLASSIFIER_TYPE_BLOCK,
+                                                                                         utf8stringbuf_get_string( full_new_name ),
+                                                                                         x_order,
+                                                                                         y_order,
+                                                                                         &new_diagele_id,
+                                                                                         &new_classifier_id
+                                                                                       );
                     if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                     {
                         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                                utf8stringbuf_get_string( full_new_name )
-                        );
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                             utf8stringbuf_get_string( full_new_name )
+                                                                           );
+                    }
+                    else
+                    {
+                        /* set focused object and notify listener */
+                        data_id_t focused_id;
+                        data_id_t focused_real_id;
+                        data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
+                        data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
+                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
+                        gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_marker_clear_selected_set( (*this_).marker );
                     }
 
                     TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
@@ -935,6 +938,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                       );
                             data_relationship_destroy ( &new_relationship );
 
+                            /* set focused object and notify listener */
+                            data_id_t focused_id;
+                            data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
+                            gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                            gui_sketch_area_private_notify_listener( this_ );
+                            gui_sketch_marker_clear_selected_set( (*this_).marker );
                         }
                     }
                 }

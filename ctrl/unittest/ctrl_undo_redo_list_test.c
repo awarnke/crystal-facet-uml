@@ -72,6 +72,7 @@ static void undo_redo_classifier(void)
     data_error_t data_err;
     int64_t root_diagram_id;
     int64_t classifier_id;
+    int64_t diagele_id;
     ctrl_diagram_controller_t *diag_ctrl;
     diag_ctrl = ctrl_controller_get_diagram_control_ptr( &controller );
     ctrl_classifier_controller_t *classifier_ctrl;
@@ -89,16 +90,19 @@ static void undo_redo_classifier(void)
 
     /* create a classifier and a diagramelement */
     classifier_id = DATA_ID_VOID_ID;
+    diagele_id = DATA_ID_VOID_ID;
     ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
                                                                          root_diagram_id,
                                                                          DATA_CLASSIFIER_TYPE_UML_NODE,
                                                                          "my_node",
                                                                          17,
                                                                          1700,
+                                                                         &diagele_id,
                                                                          &classifier_id
                                                                        );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+    TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
 
     /* update the classifier */
     ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( classifier_ctrl, classifier_id, "my_stereo" );

@@ -9,6 +9,11 @@ void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).overlay_std_red = 0.3;
+    (*this_).overlay_std_green = 1.0;
+    (*this_).overlay_std_blue = 0.7;
+    (*this_).overlay_std_alpha = 0.7;
+
     TRACE_END();
 }
 
@@ -46,17 +51,26 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                     to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                     is_snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
 
-                    cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
+                    cairo_set_source_rgba( cr,
+                                           (*this_).overlay_std_red,
+                                           (*this_).overlay_std_green,
+                                           (*this_).overlay_std_blue,
+                                           (*this_).overlay_std_alpha
+                                         );
                     if ( universal_bool_list_get_first ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x, to_y-10 );
-                        cairo_line_to ( cr, to_x, to_y+10 );
+                        cairo_move_to ( cr, to_x, to_y-15 );
+                        cairo_line_to ( cr, to_x, to_y-5 );
+                        cairo_move_to ( cr, to_x, to_y+5 );
+                        cairo_line_to ( cr, to_x, to_y+15 );
                         cairo_stroke (cr);
                     }
                     if ( universal_bool_list_get_second ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x-10, to_y );
-                        cairo_line_to ( cr, to_x+10, to_y );
+                        cairo_move_to ( cr, to_x-15, to_y );
+                        cairo_line_to ( cr, to_x-5, to_y );
+                        cairo_move_to ( cr, to_x+5, to_y );
+                        cairo_line_to ( cr, to_x+15, to_y );
                         cairo_stroke (cr);
                     }
                 }
@@ -76,7 +90,12 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                 from_y = gui_sketch_drag_state_get_from_y ( drag_state );
                 to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                 to_y = gui_sketch_drag_state_get_to_y ( drag_state );
-                cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
+                cairo_set_source_rgba( cr,
+                                       (*this_).overlay_std_red,
+                                       (*this_).overlay_std_green,
+                                       (*this_).overlay_std_blue,
+                                       (*this_).overlay_std_alpha
+                );
                 cairo_move_to ( cr, from_x, from_y );
                 cairo_line_to ( cr, to_x, to_y );
                 cairo_stroke (cr);
@@ -146,6 +165,10 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                 cairo_line_to ( cr, to_x, to_y );
                 cairo_line_to ( cr, to_x + DX[clock_direction][1], to_y + DY[clock_direction][1] );
                 cairo_stroke (cr);
+            }
+            else /* ! gui_sketch_drag_state_is_dragging() */
+            {
+                /* for this case, there are currently no redraw triggers implemented */
             }
         }
         break;
