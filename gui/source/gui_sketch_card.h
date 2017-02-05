@@ -15,6 +15,7 @@
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
 #include "universal_int32_pair.h"
+#include "universal_bool_list.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -139,6 +140,16 @@ static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t
  *  \return the x- and y- order values as first and second element of the pair
  */
 static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y );
+
+/*!
+ *  \brief determines if the given position is on a grid line
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return a pair of bool values indicating if x- and y- position values are on grid lines
+ */
+static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief moves a classifier to an order (without modifying the database)

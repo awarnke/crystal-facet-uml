@@ -444,11 +444,14 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     }
 
     /* overlay tool-helper lines */
+    int32_t mouse_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
+    int32_t mouse_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
     gui_sketch_overlay_t overlay;
     gui_sketch_overlay_init( &overlay );
     gui_sketch_overlay_draw( &overlay,
                              selected_tool,
                              &((*this_).drag_state),
+                             gui_sketch_area_get_card_at_pos ( this_, mouse_x, mouse_y ),
                              cr
                            );
     gui_sketch_overlay_destroy( &overlay );

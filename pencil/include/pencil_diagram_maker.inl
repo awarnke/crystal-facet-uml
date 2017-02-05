@@ -64,6 +64,13 @@ static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pen
     return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
 }
 
+static inline universal_bool_list_t pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+                                                                          double x,
+                                                                          double y )
+{
+    return pencil_layouter_is_pos_on_grid ( &((*this_).layouter), x, y );
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke

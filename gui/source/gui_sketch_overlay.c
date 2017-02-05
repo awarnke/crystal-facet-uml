@@ -22,6 +22,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               gui_sketch_tools_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
+                              gui_sketch_card_t *card_under_mouse,
                               cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -34,6 +35,18 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         break;
         case GUI_SKETCH_TOOLS_EDIT:
         {
+            if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
+            {
+                if ( NULL != card_under_mouse )
+                {
+                    universal_bool_list_t is_snapped;
+                    int32_t to_x;
+                    int32_t to_y;
+                    to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+                    to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+                    is_snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
+                }
+            }
         }
         break;
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
