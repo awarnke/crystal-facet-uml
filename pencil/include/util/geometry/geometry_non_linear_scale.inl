@@ -15,6 +15,7 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
 
 static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order )
 {
+    TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
     double result = (*this_).location[(*this_).num_points-1];
     bool found;
@@ -54,11 +55,13 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
         }
     }
 
+    TRACE_END();
     return result;
 }
 
 static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location, double snap_interval )
 {
+    TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
     int32_t result = (*this_).order[(*this_).num_points-1];
     bool found;
@@ -101,6 +104,43 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
         }
     }
 
+    TRACE_END();
+    return result;
+}
+
+static inline double geometry_non_linear_scale_get_closest_fix_location ( geometry_non_linear_scale_t *this_, double location )
+{
+    TRACE_BEGIN();
+    assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    double result = (*this_).location[(*this_).num_points-1];
+    bool found;
+
+    found = false;
+    if ( location <= (*this_).location[0] )
+    {
+        found = true;
+        result = (*this_).location[0];
+        TRACE_INFO_INT( "result-pos", 0 );
+    }
+    for ( uint32_t pos = 1; ( pos < (*this_).num_points ) && ( ! found ) ; pos ++ )
+    {
+        if ( location <= (*this_).location[pos] )
+        {
+            found = true;
+            if ( ( location - (*this_).location[pos-1] ) < ( (*this_).location[pos] - location ) )
+            {
+                result = (*this_).location[pos-1];
+                TRACE_INFO_INT( "result-pos", pos-1 );
+            }
+            else
+            {
+                result = (*this_).location[pos];
+                TRACE_INFO_INT( "result-pos", pos );
+            }
+        }
+    }
+
+    TRACE_END();
     return result;
 }
 

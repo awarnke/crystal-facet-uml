@@ -419,21 +419,6 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
     return result;
 }
 
-universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                          double x,
-                                                          double y )
-{
-    TRACE_BEGIN();
-
-    universal_int32_pair_t result;
-    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 3.0 );
-    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 3.0 );
-    universal_int32_pair_init( &result, x_order, y_order );
-
-    TRACE_END();
-    return result;
-}
-
 
 /*
 Copyright 2017-2017 Andreas Warnke

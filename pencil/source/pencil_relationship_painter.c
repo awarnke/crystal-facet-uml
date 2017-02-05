@@ -109,7 +109,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
         switch ( clock_direction )
         {
-            case 0:
+            case 0:  /* direction: 12 o clock */
             {
                 cairo_move_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
                 cairo_line_to ( cr, p4x, p4y );

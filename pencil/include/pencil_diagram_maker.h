@@ -23,6 +23,7 @@
 #include "data_small_set.h"
 #include "data_id.h"
 #include "universal_int32_pair.h"
+#include "universal_bool_list.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -138,6 +139,19 @@ static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pen
                                                                              double x,
                                                                              double y
                                                                            );
+
+/*!
+ *  \brief determines if the given position is on a grid line
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return a pair of bool values indicating if x- and y- position values are on grid lines
+ */
+static inline universal_bool_list_t pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+                                                                          double x,
+                                                                          double y
+                                                                        );
 
 #include "pencil_diagram_maker.inl"
 

@@ -20,6 +20,7 @@
 #include "data_small_set.h"
 #include "data_id.h"
 #include "universal_int32_pair.h"
+#include "universal_bool_list.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -122,10 +123,10 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
  *  \return an object id. The id is invalid if there is no object at the given location.
  */
 data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
-                                                     double x,
-                                                     double y,
-                                                     bool dereference
-                                                   );
+                                                             double x,
+                                                             double y,
+                                                             bool dereference
+                                                           );
 
 /*!
  *  \brief gets the order values at a given position
@@ -135,10 +136,23 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
  *  \param y y-position
  *  \return the x- and y- order values as first and second element of the pair
  */
-universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                          double x,
-                                                          double y
-                                                        );
+static inline universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
+                                                                        double x,
+                                                                        double y
+                                                                      );
+
+/*!
+ *  \brief determines if the given position is on a grid line
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \return a pair of bool values indicating if x- and y- position values are on grid lines
+ */
+static inline universal_bool_list_t pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
+                                                                     double x,
+                                                                     double y
+                                                                   );
 
 /*!
  *  \brief layouts a connection from one rectangle to another
