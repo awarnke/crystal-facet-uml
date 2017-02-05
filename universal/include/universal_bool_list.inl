@@ -38,12 +38,12 @@ static inline void universal_bool_list_destroy ( universal_bool_list_t *this_ )
 
 static inline bool universal_bool_list_get_first ( universal_bool_list_t *this_ )
 {
-    return ( 0x1 == ( (*this_).list && 0x1 ));
+    return ( 0x1 == ( (*this_).list & 0x1 ));
 }
 
 static inline bool universal_bool_list_get_second ( universal_bool_list_t *this_ )
 {
-    return ( 0x2 == ( (*this_).list && 0x2 ));
+    return ( 0x2 == ( (*this_).list & 0x2 ));
 }
 
 static inline void universal_bool_list_trace ( universal_bool_list_t *this_ )

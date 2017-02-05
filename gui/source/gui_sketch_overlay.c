@@ -45,6 +45,20 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                     to_x = gui_sketch_drag_state_get_to_x ( drag_state );
                     to_y = gui_sketch_drag_state_get_to_y ( drag_state );
                     is_snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
+
+                    cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
+                    if ( universal_bool_list_get_first ( &is_snapped ) )
+                    {
+                        cairo_move_to ( cr, to_x, to_y-10 );
+                        cairo_line_to ( cr, to_x, to_y+10 );
+                        cairo_stroke (cr);
+                    }
+                    if ( universal_bool_list_get_second ( &is_snapped ) )
+                    {
+                        cairo_move_to ( cr, to_x-10, to_y );
+                        cairo_line_to ( cr, to_x+10, to_y );
+                        cairo_stroke (cr);
+                    }
                 }
             }
         }
