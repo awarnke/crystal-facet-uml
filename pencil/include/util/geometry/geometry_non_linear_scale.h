@@ -90,7 +90,7 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
  *  \brief gets the location of the closest fix point
  *
  *  \param this_ pointer to own object attributes
- *  \param order location value for which the closest fix-point location shall be determined
+ *  \param location location value for which the closest fix-point location shall be determined
  */
 static inline double geometry_non_linear_scale_get_closest_fix_location ( geometry_non_linear_scale_t *this_, double location );
 

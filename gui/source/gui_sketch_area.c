@@ -947,6 +947,53 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         }
                     }
                 }
+                else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
+                {
+                    /* click on classifier without drag */
+                    data_id_t focused_real;
+                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    if ( data_id_is_valid( &focused_real ) )
+                    {
+                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                        {
+                            /* get classifier controller */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                            /* define feature */
+                            data_feature_t new_feature;
+                            data_error_t data_err;
+                            data_err = data_feature_init ( &new_feature,
+                                                           DATA_ID_VOID_ID, /* feature_id */
+                                                           DATA_FEATURE_TYPE_OPERATION,
+                                                           data_id_get_row_id( &focused_real ),
+                                                           "get_state",
+                                                           "uint32_t(*)(void)",
+                                                           "uint32_t get_state() is ...",
+                                                           0 /* list_order */
+                                                         );
+
+                            /* create feature */
+                            int64_t new_feature_id;
+                            ctrl_error_t ctrl_err;
+                            /*
+                            ctrl_err = ctrl_classifier_controller_create_feature ( classifier_control,
+                                                                                   &new_feature,
+                                                                                   false, /*=add_to_latest_undo_set*/
+                                                                                   /*&new_feature_id
+                                                                                 );
+                                                                                 */
+                            data_feature_destroy ( &new_feature );
+
+                            /* set focused object and notify listener */
+                            data_id_t focused_id;
+                            data_id_init( &focused_id, DATA_TABLE_FEATURE, new_feature_id );
+                            gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                            gui_sketch_area_private_notify_listener( this_ );
+                            gui_sketch_marker_clear_selected_set( (*this_).marker );
+                        }
+                    }
+                }
             }
             break;
 

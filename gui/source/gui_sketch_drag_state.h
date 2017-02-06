@@ -56,6 +56,14 @@ static inline bool gui_sketch_drag_state_is_dragging ( gui_sketch_drag_state_t *
 static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t *this_, bool dragging );
 
 /*!
+ *  \brief checks if the start_dragging_when_move attribute is set.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true the mouse button was pressed and the pending drag is not yet cancelled
+ */
+static inline bool gui_sketch_drag_state_is_waiting_for_move ( gui_sketch_drag_state_t *this_ );
+
+/*!
  *  \brief sets the dragging attribute to true as soon as the to position has moved a small distance
  *
  *  \param this_ pointer to own object attributes

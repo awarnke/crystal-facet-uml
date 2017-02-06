@@ -67,11 +67,13 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).file_new_window), (*this_).file_new_window_icon);
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).file_new_window), "New Window" );
 
+    GSList *group;
+
     (*this_).tool_navigate = gtk_radio_tool_button_new( NULL );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_navigate), "Navigate");
     (*this_).tool_navigate_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_navigate( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_navigate), (*this_).tool_navigate_icon);
-    GSList *group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_navigate));
+    group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_navigate));
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_navigate), "Navigate" );
 
     (*this_).tool_edit = gtk_radio_tool_button_new( group );
@@ -234,10 +236,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_use_db,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_export,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_new_window,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_cut,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_copy,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_paste,-1);

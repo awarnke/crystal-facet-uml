@@ -25,6 +25,11 @@ static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t 
     (*this_).start_dragging_when_move = false;
 }
 
+static inline bool gui_sketch_drag_state_is_waiting_for_move ( gui_sketch_drag_state_t *this_ )
+{
+    return ( (*this_).start_dragging_when_move );
+}
+
 static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_ )
 {
     (*this_).start_dragging_when_move = true;

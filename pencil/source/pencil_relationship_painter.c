@@ -152,6 +152,22 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             break;
         }
 
+        /* draw name text */
+        {
+            int text2_width;
+            int text2_height;
+            pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (layout, data_relationship_get_name_ptr( the_relationship ), -1);
+            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
+
+            /* draw text */
+            double center_x = (p2x+p3x)/2.0;
+            double center_y = (p2y+p3y)/2.0;
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+            cairo_move_to ( cr, center_x - 0.5*text2_width, center_y - text2_height );
+            pango_cairo_show_layout (cr, layout);
+        }
+
         /* draw markers */
         if ( mark_selected )
         {
