@@ -976,13 +976,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* create feature */
                             int64_t new_feature_id;
                             ctrl_error_t ctrl_err;
-                            /*
                             ctrl_err = ctrl_classifier_controller_create_feature ( classifier_control,
                                                                                    &new_feature,
                                                                                    false, /*=add_to_latest_undo_set*/
-                                                                                   /*&new_feature_id
+                                                                                   &new_feature_id
                                                                                  );
-                                                                                 */
                             data_feature_destroy ( &new_feature );
 
                             /* set focused object and notify listener */

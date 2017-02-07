@@ -42,7 +42,65 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     assert( NULL != cr );
     assert( NULL != feature_bounds );
 
-    TSLOG_ERROR("not yet implemented");
+    double left, top;
+    double width, height;
+
+    left = geometry_rectangle_get_left ( feature_bounds );
+    top = geometry_rectangle_get_top ( feature_bounds );
+    width = geometry_rectangle_get_width ( feature_bounds );
+    height = geometry_rectangle_get_height ( feature_bounds );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+
+    if ( data_feature_is_valid( the_feature ) )
+    {
+        TRACE_INFO_INT("drawing feature id", data_feature_get_id( the_feature ) );
+
+        /* draw text */
+        {
+            /* select color */
+            GdkRGBA foreground_color;
+            {
+                if ( mark_highlighted )
+                {
+                    foreground_color = pencil_size_get_highlight_color( pencil_size );
+                }
+                else
+                {
+                    foreground_color = pencil_size_get_standard_color( pencil_size );
+                }
+            }
+
+            /* prepare text */
+            char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
+            utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
+            utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( the_feature ) );
+            utf8stringbuf_append_str( label_buf, ": " );
+            utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
+
+            pango_layout_set_font_description (layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
+
+            /* draw text */
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+            cairo_move_to ( cr, left, top );
+            pango_cairo_show_layout (cr, layout);
+        }
+
+        if ( mark_selected )
+        {
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), *feature_bounds, cr );
+        }
+
+        if ( mark_focused )
+        {
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), *feature_bounds, cr );
+        }
+    }
+    else
+    {
+        TSLOG_ERROR("invalid visible feature in array!");
+    }
 
     TRACE_END();
 }

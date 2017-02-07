@@ -21,7 +21,7 @@
  */
 enum pencil_input_data_layout_max_enum {
     PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS = PENCIL_INPUT_DATA_MAX_CLASSIFIERS,  /*!< maximum number of classifiers to be shown in one single diagram */
-    PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES = PENCIL_INPUT_DATA_MAX_FEATURES,  /*!< maximum number of features to be shown in one single diagram */
+    /*PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES = PENCIL_INPUT_DATA_MAX_FEATURES,*/  /*!< maximum number of features to be shown in one single diagram */
     PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS = PENCIL_INPUT_DATA_MAX_RELATIONSHIPS,  /*!< maximum number of relationships to be shown in one single diagram */
 };
 
@@ -31,7 +31,7 @@ enum pencil_input_data_layout_max_enum {
 struct pencil_input_data_layout_struct {
     geometry_rectangle_t classifier_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< outer bounds of classifier records */
     geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records */
-    geometry_rectangle_t feature_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< outer bounds of feature records */
+    /*geometry_rectangle_t feature_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];*/  /*!< outer bounds of feature records */
     geometry_connector_t relationship_shape[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< shape of relationship records */
 };
 
@@ -69,14 +69,14 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_boun
  */
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_space_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
-/*!
+/* !
  *  \brief gets the outer geometry of a feature
  *
  *  \param this_ pointer to own object attributes
  *  \param index index of the feature bounds to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
  *  \return pointer to geometry_rectangle_t.
  */
-static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+/*static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index );*/
 
 /*!
  *  \brief gets the geometry of a relationship

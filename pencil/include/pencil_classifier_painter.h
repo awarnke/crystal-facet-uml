@@ -12,6 +12,7 @@
 #include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_size.h"
+#include "pencil_feature_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "data_small_set.h"
@@ -24,6 +25,8 @@
  */
 struct pencil_classifier_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
+
+    pencil_feature_painter_t feature_painter;  /*!< own instance of a feature_painter */
 };
 
 typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
@@ -52,16 +55,20 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param classifier_bounds the destination rectangle where to draw the classifier
+ *  \param feature_count number of provided feature records
+ *  \param features all feature records. It is not required that all feature records belong to this classifier.
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_visible_classifier_t *visible_classifier,
-                                      bool mark_focused,
-                                      bool mark_highlighted,
-                                      bool mark_selected,
+                                      data_id_t mark_focused,
+                                      data_id_t mark_highlighted,
+                                      data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
+                                      uint32_t feature_count,
+                                      data_feature_t *features,
                                       PangoLayout *layout,
                                       cairo_t *cr
                                     );

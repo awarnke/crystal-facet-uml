@@ -136,6 +136,12 @@ static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_d
     return result;
 }
 
+static inline data_feature_t *pencil_input_data_get_feature_list_ptr ( pencil_input_data_t *this_ )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    return (*this_).features;
+}
+
 static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_data_t *this_ )
 {
     return (*this_).relationship_count;

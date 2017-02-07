@@ -52,25 +52,6 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                                         cr
                                                       );
 
-        /* draw all contained features */
-        uint32_t feat_count;
-        feat_count = pencil_input_data_get_feature_count ( (*this_).input_data );
-        for ( uint32_t index = 0; index < feat_count; index ++ )
-        {
-            data_feature_t *the_feature;
-            the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, index );
-            pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                          the_feature,
-                                          data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                          data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
-                                          data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                          pencil_size,
-                                          pencil_input_data_layout_get_feature_bounds_ptr ( layout_data, index ),
-                                          layout,
-                                          cr
-                                        );
-        }
-
         /* draw all contained relationships */
         uint32_t rel_count;
         rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
@@ -131,11 +112,13 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
                                             visible_classifier,
-                                            data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
-                                            data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ),
-                                            data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ),
+                                            mark_focused,
+                                            mark_highlighted,
+                                            mark_selected,
                                             pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
                                             classifier_bounds,
+                                            pencil_input_data_get_feature_count ( (*this_).input_data ),
+                                            pencil_input_data_get_feature_list_ptr ( (*this_).input_data ),
                                             layout,
                                             cr
                                           );

@@ -124,6 +124,14 @@ static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t
 static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
+ *  \brief gets the list of features within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to data_feature_t[] otherwise.
+ */
+static inline data_feature_t *pencil_input_data_get_feature_list_ptr ( pencil_input_data_t *this_ );
+
+/*!
  *  \brief gets the number of relationships within the painter input data
  *
  *  \param this_ pointer to own object attributes
