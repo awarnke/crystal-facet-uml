@@ -13,12 +13,6 @@ static inline void pencil_input_data_layout_init( pencil_input_data_layout_t *th
     {
         geometry_rectangle_init_empty( &((*this_).classifier_space[idx]) );
     }
-    /*
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES; idx ++ )
-    {
-        geometry_rectangle_init_empty( &((*this_).feature_bounds[idx]) );
-    }
-    */
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         geometry_connector_init_empty( &((*this_).relationship_shape[idx]) );
@@ -35,12 +29,6 @@ static inline void pencil_input_data_layout_destroy( pencil_input_data_layout_t 
     {
         geometry_rectangle_destroy( &((*this_).classifier_space[idx]) );
     }
-    /*
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES; idx ++ )
-    {
-        geometry_rectangle_destroy( &((*this_).feature_bounds[idx]) );
-    }
-    */
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         geometry_connector_destroy( &((*this_).relationship_shape[idx]) );
@@ -58,14 +46,6 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_spac
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
     return &((*this_).classifier_space[index]);
 }
-
-/*
-static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES );
-    return &((*this_).feature_bounds[index]);
-}
-*/
 
 static inline geometry_connector_t *pencil_input_data_layout_get_relationship_shape_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {

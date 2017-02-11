@@ -156,7 +156,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         }
 
         /* draw all contained features */
-        uint32_t linenumber = 0;
+        uint32_t linenumber = 1;
         for ( uint32_t index = 0; index < feature_count; index ++ )
         {
             data_feature_t *the_feature;
@@ -166,7 +166,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 geometry_rectangle_t feature_bounds;
                 geometry_rectangle_copy( &feature_bounds, classifier_bounds );
                 linenumber ++;
-                geometry_rectangle_shift (  &feature_bounds, 3.0, linenumber * 10.0 );
+                geometry_rectangle_shift ( &feature_bounds, 3.0, linenumber * 15.0 );
                 pencil_feature_painter_draw ( &((*this_).feature_painter),
                                               the_feature,
                                               data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),

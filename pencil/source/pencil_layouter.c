@@ -45,8 +45,8 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 
 
 void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
-                                           pencil_input_data_t *input_data,
-                                           geometry_rectangle_t diagram_bounds )
+                                   pencil_input_data_t *input_data,
+                                   geometry_rectangle_t diagram_bounds )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -136,6 +136,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             data_classifier_t *classifier2;
             classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
 
+            /* get the bounds rectangle to modify */
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
 
@@ -146,6 +147,25 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
             double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
             geometry_rectangle_shift( classifier_bounds, center_x, center_y );
+
+            /* get the inner space rectangle to modify */
+            geometry_rectangle_t *classifier_space;
+            classifier_space = pencil_input_data_layout_get_classifier_space_ptr( &((*this_).layout_data), index );
+
+            /* overwrite directly internal attributes of (*this_).layout_data */
+            double space_left = geometry_rectangle_get_left( classifier_bounds )
+                                + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            double space_width = geometry_rectangle_get_width( classifier_bounds )
+                                 - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            double space_height = geometry_rectangle_get_height( classifier_bounds )
+                                  - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) )
+                                  - pencil_size_get_larger_font_size( &((*this_).pencil_size ) )
+                                  - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
+                                  - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
+            double space_top = geometry_rectangle_get_bottom( classifier_bounds )
+                               - space_height
+                               - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            geometry_rectangle_reinit( classifier_space, space_left, space_top, space_width, space_height );
         }
     }
 
@@ -318,16 +338,13 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     TRACE_BEGIN();
 
     data_id_t result;
+    data_id_init_void( &result );
     data_diagram_t *diag;
     diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
 
     if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
     {
-        /* determine a classifier at the given position */
-        result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
-
         /* check the relationship shapes */
-        if ( ! data_id_is_valid( &result ) )
         {
             uint32_t count_relations;
             count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
@@ -345,6 +362,12 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                     data_id_reinit( &result, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( current_relation ) );
                 }
             }
+        }
+
+        /* determine a classifier at the given position */
+        if ( ! data_id_is_valid( &result ) )
+        {
+            result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
         }
 
         /* fallback: return the diagram */
@@ -393,10 +416,12 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                 diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
                 geometry_rectangle_t *classifier_bounds;
-
+                geometry_rectangle_t *classifier_space;
                 classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), index );
+                classifier_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), index );
 
-                if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
+                if ( geometry_rectangle_contains( classifier_bounds, x, y )
+                    && ! geometry_rectangle_contains( classifier_space, x, y ) )
                 {
                     if ( dereference )
                     {

@@ -938,12 +938,19 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                       );
                             data_relationship_destroy ( &new_relationship );
 
-                            /* set focused object and notify listener */
-                            data_id_t focused_id;
-                            data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-                            gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                            gui_sketch_area_private_notify_listener( this_ );
-                            gui_sketch_marker_clear_selected_set( (*this_).marker );
+                            if ( CTRL_ERROR_NONE != c_result )
+                            {
+                                TSLOG_ERROR("unexpected error at ctrl_classifier_controller_create_relationship");
+                            }
+                            else
+                            {
+                                /* set focused object and notify listener */
+                                data_id_t focused_id;
+                                data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
+                                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                                gui_sketch_area_private_notify_listener( this_ );
+                                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                            }
                         }
                     }
                 }
@@ -983,12 +990,23 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                  );
                             data_feature_destroy ( &new_feature );
 
-                            /* set focused object and notify listener */
-                            data_id_t focused_id;
-                            data_id_init( &focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                            gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                            gui_sketch_area_private_notify_listener( this_ );
-                            gui_sketch_marker_clear_selected_set( (*this_).marker );
+                            if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
+                            {
+                                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                     GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                     "get_state"
+                                );
+                            }
+                            else
+                            {
+                                /* set focused object and notify listener */
+                                data_id_t focused_id;
+                                data_id_init( &focused_id, DATA_TABLE_FEATURE, new_feature_id );
+                                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                                gui_sketch_area_private_notify_listener( this_ );
+                                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                            }
                         }
                     }
                 }
