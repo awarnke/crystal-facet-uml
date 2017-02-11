@@ -420,16 +420,46 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                 classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), index );
                 classifier_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), index );
 
-                if ( geometry_rectangle_contains( classifier_bounds, x, y )
-                    && ! geometry_rectangle_contains( classifier_space, x, y ) )
+                if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
                 {
-                    if ( dereference )
+                    if ( geometry_rectangle_contains( classifier_space, x, y ) )
                     {
-                        data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+                        /* check all contained features */
+                        uint32_t linenumber = 0;
+                        double lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
+                        + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size) );
+                        for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
+                        {
+                            data_feature_t *the_feature;
+                            the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
+                            if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
+                            {
+                                geometry_rectangle_t feature_bounds;
+                                geometry_rectangle_init ( &feature_bounds,
+                                                            geometry_rectangle_get_left( classifier_space ),
+                                                            geometry_rectangle_get_top( classifier_space ) + linenumber * lineheight,
+                                                            geometry_rectangle_get_width( classifier_space ),
+                                                            lineheight
+                                );
+                                if ( geometry_rectangle_contains( &feature_bounds, x, y ) )
+                                {
+                                    data_id_reinit( &result, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) );
+                                }
+                                linenumber ++;
+                                geometry_rectangle_destroy( &feature_bounds );
+                            }
+                        }
                     }
-                    else
+                    if ( ! data_id_is_valid( &result ) )
                     {
-                        data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
+                        if ( dereference )
+                        {
+                            data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+                        }
+                        else
+                        {
+                            data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
+                        }
                     }
                 }
             }

@@ -13,16 +13,12 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
 
     pencil_marker_init( &((*this_).marker) );
 
-    pencil_feature_painter_init( &((*this_).feature_painter) );
-
     TRACE_END();
 }
 
 void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
-
-    pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -36,8 +32,11 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
+                                      /*
+                                      geometry_rectangle_t *classifier_space,
                                       uint32_t feature_count,
                                       data_feature_t *features,
+                                      */
                                       PangoLayout *layout,
                                       cairo_t *cr )
 {
@@ -152,32 +151,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                 cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+gap+text1_height+f_line_gap+text2_height );
                 cairo_line_to ( cr, left + 0.5*( width + text2_width ), top+gap+text1_height+f_line_gap+text2_height );
                 cairo_stroke (cr);
-            }
-        }
-
-        /* draw all contained features */
-        uint32_t linenumber = 1;
-        for ( uint32_t index = 0; index < feature_count; index ++ )
-        {
-            data_feature_t *the_feature;
-            the_feature = &(features[index]);
-            if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
-            {
-                geometry_rectangle_t feature_bounds;
-                geometry_rectangle_copy( &feature_bounds, classifier_bounds );
-                linenumber ++;
-                geometry_rectangle_shift ( &feature_bounds, 3.0, linenumber * 15.0 );
-                pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                              the_feature,
-                                              data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                              data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
-                                              data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                              pencil_size,
-                                              &feature_bounds,
-                                              layout,
-                                              cr
-                                            );
-                geometry_rectangle_destroy( &feature_bounds );
             }
         }
 
