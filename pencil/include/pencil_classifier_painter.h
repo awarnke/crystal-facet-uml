@@ -53,9 +53,6 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param classifier_bounds the destination rectangle where to draw the classifier
- *  \param classifier_space the inner space rectangle where contained elements of the classifier are drawn
- *  \param feature_count number of provided feature records
- *  \param features all feature records. It is not required that all feature records belong to this classifier.
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
@@ -66,11 +63,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
-                                      /*
-                                      geometry_rectangle_t *classifier_space,
-                                      uint32_t feature_count,
-                                      data_feature_t *features,
-                                      */
                                       PangoLayout *layout,
                                       cairo_t *cr
                                     );

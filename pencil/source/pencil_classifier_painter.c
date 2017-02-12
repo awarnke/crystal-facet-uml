@@ -32,11 +32,6 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
-                                      /*
-                                      geometry_rectangle_t *classifier_space,
-                                      uint32_t feature_count,
-                                      data_feature_t *features,
-                                      */
                                       PangoLayout *layout,
                                       cairo_t *cr )
 {

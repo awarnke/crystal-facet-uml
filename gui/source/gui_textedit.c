@@ -81,23 +81,26 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_REQUIREMENT, 1, "REQUIREMENT", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "UML_ACTOR", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "UML_ACTOR (use case)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_USE_CASE, 1, "UML_USE_CASE", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_USE_CASE, 1, "UML_USE_CASE (use case)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY, 1, "UML_SYSTEM_BOUNDARY", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY, 1, "UML_SYSTEM_BOUNDARY (use case)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTIVITY, 1, "UML_ACTIVITY", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_STATE, 1, "UML_STATE", -1 );
+        /*
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE, 1, "UML_DIAGRAM_REFERENCE", -1 );
+        --> t.b.d: exists in uml but how to handle this in crystal facet uml?
+        */
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_NODE, 1, "UML_NODE", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_NODE, 1, "UML_NODE (deployment)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMPONENT, 1, "UML_COMPONENT", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PART, 1, "UML_PART", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PART, 1, "UML_PART (component instance)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_INTERFACE, 1, "UML_INTERFACE", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
@@ -105,7 +108,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_CLASS, 1, "UML_CLASS", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_OBJECT, 1, "UML_OBJECT", -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_OBJECT, 1, "UML_OBJECT (class instance)", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ARTIFACT, 1, "UML_ARTIFACT", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
@@ -116,9 +119,9 @@ void gui_textedit_init ( gui_textedit_t *this_,
         GtkTreeIter iter;
         (*this_).feature_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY (class)", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION (class)", -1 );
     }
 
     {
@@ -150,12 +153,18 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "UML_OBJECT_FLOW (activity)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment)", -1 );
+        /*
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment)", -1 );
+        --> t.b.d: exists in uml but how to handle this in crystal facet uml?
+        */
+        /*
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "UML_INCLUDE (use-case)", -1 );
+        --> t.b.d: these are just stereotypes, no main types.
+        */
     }
 
     TRACE_END();

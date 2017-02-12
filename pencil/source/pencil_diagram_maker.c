@@ -108,9 +108,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
             geometry_rectangle_t *classifier_bounds;
-            geometry_rectangle_t *classifier_space;
             classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index );
-            classifier_space = pencil_input_data_layout_get_classifier_space_ptr ( layout_data, index );
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
@@ -120,19 +118,12 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                             mark_selected,
                                             pencil_size,
                                             classifier_bounds,
-                                            /*
-                                            classifier_space,
-                                            pencil_input_data_get_feature_count ( (*this_).input_data ),
-                                            pencil_input_data_get_feature_list_ptr ( (*this_).input_data ),
-                                            */
                                             layout,
                                             cr
                                           );
 
             /* draw all contained features */
             uint32_t linenumber = 0;
-            double lineheight = pencil_size_get_standard_font_size( pencil_size )
-                                + 2.0 * pencil_size_get_standard_object_border( pencil_size );
             for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
             {
                 data_feature_t *the_feature;
@@ -140,13 +131,12 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                 if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
                 {
                     geometry_rectangle_t feature_bounds;
-                    geometry_rectangle_init ( &feature_bounds,
-                                              geometry_rectangle_get_left( classifier_space ),
-                                              geometry_rectangle_get_top( classifier_space ) + linenumber * lineheight,
-                                              geometry_rectangle_get_width( classifier_space ),
-                                              lineheight
-                                            );
-                    linenumber ++;
+                    feature_bounds = pencil_layouter_get_feature_bounds( &((*this_).layouter),
+                                                                         data_classifier_get_id( classifier ),
+                                                                         index,
+                                                                         f_idx,
+                                                                         linenumber
+                    );
                     pencil_feature_painter_draw ( &((*this_).feature_painter),
                                                   the_feature,
                                                   data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
@@ -157,6 +147,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                   layout,
                                                   cr
                     );
+                    linenumber ++;
                     geometry_rectangle_destroy( &feature_bounds );
                 }
             }

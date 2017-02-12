@@ -203,6 +203,11 @@ static inline utf8stringbuf_t data_classifier_get_stereotype_buf_ptr ( data_clas
     return (*this_).stereotype;
 }
 
+static inline bool data_classifier_has_stereotype ( data_classifier_t *this_ )
+{
+    return ( ! utf8stringbuf_equals_str( (*this_).stereotype, "" ) );
+}
+
 static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *this_, const char *stereotype )
 {
     assert( NULL != stereotype );

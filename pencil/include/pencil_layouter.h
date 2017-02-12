@@ -93,8 +93,26 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
  *  \brief returns the diagram bounds object
  *
  *  \param this_ pointer to own object attributes
+ *  \return pointer to rectangle of diagram bounds
  */
 static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief returns the newly calculated feature bounds object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id pointer to own object attributes
+ *  \param c_index index of the classifier in the classifier array at input_data; 0 <= c_index < pencil_input_data_get_visible_classifier_count ( (*this_).input_data )
+ *  \param f_index index of the feature in the feature array at input_data; 0 <= f_index < pencil_input_data_get_feature_count ( (*this_).input_data )
+ *  \param line_index line number of the feature at the selected classifier. first line has index 0.
+ *  \return rectangle of feature bounds
+ */
+static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_layouter_t *this_,
+                                                                        int64_t classifier_id,
+                                                                        uint32_t c_index,
+                                                                        uint32_t f_index,
+                                                                        uint32_t line_index
+                                                                      );
 
 /*!
  *  \brief gets the object-id of the object at a given position

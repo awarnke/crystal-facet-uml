@@ -208,6 +208,14 @@ static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t
 static inline utf8stringbuf_t data_classifier_get_stereotype_buf_ptr ( data_classifier_t *this_ );
 
 /*!
+ *  \brief checks if the attribute stereotype is empty
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the stereotype string is not empty
+ */
+static inline bool data_classifier_has_stereotype ( data_classifier_t *this_ );
+
+/*!
  *  \brief sets the attribute stereotype
  *
  *  \param this_ pointer to own object attributes

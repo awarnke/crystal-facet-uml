@@ -153,15 +153,26 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             classifier_space = pencil_input_data_layout_get_classifier_space_ptr( &((*this_).layout_data), index );
 
             /* overwrite directly internal attributes of (*this_).layout_data */
+            bool has_stereotype = data_classifier_has_stereotype( classifier2 );
             double space_left = geometry_rectangle_get_left( classifier_bounds )
                                 + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             double space_width = geometry_rectangle_get_width( classifier_bounds )
                                  - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             double space_height = geometry_rectangle_get_height( classifier_bounds )
                                   - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) )
-                                  - pencil_size_get_larger_font_size( &((*this_).pencil_size ) )
-                                  - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
-                                  - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
+                                  - pencil_size_get_larger_font_size( &((*this_).pencil_size ) );
+            /* for underscores under object instance names: */
+            space_height = space_height
+                           - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            if ( has_stereotype )
+            {
+                space_height = space_height
+                               - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
+                               - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
+                /* this is an approximation to fix the differnce between font size and the actual line height */
+                space_height = space_height
+                               - 2.0 * pencil_size_get_font_line_gap( &((*this_).pencil_size ) );
+            }
             double space_top = geometry_rectangle_get_bottom( classifier_bounds )
                                - space_height
                                - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
@@ -435,12 +446,12 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                             if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
                             {
                                 geometry_rectangle_t feature_bounds;
-                                geometry_rectangle_init ( &feature_bounds,
-                                                            geometry_rectangle_get_left( classifier_space ),
-                                                            geometry_rectangle_get_top( classifier_space ) + linenumber * lineheight,
-                                                            geometry_rectangle_get_width( classifier_space ),
-                                                            lineheight
-                                );
+                                feature_bounds = pencil_layouter_get_feature_bounds( this_,
+                                                                                     data_classifier_get_id( classifier ),
+                                                                                     index,
+                                                                                     f_idx,
+                                                                                     linenumber
+                                                                                   );
                                 if ( geometry_rectangle_contains( &feature_bounds, x, y ) )
                                 {
                                     data_id_reinit( &result, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) );

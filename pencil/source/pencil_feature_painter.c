@@ -78,7 +78,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             utf8stringbuf_append_str( label_buf, ": " );
             utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
 
-            pango_layout_set_font_description (layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
 
             /* draw text */

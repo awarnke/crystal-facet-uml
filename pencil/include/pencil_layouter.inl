@@ -18,6 +18,31 @@ static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pen
     return &((*this_).diagram_bounds);
 }
 
+static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_layouter_t *this_,
+                                                                        int64_t classifier_id,
+                                                                        uint32_t c_index,
+                                                                        uint32_t f_index,
+                                                                        uint32_t line_index )
+{
+    geometry_rectangle_t result;
+
+    geometry_rectangle_t *classifier_space;
+    classifier_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), c_index );
+
+    double lineheight;
+    lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
+                 + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size) );
+
+    geometry_rectangle_init ( &result,
+                              geometry_rectangle_get_left( classifier_space ),
+                              geometry_rectangle_get_top( classifier_space ) + line_index * lineheight,
+                              geometry_rectangle_get_width( classifier_space ),
+                              lineheight
+    );
+
+    return result;
+}
+
 static inline universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
                                                                         double x,
                                                                         double y )
