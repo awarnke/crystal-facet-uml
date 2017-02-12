@@ -888,7 +888,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 gui_sketch_marker_clear_selected_set( (*this_).marker );
 
                 /* change the selected tool */
-                gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_CREATE_OBJECT );
+                gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
             }
             break;
 
@@ -976,7 +976,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                            data_id_get_row_id( &focused_real ),
                                                            "get_state",
                                                            "uint32_t(*)(void)",
-                                                           "uint32_t get_state() is ...",
+                                                           "",
                                                            0 /* list_order */
                                                          );
 

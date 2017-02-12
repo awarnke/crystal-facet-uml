@@ -26,6 +26,10 @@
  *  \image latex resources/file_new_window.png "" width=3cm
  *  \li Opens another window on the same database.
  *
+ *  \image html resources/tool_create_diagram.png
+ *  \image latex resources/tool_create_diagram.png "" width=3cm
+ *  \li Create a child-diagram by clicking at any space in the current diagram
+ *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.png "" width=3cm
  *  \li Switch the current diagram to the parent diagram or to a child diagram.
@@ -41,11 +45,7 @@
  *  \image latex resources/tool_create_object.png "" width=3cm
  *  \li Create a classifier by clicking at an empty space in the diagram
  *  \li Create a relationship by clicking on the source classifier and dragging to the destination classifier
- *  \li Create a feature (is not yet implemented)
- *
- *  \image html resources/tool_create_diagram.png
- *  \image latex resources/tool_create_diagram.png "" width=3cm
- *  \li Create a child-diagram by clicking at any space in the current diagram
+ *  \li Create a feature by clicking on the classifier
  *
  *  \image html resources/edit_cut.png
  *  \image latex resources/edit_cut.png "" width=3cm

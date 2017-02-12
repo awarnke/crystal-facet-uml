@@ -164,6 +164,11 @@ static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *t
     return (*this_).value;
 }
 
+static inline bool data_feature_has_value ( data_feature_t *this_ )
+{
+    return ( ! utf8stringbuf_equals_str( (*this_).value, "" ) );
+}
+
 static inline data_error_t data_feature_set_value ( data_feature_t *this_, const char *value )
 {
     assert( NULL != value );

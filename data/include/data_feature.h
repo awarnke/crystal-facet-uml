@@ -196,6 +196,14 @@ static inline const char *data_feature_get_value_ptr ( data_feature_t *this_ );
 static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *this_ );
 
 /*!
+ *  \brief checks if the value attribute is empty
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if the value is not empty
+ */
+static inline bool data_feature_has_value ( data_feature_t *this_ );
+
+/*!
  *  \brief sets the attribute value
  *
  *  \param this_ pointer to own object attributes
