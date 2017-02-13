@@ -68,11 +68,55 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         double p3y = geometry_connector_get_main_line_destination_y ( connector_shape );
         double p4x = geometry_connector_destination_end_x ( connector_shape );
         double p4y = geometry_connector_get_destination_end_y ( connector_shape );
+        double center_x = (p2x+p3x)/2.0;
+        double center_y = (p2y+p3y)/2.0;
+
+        /* simple cornered line */
+        /*
         cairo_move_to ( cr, p1x, p1y );
         cairo_line_to ( cr, p2x, p2y );
         cairo_line_to ( cr, p3x, p3y );
         cairo_line_to ( cr, p4x, p4y );
         cairo_stroke (cr);
+        */
+
+        /* alternative with fix radius */
+        {
+            double radius = 2.0 * pencil_size_get_arrow_stroke_length( pencil_size );
+            double dx;
+            double dy;
+            cairo_move_to ( cr, p1x, p1y );
+            dx = p2x - p1x;
+            dy = p2y - p1y;
+            if ( dx > +radius ) { dx = +radius; }
+            if ( dx < -radius ) { dx = -radius; }
+            if ( dy > +radius ) { dy = +radius; }
+            if ( dy < -radius ) { dy = -radius; }
+            cairo_line_to ( cr, p2x - dx, p2y - dy );
+            dx = center_x - p2x;
+            dy = center_y - p2y;
+            if ( dx > +radius ) { dx = +radius; }
+            if ( dx < -radius ) { dx = -radius; }
+            if ( dy > +radius ) { dy = +radius; }
+            if ( dy < -radius ) { dy = -radius; }
+            cairo_curve_to ( cr, p2x, p2y, p2x, p2y, p2x + dx, p2y + dy );
+            dx = p3x - center_x;
+            dy = p3y - center_y;
+            if ( dx > +radius ) { dx = +radius; }
+            if ( dx < -radius ) { dx = -radius; }
+            if ( dy > +radius ) { dy = +radius; }
+            if ( dy < -radius ) { dy = -radius; }
+            cairo_line_to ( cr, p3x - dx, p3y - dy );
+            dx = p4x - p3x;
+            dy = p4y - p3y;
+            if ( dx > +radius ) { dx = +radius; }
+            if ( dx < -radius ) { dx = -radius; }
+            if ( dy > +radius ) { dy = +radius; }
+            if ( dy < -radius ) { dy = -radius; }
+            cairo_curve_to ( cr, p3x, p3y, p3x, p3y, p3x + dx, p3y + dy );
+            cairo_line_to ( cr, p4x, p4y );
+            cairo_stroke (cr);
+        }
 
         /* draw arrow */
         int clock_direction; /* wall-clock direction assuming ascending y direction to top */
@@ -161,8 +205,6 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
 
             /* draw text */
-            double center_x = (p2x+p3x)/2.0;
-            double center_y = (p2y+p3y)/2.0;
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
             cairo_move_to ( cr, center_x - 0.5*text2_width, center_y - text2_height );
             pango_cairo_show_layout (cr, layout);

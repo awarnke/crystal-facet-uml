@@ -28,7 +28,7 @@ cd crystal_facet_uml/doxygen_build
 doxygen doxygen_config
 cd ../..
 cd crystal_facet_uml/cmake_build
-cmake .
+cmake -DCMAKE_BUILD_TYPE=Release .
 make
 rm -fr CMakeFiles
 rm -f CMakeCache.txt
