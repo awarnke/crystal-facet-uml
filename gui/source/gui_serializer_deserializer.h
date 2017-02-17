@@ -1,0 +1,101 @@
+/* File: gui_serializer_deserializer.h; Copyright and License: see below */
+
+#ifndef GUI_SERIALIZER_DESERIALIZER_H
+#define GUI_SERIALIZER_DESERIALIZER_H
+
+/* public file for the doxygen documentation: */
+/*! \file
+ *  \brief Serializes and deserializes a set of objects to/from the clipboard
+ */
+
+#include "gui_sketch_marker.h"
+#include "gui_simple_message_to_user.h"
+#include "ctrl_controller.h"
+#include "util/string/utf8stringbuf.h"
+#include <gtk/gtk.h>
+
+/*!
+ *  \brief attributes of the serdes object
+ */
+struct gui_serializer_deserializer_struct {
+    data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
+    ctrl_controller_t *controller;  /*!< pointer to external controller */
+    gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+
+    GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
+    utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
+    char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
+};
+
+typedef struct gui_serializer_deserializer_struct gui_serializer_deserializer_t;
+
+/*!
+ *  \brief initializes the gui_serializer_deserializer_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param clipboard pointer to the main/primary GtkClipboard
+ *  \param message_to_user pointer to an object that can show a message to the user
+ *  \param marker pointer to the set of marked items
+ *  \param db_reader pointer to a database reader
+ *  \param controller pointer to a controller object which can modify the database
+ */
+void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
+                             GtkClipboard *clipboard,
+                             gui_sketch_marker_t *marker,
+                             gui_simple_message_to_user_t *message_to_user,
+                             data_database_reader_t *db_reader,
+                             ctrl_controller_t *controller
+                           );
+
+/*!
+ *  \brief destroys the gui_serializer_deserializer_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ );
+
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
+void gui_serializer_deserializer_paste_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the text from the clipboard is now available
+ */
+void gui_serializer_deserializer_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *text, gpointer data );
+
+/*!
+ *  \brief copies a set of objects to the clipboard
+ */
+void gui_serializer_deserializer_private_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied );
+
+/*!
+ *  \brief copies the clipboard contents to the database
+ */
+void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_deserializer_t *this_, const char *json_text );
+
+/*!
+ *  \brief copies the clipboard contents to the focused diagram
+ */
+void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializer_deserializer_t *this_, const char *json_text, int64_t diagram_id );
+
+#endif  /* GUI_SERIALIZER_DESERIALIZER_H */
+
+
+/*
+Copyright 2016-2017 Andreas Warnke
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+*/
