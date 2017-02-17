@@ -15,6 +15,13 @@
 #include <gtk/gtk.h>
 
 /*!
+ *  \brief constants for maximum values of gui_serializer_deserializer_t
+ */
+enum gui_serializer_deserializer_max_enum {
+    GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
+};
+
+/*!
  *  \brief attributes of the serdes object
  */
 struct gui_serializer_deserializer_struct {
@@ -27,6 +34,8 @@ struct gui_serializer_deserializer_struct {
     GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
     utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
     char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
+
+    data_feature_t temp_features[GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES];  /*!< temporary memory for feature list */
 };
 
 typedef struct gui_serializer_deserializer_struct gui_serializer_deserializer_t;
@@ -41,11 +50,11 @@ typedef struct gui_serializer_deserializer_struct gui_serializer_deserializer_t;
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
-                             GtkClipboard *clipboard,
-                             gui_simple_message_to_user_t *message_to_user,
-                             data_database_reader_t *db_reader,
-                             ctrl_controller_t *controller
-                           );
+                                        GtkClipboard *clipboard,
+                                        gui_simple_message_to_user_t *message_to_user,
+                                        data_database_reader_t *db_reader,
+                                        ctrl_controller_t *controller
+                                      );
 
 /*!
  *  \brief destroys the gui_serializer_deserializer_t struct
