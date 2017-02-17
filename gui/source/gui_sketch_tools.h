@@ -137,11 +137,6 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data );
 void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
- *  \brief callback that informs that the text from the clipboard is now available
- */
-void gui_sketch_tools_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *text, gpointer data );
-
-/*!
  *  \brief callback that informs that the tool button was pressed
  */
 void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data );
@@ -187,16 +182,6 @@ static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
-
-/*!
- *  \brief copies the clipboard contents to the database
- */
-void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text );
-
-/*!
- *  \brief copies the clipboard contents to the focused diagram
- */
-void gui_sketch_tools_private_copy_clipboard_to_diagram( gui_sketch_tools_t *this_, const char *json_text, int64_t diagram_id );
 
 /*!
  *  \brief deletes a set of objects

@@ -57,9 +57,9 @@ void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ 
 
 
 /*!
- *  \brief callback that informs that the tool button was pressed
+ *  \brief gets the clipboard contents and calls
  */
-void gui_serializer_deserializer_paste_btn_callback( GtkWidget* button, gpointer data );
+void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_ );
 
 /*!
  *  \brief callback that informs that the text from the clipboard is now available

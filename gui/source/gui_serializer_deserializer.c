@@ -185,19 +185,15 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
     TRACE_END();
 }
 
-void gui_serializer_deserializer_paste_btn_callback( GtkWidget* button, gpointer data )
+void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_ )
 {
     TRACE_BEGIN();
-    gui_serializer_deserializer_t *this_ = data;
-
-    gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_serializer_deserializer_clipboard_text_received_callback, this_ );
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
