@@ -10,6 +10,7 @@
 
 #include "gui_sketch_marker.h"
 #include "gui_simple_message_to_user.h"
+#include "gui_serializer_deserializer.h"
 #include "ctrl_controller.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -36,6 +37,7 @@ struct gui_sketch_tools_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+    gui_serializer_deserializer_t serdes;  /*!< own instance of a serializer deserializer object */
 
     GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */

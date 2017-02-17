@@ -50,6 +50,14 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
                                                        (*this_).private_clipboard_buffer );
 
+    gui_serializer_deserializer_init ( &((*this_).serdes),
+                                       clipboard,
+                                       marker,
+                                       message_to_user,
+                                       db_reader,
+                                       controller
+                                     );
+
     /* define a new signal */
     if ( ! gui_sketch_tools_glib_signal_initialized )
     {
@@ -75,6 +83,8 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
 void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
 {
     TRACE_BEGIN();
+
+    gui_serializer_deserializer_destroy ( &((*this_).serdes) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
