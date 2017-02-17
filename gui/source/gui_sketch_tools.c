@@ -239,7 +239,19 @@ void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, 
 
             case DATA_TABLE_RELATIONSHIP:
             {
-                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED;
+                data_relationship_t out_relation;
+                read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
+                                                                           data_id_get_row_id( &current_id ),
+                                                                           &out_relation );
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    serialize_error |= data_json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
+                }
+                else
+                {
+                    /* program internal error */
+                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                }
             }
             break;
 

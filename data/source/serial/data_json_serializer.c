@@ -105,11 +105,6 @@ data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8s
     return result;
 }
 
-/*
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
- */
 data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_, data_classifier_t *object, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
@@ -300,11 +295,6 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
     return result;
 }
 
-/*
- *  \return DATA_ERROR_NONE in case of success,
- *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
- */
 data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t *object, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
