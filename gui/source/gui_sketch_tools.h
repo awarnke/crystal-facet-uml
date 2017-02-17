@@ -43,10 +43,6 @@ struct gui_sketch_tools_struct {
     GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_new_obj;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_new_view;  /*!< pointer to external GtkRadioToolButton */
-
-    GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
-    utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
-    char private_clipboard_buffer[128*1024];  /*!< stringbuffer to read and write to/from the clipboard */
 };
 
 typedef struct gui_sketch_tools_struct gui_sketch_tools_t;

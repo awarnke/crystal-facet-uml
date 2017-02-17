@@ -46,13 +46,9 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
     (*this_).tool_edit = tool_edit;
     (*this_).tool_new_obj = tool_new_obj;
     (*this_).tool_new_view = tool_new_view;
-    (*this_).the_clipboard = clipboard;
-    (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
-                                                       (*this_).private_clipboard_buffer );
 
     gui_serializer_deserializer_init ( &((*this_).serdes),
                                        clipboard,
-                                       marker,
                                        message_to_user,
                                        db_reader,
                                        controller
@@ -213,7 +209,8 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes) );
+    int64_t destination_diagram_id = gui_sketch_marker_get_focused_diagram( (*this_).marker );
+    gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes), destination_diagram_id );
 
     TRACE_TIMESTAMP();
     TRACE_END();

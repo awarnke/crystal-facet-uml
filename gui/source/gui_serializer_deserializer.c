@@ -12,19 +12,17 @@
 
 void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
                              GtkClipboard *clipboard,
-                             gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              data_database_reader_t *db_reader,
                              ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
     assert( NULL != clipboard );
-    assert( NULL != marker );
     assert( NULL != message_to_user );
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).marker = marker;
+    (*this_).destination_diagram_id = DATA_ID_VOID_ID;
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
@@ -41,7 +39,6 @@ void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ 
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
-    (*this_).marker = NULL;
     (*this_).message_to_user = NULL;
     TRACE_END();
 }
@@ -185,11 +182,13 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
     TRACE_END();
 }
 
-void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_ )
+void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_, int64_t destination_diagram_id )
 {
     TRACE_BEGIN();
 
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
+
+    (*this_).destination_diagram_id = destination_diagram_id;
 
     /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
     gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_serializer_deserializer_clipboard_text_received_callback, this_ );
@@ -221,21 +220,18 @@ void gui_serializer_deserializer_clipboard_text_received_callback ( GtkClipboard
 void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_deserializer_t *this_, const char *json_text )
 {
     TRACE_BEGIN();
-    int64_t focused_diagram;
-
-    focused_diagram = gui_sketch_marker_get_focused_diagram( (*this_).marker );
 
     data_error_t diag_check_error;
     static data_diagram_t test_diagram;  /* unsynchronized - but it is just a dummy ... */
-    diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, focused_diagram, &test_diagram );
+    diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, (*this_).destination_diagram_id, &test_diagram );
     if ( DATA_ERROR_NONE == diag_check_error )
     {
-        TRACE_INFO_INT ( "focused_diagram:", focused_diagram );
-        gui_serializer_deserializer_private_copy_clipboard_to_diagram( this_, json_text, focused_diagram );
+        TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
+        gui_serializer_deserializer_private_copy_clipboard_to_diagram( this_, json_text, (*this_).destination_diagram_id );
     }
     else
     {
-        TSLOG_WARNING_INT ( "focused_diagram is invalid:", focused_diagram );
+        TSLOG_WARNING_INT ( "(*this_).destination_diagram_id is invalid:", (*this_).destination_diagram_id );
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION

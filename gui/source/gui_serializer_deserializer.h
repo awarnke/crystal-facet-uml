@@ -20,8 +20,9 @@
 struct gui_serializer_deserializer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+
+    int64_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
 
     GtkClipboard *the_clipboard;  /*!< pointer to external GtkClipboard */
     utf8stringbuf_t clipboard_stringbuf;  /*!< stringbuffer to read and write to/from the clipboard */
@@ -36,13 +37,11 @@ typedef struct gui_serializer_deserializer_struct gui_serializer_deserializer_t;
  *  \param this_ pointer to own object attributes
  *  \param clipboard pointer to the main/primary GtkClipboard
  *  \param message_to_user pointer to an object that can show a message to the user
- *  \param marker pointer to the set of marked items
  *  \param db_reader pointer to a database reader
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
                              GtkClipboard *clipboard,
-                             gui_sketch_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              data_database_reader_t *db_reader,
                              ctrl_controller_t *controller
@@ -55,11 +54,13 @@ void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
  */
 void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ );
 
-
 /*!
  *  \brief gets the clipboard contents and calls
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param destination_diagram_id diagram to which the deserialized objects shall be added
  */
-void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_ );
+void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_, int64_t destination_diagram_id );
 
 /*!
  *  \brief callback that informs that the text from the clipboard is now available
