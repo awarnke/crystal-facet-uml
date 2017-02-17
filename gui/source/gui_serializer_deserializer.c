@@ -46,7 +46,7 @@ void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ 
     TRACE_END();
 }
 
-void gui_serializer_deserializer_private_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied )
+void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied )
 {
     TRACE_BEGIN();
     data_error_t serialize_error = DATA_ERROR_NONE;

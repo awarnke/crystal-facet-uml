@@ -69,7 +69,7 @@ void gui_serializer_deserializer_clipboard_text_received_callback ( GtkClipboard
 /*!
  *  \brief copies a set of objects to the clipboard
  */
-void gui_serializer_deserializer_private_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied );
+void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied );
 
 /*!
  *  \brief copies the clipboard contents to the database

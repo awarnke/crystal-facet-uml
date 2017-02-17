@@ -189,11 +189,6 @@ static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ 
 void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
 
 /*!
- *  \brief copies a set of objects to the clipboard
- */
-void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_copied );
-
-/*!
  *  \brief copies the clipboard contents to the database
  */
 void gui_sketch_tools_private_copy_clipboard_to_db( gui_sketch_tools_t *this_, const char *json_text );

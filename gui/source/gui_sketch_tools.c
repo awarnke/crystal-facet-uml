@@ -169,9 +169,9 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 
     set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
 
-    /* do not check if set is empty; gui_sketch_tools_private_delete_set will do this */
+    /* do not check if set is empty; gui_serializer_deserializer_copy_set_to_clipboard will do this */
 
-    gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_cut );
+    gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_cut );
 
     gui_sketch_tools_private_delete_set( this_, set_to_be_cut );
 
@@ -200,148 +200,9 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
         /* continue nonetheless, it is possible to copy an empty set to the clipboard */
     }
 
-    gui_sketch_tools_private_copy_set_to_clipboard( this_, set_to_be_copied );
+    gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_copied );
 
     TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_sketch_tools_private_copy_set_to_clipboard( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_copied )
-{
-    TRACE_BEGIN();
-    data_error_t serialize_error = DATA_ERROR_NONE;
-    data_error_t read_error;
-    data_json_serializer_t serializer;
-
-    data_json_serializer_init( &serializer );
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
-
-    serialize_error |= data_json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            {
-                data_classifier_t out_classifier;
-                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                         data_id_get_row_id( &current_id ),
-                                                                         &out_classifier );
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED;
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                data_relationship_t out_relation;
-                read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
-                                                                           data_id_get_row_id( &current_id ),
-                                                                           &out_relation );
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    serialize_error |= data_json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                data_classifier_t out_classifier;
-                data_diagramelement_t out_diagramelement;
-                int64_t classifier_id;
-
-                read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
-                                                                             data_id_get_row_id( &current_id ),
-                                                                             &out_diagramelement );
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
-
-                    read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                             classifier_id,
-                                                                             &out_classifier );
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                data_diagram_t out_diagram;
-                read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                                      data_id_get_row_id( &current_id ),
-                                                                      &out_diagram );
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    serialize_error |= data_json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            default:
-            {
-                serialize_error |= DATA_ERROR_VALUE_OUT_OF_RANGE;
-            }
-            break;
-        }
-    }
-    serialize_error |= data_json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
-
-    if ( serialize_error == DATA_ERROR_NONE )
-    {
-        gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
-    }
-    else
-    {
-        /* error to be shown to the user */
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-        );
-    }
-    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
-
-    data_json_serializer_destroy( &serializer );
-
     TRACE_END();
 }
 
