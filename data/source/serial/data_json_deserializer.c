@@ -147,6 +147,10 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
                 {
                     (*out_type) = DATA_TABLE_DIAGRAM;
                 }
+                else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_RELATIONSHIP ) )
+                {
+                    (*out_type) = DATA_TABLE_RELATIONSHIP;
+                }
                 else
                 {
                     TSLOG_ERROR_INT( "unexpected token before character", temp_read_pos );
@@ -160,10 +164,16 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
     return result;
 }
 
-data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_, data_classifier_t *out_object )
+data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_,
+                                                          data_classifier_t *out_object,
+                                                          uint32_t max_out_array_size,
+                                                          data_feature_t (*out_feature)[],
+                                                          uint32_t *out_feature_count )
 {
     TRACE_BEGIN();
     assert ( NULL != out_object );
+    assert ( NULL != out_feature );
+    assert ( NULL != out_feature_count );
     data_error_t result = DATA_ERROR_NONE;
 
     char member_name_buf[16];
@@ -445,12 +455,180 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
     return result;
 }
 
+data_error_t data_json_deserializer_skip_next_object ( data_json_deserializer_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    char member_name_buf[24];
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
+
+    /* header */
+
+    result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        TRACE_INFO_STR( "skipping", utf8stringbuf_get_string( member_name ) );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+
+    /* members */
+
+    bool first_member_passed = false;
+    bool object_end = false;
+    static const int MAX_MEMBERS = 8;  /* mamimum number of members to parse */
+    if ( DATA_ERROR_NONE == result )
+    {
+        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        {
+            result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+            if ( DATA_ERROR_NONE == result )
+            {
+                if ( ! object_end )
+                {
+                    if ( first_member_passed )
+                    {
+                        result = data_json_tokenizer_expect_value_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    else
+                    {
+                        first_member_passed = true;
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = data_json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = data_json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    data_json_value_type_t v_type;
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = data_json_tokenizer_get_value_type ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &v_type );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        switch ( v_type )
+                        {
+                            case DATA_JSON_VALUE_TYPE_OBJECT:
+                            {
+                                result = DATA_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_ARRAY:
+                            {
+                                result = DATA_ERROR_PARSER_STRUCTURE; /* this function does not expect arrays in objects */
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_NUMBER:
+                            {
+                                double parsed_number;
+                                result = data_json_tokenizer_get_number_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_number );
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_INTEGER:
+                            {
+                                int64_t parsed_integer;
+                                result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_STRING:
+                            {
+                                char dummy_str[4];
+                                utf8stringbuf_t dummy_strbuf = UTF8STRINGBUF ( dummy_str );
+                                result = data_json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), dummy_strbuf );
+                                if ( result == DATA_ERROR_STRING_BUFFER_EXCEEDED )
+                                {
+                                    /* ignore this. The result string is not needed therefore dummy_str may be too small */
+                                    result = DATA_ERROR_NONE;
+                                }
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_BOOLEAN:
+                            {
+                                bool parsed_bool;
+                                result = data_json_tokenizer_get_boolean_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_bool );
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_NULL:
+                            {
+                                result = data_json_tokenizer_expect_null_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                            }
+                            break;
+
+                            case DATA_JSON_VALUE_TYPE_UNDEF:
+                            default:
+                            {
+                                TSLOG_ERROR_INT( "unexpected member type at character", (*this_).read_pos );
+                                result = DATA_ERROR_PARSER_STRUCTURE; /* this function does not expect objects in objects */
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+                result = DATA_ERROR_PARSER_STRUCTURE;
+                object_end = true;
+            }
+        }
+    }
+
+    /* footer */
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = data_json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        if ( ! object_end )
+        {
+            TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+            result = DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+
+    (*this_).after_first_array_entry = true;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint32_t *out_read_pos )
 {
     TRACE_BEGIN();
     assert ( NULL != out_read_pos );
 
     (*out_read_pos) = (*this_).read_pos;
+
+    TRACE_END();
+}
+
+data_error_t data_json_deserializer_private_get_next_feature ( data_json_deserializer_t *this_, data_feature_t *out_object )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_object );
 
     TRACE_END();
 }

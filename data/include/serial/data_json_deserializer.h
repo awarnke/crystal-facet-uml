@@ -16,6 +16,7 @@
 #include "data_table.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
+#include "data_feature.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>
@@ -85,6 +86,7 @@ data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *t
  *  \param out_type pointer to storage location for the result. Must not be NULL.
  *                  DATA_TABLE_CLASSIFIER if the next object is a classifier,
  *                  DATA_TABLE_DIAGRAM if the next object is a diagram,
+ *                  DATA_TABLE_RELATIONSHIP if the next object is a relationship,
  *                  DATA_TABLE_VOID if there is no next object.
  *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
@@ -97,12 +99,20 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
  *
  *  \param this_ pointer to own object attributes
  *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_feature array of features read from the database (in case of success)
+ *  \param out_feature_count number of feature records stored in out_feature
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
  *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_, data_classifier_t *out_object );
+data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_,
+                                                          data_classifier_t *out_object,
+                                                          uint32_t max_out_array_size,
+                                                          data_feature_t (*out_feature)[],
+                                                          uint32_t *out_feature_count
+                                                        );
 
 /*!
  *  \brief parses the next object as diagram
@@ -117,6 +127,16 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
 data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t *this_, data_diagram_t *out_object );
 
 /*!
+ *  \brief skips the next object, e.g. a relationship if this is of no interest
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected (e.g. array member),
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t data_json_deserializer_skip_next_object ( data_json_deserializer_t *this_ );
+
+/*!
  *  \brief gets the current read position
  *
  *  May be used to determine the position where a parse error occurred.
@@ -125,6 +145,20 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
  *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
  */
 void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint32_t *out_read_pos );
+
+/*!
+ *  \brief parses the next object as feature
+ *
+ *  This function may only be called from within parsing a classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_object pointer to storage location for the result. Must not be NULL.
+ *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if strings do not fit into the out_object,
+ *          DATA_ERROR_PARSER_STRUCTURE if JSON format is valid but JSON content is unexpected,
+ *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
+ *          DATA_ERROR_NONE if structure of the input is valid.
+ */
+data_error_t data_json_deserializer_private_get_next_feature ( data_json_deserializer_t *this_, data_feature_t *out_object );
 
 #endif  /* DATA_JSON_DESERIALIZER_H */
 

@@ -276,7 +276,13 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                     case DATA_TABLE_CLASSIFIER:
                     {
                         data_classifier_t new_classifier;
-                        parse_error = data_json_deserializer_get_next_classifier ( &deserializer, &new_classifier );
+                        uint32_t feature_count;
+                        parse_error = data_json_deserializer_get_next_classifier ( &deserializer,
+                                                                                   &new_classifier,
+                                                                                   GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                   &((*this_).temp_features),
+                                                                                   &feature_count
+                                                                                 );
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
@@ -393,6 +399,21 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 set_end = true;
                             }
 
+                            is_first = false;
+                        }
+                    }
+                    break;
+
+                    case DATA_TABLE_RELATIONSHIP:
+                    {
+                        parse_error = data_json_deserializer_skip_next_object ( &deserializer );
+                        if ( DATA_ERROR_NONE != parse_error )
+                        {
+                            /* parser error, break loop: */
+                            set_end = true;
+                        }
+                        else
+                        {
                             is_first = false;
                         }
                     }
