@@ -65,10 +65,32 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                 data_classifier_t out_classifier;
                 read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
                                                                          data_id_get_row_id( &current_id ),
-                                                                         &out_classifier );
+                                                                         &out_classifier
+                                                                       );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
+                    uint32_t out_feature_count;
+                    read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
+                                                                                      data_id_get_row_id( &current_id ),
+                                                                                      GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                      &((*this_).temp_features),
+                                                                                      &out_feature_count
+                                                                                    );
+
+                    if ( read_error == DATA_ERROR_NONE )
+                    {
+                        serialize_error |= data_json_serializer_append_classifier( &serializer,
+                                                                                   &out_classifier,
+                                                                                   &((*this_).temp_features),
+                                                                                   out_feature_count,
+                                                                                   (*this_).clipboard_stringbuf
+                                                                                 );
+                    }
+                    else
+                    {
+                        /* program internal error */
+                        TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                    }
                 }
                 else
                 {
@@ -80,7 +102,8 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
             case DATA_TABLE_FEATURE:
             {
-                serialize_error |= DATA_ERROR_NOT_YET_IMPLEMENTED;
+                /* intentionally not supported */
+                TRACE_INFO( "gui_sketch_tools_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
             }
             break;
 
@@ -120,7 +143,28 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                              &out_classifier );
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        serialize_error |= data_json_serializer_append_classifier( &serializer, &out_classifier, (*this_).clipboard_stringbuf );
+                        uint32_t out_feature_count;
+                        read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
+                                                                                          data_id_get_row_id( &current_id ),
+                                                                                          GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                          &((*this_).temp_features),
+                                                                                          &out_feature_count
+                        );
+
+                        if ( read_error == DATA_ERROR_NONE )
+                        {
+                            serialize_error |= data_json_serializer_append_classifier( &serializer,
+                                                                                       &out_classifier,
+                                                                                       &((*this_).temp_features),
+                                                                                       out_feature_count,
+                                                                                       (*this_).clipboard_stringbuf
+                            );
+                        }
+                        else
+                        {
+                            /* program internal error */
+                            TSLOG_ERROR( "gui_sketch_tools_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                        }
                     }
                     else
                     {
