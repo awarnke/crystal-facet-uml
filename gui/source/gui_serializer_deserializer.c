@@ -344,9 +344,9 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 data_error_t read_error;
                                 data_classifier_t existing_classifier;
                                 read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                                        data_classifier_get_id( &new_classifier ),
-                                                                                        &existing_classifier
-                                );
+                                                                                         data_classifier_get_id( &new_classifier ),
+                                                                                         &existing_classifier
+                                                                                       );
                                 bool classifier_exists = false;
                                 if ( DATA_ERROR_NONE == read_error )
                                 {
@@ -364,18 +364,32 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                                 &new_classifier,
                                                                                                 ! is_first,
                                                                                                 &the_classifier_id
-                                    );
+                                                                                              );
                                     if ( CTRL_ERROR_DUPLICATE_NAME == write_error )
                                     {
                                         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                                              GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                                                              GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
                                                                                              data_classifier_get_name_ptr( &new_classifier )
-                                        );
+                                                                                           );
                                         set_end = true;
                                         parse_error = DATA_ERROR_DUPLICATE_NAME;
                                     }
-                                    else if ( CTRL_ERROR_NONE != write_error )
+                                    else if ( CTRL_ERROR_NONE == write_error )
+                                    {
+                                        /* create also the features */
+                                        for ( int f_index = 0; f_index < feature_count; f_index ++ )
+                                        {
+                                            int64_t new_feature_id;
+                                            data_feature_set_classifier_id( &((*this_).temp_features[f_index]), the_classifier_id );
+                                            write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
+                                                                                                       &((*this_).temp_features[f_index]),
+                                                                                                       true, /* = bool add_to_latest_undo_set */
+                                                                                                       &new_feature_id
+                                                                                                     );
+                                        }
+                                    }
+                                    else
                                     {
                                         TSLOG_ERROR( "unexpected error" );
                                         set_end = true;
@@ -398,11 +412,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 int64_t new_element_id;
                                 data_diagramelement_t diag_ele;
                                 data_diagramelement_init_new( &diag_ele, diagram_id, the_classifier_id, DATA_DIAGRAMELEMENT_FLAG_NONE );
-                                write_error2 = ctrl_diagram_controller_create_diagramelement( diag_ctrl,
-                                                                                            &diag_ele,
-                                                                                            ! is_first,
-                                                                                            &new_element_id
-                                );
+                                write_error2 = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
+                                                                                               &diag_ele,
+                                                                                               ! is_first,
+                                                                                               &new_element_id
+                                                                                             );
                                 if ( CTRL_ERROR_NONE != write_error2 )
                                 {
                                     TSLOG_ERROR( "unexpected error" );
@@ -432,11 +446,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                             ctrl_error_t write_error3;
                             int64_t new_diag_id;
                             data_diagram_set_parent_id( &new_diagram, diagram_id );
-                            write_error3 = ctrl_diagram_controller_create_diagram( diag_ctrl,
-                                                                                   &new_diagram,
-                                                                                   ! is_first,
-                                                                                   &new_diag_id
-                            );
+                            write_error3 = ctrl_diagram_controller_create_diagram ( diag_ctrl,
+                                                                                    &new_diagram,
+                                                                                    ! is_first,
+                                                                                    &new_diag_id
+                                                                                  );
                             if ( CTRL_ERROR_NONE != write_error3 )
                             {
                                 TSLOG_ERROR( "unexpected error" );
@@ -493,11 +507,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
     {
         uint32_t read_pos;
         data_json_deserializer_get_read_pos ( &deserializer, &read_pos );
-        gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
-                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                          GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                          read_pos
-        );
+        gui_simple_message_to_user_show_message_with_int ( (*this_).message_to_user,
+                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                           GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                           read_pos
+                                                         );
     }
 
     TRACE_END();
