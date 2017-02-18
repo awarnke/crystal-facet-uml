@@ -41,7 +41,7 @@ data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t 
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-    char member_name_buf[4] = "";
+    char member_name_buf[24] = "";
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     result = data_json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
@@ -110,7 +110,7 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
 
     uint32_t temp_read_pos;
     bool array_end;
-    char member_name_buf[16];
+    char member_name_buf[24];
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     temp_read_pos = (*this_).read_pos;
@@ -176,7 +176,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
     assert ( NULL != out_feature_count );
     data_error_t result = DATA_ERROR_NONE;
 
-    char member_name_buf[16];
+    char member_name_buf[24];
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     data_classifier_init_empty( out_object );
@@ -209,7 +209,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 8;  /* mamimum number of members to parse */
+    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
     if ( DATA_ERROR_NONE == result )
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
@@ -276,6 +276,10 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
                             utf8stringbuf_t parsed_strbuf = data_classifier_get_description_buf_ptr ( out_object );
                             result = data_json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_FEATURES ) )
+                        {
+                            result = data_json_deserializer_private_get_next_feature_array ( this_, max_out_array_size, out_feature, out_feature_count );
+                        }
                         else
                         {
                             TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
@@ -324,7 +328,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
     assert ( NULL != out_object );
     data_error_t result = DATA_ERROR_NONE;
 
-    char member_name_buf[16];
+    char member_name_buf[24];
     utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
 
     data_diagram_init_empty( out_object );
@@ -357,7 +361,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 8;  /* mamimum number of members to parse */
+    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
     if ( DATA_ERROR_NONE == result )
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
@@ -487,7 +491,7 @@ data_error_t data_json_deserializer_skip_next_object ( data_json_deserializer_t 
 
     bool first_member_passed = false;
     bool object_end = false;
-    static const int MAX_MEMBERS = 8;  /* mamimum number of members to parse */
+    static const int MAX_MEMBERS = 16;  /* mamimum number of members to parse */
     if ( DATA_ERROR_NONE == result )
     {
         for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
@@ -621,6 +625,30 @@ void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint
     assert ( NULL != out_read_pos );
 
     (*out_read_pos) = (*this_).read_pos;
+
+    TRACE_END();
+}
+
+data_error_t data_json_deserializer_private_get_next_feature_array ( data_json_deserializer_t *this_,
+                                                                     uint32_t max_out_array_size,
+                                                                     data_feature_t (*out_feature)[],
+                                                                     uint32_t *out_feature_count )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_feature );
+    assert ( NULL != out_feature_count );
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = data_json_tokenizer_expect_begin_array( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        bool end_array;
+        result = data_json_tokenizer_is_end_array( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &end_array );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
 
     TRACE_END();
 }
