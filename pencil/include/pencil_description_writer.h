@@ -45,6 +45,44 @@ void pencil_description_writer_destroy( pencil_description_writer_t *this_ );
  */
 int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *out );
 
+/*!
+ *  \brief prints names and descriptions of the diagram to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out );
+
+/*!
+ *  \brief prints names and descriptions of the diagram to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_classifiers ( pencil_description_writer_t *this_, FILE *out );
+
+/*!
+ *  \brief prints names and descriptions of the diagram to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier of which the features are written
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_features_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out );
+
+/*!
+ *  \brief prints names and descriptions of the diagram to the output stream
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier of which the relations are written
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_relations_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out );
+
 #endif  /* PENCIL_DESCRIPTION_WRITER_H */
 
 

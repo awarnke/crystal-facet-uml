@@ -925,7 +925,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                              data_id_get_row_id( &destination_real ),
                                                              "depends on", /* =relationship_name */
                                                              "", /* =relationship_description */
-                                                             0 /* =list_order */
+                                                             x*y /* =list_order, formula to be updated */
                                                            );
 
                             /* create relationship */
@@ -977,7 +977,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                            "get_state",
                                                            "uint32_t(*)(void)",
                                                            "",
-                                                           0 /* list_order */
+                                                           x*y /* list_order, formula to be updated */
                                                          );
 
                             /* create feature */
