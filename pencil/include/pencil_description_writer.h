@@ -83,6 +83,24 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
  */
 int pencil_description_writer_private_write_relations_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out );
 
+/*!
+ *  \brief prints a multiline string with indentation prefix
+ *
+ *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
+ *  newline, return and return-newline are recognized as line breaks.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent pattern, by which each line is indented; must not be NULL
+ *  \param multiline_string string to write to out
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_indent_multiline_string ( pencil_description_writer_t *this_,
+                                                                      const char *indent,
+                                                                      const char *multiline_string,
+                                                                      FILE *out
+                                                                    );
+
 #endif  /* PENCIL_DESCRIPTION_WRITER_H */
 
 

@@ -59,7 +59,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
     TRACE_BEGIN();
     assert( NULL != out );
     int result = 0;
-    size_t out_count;  /* checks if the number of written charaters matches the expectation */
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
 
     /* get diagram */
     data_diagram_t *diag;
@@ -86,13 +86,11 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
 
     /* print diagram description */
     const char *diag_descr = data_diagram_get_description_ptr(diag);
-    size_t diag_descr_len = strlen(diag_descr);
-    out_count = fwrite( diag_descr, 1 /* size of char */, diag_descr_len, out );
-    if ( out_count != diag_descr_len )
-    {
-        TSLOG_ERROR_INT( "not all bytes could be written. missing:", diag_descr_len - out_count );
-        result = -1;
-    }
+    result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                                                                               "| ",
+                                                                               diag_descr,
+                                                                               out
+                                                                             );
 
     TRACE_END_ERR( result );
     return result;
@@ -103,7 +101,7 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
     TRACE_BEGIN();
     assert( NULL != out );
     int result = 0;
-    size_t out_count;  /* checks if the number of written charaters matches the expectation */
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -148,13 +146,11 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
 
             /* print classifier description */
             const char *classifier_descr = data_classifier_get_description_ptr(classifier);
-            size_t classifier_descr_len = strlen(classifier_descr);
-            out_count = fwrite( classifier_descr, 1 /* size of char */, classifier_descr_len, out );
-            if ( out_count != classifier_descr_len )
-            {
-                TSLOG_ERROR_INT( "not all bytes could be written. missing:", classifier_descr_len - out_count );
-                result = -1;
-            }
+            result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                                                                                       "| ",
+                                                                                       classifier_descr,
+                                                                                       out
+                                                                                     );
 
             /* print all features */
             result |= pencil_description_writer_private_write_features_of_classifier( this_, classifier_id, out );
@@ -174,7 +170,7 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
     assert( NULL != out );
     assert( DATA_ID_VOID_ID != classifier_id );
     int result = 0;
-    size_t out_count;  /* checks if the number of written charaters matches the expectation */
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
 
     /* iterate over all features */
     uint32_t count;
@@ -237,14 +233,11 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
 
                 /* print feature description */
                 const char *feature_descr = data_feature_get_description_ptr( feature );
-                size_t feature_descr_len = strlen(feature_descr);
-                out_count = fwrite( feature_descr, 1 /* size of char */, feature_descr_len, out );
-                if ( out_count != feature_descr_len )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", feature_descr_len - out_count );
-                    result = -1;
-                }
-
+                result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                                                                                           "  | ",
+                                                                                           feature_descr,
+                                                                                           out
+                                                                                         );
             }
         }
     }
@@ -259,7 +252,7 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
     assert( NULL != out );
     assert( DATA_ID_VOID_ID != classifier_id );
     int result = 0;
-    size_t out_count;  /* checks if the number of written charaters matches the expectation */
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
 
     /* iterate over all relationships */
     uint32_t count;
@@ -337,13 +330,11 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
 
                             /* print relationship description */
                             const char *relation_descr = data_relationship_get_description_ptr( relation );
-                            size_t relation_descr_len = strlen( relation_descr );
-                            out_count = fwrite( relation_descr, 1 /* size of char */, relation_descr_len, out );
-                            if ( out_count != relation_descr_len )
-                            {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_descr_len - out_count );
-                                result = -1;
-                            }
+                            result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                                                                                                       "  | ",
+                                                                                                       relation_descr,
+                                                                                                       out
+                                                                                                     );
                         }
                         else
                         {
@@ -354,6 +345,100 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                         }
                     }
                 }
+            }
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/*
+ *  \brief prints a multiline string with indentation prefix
+ *
+ *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
+ *  newline, return and return-newline are recognized as line breaks.
+ */
+int pencil_description_writer_private_write_indent_multiline_string ( pencil_description_writer_t *this_,
+                                                                      const char *indent,
+                                                                      const char *multiline_string,
+                                                                      FILE *out )
+{
+    TRACE_BEGIN();
+    assert( NULL != indent );
+    assert( NULL != out );
+    int result = 0;
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
+    size_t indent_length = strlen( indent );
+
+    if ( NULL != multiline_string )
+    {
+        const char *line_start = multiline_string;
+        size_t line_length = 0;
+        bool ignore_newline = false;  /* newlines after returns are ignored */
+
+        size_t length = strlen( multiline_string );
+        for ( size_t index = 0; index < length; index ++ )
+        {
+            bool end_of_line = false;
+
+            char current = multiline_string[index];
+            if ( '\r' == current )
+            {
+                ignore_newline = true;
+                end_of_line = true;
+            }
+            else if ( '\n' == current )
+            {
+                if ( ignore_newline )
+                {
+                    line_start = &(multiline_string[index+1]);
+                }
+                else
+                {
+                    end_of_line = true;
+                }
+                ignore_newline = false;
+            }
+            else
+            {
+                ignore_newline = false;
+                line_length ++;
+                if ( index+1 == length )
+                {
+                    end_of_line = true;
+                }
+            }
+
+            if ( end_of_line )
+            {
+                /* print indent pattern */
+                out_count = fwrite( indent, 1 /* size of char */, indent_length, out );
+                if ( out_count != indent_length )
+                {
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_length - out_count );
+                    result = -1;
+                }
+
+                /* print next line */
+                out_count = fwrite( line_start, 1 /* size of char */, line_length, out );
+                if ( out_count != line_length )
+                {
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", line_length - out_count );
+                    result = -1;
+                }
+
+                /* print newline */
+                out_count = fwrite( "\n", 1 /* size of char */, 1 /* size of newline */, out );
+                if ( out_count != 1 )
+                {
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", 1 - out_count );
+                    result = -1;
+                }
+
+                /* reset line indices */
+                line_start = &(multiline_string[index+1]);
+                line_length = 0;
             }
         }
     }
