@@ -283,7 +283,7 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                     visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, dest_index );
                     if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
                     {
-                        data_classifier_t *classifier;
+                        data_classifier_t *dest_classifier;
                         dest_classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
                         int64_t dest_classifier_id = data_classifier_get_id(dest_classifier);
 
