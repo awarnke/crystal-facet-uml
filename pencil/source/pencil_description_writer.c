@@ -51,6 +51,8 @@ static const char *NEWLINE_SPACE = "\n  ";
 static const size_t NEWLINE_SPACE_LEN = 3;
 static const char *COLON_SPACE = ": ";
 static const size_t COLON_SPACE_LEN = 2;
+static const char *SPACE_ARROW_SPACE = " --> ";
+static const size_t SPACE_ARROW_SPACE_LEN = 5;
 
 int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out )
 {
@@ -271,40 +273,86 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
         {
             if ( classifier_id == data_relationship_get_from_classifier_id( relation ) )
             {
-                /* print a new line */
-                out_count = fwrite( NEWLINE_SPACE, 1 /* size of char */, NEWLINE_SPACE_LEN, out );
-                if ( out_count != NEWLINE_SPACE_LEN )
+                /* find destination classifier */
+                uint32_t dest_count;
+                dest_count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+                for ( uint32_t dest_index = 0; dest_index < dest_count; dest_index ++ )
                 {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", NEWLINE_SPACE_LEN - out_count );
-                    result = -1;
-                }
+                    /* get classifier */
+                    data_visible_classifier_t *visible_classifier;
+                    visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, dest_index );
+                    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+                    {
+                        data_classifier_t *classifier;
+                        dest_classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+                        int64_t dest_classifier_id = data_classifier_get_id(dest_classifier);
 
-                /* print relationship name */
-                const char *relation_name = data_relationship_get_name_ptr( relation );
-                size_t relation_name_len = strlen( relation_name );
-                out_count = fwrite( relation_name, 1 /* size of char */, relation_name_len, out );
-                if ( out_count != relation_name_len )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_name_len - out_count );
-                    result = -1;
-                }
+                        if ( dest_classifier_id == data_relationship_get_to_classifier_id( relation ) )
+                        {
+                            /* destination classifier found, print the relation */
 
-                /* print an empty line */
-                out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
-                if ( out_count != COLON_NEWLINE_LEN )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
-                    result = -1;
-                }
+                            /* print a new line */
+                            out_count = fwrite( NEWLINE_SPACE, 1 /* size of char */, NEWLINE_SPACE_LEN, out );
+                            if ( out_count != NEWLINE_SPACE_LEN )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", NEWLINE_SPACE_LEN - out_count );
+                                result = -1;
+                            }
 
-                /* print relationship description */
-                const char *relation_descr = data_relationship_get_description_ptr( relation );
-                size_t relation_descr_len = strlen( relation_descr );
-                out_count = fwrite( relation_descr, 1 /* size of char */, relation_descr_len, out );
-                if ( out_count != relation_descr_len )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_descr_len - out_count );
-                    result = -1;
+                            /* print relationship name */
+                            const char *relation_name = data_relationship_get_name_ptr( relation );
+                            size_t relation_name_len = strlen( relation_name );
+                            out_count = fwrite( relation_name, 1 /* size of char */, relation_name_len, out );
+                            if ( out_count != relation_name_len )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_name_len - out_count );
+                                result = -1;
+                            }
+
+                            /* print arrow */
+                            out_count = fwrite( SPACE_ARROW_SPACE, 1 /* size of char */, SPACE_ARROW_SPACE_LEN, out );
+                            if ( out_count != SPACE_ARROW_SPACE_LEN )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_ARROW_SPACE_LEN - out_count );
+                                result = -1;
+                            }
+
+                            /* print destination classifier name */
+                            const char *dest_classifier_name = data_classifier_get_name_ptr( dest_classifier );
+                            size_t dest_classifier_name_len = strlen( dest_classifier_name );
+                            out_count = fwrite( dest_classifier_name, 1 /* size of char */, dest_classifier_name_len, out );
+                            if ( out_count != dest_classifier_name_len )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", dest_classifier_name_len - out_count );
+                                result = -1;
+                            }
+
+                            /* print an empty line */
+                            out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
+                            if ( out_count != COLON_NEWLINE_LEN )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
+                                result = -1;
+                            }
+
+                            /* print relationship description */
+                            const char *relation_descr = data_relationship_get_description_ptr( relation );
+                            size_t relation_descr_len = strlen( relation_descr );
+                            out_count = fwrite( relation_descr, 1 /* size of char */, relation_descr_len, out );
+                            if ( out_count != relation_descr_len )
+                            {
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_descr_len - out_count );
+                                result = -1;
+                            }
+                        }
+                        else
+                        {
+                            TRACE_INFO_INT_INT( "relationship of classifier not printed because destination not in current diagram",
+                                                classifier_id,
+                                                dest_classifier_id
+                                              );
+                        }
+                    }
                 }
             }
         }
