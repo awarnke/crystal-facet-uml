@@ -1,12 +1,11 @@
-Standards:
+Standards
 
 
-Automotive SPICE:
-
-  ISO/IEC 33001:2015:
-
-
-Medical SPICE:
+Automotive SPICE
+  ISO/IEC 33001:2015
 
 
-CMMI:
+Medical SPICE
+
+
+CMMI

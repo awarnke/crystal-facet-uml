@@ -1,9 +1,8 @@
-Quality:
+Quality
 
 
-Product Quality:
+Product Quality
+  ISO/IEC 25010:2011
 
-  ISO/IEC 25010:2011:
 
-
-Process Quality:
+Process Quality

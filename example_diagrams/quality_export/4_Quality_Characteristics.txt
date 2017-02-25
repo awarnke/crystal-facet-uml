@@ -1,181 +1,150 @@
-Quality Characteristics:
+Quality Characteristics
 | according to ISO 25010
 
 
-Completeness:
+Completeness
+   --> Functional Suitability
 
-   --> Functional Suitability:
 
+Maturity
+   --> Reliability
 
-Maturity:
 
-   --> Reliability:
+Functional Suitability
 
 
-Functional Suitability:
+Correctness
+   --> Functional Suitability
 
 
-Correctness:
+Availability
+   --> Reliability
 
-   --> Functional Suitability:
 
+Reliability
 
-Availability:
 
-   --> Reliability:
+Appropriateness
+   --> Functional Suitability
 
 
-Reliability:
+Fault Tolerance
+   --> Reliability
 
 
-Appropriateness:
+Confidentiality
+   --> Security
 
-   --> Functional Suitability:
 
+Time Behaviour
+   --> Performance Efficiency
 
-Fault Tolerance:
 
-   --> Reliability:
+Recoverability
+   --> Reliability
 
 
-Confidentiality:
+Integrity
+   --> Security
 
-   --> Security:
 
+Resource Utilization
+   --> Performance Efficiency
 
-Time Behaviour:
 
-   --> Performance Efficiency:
+Performance Efficiency
 
 
-Recoverability:
+Non-Repudiation
+   --> Security
 
-   --> Reliability:
 
+Capacity
+   --> Performance Efficiency
 
-Integrity:
 
-   --> Security:
+Authenticity
+   --> Security
 
 
-Resource Utilization:
+Modularity
+   --> Maintainability
 
-   --> Performance Efficiency:
 
+Security
 
-Performance Efficiency:
 
+Recognizability
+   --> Usability
 
-Non-Repudiation:
 
-   --> Security:
+Accountability
+   --> Security
 
 
-Capacity:
+Reusability
+   --> Maintainability
 
-   --> Performance Efficiency:
 
+Compatibility
 
-Authenticity:
 
-   --> Security:
+Learnability
+   --> Usability
 
 
-Modularity:
+Analysability
+   --> Maintainability
 
-   --> Maintainability:
 
+Co-existence
+   --> Compatibility
 
-Security:
 
+Operability
+   --> Usability
 
-Recognizability:
 
-   --> Usability:
+Maintainability
 
 
-Accountability:
+Interoperability
+   --> Compatibility
 
-   --> Security:
 
+User Error Protection
+   --> Usability
 
-Reusability:
 
-   --> Maintainability:
+Adaptability
+   --> Portability
 
 
-Compatibility:
+Modifyability
+   --> Maintainability
 
 
-Learnability:
+Usability
 
-   --> Usability:
 
+Aesthetics
+   --> Usability
 
-Analysability:
 
-   --> Maintainability:
+Installability
+   --> Portability
 
 
-Co-existence:
+Testability
+   --> Maintainability
 
-   --> Compatibility:
 
+Portability
 
-Operability:
 
-   --> Usability:
+Accessibility
+   --> Usability
 
 
-Maintainability:
-
-
-Interoperability:
-
-   --> Compatibility:
-
-
-User Error Protection:
-
-   --> Usability:
-
-
-Adaptability:
-
-   --> Portability:
-
-
-Modifyability:
-
-   --> Maintainability:
-
-
-Usability:
-
-
-Aesthetics:
-
-   --> Usability:
-
-
-Installability:
-
-   --> Portability:
-
-
-Testability:
-
-   --> Maintainability:
-
-
-Portability:
-
-
-Accessibility:
-
-   --> Usability:
-
-
-Replaceability:
-
-   --> Portability:
+Replaceability
+   --> Portability

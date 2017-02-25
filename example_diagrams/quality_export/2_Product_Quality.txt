@@ -1,7 +1,11 @@
-Product Quality:
+Product Quality
 
 
-Quality in Use:
+Quality in Use
+| Quality in use can be measured when the product is already in use, 
+| e.g. the percentage of satisfied customers can be determined.
 
 
-Ext/Int Product Quality :
+Ext/Int Product Quality 
+| Product quality are internal and externally visible qualities, 
+| such as memory consumption or startup timings.

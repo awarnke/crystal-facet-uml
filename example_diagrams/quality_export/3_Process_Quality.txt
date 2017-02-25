@@ -1,42 +1,38 @@
-Process Quality:
+Process Quality
 | The turtle diagram shows the elements of a process.
 
 
-Who:
+Who
 | Roles,
 | Skills, Knowledge,
 | Trainings
+  enables --> Process
 
-  depends on --> Name and Description:
 
-
-How:
+How
 | Guidelines, Checklists,
 | Templates
-
-  depends on --> Name and Description:
-
-
-Input:
-
-  depends on --> Name and Description:
+  enables --> Process
 
 
-Name and Description:
+Input
+  is precondition for --> Process
 
-  depends on --> Output:
+
+Process
+  Name
+  Description
+  creates --> Output
 
 
-Output:
+Output
 | Process output,
 | Evidence on performed process
 
 
-With What:
+With What
+  enables --> Process
 
-  depends on --> Name and Description:
 
-
-What Results:
-
-  depends on --> Name and Description:
+What Results
+  controls --> Process

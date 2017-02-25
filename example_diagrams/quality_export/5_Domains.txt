@@ -1,26 +1,24 @@
-Domains:
+Domains
 
 
-Aerospace:
+Aerospace
 
 
-Avionics:
+Avionics
 
 
-Automotive:
-
-  Electronic Control Units:
-
-  Infotainment:
+Automotive
+  Electronic Control Units
+  Infotainment
 
 
-Military:
+Military
 
 
-Backend Server:
+Backend Server
 
 
-Medical:
+Medical
 
 
-Machine construction:
+Machine construction

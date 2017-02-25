@@ -45,14 +45,18 @@ int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *o
 
 static const char *TWO_NEWLINES = "\n\n";
 static const size_t TWO_NEWLINES_LEN = 2;
-static const char *COLON_NEWLINE = ":\n";
-static const size_t COLON_NEWLINE_LEN = 2;
-static const char *NEWLINE_SPACE = "\n  ";
-static const size_t NEWLINE_SPACE_LEN = 3;
+static const char *LINE_END = "\n";
+static const size_t LINE_END_LEN = 1;
+static const char *SPACE = "  ";
+static const size_t SPACE_LEN = 2;
 static const char *COLON_SPACE = ": ";
 static const size_t COLON_SPACE_LEN = 2;
 static const char *SPACE_ARROW_SPACE = " --> ";
 static const size_t SPACE_ARROW_SPACE_LEN = 5;
+static const char *TITLE_END = "\n";
+static const size_t TITLE_END_LEN = 1;
+static const char *SINGLE_INDENT = "| ";
+static const char *DOUBLE_INDENT = "  | ";
 
 int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out )
 {
@@ -77,17 +81,17 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
     }
 
     /* print an empty line */
-    out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
-    if ( out_count != COLON_NEWLINE_LEN )
+    out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
+    if ( out_count != TITLE_END_LEN )
     {
-        TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
+        TSLOG_ERROR_INT( "not all bytes could be written. missing:", TITLE_END_LEN - out_count );
         result = -1;
     }
 
     /* print diagram description */
     const char *diag_descr = data_diagram_get_description_ptr(diag);
     result |= pencil_description_writer_private_write_indent_multiline_string( this_,
-                                                                               "| ",
+                                                                               SINGLE_INDENT,
                                                                                diag_descr,
                                                                                out
                                                                              );
@@ -137,17 +141,17 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
             }
 
             /* print an empty line */
-            out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
-            if ( out_count != COLON_NEWLINE_LEN )
+            out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
+            if ( out_count != TITLE_END_LEN )
             {
-                TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
+                TSLOG_ERROR_INT( "not all bytes could be written. missing:", TITLE_END_LEN - out_count );
                 result = -1;
             }
 
             /* print classifier description */
             const char *classifier_descr = data_classifier_get_description_ptr(classifier);
             result |= pencil_description_writer_private_write_indent_multiline_string( this_,
-                                                                                       "| ",
+                                                                                       SINGLE_INDENT,
                                                                                        classifier_descr,
                                                                                        out
                                                                                      );
@@ -185,10 +189,10 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
             if ( classifier_id == data_feature_get_classifier_id( feature ) )
             {
                 /* print a new line */
-                out_count = fwrite( NEWLINE_SPACE, 1 /* size of char */, NEWLINE_SPACE_LEN, out );
-                if ( out_count != NEWLINE_SPACE_LEN )
+                out_count = fwrite( SPACE, 1 /* size of char */, SPACE_LEN, out );
+                if ( out_count != SPACE_LEN )
                 {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", NEWLINE_SPACE_LEN - out_count );
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_LEN - out_count );
                     result = -1;
                 }
 
@@ -224,17 +228,17 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
                 }
 
                 /* print an empty line */
-                out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
-                if ( out_count != COLON_NEWLINE_LEN )
+                out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
+                if ( out_count != LINE_END_LEN )
                 {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
                     result = -1;
                 }
 
                 /* print feature description */
                 const char *feature_descr = data_feature_get_description_ptr( feature );
                 result |= pencil_description_writer_private_write_indent_multiline_string( this_,
-                                                                                           "  | ",
+                                                                                           DOUBLE_INDENT,
                                                                                            feature_descr,
                                                                                            out
                                                                                          );
@@ -285,10 +289,10 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                             /* destination classifier found, print the relation */
 
                             /* print a new line */
-                            out_count = fwrite( NEWLINE_SPACE, 1 /* size of char */, NEWLINE_SPACE_LEN, out );
-                            if ( out_count != NEWLINE_SPACE_LEN )
+                            out_count = fwrite( SPACE, 1 /* size of char */, SPACE_LEN, out );
+                            if ( out_count != SPACE_LEN )
                             {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", NEWLINE_SPACE_LEN - out_count );
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_LEN - out_count );
                                 result = -1;
                             }
 
@@ -321,17 +325,17 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                             }
 
                             /* print an empty line */
-                            out_count = fwrite( COLON_NEWLINE, 1 /* size of char */, COLON_NEWLINE_LEN, out );
-                            if ( out_count != COLON_NEWLINE_LEN )
+                            out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
+                            if ( out_count != LINE_END_LEN )
                             {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_NEWLINE_LEN - out_count );
+                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
                                 result = -1;
                             }
 
                             /* print relationship description */
                             const char *relation_descr = data_relationship_get_description_ptr( relation );
                             result |= pencil_description_writer_private_write_indent_multiline_string( this_,
-                                                                                                       "  | ",
+                                                                                                       DOUBLE_INDENT,
                                                                                                        relation_descr,
                                                                                                        out
                                                                                                      );
@@ -353,12 +357,6 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
     return result;
 }
 
-/*
- *  \brief prints a multiline string with indentation prefix
- *
- *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
- *  newline, return and return-newline are recognized as line breaks.
- */
 int pencil_description_writer_private_write_indent_multiline_string ( pencil_description_writer_t *this_,
                                                                       const char *indent,
                                                                       const char *multiline_string,
@@ -429,7 +427,7 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
                 }
 
                 /* print newline */
-                out_count = fwrite( "\n", 1 /* size of char */, 1 /* size of newline */, out );
+                out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
                 if ( out_count != 1 )
                 {
                     TSLOG_ERROR_INT( "not all bytes could be written. missing:", 1 - out_count );
