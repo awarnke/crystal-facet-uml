@@ -3,6 +3,11 @@
 #ifndef GEOMETRY_NON_LINEAR_SCALE_TEST_H
 #define GEOMETRY_NON_LINEAR_SCALE_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for geometry_non_linear_scale
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef geometry_non_linear_scale_test_get_list(void);

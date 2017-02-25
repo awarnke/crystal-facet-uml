@@ -3,6 +3,11 @@
 #ifndef DATA_CHANGE_NOTIFIER_TEST_H
 #define DATA_CHANGE_NOTIFIER_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for data_change_notifier
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef data_change_notifier_test_get_list(void);

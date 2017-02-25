@@ -3,6 +3,11 @@
 #ifndef DATA_DATABASE_LISTENER_TEST_H
 #define DATA_DATABASE_LISTENER_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for data_database_listener
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef data_database_listener_test_get_list(void);

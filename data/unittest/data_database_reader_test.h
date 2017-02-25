@@ -3,6 +3,11 @@
 #ifndef DATA_DATABASE_READER_TEST_H
 #define DATA_DATABASE_READER_TEST_H
 
+/*!
+ *  \file
+ *  \brief MODULE TEST for data_database_writer, data_database_sql_builder, data_database and data_database_reader
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef data_database_reader_test_get_list(void);

@@ -3,6 +3,12 @@
 #ifndef CTRL_UNDO_REDO_LIST_TEST_H
 #define CTRL_UNDO_REDO_LIST_TEST_H
 
+/*!
+ *  \file
+ *  \brief MODULE TEST for data_database_writer, data_database_sql_builder,
+ *                         data_database, data_database_reader, ctrl_undo_redo_list
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef ctrl_undo_redo_list_test_get_list(void);

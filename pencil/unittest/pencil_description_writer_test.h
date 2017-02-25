@@ -3,6 +3,11 @@
 #ifndef PENCIL_DESCRIPTION_WRITER_TEST_H
 #define PENCIL_DESCRIPTION_WRITER_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for pencil_description_writer
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef pencil_description_writer_test_get_list(void);

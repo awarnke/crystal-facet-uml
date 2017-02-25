@@ -3,6 +3,12 @@
 #ifndef CTRL_CLASSIFIER_CONTROLLER_TEST_H
 #define CTRL_CLASSIFIER_CONTROLLER_TEST_H
 
+/*!
+ *  \file
+ *  \brief MODULE TEST for data_database_writer, data_database_sql_builder,
+ *                         data_database, data_database_reader, ctrl_classifier_controller
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef ctrl_classifier_controller_test_get_list(void);

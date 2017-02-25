@@ -3,6 +3,11 @@
 #ifndef DATA_JSON_TOKENIZER_TEST_H
 #define DATA_JSON_TOKENIZER_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for data_json_tokenizer
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef data_json_tokenizer_test_get_list(void);

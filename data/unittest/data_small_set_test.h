@@ -3,6 +3,11 @@
 #ifndef DATA_SMALL_SET_TEST_H
 #define DATA_SMALL_SET_TEST_H
 
+/*!
+ *  \file
+ *  \brief UNITTEST for data_small_set
+ */
+
 #include <embUnit/embUnit.h>
 
 TestRef data_small_set_test_get_list(void);

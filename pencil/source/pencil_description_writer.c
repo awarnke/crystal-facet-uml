@@ -428,9 +428,9 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
 
                 /* print newline */
                 out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
-                if ( out_count != 1 )
+                if ( out_count != LINE_END_LEN )
                 {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", 1 - out_count );
+                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
                     result = -1;
                 }
 
