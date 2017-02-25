@@ -1,8 +1,8 @@
-2017-02-xx 0.13 [xxxxxxx]
-  + The txt-file export exports features and relations
+2017-02-25 0.13 [xxxxxxx]
+  + The txt-file export contains features and relationships
+  + The user can export pdf and ps formats
   + The user is able to import features from the clipboard
   + The user is able to export relationships and features to the clipboard
-  + pdf and ps formats can be exported
 2017-02-12 0.12 [7e37cf9]
   + Features can be created, modified, deleted (incl. undo/redo)
 2017-02-05 0.11 [655350d]
