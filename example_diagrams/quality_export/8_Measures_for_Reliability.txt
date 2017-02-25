@@ -5,6 +5,14 @@ Layered Architecture
   improves --> Maturity
 
 
+Example Guidelines
+  Spark/ADA: Avionics
+  Power of Ten: NASA
+  SecureC
+  MISRA-C/C++: automotive
+  implements --> Coding Guidelines
+
+
 Coding Guidelines
   static thread model
   | Execution threads shall not be started/stopped dynamically
