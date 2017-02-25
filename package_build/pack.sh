@@ -22,6 +22,7 @@ cp -r ../pencil crystal_facet_uml/
 cp -r ../sqlite crystal_facet_uml/
 cp -r ../universal crystal_facet_uml/
 cp -r ../user_doc crystal_facet_uml/
+cp -r ../example_diagrams crystal_facet_uml/
 
 echo "building doc and binary"
 cd crystal_facet_uml/doxygen_build
