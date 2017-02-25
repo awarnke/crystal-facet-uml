@@ -1,0 +1,45 @@
+Measures for Reliability:
+
+
+Layered Architecture:
+
+  improves --> Maturity:
+
+
+Coding Guidelines:
+
+  static thread model:
+  | Execution threads shall not be started/stopped dynamically
+
+  no endless loops:
+  | Every loop shall have a counter that ensures that after a predefined maximum value after the loop is quit
+
+  consistent error handling:
+  | Inconsistencies in error handling make code vulnerabile to bugs in error handling
+
+  valid Memory Addresses:
+  | Only valid memory addresses may be read/written.
+  | E.g. Java solves this by prohibiting pointers
+
+  no dynamic Memory:
+
+  no recursion: avoid Stack overflow:
+
+  improves --> Maturity:
+
+
+Maturity:
+
+
+Availability:
+
+
+Fault Tolerance:
+
+
+Fault injection Tests:
+
+  improves --> Fault Tolerance:
+
+
+Recoverability:

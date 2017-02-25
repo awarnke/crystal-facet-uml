@@ -26,6 +26,8 @@ enum gui_file_exporter_const_enum {
     GUI_FILE_EXPORTER_CONST_EXPORT_TXT = 0x70a0,  /*!< response code to export txt files */
     GUI_FILE_EXPORTER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
     GUI_FILE_EXPORTER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
+    GUI_FILE_EXPORTER_CONST_EXPORT_PDF = 0x70a3,  /*!< response code to export pdf files */
+    GUI_FILE_EXPORTER_CONST_EXPORT_PS = 0x70a4,  /*!< response code to export ps files */
 };
 
 /*!

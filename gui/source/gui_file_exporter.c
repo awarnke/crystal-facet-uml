@@ -5,6 +5,8 @@
 #include "tslog.h"
 #include <gtk/gtk.h>
 #include <cairo-svg.h>
+#include <cairo-pdf.h>
+#include <cairo-ps.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
@@ -121,6 +123,68 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
         }
         break;
 
+        case GUI_FILE_EXPORTER_CONST_EXPORT_PDF:
+        {
+            TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_PDF" );
+            gchar *folder_path;
+            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            TRACE_INFO_STR( "chosen folder:", folder_path );
+
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PDF, folder_path );
+
+            g_free (folder_path);
+
+            if ( 0 == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     "pdf"
+                );
+            }
+            else
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                     "pdf"
+                );
+            }
+        }
+        break;
+
+        case GUI_FILE_EXPORTER_CONST_EXPORT_PS:
+        {
+            TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_PS" );
+            gchar *folder_path;
+            folder_path = gtk_file_chooser_get_filename ( GTK_FILE_CHOOSER(dialog) );
+            gtk_widget_hide( GTK_WIDGET ( dialog ) );
+            TRACE_INFO_STR( "chosen folder:", folder_path );
+
+            export_err = gui_file_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 8, GUI_FILE_EXPORT_FORMAT_PS, folder_path );
+
+            g_free (folder_path);
+
+            if ( 0 == export_err )
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,
+                                                                     "ps"
+                );
+            }
+            else
+            {
+                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_FILE_EXPORT_FAILED,
+                                                                     "ps"
+                );
+            }
+        }
+        break;
+
         case GUI_FILE_EXPORTER_CONST_EXPORT_TXT:
         {
             TSLOG_EVENT( "GUI_FILE_EXPORTER_CONST_EXPORT_TXT" );
@@ -209,6 +273,14 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".png" );
         }
+        else if ( GUI_FILE_EXPORT_FORMAT_PDF == export_type )
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".pdf" );
+        }
+        else if ( GUI_FILE_EXPORT_FORMAT_PS == export_type )
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".ps" );
+        }
         else /* GUI_FILE_EXPORT_FORMAT_TXT */
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".txt" );
@@ -224,6 +296,20 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                                     geometry_rectangle_get_width( &((*this_).bounds) ),
                                                                     geometry_rectangle_get_height( &((*this_).bounds) )
                                                                   );
+        }
+        else if ( GUI_FILE_EXPORT_FORMAT_PDF == export_type )
+        {
+            surface = (cairo_surface_t *) cairo_pdf_surface_create ( utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                                     geometry_rectangle_get_width( &((*this_).bounds) ),
+                                                                     geometry_rectangle_get_height( &((*this_).bounds) )
+            );
+        }
+        else if ( GUI_FILE_EXPORT_FORMAT_PS == export_type )
+        {
+            surface = (cairo_surface_t *) cairo_ps_surface_create ( utf8stringbuf_get_string( (*this_).temp_filename ),
+                                                                    geometry_rectangle_get_width( &((*this_).bounds) ),
+                                                                    geometry_rectangle_get_height( &((*this_).bounds) )
+            );
         }
         else if ( GUI_FILE_EXPORT_FORMAT_PNG == export_type )
         {
@@ -302,6 +388,16 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
 
         /* finish surface */
         if ( GUI_FILE_EXPORT_FORMAT_SVG == export_type )
+        {
+            cairo_surface_finish ( surface );
+            cairo_surface_destroy ( surface );
+        }
+        else if ( GUI_FILE_EXPORT_FORMAT_PDF == export_type )
+        {
+            cairo_surface_finish ( surface );
+            cairo_surface_destroy ( surface );
+        }
+        else if ( GUI_FILE_EXPORT_FORMAT_PS == export_type )
         {
             cairo_surface_finish ( surface );
             cairo_surface_destroy ( surface );

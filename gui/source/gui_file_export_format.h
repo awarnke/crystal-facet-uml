@@ -14,6 +14,8 @@
  */
 enum gui_file_export_format_enum {
     GUI_FILE_EXPORT_FORMAT_SVG,  /*!< scalable vector graphics */
+    GUI_FILE_EXPORT_FORMAT_PDF,  /*!< portable document format */
+    GUI_FILE_EXPORT_FORMAT_PS,  /*!< postscript */
     GUI_FILE_EXPORT_FORMAT_PNG,  /*!< portable network graphics */
     GUI_FILE_EXPORT_FORMAT_TXT,  /*!< utf8 encoded text */
 };

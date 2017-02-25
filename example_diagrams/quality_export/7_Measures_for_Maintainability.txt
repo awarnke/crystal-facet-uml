@@ -1,0 +1,16 @@
+Measures for Maintainability:
+
+
+Modularity:
+
+
+Reusability:
+
+
+Analysability:
+
+
+Modifyability:
+
+
+Testability:

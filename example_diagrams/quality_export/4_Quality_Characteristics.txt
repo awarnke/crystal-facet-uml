@@ -1,0 +1,181 @@
+Quality Characteristics:
+| according to ISO 25010
+
+
+Completeness:
+
+   --> Functional Suitability:
+
+
+Maturity:
+
+   --> Reliability:
+
+
+Functional Suitability:
+
+
+Correctness:
+
+   --> Functional Suitability:
+
+
+Availability:
+
+   --> Reliability:
+
+
+Reliability:
+
+
+Appropriateness:
+
+   --> Functional Suitability:
+
+
+Fault Tolerance:
+
+   --> Reliability:
+
+
+Confidentiality:
+
+   --> Security:
+
+
+Time Behaviour:
+
+   --> Performance Efficiency:
+
+
+Recoverability:
+
+   --> Reliability:
+
+
+Integrity:
+
+   --> Security:
+
+
+Resource Utilization:
+
+   --> Performance Efficiency:
+
+
+Performance Efficiency:
+
+
+Non-Repudiation:
+
+   --> Security:
+
+
+Capacity:
+
+   --> Performance Efficiency:
+
+
+Authenticity:
+
+   --> Security:
+
+
+Modularity:
+
+   --> Maintainability:
+
+
+Security:
+
+
+Recognizability:
+
+   --> Usability:
+
+
+Accountability:
+
+   --> Security:
+
+
+Reusability:
+
+   --> Maintainability:
+
+
+Compatibility:
+
+
+Learnability:
+
+   --> Usability:
+
+
+Analysability:
+
+   --> Maintainability:
+
+
+Co-existence:
+
+   --> Compatibility:
+
+
+Operability:
+
+   --> Usability:
+
+
+Maintainability:
+
+
+Interoperability:
+
+   --> Compatibility:
+
+
+User Error Protection:
+
+   --> Usability:
+
+
+Adaptability:
+
+   --> Portability:
+
+
+Modifyability:
+
+   --> Maintainability:
+
+
+Usability:
+
+
+Aesthetics:
+
+   --> Usability:
+
+
+Installability:
+
+   --> Portability:
+
+
+Testability:
+
+   --> Maintainability:
+
+
+Portability:
+
+
+Accessibility:
+
+   --> Usability:
+
+
+Replaceability:
+
+   --> Portability:
