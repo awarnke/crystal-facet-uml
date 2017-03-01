@@ -201,7 +201,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
             case GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE:
             {
-                utf8stringbuf_append_str( (*this_).content, "Name already in use: " );
+                utf8stringbuf_append_str( (*this_).content, "Name already in use (use copy and paste to insert the existing object): " );
                 utf8stringbuf_append_str( (*this_).content, string_param );
             }
             break;

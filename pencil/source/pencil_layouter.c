@@ -77,8 +77,8 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
     double draw_width = geometry_rectangle_get_width ( &((*this_).diagram_draw_area) );
     double draw_height = geometry_rectangle_get_height ( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left + 0.04*draw_width, draw_right - 0.04*draw_width );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top +0.04*draw_height, draw_bottom - 0.04*draw_height );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left /*+ 0.04*draw_width*/, draw_right /*- 0.04*draw_width*/ );
+    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top /*+0.04*draw_height*/, draw_bottom /*- 0.04*draw_height*/ );
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -392,9 +392,6 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
         TRACE_INFO( "no object at given location or no diagram chosen" );
         data_id_init_void( &result );
     }
-
-
-
 
     TRACE_END();
     return result;

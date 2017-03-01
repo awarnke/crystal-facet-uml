@@ -8,14 +8,12 @@ static inline void pencil_input_data_layout_init( pencil_input_data_layout_t *th
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
     {
         geometry_rectangle_init_empty( &((*this_).classifier_bounds[idx]) );
-    }
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
-    {
         geometry_rectangle_init_empty( &((*this_).classifier_space[idx]) );
     }
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         geometry_connector_init_empty( &((*this_).relationship_shape[idx]) );
+        (*this_).relationship_visible[idx] = false;
     }
 }
 
@@ -24,9 +22,6 @@ static inline void pencil_input_data_layout_destroy( pencil_input_data_layout_t 
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
     {
         geometry_rectangle_destroy( &((*this_).classifier_bounds[idx]) );
-    }
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS; idx ++ )
-    {
         geometry_rectangle_destroy( &((*this_).classifier_space[idx]) );
     }
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
@@ -51,6 +46,18 @@ static inline geometry_connector_t *pencil_input_data_layout_get_relationship_sh
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     return &((*this_).relationship_shape[index]);
+}
+
+static inline bool pencil_input_data_layout_is_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index )
+{
+    assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    return (*this_).relationship_visible[index];
+}
+
+static inline void pencil_input_data_layout_set_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index, bool visible )
+{
+    assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    ((*this_).relationship_visible[index]) = visible;
 }
 
 

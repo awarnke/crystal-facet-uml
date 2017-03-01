@@ -30,6 +30,7 @@ enum pencil_input_data_layout_max_enum {
 struct pencil_input_data_layout_struct {
     geometry_rectangle_t classifier_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< outer bounds of classifier records */
     geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records where features or contained classifiers are drawn */
+    bool relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */
     geometry_connector_t relationship_shape[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< shape of relationship records */
 };
 
@@ -75,6 +76,24 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_spac
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_connector_t *pencil_input_data_layout_get_relationship_shape_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets the visibility of a relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
+ *  \return true if visible.
+ */
+static inline bool pencil_input_data_layout_is_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index );
+
+/*!
+ *  \brief sets the visibility of a relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
+ *  \param visible true if visible.
+ */
+static inline void pencil_input_data_layout_set_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index, bool visible );
 
 #include "pencil_input_data_layout.inl"
 
