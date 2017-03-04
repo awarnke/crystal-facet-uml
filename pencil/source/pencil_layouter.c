@@ -105,25 +105,49 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
     TRACE_BEGIN();
 
     /* adjust the default classifier rectangle */
-    uint32_t count_clasfy;
-    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-    {
-        double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
-        double classifier_area;
-        if ( count_clasfy > 0 )
-        {
-            classifier_area = diagram_area / count_clasfy * (0.10);
-        }
-        else
-        {
-            classifier_area = diagram_area * (0.10);
-        }
-        double half_width = sqrt(classifier_area);
-        double half_height = half_width / 2.1;
-        geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
-    }
+    pencil_layouter_private_propose_default_classifier_size( this_ );
 
     /* store the classifier bounds into input_data_layouter_t */
+    pencil_layouter_private_estimate_classifier_bounds( this_ );
+
+    /* calculate the relationship shapes */
+    pencil_layouter_private_determine_relationship_shapes( this_ );
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* adjust the default classifier rectangle */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+
+    double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
+    double classifier_area;
+    if ( count_clasfy > 0 )
+    {
+        classifier_area = diagram_area / count_clasfy * (0.10);
+    }
+    else
+    {
+        classifier_area = diagram_area * (0.10);
+    }
+    double half_width = sqrt(classifier_area);
+    double half_height = half_width / 2.1;
+    geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* store the classifier bounds into input_data_layouter_t */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
         data_visible_classifier_t *visible_classifier2;
@@ -153,95 +177,70 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             /* overwrite directly internal attributes of (*this_).layout_data */
             bool has_stereotype = data_classifier_has_stereotype( classifier2 );
             double space_left = geometry_rectangle_get_left( classifier_bounds )
-                                + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             double space_width = geometry_rectangle_get_width( classifier_bounds )
-                                 - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             double space_height = geometry_rectangle_get_height( classifier_bounds )
-                                  - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) )
-                                  - pencil_size_get_larger_font_size( &((*this_).pencil_size ) );
+            - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) )
+            - pencil_size_get_larger_font_size( &((*this_).pencil_size ) );
             /* for underscores under object instance names: */
             space_height = space_height
-                           - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             if ( has_stereotype )
             {
                 space_height = space_height
-                               - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
-                               - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
+                - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
+                - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
                 /* this is an approximation to fix the differnce between font size and the actual line height */
                 space_height = space_height
-                               - 2.0 * pencil_size_get_font_line_gap( &((*this_).pencil_size ) );
+                - 2.0 * pencil_size_get_font_line_gap( &((*this_).pencil_size ) );
             }
             double space_top = geometry_rectangle_get_bottom( classifier_bounds )
-                               - space_height
-                               - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+            - space_height
+            - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
             geometry_rectangle_reinit( classifier_space, space_left, space_top, space_width, space_height );
         }
     }
 
+    TRACE_END();
+}
+
+void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
     /* calculate the relationship shapes */
+    uint32_t count_relations;
+    count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+
+    for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
     {
-        uint32_t count_relations;
-        count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+        data_relationship_t *current_relation;
+        current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
 
-        for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+        int32_t source_index;
+        int32_t dest_index;
+        source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                                data_relationship_get_from_classifier_id(current_relation)
+        );
+        dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                                data_relationship_get_to_classifier_id(current_relation)
+        );
+        if (( -1 != source_index ) && ( -1 != dest_index ))
         {
-            data_relationship_t *current_relation;
-            current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
-
-            int32_t source_index;
-            int32_t dest_index;
-            source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                                   data_relationship_get_from_classifier_id(current_relation)
-                                                                 );
-            dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                                 data_relationship_get_to_classifier_id(current_relation)
-                                                               );
-            if (( -1 != source_index ) && ( -1 != dest_index ))
-            {
-                pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, true );
-                geometry_connector_t *relationship_shape;
-                geometry_rectangle_t *source_rect;
-                geometry_rectangle_t *dest_rect;
-                relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
-                source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
-                dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
-                pencil_layouter_private_connect_rectangles( this_, source_rect, dest_rect, relationship_shape );
-            }
-            else
-            {
-                pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, false );
-                TRACE_INFO_INT( "relationship not shown because on of the parties is not visible. index:", rel_index );
-            }
-            /*
-            else if ( -1 != source_index )
-            {
-                source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
-                double y_coord = geometry_rectangle_get_top(source_rect) + 0.5*geometry_rectangle_get_height(source_rect);
-                geometry_connector_reinit_horizontal ( relationship_shape,
-                                                       geometry_rectangle_get_right(source_rect),
-                                                       y_coord,
-                                                       geometry_rectangle_get_right(source_rect) + 20.0,
-                                                       y_coord,
-                                                       y_coord
-                                                     );
-            }
-            else if ( -1 != dest_index )
-            {
-                dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
-                double y_coord = geometry_rectangle_get_top(dest_rect) + 0.5*geometry_rectangle_get_height(dest_rect);
-                geometry_connector_reinit_horizontal ( relationship_shape,
-                                                       geometry_rectangle_get_left(dest_rect) - 20.0,
-                                                       y_coord,
-                                                       geometry_rectangle_get_left(dest_rect),
-                                                       y_coord,
-                                                       y_coord
-                                                     );
-            }
-            else
-            {
-                TSLOG_ERROR( "relationship has neither a source nor a destination in the current diagram." );
-            }
-            */
+            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, true );
+            geometry_connector_t *relationship_shape;
+            geometry_rectangle_t *source_rect;
+            geometry_rectangle_t *dest_rect;
+            relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
+            source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
+            dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
+            pencil_layouter_private_connect_rectangles( this_, source_rect, dest_rect, relationship_shape );
+        }
+        else
+        {
+            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, false );
+            TRACE_INFO_INT( "relationship not shown because on of the parties is not visible. index:", rel_index );
         }
     }
 

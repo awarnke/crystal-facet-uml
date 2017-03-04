@@ -90,11 +90,11 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
         data_classifier_set_x_order( move_me, x_order );
         data_classifier_set_y_order( move_me, y_order );
 
-        pencil_diagram_layout_elements ( &((*this_).painter) );
+        (*this_).dirty_elements_layout = true;
     }
 }
 
-static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ )
+static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )
 {
     /* layout loaded classifiers */
     int32_t left;
@@ -113,7 +113,8 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ )
                                          &((*this_).painter_input_data),
                                          destination
                                        );
-    pencil_diagram_layout_elements ( &((*this_).painter) );
+    pencil_diagram_layout_elements ( &((*this_).painter), cr );
+    (*this_).dirty_elements_layout = false;
 
     geometry_rectangle_destroy( &destination );
 }

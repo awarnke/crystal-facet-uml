@@ -13,6 +13,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     TRACE_BEGIN();
 
     (*this_).visible = false;
+    (*this_).dirty_elements_layout = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
     pencil_input_data_init( &((*this_).painter_input_data) );
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
@@ -46,6 +47,13 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
         top = shape_int_rectangle_get_top( &((*this_).bounds) );
         width = shape_int_rectangle_get_width( &((*this_).bounds) );
         height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+        /* layout elements if necessary */
+        if ( (*this_).dirty_elements_layout )
+        {
+            pencil_diagram_layout_elements ( &((*this_).painter), cr );
+            (*this_).dirty_elements_layout = false;
+        }
 
         /* draw paper */
         cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );

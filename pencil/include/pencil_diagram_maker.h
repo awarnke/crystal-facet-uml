@@ -73,8 +73,9 @@ static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *th
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
  *
  *  \param this_ pointer to own object attributes
+ *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context
  */
-static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this_ );
+static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this_, cairo_t *cr );
 
 /*!
  *  \brief draws the chosen diagram contents into the diagram_bounds area of the cairo drawing context

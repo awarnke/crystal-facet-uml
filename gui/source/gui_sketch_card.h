@@ -27,6 +27,7 @@ struct gui_sketch_card_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the card */
     pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
+    bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
 };
 
 typedef struct gui_sketch_card_struct gui_sketch_card_t;
@@ -165,8 +166,9 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
  *  \brief lays out the diagram
  *
  *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context, needed to determine the font metrics
  */
-static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_ );
+static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr );
 
 #include "gui_sketch_card.inl"
 

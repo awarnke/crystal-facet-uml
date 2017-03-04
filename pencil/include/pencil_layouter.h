@@ -37,6 +37,9 @@ struct pencil_layouter_struct {
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
     geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
     geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
+
+    PangoLayout *layout;
+
 };
 
 typedef struct pencil_layouter_struct pencil_layouter_t;
@@ -171,6 +174,27 @@ static inline universal_bool_list_t pencil_layouter_is_pos_on_grid ( pencil_layo
                                                                      double x,
                                                                      double y
                                                                    );
+
+/*!
+ *  \brief proposes a default classifier bounds rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief estimates classifier bounds for each classifier
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief determines the shapes of the relationships
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief layouts a connection from one rectangle to another

@@ -106,8 +106,9 @@ void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param area_bounds bounding box within which the cards are layouted
+ *  \param cr cairo drawing context, needed the determine the font metrics in the given drawing context
  */
-void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds );
+void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
  *  \brief draws all diagrams

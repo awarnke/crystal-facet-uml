@@ -152,7 +152,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
         shape_int_rectangle_init( &bounds, 0, 0, width, height );
         if ( ! gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
         {
-            gui_sketch_area_private_layout_cards( this_, bounds );
+            gui_sketch_area_private_layout_cards( this_, bounds, cr );
         }
         gui_sketch_area_private_draw_cards( this_, bounds, cr );
     }
@@ -302,7 +302,7 @@ static const gint RATIO_HEIGHT = 24;
 static const gint BORDER = 10;
 static const gint HALF_BORDER = 5;
 
-void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds )
+void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
 
@@ -368,7 +368,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             }
 
             gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
-            gui_sketch_card_do_layout( &((*this_).cards[card_idx]) );
+            gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
         }
         else /* ==gui_sketch_card_is_valid and not GUI_SKETCH_TOOLS_NAVIGATE and not GUI_SKETCH_TOOLS_CREATE_DIAGRAM */
@@ -380,7 +380,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
                 shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
                 shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
                 gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
-                gui_sketch_card_do_layout( &((*this_).cards[card_idx]) );
+                gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
                 gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
             }
             else
@@ -462,7 +462,6 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
     TRACE_END();
     return TRUE;
 }
-
 
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
