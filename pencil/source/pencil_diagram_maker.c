@@ -57,18 +57,21 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
         rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
         for ( uint32_t index = 0; index < rel_count; index ++ )
         {
-            data_relationship_t *the_relationship;
-            the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
-            pencil_relationship_painter_draw ( &((*this_).relationship_painter),
-                                               the_relationship,
-                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
-                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
-                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
-                                               pencil_size,
-                                               pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
-                                               layout,
-                                               cr
-                                             );
+            if ( pencil_input_data_layout_is_relationship_visible ( layout_data, index ) )
+            {
+                data_relationship_t *the_relationship;
+                the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+                pencil_relationship_painter_draw ( &((*this_).relationship_painter),
+                                                   the_relationship,
+                                                   data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
+                                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                                   pencil_size,
+                                                   pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
+                                                   layout,
+                                                   cr
+                                                 );
+            }
         }
 
     }

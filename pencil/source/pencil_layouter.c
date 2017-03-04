@@ -42,8 +42,6 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     TRACE_END();
 }
 
-
-
 void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
                                    pencil_input_data_t *input_data,
                                    geometry_rectangle_t diagram_bounds )
@@ -190,9 +188,6 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             data_relationship_t *current_relation;
             current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
 
-            geometry_connector_t *relationship_shape;
-            relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
-
             int32_t source_index;
             int32_t dest_index;
             source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
@@ -201,14 +196,23 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
                                                                  data_relationship_get_to_classifier_id(current_relation)
                                                                );
-            geometry_rectangle_t *source_rect;
-            geometry_rectangle_t *dest_rect;
             if (( -1 != source_index ) && ( -1 != dest_index ))
             {
+                pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, true );
+                geometry_connector_t *relationship_shape;
+                geometry_rectangle_t *source_rect;
+                geometry_rectangle_t *dest_rect;
+                relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
                 source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
                 dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
                 pencil_layouter_private_connect_rectangles( this_, source_rect, dest_rect, relationship_shape );
             }
+            else
+            {
+                pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, false );
+                TRACE_INFO_INT( "relationship not shown because on of the parties is not visible. index:", rel_index );
+            }
+            /*
             else if ( -1 != source_index )
             {
                 source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
@@ -237,6 +241,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
             {
                 TSLOG_ERROR( "relationship has neither a source nor a destination in the current diagram." );
             }
+            */
         }
     }
 
