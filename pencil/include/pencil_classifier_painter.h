@@ -53,7 +53,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param classifier_bounds the destination rectangle where to draw the classifier
- *  \param layout structure to layout fonts
+ *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
@@ -63,9 +63,26 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
-                                      PangoLayout *layout,
+                                      PangoLayout *font_layout,
                                       cairo_t *cr
                                     );
+
+/*!
+ *  \brief determines the minumum classifier bounds
+ *
+ *  without contained features, without contained classifiers.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param visible_classifier pointer to the data to be drawn
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_classifier_bounds memory locatoin where the result shall be stroed. must not be NULL.
+ */
+void pencil_classifier_painter_get_minimum_bounds ( pencil_classifier_painter_t *this_,
+                                                    data_visible_classifier_t *visible_classifier,
+                                                    pencil_size_t *pencil_size,
+                                                    PangoLayout *font_layout,
+                                                    geometry_rectangle_t *out_classifier_bounds );
 
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 

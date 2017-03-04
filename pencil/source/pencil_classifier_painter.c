@@ -2,6 +2,8 @@
 
 #include "pencil_classifier_painter.h"
 #include "trace.h"
+#include "util/string/utf8stringbuf.h"
+#include "util/string/utf8string.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -32,14 +34,14 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
                                       data_small_set_t *mark_selected,
                                       pencil_size_t *pencil_size,
                                       geometry_rectangle_t *classifier_bounds,
-                                      PangoLayout *layout,
+                                      PangoLayout *font_layout,
                                       cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != visible_classifier );
     assert( NULL != classifier_bounds );
-    assert( NULL != layout );
+    assert( NULL != font_layout );
     assert( NULL != cr );
 
     double left, top;
@@ -90,21 +92,24 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         /* draw stereotype text */
         int text1_height = 0;
         {
-            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, "<<" );
-            utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-            utf8stringbuf_append_str( stereotype_buf, ">>" );
-            if ( utf8stringbuf_get_length( stereotype_buf ) != 4 )
+            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
             {
+                /* prepare text */
+                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+                utf8stringbuf_copy_str( stereotype_buf, "<<" );
+                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
+                utf8stringbuf_append_str( stereotype_buf, ">>" );
+
                 int text1_width;
-                pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (layout, utf8stringbuf_get_string( stereotype_buf ), -1);
-                pango_layout_get_pixel_size (layout, &text1_width, &text1_height);
+                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
+                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
                 cairo_move_to ( cr, left + 0.5*( width - text1_width ), top+gap );
-                pango_cairo_show_layout (cr, layout);
+                pango_cairo_show_layout (cr, font_layout);
             }
         }
+
         /* draw name text */
         {
             /* prepare text */
@@ -122,9 +127,9 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
 
             int text2_width;
             int text2_height;
-            pango_layout_set_font_description (layout, pencil_size_get_larger_font_description(pencil_size) );
-            pango_layout_set_text (layout, utf8stringbuf_get_string( name_buf ), -1);
-            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
+            pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
+            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
             /* highlight */
             if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
@@ -138,7 +143,7 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
             /* draw text */
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
             cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+gap+text1_height+f_line_gap );
-            pango_cairo_show_layout (cr, layout);
+            pango_cairo_show_layout (cr, font_layout);
 
             /* underline instances */
             if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
@@ -164,6 +169,95 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
         TSLOG_ERROR("invalid visible classifier in array!");
     }
 
+    TRACE_END();
+}
+
+void pencil_classifier_painter_get_minimum_bounds ( pencil_classifier_painter_t *this_,
+                                                    data_visible_classifier_t *visible_classifier,
+                                                    pencil_size_t *pencil_size,
+                                                    PangoLayout *font_layout,
+                                                    geometry_rectangle_t *out_classifier_bounds )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != visible_classifier );
+    assert( NULL != out_classifier_bounds );
+    assert( NULL != font_layout );
+
+    double left = 0.0;
+    double top = 0.0;
+    double width = 0.0;
+    double height = 0.0;
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+
+    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+    {
+        data_classifier_t *classifier;
+        data_diagramelement_t *diagramelement;
+        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+        data_diagramelement_flag_t display_flags;
+        display_flags = data_diagramelement_get_display_flags( diagramelement );
+
+        TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
+
+        /* bounding rectangle */
+        width += 6.0 * gap;
+        height += 6.0 * gap;
+
+        /* stereotype text */
+        int text1_height = 0;
+        int text1_width = 0;
+        {
+            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
+            {
+                /* prepare text */
+                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+                utf8stringbuf_copy_str( stereotype_buf, "<<" );
+                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
+                utf8stringbuf_append_str( stereotype_buf, ">>" );
+
+                /* determine text width and height */
+                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
+                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
+            }
+        }
+
+        /* draw name text */
+        int text2_width;
+        int text2_height;
+        {
+            /* prepare text */
+            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
+            utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
+            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
+            {
+                utf8stringbuf_copy_str( name_buf, ":" );
+            }
+            else
+            {
+                utf8stringbuf_clear( name_buf );
+            }
+            utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
+
+            /* determine text width and height */
+            pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
+            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+        }
+
+        width += ( text1_width > text2_width ) ? text1_width : text2_width;
+        height += text1_height + text2_height;
+    }
+    else
+    {
+        TSLOG_ERROR("invalid visible classifier in array!");
+    }
+
+    geometry_rectangle_reinit( out_classifier_bounds, left, top, width, height );
     TRACE_END();
 }
 

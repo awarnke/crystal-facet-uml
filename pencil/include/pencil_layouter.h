@@ -14,6 +14,9 @@
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
 #include "pencil_input_data_layout.h"
+#include "pencil_diagram_painter.h"
+#include "pencil_feature_painter.h"
+#include "pencil_relationship_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -38,8 +41,10 @@ struct pencil_layouter_struct {
     geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
     geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
 
-    PangoLayout *layout;
-
+    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
 typedef struct pencil_layouter_struct pencil_layouter_t;
@@ -75,8 +80,9 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
  *
  *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_ );
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief returns the pencil_input_data_layout_t object
@@ -186,8 +192,9 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
  *  \brief estimates classifier bounds for each classifier
  *
  *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  */
-void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_ );
+void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief determines the shapes of the relationships

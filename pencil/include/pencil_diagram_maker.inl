@@ -46,7 +46,12 @@ static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *th
 
 static inline void pencil_diagram_layout_elements ( pencil_diagram_maker_t *this_, cairo_t *cr )
 {
-    pencil_layouter_layout_elements ( &((*this_).layouter) );
+    PangoLayout *font_layout;
+    font_layout = pango_cairo_create_layout (cr);
+
+    pencil_layouter_layout_elements ( &((*this_).layouter), font_layout );
+
+    g_object_unref (font_layout);
 }
 
 static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,

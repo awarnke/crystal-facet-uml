@@ -22,12 +22,22 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     pencil_input_data_layout_init( &((*this_).layout_data) );
     (*this_).input_data = input_data;
 
+    pencil_diagram_painter_init( &((*this_).diagram_painter) );
+    pencil_classifier_painter_init( &((*this_).classifier_painter) );
+    pencil_feature_painter_init( &((*this_).feature_painter) );
+    pencil_relationship_painter_init( &((*this_).relationship_painter) );
+
     TRACE_END();
 }
 
 void pencil_layouter_destroy( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
+
+    pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
+    pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
+    pencil_feature_painter_destroy( &((*this_).feature_painter) );
+    pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
 
     geometry_rectangle_destroy( &((*this_).diagram_bounds) );
     pencil_size_destroy( &((*this_).pencil_size) );
@@ -100,7 +110,7 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     TRACE_END();
 }
 
-void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
+void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
 
@@ -108,7 +118,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_ )
     pencil_layouter_private_propose_default_classifier_size( this_ );
 
     /* store the classifier bounds into input_data_layouter_t */
-    pencil_layouter_private_estimate_classifier_bounds( this_ );
+    pencil_layouter_private_estimate_classifier_bounds( this_, font_layout );
 
     /* calculate the relationship shapes */
     pencil_layouter_private_determine_relationship_shapes( this_ );
@@ -141,7 +151,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     TRACE_END();
 }
 
-void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_ )
+void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
 
@@ -158,17 +168,35 @@ void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *thi
             data_classifier_t *classifier2;
             classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
 
+            /* determine the minimum size of the classifier */
+            geometry_rectangle_t minimum_size;
+            pencil_classifier_painter_get_minimum_bounds ( &((*this_).classifier_painter),
+                                                           visible_classifier2,
+                                                           &((*this_).pencil_size ),
+                                                           font_layout,
+                                                           &minimum_size
+                                                         );
+            double min_width = geometry_rectangle_get_width( &minimum_size );
+            double min_height = geometry_rectangle_get_height( &minimum_size );
+
+            /* determine default size */
+            double width = geometry_rectangle_get_width( &((*this_).default_classifier_size) );
+            double height = geometry_rectangle_get_height( &((*this_).default_classifier_size) );
+
             /* get the bounds rectangle to modify */
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
 
-            /* overwrite directly internal attributes of (*this_).layout_data */
-            geometry_rectangle_replace( classifier_bounds, &((*this_).default_classifier_size) );
+            /* adjust width and height to minumum bounds */
+            width = ( width < min_width ) ? min_width : width;
+            height = ( height < min_height ) ? min_height : height;
+
+            /* overwrite the bounds rectangle */
             int32_t order_x = data_classifier_get_x_order( classifier2 );
             int32_t order_y = data_classifier_get_y_order( classifier2 );
             double center_x = geometry_non_linear_scale_get_location( &((*this_).x_scale), order_x );
             double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
-            geometry_rectangle_shift( classifier_bounds, center_x, center_y );
+            geometry_rectangle_reinit( classifier_bounds, center_x-0.5*width, center_y-0.5*height, width, height );
 
             /* get the inner space rectangle to modify */
             geometry_rectangle_t *classifier_space;
