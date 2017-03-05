@@ -59,18 +59,18 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                                          );
                     if ( universal_bool_list_get_first ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x, to_y-15 );
-                        cairo_line_to ( cr, to_x, to_y-5 );
-                        cairo_move_to ( cr, to_x, to_y+5 );
-                        cairo_line_to ( cr, to_x, to_y+15 );
+                        cairo_move_to ( cr, to_x, to_y-40 );
+                        cairo_line_to ( cr, to_x, to_y-20 );
+                        cairo_move_to ( cr, to_x, to_y+20 );
+                        cairo_line_to ( cr, to_x, to_y+40 );
                         cairo_stroke (cr);
                     }
                     if ( universal_bool_list_get_second ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x-15, to_y );
-                        cairo_line_to ( cr, to_x-5, to_y );
-                        cairo_move_to ( cr, to_x+5, to_y );
-                        cairo_line_to ( cr, to_x+15, to_y );
+                        cairo_move_to ( cr, to_x-40, to_y );
+                        cairo_line_to ( cr, to_x-20, to_y );
+                        cairo_move_to ( cr, to_x+20, to_y );
+                        cairo_line_to ( cr, to_x+40, to_y );
                         cairo_stroke (cr);
                     }
                 }

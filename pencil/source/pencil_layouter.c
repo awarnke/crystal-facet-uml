@@ -179,6 +179,25 @@ void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *thi
             double min_width = geometry_rectangle_get_width( &minimum_size );
             double min_height = geometry_rectangle_get_height( &minimum_size );
 
+            /* determine the minimum size of the contained features */
+            {
+                geometry_rectangle_t features_bounds;
+                geometry_rectangle_init_empty( &features_bounds );
+                pencil_layouter_private_calculate_features_bounds ( this_,
+                                                                    data_classifier_get_id( classifier2 ),
+                                                                    font_layout,
+                                                                    &features_bounds
+                );
+
+                /* adjust width and height to feature bounds */
+                double feat_width = geometry_rectangle_get_width( &features_bounds );
+                feat_width += 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
+                min_width = ( min_width < feat_width ) ? feat_width : min_width;
+                min_height += geometry_rectangle_get_height( &features_bounds );
+
+                geometry_rectangle_destroy( &features_bounds );
+            }
+
             /* determine default size */
             double width = geometry_rectangle_get_width( &((*this_).default_classifier_size) );
             double height = geometry_rectangle_get_height( &((*this_).default_classifier_size) );
@@ -230,6 +249,55 @@ void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *thi
         }
     }
 
+    TRACE_END();
+}
+
+void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this_,
+                                                         int64_t classifier_id,
+                                                         PangoLayout *font_layout,
+                                                         geometry_rectangle_t *out_features_bounds )
+{
+    TRACE_BEGIN();
+    assert( NULL != font_layout );
+    assert( NULL != out_features_bounds );
+
+    double left = 0.0;
+    double top = 0.0;
+    double width = 0.0;
+    double height = 0.0;
+
+    /* search all contained features */
+    for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
+    {
+        data_feature_t *the_feature;
+        the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
+        if ( data_feature_is_valid( the_feature ) )
+        {
+            if ( data_feature_get_classifier_id( the_feature ) == classifier_id )
+            {
+                geometry_rectangle_t min_feature_bounds;
+                geometry_rectangle_init_empty( &min_feature_bounds );
+                pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
+                                                            the_feature,
+                                                            &((*this_).pencil_size),
+                                                            font_layout,
+                                                            &min_feature_bounds
+                                                        );
+
+                double current_w = geometry_rectangle_get_width( &min_feature_bounds );
+                width = ( width < current_w ) ? current_w : width;
+                height += geometry_rectangle_get_height( &min_feature_bounds );
+
+                geometry_rectangle_destroy( &min_feature_bounds );
+            }
+        }
+        else
+        {
+            TSLOG_ERROR("invalid feature in array!");
+        }
+    }
+
+    geometry_rectangle_reinit( out_features_bounds, left, top, width, height );
     TRACE_END();
 }
 

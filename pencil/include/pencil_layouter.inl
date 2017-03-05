@@ -31,7 +31,7 @@ static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_l
 
     double lineheight;
     lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
-                 + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size) );
+                 + pencil_size_get_font_line_gap( &((*this_).pencil_size) );
 
     geometry_rectangle_init ( &result,
                               geometry_rectangle_get_left( classifier_space ),

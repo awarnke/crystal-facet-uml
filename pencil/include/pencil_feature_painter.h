@@ -66,6 +66,22 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    cairo_t *cr
                                  );
 
+/*!
+ *  \brief determines the minumum feature bounds
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_feature pointer to the data to be layouted
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_feature_bounds memory location where the result shall be stored. Must not be NULL.
+ */
+void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
+                                                 data_feature_t *the_feature,
+                                                 pencil_size_t *pencil_size,
+                                                 PangoLayout *font_layout,
+                                                 geometry_rectangle_t *out_feature_bounds
+                                               );
+
 #endif  /* PENCIL_FEATURE_PAINTER_H */
 
 

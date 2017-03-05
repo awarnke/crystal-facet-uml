@@ -197,6 +197,20 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
 void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
+ *  \brief calculates feature bounds of all features for one classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier for which to calculate the feature bounds
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_features_bounds memory location where the result shall be stored. Must not be NULL.
+ */
+void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this_,
+                                                         int64_t classifier_id,
+                                                         PangoLayout *font_layout,
+                                                         geometry_rectangle_t *out_features_bounds
+                                                       );
+
+/*!
  *  \brief determines the shapes of the relationships
  *
  *  \param this_ pointer to own object attributes

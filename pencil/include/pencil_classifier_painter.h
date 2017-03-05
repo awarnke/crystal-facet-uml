@@ -73,16 +73,17 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
  *  without contained features, without contained classifiers.
  *
  *  \param this_ pointer to own object attributes
- *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param visible_classifier pointer to the data to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_classifier_bounds memory locatoin where the result shall be stroed. must not be NULL.
+ *  \param out_classifier_bounds memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_classifier_painter_get_minimum_bounds ( pencil_classifier_painter_t *this_,
                                                     data_visible_classifier_t *visible_classifier,
                                                     pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
-                                                    geometry_rectangle_t *out_classifier_bounds );
+                                                    geometry_rectangle_t *out_classifier_bounds
+                                                  );
 
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 
