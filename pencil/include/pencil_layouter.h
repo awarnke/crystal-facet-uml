@@ -211,6 +211,13 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
                                                        );
 
 /*!
+ *  \brief move classifiers to avoid overlaps
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layouter_t *this_ );
+
+/*!
  *  \brief determines the shapes of the relationships
  *
  *  \param this_ pointer to own object attributes

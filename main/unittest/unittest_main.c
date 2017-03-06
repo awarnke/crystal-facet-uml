@@ -11,6 +11,7 @@
 #include "ctrl_undo_redo_list_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "pencil_description_writer_test.h"
+#include "universal_array_index_sorter.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
@@ -35,6 +36,7 @@ int main (int argc, char *argv[]) {
     TestRunner_runTest( data_json_tokenizer_test_get_list() );
     TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
     TestRunner_runTest( pencil_description_writer_test_get_list() );
+    TestRunner_runTest( universal_array_index_sorter_test_get_list() );
 
     /* module tests which involve multiple software units */
     TestRunner_runTest( data_database_reader_test_get_list() );

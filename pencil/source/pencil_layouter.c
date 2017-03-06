@@ -2,6 +2,7 @@
 
 #include "pencil_layouter.h"
 #include "trace.h"
+#include "universal_array_index_sorter.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -119,6 +120,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 
     /* store the classifier bounds into input_data_layouter_t */
     pencil_layouter_private_estimate_classifier_bounds( this_, font_layout );
+
+    /* move the classifiers to avoid overlaps */
+    pencil_layouter_private_move_classifiers_to_avoid_overlaps( this_ );
 
     /* calculate the relationship shapes */
     pencil_layouter_private_determine_relationship_shapes( this_ );
@@ -298,6 +302,23 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
     }
 
     geometry_rectangle_reinit( out_features_bounds, left, top, width, height );
+    TRACE_END();
+}
+
+void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    universal_array_index_sorter_t sorted;
+    universal_array_index_sorter_init( &sorted );
+
+    /* sort the classifier by their movement-needs */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+    }
+
     TRACE_END();
 }
 
