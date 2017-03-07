@@ -1,6 +1,8 @@
 /* File: geometry_rectangle.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include <assert.h>
+#include <math.h>
 
 static inline void geometry_rectangle_init ( geometry_rectangle_t *this_, double left, double top, double width, double height )
 {
@@ -20,11 +22,13 @@ static inline void geometry_rectangle_reinit ( geometry_rectangle_t *this_, doub
 
 static inline void geometry_rectangle_copy ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
 {
+    assert( NULL != original );
     (*this_) = (*original);
 }
 
 static inline void geometry_rectangle_replace ( geometry_rectangle_t *this_, const geometry_rectangle_t *original )
 {
+    assert( NULL != original );
     (*this_) = (*original);
 }
 
@@ -42,6 +46,40 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
     (*this_).top = 0.0;
     (*this_).width = 0.0;
     (*this_).height = 0.0;
+}
+
+static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *this_,
+                                                          const geometry_rectangle_t *rect_a,
+                                                          const geometry_rectangle_t *rect_b )
+{
+    assert( NULL != rect_a );
+    assert( NULL != rect_b );
+
+    int result = 0;
+    double rect_a_right;
+    double rect_a_bottom;
+    double rect_b_right;
+    double rect_b_bottom;
+
+    rect_a_right = (*rect_a).left + (*rect_a).width;
+    rect_a_bottom = (*rect_a).top + (*rect_a).height;
+    rect_b_right = (*rect_b).left + (*rect_b).width;
+    rect_b_bottom = (*rect_b).top + (*rect_b).height;
+
+    (*this_).left = fmax( (*rect_a).left, (*rect_b).left );
+    (*this_).top = fmax( (*rect_a).top, (*rect_b).top );
+    (*this_).width = fmin( rect_a_right, rect_b_right ) - (*this_).left;
+    (*this_).height = fmin( rect_a_bottom, rect_b_bottom ) - (*this_).top;
+    if (( (*this_).width < 0.000000001 ) || ( (*this_).height < 0.000000001 ))
+    {
+        (*this_).left = 0.0;
+        (*this_).top = 0.0;
+        (*this_).width = 0.0;
+        (*this_).height = 0.0;
+        result = -1;
+    }
+
+    return result;
 }
 
 static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ )

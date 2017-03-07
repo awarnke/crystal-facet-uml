@@ -61,12 +61,20 @@ static void test_insert_and_retrieve(void)
     count = universal_array_index_sorter_get_count( &testee );
     TEST_ASSERT_EQUAL_INT( 3, count );
 
+    /* insert fourth in middle */
+    err = universal_array_index_sorter_insert( &testee, 99900, -18 );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    count = universal_array_index_sorter_get_count( &testee );
+    TEST_ASSERT_EQUAL_INT( 4, count );
+
     /* check full list */
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 0 /* = sort_index */ );
     TEST_ASSERT_EQUAL_INT( 23000, unsorted_index );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 1 /* = sort_index */ );
-    TEST_ASSERT_EQUAL_INT( 17001, unsorted_index );
+    TEST_ASSERT_EQUAL_INT( 99900, unsorted_index );
     unsorted_index = universal_array_index_sorter_get_array_index( &testee, 2 /* = sort_index */ );
+    TEST_ASSERT_EQUAL_INT( 17001, unsorted_index );
+    unsorted_index = universal_array_index_sorter_get_array_index( &testee, 3 /* = sort_index */ );
     TEST_ASSERT_EQUAL_INT( 45022, unsorted_index );
 
     /* done */

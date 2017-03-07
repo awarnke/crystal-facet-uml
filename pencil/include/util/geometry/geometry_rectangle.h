@@ -76,6 +76,19 @@ static inline void geometry_rectangle_init_empty ( geometry_rectangle_t *this_ )
 static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_ );
 
 /*!
+ *  \brief initializes the geometry_rectangle_t struct by the intersect of a and b
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect_a rectangle a. Must not be NULL
+ *  \param rect_b rectangle b. Must not be NULL
+ *  \return 0 in case of success, -1 if hte rectangles a and b do not overlap
+ */
+static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *this_,
+                                                          const geometry_rectangle_t *rect_a,
+                                                          const geometry_rectangle_t *rect_b
+                                                        );
+
+/*!
  *  \brief destroys the geometry_rectangle_t struct
  *
  *  \param this_ pointer to own object attributes
@@ -159,7 +172,7 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
  *  \brief determines if the given rectangle has a valid (positive) size
  *
  *  \param this_ pointer to own object attributes
- *  \return true if the rectangle has a positive size.
+ *  \return false if the rectangle has a positive size.
  */
 static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ );
 

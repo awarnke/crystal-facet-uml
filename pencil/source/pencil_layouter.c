@@ -308,16 +308,79 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
 void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
 
-    /* sort the classifier by their movement-needs */
+    /* sort the classifiers by their movement-needs */
     uint32_t count_clasfy;
     count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
+        geometry_rectangle_t *classifier_bounds;
+        classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
+
+        int64_t weight = 0;
+
+        /* reduce weight by area outside the diagram border */
+        {
+            (*this_).diagram_bounds;
+            geometry_rectangle_t border_intersect;
+            int intersect_error2;
+            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_bounds, &((*this_).diagram_bounds) );
+            if ( 0 != intersect_error2 )
+            {
+                TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
+            }
+
+            weight += geometry_rectangle_get_area( &border_intersect );
+            weight -= geometry_rectangle_get_area( classifier_bounds );
+
+            geometry_rectangle_destroy( &border_intersect );
+        }
+
+        /* reduce weight by intersects with other rectangles */
+        for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
+        {
+            geometry_rectangle_t *probe_bounds;
+            probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), probe_index );
+
+            geometry_rectangle_t intersect;
+            int intersect_error;
+            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_bounds, probe_bounds );
+
+            if ( 0 == intersect_error )
+            {
+                weight -= geometry_rectangle_get_area( &intersect );
+            }
+
+            geometry_rectangle_destroy( &intersect );
+        }
+
+        int insert_error;
+        insert_error = universal_array_index_sorter_insert( &sorted, index, weight );
+        if ( 0 != insert_error )
+        {
+            TSLOG_WARNING( "not all rectangles are moved to avoid intersects" );
+        }
     }
+
+    /* move the classifiers */
+    uint32_t count_sorted;
+    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
+    {
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+
+        geometry_rectangle_t *classifier_bounds;
+        classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
+
+        
+    }
+
+    universal_array_index_sorter_destroy( &sorted );
 
     TRACE_END();
 }
