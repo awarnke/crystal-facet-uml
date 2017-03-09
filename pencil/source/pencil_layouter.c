@@ -371,13 +371,62 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
     count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
+        /* get classifier to move */
         uint32_t index;
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
+        double top;
+        double bottom;
+        double left;
+        double right;
+        top = geometry_rectangle_get_top ( classifier_bounds );
+        bottom = geometry_rectangle_get_bottom ( classifier_bounds );
+        left = geometry_rectangle_get_left ( classifier_bounds );
+        right = geometry_rectangle_get_right ( classifier_bounds );
 
-        
+        /* choose direction */
+        pencil_input_data_move_prio_t prio_x;
+        pencil_input_data_move_prio_t prio_y;
+        prio_x = PENCIL_INPUT_DATA_MOVE_PRIO_NONE;  /* no reason to move */
+        prio_y = PENCIL_INPUT_DATA_MOVE_PRIO_NONE;
+
+        /* choose distance */
+        double shift_x = 0.0;
+        double shift_y = 0.0;
+
+        /* check overlap to diagram boundary */
+        {
+            if ( bottom > geometry_rectangle_get_bottom( &((*this_).diagram_bounds) ) )
+            {
+                prio_y = PENCIL_INPUT_DATA_MOVE_PRIO_MAX; /* object is not completely visible */
+                shift_y = geometry_rectangle_get_bottom( &((*this_).diagram_bounds) ) - bottom;
+            }
+            if ( top < geometry_rectangle_get_top( &((*this_).diagram_bounds) ) )
+            {
+                prio_y = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
+                shift_y = geometry_rectangle_get_top( &((*this_).diagram_bounds) ) - top;
+            }
+            if ( right > geometry_rectangle_get_right( &((*this_).diagram_bounds) ) )
+            {
+                prio_x = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
+                shift_x = geometry_rectangle_get_right( &((*this_).diagram_bounds) ) - right;
+            }
+            if ( left < geometry_rectangle_get_left( &((*this_).diagram_bounds) ) )
+            {
+                prio_x = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
+                shift_x = geometry_rectangle_get_left( &((*this_).diagram_bounds) ) - left;
+            }
+        }
+
+        /* PENCIL_INPUT_DATA_MOVE_PRIO_LOW = 1,  /*!< distance to neighbor is too small */
+        /* PENCIL_INPUT_DATA_MOVE_PRIO_MID = 2,  /*!< object may be overlapping */
+        /* PENCIL_INPUT_DATA_MOVE_PRIO_HIGH = 3,  /*!< object is definitely overlapping */
+
+        /* move the classifier */
+        geometry_rectangle_shift ( classifier_bounds, shift_x, shift_y );
+
+        /* move all contained features */
     }
 
     universal_array_index_sorter_destroy( &sorted );
