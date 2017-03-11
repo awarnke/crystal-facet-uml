@@ -82,119 +82,119 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ );
+static inline double pencil_size_get_standard_font_size( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the PangoFontDescription for the standard font
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_standard_font_description( pencil_size_t *this_ );
+static inline PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: larger_font_size
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ );
+static inline double pencil_size_get_larger_font_size( const pencil_size_t *this_ );
 
 /*!
  *  \brief determines PangoFontDescription for the larger font
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ );
+static inline PangoFontDescription *pencil_size_get_larger_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief proposes a tab size
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_font_tab_size( pencil_size_t *this_ );
+static inline double pencil_size_get_font_tab_size( const pencil_size_t *this_ );
 
 /*!
  *  \brief determines the gap between font lines
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_font_line_gap( pencil_size_t *this_ );
+static inline double pencil_size_get_font_line_gap( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_line_width
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_standard_line_width( pencil_size_t *this_ );
+static inline double pencil_size_get_standard_line_width( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: bold_line_width
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_bold_line_width( pencil_size_t *this_ );
+static inline double pencil_size_get_bold_line_width( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_object_border
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_standard_object_border( pencil_size_t *this_ );
+static inline double pencil_size_get_standard_object_border( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: arrow_stroke_length
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_arrow_stroke_length( pencil_size_t *this_ );
+static inline double pencil_size_get_arrow_stroke_length( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: arrow_stroke_087_length
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_arrow_stroke_087_length( pencil_size_t *this_ );
+static inline double pencil_size_get_arrow_stroke_087_length( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_standard_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_standard_color( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: select_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_select_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_select_color( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: highlight_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_highlight_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_highlight_color( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: focus_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_focus_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_focus_color( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: emphasized_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_emphasized_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_emphasized_color( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: gray_out_color
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkRGBA pencil_size_get_gray_out_color( pencil_size_t *this_ );
+static inline GdkRGBA pencil_size_get_gray_out_color( const pencil_size_t *this_ );
 
 #include "pencil_size.inl"
 

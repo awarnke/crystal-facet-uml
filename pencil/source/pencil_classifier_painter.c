@@ -27,13 +27,13 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
+void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                                       data_visible_classifier_t *visible_classifier,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
-                                      data_small_set_t *mark_selected,
-                                      pencil_size_t *pencil_size,
-                                      geometry_rectangle_t *classifier_bounds,
+                                      const data_small_set_t *mark_selected,
+                                      const pencil_size_t *pencil_size,
+                                      const geometry_rectangle_t *classifier_bounds,
                                       PangoLayout *font_layout,
                                       cairo_t *cr )
 {
@@ -172,9 +172,9 @@ void pencil_classifier_painter_draw ( pencil_classifier_painter_t *this_,
     TRACE_END();
 }
 
-void pencil_classifier_painter_get_minimum_bounds ( pencil_classifier_painter_t *this_,
+void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_painter_t *this_,
                                                     data_visible_classifier_t *visible_classifier,
-                                                    pencil_size_t *pencil_size,
+                                                    const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
                                                     geometry_rectangle_t *out_classifier_bounds )
 {
@@ -258,6 +258,50 @@ void pencil_classifier_painter_get_minimum_bounds ( pencil_classifier_painter_t 
     }
 
     geometry_rectangle_reinit( out_classifier_bounds, left, top, width, height );
+    TRACE_END();
+}
+
+void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
+                                                   data_visible_classifier_t *visible_classifier,
+                                                   const geometry_rectangle_t *classifier_bounds,
+                                                   const pencil_size_t *pencil_size,
+                                                   PangoLayout *font_layout,
+                                                   geometry_rectangle_t *out_classifier_space )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != visible_classifier );
+    assert( NULL != out_classifier_space );
+    assert( NULL != font_layout );
+
+    data_classifier_t *classifier;
+    classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+
+    bool has_stereotype = data_classifier_has_stereotype( classifier );
+    double space_left = geometry_rectangle_get_left( classifier_bounds )
+    + 2.0 * pencil_size_get_standard_object_border( pencil_size );
+    double space_width = geometry_rectangle_get_width( classifier_bounds )
+    - 4.0 * pencil_size_get_standard_object_border( pencil_size );
+    double space_height = geometry_rectangle_get_height( classifier_bounds )
+    - 4.0 * pencil_size_get_standard_object_border( pencil_size )
+    - pencil_size_get_larger_font_size( pencil_size );
+    /* for underscores under object instance names: */
+    space_height = space_height
+    - 2.0 * pencil_size_get_standard_object_border( pencil_size );
+    if ( has_stereotype )
+    {
+        space_height = space_height
+        - pencil_size_get_font_line_gap( pencil_size )
+        - pencil_size_get_standard_font_size( pencil_size );
+        /* this is an approximation to fix the differnce between font size and the actual line height */
+        space_height = space_height
+        - 2.0 * pencil_size_get_font_line_gap( pencil_size );
+    }
+    double space_top = geometry_rectangle_get_bottom( classifier_bounds )
+    - space_height
+    - 2.0 * pencil_size_get_standard_object_border( pencil_size );
+    geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
+
     TRACE_END();
 }
 

@@ -20,7 +20,7 @@ static inline void data_small_set_destroy ( data_small_set_t *this_ )
     (*this_).count = 0;
 }
 
-static inline void data_small_set_trace ( data_small_set_t *this_ )
+static inline void data_small_set_trace ( const data_small_set_t *this_ )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
 
@@ -55,12 +55,12 @@ static inline void data_small_set_trace ( data_small_set_t *this_ )
     }
 }
 
-static inline bool data_small_set_is_empty ( data_small_set_t *this_ )
+static inline bool data_small_set_is_empty ( const data_small_set_t *this_ )
 {
     return ( 0 == (*this_).count );
 }
 
-static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t obj_id )
+static inline bool data_small_set_contains ( const data_small_set_t *this_, data_id_t obj_id )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     bool result;
@@ -77,7 +77,7 @@ static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t 
     return result;
 }
 
-static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t row_id )
+static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, int64_t row_id )
 {
     bool result;
     data_id_t my_id;
@@ -182,12 +182,12 @@ static inline void data_small_set_clear ( data_small_set_t *this_ )
     (*this_).count = 0;
 }
 
-static inline uint32_t data_small_set_get_count ( data_small_set_t *this_ )
+static inline uint32_t data_small_set_get_count ( const data_small_set_t *this_ )
 {
     return (*this_).count;
 }
 
-static inline data_id_t data_small_set_get_id ( data_small_set_t *this_, uint32_t index )
+static inline data_id_t data_small_set_get_id ( const data_small_set_t *this_, uint32_t index )
 {
     assert( (*this_).count <= DATA_SMALL_SET_MAX_SET_SIZE );
     data_id_t result;

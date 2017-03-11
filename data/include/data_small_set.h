@@ -53,14 +53,14 @@ static inline void data_small_set_destroy ( data_small_set_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_small_set_trace ( data_small_set_t *this_ );
+static inline void data_small_set_trace ( const data_small_set_t *this_ );
 
 /*!
  *  \brief checks if data_small_set_t is empty
  *
  *  \param this_ pointer to own object attributes
  */
-static inline bool data_small_set_is_empty ( data_small_set_t *this_ );
+static inline bool data_small_set_is_empty ( const data_small_set_t *this_ );
 
 /*!
  *  \brief checks if data_small_set_t contains an object id
@@ -68,7 +68,7 @@ static inline bool data_small_set_is_empty ( data_small_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param obj_id id to be seached
  */
-static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t obj_id );
+static inline bool data_small_set_contains ( const data_small_set_t *this_, data_id_t obj_id );
 
 /*!
  *  \brief checks if data_small_set_t contains an object id
@@ -77,7 +77,7 @@ static inline bool data_small_set_contains ( data_small_set_t *this_, data_id_t 
  *  \param table table-id to be seached
  *  \param row_id row-id to be seached
  */
-static inline bool data_small_set_contains_row_id ( data_small_set_t *this_, data_table_t table, int64_t row_id );
+static inline bool data_small_set_contains_row_id ( const data_small_set_t *this_, data_table_t table, int64_t row_id );
 
 /*!
  *  \brief adds a obj_id to data_small_set_t
@@ -132,7 +132,7 @@ static inline void data_small_set_clear ( data_small_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return number of object-ids in the set, the number is less or equal to DATA_SMALL_SET_MAX_SET_SIZE
  */
-static inline uint32_t data_small_set_get_count ( data_small_set_t *this_ );
+static inline uint32_t data_small_set_get_count ( const data_small_set_t *this_ );
 
 /*!
  *  \brief returns an object-id of the set
@@ -141,7 +141,7 @@ static inline uint32_t data_small_set_get_count ( data_small_set_t *this_ );
  *  \param index index to be returned. index shall be greater or equal to zero and less than data_small_get_count().
  *  \return object id. data_id_is_valid() returns false on the result if index is out of range.
  */
-static inline data_id_t data_small_set_get_id ( data_small_set_t *this_, uint32_t index );
+static inline data_id_t data_small_set_get_id ( const data_small_set_t *this_, uint32_t index );
 
 #include "data_small_set.inl"
 

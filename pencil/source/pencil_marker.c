@@ -20,7 +20,7 @@ void pencil_marker_destroy( pencil_marker_t *this_ )
     TRACE_END();
 }
 
-void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
@@ -64,7 +64,7 @@ void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rec
     TRACE_END();
 }
 
-void pencil_marker_mark_selected_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
+void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );

@@ -93,87 +93,87 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
     (*this_).arrow_stroke_087_length = (*this_).arrow_stroke_length*0.866025403784; /* =sqrt(0.75) */
 }
 
-static inline double pencil_size_get_standard_font_size( pencil_size_t *this_ )
+static inline double pencil_size_get_standard_font_size( const pencil_size_t *this_ )
 {
     return (*this_).standard_font_size;
 }
 
-static inline PangoFontDescription *pencil_size_get_standard_font_description( pencil_size_t *this_ )
+static inline PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ )
 {
     return (*this_).standard_font_description;
 }
 
-static inline double pencil_size_get_larger_font_size( pencil_size_t *this_ )
+static inline double pencil_size_get_larger_font_size( const pencil_size_t *this_ )
 {
     return (*this_).larger_font_size;
 }
 
-static inline PangoFontDescription *pencil_size_get_larger_font_description( pencil_size_t *this_ )
+static inline PangoFontDescription *pencil_size_get_larger_font_description( const pencil_size_t *this_ )
 {
     return (*this_).larger_font_description;
 }
 
-static inline double pencil_size_get_font_tab_size( pencil_size_t *this_ )
+static inline double pencil_size_get_font_tab_size( const pencil_size_t *this_ )
 {
     return 3.0 * (*this_).standard_font_size;
 }
 
-static inline double pencil_size_get_font_line_gap( pencil_size_t *this_ )
+static inline double pencil_size_get_font_line_gap( const pencil_size_t *this_ )
 {
     return (*this_).standard_line_width;  /* equals the standard line width */
 }
 
-static inline double pencil_size_get_standard_line_width( pencil_size_t *this_ )
+static inline double pencil_size_get_standard_line_width( const pencil_size_t *this_ )
 {
     return (*this_).standard_line_width;
 }
 
-static inline double pencil_size_get_bold_line_width( pencil_size_t *this_ )
+static inline double pencil_size_get_bold_line_width( const pencil_size_t *this_ )
 {
     return (*this_).bold_line_width;
 }
 
-static inline double pencil_size_get_standard_object_border( pencil_size_t *this_ )
+static inline double pencil_size_get_standard_object_border( const pencil_size_t *this_ )
 {
     return (*this_).standard_object_border;
 }
 
-static inline double pencil_size_get_arrow_stroke_length( pencil_size_t *this_ )
+static inline double pencil_size_get_arrow_stroke_length( const pencil_size_t *this_ )
 {
     return (*this_).arrow_stroke_length;
 }
 
-static inline double pencil_size_get_arrow_stroke_087_length( pencil_size_t *this_ )
+static inline double pencil_size_get_arrow_stroke_087_length( const pencil_size_t *this_ )
 {
     return (*this_).arrow_stroke_087_length;
 }
 
-static inline GdkRGBA pencil_size_get_standard_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_standard_color( const pencil_size_t *this_ )
 {
     return (*this_).standard_color;
 }
 
-static inline GdkRGBA pencil_size_get_select_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_select_color( const pencil_size_t *this_ )
 {
     return (*this_).select_color;
 }
 
-static inline GdkRGBA pencil_size_get_highlight_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_highlight_color( const pencil_size_t *this_ )
 {
     return (*this_).highlight_color;
 }
 
-static inline GdkRGBA pencil_size_get_focus_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_focus_color( const pencil_size_t *this_ )
 {
     return (*this_).focus_color;
 }
 
-static inline GdkRGBA pencil_size_get_emphasized_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_emphasized_color( const pencil_size_t *this_ )
 {
     return (*this_).emphasized_color;
 }
 
-static inline GdkRGBA pencil_size_get_gray_out_color( pencil_size_t *this_ )
+static inline GdkRGBA pencil_size_get_gray_out_color( const pencil_size_t *this_ )
 {
     return (*this_).gray_out_color;
 }

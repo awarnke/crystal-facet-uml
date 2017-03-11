@@ -221,35 +221,16 @@ void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *thi
             double center_y = geometry_non_linear_scale_get_location( &((*this_).y_scale), order_y );
             geometry_rectangle_reinit( classifier_bounds, center_x-0.5*width, center_y-0.5*height, width, height );
 
-            /* get the inner space rectangle to modify */
+            /* adjust the inner space rectangle to modify */
             geometry_rectangle_t *classifier_space;
             classifier_space = pencil_input_data_layout_get_classifier_space_ptr( &((*this_).layout_data), index );
-
-            /* overwrite directly internal attributes of (*this_).layout_data */
-            bool has_stereotype = data_classifier_has_stereotype( classifier2 );
-            double space_left = geometry_rectangle_get_left( classifier_bounds )
-            + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
-            double space_width = geometry_rectangle_get_width( classifier_bounds )
-            - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
-            double space_height = geometry_rectangle_get_height( classifier_bounds )
-            - 4.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) )
-            - pencil_size_get_larger_font_size( &((*this_).pencil_size ) );
-            /* for underscores under object instance names: */
-            space_height = space_height
-            - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
-            if ( has_stereotype )
-            {
-                space_height = space_height
-                - pencil_size_get_font_line_gap( &((*this_).pencil_size ) )
-                - pencil_size_get_standard_font_size( &((*this_).pencil_size ) );
-                /* this is an approximation to fix the differnce between font size and the actual line height */
-                space_height = space_height
-                - 2.0 * pencil_size_get_font_line_gap( &((*this_).pencil_size ) );
-            }
-            double space_top = geometry_rectangle_get_bottom( classifier_bounds )
-            - space_height
-            - 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size ) );
-            geometry_rectangle_reinit( classifier_space, space_left, space_top, space_width, space_height );
+            pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
+                                                          visible_classifier2,
+                                                          classifier_bounds,
+                                                          &((*this_).pencil_size ),
+                                                          font_layout,
+                                                          classifier_space
+                                                        );
         }
     }
 
@@ -325,10 +306,9 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
 
         /* reduce weight by area outside the diagram border */
         {
-            (*this_).diagram_bounds;
             geometry_rectangle_t border_intersect;
             int intersect_error2;
-            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_bounds, &((*this_).diagram_bounds) );
+            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_bounds, &((*this_).diagram_draw_area) );
             if ( 0 != intersect_error2 )
             {
                 TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
@@ -397,25 +377,25 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
 
         /* check overlap to diagram boundary */
         {
-            if ( bottom > geometry_rectangle_get_bottom( &((*this_).diagram_bounds) ) )
+            if ( bottom > geometry_rectangle_get_bottom( &((*this_).diagram_draw_area) ) )
             {
                 prio_y = PENCIL_INPUT_DATA_MOVE_PRIO_MAX; /* object is not completely visible */
-                shift_y = geometry_rectangle_get_bottom( &((*this_).diagram_bounds) ) - bottom;
+                shift_y = geometry_rectangle_get_bottom( &((*this_).diagram_draw_area) ) - bottom;
             }
-            if ( top < geometry_rectangle_get_top( &((*this_).diagram_bounds) ) )
+            if ( top < geometry_rectangle_get_top( &((*this_).diagram_draw_area) ) )
             {
                 prio_y = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
-                shift_y = geometry_rectangle_get_top( &((*this_).diagram_bounds) ) - top;
+                shift_y = geometry_rectangle_get_top( &((*this_).diagram_draw_area) ) - top;
             }
-            if ( right > geometry_rectangle_get_right( &((*this_).diagram_bounds) ) )
+            if ( right > geometry_rectangle_get_right( &((*this_).diagram_draw_area) ) )
             {
                 prio_x = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
-                shift_x = geometry_rectangle_get_right( &((*this_).diagram_bounds) ) - right;
+                shift_x = geometry_rectangle_get_right( &((*this_).diagram_draw_area) ) - right;
             }
-            if ( left < geometry_rectangle_get_left( &((*this_).diagram_bounds) ) )
+            if ( left < geometry_rectangle_get_left( &((*this_).diagram_draw_area) ) )
             {
                 prio_x = PENCIL_INPUT_DATA_MOVE_PRIO_MAX;
-                shift_x = geometry_rectangle_get_left( &((*this_).diagram_bounds) ) - left;
+                shift_x = geometry_rectangle_get_left( &((*this_).diagram_draw_area) ) - left;
             }
         }
 

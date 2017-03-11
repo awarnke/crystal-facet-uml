@@ -47,7 +47,7 @@ void pencil_marker_destroy( pencil_marker_t *this_ );
  *  \param rect the rectangle which to mark as focused. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+void pencil_marker_mark_focused_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
 /*!
  *  \brief draws markers around the destination area of the cairo drawing context
@@ -56,7 +56,7 @@ void pencil_marker_mark_focused_rectangle ( pencil_marker_t *this_, geometry_rec
  *  \param rect the rectangle which to mark as selected. Drawings may be done outside.
  *  \param cr a cairo drawing context
  */
-void pencil_marker_mark_selected_rectangle ( pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
+void pencil_marker_mark_selected_rectangle ( const pencil_marker_t *this_, geometry_rectangle_t rect, cairo_t *cr );
 
 #endif  /* PENCIL_MARKER_H */
 
