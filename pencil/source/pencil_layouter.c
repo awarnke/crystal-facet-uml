@@ -396,7 +396,47 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
         }
 
         /* check overlap to already moved classifiers */
+        pencil_size_t *my_pencil_size = &((*this_).pencil_size);
+        double comfortable_distance = pencil_size_get_arrow_stroke_length( my_pencil_size ) * 2.3;  /* todo: formula to be updated */
+        double gap = pencil_size_get_standard_object_border( my_pencil_size );
+        for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+        {
+            /* get classifier to check overlaps */
+            uint32_t probe_index;
+            probe_index = universal_array_index_sorter_get_array_index( &sorted, probe_sort_index );
+            geometry_rectangle_t *probe_bounds;
+            probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), probe_index );
+            double probe_top;
+            double probe_bottom;
+            double probe_left;
+            double probe_right;
+            probe_top = geometry_rectangle_get_top ( probe_bounds );
+            probe_bottom = geometry_rectangle_get_bottom ( probe_bounds );
+            probe_left = geometry_rectangle_get_left ( probe_bounds );
+            probe_right = geometry_rectangle_get_right ( probe_bounds );
 
+            if ( probe_right + comfortable_distance < left )
+            {
+                /* no overlap, finished. */
+            }
+            else if ( probe_left - comfortable_distance > right )
+            {
+                /* no overlap, finished. */
+            }
+            else if ( probe_bottom + comfortable_distance < top )
+            {
+                /* no overlap, finished. */
+            }
+            else if ( probe_top - comfortable_distance > bottom )
+            {
+                /* no overlap, finished. */
+            }
+            else
+            {
+                /* things become complicated now */
+
+            }
+        }
         /* PENCIL_INPUT_DATA_MOVE_PRIO_LOW = 1,  /*!< distance to neighbor is too small */
         /* PENCIL_INPUT_DATA_MOVE_PRIO_MID = 2,  /*!< object may be overlapping */
         /* PENCIL_INPUT_DATA_MOVE_PRIO_HIGH = 3,  /*!< object is definitely overlapping */
