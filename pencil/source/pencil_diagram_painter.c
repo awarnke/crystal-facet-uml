@@ -153,8 +153,9 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_size = pencil_size_get_standard_font_size( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+    double f_size_guess = f_size + 4.0 * f_line_gap;  /* here, we do not have a pango layout object to determine the real font size */
 
-    geometry_rectangle_reinit( out_diagram_space, left+gap, top+gap+f_size+f_line_gap, width-2.0*gap, height-2.0*gap-f_size-f_line_gap );
+    geometry_rectangle_reinit( out_diagram_space, left+gap, top+gap+f_size_guess+f_line_gap, width-2.0*gap, height-2.0*gap-f_size_guess-f_line_gap );
 
     TRACE_END();
 }
