@@ -409,12 +409,23 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
         cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
         cairo_rectangle ( cr, 0, 0, width, (height*3)/10 );
         cairo_fill (cr);
+
         cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
         cairo_rectangle ( cr, 0, (height*3)/10, width, (height*4)/10 );
         cairo_fill (cr);
+
         cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
         cairo_rectangle ( cr, 0, (height*7)/10, width, (height*3)/10 );
         cairo_fill (cr);
+
+        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+        cairo_set_font_size ( cr, 12.0 );
+        cairo_move_to ( cr, 8, 8 + 14 );
+        cairo_show_text ( cr, "parent diagram" );
+        cairo_move_to ( cr, 8, (height*3)/10 + 8 + 14 );
+        cairo_show_text ( cr, "current diagram" );
+        cairo_move_to ( cr, 8, (height*7)/10 + 8 + 14 );
+        cairo_show_text ( cr, "children diagrams" );
     }
     else
     {
