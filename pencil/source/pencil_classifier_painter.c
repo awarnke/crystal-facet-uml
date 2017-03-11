@@ -263,14 +263,15 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
 
 void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
                                                    data_visible_classifier_t *visible_classifier,
-                                                   const geometry_rectangle_t *classifier_bounds,
                                                    const pencil_size_t *pencil_size,
+                                                   const geometry_rectangle_t *classifier_bounds,
                                                    PangoLayout *font_layout,
                                                    geometry_rectangle_t *out_classifier_space )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != visible_classifier );
+    assert( NULL != classifier_bounds );
     assert( NULL != out_classifier_space );
     assert( NULL != font_layout );
 

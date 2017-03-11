@@ -55,16 +55,32 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    data_diagram_t *the_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
-                                   pencil_size_t *pencil_size,
-                                   geometry_rectangle_t *diagram_bounds,
+                                   const pencil_size_t *pencil_size,
+                                   const geometry_rectangle_t *diagram_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr
                                  );
+
+/*!
+ *  \brief determines the inner drawing space for contained classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_diagram pointer to the data to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param diagram_bounds the destination rectangle where to draw the diagram
+ *  \param out_diagram_space memory location where the result shall be stored. Must not be NULL.
+ */
+void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
+                                                data_diagram_t *the_diagram,
+                                                const pencil_size_t *pencil_size,
+                                                const geometry_rectangle_t *diagram_bounds,
+                                                geometry_rectangle_t *out_diagram_space
+                                              );
 
 #endif  /* PENCIL_DIAGRAM_PAINTER_H */
 

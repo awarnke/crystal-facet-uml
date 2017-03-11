@@ -90,15 +90,15 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
- *  \param classifier_bounds bounds of the classifier
  *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param classifier_bounds bounds of the classifier
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_classifier_space memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
                                                    data_visible_classifier_t *visible_classifier,
-                                                   const geometry_rectangle_t *classifier_bounds,
                                                    const pencil_size_t *pencil_size,
+                                                   const geometry_rectangle_t *classifier_bounds,
                                                    PangoLayout *font_layout,
                                                    geometry_rectangle_t *out_classifier_space
                                                  );

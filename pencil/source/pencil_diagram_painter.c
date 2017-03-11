@@ -25,13 +25,13 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
+void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    data_diagram_t *the_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
-                                   pencil_size_t *pencil_size,
-                                   geometry_rectangle_t *diagram_bounds,
+                                   const pencil_size_t *pencil_size,
+                                   const geometry_rectangle_t *diagram_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
@@ -130,6 +130,31 @@ void pencil_diagram_painter_draw ( pencil_diagram_painter_t *this_,
             geometry_rectangle_destroy( &selected_rect );
         }
     }
+
+    TRACE_END();
+}
+
+void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
+                                                data_diagram_t *the_diagram,
+                                                const pencil_size_t *pencil_size,
+                                                const geometry_rectangle_t *diagram_bounds,
+                                                geometry_rectangle_t *out_diagram_space )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != the_diagram );
+    assert( NULL != out_diagram_space );
+    assert( NULL != diagram_bounds );
+
+    double left = geometry_rectangle_get_left ( diagram_bounds );
+    double top = geometry_rectangle_get_top ( diagram_bounds );
+    double width = geometry_rectangle_get_width ( diagram_bounds );
+    double height = geometry_rectangle_get_height ( diagram_bounds );
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+    double f_size = pencil_size_get_standard_font_size( pencil_size );
+    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+
+    geometry_rectangle_reinit( out_diagram_space, left+gap, top+gap+f_size+f_line_gap, width-2.0*gap, height-2.0*gap-f_size-f_line_gap );
 
     TRACE_END();
 }

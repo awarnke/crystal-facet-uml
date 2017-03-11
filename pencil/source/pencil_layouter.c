@@ -67,27 +67,23 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
 
     /* calculate the pencil-sizes and the drawing rectangle */
-    double left = geometry_rectangle_get_left ( &((*this_).diagram_bounds) );
-    double top = geometry_rectangle_get_top ( &((*this_).diagram_bounds) );
-    double right = geometry_rectangle_get_right ( &((*this_).diagram_bounds) );
-    double bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_bounds) );
     double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
     double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
-    double gap = pencil_size_get_standard_object_border( &((*this_).pencil_size) );
-    double f_size = pencil_size_get_standard_font_size( &((*this_).pencil_size) );
-    double f_line_gap = pencil_size_get_font_line_gap( &((*this_).pencil_size) );
-    geometry_rectangle_reinit( &((*this_).diagram_draw_area), left+gap, top+gap+f_size+f_line_gap, width-2.0*gap, height-2.0*gap-f_size-f_line_gap );
+
+    pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
+                                               pencil_input_data_get_diagram_ptr ( input_data ),
+                                               &((*this_).pencil_size),
+                                               &((*this_).diagram_bounds),
+                                               &((*this_).diagram_draw_area) );
 
     /* calculate the axis scales */
     double draw_left = geometry_rectangle_get_left ( &((*this_).diagram_draw_area) );
     double draw_top = geometry_rectangle_get_top ( &((*this_).diagram_draw_area) );
     double draw_right = geometry_rectangle_get_right ( &((*this_).diagram_draw_area) );
     double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
-    double draw_width = geometry_rectangle_get_width ( &((*this_).diagram_draw_area) );
-    double draw_height = geometry_rectangle_get_height ( &((*this_).diagram_draw_area) );
-    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left /*+ 0.04*draw_width*/, draw_right /*- 0.04*draw_width*/ );
-    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top /*+0.04*draw_height*/, draw_bottom /*- 0.04*draw_height*/ );
+    geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
+    geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -226,8 +222,8 @@ void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *thi
             classifier_space = pencil_input_data_layout_get_classifier_space_ptr( &((*this_).layout_data), index );
             pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
                                                           visible_classifier2,
-                                                          classifier_bounds,
                                                           &((*this_).pencil_size ),
+                                                          classifier_bounds,
                                                           font_layout,
                                                           classifier_space
                                                         );
