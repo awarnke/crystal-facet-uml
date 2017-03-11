@@ -419,6 +419,8 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
             }
         }
 
+        /* check overlap to already moved classifiers */
+
         /* PENCIL_INPUT_DATA_MOVE_PRIO_LOW = 1,  /*!< distance to neighbor is too small */
         /* PENCIL_INPUT_DATA_MOVE_PRIO_MID = 2,  /*!< object may be overlapping */
         /* PENCIL_INPUT_DATA_MOVE_PRIO_HIGH = 3,  /*!< object is definitely overlapping */
@@ -427,6 +429,9 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
         geometry_rectangle_shift ( classifier_bounds, shift_x, shift_y );
 
         /* move all contained features */
+        geometry_rectangle_t *classifier_space;
+        classifier_space = pencil_input_data_layout_get_classifier_space_ptr( &((*this_).layout_data), index );
+        geometry_rectangle_shift ( classifier_space, shift_x, shift_y );
     }
 
     universal_array_index_sorter_destroy( &sorted );
