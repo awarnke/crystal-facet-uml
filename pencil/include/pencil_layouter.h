@@ -243,16 +243,41 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
  *  \brief propose multiple solutions to move one classifiers
  *
  *  \param this_ pointer to own object attributes
+ *  \param sorted sorting order by which to move classifiers; must not be NULL.
+ *  \param sort_index index of the current classifier for which to propose solutions
+ *  \param solutions_max maximum number (array size) of solutions to propose
+ *  \param out_solution_move_dx array of solutions: proposal to move in x direction
+ *  \param out_solution_move_dy array of solutions: proposal to move in y direction
+ *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  */
-void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_ );
+void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_,
+                                                                    const universal_array_index_sorter_t *sorted,
+                                                                    uint32_t sort_index,
+                                                                    uint32_t solutions_max,
+                                                                    double out_solution_move_dx[],
+                                                                    double out_solution_move_dy[],
+                                                                    uint32_t *out_solutions_count
+                                                                  );
 
 /*!
  *  \brief selects one solution to move a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \return index of the best solution
+ *  \param sorted sorting order by which to move classifiers; must not be NULL.
+ *  \param sort_index index of the current classifier for which to propose solutions
+ *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
+ *  \param solution_move_dx array of solutions: proposal to move in x direction
+ *  \param solution_move_dy array of solutions: proposal to move in y direction
+ *  \param out_index_of_best of the best solution; must not be NULL.
  */
-uint32_t pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_ );
+void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_,
+                                                                  const universal_array_index_sorter_t *sorted,
+                                                                  uint32_t sort_index,
+                                                                  uint32_t solutions_count,
+                                                                  const double solution_move_dx[],
+                                                                  const double solution_move_dy[],
+                                                                  uint32_t *out_index_of_best
+                                                                );
 
 /*!
  *  \brief determines the shapes of the relationships

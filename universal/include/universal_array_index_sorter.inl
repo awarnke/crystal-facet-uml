@@ -50,12 +50,12 @@ static inline int universal_array_index_sorter_insert( universal_array_index_sor
     return result;
 }
 
-static inline uint32_t universal_array_index_sorter_get_count( universal_array_index_sorter_t *this_ )
+static inline uint32_t universal_array_index_sorter_get_count( const universal_array_index_sorter_t *this_ )
 {
     return (*this_).entries_count;
 }
 
-static inline uint32_t universal_array_index_sorter_get_array_index( universal_array_index_sorter_t *this_, uint32_t sort_index )
+static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_, uint32_t sort_index )
 {
     assert( (*this_).entries_count <= UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE );
     assert( sort_index <= (*this_).entries_count );

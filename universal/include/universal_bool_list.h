@@ -84,7 +84,7 @@ static inline void universal_bool_list_destroy ( universal_bool_list_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return first value of the pair
  */
-static inline bool universal_bool_list_get_first ( universal_bool_list_t *this_ );
+static inline bool universal_bool_list_get_first ( const universal_bool_list_t *this_ );
 
 /*!
  *  \brief gets the second value of universal_bool_list_t
@@ -92,14 +92,14 @@ static inline bool universal_bool_list_get_first ( universal_bool_list_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \return second value of the pair
  */
-static inline bool universal_bool_list_get_second ( universal_bool_list_t *this_ );
+static inline bool universal_bool_list_get_second ( const universal_bool_list_t *this_ );
 
 /*!
  *  \brief prints the universal_bool_list_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_bool_list_trace ( universal_bool_list_t *this_ );
+static inline void universal_bool_list_trace ( const universal_bool_list_t *this_ );
 
 #include "universal_bool_list.inl"
 

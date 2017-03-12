@@ -41,17 +41,17 @@ static inline void universal_int32_pair_destroy ( universal_int32_pair_t *this_ 
 {
 }
 
-static inline int32_t universal_int32_pair_get_first ( universal_int32_pair_t *this_ )
+static inline int32_t universal_int32_pair_get_first ( const universal_int32_pair_t *this_ )
 {
     return (*this_).first;
 }
 
-static inline int32_t universal_int32_pair_get_second ( universal_int32_pair_t *this_ )
+static inline int32_t universal_int32_pair_get_second ( const universal_int32_pair_t *this_ )
 {
     return (*this_).second;
 }
 
-static inline void universal_int32_pair_trace ( universal_int32_pair_t *this_ )
+static inline void universal_int32_pair_trace ( const universal_int32_pair_t *this_ )
 {
     TRACE_INFO( "universal_int32_pair_t" );
     TRACE_INFO_INT( "- first:", (*this_).first );

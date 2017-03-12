@@ -82,7 +82,7 @@ static inline void universal_int32_pair_destroy ( universal_int32_pair_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \return first value of the pair
  */
-static inline int32_t universal_int32_pair_get_first ( universal_int32_pair_t *this_ );
+static inline int32_t universal_int32_pair_get_first ( const universal_int32_pair_t *this_ );
 
 /*!
  *  \brief gets the second value of universal_int32_pair_t
@@ -90,14 +90,14 @@ static inline int32_t universal_int32_pair_get_first ( universal_int32_pair_t *t
  *  \param this_ pointer to own object attributes
  *  \return second value of the pair
  */
-static inline int32_t universal_int32_pair_get_second ( universal_int32_pair_t *this_ );
+static inline int32_t universal_int32_pair_get_second ( const universal_int32_pair_t *this_ );
 
 /*!
  *  \brief prints the universal_int32_pair_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void universal_int32_pair_trace ( universal_int32_pair_t *this_ );
+static inline void universal_int32_pair_trace ( const universal_int32_pair_t *this_ );
 
 #include "universal_int32_pair.inl"
 

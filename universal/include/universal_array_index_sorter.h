@@ -60,7 +60,7 @@ static inline int universal_array_index_sorter_insert( universal_array_index_sor
  *  \param this_ pointer to own object attributes
  *  \result number of entries in the sorted index array
  */
-static inline uint32_t universal_array_index_sorter_get_count( universal_array_index_sorter_t *this_ );
+static inline uint32_t universal_array_index_sorter_get_count( const universal_array_index_sorter_t *this_ );
 
 /*!
  *  \brief adds an entry to the index-list
@@ -69,7 +69,7 @@ static inline uint32_t universal_array_index_sorter_get_count( universal_array_i
  *  \param sort_index index of the sorted index-array
  *  \result array index in the external, unsorted data array
  */
-static inline uint32_t universal_array_index_sorter_get_array_index( universal_array_index_sorter_t *this_, uint32_t sort_index );
+static inline uint32_t universal_array_index_sorter_get_array_index( const universal_array_index_sorter_t *this_, uint32_t sort_index );
 
 #include "universal_array_index_sorter.inl"
 
