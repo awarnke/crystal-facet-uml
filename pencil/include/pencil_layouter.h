@@ -24,6 +24,7 @@
 #include "data_id.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
+#include "universal_array_index_sorter.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -229,6 +230,29 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
  *  \param this_ pointer to own object attributes
  */
 void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief determine order by whicht to move classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_sorted sorting order by which to move classifiers; must not be NULL, shall be initialized to empty.
+ */
+void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+
+/*!
+ *  \brief propose multiple solutions to move one classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_ );
+
+/*!
+ *  \brief selects one solution to move a classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return index of the best solution
+ */
+uint32_t pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief determines the shapes of the relationships

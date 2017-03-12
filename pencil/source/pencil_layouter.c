@@ -2,7 +2,6 @@
 
 #include "pencil_layouter.h"
 #include "trace.h"
-#include "universal_array_index_sorter.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -291,62 +290,33 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
     universal_array_index_sorter_init( &sorted );
 
     /* sort the classifiers by their movement-needs */
-    uint32_t count_clasfy;
-    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-    for ( uint32_t index = 0; index < count_clasfy; index ++ )
-    {
-        geometry_rectangle_t *classifier_bounds;
-        classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
-
-        int64_t weight = 0;
-
-        /* reduce weight by area outside the diagram border */
-        {
-            geometry_rectangle_t border_intersect;
-            int intersect_error2;
-            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_bounds, &((*this_).diagram_draw_area) );
-            if ( 0 != intersect_error2 )
-            {
-                TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
-            }
-
-            weight += geometry_rectangle_get_area( &border_intersect );
-            weight -= geometry_rectangle_get_area( classifier_bounds );
-
-            geometry_rectangle_destroy( &border_intersect );
-        }
-
-        /* reduce weight by intersects with other rectangles */
-        for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
-        {
-            geometry_rectangle_t *probe_bounds;
-            probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), probe_index );
-
-            geometry_rectangle_t intersect;
-            int intersect_error;
-            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_bounds, probe_bounds );
-
-            if ( 0 == intersect_error )
-            {
-                weight -= geometry_rectangle_get_area( &intersect );
-            }
-
-            geometry_rectangle_destroy( &intersect );
-        }
-
-        int insert_error;
-        insert_error = universal_array_index_sorter_insert( &sorted, index, weight );
-        if ( 0 != insert_error )
-        {
-            TSLOG_WARNING( "not all rectangles are moved to avoid intersects" );
-        }
-    }
+    pencil_layouter_private_propose_order_to_move_classifiers ( this_, &sorted );
 
     /* move the classifiers */
     uint32_t count_sorted;
     count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
+
+        uint32_t solution_count = 0;
+        static const uint32_t solution_max = 9;
+        double solution_move_dx[9];
+        double solution_move_dy[9];
+
+        /* propose options */
+
+
+        /* select best option */
+
+
+        /* perform best option */
+
+
+
+
+
+
+
         /* get classifier to move */
         uint32_t index;
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
@@ -453,6 +423,82 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
     universal_array_index_sorter_destroy( &sorted );
 
     TRACE_END();
+}
+
+void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+{
+    TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+
+    /* sort the classifiers by their movement-needs */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+        geometry_rectangle_t *classifier_bounds;
+        classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
+
+        int64_t weight = 0;
+
+        /* reduce weight by area outside the diagram border */
+        {
+            geometry_rectangle_t border_intersect;
+            int intersect_error2;
+            intersect_error2 = geometry_rectangle_init_by_intersect( &border_intersect, classifier_bounds, &((*this_).diagram_draw_area) );
+            if ( 0 != intersect_error2 )
+            {
+                TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
+            }
+
+            weight += geometry_rectangle_get_area( &border_intersect );
+            weight -= geometry_rectangle_get_area( classifier_bounds );
+
+            geometry_rectangle_destroy( &border_intersect );
+        }
+
+        /* reduce weight by intersects with other rectangles */
+        for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
+        {
+            geometry_rectangle_t *probe_bounds;
+            probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), probe_index );
+
+            geometry_rectangle_t intersect;
+            int intersect_error;
+            intersect_error = geometry_rectangle_init_by_intersect( &intersect, classifier_bounds, probe_bounds );
+
+            if ( 0 == intersect_error )
+            {
+                weight -= geometry_rectangle_get_area( &intersect );
+            }
+
+            geometry_rectangle_destroy( &intersect );
+        }
+
+        int insert_error;
+        insert_error = universal_array_index_sorter_insert( out_sorted, index, weight );
+        if ( 0 != insert_error )
+        {
+            TSLOG_WARNING( "not all rectangles are moved to avoid intersects" );
+        }
+    }
+
+    TRACE_END();
+}
+
+/*!
+ *  \brief propose multiple solutions to move one classifiers
+ */
+void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_ )
+{
+
+}
+
+/*!
+ *  \brief evaluate one solution to move a classifier
+ */
+uint32_t pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_ )
+{
+
 }
 
 void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *this_ )
