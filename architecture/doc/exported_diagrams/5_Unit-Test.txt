@@ -1,11 +1,14 @@
-Unit-Test:
-This diagram shows the sw-components involved in unit-testing.
+Unit-Test
+| This diagram shows the sw-components involved in unit-testing.
 
-embunit:
-Test framework
-- runs test cases
-- reports test results
 
-unittest(s) + unittest_main:
-Each SW-moldule may have a subfolder named unittest which contains a set of tests; these
-- test the SW-module
+embunit
+| Test framework
+| - runs test cases
+| - reports test results
+
+
+unittest(s) + unittest_main
+| Each SW-moldule may have a subfolder named unittest which contains a set of tests; these
+| - test the SW-module
+  depends on --> embunit

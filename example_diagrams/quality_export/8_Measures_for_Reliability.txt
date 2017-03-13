@@ -24,9 +24,20 @@ Coding Guidelines
   | bugs in error handling more likely
   valid Memory Addresses
   | Only valid memory addresses may be read/written.
-  | E.g. Java solves this by prohibiting pointers
+  | E.g. Java solves this by prohibiting pointers,
+  | In C/C++, check pointers and array indices before usage
   no dynamic Memory
+  | When the program is running, 
+  | - it must not fail due to 
+  |   - memory fragmentation (virtual addresses/physical pages)
+  |   - out of memory situations
+  | - it shall have a defined timing (which new/malloc cannot provide)
   no recursion: avoid Stack overflow
+  lock critical sections
+  | Always lock critical sections.
+  | Exceptions to locking are a nightmare.
+  single point of return: simple control flow
+  | Simple control flow is key to understandable code
   improves --> Maturity
 
 

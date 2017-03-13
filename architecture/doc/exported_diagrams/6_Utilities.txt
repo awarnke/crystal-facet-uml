@@ -1,12 +1,20 @@
-Utilities:
-This diagram shows small utility modules.
+Utilities
+| This diagram shows small utility modules.
 
-main:
-- starts the software
-- evaluates command line parameters
 
-trace:
-- provides trace macros
+main
+| - starts the software
+| - evaluates command line parameters
 
-log:
-- provides macros for event-logging and error-logging
+
+universal
+| provides small, generic utility classes that are independant of the project
+
+
+trace
+| - provides trace macros
+
+
+tslog
+| - provides macros for event-logging and error-logging
+| - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters

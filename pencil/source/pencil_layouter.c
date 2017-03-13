@@ -374,8 +374,8 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
                 TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
             }
 
-            weight += geometry_rectangle_get_area( &border_intersect );
-            weight -= geometry_rectangle_get_area( classifier_bounds );
+            weight += 16.0 * geometry_rectangle_get_area( &border_intersect );
+            weight -= 16.0 * geometry_rectangle_get_area( classifier_bounds );
 
             geometry_rectangle_destroy( &border_intersect );
         }
@@ -415,14 +415,10 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
 enum pencil_layouter_private_move_enum {
     PENCIL_LAYOUTER_PRIVATE_MOVE_NOT = 0,  /*!< only move to visible arey - nothing more */
     PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN = 1,  /*!< moves up the minimum distance (up means smaller y-values) */
-    PENCIL_LAYOUTER_PRIVATE_MOVE_UP_NICE = 2,  /*!< moves up with some comfort space */
-    PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN = 3,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_NICE = 4,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN = 5,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE = 6,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN = 7,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_NICE = 8,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_MAX = 9,  /*!< constant defining the total number of available options */
+    PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN = 2,
+    PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN = 3,
+    PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN = 4,
+    PENCIL_LAYOUTER_PRIVATE_MOVE_MAX = 5,  /*!< constant defining the total number of available options */
 };
 
 void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_,
@@ -440,7 +436,7 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
     assert ( NULL != out_solution_move_dy );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( PENCIL_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 9 options */
+    assert ( PENCIL_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
 
     /* get classifier to move */
     uint32_t index;
@@ -480,35 +476,22 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
         }
     }
 
-
-
     *out_solutions_count = 1;
     out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_NOT] = shift_x;
     out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_NOT] = shift_y;
 
-
     /* determine minimum and comfort distances between classifiers */
     pencil_size_t *my_pencil_size = &((*this_).pencil_size);
-    double comfortable_distance = pencil_size_get_arrow_stroke_length( my_pencil_size ) * 2.3;  /* todo: formula to be updated */
     double gap = pencil_size_get_standard_object_border( my_pencil_size );
 
     out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_x;
     out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_NICE] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_NICE] = shift_y - comfortable_distance;
     out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_x;
     out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_NICE] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_NICE] = shift_y + comfortable_distance;
     out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_x;
     out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] = shift_x - comfortable_distance;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] = shift_y;
     out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_x;
     out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_NICE] = shift_x + comfortable_distance;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_NICE] = shift_y;
-
 
     /* adjust information on current rectangle */
     top += shift_y;
@@ -533,19 +516,19 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
         probe_left = geometry_rectangle_get_left ( probe_bounds );
         probe_right = geometry_rectangle_get_right ( probe_bounds );
 
-        if ( probe_right < left - comfortable_distance )
+        if ( probe_right < left )
         {
             /* no overlap, finished. */
         }
-        else if ( probe_left > right + comfortable_distance )
+        else if ( probe_left > right )
         {
             /* no overlap, finished. */
         }
-        else if ( probe_bottom < top - comfortable_distance )
+        else if ( probe_bottom < top )
         {
             /* no overlap, finished. */
         }
-        else if ( probe_top > bottom + comfortable_distance )
+        else if ( probe_top > bottom )
         {
             /* no overlap, finished. */
         }
@@ -553,42 +536,57 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
         {
             /* there is an overlap - at least when considering the comfort zone */
 
-            /* things become complicated now */
-
-
-            /*
-            double my_shift_x_left;
-            my_shift_x_left = probe_left - right - comfortable_distance + shift_x;
-            if ( my_shift_x_left < out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] )
+            double my_shift_x_left_min;
+            my_shift_x_left_min = probe_left - right - gap;
+            if ( my_shift_x_left_min < out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] )
             {
-                out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] = my_shift_x_left;
+                out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = my_shift_x_left_min;
             }
-            */
 
+            double my_shift_x_right_min;
+            my_shift_x_right_min = probe_right - left + gap;
+            if ( my_shift_x_right_min > out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] )
+            {
+                out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = my_shift_x_right_min;
+            }
 
-            /* for now, just propose 8 coordinates without checking anything */
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_x;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_y - comfortable_distance;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_NICE] = shift_x;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_NICE] = shift_y - 2.0 * comfortable_distance;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_x;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_y + comfortable_distance;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_NICE] = shift_x;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_NICE] = shift_y + 2.0 * comfortable_distance;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_x - comfortable_distance;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_y;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] = shift_x - 2.0 * comfortable_distance;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_NICE] = shift_y;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_x + comfortable_distance;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_y;
-            out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_NICE] = shift_x + 2.0 * comfortable_distance;
-            out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_NICE] = shift_y;
+            double my_shift_y_up_min;
+            my_shift_y_up_min = probe_top - bottom - gap;
+            if ( my_shift_y_up_min < out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] )
+            {
+                out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = my_shift_y_up_min;
+            }
+
+            double my_shift_y_down_min;
+            my_shift_y_down_min = probe_bottom - top + gap;
+            if ( my_shift_y_down_min > out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] )
+            {
+                out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = my_shift_y_down_min;
+            }
 
             *out_solutions_count = PENCIL_LAYOUTER_PRIVATE_MOVE_MAX;
+
+            /* trace */
+            data_visible_classifier_t *visible_classifier_p;
+            visible_classifier_p = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, probe_index );
+            if (( visible_classifier_p != NULL ) && ( data_visible_classifier_is_valid( visible_classifier_p ) ))
+            {
+                data_classifier_t *classifier_p;
+                classifier_p = data_visible_classifier_get_classifier_ptr( visible_classifier_p );
+                TRACE_INFO_STR( "- overlaps:", data_classifier_get_name_ptr( classifier_p ) );
+            }
         }
     }
 
-
+    /* trace */
+    data_visible_classifier_t *visible_classifier;
+    visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+    {
+        data_classifier_t *classifier;
+        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+        TRACE_INFO_STR( "classifier:", data_classifier_get_name_ptr( classifier ) );
+    }
 
     TRACE_END();
 }
@@ -609,10 +607,11 @@ void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layoute
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
+    /* define potential solution and rating */
     uint32_t index_of_best;
-    uint32_t debts_of_best;
+    double debts_of_best;
     index_of_best = 0;  /* in case of doubts, take the first solution */
-    debts_of_best = UINT32_MAX;
+    debts_of_best = 1000000000.0;
 
     /* get classifier to move */
     uint32_t index;
@@ -629,37 +628,23 @@ void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layoute
         geometry_rectangle_shift ( &solution_bounds, solution_move_dx[solution_index], solution_move_dy[solution_index] );
 
         /* evalute the debts of this solution */
-        uint32_t debts_of_current;
-        debts_of_current = 0;
+        double debts_of_current;
+        debts_of_current = 0.0;
 
-        double top;
-        double bottom;
-        double left;
-        double right;
-        top = geometry_rectangle_get_top ( &solution_bounds );
-        bottom = geometry_rectangle_get_bottom ( &solution_bounds );
-        left = geometry_rectangle_get_left ( &solution_bounds );
-        right = geometry_rectangle_get_right ( &solution_bounds );
+        /* add move distance as debt */
+        debts_of_current += fabs ( solution_move_dx[solution_index] );
+        debts_of_current += fabs ( solution_move_dy[solution_index] );
 
         /* add debts for overlap to diagram boundary */
-        static const int32_t DIAG_BOUNDS_SEVERITY = 16;
         {
-            if ( bottom > geometry_rectangle_get_bottom( &((*this_).diagram_draw_area) ) )
-            {
-                debts_of_current += DIAG_BOUNDS_SEVERITY * (int32_t)( bottom - geometry_rectangle_get_bottom( &((*this_).diagram_draw_area) ) );
-            }
-            if ( top < geometry_rectangle_get_top( &((*this_).diagram_draw_area) ) )
-            {
-                debts_of_current += DIAG_BOUNDS_SEVERITY * (int32_t)( geometry_rectangle_get_top( &((*this_).diagram_draw_area) ) - top );
-            }
-            if ( right > geometry_rectangle_get_right( &((*this_).diagram_draw_area) ) )
-            {
-                debts_of_current += DIAG_BOUNDS_SEVERITY * (int32_t)( right - geometry_rectangle_get_right( &((*this_).diagram_draw_area) ) );
-            }
-            if ( left < geometry_rectangle_get_left( &((*this_).diagram_draw_area) ) )
-            {
-                debts_of_current += DIAG_BOUNDS_SEVERITY * (int32_t)( geometry_rectangle_get_left( &((*this_).diagram_draw_area) ) - left );
-            }
+            static const double DIAG_BOUNDS_SEVERITY = 32.0;
+
+            double current_area = geometry_rectangle_get_area ( &solution_bounds );
+            geometry_rectangle_t intersect;
+            geometry_rectangle_init_by_intersect( &intersect, &solution_bounds, &((*this_).diagram_draw_area) );
+            double intersect_area = geometry_rectangle_get_area ( &intersect );
+
+            debts_of_current += DIAG_BOUNDS_SEVERITY * ( current_area - intersect_area );
         }
 
         /* check overlap to other classifiers */
@@ -672,53 +657,18 @@ void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layoute
                 probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
                 geometry_rectangle_t *probe_bounds;
                 probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), probe_index );
-                double probe_top;
-                double probe_bottom;
-                double probe_left;
-                double probe_right;
-                probe_top = geometry_rectangle_get_top ( probe_bounds );
-                probe_bottom = geometry_rectangle_get_bottom ( probe_bounds );
-                probe_left = geometry_rectangle_get_left ( probe_bounds );
-                probe_right = geometry_rectangle_get_right ( probe_bounds );
 
-                if ( probe_right < left )
+                geometry_rectangle_t probe_intersect;
+                int intersect_err;
+                intersect_err = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_bounds );
+                if ( 0 == intersect_err )
                 {
-                    /* no overlap, finished. */
+                    /* already processed classifiers have higher severity because these do not move anymore */
+                    double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
+                    double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
+                    debts_of_current += severity * probe_intersect_area;
                 }
-                else if ( probe_left > right )
-                {
-                    /* no overlap, finished. */
-                }
-                else if ( probe_bottom < top )
-                {
-                    /* no overlap, finished. */
-                }
-                else if ( probe_top > bottom )
-                {
-                    /* no overlap, finished. */
-                }
-                else
-                {
-                    int32_t severity = ( probe_sort_index < sort_index ) ? 4 : 1;
-
-                    /* there is an overlap */
-                    if ( probe_right > left )
-                    {
-                        debts_of_current += severity * (int32_t)( probe_right - left );
-                    }
-                    if ( probe_left < right )
-                    {
-                        debts_of_current += severity * (int32_t)( right - probe_left );
-                    }
-                    if ( probe_bottom > top )
-                    {
-                        debts_of_current += severity * (int32_t)( probe_bottom - top );
-                    }
-                    if ( probe_top < bottom )
-                    {
-                        debts_of_current += severity * (int32_t)(  bottom - probe_top );
-                    }
-                }
+                /* else no intersect/overlap */
             }
         }
 

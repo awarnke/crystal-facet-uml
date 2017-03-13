@@ -1,14 +1,26 @@
-Arc+Build+Config Tools:
-This diagram shows the tools for designing, implementing, documenting, configuring and building the software.
+Arc+Build+Config Tools
+| This diagram shows the tools for designing, implementing, documenting, configuring and building the software.
 
-cmake (+make +rpmbuild +gcc):
-cmake and cpack are meta-build files which generate e.g. make files, rpm and deb package files.
 
-c + doxygen:
-c code and doxygen are the source code and documentation formats
+git
+| version control system
 
-crystal facet uml:
-- drafts the software design (using this crystal facet uml tool which is under construction)
 
-git:
-version control system
+cmake
+| cmake and cpack are meta-build files which generate e.g. make files, rpm and deb package files.
+  make: build dependency handler
+  | uint32_t get_state() is ...
+  rpm build: package manager
+  | uint32_t get_state() is ...
+  gcc: compiler
+  | uint32_t get_state() is ...
+
+
+c + doxygen
+| c code and doxygen are the source code and documentation formats
+  feeds --> cmake
+
+
+crystal facet uml
+| - drafts the software design (using this crystal facet uml tool which is under construction)
+  defines --> c + doxygen

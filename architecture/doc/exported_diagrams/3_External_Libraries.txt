@@ -1,25 +1,36 @@
-External Libraries:
-This diagram shows the base libraries.
+External Libraries
+| This diagram shows the base libraries.
 
-sqlite3:
-SQL database
 
-gtk3:
-Toolkit which provides
-- Windows and Widgets
-- User Input handling
+sqlite3
+| SQL database
 
-utf8stringbuf:
-String library
 
-gdk:
-Drawing library
+gtk3
+| Toolkit which provides
+| - Windows and Widgets
+| - User Input handling
+  depends on --> gdk
 
-pango:
-- font rendering engine
 
-cairo:
-Library providing drawing primitives
+utf8stringbuf
+| String library
 
-glib:
-Platform abstraction layer
+
+gdk
+| Drawing library
+  uses --> cairo
+  uses --> pango
+  depends on --> glib
+
+
+pango
+| - font rendering engine
+
+
+cairo
+| Library providing drawing primitives
+
+
+glib
+| Platform abstraction layer
