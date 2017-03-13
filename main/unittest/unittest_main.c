@@ -11,7 +11,7 @@
 #include "ctrl_undo_redo_list_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "pencil_description_writer_test.h"
-#include "universal_array_index_sorter.h"
+#include "universal_array_index_sorter_test.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"

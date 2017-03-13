@@ -29,19 +29,6 @@
 #include <stdint.h>
 
 /*!
- *  \brief constants for priorities of moving objects
- */
-enum pencil_input_data_move_prio_enum {
-    PENCIL_INPUT_DATA_MOVE_PRIO_NONE = 0,  /*!< no reason to move */
-    PENCIL_INPUT_DATA_MOVE_PRIO_LOW = 1,  /*!< distance to neighbor is too small */
-    PENCIL_INPUT_DATA_MOVE_PRIO_MID = 2,  /*!< object may be overlapping */
-    PENCIL_INPUT_DATA_MOVE_PRIO_HIGH = 3,  /*!< object is definitely overlapping */
-    PENCIL_INPUT_DATA_MOVE_PRIO_MAX = 4,  /*!< object is not completely visible */
-};
-
-typedef enum pencil_input_data_move_prio_enum pencil_input_data_move_prio_t;
-
-/*!
  *  \brief attributes of the layouter
  */
 struct pencil_layouter_struct {
