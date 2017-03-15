@@ -232,10 +232,17 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                 if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                            GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                            text
-                    );
+                                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                          GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                          text
+                                                                       );
+                }
+                else if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                                                           );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -255,7 +262,14 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_key ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update key/name failed:", ctrl_err );
                 }
@@ -273,7 +287,14 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_name ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
@@ -297,7 +318,14 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_name ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update name failed:", ctrl_err );
                 }
@@ -354,7 +382,14 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -372,7 +407,14 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -390,7 +432,14 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_relationship_description ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -414,7 +463,14 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
                 diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_diagram_controller_update_diagram_description ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update description failed:", ctrl_err );
                 }
@@ -464,7 +520,14 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
                 }
@@ -482,7 +545,14 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
                 class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
                 ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_NONE != ctrl_err )
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
                     TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
                 }

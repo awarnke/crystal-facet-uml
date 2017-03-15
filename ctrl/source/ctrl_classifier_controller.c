@@ -316,7 +316,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_stereotype ( ctrl_clas
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_stereotype( (*this_).db_writer, classifier_id, new_classifier_stereotype, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -345,7 +345,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_description ( ctrl_cla
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_description( (*this_).db_writer, classifier_id, new_classifier_description, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -374,7 +374,7 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_name ( ctrl_classifier
     data_classifier_t old_classifier;
 
     data_result = data_database_writer_update_classifier_name( (*this_).db_writer, classifier_id, new_classifier_name, &old_classifier );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new classifier */
         data_classifier_t new_classifier;
@@ -841,7 +841,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_key ( ctrl_classifier_con
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_key( (*this_).db_writer, feature_id, new_feature_key, &old_feature );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -870,7 +870,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_value ( ctrl_classifier_c
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_value( (*this_).db_writer, feature_id, new_feature_value, &old_feature );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -899,7 +899,7 @@ ctrl_error_t ctrl_classifier_controller_update_feature_description ( ctrl_classi
     data_feature_t old_feature;
 
     data_result = data_database_writer_update_feature_description( (*this_).db_writer, feature_id, new_feature_description, &old_feature );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new feature */
         data_feature_t new_feature;
@@ -1038,7 +1038,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_name ( ctrl_classifi
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_name( (*this_).db_writer, relationship_id, new_relationship_name, &old_relation );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;
@@ -1067,7 +1067,7 @@ ctrl_error_t ctrl_classifier_controller_update_relationship_description ( ctrl_c
     data_relationship_t old_relation;
 
     data_result = data_database_writer_update_relationship_description( (*this_).db_writer, relationship_id, new_relationship_description, &old_relation );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new relation */
         data_relationship_t new_relation;

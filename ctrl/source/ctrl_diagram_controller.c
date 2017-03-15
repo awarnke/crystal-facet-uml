@@ -203,7 +203,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_description ( ctrl_diagram_c
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_description( (*this_).db_writer, diagram_id, new_diagram_description, &old_diagram );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;
@@ -232,7 +232,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_name ( ctrl_diagram_controll
     data_diagram_t old_diagram;
 
     data_result = data_database_writer_update_diagram_name( (*this_).db_writer, diagram_id, new_diagram_name, &old_diagram );
-    if ( DATA_ERROR_NONE == data_result )
+    if  (( DATA_ERROR_NONE == data_result ) || ( DATA_ERROR_STRING_BUFFER_EXCEEDED == data_result ))
     {
         /* prepare the new diagram */
         data_diagram_t new_diagram;

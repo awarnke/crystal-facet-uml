@@ -4,6 +4,7 @@
 #include "data_id.h"
 #include "trace.h"
 #include "tslog.h"
+#include "util/string/utf8string.h"
 #include <assert.h>
 
 /*!
@@ -208,7 +209,11 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_diagram_name );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_diagram_name, 0, DATA_DIAGRAM_MAX_NAME_LENGTH );
+        if ( utf8string_get_length( new_diagram_name ) > DATA_DIAGRAM_MAX_NAME_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -242,7 +247,11 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_diagram_description );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_diagram_description, 0, DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH );
+        if ( utf8string_get_length( new_diagram_description ) > DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -517,7 +526,11 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_classifier_stereotype );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_classifier_stereotype, 0, DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH );
+        if ( utf8string_get_length( new_classifier_stereotype ) > DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -551,7 +564,11 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_classifier_name );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_classifier_name, 0, DATA_CLASSIFIER_MAX_NAME_LENGTH );
+        if ( utf8string_get_length( new_classifier_name ) > DATA_CLASSIFIER_MAX_NAME_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -585,7 +602,11 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_classifier_description );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_classifier_description, 0, DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH );
+        if ( utf8string_get_length( new_classifier_description ) > DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -1016,7 +1037,11 @@ data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_datab
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_key );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_feature_key, 0, DATA_FEATURE_MAX_KEY_LENGTH );
+        if ( utf8string_get_length( new_feature_key ) > DATA_FEATURE_MAX_KEY_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -1050,7 +1075,11 @@ data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_dat
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_value );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_feature_value, 0, DATA_FEATURE_MAX_VALUE_LENGTH );
+        if ( utf8string_get_length( new_feature_value ) > DATA_FEATURE_MAX_VALUE_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -1084,7 +1113,11 @@ data_error_t data_database_sql_builder_build_update_feature_description_cmd ( da
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_feature_description );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_feature_description, 0, DATA_FEATURE_MAX_DESCRIPTION_LENGTH );
+        if ( utf8string_get_length( new_feature_description ) > DATA_FEATURE_MAX_DESCRIPTION_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -1315,7 +1348,11 @@ data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_relationship_name );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_relationship_name, 0, DATA_RELATIONSHIP_MAX_NAME_LENGTH );
+        if ( utf8string_get_length( new_relationship_name ) > DATA_RELATIONSHIP_MAX_NAME_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
@@ -1349,7 +1386,11 @@ data_error_t data_database_sql_builder_build_update_relationship_description_cmd
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START );
     {
         /* prepare temp buf */
-        strerr |= utf8stringbuf_copy_str( (*this_).temp_stringbuf, new_relationship_description );
+        strerr |= utf8stringbuf_copy_region_from_str( (*this_).temp_stringbuf, new_relationship_description, 0, DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH );
+        if ( utf8string_get_length( new_relationship_description ) > DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH )
+        {
+            strerr |= UTF8ERROR_TRUNCATED;
+        }
         strerr |= utf8stringbuf_replace_all( (*this_).temp_stringbuf, DATA_DATABASE_SQL_BUILDER_SQL_ENCODE );
     }
     strerr |= utf8stringbuf_append_buf( (*this_).sql_stringbuf, (*this_).temp_stringbuf );
