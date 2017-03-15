@@ -925,6 +925,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_classifier_controller_t *classifier_control;
                             classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
+                            /* propose a list_order for the relationship */
+                            int32_t list_order_proposal = 0;
+                            gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                            if ( NULL != target )
+                            {
+                                list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
+                            }
+
                             /* define relationship */
                             data_relationship_t new_relationship;
                             data_error_t d_err;
@@ -935,7 +943,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                              data_id_get_row_id( &destination_real ),
                                                              "depends on", /* =relationship_name */
                                                              "", /* =relationship_description */
-                                                             x*y /* =list_order, formula to be updated */
+                                                             list_order_proposal
                                                            );
 
                             /* create relationship */
@@ -977,6 +985,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_classifier_controller_t *classifier_control;
                             classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
+                            /* propose a list_order for the feature */
+                            int32_t list_order_proposal = 0;
+                            gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                            if ( NULL != target )
+                            {
+                                list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
+                            }
+
                             /* define feature */
                             data_feature_t new_feature;
                             data_error_t data_err;
@@ -987,7 +1003,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                            "get_state",
                                                            "uint32_t(*)(void)",
                                                            "",
-                                                           x*y /* list_order, formula to be updated */
+                                                           list_order_proposal
                                                          );
 
                             /* create feature */

@@ -170,6 +170,14 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
  */
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr );
 
+/*!
+ *  \brief determines the highest list order in the current diagram - relationships and features are taken into account.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result highest list order. May be used to append a new item to the end of the list.
+ */
+static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t *this_ );
+
 #include "gui_sketch_card.inl"
 
 #endif  /* GUI_SKETCH_CARD_H */

@@ -119,6 +119,35 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     geometry_rectangle_destroy( &destination );
 }
 
+static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t *this_ )
+{
+    int32_t result = 0;
+
+    if ( pencil_input_data_is_valid( &((*this_).painter_input_data) ) )
+    {
+        for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count( &((*this_).painter_input_data) ); f_idx ++ )
+        {
+            data_feature_t *feat;
+            feat = pencil_input_data_get_feature_ptr ( &((*this_).painter_input_data), f_idx );
+            if ( data_feature_get_list_order( feat ) > result )
+            {
+                result = data_feature_get_list_order( feat );
+            }
+        }
+        for ( uint32_t rs_idx = 0; rs_idx < pencil_input_data_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
+        {
+            data_relationship_t *relation;
+            relation = pencil_input_data_get_relationship_ptr ( &((*this_).painter_input_data), rs_idx );
+            if ( data_relationship_get_list_order( relation ) > result )
+            {
+                result = data_relationship_get_list_order( relation );
+            }
+        }
+    }
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke
