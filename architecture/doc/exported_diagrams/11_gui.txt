@@ -1,0 +1,22 @@
+gui
+| This diagram shows the main classes in the gui package.
+
+
+gui_main_window
+| - represents an application window
+  has --> gui_sketch_area
+
+
+gui_window_manager
+| - starts and stops application windows
+  has (1..4) --> gui_main_window
+
+
+gui_sketch_area
+| - manages the main drawing area
+  has (1..n) --> gui_sketch_card
+
+
+gui_sketch_card
+| - maintains the data of one diagram
+| - displays one diagram

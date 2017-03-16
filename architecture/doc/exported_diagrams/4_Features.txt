@@ -2,41 +2,17 @@ Features
 | This diagram lists the main features of crystal facet uml.
 
 
+Draw Diagrams
+
+
 Show multiple instances in same diagram
 | One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)
   depends on --> Classifier is implicit instance
 
 
-Draw Diagrams
-
-
 Classifier is implicit instance
 | A classifier can represent an anonymous (implicit) instance without defining an explicit instance relation
   depends on --> Show Classifiers
-
-
-Classifier is explicit instance
-| A classifier can be an explicitly modelled instance of another classifier
-  depends on --> Show Classifiers
-
-
-Mark Classifiers
-| A classifier can be highlighted in one or several diagrams.
-| The highlighting may be different in different diagrams where the classifier is shown.
-  highlight
-  grey out
-  depends on --> Show Classifiers
-
-
-Classifier has relations
-| A classifier can have zero, one or many relations; these may be of one or of differnet types.
-| Circular dependencies may be forbidden if semantics undefined.
-  depends on --> Show Classifiers
-
-
-Classifier is contained (child)
-| A Classifier can either exist stand-alone or be a sub-element of another classifier.
-  depends on --> Classifier has relations
 
 
 Diagrams are hierarchical
@@ -48,3 +24,27 @@ Show Classifiers
 | Classifiers are drawn to diagrams
 | one classifier is visible in one or multiple diagrams
   depends on --> Draw Diagrams
+
+
+Classifier is explicit instance
+| A classifier can be an explicitly modelled instance of another classifier
+  depends on --> Show Classifiers
+
+
+Classifier has relations
+| A classifier can have zero, one or many relations; these may be of one or of differnet types.
+| Circular dependencies may be forbidden if semantics undefined.
+  depends on --> Show Classifiers
+
+
+Mark Classifiers
+| A classifier can be highlighted in one or several diagrams.
+| The highlighting may be different in different diagrams where the classifier is shown.
+  highlight
+  grey out
+  depends on --> Show Classifiers
+
+
+Classifier is contained (child)
+| A Classifier can either exist stand-alone or be a sub-element of another classifier.
+  depends on --> Classifier has relations

@@ -1,5 +1,6 @@
 2017-03-xx 0.14 [xxxxxxx]
-  + 
+  + Classifiers are layouted avoiding overlaps
+  + Features are added at end of feature list
 2017-02-25 0.13 [ff3b72f]
   + The txt-file export contains features and relationships
   + The user can export pdf and ps formats

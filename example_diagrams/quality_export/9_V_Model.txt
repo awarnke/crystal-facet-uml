@@ -15,7 +15,7 @@ System Architecture
 
 
 System Integration
-  Sys-Integration Test
+  System Integration Test
   feeds --> System Test
 
 
@@ -29,12 +29,12 @@ Software Test
 
 
 Software Architecture
-  defines --> SW-Integration
+  defines --> Software Integration
   is basis for --> Construction
 
 
-SW-Integration
-  Integration Test
+Software Integration
+  Software Integration Test
   feeds --> Software Test
 
 
@@ -43,4 +43,4 @@ Construction
   Source Code + User Doc
   Implementation
   Unit-test
-  feeds --> SW-Integration
+  feeds --> Software Integration

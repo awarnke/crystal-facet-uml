@@ -47,6 +47,14 @@ Maturity
 Availability
 
 
+Redundancy
+  2 of 3 voter
+  duo-duplex
+  limp home
+  function migration
+  enhances --> Availability
+
+
 Fault Tolerance
 
 

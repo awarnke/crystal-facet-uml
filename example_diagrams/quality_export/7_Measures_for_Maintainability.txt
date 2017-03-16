@@ -7,7 +7,7 @@ Modularity
 Reusability
 
 
-Analysability
+Analyzability
 
 
 Modifyability

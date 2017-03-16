@@ -93,7 +93,7 @@ Learnability
    --> Usability
 
 
-Analysability
+Analyzability
    --> Maintainability
 
 

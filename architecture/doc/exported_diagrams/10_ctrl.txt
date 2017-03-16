@@ -1,0 +1,15 @@
+ctrl
+| This diagram shows the main classes in the ctrl package.
+
+
+ctrl_controller
+| - changes the database contents
+| - maintains the undo redo list
+  classifiers: ctrl_classifier_controller_t
+  diagrams: ctrl_diagram_controller_t
+  undo_redo_list: ctrl_undo_redo_list_t
+  has --> ctrl_consistency_checker
+
+
+ctrl_consistency_checker
+| - checks and repairs a database

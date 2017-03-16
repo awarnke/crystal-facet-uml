@@ -12,6 +12,9 @@ Automotive
   Infotainment
 
 
+Machine construction
+
+
 Military
 
 
@@ -19,6 +22,3 @@ Backend Server
 
 
 Medical
-
-
-Machine construction
