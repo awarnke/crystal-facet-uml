@@ -46,10 +46,11 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
     {
         TRACE_INFO_INT("drawing relationship id", data_relationship_get_id( the_relationship ) );
 
+        /* set the right line width */
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
 
-        /* draw connector */
+        /* set the right drawing color */
         GdkRGBA foreground_color;
         if ( mark_highlighted )
         {
@@ -60,6 +61,358 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             foreground_color = pencil_size_get_standard_color( pencil_size );
         }
         cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+
+        /* get points */
+        double p1x = geometry_connector_get_source_end_x ( connector_shape );
+        double p1y = geometry_connector_get_source_end_y ( connector_shape );
+        double p2x = geometry_connector_get_main_line_source_x ( connector_shape );
+        double p2y = geometry_connector_get_main_line_source_y ( connector_shape );
+        double p3x = geometry_connector_get_main_line_destination_x ( connector_shape );
+        double p3y = geometry_connector_get_main_line_destination_y ( connector_shape );
+        double p4x = geometry_connector_destination_end_x ( connector_shape );
+        double p4y = geometry_connector_get_destination_end_y ( connector_shape );
+        double center_x = (p2x+p3x)/2.0;
+        double center_y = (p2y+p3y)/2.0;
+
+        /* determine arrow direction */
+        int arrow_clock_direction; /* wall-clock direction assuming ascending y direction to top */
+        if ( fabs( p3x-p4x ) > 0.5 )
+        {
+            arrow_clock_direction = ( p3x < p4x ) ? 3 : 9;
+        }
+        else
+        {
+            if ( fabs( p3y-p4y ) > 0.5 )
+            {
+                arrow_clock_direction = ( p3y < p4y ) ? 0 : 6;
+            }
+            else
+            {
+                if ( fabs( p2x-p4x ) > 0.5 )
+                {
+                    arrow_clock_direction = ( p2x < p4x ) ? 3 : 9;
+                }
+                else
+                {
+                    if ( fabs( p2y-p4y ) > 0.5 )
+                    {
+                        arrow_clock_direction = ( p2y < p4y ) ? 0 : 6;
+                    }
+                    else
+                    {
+                        TSLOG_WARNING("illegal case");
+                        arrow_clock_direction = 0;
+                    }
+                }
+            }
+        }
+
+        /* determine feathers direction */
+        int feathers_clock_direction; /* wall-clock direction assuming ascending y direction to top */
+        if ( fabs( p2x-p1x ) > 0.5 )
+        {
+            feathers_clock_direction = ( p2x < p1x ) ? 9 : 3;
+        }
+        else
+        {
+            if ( fabs( p2y-p1y ) > 0.5 )
+            {
+                feathers_clock_direction = ( p2y < p1y ) ? 0 : 6;
+            }
+            else
+            {
+                if ( fabs( p3x-p1x ) > 0.5 )
+                {
+                    feathers_clock_direction = ( p3x < p1x ) ? 9 : 3;
+                }
+                else
+                {
+                    if ( fabs( p3y-p1y ) > 0.5 )
+                    {
+                        feathers_clock_direction = ( p3y < p1y ) ? 0 : 6;
+                    }
+                    else
+                    {
+                        TSLOG_WARNING("illegal case");
+                        feathers_clock_direction = 0;
+                    }
+                }
+            }
+        }
+
+        /* draw arrow */
+        switch ( data_relationship_get_main_type( the_relationship ) )
+        {
+            case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
+            case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
+            case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_EXTEND:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+            case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
+            case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            {
+                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
+                bool close_path;
+                if (( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION )
+                    || ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_REALIZATION ))
+                {
+                    close_path = true;
+                }
+                else
+                {
+                    close_path = false;
+                }
+                switch ( arrow_clock_direction )
+                {
+                    case 0:  /* direction: 12 o clock */
+                    {
+                        cairo_move_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
+                        cairo_line_to ( cr, p4x, p4y );
+                        cairo_line_to ( cr, p4x + half_stroke_length, p4y - part_stroke_length );
+                        if ( close_path )
+                        {
+                            cairo_line_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
+                            p4y = p4y - part_stroke_length;
+                        }
+                    }
+                    break;
+
+                    case 3:
+                    {
+                        cairo_move_to ( cr, p4x - part_stroke_length, p4y - half_stroke_length );
+                        cairo_line_to ( cr, p4x, p4y );
+                        cairo_line_to ( cr, p4x - part_stroke_length, p4y + half_stroke_length );
+                        if ( close_path )
+                        {
+                            cairo_line_to ( cr, p4x - part_stroke_length, p4y - half_stroke_length );
+                            p4x = p4x - part_stroke_length;
+                        }
+                    }
+                    break;
+
+                    case 6:
+                    {
+                        cairo_move_to ( cr, p4x + half_stroke_length, p4y + part_stroke_length );
+                        cairo_line_to ( cr, p4x, p4y );
+                        cairo_line_to ( cr, p4x - half_stroke_length, p4y + part_stroke_length );
+                        if ( close_path )
+                        {
+                            cairo_line_to ( cr, p4x + half_stroke_length, p4y + part_stroke_length );
+                            p4y = p4y + part_stroke_length;
+                        }
+                    }
+                    break;
+
+                    case 9:
+                    {
+                        cairo_move_to ( cr, p4x + part_stroke_length, p4y + half_stroke_length );
+                        cairo_line_to ( cr, p4x, p4y );
+                        cairo_line_to ( cr, p4x + part_stroke_length, p4y - half_stroke_length );
+                        if ( close_path )
+                        {
+                            cairo_line_to ( cr, p4x + part_stroke_length, p4y + half_stroke_length );
+                            p4x = p4x + part_stroke_length;
+                        }
+                    }
+                    break;
+
+                    default:
+                    {
+                        TSLOG_ERROR("illegal case");
+                    }
+                    break;
+                }
+                if ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL )
+                {
+                    cairo_fill (cr);
+                }
+                else
+                {
+                    cairo_stroke (cr);
+                }
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
+            case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
+            case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+            {
+                /* no arrow tip */
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                /* no arrow tip */
+            }
+            break;
+        }
+
+        /* draw feathers */
+        switch ( data_relationship_get_main_type( the_relationship ) )
+        {
+            case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
+            case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
+            {
+                /* rhomboid */
+                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
+                switch ( feathers_clock_direction )
+                {
+                    case 0:  /* direction: 12 o clock */
+                    {
+                        cairo_move_to ( cr, p1x, p1y );
+                        cairo_line_to ( cr, p1x - half_stroke_length, p1y - part_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y - 2.0 * part_stroke_length );
+                        cairo_line_to ( cr, p1x + half_stroke_length, p1y - part_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y );
+                        p1y = p1y - 2.0 * part_stroke_length;
+                    }
+                    break;
+
+                    case 3:
+                    {
+                        cairo_move_to ( cr, p1x, p1y );
+                        cairo_line_to ( cr, p1x + part_stroke_length, p1y - half_stroke_length );
+                        cairo_line_to ( cr, p1x + 2.0 * part_stroke_length, p1y );
+                        cairo_line_to ( cr, p1x + part_stroke_length, p1y + half_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y );
+                        p1x = p1x + 2.0 * part_stroke_length;
+                    }
+                    break;
+
+                    case 6:
+                    {
+                        cairo_move_to ( cr, p1x, p1y );
+                        cairo_line_to ( cr, p1x + half_stroke_length, p1y + part_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y + 2.0 * part_stroke_length );
+                        cairo_line_to ( cr, p1x - half_stroke_length, p1y + part_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y );
+                        p1y = p1y + 2.0 * part_stroke_length;
+                    }
+                    break;
+
+                    case 9:
+                    {
+                        cairo_move_to ( cr, p1x, p1y );
+                        cairo_line_to ( cr, p1x - part_stroke_length, p1y + half_stroke_length );
+                        cairo_line_to ( cr, p1x - 2.0 * part_stroke_length, p1y );
+                        cairo_line_to ( cr, p1x - part_stroke_length, p1y - half_stroke_length );
+                        cairo_line_to ( cr, p1x, p1y );
+                        p1x = p1x - 2.0 * part_stroke_length;
+                    }
+                    break;
+
+                    default:
+                    {
+                        TSLOG_ERROR("illegal case");
+                    }
+                    break;
+                }
+                if ( data_relationship_get_main_type( the_relationship ) == DATA_RELATIONSHIP_TYPE_UML_COMPOSITION )
+                {
+                    cairo_fill (cr);
+                }
+                else
+                {
+                    cairo_stroke (cr);
+                }
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+            {
+                /* circle with plus */
+                /* double stroke_length = pencil_size_get_arrow_stroke_length( pencil_size ); */
+                double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
+                switch ( feathers_clock_direction )
+                {
+                    case 0:  /* direction: 12 o clock */
+                    {
+                        cairo_new_sub_path (cr);  /* to be called before arc */
+                        cairo_arc ( cr, p1x, p1y - half_stroke_length, half_stroke_length, 0.0, 2.0*M_PI );
+                        cairo_move_to ( cr, p1x - half_stroke_length, p1y - half_stroke_length );
+                        cairo_line_to ( cr, p1x + half_stroke_length, p1y - half_stroke_length );
+                        cairo_stroke (cr);
+                    }
+                    break;
+
+                    case 3:
+                    {
+                        cairo_new_sub_path (cr);
+                        cairo_arc ( cr, p1x + half_stroke_length, p1y, half_stroke_length, 0.0, 2.0*M_PI );
+                        cairo_move_to ( cr, p1x + half_stroke_length, p1y - half_stroke_length );
+                        cairo_line_to ( cr, p1x + half_stroke_length, p1y + half_stroke_length );
+                        cairo_stroke (cr);
+                    }
+                    break;
+
+                    case 6:
+                    {
+                        cairo_new_sub_path (cr);
+                        cairo_arc ( cr, p1x, p1y + half_stroke_length, half_stroke_length, 0.0, 2.0*M_PI );
+                        cairo_move_to ( cr, p1x - half_stroke_length, p1y + half_stroke_length );
+                        cairo_line_to ( cr, p1x + half_stroke_length, p1y + half_stroke_length );
+                        cairo_stroke (cr);
+                    }
+                    break;
+
+                    case 9:
+                    {
+                        cairo_new_sub_path (cr);
+                        cairo_arc ( cr, p1x - half_stroke_length, p1y, half_stroke_length, 0.0, 2.0*M_PI );
+                        cairo_move_to ( cr, p1x - half_stroke_length, p1y - half_stroke_length );
+                        cairo_line_to ( cr, p1x - half_stroke_length, p1y + half_stroke_length );
+                        cairo_stroke (cr);
+                    }
+                    break;
+
+                    default:
+                    {
+                        TSLOG_ERROR("illegal case");
+                    }
+                    break;
+                }
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
+            case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
+            case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_EXTEND:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+            case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
+            case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            {
+                /* no rhomboid or other feathers */
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                /* no rhomboid or other feathers */
+            }
+            break;
+        }
+
+        /* set the right line type: dashed/normal */
         switch ( data_relationship_get_main_type( the_relationship ) )
         {
             case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
@@ -101,16 +454,6 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             }
             break;
         }
-        double p1x = geometry_connector_get_source_end_x ( connector_shape );
-        double p1y = geometry_connector_get_source_end_y ( connector_shape );
-        double p2x = geometry_connector_get_main_line_source_x ( connector_shape );
-        double p2y = geometry_connector_get_main_line_source_y ( connector_shape );
-        double p3x = geometry_connector_get_main_line_destination_x ( connector_shape );
-        double p3y = geometry_connector_get_main_line_destination_y ( connector_shape );
-        double p4x = geometry_connector_destination_end_x ( connector_shape );
-        double p4y = geometry_connector_get_destination_end_y ( connector_shape );
-        double center_x = (p2x+p3x)/2.0;
-        double center_y = (p2y+p3y)/2.0;
 
         /* draw connector line */
         {
@@ -152,84 +495,6 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
 
         /* reset dashes */
         cairo_set_dash ( cr, NULL, 0, 0.0 );
-
-        /* draw arrow */
-        int clock_direction; /* wall-clock direction assuming ascending y direction to top */
-        if ( fabs( p3x-p4x ) > 0.5 )
-        {
-            clock_direction = ( p3x < p4x ) ? 3 : 9;
-        }
-        else
-        {
-            if ( fabs( p3y-p4y ) > 0.5 )
-            {
-                clock_direction = ( p3y < p4y ) ? 0 : 6;
-            }
-            else
-            {
-                if ( fabs( p2x-p4x ) > 0.5 )
-                {
-                    clock_direction = ( p2x < p4x ) ? 3 : 9;
-                }
-                else
-                {
-                    if ( fabs( p2y-p4y ) > 0.5 )
-                    {
-                        clock_direction = ( p2y < p4y ) ? 0 : 6;
-                    }
-                    else
-                    {
-                    }
-                }
-            }
-        }
-
-        double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
-        double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
-        switch ( clock_direction )
-        {
-            case 0:  /* direction: 12 o clock */
-            {
-                cairo_move_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
-                cairo_line_to ( cr, p4x, p4y );
-                cairo_line_to ( cr, p4x + half_stroke_length, p4y - part_stroke_length );
-                cairo_stroke (cr);
-            }
-            break;
-
-            case 3:
-            {
-                cairo_move_to ( cr, p4x - part_stroke_length, p4y - half_stroke_length );
-                cairo_line_to ( cr, p4x, p4y );
-                cairo_line_to ( cr, p4x - part_stroke_length, p4y + half_stroke_length );
-                cairo_stroke (cr);
-            }
-            break;
-
-            case 6:
-            {
-                cairo_move_to ( cr, p4x + half_stroke_length, p4y + part_stroke_length );
-                cairo_line_to ( cr, p4x, p4y );
-                cairo_line_to ( cr, p4x - half_stroke_length, p4y + part_stroke_length );
-                cairo_stroke (cr);
-            }
-            break;
-
-            case 9:
-            {
-                cairo_move_to ( cr, p4x + part_stroke_length, p4y + half_stroke_length );
-                cairo_line_to ( cr, p4x, p4y );
-                cairo_line_to ( cr, p4x + part_stroke_length, p4y - half_stroke_length );
-                cairo_stroke (cr);
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR("illegal case");
-            }
-            break;
-        }
 
         /* draw name text */
         {
