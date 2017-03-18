@@ -60,6 +60,47 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             foreground_color = pencil_size_get_standard_color( pencil_size );
         }
         cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        switch ( data_relationship_get_main_type( the_relationship ) )
+        {
+            case DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION:
+            case DATA_RELATIONSHIP_TYPE_UML_AGGREGATION:
+            case DATA_RELATIONSHIP_TYPE_UML_COMPOSITION:
+            case DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH:
+            case DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW:
+            case DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT:
+            {
+                /* no dashes */
+                cairo_set_dash ( cr, NULL, 0, 0.0 );
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_EXTEND:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+            case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:  /* t.b.d. */
+            case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
+            case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
+            case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            {
+                double dashes[1];
+                dashes[0] = pencil_size_get_line_dash_length( pencil_size );
+                cairo_set_dash ( cr, dashes, 1, 0.0 );
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("unknown data_relationship_type_t in pencil_relationship_painter_draw()");
+                double error_dashes[1];
+                error_dashes[0] = 0.2*pencil_size_get_line_dash_length( pencil_size );
+                cairo_set_dash ( cr, error_dashes, 1, 0.0 );
+            }
+            break;
+        }
         double p1x = geometry_connector_get_source_end_x ( connector_shape );
         double p1y = geometry_connector_get_source_end_y ( connector_shape );
         double p2x = geometry_connector_get_main_line_source_x ( connector_shape );
@@ -71,16 +112,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         double center_x = (p2x+p3x)/2.0;
         double center_y = (p2y+p3y)/2.0;
 
-        /* simple cornered line */
-        /*
-        cairo_move_to ( cr, p1x, p1y );
-        cairo_line_to ( cr, p2x, p2y );
-        cairo_line_to ( cr, p3x, p3y );
-        cairo_line_to ( cr, p4x, p4y );
-        cairo_stroke (cr);
-        */
-
-        /* alternative with fix radius */
+        /* draw connector line */
         {
             double radius = 2.0 * pencil_size_get_arrow_stroke_length( pencil_size );
             double dx;
@@ -117,6 +149,9 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             cairo_line_to ( cr, p4x, p4y );
             cairo_stroke (cr);
         }
+
+        /* reset dashes */
+        cairo_set_dash ( cr, NULL, 0, 0.0 );
 
         /* draw arrow */
         int clock_direction; /* wall-clock direction assuming ascending y direction to top */

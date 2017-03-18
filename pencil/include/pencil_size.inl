@@ -66,6 +66,7 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     pango_font_description_set_size ( (*this_).larger_font_description, 12 * PANGO_SCALE );
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
+    (*this_).line_dash_length = 5.0;
     (*this_).standard_object_border = 2.0;
     (*this_).arrow_stroke_length = 10.0;
     (*this_).arrow_stroke_087_length = 8.66;
@@ -88,6 +89,7 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
     pango_font_description_set_size ( (*this_).larger_font_description, ((int)(*this_).larger_font_size) * PANGO_SCALE );
     (*this_).standard_line_width = smaller_border/400.0;
     (*this_).bold_line_width = smaller_border/200.0;
+    (*this_).line_dash_length = smaller_border/80.0;
     (*this_).standard_object_border = smaller_border/200.0;
     (*this_).arrow_stroke_length = smaller_border/67;
     (*this_).arrow_stroke_087_length = (*this_).arrow_stroke_length*0.866025403784; /* =sqrt(0.75) */
@@ -131,6 +133,11 @@ static inline double pencil_size_get_standard_line_width( const pencil_size_t *t
 static inline double pencil_size_get_bold_line_width( const pencil_size_t *this_ )
 {
     return (*this_).bold_line_width;
+}
+
+static inline double pencil_size_get_line_dash_length( const pencil_size_t *this_ )
+{
+    return (*this_).line_dash_length;
 }
 
 static inline double pencil_size_get_standard_object_border( const pencil_size_t *this_ )

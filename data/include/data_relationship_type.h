@@ -35,6 +35,8 @@ enum data_relationship_type_enum {
     /* use case diagram */
     DATA_RELATIONSHIP_TYPE_UML_EXTEND = 260,
     DATA_RELATIONSHIP_TYPE_UML_INCLUDE = 261,
+    /* package diagram */
+    DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT = 300,
 };
 
 typedef enum data_relationship_type_enum data_relationship_type_t;
