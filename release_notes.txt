@@ -1,6 +1,5 @@
 2017-03-xx 0.14 [xxxxxxx]
   + Classifiers are layouted avoiding overlaps
-  + Features are added at end of feature list
 2017-02-25 0.13 [ff3b72f]
   + The txt-file export contains features and relationships
   + The user can export pdf and ps formats
@@ -12,15 +11,15 @@
   + Align objects vertically and horizontally (snap)
   + Edit new classifiers or relationships immediately
 2017-01-28 0.10 [e93e7ec]
-  + DB format changed: features.key is not UNIQUE anymore (compatible change)
   + Relationships can be created, modified, deleted (incl. undo/redo)
+  . DB format changed: features.key is not UNIQUE anymore (compatible change)
 2016-12-22 0.09 [6d5cfac]
   + Mark and instantiate classifiers
   + Test the database for errors and fix them
   + Diagrams show also non-ascii names now
 2016-12-11 0.08 [225a0cf]
   + Export of png and svg diagrams and txt descriptions
-  + DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)
+  . DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)
 2016-11-26 0.07 [874f539]
   + The user can move classifiers
 2016-10-06 0.06 [e2b0e01]

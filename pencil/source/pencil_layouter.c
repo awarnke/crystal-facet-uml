@@ -299,9 +299,9 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
     {
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 9;
-        double solution_move_dx[9];
-        double solution_move_dy[9];
+        static const uint32_t SOLUTIONS_MAX = 5;
+        double solution_move_dx[5];
+        double solution_move_dy[5];
 
         /* propose options */
         pencil_layouter_private_propose_solutions_to_move_classifier ( this_,
