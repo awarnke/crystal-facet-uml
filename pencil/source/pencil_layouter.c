@@ -352,6 +352,7 @@ void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layoute
 void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
     TRACE_BEGIN();
+    assert ( NULL != out_sorted );
     assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
@@ -402,7 +403,7 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
         insert_error = universal_array_index_sorter_insert( out_sorted, index, weight );
         if ( 0 != insert_error )
         {
-            TSLOG_WARNING( "not all rectangles are moved to avoid intersects" );
+            TSLOG_WARNING( "not all rectangles are moved" );
         }
     }
 
@@ -689,41 +690,182 @@ void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layoute
 void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
-    /* calculate the relationship shapes */
-    uint32_t count_relations;
-    count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    universal_array_index_sorter_t sorted;
+    universal_array_index_sorter_init( &sorted );
 
-    for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+    /* sort the relationships by their movement-needs, drop invisible relations */
+    pencil_layouter_private_propose_order_to_shape_relationships ( this_, &sorted );
+
+    /* shape the relationships */
+    uint32_t count_sorted;
+    count_sorted = universal_array_index_sorter_get_count( &sorted );
+    for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
-        data_relationship_t *current_relation;
-        current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
+        /* declaration of list of options */
+        uint32_t solutions_count = 0;
+        static const uint32_t SOLUTIONS_MAX = 10;
+        geometry_connector_t solution[10];
 
-        int32_t source_index;
-        int32_t dest_index;
-        source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                                data_relationship_get_from_classifier_id(current_relation)
+        /* propose options */
+        pencil_layouter_private_propose_solutions_to_shape_relationship ( this_,
+                                                                       &sorted,
+                                                                       sort_index,
+                                                                       SOLUTIONS_MAX,
+                                                                       solution,
+                                                                       &solutions_count
         );
-        dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                                data_relationship_get_to_classifier_id(current_relation)
-        );
-        if (( -1 != source_index ) && ( -1 != dest_index ))
+
+        /* select best option */
+        uint32_t index_of_best;
+        if ( 1 == solutions_count )
         {
-            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, true );
-            geometry_connector_t *relationship_shape;
-            geometry_rectangle_t *source_rect;
-            geometry_rectangle_t *dest_rect;
-            relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
-            source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
-            dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
-            pencil_layouter_private_connect_rectangles( this_, source_rect, dest_rect, relationship_shape );
+            index_of_best = 0;
         }
         else
         {
-            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), rel_index, false );
-            TRACE_INFO_INT( "relationship not shown because on of the parties is not visible. index:", rel_index );
+            pencil_layouter_private_select_solution_to_shape_relationship ( this_,
+                                                                         &sorted,
+                                                                         sort_index,
+                                                                         solutions_count,
+                                                                         solution,
+                                                                         &index_of_best
+            );
+        }
+
+        /* perform best option */
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        /* copy the relationship shape */
+        geometry_connector_t *relationship_shape;
+        relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), index );
+        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
+    }
+
+    universal_array_index_sorter_destroy( &sorted );
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_propose_order_to_shape_relationships ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_sorted );
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+
+    /* sort the relationships by their shaping-needs */
+    uint32_t count_relations;
+    count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        data_relationship_t *current_relation;
+        current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+
+        int64_t weight = 0;
+
+        /* determine weight by distance between source and destination */
+        int32_t source_index;
+        int32_t dest_index;
+        source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                               data_relationship_get_from_classifier_id(current_relation)
+                                                             );
+        dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                             data_relationship_get_to_classifier_id(current_relation)
+                                                           );
+        if (( -1 != source_index ) && ( -1 != dest_index ))
+        {
+            geometry_rectangle_t *source_rect;
+            geometry_rectangle_t *dest_rect;
+            source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
+            dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
+            weight -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
+            weight -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
+
+            int insert_error;
+            insert_error = universal_array_index_sorter_insert( out_sorted, index, weight );
+            if ( 0 != insert_error )
+            {
+                TSLOG_WARNING( "not all relationships are shaped" );
+            }
+
+            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), index, true );
+        }
+        else
+        {
+            TRACE_INFO_INT( "relationship not shown because one of the parties is not visible. index:", index );
+            pencil_input_data_layout_set_relationship_visible ( &((*this_).layout_data), index, false );
         }
     }
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_layouter_t *this_,
+                                                                       const universal_array_index_sorter_t *sorted,
+                                                                       uint32_t sort_index,
+                                                                       uint32_t solutions_max,
+                                                                       geometry_connector_t out_solutions[],
+                                                                       uint32_t *out_solutions_count )
+{
+    TRACE_BEGIN();
+    assert ( NULL != sorted );
+    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != out_solutions );
+    assert ( NULL != out_solutions_count );
+    assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
+    assert ( 10 <= solutions_max );  /* current implementation requires at least 10 options */
+
+    uint32_t index;
+    index = universal_array_index_sorter_get_array_index( sorted, sort_index );
+
+    data_relationship_t *current_relation;
+    current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+
+    /* determine weight by distance between source and destination */
+    int32_t source_index;
+    int32_t dest_index;
+    source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                           data_relationship_get_from_classifier_id(current_relation)
+                                                         );
+    dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
+                                                         data_relationship_get_to_classifier_id(current_relation)
+                                                       );
+    if (( -1 != source_index ) && ( -1 != dest_index ))
+    {
+        geometry_rectangle_t *source_rect;
+        geometry_rectangle_t *dest_rect;
+        source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
+        dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
+
+        pencil_layouter_private_connect_rectangles ( this_, source_rect, dest_rect, &(out_solutions[0]) );
+        *out_solutions_count = 1;
+    }
+    else
+    {
+        TSLOG_ERROR( "invisible relationship in sorted list." );
+        *out_solutions_count = 0;
+    }
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layouter_t *this_,
+                                                                     const universal_array_index_sorter_t *sorted,
+                                                                     uint32_t sort_index,
+                                                                     uint32_t solutions_count,
+                                                                     const geometry_connector_t solutions[],
+                                                                     uint32_t *out_index_of_best )
+{
+    TRACE_BEGIN();
+    assert ( NULL != sorted );
+    assert ( universal_array_index_sorter_get_count( sorted ) > sort_index );
+    assert ( NULL != solutions );
+    assert ( NULL != out_index_of_best );
+    assert ( 1 <= solutions_count );
+
+    /* the first is the best */
+    *out_index_of_best = 0;
 
     TRACE_END();
 }

@@ -88,6 +88,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             }
             else
             {
+                /* maybe the first segment is too short, take into account two segments */
                 if ( fabs( p2x-p4x ) > 0.5 )
                 {
                     arrow_clock_direction = ( p2x < p4x ) ? 3 : 9;
@@ -100,8 +101,23 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                     }
                     else
                     {
-                        TSLOG_WARNING("illegal case");
-                        arrow_clock_direction = 0;
+                        /* maybe the first two segments are too short, take into account all segments */
+                        if ( fabs( p1x-p4x ) > 0.5 )
+                        {
+                            arrow_clock_direction = ( p1x < p4x ) ? 3 : 9;
+                        }
+                        else
+                        {
+                            if ( fabs( p1y-p4y ) > 0.5 )
+                            {
+                                arrow_clock_direction = ( p1y < p4y ) ? 0 : 6;
+                            }
+                            else
+                            {
+                                /* connector has no length */
+                                arrow_clock_direction = 0;
+                            }
+                        }
                     }
                 }
             }
@@ -121,6 +137,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             }
             else
             {
+                /* maybe the first segment is too short, take into account two segments */
                 if ( fabs( p3x-p1x ) > 0.5 )
                 {
                     feathers_clock_direction = ( p3x < p1x ) ? 9 : 3;
@@ -133,8 +150,23 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                     }
                     else
                     {
-                        TSLOG_WARNING("illegal case");
-                        feathers_clock_direction = 0;
+                        /* maybe the first two segments are too short, take into account all segments */
+                        if ( fabs( p4x-p1x ) > 0.5 )
+                        {
+                            feathers_clock_direction = ( p4x < p1x ) ? 9 : 3;
+                        }
+                        else
+                        {
+                            if ( fabs( p4y-p1y ) > 0.5 )
+                            {
+                                feathers_clock_direction = ( p4y < p1y ) ? 0 : 6;
+                            }
+                            else
+                            {
+                                /* connector has no length */
+                                feathers_clock_direction = 0;
+                            }
+                        }
                     }
                 }
             }

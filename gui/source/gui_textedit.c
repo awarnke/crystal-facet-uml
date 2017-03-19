@@ -160,7 +160,8 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment)", -1 );
         --> t.b.d: exists in uml but how to handle this in crystal facet uml?
         */
-        /*
+        /*cmake .#
+         * 
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
