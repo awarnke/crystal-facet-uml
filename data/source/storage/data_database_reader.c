@@ -43,7 +43,10 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
     int perr;
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_reader_private_close( this_ );
+    if ( (*this_).is_open )
+    {
+        result |= data_database_reader_private_close( this_ );
+    }
 
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
@@ -70,13 +73,20 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
         case DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE:
         {
             TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_PREPARE_CLOSE" );
-            result |= data_database_reader_private_close( this_ );
+            if ( (*this_).is_open )
+            {
+                result |= data_database_reader_private_close( this_ );
+            }
         }
         break;
 
         case DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED:
         {
             TRACE_INFO( "DATA_DATABASE_LISTENER_SIGNAL_DB_OPENED" );
+            if ( (*this_).is_open )
+            {
+                result |= data_database_reader_private_close( this_ );
+            }
             result |= data_database_reader_private_open( this_ );
         }
         break;
@@ -198,7 +208,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -269,7 +279,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -340,7 +350,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -399,7 +409,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -520,7 +530,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -607,7 +617,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -690,7 +700,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -814,7 +824,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -887,7 +897,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -961,7 +971,7 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -1094,7 +1104,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -1167,7 +1177,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );
@@ -1242,7 +1252,7 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
     else
     {
         result |= DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
+        TRACE_INFO( "Database not open, cannot request data." );
     }
 
     result |= data_database_reader_private_unlock( this_ );

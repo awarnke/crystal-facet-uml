@@ -187,7 +187,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
         {
-            TSLOG_WARNING( "database not open.");
+            TRACE_INFO( "database not open.");
         }
         else if ( DATA_ERROR_NONE != db_err )
         {
@@ -252,7 +252,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
                                                                );
         if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
         {
-            TSLOG_WARNING( "database not open.");
+            TRACE_INFO( "database not open.");
         }
         else if ( DATA_ERROR_NONE != db_err )
         {

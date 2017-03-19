@@ -1,5 +1,17 @@
 Layers
 | This diagram shows the layering of the main software modules.
+| 
+| Concept for Multithreading:
+| In general, all modules shall work in a multithreaded environment.
+| - The gui module requires own data structures in order to be thread-safe
+|   and relies on the base libraries gtk, gdk which need to support multi-threading,
+| - The pencil module requires own data structures in oder to be thread safe
+|   and relies on the base libraries pango and cairo which need to support multi-threading.
+| - The data module does not need own data structures, 
+|   it comes with a module-wide lock in the database_t structure.
+| - The ctrl module requires own data structures in order to be thread safe.
+|   This limitation would need to be changed if a multi-threaded gui
+|   should access a single ctrl and data instance. (Currently, the software is single-threaded)
 
 
 gui

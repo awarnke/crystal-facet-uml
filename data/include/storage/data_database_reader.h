@@ -92,7 +92,8 @@ static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
  *  \param this_ pointer to own object attributes
  *  \param id the diagram to be read from the database
  *  \param out_diagram the diagram read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram );
 
@@ -105,6 +106,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_reader_t *this_,
                                                               int64_t parent_id,
@@ -124,6 +126,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
  *  \param out_diagram array of diagrams read from the database (in case of success)
  *  \param out_diagram_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_reader_t *this_,
                                                                   int64_t classifier_id,
@@ -139,6 +142,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
  *  \param parent_id id of the parent diagram, DATA_ID_VOID_ID to get all root diagram ids
  *  \param out_diagram_ids set of diagram ids read from the database (in case of success). The provided set shall be initialized.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_reader_t *this_,
                                                                  int64_t parent_id,
@@ -153,7 +157,8 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *  \param this_ pointer to own object attributes
  *  \param id the classifier to be read from the database
  *  \param out_classifier the classifier read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
 
@@ -168,6 +173,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
  *  \param out_visible_classifier array of classifiers (and diagramelements) read from the database (in case of success)
  *  \param out_visible_classifier_count number of classifier records stored in out_visible_classifier
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_reader_t *this_,
                                                                   int64_t diagram_id,
@@ -184,7 +190,8 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \param this_ pointer to own object attributes
  *  \param id the diagramelement to be read from the database
  *  \param out_diagramelement the diagramelement read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
 
@@ -196,7 +203,8 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
  *  \param this_ pointer to own object attributes
  *  \param id the feature to be read from the database
  *  \param out_feature the feature read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *this_, int64_t id, data_feature_t *out_feature );
 
@@ -209,6 +217,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
  *  \param out_feature array of features read from the database (in case of success)
  *  \param out_feature_count number of feature records stored in out_feature
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_features_by_classifier_id ( data_database_reader_t *this_,
                                                                   int64_t classifier_id,
@@ -228,6 +237,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
  *  \param out_feature array of features read from the database (in case of success)
  *  \param out_feature_count number of feature records stored in out_feature
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_features_by_diagram_id ( data_database_reader_t *this_,
                                                                int64_t diagram_id,
@@ -244,7 +254,8 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \param this_ pointer to own object attributes
  *  \param id the relationship to be read from the database
  *  \param out_relationship the relationship read from the database (in case of success)
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_DB_STRUCTURE if id does not exist).
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship );
 
@@ -259,6 +270,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
  *  \param out_relationship array of relationships read from the database (in case of success)
  *  \param out_relationship_count number of relationship records stored in out_relationship
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationships_by_classifier_id ( data_database_reader_t *this_,
                                                                        int64_t classifier_id,
@@ -278,6 +290,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
  *  \param out_relationship array of relationships read from the database (in case of success)
  *  \param out_relationship_count number of relationship records stored in out_relationship
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_relationships_by_diagram_id ( data_database_reader_t *this_,
                                                                     int64_t diagram_id,

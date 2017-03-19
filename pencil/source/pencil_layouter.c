@@ -822,7 +822,7 @@ void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_la
     data_relationship_t *current_relation;
     current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
 
-    /* determine weight by distance between source and destination */
+    /* propose connections between source and destination */
     int32_t source_index;
     int32_t dest_index;
     source_index = pencil_input_data_get_classifier_index( (*this_).input_data,

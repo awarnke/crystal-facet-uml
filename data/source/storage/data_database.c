@@ -319,7 +319,7 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
 
     if ( (*this_).is_open )
     {
-        TSLOG_ERROR("data_database_open called on database that was not closed.");
+        TRACE_INFO("data_database_open called on database that was not closed.");
         result |= DATA_ERROR_INVALID_REQUEST;
     }
     else
@@ -423,7 +423,7 @@ data_error_t data_database_close ( data_database_t *this_ )
     }
     else
     {
-        TSLOG_WARNING("data_database_close called on database that was not open.");
+        TRACE_INFO("data_database_close called on database that was not open.");
         result |= DATA_ERROR_INVALID_REQUEST;
     }
 
