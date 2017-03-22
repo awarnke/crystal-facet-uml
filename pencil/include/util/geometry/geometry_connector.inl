@@ -115,6 +115,18 @@ static inline double geometry_connector_get_destination_end_y ( const geometry_c
     return (*this_).destination_end_y;
 }
 
+static inline double geometry_connector_get_length ( const geometry_connector_t *this_ )
+{
+    double length;
+    length = fabs( (*this_).source_end_x - (*this_).main_line_source_x )
+             + fabs( (*this_).source_end_y - (*this_).main_line_source_y )
+             + fabs( (*this_).main_line_source_x - (*this_).main_line_destination_x )
+             + fabs( (*this_).main_line_source_y - (*this_).main_line_destination_y )
+             + fabs( (*this_).main_line_destination_x - (*this_).destination_end_x )
+             + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
+    return length;
+}
+
 static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance )
 {
     bool close_to_source_end_line;
@@ -133,6 +145,11 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
                                     && ((( (*this_).main_line_destination_y - max_distance < y ) && ( y < (*this_).destination_end_y + max_distance ))
                                     || (( (*this_).destination_end_y - max_distance < y ) && ( y < (*this_).main_line_destination_y + max_distance )));
     return ( close_to_source_end_line || close_to_main_line || close_to_destination_end_line );
+}
+
+static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect )
+{
+    return false;
 }
 
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )

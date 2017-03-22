@@ -705,17 +705,17 @@ void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *
     {
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 10;
-        geometry_connector_t solution[10];
+        static const uint32_t SOLUTIONS_MAX = 6;
+        geometry_connector_t solution[6];
 
         /* propose options */
         pencil_layouter_private_propose_solutions_to_shape_relationship ( this_,
-                                                                       &sorted,
-                                                                       sort_index,
-                                                                       SOLUTIONS_MAX,
-                                                                       solution,
-                                                                       &solutions_count
-        );
+                                                                          &sorted,
+                                                                          sort_index,
+                                                                          SOLUTIONS_MAX,
+                                                                          solution,
+                                                                          &solutions_count
+                                                                       );
 
         /* select best option */
         uint32_t index_of_best;
@@ -726,12 +726,12 @@ void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *
         else
         {
             pencil_layouter_private_select_solution_to_shape_relationship ( this_,
-                                                                         &sorted,
-                                                                         sort_index,
-                                                                         solutions_count,
-                                                                         solution,
-                                                                         &index_of_best
-            );
+                                                                            &sorted,
+                                                                            sort_index,
+                                                                            solutions_count,
+                                                                            solution,
+                                                                            &index_of_best
+                                                                          );
         }
 
         /* perform best option */
@@ -814,7 +814,7 @@ void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_la
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( 10 <= solutions_max );  /* current implementation requires at least 10 options */
+    assert ( 6 <= solutions_max );  /* current implementation requires at least 6 options */
 
     uint32_t index;
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
@@ -891,14 +891,51 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
+    /* define potential solution and rating */
+    uint32_t index_of_best;
+    double debts_of_best;
+    index_of_best = 0;  /* in case of doubts, take the first solution */
+    debts_of_best = 1000000000.0;
+
+    /* evaluate the solutions by their overlaps with classifiers */
+    for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
+    {
+        /* evalute the debts of this solution */
+        double debts_of_current;
+        debts_of_current = 0.0;
+
+        debts_of_current += geometry_connector_get_length( &(solutions[solution_idx]) );
+
+        /* iterate over all classifiers */
+        uint32_t count_clasfy;
+        count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+        for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
+        {
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), clasfy_index );
+
+            if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
+            {
+                debts_of_current += 1000.0;
+            }
+        }
+
+        /* update best solution */
+        if ( debts_of_current < debts_of_best )
+        {
+            index_of_best = solution_idx;
+            debts_of_best = debts_of_current;
+        }
+    }
+
+    /*
     static unsigned int random;
     random ++;
-    *out_index_of_best = random % solutions_count;
-
-    /* the first is the best */
-    /*
-    *out_index_of_best = 0;
+    index_of_best = random % solutions_count;
     */
+
+    /* the best */
+    *out_index_of_best = index_of_best;
 
     TRACE_END();
 }
@@ -1138,7 +1175,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     }
 
     /* from source to right */
-    if ( dst_x_center > src_right )
+    else if ( dst_x_center > src_right )
     {
         if ( dst_bottom < src_y_center )
         {
@@ -1192,7 +1229,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     }
 
     /* from source to downwards */
-    if ( dst_y_center > src_bottom )
+    else if ( dst_y_center > src_bottom )
     {
         if ( dst_right < src_x_center )
         {

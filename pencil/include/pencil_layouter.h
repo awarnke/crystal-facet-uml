@@ -251,11 +251,11 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
  *
  *  \param this_ pointer to own object attributes
  *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index of the current classifier for which to select a solution
+ *  \param sort_index index (in sorted classifiers) of the current classifier for which to select a solution
  *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  *  \param solution_move_dx array of solutions: proposal to move in x direction
  *  \param solution_move_dy array of solutions: proposal to move in y direction
- *  \param out_index_of_best index of the best solution; must not be NULL.
+ *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_,
                                                                   const universal_array_index_sorter_t *sorted,
@@ -306,10 +306,10 @@ void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_la
  *
  *  \param this_ pointer to own object attributes
  *  \param sorted sorting order by which to shape relationships; must not be NULL.
- *  \param sort_index index of the current relationship for which to select a solution
+ *  \param sort_index index (in sorted relationships) of the current relationship for which to select a solution
  *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  *  \param solutions array of solutions
- *  \param out_index_of_best index of the best solution; must not be NULL.
+ *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layouter_t *this_,
                                                                      const universal_array_index_sorter_t *sorted,
