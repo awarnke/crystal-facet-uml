@@ -149,7 +149,45 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
 
 static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect )
 {
-    return false;
+    /* some simple pre-calculations */
+    bool result = false;
+
+    double rect_left = geometry_rectangle_get_left(rect) + 0.001;
+    double rect_right = geometry_rectangle_get_right(rect) - 0.001;
+    double rect_top = geometry_rectangle_get_top(rect) + 0.001;
+    double rect_bottom = geometry_rectangle_get_bottom(rect) - 0.001;
+
+    if (( (*this_).source_end_x < rect_left )
+        &&  ( (*this_).destination_end_x < rect_left )
+        &&  ( (*this_).main_line_destination_x < rect_left ) )
+    {
+        result = false;
+    }
+    else if (( (*this_).source_end_x > rect_right )
+        &&  ( (*this_).destination_end_x > rect_right )
+        &&  ( (*this_).main_line_destination_x > rect_right ) )
+    {
+        result = false;
+    }
+    else if (( (*this_).source_end_y < rect_top )
+        &&  ( (*this_).destination_end_y < rect_top )
+        &&  ( (*this_).main_line_destination_y < rect_top ) )
+    {
+        result = false;
+    }
+    else if (( (*this_).source_end_y > rect_bottom )
+        &&  ( (*this_).destination_end_y > rect_bottom )
+        &&  ( (*this_).main_line_destination_y > rect_bottom ) )
+    {
+        result = false;
+    }
+    else
+    {
+        result = true;
+        /* more logic needed here... */
+    }
+
+    return result;
 }
 
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )
