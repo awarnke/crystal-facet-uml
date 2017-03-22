@@ -36,6 +36,7 @@ struct pencil_size_struct {
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
     double arrow_stroke_length;  /*! length of a stroke to paint an arrow tip */
     double arrow_stroke_087_length;  /*! sqrt(0.75)=0.8660 parts of the length of a stroke to paint an arrow */
+    double preferred_object_distance;  /*!< preferred distance between two objects or object and connector */
     GdkRGBA standard_color;  /*!< foreground color of all standard objects */
     GdkRGBA select_color;  /*!< foreground color of all currently selected objects (user selected set): pink */
     GdkRGBA highlight_color;  /*!< foreground color of the current highlighted/mouse over object: turquoise */
@@ -161,6 +162,13 @@ static inline double pencil_size_get_arrow_stroke_length( const pencil_size_t *t
  *  \param this_ pointer to own object attributes
  */
 static inline double pencil_size_get_arrow_stroke_087_length( const pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: preferred_object_distance
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_preferred_object_distance( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_color

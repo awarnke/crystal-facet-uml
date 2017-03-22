@@ -838,8 +838,35 @@ void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_la
         source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), source_index );
         dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), dest_index );
 
-        pencil_layouter_private_connect_rectangles ( this_, source_rect, dest_rect, &(out_solutions[0]) );
-        *out_solutions_count = 1;
+        uint32_t solutions_by_ZN;
+        uint32_t solutions_by_L7;
+        uint32_t solutions_by_UC;
+
+        pencil_layouter_private_connect_rectangles_by_ZN ( this_,
+                                                           source_rect,
+                                                           dest_rect,
+                                                           solutions_max,
+                                                           &(out_solutions[0]),
+                                                           &solutions_by_ZN
+                                                         );
+
+        pencil_layouter_private_connect_rectangles_by_L7 ( this_,
+                                                           source_rect,
+                                                           dest_rect,
+                                                           solutions_max - solutions_by_ZN,
+                                                           &(out_solutions[solutions_by_ZN]),
+                                                           &solutions_by_L7
+                                                         );
+
+        pencil_layouter_private_connect_rectangles_by_UC ( this_,
+                                                           source_rect,
+                                                           dest_rect,
+                                                           solutions_max - solutions_by_ZN - solutions_by_L7,
+                                                           &(out_solutions[solutions_by_ZN + solutions_by_L7]),
+                                                           &solutions_by_UC
+                                                         );
+
+        *out_solutions_count = solutions_by_ZN + solutions_by_L7 + solutions_by_UC;
     }
     else
     {
@@ -864,21 +891,31 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
+    static unsigned int random;
+    random ++;
+    *out_index_of_best = random % solutions_count;
+
     /* the first is the best */
+    /*
     *out_index_of_best = 0;
+    */
 
     TRACE_END();
 }
 
-void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
-                                                  const geometry_rectangle_t *source_rect,
-                                                  const geometry_rectangle_t *dest_rect,
-                                                  geometry_connector_t *out_connection )
+void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_,
+                                                        const geometry_rectangle_t *source_rect,
+                                                        const geometry_rectangle_t *dest_rect,
+                                                        uint32_t solutions_max,
+                                                        geometry_connector_t out_solutions[],
+                                                        uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
     assert( NULL != source_rect );
     assert( NULL != dest_rect );
-    assert( NULL != out_connection );
+    assert ( NULL != out_solutions );
+    assert ( NULL != out_solutions_count );
+    assert ( 2 <= solutions_max );  /* current implementation requires at least 2 options */
 
     double x_dist;
     double y_dist;
@@ -920,7 +957,7 @@ void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
         /* main line is vertical */
         if ( x_dist < 0.0 )
         {
-            geometry_connector_reinit_vertical ( out_connection,
+            geometry_connector_reinit_vertical ( &(out_solutions[0]),
                                                  geometry_rectangle_get_left(source_rect),
                                                  geometry_rectangle_get_y_center(source_rect),
                                                  geometry_rectangle_get_right(dest_rect),
@@ -930,7 +967,7 @@ void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
         }
         else
         {
-            geometry_connector_reinit_vertical ( out_connection,
+            geometry_connector_reinit_vertical ( &(out_solutions[0]),
                                                  geometry_rectangle_get_right(source_rect),
                                                  geometry_rectangle_get_y_center(source_rect),
                                                  geometry_rectangle_get_left(dest_rect),
@@ -944,7 +981,7 @@ void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
         /* main line is horizontal */
         if ( y_dist < 0.0 )
         {
-            geometry_connector_reinit_horizontal ( out_connection,
+            geometry_connector_reinit_horizontal ( &(out_solutions[0]),
                                                    geometry_rectangle_get_x_center(source_rect),
                                                    geometry_rectangle_get_top(source_rect),
                                                    geometry_rectangle_get_x_center(dest_rect),
@@ -954,7 +991,7 @@ void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
         }
         else
         {
-            geometry_connector_reinit_horizontal ( out_connection,
+            geometry_connector_reinit_horizontal ( &(out_solutions[0]),
                                                    geometry_rectangle_get_x_center(source_rect),
                                                    geometry_rectangle_get_bottom(source_rect),
                                                    geometry_rectangle_get_x_center(dest_rect),
@@ -964,6 +1001,174 @@ void pencil_layouter_private_connect_rectangles ( pencil_layouter_t *this_,
         }
 
     }
+
+    *out_solutions_count = 1;
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_connect_rectangles_by_UC ( pencil_layouter_t *this_,
+                                                        const geometry_rectangle_t *source_rect,
+                                                        const geometry_rectangle_t *dest_rect,
+                                                        uint32_t solutions_max,
+                                                        geometry_connector_t out_solutions[],
+                                                        uint32_t *out_solutions_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != source_rect );
+    assert( NULL != dest_rect );
+    assert ( NULL != out_solutions );
+    assert ( NULL != out_solutions_count );
+    assert ( 4 <= solutions_max );  /* current implementation requires at least 4 options */
+
+
+    double good_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+
+
+    *out_solutions_count = 0;
+
+    TRACE_END();
+}
+
+void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_,
+                                                        const geometry_rectangle_t *source_rect,
+                                                        const geometry_rectangle_t *dest_rect,
+                                                        uint32_t solutions_max,
+                                                        geometry_connector_t out_solutions[],
+                                                        uint32_t *out_solutions_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != source_rect );
+    assert( NULL != dest_rect );
+    assert ( NULL != out_solutions );
+    assert ( NULL != out_solutions_count );
+    assert ( 2 <= solutions_max );  /* current implementation requires at least 2 options */
+
+    uint32_t solutions_count = 0;
+
+    double src_left = geometry_rectangle_get_left(source_rect);
+    double src_x_center = geometry_rectangle_get_x_center(source_rect);
+    double src_right = geometry_rectangle_get_right(source_rect);
+    double src_top = geometry_rectangle_get_top(source_rect);
+    double src_y_center = geometry_rectangle_get_y_center(source_rect);
+    double src_bottom = geometry_rectangle_get_bottom(source_rect);
+
+    double dst_left = geometry_rectangle_get_left(dest_rect);
+    double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+    double dst_right = geometry_rectangle_get_right(dest_rect);
+    double dst_top = geometry_rectangle_get_top(dest_rect);
+    double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+    double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+
+    /* from source to left */
+    if ( dst_x_center < src_left )
+    {
+        if ( dst_bottom < src_y_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_left,
+                                                   src_y_center,
+                                                   dst_x_center,
+                                                   dst_bottom,
+                                                   src_y_center
+                                                 );
+            solutions_count ++;
+        }
+        else if ( dst_top > src_y_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_left,
+                                                   src_y_center,
+                                                   dst_x_center,
+                                                   dst_top,
+                                                   src_y_center
+                                                 );
+            solutions_count ++;
+        }
+    }
+
+    /* from source to right */
+    if ( dst_x_center > src_right )
+    {
+        if ( dst_bottom < src_y_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_right,
+                                                   src_y_center,
+                                                   dst_x_center,
+                                                   dst_bottom,
+                                                   src_y_center
+            );
+            solutions_count ++;
+        }
+        else if ( dst_top > src_y_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_right,
+                                                   src_y_center,
+                                                   dst_x_center,
+                                                   dst_top,
+                                                   src_y_center
+            );
+            solutions_count ++;
+        }
+    }
+
+    /* from source to upwards */
+    if ( dst_y_center < src_top )
+    {
+        if ( dst_right < src_x_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_x_center,
+                                                   src_top,
+                                                   dst_right,
+                                                   dst_y_center,
+                                                   dst_y_center
+            );
+            solutions_count ++;
+        }
+        else if ( dst_left > src_x_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_x_center,
+                                                   src_top,
+                                                   dst_left,
+                                                   dst_y_center,
+                                                   dst_y_center
+            );
+            solutions_count ++;
+        }
+    }
+
+    /* from source to downwards */
+    if ( dst_y_center > src_bottom )
+    {
+        if ( dst_right < src_x_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_x_center,
+                                                   src_bottom,
+                                                   dst_right,
+                                                   dst_y_center,
+                                                   dst_y_center
+            );
+            solutions_count ++;
+        }
+        else if ( dst_left > src_x_center )
+        {
+            geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
+                                                   src_x_center,
+                                                   src_bottom,
+                                                   dst_left,
+                                                   dst_y_center,
+                                                   dst_y_center
+            );
+            solutions_count ++;
+        }
+    }
+
+    *out_solutions_count = solutions_count;
 
     TRACE_END();
 }
