@@ -32,7 +32,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     const char *window_title;
     window_title = data_database_get_filename_ptr( database );
     gtk_window_set_title(GTK_WINDOW((*this_).window), ( window_title == NULL ) ? META_INFO_PROGRAM_NAME_STR : window_title );
-    gtk_widget_set_size_request((*this_).window, 810, 600);
+    gtk_widget_set_size_request((*this_).window, 900, 600);
 
     (*this_).layout = gtk_grid_new();
 
@@ -125,6 +125,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_highlight_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_highlight( res ));
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_highlight), (*this_).edit_highlight_icon);
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_highlight), "Highlight" );
+
+    (*this_).edit_reset = gtk_tool_button_new( NULL, "Reset" );
+    (*this_).edit_reset_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_reset( res ));
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).edit_reset), (*this_).edit_reset_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_reset), "Reset Selection" );
 
     (*this_).edit_undo = gtk_tool_button_new( NULL, "Undo" );
     (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
@@ -250,6 +255,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_delete,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_instantiate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_highlight,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_reset,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_undo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
@@ -291,6 +297,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_sketch_tools_instantiate_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_sketch_tools_highlight_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_sketch_tools_reset_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );

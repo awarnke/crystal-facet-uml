@@ -306,6 +306,22 @@ void gui_sketch_tools_instantiate_btn_callback( GtkWidget* button, gpointer data
     TRACE_END();
 }
 
+void gui_sketch_tools_reset_btn_callback( GtkWidget* button, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_tools_t *this_ = data;
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    gui_sketch_marker_clear_selected_set( (*this_).marker );
+
+    /* trigger redraw */
+    gui_sketch_tools_private_notify_listener( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
 {
     TRACE_BEGIN();

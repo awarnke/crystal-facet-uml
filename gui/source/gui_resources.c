@@ -16,6 +16,7 @@
 #include "resources/edit_highlight.c"
 #include "resources/edit_redo.c"
 #include "resources/edit_undo.c"
+#include "resources/edit_reset.c"
 #include "resources/file_export.c"
 #include "resources/file_new_window.c"
 #include "resources/file_use_db.c"
@@ -151,6 +152,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         NULL
     );
 
+    (*this_).edit_reset = gdk_pixbuf_new_from_data(
+        &(edit_reset.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_reset.width,
+        edit_reset.height,
+        edit_reset.width * edit_reset.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+    
     (*this_).file_export = gdk_pixbuf_new_from_data(
         &(file_export.pixel_data[0]),
         GDK_COLORSPACE_RGB,

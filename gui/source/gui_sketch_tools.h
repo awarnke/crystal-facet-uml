@@ -150,6 +150,11 @@ void gui_sketch_tools_instantiate_btn_callback( GtkWidget* button, gpointer data
 /*!
  *  \brief callback that informs that the tool button was pressed
  */
+void gui_sketch_tools_reset_btn_callback( GtkWidget* button, gpointer data );
+
+/*!
+ *  \brief callback that informs that the tool button was pressed
+ */
 void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data );
 
 /*!

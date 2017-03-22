@@ -50,6 +50,11 @@ static inline GdkPixbuf *gui_resources_get_edit_undo ( gui_resources_t *this_ )
     return (*this_).edit_undo;
 }
 
+static inline GdkPixbuf *gui_resources_get_edit_reset ( gui_resources_t *this_ )
+{
+    return (*this_).edit_reset;
+}
+
 static inline GdkPixbuf *gui_resources_get_file_export ( gui_resources_t *this_ )
 {
     return (*this_).file_export;

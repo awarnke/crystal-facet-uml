@@ -1,5 +1,6 @@
 2017-0x-xx 0.15 [xxxxxxx]
   + Arrow, line and feather types are determined by relation type
+  + A reset button clears the current selection
   +
 2017-03-18 0.14 [097b793]
   + Classifiers are layouted avoiding overlaps
