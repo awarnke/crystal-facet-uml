@@ -904,7 +904,24 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
         double debts_of_current;
         debts_of_current = 0.0;
 
+        /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( &(solutions[solution_idx]) );
+
+        /* add debts for overlap to diagram boundary */
+        {
+            geometry_rectangle_t connectors_bounds;
+            connectors_bounds = geometry_connector_get_bounding_rectangle( &(solutions[solution_idx]) );
+
+            double current_area = geometry_rectangle_get_area ( &connectors_bounds );
+            geometry_rectangle_t intersect;
+            geometry_rectangle_init_by_intersect( &intersect, &connectors_bounds, &((*this_).diagram_draw_area) );
+            double intersect_area = geometry_rectangle_get_area ( &intersect );
+
+            if ( current_area + 0.1 > intersect_area )
+            {
+                debts_of_current += 16000.0;
+            }
+        }
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
