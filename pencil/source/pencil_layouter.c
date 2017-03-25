@@ -990,7 +990,7 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double good_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+    double good_dist = 2.0 * pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
 
     /* main line is vertical */
     {
@@ -1169,10 +1169,12 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
+    double good_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+
     /* from source to left */
-    if ( dst_x_center < src_left )
+    if ( dst_x_center + good_dist < src_left )
     {
-        if ( dst_bottom < src_y_center )
+        if ( dst_bottom + good_dist < src_y_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
@@ -1183,7 +1185,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
                                                  );
             solutions_count ++;
         }
-        else if ( dst_top > src_y_center )
+        else if ( dst_top - good_dist > src_y_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
@@ -1197,9 +1199,9 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     }
 
     /* from source to right */
-    else if ( dst_x_center > src_right )
+    else if ( dst_x_center - good_dist > src_right )
     {
-        if ( dst_bottom < src_y_center )
+        if ( dst_bottom + good_dist < src_y_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_right,
@@ -1210,7 +1212,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
             );
             solutions_count ++;
         }
-        else if ( dst_top > src_y_center )
+        else if ( dst_top - good_dist > src_y_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_right,
@@ -1224,9 +1226,9 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     }
 
     /* from source to upwards */
-    if ( dst_y_center < src_top )
+    if ( dst_y_center + good_dist < src_top )
     {
-        if ( dst_right < src_x_center )
+        if ( dst_right + good_dist < src_x_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
@@ -1237,7 +1239,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
             );
             solutions_count ++;
         }
-        else if ( dst_left > src_x_center )
+        else if ( dst_left - good_dist > src_x_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
@@ -1251,9 +1253,9 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     }
 
     /* from source to downwards */
-    else if ( dst_y_center > src_bottom )
+    else if ( dst_y_center - good_dist > src_bottom )
     {
-        if ( dst_right < src_x_center )
+        if ( dst_right + good_dist < src_x_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
@@ -1264,7 +1266,7 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
             );
             solutions_count ++;
         }
-        else if ( dst_left > src_x_center )
+        else if ( dst_left - good_dist > src_x_center )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
