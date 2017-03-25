@@ -9,10 +9,10 @@ void gui_sketch_overlay_init( gui_sketch_overlay_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).overlay_std_red = 0.3;
+    (*this_).overlay_std_red = 0.2;
     (*this_).overlay_std_green = 1.0;
-    (*this_).overlay_std_blue = 0.7;
-    (*this_).overlay_std_alpha = 0.7;
+    (*this_).overlay_std_blue = 0.6;
+    (*this_).overlay_std_alpha = 0.8;
 
     TRACE_END();
 }
@@ -59,18 +59,18 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                                          );
                     if ( universal_bool_list_get_first ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x, to_y-40 );
+                        cairo_move_to ( cr, to_x, to_y-60 );
                         cairo_line_to ( cr, to_x, to_y-20 );
                         cairo_move_to ( cr, to_x, to_y+20 );
-                        cairo_line_to ( cr, to_x, to_y+40 );
+                        cairo_line_to ( cr, to_x, to_y+60 );
                         cairo_stroke (cr);
                     }
                     if ( universal_bool_list_get_second ( &is_snapped ) )
                     {
-                        cairo_move_to ( cr, to_x-40, to_y );
+                        cairo_move_to ( cr, to_x-60, to_y );
                         cairo_line_to ( cr, to_x-20, to_y );
                         cairo_move_to ( cr, to_x+20, to_y );
-                        cairo_line_to ( cr, to_x+40, to_y );
+                        cairo_line_to ( cr, to_x+60, to_y );
                         cairo_stroke (cr);
                     }
                 }

@@ -904,6 +904,9 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
         double debts_of_current;
         debts_of_current = 0.0;
 
+        /* avoid alternating solutions in case their debts are identical */
+        debts_of_current += solution_idx;
+
         /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( &(solutions[solution_idx]) );
 
@@ -917,7 +920,7 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
             geometry_rectangle_init_by_intersect( &intersect, &connectors_bounds, &((*this_).diagram_draw_area) );
             double intersect_area = geometry_rectangle_get_area ( &intersect );
 
-            if ( current_area + 0.1 > intersect_area )
+            if ( (current_area - 0.1) > intersect_area )
             {
                 debts_of_current += 16000.0;
             }
@@ -987,9 +990,11 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
+    double good_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+
     /* main line is vertical */
     {
-        if ( dst_x_center < src_x_center )
+        if ( dst_right + good_dist < src_left )
         {
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,
@@ -1000,7 +1005,7 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
                                                );
             solutions_count ++;
         }
-        else
+        else if ( dst_left - good_dist > src_right )
         {
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_right,
@@ -1015,7 +1020,7 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
 
     /* main line is horizontal */
     {
-        if ( dst_y_center < src_y_center )
+        if ( dst_bottom + good_dist < src_top )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
@@ -1026,7 +1031,7 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
                                                  );
             solutions_count ++;
         }
-        else
+        else if ( dst_top - good_dist > src_bottom )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
