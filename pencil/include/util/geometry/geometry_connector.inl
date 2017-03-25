@@ -149,14 +149,15 @@ static inline bool geometry_connector_is_close ( const geometry_connector_t *thi
 
 static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect )
 {
-    /* some simple pre-calculations */
-    bool result = false;
+    bool result;
 
+    /* determine the rectangle (minus a small border */
     double rect_left = geometry_rectangle_get_left(rect) + 0.001;
     double rect_right = geometry_rectangle_get_right(rect) - 0.001;
     double rect_top = geometry_rectangle_get_top(rect) + 0.001;
     double rect_bottom = geometry_rectangle_get_bottom(rect) - 0.001;
 
+    /* do some simple pre-checks */
     if (( (*this_).source_end_x < rect_left )
         &&  ( (*this_).destination_end_x < rect_left )
         &&  ( (*this_).main_line_destination_x < rect_left ) )
@@ -183,8 +184,138 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
     }
     else
     {
-        result = true;
-        /* more logic needed here... */
+        /* the simple pre-checks did not decide if the connector interstects the rectangle */
+        result = false;
+
+        /* check for an overlap of the first segment */
+        if ( (*this_).source_end_x < rect_left )
+        {
+            if (( (*this_).main_line_source_x > rect_left )
+                && ( (*this_).main_line_source_y > rect_top )
+                && ( (*this_).main_line_source_y < rect_bottom ) )
+            {
+                result = true;
+            }
+        }
+        else if ( (*this_).source_end_x > rect_right )
+        {
+            if (( (*this_).main_line_source_x < rect_right )
+                && ( (*this_).main_line_source_y > rect_top )
+                && ( (*this_).main_line_source_y < rect_bottom ) )
+            {
+                result = true;
+            }
+        }
+        else
+        {
+            if ( (*this_).source_end_y < rect_top )
+            {
+                if ( (*this_).main_line_source_y > rect_top )
+                {
+                    result = true;
+                }
+            }
+            else if ( (*this_).source_end_y > rect_bottom )
+            {
+                if ( (*this_).main_line_source_y < rect_bottom )
+                {
+                    result = true;
+                }
+            }
+            else
+            {
+                result = true;
+            }
+        }
+
+        /* check for an overlap of the last segment */
+        if ( ! result )
+        {
+            if ( (*this_).destination_end_x < rect_left )
+            {
+                if (( (*this_).main_line_destination_x > rect_left )
+                    && ( (*this_).main_line_destination_y > rect_top )
+                    && ( (*this_).main_line_destination_y < rect_bottom ) )
+                {
+                    result = true;
+                }
+            }
+            else if ( (*this_).destination_end_x > rect_right )
+            {
+                if (( (*this_).main_line_destination_x < rect_right )
+                    && ( (*this_).main_line_destination_y > rect_top )
+                    && ( (*this_).main_line_destination_y < rect_bottom ) )
+                {
+                    result = true;
+                }
+            }
+            else
+            {
+                if ( (*this_).destination_end_y < rect_top )
+                {
+                    if ( (*this_).main_line_destination_y > rect_top )
+                    {
+                        result = true;
+                    }
+                }
+                else if ( (*this_).destination_end_y > rect_bottom )
+                {
+                    if ( (*this_).main_line_destination_y < rect_bottom )
+                    {
+                        result = true;
+                    }
+                }
+                else
+                {
+                    result = true;
+                }
+            }
+        }
+
+        /* check for an overlap of the middle main line */
+        if ( ! result )
+        {
+            if ( (*this_).main_line_source_x < rect_left )
+            {
+                if (( (*this_).main_line_destination_x > rect_left )
+                    && ( (*this_).main_line_destination_y > rect_top )
+                    && ( (*this_).main_line_destination_y < rect_bottom ) )
+                {
+                    result = true;
+                }
+            }
+            else if ( (*this_).main_line_source_x > rect_right )
+            {
+                if (( (*this_).main_line_destination_x < rect_right )
+                    && ( (*this_).main_line_destination_y > rect_top )
+                    && ( (*this_).main_line_destination_y < rect_bottom ) )
+                {
+                    result = true;
+                }
+            }
+            else
+            {
+                if ( (*this_).main_line_source_y < rect_top )
+                {
+                    if ( (*this_).main_line_destination_y > rect_top )
+                    {
+                        result = true;
+                    }
+                }
+                else if ( (*this_).main_line_source_y > rect_bottom )
+                {
+                    if ( (*this_).main_line_destination_y < rect_bottom )
+                    {
+                        result = true;
+                    }
+                }
+                else
+                {
+                    result = true;
+                    TSLOG_WARNING( "This case should have been covered already before." );
+                }
+            }
+        }
     }
 
     return result;

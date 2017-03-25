@@ -160,6 +160,13 @@ static inline double geometry_connector_destination_end_x ( const geometry_conne
 static inline double geometry_connector_get_destination_end_y ( const geometry_connector_t *this_ );
 
 /*!
+ *  \brief gets the length of the connector line
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double geometry_connector_get_length ( const geometry_connector_t *this_ );
+
+/*!
  *  \brief determines if a given coordinate is close to geometry_connector_t
  *
  *  \param this_ pointer to own object attributes
@@ -169,6 +176,15 @@ static inline double geometry_connector_get_destination_end_y ( const geometry_c
  *  \return true if the location is close to the connector.
  */
 static inline bool geometry_connector_is_close ( const geometry_connector_t *this_, double x, double y, double max_distance );
+
+/*!
+ *  \brief determines if a given rectangle is overlapped
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect rectangle that is checked for overlaps
+ *  \return true if the rectangle is intersected
+ */
+static inline bool geometry_connector_is_intersecting_rectangle ( const geometry_connector_t *this_, const geometry_rectangle_t *rect );
 
 /*!
  *  \brief gets the bounding rectangle of geometry_connector_t
