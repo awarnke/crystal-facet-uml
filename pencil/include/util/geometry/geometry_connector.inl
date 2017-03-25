@@ -324,12 +324,24 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )
 {
     geometry_rectangle_t result;
+
+    double left;
+    double right;
+    double top;
+    double bottom;
+
+    left = fmin ( (*this_).main_line_source_x, fmin( (*this_).source_end_x, (*this_).destination_end_x ) );
+    right = fmax ( (*this_).main_line_source_x, fmax( (*this_).source_end_x, (*this_).destination_end_x ) );
+    top = fmin ( (*this_).main_line_source_y, fmin( (*this_).source_end_y, (*this_).destination_end_y ) );
+    bottom = fmax ( (*this_).main_line_source_y, fmax( (*this_).source_end_y, (*this_).destination_end_y ) );
+
     geometry_rectangle_init( &result,
-                             fmin( (*this_).source_end_x, (*this_).destination_end_x ),
-                             fmin( (*this_).source_end_y, (*this_).destination_end_y ),
-                             fabs( (*this_).source_end_x - (*this_).destination_end_x ),
-                             fabs( (*this_).source_end_y - (*this_).destination_end_y )
+                             left,
+                             top,
+                             right - left,
+                             bottom - top
                            );
+    
     return result;
 }
 
