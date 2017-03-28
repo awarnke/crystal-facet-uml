@@ -9,12 +9,16 @@
 #include "ctrl_classifier_controller_test.h"
 #include "ctrl_consistency_checker_test.h"
 #include "ctrl_undo_redo_list_test.h"
+#include "geometry_rectangle_test.h"
+#include "geometry_connector_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "pencil_description_writer_test.h"
 #include "universal_array_index_sorter_test.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
+#include "util/string/utf8string.h"
+#include <stdbool.h>
 #include <embUnit/embUnit.h>
 
 /*!
@@ -27,23 +31,61 @@ int main (int argc, char *argv[]) {
     int exit_code = 0;
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
 
+    bool do_unit_tests = false;
+    bool do_module_tests = false;
+
+    /* handle options */
+    if ( argc == 2 )
+    {
+        if ( utf8string_equals_str( argv[1], "-h" ) )
+        {
+            fprintf( stdout, "\nUsage:\n" );
+            fprintf( stdout, "    %s -h for help\n", argv[0] );
+            fprintf( stdout, "    %s -u to run the unit-tests (on single software units)\n", argv[0] );
+            fprintf( stdout, "    %s -m to run the module tests (focusing on interaction between several units)\n", argv[0] );
+            fprintf( stdout, "    %s -a to run all tests\n", argv[0] );
+        }
+        if ( utf8string_equals_str( argv[1], "-u" ) )
+        {
+            do_unit_tests = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-m" ) )
+        {
+            do_module_tests = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-a" ) )
+        {
+            do_unit_tests = true;
+            do_module_tests = true;
+        }
+    }
+
+    /* start tests */
     TestRunner_start();
 
     /* unit-tests */
-    TestRunner_runTest( data_small_set_test_get_list() );
-    TestRunner_runTest( data_change_notifier_test_get_list() );
-    TestRunner_runTest( data_database_listener_test_get_list() );
-    TestRunner_runTest( data_json_tokenizer_test_get_list() );
-    TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
-    TestRunner_runTest( pencil_description_writer_test_get_list() );
-    TestRunner_runTest( universal_array_index_sorter_test_get_list() );
+    if ( do_unit_tests )
+    {
+        TestRunner_runTest( data_small_set_test_get_list() );
+        TestRunner_runTest( data_change_notifier_test_get_list() );
+        TestRunner_runTest( data_database_listener_test_get_list() );
+        TestRunner_runTest( data_json_tokenizer_test_get_list() );
+        TestRunner_runTest( geometry_rectangle_test_get_list() );
+        TestRunner_runTest( geometry_connector_test_get_list() );
+        TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
+        TestRunner_runTest( pencil_description_writer_test_get_list() );
+        TestRunner_runTest( universal_array_index_sorter_test_get_list() );
+    }
 
     /* module tests which involve multiple software units */
-    TestRunner_runTest( data_database_reader_test_get_list() );
-    TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
-    TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
-    TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
-    TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
+    if ( do_module_tests )
+    {
+        TestRunner_runTest( data_database_reader_test_get_list() );
+        TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
+        TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
+        TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
+        TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
+    }
 
     TestRunner_end();
 

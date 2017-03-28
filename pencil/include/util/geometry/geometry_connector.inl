@@ -1,6 +1,7 @@
 /* File: geometry_connector.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include "tslog.h"
 #include <math.h>
 
 static inline void geometry_connector_reinit_vertical ( geometry_connector_t *this_,
@@ -151,7 +152,7 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
 {
     bool result;
 
-    /* determine the rectangle (minus a small border */
+    /* determine the rectangle (minus a small border) */
     double rect_left = geometry_rectangle_get_left(rect) + 0.001;
     double rect_right = geometry_rectangle_get_right(rect) - 0.001;
     double rect_top = geometry_rectangle_get_top(rect) + 0.001;
@@ -184,7 +185,7 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
     }
     else
     {
-        /* the simple pre-checks did not decide if the connector interstects the rectangle */
+        /* the simple pre-checks did not decide if the connector intersects the rectangle */
         result = false;
 
         /* check for an overlap of the first segment */
@@ -341,7 +342,7 @@ static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( c
                              right - left,
                              bottom - top
                            );
-    
+
     return result;
 }
 

@@ -1,6 +1,7 @@
 /* File: geometry_non_linear_scale.inl; Copyright and License: see below */
 
 #include "trace.h"
+#include "tslog.h"
 #include <assert.h>
 #include <stdbool.h>
 

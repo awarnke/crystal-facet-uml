@@ -12,6 +12,7 @@
  *  connected to a main-line, connected to a destination-end.
  */
 
+#include "util/geometry/geometry_rectangle.h"
 #include <stdbool.h>
 
 /*!
