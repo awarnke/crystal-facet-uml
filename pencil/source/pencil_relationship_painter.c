@@ -214,7 +214,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                             cairo_line_to ( cr, p4x - half_stroke_length, p4y - part_stroke_length );
                             p4y = p4y - part_stroke_length;
                             /* if p3 == p4, also move p3 */
-                            /* todo */
+                            if ( p3y > p4y )
+                            {
+                                p3y = p4y;
+                            }
                         }
                     }
                     break;
@@ -229,7 +232,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                             cairo_line_to ( cr, p4x - part_stroke_length, p4y - half_stroke_length );
                             p4x = p4x - part_stroke_length;
                             /* if p3 == p4, also move p3 */
-                            /* todo */
+                            if ( p3x > p4x )
+                            {
+                                p3x = p4x;
+                            }
                         }
                     }
                     break;
@@ -243,9 +249,12 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                         {
                             cairo_line_to ( cr, p4x + half_stroke_length, p4y + part_stroke_length );
                             p4y = p4y + part_stroke_length;
+                            /* if p3 == p4, also move p3 */
+                            if ( p3y < p4y )
+                            {
+                                p3y = p4y;
+                            }
                         }
-                        /* if p3 == p4, also move p3 */
-                        /* todo */
                     }
                     break;
 
@@ -259,7 +268,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                             cairo_line_to ( cr, p4x + part_stroke_length, p4y + half_stroke_length );
                             p4x = p4x + part_stroke_length;
                             /* if p3 == p4, also move p3 */
-                            /* todo */
+                            if ( p3x < p4x )
+                            {
+                                p3x = p4x;
+                            }
                         }
                     }
                     break;
@@ -317,7 +329,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                         cairo_line_to ( cr, p1x, p1y );
                         p1y = p1y - 2.0 * part_stroke_length;
                         /* if p2 == p1, also move p2 */
-                        /* todo */
+                        if ( p2y > p1y )
+                        {
+                            p2y = p1y;
+                        }
                     }
                     break;
 
@@ -330,7 +345,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                         cairo_line_to ( cr, p1x, p1y );
                         p1x = p1x + 2.0 * part_stroke_length;
                         /* if p2 == p1, also move p2 */
-                        /* todo */
+                        if ( p2x < p1x )
+                        {
+                            p2x = p1x;
+                        }
                     }
                     break;
 
@@ -343,7 +361,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                         cairo_line_to ( cr, p1x, p1y );
                         p1y = p1y + 2.0 * part_stroke_length;
                         /* if p2 == p1, also move p2 */
-                        /* todo */
+                        if ( p2y < p1y )
+                        {
+                            p2y = p1y;
+                        }
                     }
                     break;
 
@@ -356,7 +377,10 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                         cairo_line_to ( cr, p1x, p1y );
                         p1x = p1x - 2.0 * part_stroke_length;
                         /* if p2 == p1, also move p2 */
-                        /* todo */
+                        if ( p2x > p1x )
+                        {
+                            p2x = p1x;
+                        }
                     }
                     break;
 
