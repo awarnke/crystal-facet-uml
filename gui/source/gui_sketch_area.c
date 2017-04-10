@@ -630,6 +630,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
+        /* check that drag state is false */
+        if ( ( gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
+            || ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) ) )
+        {
+            TSLOG_ERROR("drag state indicates dragging - but button was not pressed before!");
+        }
+
         /* update drag state */
         gui_sketch_drag_state_set_from ( &((*this_).drag_state), x, y );
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
@@ -715,6 +722,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 if ( NULL == target )
                 {
                     TRACE_INFO_INT_INT("No card at",x,y);
+                    /* if this happens, we should invalidate the marked object. */
+                    gui_sketch_marker_clear_focused( (*this_).marker );
                 }
                 else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &clicked_real_object_id ) )
                 {
@@ -811,6 +820,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         x = (int32_t) evt->x;
         y = (int32_t) evt->y;
         TRACE_INFO_INT_INT("x/y",x,y);
+
+        /* check that drag state is true */
+        if ( ( ! gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
+            && ( ! gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) ) )
+        {
+            TRACE_INFO("drag state indicates no dragging and no waiting - but button was pressed before!");
+        }
 
         /* do action */
         gui_sketch_tools_tool_t selected_tool;

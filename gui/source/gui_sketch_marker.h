@@ -16,10 +16,10 @@
  *  \brief attributes of the sketch marker
  */
 struct gui_sketch_marker_struct {
-    data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t */
-    data_id_t focused_real_object;  /*!<  references the one focused and dereferenced object, e.g. a data_diagram_t or a data_classifier_t */
+    data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
+    data_id_t focused_real_object;  /*!<  references the one focused and dereferenced object, e.g. a data_diagram_t or a data_classifier_t (yellow corners) */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
-    data_small_set_t selected_set;  /*!<  references all selected objects */
+    data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
     int64_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
 };
 

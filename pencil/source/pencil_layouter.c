@@ -940,6 +940,11 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
             }
         }
 
+        /* iterate over the already created connectors */
+
+        /* ... */
+
+
         /* update best solution */
         if ( debts_of_current < debts_of_best )
         {
