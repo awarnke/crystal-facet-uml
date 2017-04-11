@@ -83,6 +83,60 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
     return result;
 }
 
+static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
+{
+    assert( NULL != that );
+
+    bool result;
+    double rect_this_right;
+    double rect_this_bottom;
+    double rect_that_right;
+    double rect_that_bottom;
+
+    rect_this_right = (*this_).left + (*this_).width;
+    rect_this_bottom = (*this_).top + (*this_).height;
+    rect_that_right = (*that).left + (*that).width;
+    rect_that_bottom = (*that).top + (*that).height;
+
+    if ( ( rect_this_right < (*that).left )
+        || ( rect_this_bottom < (*that).top )
+        || ( (*this_).left > rect_that_right )
+        || ( (*this_).top > rect_that_bottom ) )
+    {
+        result = false;
+    }
+    else
+    {
+        result = true;
+    }
+
+    return result;
+}
+
+static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *this_, double x1, double y1, double x2, double y2 )
+{
+    if ( x1 < x2 )
+    {
+        (*this_).left = x1;
+        (*this_).width = x2-x1;
+    }
+    else
+    {
+        (*this_).left = x2;
+        (*this_).width = x1-x2;
+    }
+    if ( y1 < y2 )
+    {
+        (*this_).top = y1;
+        (*this_).height = y2-y1;
+    }
+    else
+    {
+        (*this_).top = y2;
+        (*this_).height = y1-y2;
+    }
+}
+
 static inline void geometry_rectangle_destroy ( geometry_rectangle_t *this_ )
 {
 }

@@ -941,6 +941,8 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
         }
 
         /* iterate over the already created connectors */
+/*
+        uint32_t geometry_connector_count_connector_intersects */
 
         /* ... */
 

@@ -31,6 +31,7 @@ static void test_intersect(void)
     geometry_rectangle_t rect_b;
     geometry_rectangle_t intersect_rect;
     int err;
+    bool intersects;
 
     /* no intersect */
     geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
@@ -38,6 +39,9 @@ static void test_intersect(void)
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( -1, err );
     TEST_ASSERT( 0.0001 > geometry_rectangle_get_area( &intersect_rect ) );
+
+    intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( false, intersects );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
@@ -52,6 +56,9 @@ static void test_intersect(void)
     TEST_ASSERT( 25.0001 > geometry_rectangle_get_area( &intersect_rect ) );
     TEST_ASSERT( 24.9999 < geometry_rectangle_get_area( &intersect_rect ) );
 
+    intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( true, intersects );
+
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );
@@ -65,6 +72,9 @@ static void test_intersect(void)
     TEST_ASSERT( 100.0001 > geometry_rectangle_get_area( &intersect_rect ) );
     TEST_ASSERT( 99.9999 < geometry_rectangle_get_area( &intersect_rect ) );
 
+    intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( true, intersects );
+    
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );

@@ -81,12 +81,23 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
  *  \param this_ pointer to own object attributes
  *  \param rect_a rectangle a. Must not be NULL
  *  \param rect_b rectangle b. Must not be NULL
- *  \return 0 in case of success, -1 if hte rectangles a and b do not overlap
+ *  \return 0 in case of success, -1 if the rectangles a and b do not overlap
  */
 static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *this_,
                                                          const geometry_rectangle_t *rect_a,
                                                          const geometry_rectangle_t *rect_b
                                                        );
+
+/*!
+ *  \brief initializes the geometry_rectangle_t struct by providing two corner coordinates
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x1 x coordinate of a corner
+ *  \param y1 y coordinate of a corner
+ *  \param x2 x coordinate of a corner
+ *  \param y2 y coordinate of a corner
+ */
+static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *this_, double x1, double y1, double x2, double y2 );
 
 /*!
  *  \brief destroys the geometry_rectangle_t struct
@@ -175,6 +186,15 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
  *  \return false if the rectangle has a positive size.
  */
 static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief determines if the given rectangle intersects the other
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return false if the rectangle does not intersect the other.
+ */
+static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
  *  \brief moves the geometry_rectangle_t

@@ -322,6 +322,98 @@ static inline bool geometry_connector_is_intersecting_rectangle ( const geometry
     return result;
 }
 
+static inline uint32_t geometry_connector_count_connector_intersects ( const geometry_connector_t *this_, const geometry_connector_t *that )
+{
+    uint32_t result = 0;
+
+    /* do some simple prechecks */
+    geometry_rectangle_t this_bounds;
+    geometry_rectangle_t that_bounds;
+
+    this_bounds = geometry_connector_get_bounding_rectangle( this_ );
+    that_bounds = geometry_connector_get_bounding_rectangle( that );
+
+    if ( geometry_rectangle_is_intersecting( &this_bounds, &that_bounds ) )
+    {
+        /* do some more complicated checks */
+        geometry_rectangle_t this_source_end;
+        geometry_rectangle_t this_main_line;
+        geometry_rectangle_t this_destination_end;
+        geometry_rectangle_t that_source_end;
+        geometry_rectangle_t that_main_line;
+        geometry_rectangle_t that_destination_end;
+
+        geometry_rectangle_init_by_corners( &this_source_end,
+                                            (*this_).main_line_source_x, (*this_).main_line_source_y, (*this_).source_end_x, (*this_).source_end_y
+                                          );
+        geometry_rectangle_init_by_corners( &this_main_line,
+                                            (*this_).main_line_destination_x, (*this_).main_line_destination_y, (*this_).main_line_source_x, (*this_).main_line_source_y
+                                          );
+        geometry_rectangle_init_by_corners( &this_destination_end,
+                                            (*this_).destination_end_x, (*this_).destination_end_y, (*this_).main_line_destination_x, (*this_).main_line_destination_y
+                                          );
+        geometry_rectangle_init_by_corners( &that_source_end,
+                                            (*that).main_line_source_x, (*that).main_line_source_y, (*that).source_end_x, (*that).source_end_y
+                                          );
+        geometry_rectangle_init_by_corners( &that_main_line,
+                                            (*that).main_line_destination_x, (*that).main_line_destination_y, (*that).main_line_source_x, (*that).main_line_source_y
+                                          );
+        geometry_rectangle_init_by_corners( &that_destination_end,
+                                            (*that).main_line_source_x, (*that).main_line_source_y, (*that).source_end_x, (*that).source_end_y
+                                          );
+
+        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_source_end ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_source_end ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_source_end ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_main_line ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_main_line ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_main_line ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_source_end, &that_destination_end ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_main_line, &that_destination_end ) )
+        {
+            result += 1;
+        }
+        if ( geometry_rectangle_is_intersecting( &this_destination_end, &that_destination_end ) )
+        {
+            result += 1;
+        }
+
+        geometry_rectangle_destroy( &this_source_end );
+        geometry_rectangle_destroy( &this_main_line );
+        geometry_rectangle_destroy( &this_destination_end );
+        geometry_rectangle_destroy( &that_source_end );
+        geometry_rectangle_destroy( &that_source_end );
+        geometry_rectangle_destroy( &that_destination_end );
+    }
+    /* else no intersects, result = 0 */
+
+    geometry_rectangle_destroy( &this_bounds );
+    geometry_rectangle_destroy( &that_bounds );
+
+    return result;
+}
+
 static inline geometry_rectangle_t geometry_connector_get_bounding_rectangle ( const geometry_connector_t *this_ )
 {
     geometry_rectangle_t result;
