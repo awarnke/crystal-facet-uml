@@ -81,7 +81,7 @@ static inline void geometry_rectangle_reinit_empty ( geometry_rectangle_t *this_
  *  \param this_ pointer to own object attributes
  *  \param rect_a rectangle a. Must not be NULL
  *  \param rect_b rectangle b. Must not be NULL
- *  \return 0 in case of success, -1 if the rectangles a and b do not overlap
+ *  \return 0 in case of success, -1 if the rectangles a and b do not overlap (just touching is not intersecting)
  */
 static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *this_,
                                                          const geometry_rectangle_t *rect_a,
@@ -192,7 +192,7 @@ static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param that pointer to others object attributes
- *  \return false if the rectangle does not intersect the other.
+ *  \return false if the rectangle does not intersect the other. (just touching is not intersecting)
  */
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 

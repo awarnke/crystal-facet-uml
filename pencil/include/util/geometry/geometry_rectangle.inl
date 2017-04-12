@@ -71,13 +71,20 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
     (*this_).top = fmax( (*rect_a).top, (*rect_b).top );
     (*this_).width = fmin( rect_a_right, rect_b_right ) - (*this_).left;
     (*this_).height = fmin( rect_a_bottom, rect_b_bottom ) - (*this_).top;
-    if (( (*this_).width < 0.000000001 ) || ( (*this_).height < 0.000000001 ))
+    if (( (*this_).width < -0.000000001 ) || ( (*this_).height < -0.000000001 ))
     {
+        /* if intersection is empty, result is -1 */
         (*this_).left = 0.0;
         (*this_).top = 0.0;
         (*this_).width = 0.0;
         (*this_).height = 0.0;
         result = -1;
+    }
+    else if (( (*this_).width < 0.0 ) || ( (*this_).height < 0.0 ))
+    {
+        /* update rounding error */
+        (*this_).width = 0.0;
+        (*this_).height = 0.0;
     }
 
     return result;
@@ -93,10 +100,10 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
     double rect_that_right;
     double rect_that_bottom;
 
-    rect_this_right = (*this_).left + (*this_).width;
-    rect_this_bottom = (*this_).top + (*this_).height;
-    rect_that_right = (*that).left + (*that).width;
-    rect_that_bottom = (*that).top + (*that).height;
+    rect_this_right = (*this_).left + (*this_).width + 0.000000001;  /* touching is intersecting */
+    rect_this_bottom = (*this_).top + (*this_).height + 0.000000001;
+    rect_that_right = (*that).left + (*that).width + 0.000000001;
+    rect_that_bottom = (*that).top + (*that).height + 0.000000001;
 
     if ( ( rect_this_right < (*that).left )
         || ( rect_this_bottom < (*that).top )

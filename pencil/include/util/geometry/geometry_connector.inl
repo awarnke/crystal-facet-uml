@@ -4,6 +4,40 @@
 #include "tslog.h"
 #include <math.h>
 
+static inline void geometry_connector_init_vertical ( geometry_connector_t *this_,
+                                                      double source_end_x,
+                                                      double source_end_y,
+                                                      double destination_end_x,
+                                                      double destination_end_y,
+                                                      double main_line_x )
+{
+    (*this_).source_end_x = source_end_x;
+    (*this_).source_end_y = source_end_y;
+    (*this_).main_line_source_x = main_line_x;
+    (*this_).main_line_source_y = source_end_y;
+    (*this_).main_line_destination_x = main_line_x;
+    (*this_).main_line_destination_y = destination_end_y;
+    (*this_).destination_end_x = destination_end_x;
+    (*this_).destination_end_y = destination_end_y;
+}
+
+static inline void geometry_connector_init_horizontal ( geometry_connector_t *this_,
+                                                        double source_end_x,
+                                                        double source_end_y,
+                                                        double destination_end_x,
+                                                        double destination_end_y,
+                                                        double main_line_y )
+{
+    (*this_).source_end_x = source_end_x;
+    (*this_).source_end_y = source_end_y;
+    (*this_).main_line_source_x = source_end_x;
+    (*this_).main_line_source_y = main_line_y;
+    (*this_).main_line_destination_x = destination_end_x;
+    (*this_).main_line_destination_y = main_line_y;
+    (*this_).destination_end_x = destination_end_x;
+    (*this_).destination_end_y = destination_end_y;
+}
+
 static inline void geometry_connector_reinit_vertical ( geometry_connector_t *this_,
                                                         double source_end_x,
                                                         double source_end_y,
@@ -359,7 +393,7 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
                                             (*that).main_line_destination_x, (*that).main_line_destination_y, (*that).main_line_source_x, (*that).main_line_source_y
                                           );
         geometry_rectangle_init_by_corners( &that_destination_end,
-                                            (*that).main_line_source_x, (*that).main_line_source_y, (*that).source_end_x, (*that).source_end_y
+                                            (*that).destination_end_x, (*that).destination_end_y, (*that).main_line_destination_x, (*that).main_line_destination_y
                                           );
 
         if ( geometry_rectangle_is_intersecting( &this_source_end, &that_source_end ) )
@@ -403,7 +437,7 @@ static inline uint32_t geometry_connector_count_connector_intersects ( const geo
         geometry_rectangle_destroy( &this_main_line );
         geometry_rectangle_destroy( &this_destination_end );
         geometry_rectangle_destroy( &that_source_end );
-        geometry_rectangle_destroy( &that_source_end );
+        geometry_rectangle_destroy( &that_main_line );
         geometry_rectangle_destroy( &that_destination_end );
     }
     /* else no intersects, result = 0 */

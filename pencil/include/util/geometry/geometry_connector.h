@@ -33,6 +33,42 @@ struct geometry_connector_struct {
 typedef struct geometry_connector_struct geometry_connector_t;
 
 /*!
+ *  \brief initializes the geometry_connector_t struct for a vertical main-line
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param source_end_x x coordinate of the source end point
+ *  \param source_end_y y coordinate of the source end point
+ *  \param destination_end_x x coordinate of the destination end point
+ *  \param destination_end_y y coordinate of the destination end point
+ *  \param main_line_x x coordinate of the vertical main bar
+ */
+static inline void geometry_connector_init_vertical ( geometry_connector_t *this_,
+                                                      double source_end_x,
+                                                      double source_end_y,
+                                                      double destination_end_x,
+                                                      double destination_end_y,
+                                                      double main_line_x
+                                                    );
+
+/*!
+ *  \brief initializes the geometry_connector_t struct for a horizontal main-line
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param source_end_x x coordinate of the source end point
+ *  \param source_end_y y coordinate of the source end point
+ *  \param destination_end_x x coordinate of the destination end point
+ *  \param destination_end_y y coordinate of the destination end point
+ *  \param main_line_y y coordinate of the horizontal main bar
+ */
+static inline void geometry_connector_init_horizontal ( geometry_connector_t *this_,
+                                                        double source_end_x,
+                                                        double source_end_y,
+                                                        double destination_end_x,
+                                                        double destination_end_y,
+                                                        double main_line_y
+                                                      );
+
+/*!
  *  \brief re-initializes the geometry_connector_t struct for a vertical main-line
  *
  *  \param this_ pointer to own object attributes
