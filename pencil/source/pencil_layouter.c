@@ -905,7 +905,7 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
         debts_of_current = 0.0;
 
         /* avoid alternating solutions in case their debts are identical */
-        debts_of_current += solution_idx;
+        debts_of_current += 0.1 * solution_idx;
 
         /* the more length, the more unwanted... */
         debts_of_current += geometry_connector_get_length( &(solutions[solution_idx]) );
@@ -940,12 +940,18 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
             }
         }
 
-        /* iterate over the already created connectors */
-/*
-        uint32_t geometry_connector_count_connector_intersects */
-
-        /* ... */
-
+        /* iterate over the already created connectors (probe_sort_index < sort_index) */
+        for ( uint32_t probe_sort_index = 0; probe_sort_index < sort_index; probe_sort_index ++ )
+        {
+            /* add debts if intersects */
+            uint32_t probe_index;
+            probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+            geometry_connector_t *probe_shape;
+            probe_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), probe_index );
+            uint32_t intersects;
+            intersects = geometry_connector_count_connector_intersects( &(solutions[solution_idx]), probe_shape );
+            debts_of_current += 10.0 * intersects;
+        }
 
         /* update best solution */
         if ( debts_of_current < debts_of_best )

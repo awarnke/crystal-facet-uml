@@ -888,33 +888,45 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             {
                 TRACE_INFO("GUI_SKETCH_TOOLS_CREATE_DIAGRAM");
 
-                int64_t selected_diagram_id;
-                selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+                guint height;
+                height = gtk_widget_get_allocated_height (widget);
+                if ( y*10 < height*7 )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_CLICK_IN_CHILDREN_AREA
+                                                           );
+                }
+                else
+                {
+                    int64_t selected_diagram_id;
+                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
-                ctrl_diagram_controller_t *diag_control;
-                diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+                    ctrl_diagram_controller_t *diag_control;
+                    diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-                char* new_name;
-                static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
-                new_name = NAMES[(x+y)&0x07];
+                    char* new_name;
+                    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
+                    new_name = NAMES[(x+y)&0x07];
 
-                int64_t new_diag_id;
-                ctrl_error_t c_result;
-                c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
+                    int64_t new_diag_id;
+                    ctrl_error_t c_result;
+                    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
 
-                /* load/reload data to be drawn */
-                gui_sketch_area_private_load_cards( this_, new_diag_id );
+                    /* load/reload data to be drawn */
+                    gui_sketch_area_private_load_cards( this_, new_diag_id );
 
-                /* notify listener */
-                data_id_t focused_id;
-                data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                gui_sketch_area_private_notify_listener( this_ );
-                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                    /* notify listener */
+                    data_id_t focused_id;
+                    data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                    gui_sketch_area_private_notify_listener( this_ );
+                    gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-                /* change the selected tool */
-                gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
+                    /* change the selected tool */
+                    gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
+                }
             }
             break;
 
