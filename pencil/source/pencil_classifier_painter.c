@@ -69,7 +69,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         double std_line_width = pencil_size_get_standard_line_width( pencil_size );
         cairo_set_line_width( cr, std_line_width );
 
-        /* draw rectangle */
+        /* set color */
         GdkRGBA foreground_color;
         {
             if ( data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) ) )
@@ -85,8 +85,88 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 foreground_color = pencil_size_get_standard_color( pencil_size );
             }
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
-            cairo_stroke (cr);
+        }
+
+        /* draw rectangle */
+        switch ( data_classifier_get_main_type ( classifier ) )
+        {
+            case DATA_CLASSIFIER_TYPE_BLOCK:  /* SysML */
+            case DATA_CLASSIFIER_TYPE_FEATURE:
+            case DATA_CLASSIFIER_TYPE_REQUIREMENT:  /* SysML */
+            case DATA_CLASSIFIER_TYPE_UML_CLASS:
+            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+            case DATA_CLASSIFIER_TYPE_UML_PART:
+            {
+                cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+            {
+                cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
+                cairo_stroke (cr);
+
+                /* draw icon */
+                double port1_top;
+                double port2_top;
+                double port_left;
+                double port_width;
+                double port_height;
+                double comp_left;
+                double comp_right;
+                double comp_top;
+                double comp_bottom;
+
+                comp_top = top + 2*gap;
+                comp_right = left + width - 2*gap;
+                comp_left = comp_right - 8*gap;
+                comp_bottom = comp_top + 6*gap;
+                port_left = comp_left - 1.5*gap;
+                port_width = 3*gap;
+                port_height = 1.5*gap;
+                port1_top = comp_top + gap;
+                port2_top = port1_top + port_height + gap;
+
+                cairo_move_to ( cr, comp_left, port1_top );
+                cairo_line_to ( cr, comp_left, comp_top );
+                cairo_line_to ( cr, comp_right, comp_top );
+                cairo_line_to ( cr, comp_right, comp_bottom );
+                cairo_line_to ( cr, comp_left, comp_bottom );
+                cairo_line_to ( cr, comp_left, port2_top + port_height );
+                cairo_stroke (cr);
+                cairo_move_to ( cr, comp_left, port2_top );
+                cairo_line_to ( cr, comp_left, port1_top + port_height );
+                cairo_stroke (cr);
+                cairo_rectangle ( cr, port_left, port1_top, port_width, port_height );
+                cairo_stroke (cr);
+                cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+            case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+            case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+            case DATA_CLASSIFIER_TYPE_UML_STATE:
+            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+            case DATA_CLASSIFIER_TYPE_UML_NODE:
+            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+            {
+                cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
+                cairo_stroke (cr);
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_draw()");
+            }
+            break;
         }
 
         /* draw stereotype text */
