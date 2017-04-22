@@ -108,40 +108,16 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_stroke (cr);
 
                 /* draw icon */
-                double port1_top;
-                double port2_top;
-                double port_left;
-                double port_width;
-                double port_height;
-                double comp_left;
-                double comp_right;
-                double comp_top;
-                double comp_bottom;
-
-                comp_top = top + 2*gap;
-                comp_right = left + width - 2*gap;
-                comp_left = comp_right - 8*gap;
-                comp_bottom = comp_top + 6*gap;
-                port_left = comp_left - 1.5*gap;
-                port_width = 3*gap;
-                port_height = 1.5*gap;
-                port1_top = comp_top + gap;
-                port2_top = port1_top + port_height + gap;
-
-                cairo_move_to ( cr, comp_left, port1_top );
-                cairo_line_to ( cr, comp_left, comp_top );
-                cairo_line_to ( cr, comp_right, comp_top );
-                cairo_line_to ( cr, comp_right, comp_bottom );
-                cairo_line_to ( cr, comp_left, comp_bottom );
-                cairo_line_to ( cr, comp_left, port2_top + port_height );
-                cairo_stroke (cr);
-                cairo_move_to ( cr, comp_left, port2_top );
-                cairo_line_to ( cr, comp_left, port1_top + port_height );
-                cairo_stroke (cr);
-                cairo_rectangle ( cr, port_left, port1_top, port_width, port_height );
-                cairo_stroke (cr);
-                cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
-                cairo_stroke (cr);
+                double icon_height = pencil_size_get_larger_font_size( pencil_size );
+                double icon_width;
+                pencil_classifier_painter_private_draw_component_icon ( this_,
+                                                                        left + width - 2*gap,  /* x */
+                                                                        top + 2*gap,  /* y */
+                                                                        GEOMETRY_H_ALIGN_RIGHT,
+                                                                        GEOMETRY_V_ALIGN_TOP,
+                                                                        icon_height,
+                                                                        cr,
+                                                                        &icon_width );
             }
             break;
 
@@ -382,6 +358,140 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
     - space_height
     - 2.0 * pencil_size_get_standard_object_border( pencil_size );
     geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
+
+    TRACE_END();
+}
+
+void pencil_classifier_painter_private_draw_component_icon ( const pencil_classifier_painter_t *this_,
+                                                             double x,
+                                                             double y,
+                                                             geometry_h_align_t h_align,
+                                                             geometry_v_align_t v_align,
+                                                             double height,
+                                                             cairo_t *cr,
+                                                             double *out_width )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    assert( NULL != out_width );
+
+    /* calculate component bounds */
+    double comp_left;
+    double comp_right;
+    double comp_top;
+    double comp_bottom;
+    double comp_height;
+    double comp_width;
+    double port_half_width;
+
+    comp_height = height;
+    comp_width = comp_height * 1.2;
+    port_half_width = height * 0.2;
+
+    switch ( h_align )
+    {
+        case GEOMETRY_H_ALIGN_LEFT:
+        {
+            comp_left = x + port_half_width;
+        }
+        break;
+
+        case GEOMETRY_H_ALIGN_CENTER:
+        {
+            comp_left = x + 0.5 * ( port_half_width - comp_width );
+        }
+        break;
+
+        case GEOMETRY_H_ALIGN_RIGHT:
+        {
+            comp_left = x - comp_width;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown geometry_h_align_t in pencil_classifier_painter_private_draw_component_icon()");
+        }
+        break;
+    }
+    comp_right = comp_left + comp_width;
+
+    switch ( v_align )
+    {
+        case GEOMETRY_V_ALIGN_TOP:
+        {
+            comp_top = y;
+        }
+        break;
+
+        case GEOMETRY_V_ALIGN_CENTER:
+        {
+            comp_top = y - 0.5 * comp_height;
+        }
+        break;
+
+        case GEOMETRY_V_ALIGN_BOTTOM:
+        {
+            comp_top = y - comp_height;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown geometry_v_align_t in pencil_classifier_painter_private_draw_component_icon()");
+        }
+        break;
+    }
+    comp_bottom = comp_top + comp_height;
+
+    /* calculate bounds of the two ports */
+    double port1_top;
+    double port2_top;
+    double port_left;
+    double port_width;
+    double port_height;
+
+    port_left = comp_left - port_half_width;
+    port_width = 2.0*port_half_width;
+    port_height = 0.2*height;
+    port1_top = comp_top + 0.2*height;
+    port2_top = comp_top + 0.6*height;
+
+    /* draw the icon */
+    cairo_move_to ( cr, comp_left, port1_top );
+    cairo_line_to ( cr, comp_left, comp_top );
+    cairo_line_to ( cr, comp_right, comp_top );
+    cairo_line_to ( cr, comp_right, comp_bottom );
+    cairo_line_to ( cr, comp_left, comp_bottom );
+    cairo_line_to ( cr, comp_left, port2_top + port_height );
+    cairo_stroke (cr);
+    cairo_move_to ( cr, comp_left, port2_top );
+    cairo_line_to ( cr, comp_left, port1_top + port_height );
+    cairo_stroke (cr);
+    cairo_rectangle ( cr, port_left, port1_top, port_width, port_height );
+    cairo_stroke (cr);
+    cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
+    cairo_stroke (cr);
+
+    /* return the result */
+    *out_width = comp_width + port_half_width;
+
+    TRACE_END();
+}
+
+void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classifier_painter_t *this_,
+                                                            double x,
+                                                            double y,
+                                                            geometry_h_align_t h_align,
+                                                            geometry_v_align_t v_align,
+                                                            double height,
+                                                            cairo_t *cr,
+                                                            double *out_width )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    assert( NULL != out_width );
+
 
     TRACE_END();
 }
