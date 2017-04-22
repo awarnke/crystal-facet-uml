@@ -1,5 +1,5 @@
 2017-0x-xx 0.16 [69a0f6a]
-  + 
+  + Classifier symbols represent the classifier type
 2017-04-14 0.15 [69a0f6a]
   + Arrow, line and feather types of connectors are determined by relation type
   + A reset button clears the current selection

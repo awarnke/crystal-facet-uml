@@ -140,11 +140,31 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+            case DATA_CLASSIFIER_TYPE_UML_STATE:
+            {
+                double corner_radius = 6.0*gap;
+                double bottom = top + height;
+                double right = left + width;
+                const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
+                double ctrl_offset = corner_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                cairo_move_to ( cr, right - corner_radius, bottom );
+                cairo_line_to ( cr, left + corner_radius, bottom );
+                cairo_curve_to ( cr, left + ctrl_offset, bottom, left, bottom - ctrl_offset, left /* end point x */, bottom - corner_radius /* end point y */ );
+                cairo_line_to ( cr, left, top + corner_radius );
+                cairo_curve_to ( cr, left, top + ctrl_offset, left + ctrl_offset, top, left + corner_radius /* end point x */, top /* end point y */ );
+                cairo_line_to ( cr, right - corner_radius, top );
+                cairo_curve_to ( cr, right - ctrl_offset, top, right, top + ctrl_offset, right /* end point x */, top + corner_radius /* end point y */ );
+                cairo_line_to ( cr, right, bottom - corner_radius );
+                cairo_curve_to ( cr, right, bottom - ctrl_offset, right - ctrl_offset, bottom, right - corner_radius /* end point x */, bottom /* end point y */ );
+                cairo_stroke (cr);
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-            case DATA_CLASSIFIER_TYPE_UML_STATE:
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             case DATA_CLASSIFIER_TYPE_UML_NODE:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
