@@ -121,6 +121,25 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+            {
+                cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
+                cairo_stroke (cr);
+
+                /* draw icon */
+                double icon_height = pencil_size_get_larger_font_size( pencil_size );
+                double icon_width;
+                pencil_classifier_painter_private_draw_artifact_icon ( this_,
+                                                                       left + width - 2*gap,  /* x */
+                                                                       top + 2*gap,  /* y */
+                                                                       GEOMETRY_H_ALIGN_RIGHT,
+                                                                       GEOMETRY_V_ALIGN_TOP,
+                                                                       icon_height,
+                                                                       cr,
+                                                                       &icon_width );
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
@@ -130,7 +149,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_NODE:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
             case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
             case DATA_CLASSIFIER_TYPE_UML_COMMENT:
             {
                 cairo_rectangle ( cr, left+gap, top+gap, width-2.0*gap, height-2.0*gap );
@@ -492,6 +510,88 @@ void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classif
     assert( NULL != cr );
     assert( NULL != out_width );
 
+    /* calculate artifact bounds */
+    double art_left;
+    double art_right;
+    double art_top;
+    double art_bottom;
+    double art_height;
+    double art_width;
+    double art_corner_edge;
+
+    art_height = height;
+    art_width = art_height * 0.7;
+    art_corner_edge = height * 0.3;
+
+    switch ( h_align )
+    {
+        case GEOMETRY_H_ALIGN_LEFT:
+        {
+            art_left = x;
+        }
+        break;
+
+        case GEOMETRY_H_ALIGN_CENTER:
+        {
+            art_left = x - 0.5 * art_width;
+        }
+        break;
+
+        case GEOMETRY_H_ALIGN_RIGHT:
+        {
+            art_left = x - art_width;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown geometry_h_align_t in pencil_classifier_painter_private_draw_component_icon()");
+        }
+        break;
+    }
+    art_right = art_left + art_width;
+
+    switch ( v_align )
+    {
+        case GEOMETRY_V_ALIGN_TOP:
+        {
+            art_top = y;
+        }
+        break;
+
+        case GEOMETRY_V_ALIGN_CENTER:
+        {
+            art_top = y - 0.5 * art_height;
+        }
+        break;
+
+        case GEOMETRY_V_ALIGN_BOTTOM:
+        {
+            art_top = y - art_height;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown geometry_v_align_t in pencil_classifier_painter_private_draw_component_icon()");
+        }
+        break;
+    }
+    art_bottom = art_top + art_height;
+
+    /* draw the icon */
+    cairo_move_to ( cr, art_right, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
+    cairo_line_to ( cr, art_left, art_top );
+    cairo_line_to ( cr, art_left, art_bottom );
+    cairo_line_to ( cr, art_right, art_bottom );
+    cairo_line_to ( cr, art_right, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
+    cairo_stroke (cr);
+
+    /* return the result */
+    *out_width = art_width;
 
     TRACE_END();
 }
