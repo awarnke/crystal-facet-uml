@@ -115,7 +115,7 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
  *  \param v_align alignment of the icon versus the given y coordinate
  *  \param height size of the icon
  *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon is returned. NULL is not allowed.
+ *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
  */
 void pencil_classifier_painter_private_draw_component_icon ( const pencil_classifier_painter_t *this_,
                                                              double x,
@@ -137,7 +137,7 @@ void pencil_classifier_painter_private_draw_component_icon ( const pencil_classi
  *  \param v_align alignment of the icon versus the given y coordinate
  *  \param height size of the icon
  *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon is returned. NULL is not allowed.
+ *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
  */
 void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classifier_painter_t *this_,
                                                             double x,

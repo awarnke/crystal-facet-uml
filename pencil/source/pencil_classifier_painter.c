@@ -9,6 +9,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
+const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
+
 void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
@@ -146,7 +149,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 double corner_radius = 6.0*gap;
                 double bottom = top + height;
                 double right = left + width;
-                const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
                 double ctrl_offset = corner_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
 
                 cairo_move_to ( cr, right - corner_radius, bottom );
@@ -162,8 +164,27 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             }
             break;
 
-            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+            {
+                double bottom = top + height;
+                double right = left + width;
+                double half_width = 0.5 * width;
+                double half_height = 0.5 * height;
+                double center_x = left + half_width;
+                double center_y = top + half_height;
+                double ctrl_xoffset = half_width * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+                double ctrl_yoffset = half_height * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                cairo_move_to ( cr, center_x, bottom );
+                cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
+                cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
+                cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
+                cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
+                cairo_stroke (cr);
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             case DATA_CLASSIFIER_TYPE_UML_NODE:
