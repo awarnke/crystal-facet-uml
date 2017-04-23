@@ -184,10 +184,30 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_UML_NODE:
+            {
+                double offset_3d = 2.0*gap;
+                double bottom = top + height;
+                double right = left + width;
+
+                cairo_rectangle ( cr, left+gap, top+gap+offset_3d, width-2.0*gap-offset_3d, height-2.0*gap-offset_3d );
+                cairo_stroke (cr);
+
+                cairo_move_to ( cr, left+gap, top+gap+offset_3d );
+                cairo_line_to ( cr, left+gap+offset_3d, top+gap );
+                cairo_line_to ( cr, right-gap, top+gap );
+                cairo_line_to ( cr, right-gap, bottom-gap-offset_3d );
+                cairo_line_to ( cr, right-gap-offset_3d, bottom-gap );
+                cairo_stroke (cr);
+                cairo_move_to ( cr, right-gap, top+gap );
+                cairo_line_to ( cr, right-gap-offset_3d, top+gap+offset_3d );
+                cairo_stroke (cr);
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-            case DATA_CLASSIFIER_TYPE_UML_NODE:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
             case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
             case DATA_CLASSIFIER_TYPE_UML_COMMENT:
