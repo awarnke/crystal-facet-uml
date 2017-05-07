@@ -19,6 +19,12 @@ How to install?
 --
 sudo make install
 
+How to use?
+--
+cd doxygen_build
+./make.sh
+echo read first chapter of crystal_facet_uml_documentation.pdf
+
 Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
 Author+Copyright: 2016-2017 Andreas Warnke
 License: Apache 2.0 License

@@ -57,7 +57,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "cfu_install_files/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../user_doc/doc/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/")
 
 MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release ." )
 MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug ." )
@@ -85,7 +85,7 @@ SET(CPACK_PACKAGE_VERSION_MAJOR "0")
 SET(CPACK_PACKAGE_VERSION_MINOR "16")
 SET(CPACK_PACKAGE_VERSION_PATCH "0")
 SET(CPACK_PACKAGE_INSTALL_DIRECTORY "${PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
-SET(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/../user_doc/doc/crystal_facet_uml_80x80.png")
+SET(CPACK_PACKAGE_ICON "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png")
 SET(CPACK_PACKAGE_FILE_NAME "${PROJECT_NAME}-${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}.${CPACK_PACKAGE_VERSION_PATCH}-${CMAKE_SYSTEM_NAME}-${CMAKE_SYSTEM_PROCESSOR}")
 SET(CPACK_PACKAGE_EXECUTABLES "crystal_facet_uml" "crystal facet uml")
 if(EXISTS /usr/bin/rpmbuild)

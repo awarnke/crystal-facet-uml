@@ -657,6 +657,25 @@ void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classif
     TRACE_END();
 }
 
+void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier_painter_t *this_,
+                                                         double x,
+                                                         double y,
+                                                         geometry_h_align_t h_align,
+                                                         geometry_v_align_t v_align,
+                                                         double height,
+                                                         cairo_t *cr,
+                                                         double *out_width )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    assert( NULL != out_width );
+
+    /* return the result */
+    *out_width = 0.0;
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke
