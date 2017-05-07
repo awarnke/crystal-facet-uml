@@ -27,6 +27,10 @@ cp -r ../example_diagrams crystal_facet_uml/
 echo "building doc and binary"
 cd crystal_facet_uml/doxygen_build
 doxygen doxygen_config
+cd doc/latex
+make
+mv refman.pdf ../../crystal_facet_uml_documentation.pdf
+cd ../..
 cd ../..
 cd crystal_facet_uml/cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release .

@@ -7,3 +7,4 @@ echo "check that you have the latex package sectsty installed."
 echo "check that you have the latex package tocloft installed."
 cd doc/latex
 make
+mv refman.pdf ../../crystal_facet_uml_documentation.pdf

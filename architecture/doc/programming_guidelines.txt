@@ -2,7 +2,7 @@
  *  \page cfu-programming-guidelines-page crystal facet uml programming guidelines
  *
  *  \image html crystal_facet_uml.png
- *  \image latex crystal_facet_uml.png "" width=5cm
+ *  \image latex crystal_facet_uml.pdf "" width=5cm
  *
  *  \section cfu-modules Software Modules
  *

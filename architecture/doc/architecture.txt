@@ -2,18 +2,18 @@
  *  \page cfu-architecture-page crystal facet uml architecture
  *
  *  \image html crystal_facet_uml.png
- *  \image latex crystal_facet_uml.png "" width=5cm
+ *  \image latex crystal_facet_uml.pdf "" width=5cm
  *
  *  \section cfu-ifactors Influence Factors
  *
  *  This section describes the problem space: requirements and expected environment.
  *
- *  \image html exported_diagrams/1_Overview.png
- *  \image latex exported_diagrams/1_Overview.png "" width=15cm
+ *  \image html 1_Overview.png
+ *  \image latex 1_Overview.pdf "" width=15cm
  *  \verbinclude exported_diagrams/1_Overview.txt
  *
- *  \image html exported_diagrams/4_Features.png
- *  \image latex exported_diagrams/4_Features.png "" width=15cm
+ *  \image html 4_Features.png
+ *  \image latex 4_Features.pdf "" width=15cm
  *  \verbinclude exported_diagrams/4_Features.txt
  *
  *  \section cfu-ddec Design Decisions
@@ -54,46 +54,46 @@
  *
  *  \subsubsection Overview
  *
- *  \image html exported_diagrams/2_Layers.png
- *  \image latex exported_diagrams/2_Layers.png "" width=15cm
+ *  \image html 2_Layers.png
+ *  \image latex 2_Layers.pdf "" width=15cm
  *  \verbinclude exported_diagrams/2_Layers.txt
  *
  *  \subsubsection Main Packages (detail)
  *
- *  \image html exported_diagrams/9_data.png
- *  \image latex exported_diagrams/9_data.png "" width=15cm
+ *  \image html 9_data.png
+ *  \image latex 9_data.pdf "" width=15cm
  *  \verbinclude exported_diagrams/9_data.txt
  *
- *  \image html exported_diagrams/10_ctrl.png
- *  \image latex exported_diagrams/10_ctrl.png "" width=15cm
+ *  \image html 10_ctrl.png
+ *  \image latex 10_ctrl.pdf "" width=15cm
  *  \verbinclude exported_diagrams/10_ctrl.txt
  *
- *  \image html exported_diagrams/11_gui.png
- *  \image latex exported_diagrams/11_gui.png "" width=15cm
+ *  \image html 11_gui.png
+ *  \image latex 11_gui.pdf "" width=15cm
  *  \verbinclude exported_diagrams/11_gui.txt
  *
- *  \image html exported_diagrams/8_pencil.png
- *  \image latex exported_diagrams/8_pencil.png "" width=15cm
+ *  \image html 8_pencil.png
+ *  \image latex 8_pencil.pdf "" width=15cm
  *  \verbinclude exported_diagrams/8_pencil.txt
  *
  *  \subsubsection Further Packages
  *
- *  \image html exported_diagrams/3_External_Libraries.png
- *  \image latex exported_diagrams/3_External_Libraries.png "" width=15cm
+ *  \image html 3_External_Libraries.png
+ *  \image latex 3_External_Libraries.pdf "" width=15cm
  *  \verbinclude exported_diagrams/3_External_Libraries.txt
  *
- *  \image html exported_diagrams/6_Utilities.png
- *  \image latex exported_diagrams/6_Utilities.png "" width=15cm
+ *  \image html 6_Utilities.png
+ *  \image latex 6_Utilities.pdf "" width=15cm
  *  \verbinclude exported_diagrams/6_Utilities.txt
  *
  *  \subsubsection Tools to build and test
  *
- *  \image html exported_diagrams/7_ArcBuildConfig_Tools.png
- *  \image latex exported_diagrams/7_ArcBuildConfig_Tools.png "" width=15cm
+ *  \image html 7_ArcBuildConfig_Tools.png
+ *  \image latex 7_ArcBuildConfig_Tools.pdf "" width=15cm
  *  \verbinclude exported_diagrams/7_ArcBuildConfig_Tools.txt
  *
- *  \image html exported_diagrams/5_Unit-Test.png
- *  \image latex exported_diagrams/5_Unit-Test.png "" width=15cm
+ *  \image html 5_Unit-Test.png
+ *  \image latex 5_Unit-Test.pdf "" width=15cm
  *  \verbinclude exported_diagrams/5_Unit-Test.txt
  *
  *  \section cfu-arc-apx Appendix

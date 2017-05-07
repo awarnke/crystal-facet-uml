@@ -149,6 +149,28 @@ void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classif
                                                             double *out_width
                                                           );
 
+/*!
+ *  \brief draws the actor icon at the defined location
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x location where to draw the icon
+ *  \param y y location where to draw the icon
+ *  \param h_align alignment of the icon versus the given x coordinate
+ *  \param v_align alignment of the icon versus the given y coordinate
+ *  \param height size of the icon
+ *  \param cr a cairo drawing context
+ *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
+ */
+void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier_painter_t *this_,
+                                                         double x,
+                                                         double y,
+                                                         geometry_h_align_t h_align,
+                                                         geometry_v_align_t v_align,
+                                                         double height,
+                                                         cairo_t *cr,
+                                                         double *out_width
+                                                       );
+
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 
 
