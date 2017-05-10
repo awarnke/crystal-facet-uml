@@ -1,4 +1,5 @@
 #!/bin/sh
+rm -fr ../doxygen_build/doc
 doxygen doxygen_config
 echo "check that you have the latex package pdflatex installed."
 echo "check that you have the latex package xtab installed."

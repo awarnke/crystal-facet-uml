@@ -145,7 +145,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                     {
                         uint32_t out_feature_count;
                         read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                          data_id_get_row_id( &current_id ),
+                                                                                          classifier_id,
                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
                                                                                           &((*this_).temp_features),
                                                                                           &out_feature_count

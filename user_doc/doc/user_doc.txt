@@ -9,18 +9,32 @@
  *  crystal_facet_uml is a uml diagram drawing tool
  *  that creates a set of consistent uml diagrams.
  *
+ *  If started in graphical mode, it shows a window with
+ *  \li toolbar on top,
+ *  \li drawing area in the center,
+ *  \li element configuration widgets below and
+ *  \li an optional notification bar at the bottom.
+ *
  *  \image html screenshot_1.png
  *  \image latex screenshot_1.png "" width=15cm
+ *
+ *  Additionally, crystal_facet_uml can be started from command line
+ *  to check and repair database files.
+ *  Run
+ *  \code{.sh}
+ *  ./crystal_facet_uml -h
+ *  \endcode
+ *  to get a list of supported parameters.
  *
  *  \section cfu-tools Tool Bar
  *
  *  \image html resources/file_use_db.png
  *  \image latex resources/file_use_db.pdf "" width=3cm
- *  \li Opens an existing database file or creates a new database file.
+ *  \li Opens an existing database file or creates a new database file
  *
  *  \image html resources/file_export.png
  *  \image latex resources/file_export.pdf "" width=3cm
- *  \li Exports all diagrams to the selected folder. Supported formats are txt, png and svg.
+ *  \li Exports all diagrams to the selected folder (supported formats are txt, png, pdf, ps and svg)
  *
  *  \image html resources/file_new_window.png
  *  \image latex resources/file_new_window.pdf "" width=3cm
@@ -28,36 +42,31 @@
  *
  *  \image html resources/tool_create_diagram.png
  *  \image latex resources/tool_create_diagram.pdf "" width=3cm
- *  \li Create a child-diagram by clicking at any space in the current diagram
+ *  \li Create a new diagram
  *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=3cm
- *  \li Switch the current diagram to the parent diagram or to a child diagram.
+ *  \li Navigate to parent or child diagrams
  *
  *  \image html resources/tool_edit.png
  *  \image latex resources/tool_edit.pdf "" width=3cm
- *  \li Move classifiers in the diagram
- *  \li Mark the diagram, classifiers and relationships with pink corners
- *  \li Select the diagram, a classifier, a feature or a relationship with yellow corners.
- *  \li Edit the properties of the yellow-cornered object at the bottom of the window.
+ *  \li Modify elements in the diagram
  *
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=3cm
- *  \li Create a classifier by clicking at an empty space in the diagram
- *  \li Create a relationship by clicking on the source classifier and dragging to the destination classifier
- *  \li Create a feature by clicking on the classifier
+ *  \li Create elements in the diagram
  *
  *  \image html resources/edit_cut.png
  *  \image latex resources/edit_cut.pdf "" width=3cm
- *  \li Cut all pink-cornered elements to the clipboard (features and relationships not yet supported)
+ *  \li Cut all pink-cornered elements to the clipboard (features not yet supported)
  *
  *  \image html resources/edit_copy.png
  *  \image latex resources/edit_copy.pdf "" width=3cm
- *  \li Copy all pink-cornered elements to the clipboard (features and relationships not yet supported)
+ *  \li Copy all pink-cornered elements to the clipboard (features not yet supported)
  *
  *  \image html resources/edit_paste.png
  *  \image latex resources/edit_paste.pdf "" width=3cm
- *  \li Pastes diagrams and classifiers from the clipboard to the uml model.
+ *  \li Pastes diagrams and classifiers from the clipboard to the uml model. (Relationships are not pasted)
  *      If id and name are identical to an existing element, an instance of the existing element is pasted to the diagram.
  *      Otherwise a new element is created.
  *
@@ -79,19 +88,47 @@
  *
  *  \image html resources/edit_undo.png
  *  \image latex resources/edit_undo.pdf "" width=3cm
- *  \li Un-does the last operation. (Opening a database, exporting files cannot be undone)
+ *  \li Un-does the last operation (Opening a database and exporting files cannot be undone)
  *
  *  \image html resources/edit_redo.png
  *  \image latex resources/edit_redo.pdf "" width=3cm
- *  \li Re-does the last un-done operation.
+ *  \li Re-does the last un-done operation
  *
  *  \image html resources/crystal_facet_uml.png
  *  \image latex crystal_facet_uml.pdf "" width=3cm
  *  \li Shows version, license and copyrights
  *
+ *  \section cfu-draw Drawing Area
+ *
+ *  \image html resources/tool_create_diagram.png
+ *  \image latex resources/tool_create_diagram.pdf "" width=3cm
+ *  \li Create a child-diagram by clicking in the children-area in the current view.
+ *
+ *  \image html resources/tool_navigate.png
+ *  \image latex resources/tool_navigate.pdf "" width=3cm
+ *  \li Navigate to the parent diagram or to a child diagram.
+ *
+ *  \image html resources/tool_edit.png
+ *  \image latex resources/tool_edit.pdf "" width=3cm
+ *  \li Move classifiers in the diagram
+ *  \li Mark the diagram, classifiers and relationships with pink corners
+ *  \li Select the diagram, a classifier, a feature or a relationship with yellow corners.
+ *
+ *  \image html resources/tool_create_object.png
+ *  \image latex resources/tool_create_object.pdf "" width=3cm
+ *  \li Create a classifier by clicking at an empty space in the diagram
+ *  \li Create a relationship by clicking on the source classifier and dragging to the destination classifier
+ *  \li Create a feature by clicking on the classifier
+ *
+ *  \section cfu-ele_config Element Configuration
+ *
+ *  Edit the properties of the yellow-cornered object.
+ *
  *  \image html resources/edit_commit.png
  *  \image latex resources/edit_commit.pdf "" width=3cm
  *  \li Stores the latest changes to the database (as most other displayed widgets too). It is not necessary to explicitly save the file.
+ *
+ *  \section cfu-notifybar Notification Bar
  *
  *  \image html resources/message_info.png
  *  \image latex resources/message_info.pdf "" width=3cm
@@ -105,7 +142,7 @@
  *  \image latex resources/message_error.pdf "" width=3cm
  *  \li Informs on an error
  *
- *  \section cfu-info Info
+ *  \section cfu-info Further Information
  *
  *  \subsection cfu-dowload Download
  *  Find the latest version at:
