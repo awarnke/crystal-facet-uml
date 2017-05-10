@@ -10,7 +10,7 @@
  */
 
 /*!
- *  \brief alignment constants of vertical alginment
+ *  \brief alignment constants of vertical alignment
  *
  */
 enum geometry_v_align_enum {
@@ -20,6 +20,19 @@ enum geometry_v_align_enum {
 };
 
 typedef enum geometry_v_align_enum geometry_v_align_t;
+
+/*!
+ *  \brief gets the top coordinate of an aligned object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param height height of object to be aligned
+ *  \param reference_top top coordinate of object to which to align to
+ *  \param reference_height height of object to which to align to
+ *  \return top coordinate of aligned object
+ */
+static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, double height, double reference_top, double reference_height );
+
+#include "util/geometry/geometry_v_align.inl"
 
 #endif  /* GEOMETRY_V_ALIGN_H */
 

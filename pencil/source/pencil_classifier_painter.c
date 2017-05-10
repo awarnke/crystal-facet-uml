@@ -670,8 +670,36 @@ void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier
     assert( NULL != cr );
     assert( NULL != out_width );
 
+    /* calculate actor bounds */
+    double act_left;
+    double act_right;
+    double act_top;
+    double act_bottom;
+    double act_height;
+    double act_width;
+
+    act_height = height;
+    act_width = height/3.0;
+    act_left = geometry_h_align_get_left( &h_align, act_width, x, 0.0 );
+    act_top = geometry_v_align_get_top( &v_align, act_height, y, 0.0 );
+    act_right = act_left + act_width;
+    act_bottom = act_top + act_height;
+
+    /* draw the icon */
+    /*
+    cairo_move_to ( cr, art_right, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
+    cairo_line_to ( cr, art_left, art_top );
+    cairo_line_to ( cr, art_left, art_bottom );
+    cairo_line_to ( cr, art_right, art_bottom );
+    cairo_line_to ( cr, art_right, art_top + art_corner_edge );
+    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
+    cairo_stroke (cr);
+    */
+
     /* return the result */
-    *out_width = 0.0;
+    *out_width = act_width;
 
     TRACE_END();
 }
@@ -679,12 +707,12 @@ void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier
 
 /*
 Copyright 2016-2017 Andreas Warnke
+    http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
 
-    http://www.apache.org/licenses/LICENSE-2.0
 
 Unless required by applicable law or agreed to in writing, software
 distributed under the License is distributed on an "AS IS" BASIS,

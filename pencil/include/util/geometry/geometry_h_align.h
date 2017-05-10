@@ -10,7 +10,7 @@
  */
 
 /*!
- *  \brief alignment constants of vertical alginment
+ *  \brief alignment constants of vertical alignment
  *
  */
 enum geometry_h_align_enum {
@@ -20,6 +20,19 @@ enum geometry_h_align_enum {
 };
 
 typedef enum geometry_h_align_enum geometry_h_align_t;
+
+/*!
+ *  \brief gets the left coordinate of an aligned object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param width width of object to be aligned
+ *  \param reference_left left coordinate of object to which to align to
+ *  \param reference_width width of object to which to align to
+ *  \return left coordinate of aligned object
+ */
+static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, double width, double reference_left, double reference_width );
+
+#include "util/geometry/geometry_h_align.inl"
 
 #endif  /* GEOMETRY_H_ALIGN_H */
 
