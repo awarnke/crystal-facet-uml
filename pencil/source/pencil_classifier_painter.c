@@ -206,6 +206,21 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+            {
+                double half_width = 0.5 * width;
+                double actor_height = 0.7 * height;
+                double actor_width;
+                pencil_classifier_painter_private_draw_actor_icon ( this_,
+                                                                    left + half_width,
+                                                                    top,
+                                                                    GEOMETRY_H_ALIGN_CENTER,
+                                                                    GEOMETRY_V_ALIGN_TOP,
+                                                                    actor_height,
+                                                                    cr,
+                                                                    &actor_width );
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
@@ -686,17 +701,24 @@ void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier
     act_bottom = act_top + act_height;
 
     /* draw the icon */
-    /*
-    cairo_move_to ( cr, art_right, art_top + art_corner_edge );
-    cairo_line_to ( cr, art_right - art_corner_edge, art_top + art_corner_edge );
-    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
-    cairo_line_to ( cr, art_left, art_top );
-    cairo_line_to ( cr, art_left, art_bottom );
-    cairo_line_to ( cr, art_right, art_bottom );
-    cairo_line_to ( cr, art_right, art_top + art_corner_edge );
-    cairo_line_to ( cr, art_right - art_corner_edge, art_top );
+    double radius = act_width/2.0;
+    double ctrl_offset = radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+    double head_bottom = act_top + act_height/3.0;
+    double leg_top = act_top + act_height*0.6;
+    double arm_top = act_top + act_height*0.45;
+
+    cairo_move_to ( cr, act_left + radius, head_bottom );
+    cairo_curve_to ( cr, act_left + ctrl_offset, head_bottom, act_left, head_bottom - ctrl_offset, act_left /* end point x */, act_top + radius /* end point y */ );
+    cairo_curve_to ( cr, act_left, act_top + ctrl_offset, act_left + ctrl_offset, act_top, act_left + radius /* end point x */, act_top /* end point y */ );
+    cairo_curve_to ( cr, act_right - ctrl_offset, act_top, act_right, act_top + ctrl_offset, act_right /* end point x */, act_top + radius /* end point y */ );
+    cairo_curve_to ( cr, act_right, head_bottom - ctrl_offset, act_right - ctrl_offset, head_bottom, act_left + radius /* end point x */, head_bottom /* end point y */ );
+    cairo_line_to ( cr, act_left + radius, leg_top );
+    cairo_line_to ( cr, act_left, act_bottom );
+    cairo_move_to ( cr, act_right, act_bottom );
+    cairo_line_to ( cr, act_left + radius, leg_top );
+    cairo_move_to ( cr, act_right, arm_top );
+    cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
-    */
 
     /* return the result */
     *out_width = act_width;

@@ -2,7 +2,7 @@
  *  \page cfu-architecture-page crystal facet uml architecture
  *
  *  \image html crystal_facet_uml.png
- *  \image latex crystal_facet_uml.pdf "" width=5cm
+ *  \image latex crystal_facet_uml.pdf "" width=3cm
  *
  *  \section cfu-ifactors Influence Factors
  *
