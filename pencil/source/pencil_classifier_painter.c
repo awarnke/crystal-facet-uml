@@ -202,7 +202,8 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_stroke (cr);
 
                 /* adjust the text position */
-                text1_top = border_top + gap + 5.0*gap /* some offset */;
+                double some_offset = pencil_size_get_standard_font_size( pencil_size );
+                text1_top = border_top + gap + some_offset;
             }
             break;
 
@@ -250,12 +251,58 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+            {
+                double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
+
+                cairo_rectangle ( cr, border_left, border_top, border_width/5.0, top_ornament_height );
+
+                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap + top_ornament_height;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+            {
+                double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
+
+                cairo_rectangle ( cr, border_left, border_top, border_width/3.0, top_ornament_height );
+
+                cairo_rectangle ( cr, border_left, border_top+top_ornament_height, border_width, border_height-top_ornament_height );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap + top_ornament_height;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+            {
+                double corner_edge = pencil_size_get_standard_font_size( pencil_size );
+                double border_bottom = border_top + border_height;
+                double border_right = border_left + border_width;
+
+                cairo_move_to ( cr, border_right, border_top + corner_edge );
+                cairo_line_to ( cr, border_right - corner_edge, border_top + corner_edge );
+                cairo_line_to ( cr, border_right - corner_edge, border_top );
+                cairo_line_to ( cr, border_left, border_top );
+                cairo_line_to ( cr, border_left, border_bottom );
+                cairo_line_to ( cr, border_right, border_bottom );
+                cairo_line_to ( cr, border_right, border_top + corner_edge );
+                cairo_line_to ( cr, border_right - corner_edge, border_top );
                 cairo_stroke (cr);
 
                 /* adjust the text position */
