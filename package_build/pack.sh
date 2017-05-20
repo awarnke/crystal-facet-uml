@@ -7,7 +7,7 @@ cp -r ../data crystal_facet_uml/
 cp -r ../embunit crystal_facet_uml/
 cp -r ../gui crystal_facet_uml/
 cp -r ../tslog crystal_facet_uml/
-cp ../readme.txt crystal_facet_uml/
+cp ../readme.markdown crystal_facet_uml/
 cp ../release_notes.txt crystal_facet_uml/
 cp -r ../trace crystal_facet_uml/
 cp -r ../utf8stringbuf crystal_facet_uml/
