@@ -9,7 +9,7 @@ These diagrams can be exported to various vector-image formats.
 
 It is based on glib, gdk, gtk, cairo, pango, sqlite, utf8stringbuf, embunit
 
-How to build?
+How to build
 -----------
 
 > sudo apt-get install cmake
@@ -22,17 +22,17 @@ How to build?
 >
 > make
 
-How to run?
+How to run
 -----------
 
 > ./crystal_facet_uml
 
-How to install?
+How to install
 -----------
 
 > sudo make install
 
-How to use?
+How to use
 -----------
 
 > cd doxygen_build
@@ -41,7 +41,7 @@ How to use?
 >
 > echo read first chapter of crystal_facet_uml_documentation.pdf
 
-About
+Meta-Information
 -----------
 
 > Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
@@ -51,5 +51,3 @@ About
 > License: Apache 2.0 License
 >
 > Note: This program contains code from other projects with different licenses (see license.txt).
->
-> readme-format: https://tools.ietf.org/html/rfc7763
