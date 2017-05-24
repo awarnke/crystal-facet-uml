@@ -1,4 +1,4 @@
-2017-05-24 0.16 [xxxxxxx]
+2017-05-24 0.16 [ac34c09]
   + Classifier drawings represent the classifier type
 2017-04-14 0.15 [69a0f6a]
   + Arrow, line and feather types of connectors are determined by relation type
