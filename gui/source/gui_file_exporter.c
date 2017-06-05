@@ -368,7 +368,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                  &((*this_).painter_input_data),
                                                  (*this_).bounds
                                                );
-            pencil_diagram_layout_elements ( &((*this_).painter), cr );
+            pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
 
             /* draw the current diagram */
             data_id_t void_id;

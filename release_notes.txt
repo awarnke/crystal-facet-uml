@@ -1,3 +1,5 @@
+2017-0x-xx 0.17 [xxxxxxx]
+  + ...
 2017-05-24 0.16 [ac34c09]
   + Classifier drawings represent the classifier type
 2017-04-14 0.15 [69a0f6a]

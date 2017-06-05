@@ -51,7 +51,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_sketch_marker_t *marke
         /* layout elements if necessary */
         if ( (*this_).dirty_elements_layout )
         {
-            pencil_diagram_layout_elements ( &((*this_).painter), cr );
+            pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
             (*this_).dirty_elements_layout = false;
         }
 

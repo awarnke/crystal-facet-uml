@@ -132,15 +132,15 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "UML_ASSOCIATION (class)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "UML_COMPOSITION (class)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "UML_COMPOSITION (class), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "UML_GENERALIZATION (class)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "UML_GENERALIZATION (class), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "UML_REALIZATION (class)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "UML_REALIZATION (class), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "UML_CONTAINMENT (package)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "UML_CONTAINMENT (package), no cicles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, 1, "UML_ASYNC_CALL (sequence)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
@@ -154,18 +154,18 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "UML_OBJECT_FLOW (activity)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment), no circles", -1 );
         /*
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment), no circles", -1 );
         --> t.b.d: exists in uml but how to handle this in crystal facet uml?
         */
         /*cmake .#
-         * 
+         *
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "UML_INCLUDE (use-case)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "UML_INCLUDE (use-case), no circles", -1 );
         --> t.b.d: these are just stereotypes, no main types.
         */
     }
@@ -1206,7 +1206,7 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, 
 
     if ( data_id_equals( id, &((*this_).selected_object_id) ) )
     {
-        /* relaod currently visible data */
+        /* reload currently visible data */
         data_id_trace( id );
         gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
 
@@ -1275,7 +1275,7 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t
 
     if ( data_id_equals( id, &((*this_).selected_object_id) ) )
     {
-        /* relaod currently visible data */
+        /* reload currently visible data */
         data_id_trace( id );
         gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
 
@@ -1340,7 +1340,7 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
 
     if ( data_id_equals( id, &((*this_).selected_object_id) ) )
     {
-        /* relaod currently visible data */
+        /* reload currently visible data */
         data_id_trace( id );
         gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
 
@@ -1413,7 +1413,7 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, 
 
     if ( data_id_equals( id, &((*this_).selected_object_id) ) )
     {
-        /* relaod currently visible data */
+        /* reload currently visible data */
         data_id_trace( id );
         gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
 

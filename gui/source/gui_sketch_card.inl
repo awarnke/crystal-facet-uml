@@ -113,7 +113,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
                                          &((*this_).painter_input_data),
                                          destination
                                        );
-    pencil_diagram_layout_elements ( &((*this_).painter), cr );
+    pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
     (*this_).dirty_elements_layout = false;
 
     geometry_rectangle_destroy( &destination );
