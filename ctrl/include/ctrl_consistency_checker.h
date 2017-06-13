@@ -9,7 +9,7 @@
  *  \brief Performs consistency checks in the database
  *
  *  - There shall be 1 root diagram
- *      - diagrams.parent_id == DATA_ID_VOID_ID
+ *      - diagrams.parent_id == DATA_ID_VOID_ID.
  *  - References shall be valid:
  *      - diagramelements.diagram_id,
  *      - diagramelements.classifier_id,
@@ -17,13 +17,15 @@
  *      - features.classifier_id,
  *      - relationships.from_classifier_id,
  *      - relationships.to_classifier_id.
- *  - Objects shall be linked:
- *      - classifiers shall be referenced by diagrams
+ *  - Objects shall be visible:
+ *      - classifiers shall be referenced by diagrams,
+ *      - relationships shall be visible in at least one diagram (not yet checked).
  *  - Circular link structures are forbidden in:
- *      - diagrams.parent_id  (checked but cannot be repaired due to high effort compared to probability to severity ratio).
+ *      - diagrams.parent_id  (checked but cannot be repaired due to high effort compared to probability to severity ratio),
+ *      - relationships.to_classifier_id (depending on the relationships.main_type, circles are forbidden. not yet checked).
  *  - Names shall be unique:
  *      - classifiers.name (checked by DB-constraint),
- *      - features.key (not checked, low importance).
+ *      - features.key (unique only within one classifier, not checked, low importance).
  *  - Enumerations shall be valid constants:
  *      - classifiers.main_type (not checked, repairable via GUI),
  *      - relationships.main_type (not checked, repairable via GUI),
@@ -249,6 +251,55 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
                                                                                       uint32_t *io_fix,
                                                                                       utf8stringbuf_t out_report
                                                                                     );
+
+/*!
+ *  \brief checks and repairs the database with regards to relationships are visible in at least one diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_visible_relationships ( ctrl_consistency_checker_t *this_,
+                                                                             bool modify_db,
+                                                                             uint32_t *io_err,
+                                                                             uint32_t *io_fix,
+                                                                             utf8stringbuf_t out_report
+                                                                           );
+
+/*!
+ *  \brief checks and repairs the database with regards to relationships are not circular (depending on the type)
+ *
+ *  The following relationship types shall not be circular:
+ *  DATA_RELATIONSHIP_TYPE_UML_AGGREGATION = 201,
+ *  DATA_RELATIONSHIP_TYPE_UML_COMPOSITION = 202,
+ *  DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION = 210,
+ *  DATA_RELATIONSHIP_TYPE_UML_REALIZATION = 211,
+ *  DATA_RELATIONSHIP_TYPE_UML_DEPLOY = 250,
+ *  DATA_RELATIONSHIP_TYPE_UML_MANIFEST = 251,
+ *  DATA_RELATIONSHIP_TYPE_UML_EXTEND = 260,
+ *  DATA_RELATIONSHIP_TYPE_UML_INCLUDE = 261,
+ *  DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT = 300,
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_non_circular_relationships ( ctrl_consistency_checker_t *this_,
+                                                                                  bool modify_db,
+                                                                                  uint32_t *io_err,
+                                                                                  uint32_t *io_fix,
+                                                                                  utf8stringbuf_t out_report
+                                                                                );
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 
