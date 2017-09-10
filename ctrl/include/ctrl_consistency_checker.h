@@ -255,6 +255,8 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
 /*!
  *  \brief checks and repairs the database with regards to relationships are visible in at least one diagram
  *
+ *  This function assumes that realtions are only visible if at least one diagram contains from and to classifiers.
+ *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
  *  \param io_err number of errors detected (not NULL)

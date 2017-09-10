@@ -13,6 +13,8 @@ cp -r ../trace crystal_facet_uml/
 cp -r ../utf8stringbuf crystal_facet_uml/
 mkdir crystal_facet_uml/cmake_build
 cp ../cmake_build/CMakeLists.txt crystal_facet_uml/cmake_build/
+mkdir crystal_facet_uml/cmake_build/cfu_install_files
+cp ../cmake_build/cfu_install_files/crystal_facet_uml.desktop crystal_facet_uml/cmake_build/cfu_install_files
 cp -r ../ctrl crystal_facet_uml/
 mkdir crystal_facet_uml/doxygen_build
 cp ../doxygen_build/doxygen_config crystal_facet_uml/doxygen_build/
