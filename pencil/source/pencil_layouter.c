@@ -1009,12 +1009,23 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     {
         if ( dst_right + good_dist < src_left )
         {
+            bool space_found;
+            double x_value;
+            geometry_rectangle_t search_rect;
+            geometry_rectangle_init_by_corners( &search_rect, src_left, src_y_center, dst_right, dst_y_center );
+            pencil_layouter_private_find_space_for_line ( this_,
+                                                          &search_rect,
+                                                          false /* horizontal_line */,
+                                                          good_dist,
+                                                          &space_found,
+                                                          &x_value );
+            geometry_rectangle_destroy( &search_rect );
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,
                                                  src_y_center,
                                                  dst_right,
                                                  dst_y_center,
-                                                 0.5*( src_left + dst_right )
+                                                 x_value
                                                );
             solutions_count ++;
         }
