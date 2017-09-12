@@ -373,6 +373,24 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
                                                         uint32_t *out_solutions_count
                                                       );
 
+/*!
+ *  \brief finds an empty, unused line in a rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param search_rect pointer to the rectangle within which to search
+ *  \param horizontal_line true if space for a horizontal line is searched for, false for vertical line
+ *  \param min_gap minimum distance to other objects on the diagram
+ *  \param out_success pointer to locatoin where to store if the function was successful or not
+ *  \param out_coordinate ordinate (y-coordinate) or abscissa (x-coordinate) value where space is available.
+ */
+void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
+                                                   const geometry_rectangle_t *search_rect,
+                                                   bool horizontal_line,
+                                                   double min_gap,
+                                                   bool *out_success,
+                                                   double *out_coordinate
+                                                 );
+
 #include "pencil_layouter.inl"
 
 #endif  /* PENCIL_LAYOUTER_H */

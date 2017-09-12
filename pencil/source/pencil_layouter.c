@@ -1297,6 +1297,161 @@ void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_
     TRACE_END();
 }
 
+void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
+                                                   const geometry_rectangle_t *search_rect,
+                                                   bool horizontal_line,
+                                                   double min_gap,
+                                                   bool *out_success,
+                                                   double *out_coordinate )
+{
+    TRACE_BEGIN();
+    assert ( NULL != search_rect );
+    assert ( NULL != out_success );
+    assert ( NULL != out_coordinate );
+
+    /* start two probes at the center and move these to the boundaries when discovering overlaps */
+    double upper_probe;
+    double lower_probe;
+    double center;
+    if ( horizontal_line )
+    {
+        center = geometry_rectangle_get_y_center( search_rect );
+        upper_probe = center;
+        lower_probe = center;
+    }
+    else
+    {
+        center = geometry_rectangle_get_x_center( search_rect );
+        upper_probe = center;
+        lower_probe = center;
+    }
+
+    /* iterate over all classifiers */
+    uint32_t count_classifiers;
+    count_classifiers = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
+    bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
+    for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
+    {
+        hit = false;
+        for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
+        {
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), classifier_index );
+
+            if ( geometry_rectangle_is_intersecting( search_rect, classifier_bounds ) )
+            {
+                if ( horizontal_line )
+                {
+                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < upper_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > upper_probe ) )
+                    {
+                        upper_probe = geometry_rectangle_get_top(classifier_bounds) - min_gap;
+                        hit = true;
+                    }
+                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < lower_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > lower_probe ) )
+                    {
+                        lower_probe = geometry_rectangle_get_bottom(classifier_bounds) + min_gap;
+                        hit = true;
+                    }
+                }
+                else
+                {
+                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < upper_probe )
+                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > upper_probe ) )
+                    {
+                        upper_probe = geometry_rectangle_get_left(classifier_bounds) - min_gap;
+                        hit = true;
+                    }
+                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < lower_probe )
+                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > lower_probe ) )
+                    {
+                        lower_probe = geometry_rectangle_get_right(classifier_bounds) + min_gap;
+                        hit = true;
+                    }
+                }
+            }
+        }
+    }
+
+    /* check success */
+    if ( horizontal_line )
+    {
+        if ( upper_probe > geometry_rectangle_get_bottom( search_rect ) )
+        {
+            if ( lower_probe < geometry_rectangle_get_top( search_rect ) )
+            {
+                *out_success = false;
+                *out_coordinate = center;
+            }
+            else
+            {
+                *out_success = true;
+                *out_coordinate = lower_probe;
+            }
+        }
+        else
+        {
+            if ( lower_probe < geometry_rectangle_get_top( search_rect ) )
+            {
+                *out_success = true;
+                *out_coordinate = upper_probe;
+            }
+            else
+            {
+                *out_success = true;
+                if ( center - lower_probe > upper_probe - center )
+                {
+                    *out_coordinate = upper_probe;
+                }
+                else
+                {
+                    *out_coordinate = lower_probe;
+                }
+            }
+        }
+    }
+    else
+    {
+        if ( upper_probe > geometry_rectangle_get_right( search_rect ) )
+        {
+            if ( lower_probe < geometry_rectangle_get_left( search_rect ) )
+            {
+                *out_success = false;
+                *out_coordinate = center;
+            }
+            else
+            {
+                *out_success = true;
+                *out_coordinate = lower_probe;
+            }
+        }
+        else
+        {
+            if ( lower_probe < geometry_rectangle_get_left( search_rect ) )
+            {
+                *out_success = true;
+                *out_coordinate = upper_probe;
+            }
+            else
+            {
+                *out_success = true;
+                if ( center - lower_probe > upper_probe - center )
+                {
+                    *out_coordinate = upper_probe;
+                }
+                else
+                {
+                    *out_coordinate = lower_probe;
+                }
+            }
+        }
+    }
+
+    TRACE_END();
+}
+
 data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                                                  double x,
                                                  double y,

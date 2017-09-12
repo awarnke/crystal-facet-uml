@@ -80,11 +80,15 @@ int main (int argc, char *argv[]) {
     /* module tests which involve multiple software units */
     if ( do_module_tests )
     {
+        /*
         TestRunner_runTest( data_database_reader_test_get_list() );
         TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
         TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
+        */
         TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
+        /*
         TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
+        */
     }
 
     TestRunner_end();
