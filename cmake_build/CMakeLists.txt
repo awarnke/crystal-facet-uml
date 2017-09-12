@@ -57,7 +57,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "cfu_install_files/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
 
 MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release ." )
 MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug ." )
@@ -98,7 +98,7 @@ SET(CPACK_RPM_PACKAGE_SUMMARY "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")
 SET(CPACK_RPM_PACKAGE_NAME "${PROJECT_NAME}")
 SET(CPACK_RPM_PACKAGE_VERSION "${CPACK_PACKAGE_VERSION_MAJOR}.${CPACK_PACKAGE_VERSION_MINOR}")
 SET(CPACK_RPM_PACKAGE_RELEASE 1)
-SET(CPACK_RPM_PACKAGE_LICENSE "Apache 2.0")
+SET(CPACK_RPM_PACKAGE_LICENSE "Apache-2.0")
 SET(CPACK_RPM_PACKAGE_GROUP "unknown")
 SET(CPACK_RPM_PACKAGE_VENDOR "${CPACK_PACKAGE_VENDOR}")
 SET(CPACK_RPM_PACKAGE_DESCRIPTION "${CPACK_PACKAGE_DESCRIPTION_SUMMARY}")

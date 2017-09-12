@@ -1,6 +1,6 @@
 2017-0x-xx 0.17 [xxxxxxx]
   + ...
-2017-09-11 0.16.2 [8f27a45]
+2017-09-11 0.16.2 [146b4e4]
   + bugfix: install uses less global paths for app icon
 2017-09-10 0.16.1 [ce19eb3]
   + bugfix: desktop file is included in src distribution
