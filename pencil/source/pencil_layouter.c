@@ -1003,23 +1003,26 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double good_dist = 2.0 * pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+    double gap_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+    double good_dist = 2.0 * gap_dist;
 
     /* main line is vertical */
     {
         if ( dst_right + good_dist < src_left )
         {
-            bool space_found;
             double x_value;
+
+            bool space_found;
             geometry_rectangle_t search_rect;
             geometry_rectangle_init_by_corners( &search_rect, src_left, src_y_center, dst_right, dst_y_center );
             pencil_layouter_private_find_space_for_line ( this_,
                                                           &search_rect,
                                                           false /* horizontal_line */,
-                                                          good_dist,
+                                                          gap_dist,
                                                           &space_found,
                                                           &x_value );
             geometry_rectangle_destroy( &search_rect );
+
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,
                                                  src_y_center,
@@ -1031,12 +1034,25 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
         }
         else if ( dst_left - good_dist > src_right )
         {
+            double x_value;
+
+            bool space_found;
+            geometry_rectangle_t search_rect;
+            geometry_rectangle_init_by_corners( &search_rect, src_right, src_y_center, dst_left, dst_y_center );
+            pencil_layouter_private_find_space_for_line ( this_,
+                                                          &search_rect,
+                                                          false /* horizontal_line */,
+                                                          gap_dist,
+                                                          &space_found,
+                                                          &x_value );
+            geometry_rectangle_destroy( &search_rect );
+
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_right,
                                                  src_y_center,
                                                  dst_left,
                                                  dst_y_center,
-                                                 0.5*( src_right + dst_left )
+                                                 x_value
                                                );
             solutions_count ++;
         }
@@ -1046,23 +1062,49 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     {
         if ( dst_bottom + good_dist < src_top )
         {
+            double y_value;
+
+            bool space_found;
+            geometry_rectangle_t search_rect;
+            geometry_rectangle_init_by_corners( &search_rect, src_x_center, src_top, dst_x_center, dst_bottom );
+            pencil_layouter_private_find_space_for_line ( this_,
+                                                          &search_rect,
+                                                          true /* horizontal_line */,
+                                                          gap_dist,
+                                                          &space_found,
+                                                          &y_value );
+            geometry_rectangle_destroy( &search_rect );
+
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
                                                    src_top,
                                                    dst_x_center,
                                                    dst_bottom,
-                                                   0.5*( src_top + dst_bottom )
+                                                   y_value
                                                  );
             solutions_count ++;
         }
         else if ( dst_top - good_dist > src_bottom )
         {
+            double y_value;
+
+            bool space_found;
+            geometry_rectangle_t search_rect;
+            geometry_rectangle_init_by_corners( &search_rect, src_x_center, src_bottom, dst_x_center, dst_top );
+            pencil_layouter_private_find_space_for_line ( this_,
+                                                          &search_rect,
+                                                          true /* horizontal_line */,
+                                                          gap_dist,
+                                                          &space_found,
+                                                          &y_value );
+            geometry_rectangle_destroy( &search_rect );
+
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_x_center,
                                                    src_bottom,
                                                    dst_x_center,
                                                    dst_top,
-                                                   0.5*( src_bottom + dst_top )
+                                                   y_value
                                                  );
             solutions_count ++;
         }
