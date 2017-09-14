@@ -969,7 +969,7 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
     /*
     index_of_best = 0;
     */
-    
+
     /* the best */
     *out_index_of_best = index_of_best;
 
@@ -1006,8 +1006,9 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-    double gap_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
-    double good_dist = 2.0 * gap_dist;
+    double object_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+    double good_dist = 2.0 * object_dist;
+    double gap_dist = 0.5 * object_dist;  /* half the object distance is a good gap distance */
 
     /* main line is vertical */
     {
