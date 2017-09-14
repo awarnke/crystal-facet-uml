@@ -966,7 +966,10 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
     random ++;
     index_of_best = random % solutions_count;
     */
-
+    /*
+    index_of_best = 0;
+    */
+    
     /* the best */
     *out_index_of_best = index_of_best;
 
@@ -1363,20 +1366,20 @@ void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
     assert ( NULL != out_coordinate );
 
     /* start two probes at the center and move these to the boundaries when discovering overlaps */
-    double upper_probe;
-    double lower_probe;
+    double smaller_probe;
+    double greater_probe;
     double center;
     if ( horizontal_line )
     {
         center = geometry_rectangle_get_y_center( search_rect );
-        upper_probe = center;
-        lower_probe = center;
+        smaller_probe = center;
+        greater_probe = center;
     }
     else
     {
         center = geometry_rectangle_get_x_center( search_rect );
-        upper_probe = center;
-        lower_probe = center;
+        smaller_probe = center;
+        greater_probe = center;
     }
 
     /* iterate over all classifiers */
@@ -1396,31 +1399,31 @@ void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
             {
                 if ( horizontal_line )
                 {
-                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < upper_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > upper_probe ) )
+                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > smaller_probe ) )
                     {
-                        upper_probe = geometry_rectangle_get_top(classifier_bounds) - min_gap;
+                        smaller_probe = geometry_rectangle_get_top(classifier_bounds) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < lower_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > lower_probe ) )
+                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > greater_probe ) )
                     {
-                        lower_probe = geometry_rectangle_get_bottom(classifier_bounds) + min_gap;
+                        greater_probe = geometry_rectangle_get_bottom(classifier_bounds) + min_gap;
                         hit = true;
                     }
                 }
                 else
                 {
-                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < upper_probe )
-                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > upper_probe ) )
+                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > smaller_probe ) )
                     {
-                        upper_probe = geometry_rectangle_get_left(classifier_bounds) - min_gap;
+                        smaller_probe = geometry_rectangle_get_left(classifier_bounds) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < lower_probe )
-                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > lower_probe ) )
+                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > greater_probe ) )
                     {
-                        lower_probe = geometry_rectangle_get_right(classifier_bounds) + min_gap;
+                        greater_probe = geometry_rectangle_get_right(classifier_bounds) + min_gap;
                         hit = true;
                     }
                 }
@@ -1431,9 +1434,9 @@ void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
     /* check success */
     if ( horizontal_line )
     {
-        if ( upper_probe > geometry_rectangle_get_bottom( search_rect ) )
+        if ( greater_probe > geometry_rectangle_get_bottom( search_rect ) )
         {
-            if ( lower_probe < geometry_rectangle_get_top( search_rect ) )
+            if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
             {
                 *out_success = false;
                 *out_coordinate = center;
@@ -1441,35 +1444,35 @@ void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
             else
             {
                 *out_success = true;
-                *out_coordinate = lower_probe;
+                *out_coordinate = smaller_probe;
             }
         }
         else
         {
-            if ( lower_probe < geometry_rectangle_get_top( search_rect ) )
+            if ( smaller_probe < geometry_rectangle_get_top( search_rect ) )
             {
                 *out_success = true;
-                *out_coordinate = upper_probe;
+                *out_coordinate = greater_probe;
             }
             else
             {
                 *out_success = true;
-                if ( center - lower_probe > upper_probe - center )
+                if ( greater_probe - center > center - smaller_probe )
                 {
-                    *out_coordinate = upper_probe;
+                    *out_coordinate = smaller_probe;
                 }
                 else
                 {
-                    *out_coordinate = lower_probe;
+                    *out_coordinate = greater_probe;
                 }
             }
         }
     }
     else
     {
-        if ( upper_probe > geometry_rectangle_get_right( search_rect ) )
+        if ( greater_probe > geometry_rectangle_get_right( search_rect ) )
         {
-            if ( lower_probe < geometry_rectangle_get_left( search_rect ) )
+            if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
             {
                 *out_success = false;
                 *out_coordinate = center;
@@ -1477,26 +1480,26 @@ void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
             else
             {
                 *out_success = true;
-                *out_coordinate = lower_probe;
+                *out_coordinate = smaller_probe;
             }
         }
         else
         {
-            if ( lower_probe < geometry_rectangle_get_left( search_rect ) )
+            if ( smaller_probe < geometry_rectangle_get_left( search_rect ) )
             {
                 *out_success = true;
-                *out_coordinate = upper_probe;
+                *out_coordinate = greater_probe;
             }
             else
             {
                 *out_success = true;
-                if ( center - lower_probe > upper_probe - center )
+                if ( greater_probe - center > center - smaller_probe )
                 {
-                    *out_coordinate = upper_probe;
+                    *out_coordinate = smaller_probe;
                 }
                 else
                 {
-                    *out_coordinate = lower_probe;
+                    *out_coordinate = greater_probe;
                 }
             }
         }
