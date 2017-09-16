@@ -1007,8 +1007,8 @@ void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
     double object_dist = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
-    double good_dist = 2.0 * object_dist;
-    double gap_dist = 0.5 * object_dist;  /* half the object distance is a good gap distance */
+    double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
+    double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
 
     /* main line is vertical */
     {
