@@ -13,8 +13,6 @@ cp -r ../trace crystal_facet_uml/
 cp -r ../utf8stringbuf crystal_facet_uml/
 mkdir crystal_facet_uml/cmake_build
 cp ../cmake_build/CMakeLists.txt crystal_facet_uml/cmake_build/
-mkdir crystal_facet_uml/cmake_build/cfu_install_files
-cp ../cmake_build/cfu_install_files/crystal_facet_uml.desktop crystal_facet_uml/cmake_build/cfu_install_files
 cp -r ../ctrl crystal_facet_uml/
 mkdir crystal_facet_uml/doxygen_build
 cp ../doxygen_build/doxygen_config crystal_facet_uml/doxygen_build/
@@ -25,8 +23,9 @@ cp -r ../sqlite crystal_facet_uml/
 cp -r ../universal crystal_facet_uml/
 cp -r ../user_doc crystal_facet_uml/
 cp -r ../example_diagrams crystal_facet_uml/
+cp -r ../installation_linux crystal_facet_uml/
 
-echo "building doc and binary"
+echo "building doc"
 cd crystal_facet_uml/doxygen_build
 doxygen doxygen_config
 cd doc/latex
@@ -34,6 +33,11 @@ make
 mv refman.pdf ../../crystal_facet_uml_documentation.pdf
 cd ../..
 cd ../..
+echo "building man page"
+cd crystal_facet_uml/installation_linux/man
+./make.sh
+cd ../../..
+echo "building binary"
 cd crystal_facet_uml/cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release .
 make
