@@ -5,6 +5,7 @@
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
+#include "trace.h"
 #include <stdio.h>
 
 static void set_up(void);
@@ -135,7 +136,7 @@ static void diagram_two_roots_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -143,7 +144,7 @@ static void diagram_two_roots_consistency(void)
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* two roots */
     TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
@@ -151,7 +152,7 @@ static void diagram_two_roots_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );  /* ok */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -212,7 +213,7 @@ static void diagram_missing_parent_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -220,7 +221,7 @@ static void diagram_missing_parent_consistency(void)
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 without parent */
     TEST_ASSERT_EQUAL_INT( 2, fixed_errors );
@@ -228,7 +229,7 @@ static void diagram_missing_parent_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -289,7 +290,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -297,7 +298,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );  /* cannot fix */
@@ -305,7 +306,7 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -399,7 +400,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -407,7 +408,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* fix the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
     TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
@@ -415,7 +416,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -464,7 +465,7 @@ static void repair_unreferenced_classifiers(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -472,7 +473,7 @@ static void repair_unreferenced_classifiers(void)
     /* fix the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
@@ -480,7 +481,7 @@ static void repair_unreferenced_classifiers(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -559,7 +560,7 @@ static void repair_unreferenced_classifiers_2(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -567,7 +568,7 @@ static void repair_unreferenced_classifiers_2(void)
     /* fix the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-12 is unreferenced, after deleting the relatoinshif and the feature are unreferenced. */
     TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
@@ -575,7 +576,7 @@ static void repair_unreferenced_classifiers_2(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -666,7 +667,7 @@ static void repair_invalid_feature_parent(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -674,7 +675,7 @@ static void repair_invalid_feature_parent(void)
     /* fix the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-19 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
@@ -682,7 +683,7 @@ static void repair_invalid_feature_parent(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -804,7 +805,7 @@ static void repair_invalid_relationship(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
@@ -812,7 +813,7 @@ static void repair_invalid_relationship(void)
     /* fix the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-35,36,37 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
@@ -820,7 +821,7 @@ static void repair_invalid_relationship(void)
     /* check the database */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
-    fprintf( stdout, "%s", utf8stringbuf_get_string( out_report ) );
+    TRACE_INFO_STR( "out_report", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );

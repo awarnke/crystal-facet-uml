@@ -79,7 +79,10 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     err_result |= ctrl_consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_report );
 
     /* find invisible relationships */
-    err_result |= ctrl_consistency_checker_private_ensure_visible_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
+    /*!
+     *  \todo: not yet implemented
+     *    err_result |= ctrl_consistency_checker_private_ensure_visible_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
+     */
 
     /* == find inconsistencies in meta model == */
 
@@ -90,7 +93,10 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     err_result |= ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( this_, modify_db, &error_count, &fix_count, out_report );
 
     /* find circular relationship links */
-    err_result |= ctrl_consistency_checker_private_ensure_non_circular_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
+    /*!
+     *  \todo: not yet implemented
+     *    err_result |= ctrl_consistency_checker_private_ensure_non_circular_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
+     */
 
     /* prepare results and return */
     if ( NULL != out_err )

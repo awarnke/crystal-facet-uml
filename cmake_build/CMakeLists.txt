@@ -55,13 +55,14 @@ ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
 TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
+MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release ." )
+MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug ." )
+
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "../installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
 INSTALL(FILES "../installation_linux/man/crystal_facet_uml.1.gz" DESTINATION "/usr/local/man/man1/")
-
-MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release ." )
-MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug ." )
+MESSAGE("Note: run 'cd ../installation_files/man && ./make.sh && cd ../../cmake_build' before running 'make install' or 'make package'")
 
 INCLUDE_DIRECTORIES(../embunit)
 INCLUDE_DIRECTORIES(../data/unittest)
