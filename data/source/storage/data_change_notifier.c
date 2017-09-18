@@ -119,11 +119,11 @@ data_error_t data_change_notifier_remove_listener ( data_change_notifier_t *this
 
     /* remove if found */
     if ( found_at_pos != -1 ) {
-        (*this_).listener_array[found_at_pos] = NULL;  /* possilby decreases reference count */
+        (*this_).listener_array[found_at_pos] = NULL;
         if ( found_at_pos + 1 != (*this_).num_listeners )
         {
-            (*this_).listener_array[found_at_pos] = (*this_).listener_array[(*this_).num_listeners-1];  /* possilby increases reference count */
-            (*this_).listener_array[(*this_).num_listeners-1] = NULL;  /* possilby decreases reference count */
+            (*this_).listener_array[found_at_pos] = (*this_).listener_array[(*this_).num_listeners-1];
+            (*this_).listener_array[(*this_).num_listeners-1] = NULL;
         }
         (*this_).num_listeners --;
     }

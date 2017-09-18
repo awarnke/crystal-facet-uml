@@ -78,12 +78,6 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     /* find unreferenced, invisible classifiers */
     err_result |= ctrl_consistency_checker_private_ensure_referenced_classifiers( this_, modify_db, &error_count, &fix_count, out_report );
 
-    /* find invisible relationships */
-    /*!
-     *  \todo: not yet implemented
-     *    err_result |= ctrl_consistency_checker_private_ensure_visible_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
-     */
-
     /* == find inconsistencies in meta model == */
 
     /* find nonreferencing features */
@@ -91,12 +85,6 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
 
     /* find nonreferencing relationships */
     err_result |= ctrl_consistency_checker_private_ensure_valid_relationship_classifiers ( this_, modify_db, &error_count, &fix_count, out_report );
-
-    /* find circular relationship links */
-    /*!
-     *  \todo: not yet implemented
-     *    err_result |= ctrl_consistency_checker_private_ensure_non_circular_relationships ( this_, modify_db, &error_count, &fix_count, out_report );
-     */
 
     /* prepare results and return */
     if ( NULL != out_err )
@@ -631,50 +619,6 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
         utf8stringbuf_append_str( out_report, "ERROR READING DATABASE.\n" );
         err_result |= (ctrl_error_t) data_err;
     }
-
-    TRACE_END_ERR( err_result );
-    return err_result;
-}
-
-ctrl_error_t ctrl_consistency_checker_private_ensure_visible_relationships ( ctrl_consistency_checker_t *this_,
-                                                                             bool modify_db,
-                                                                             uint32_t *io_err,
-                                                                             uint32_t *io_fix,
-                                                                             utf8stringbuf_t out_report )
-{
-    TRACE_BEGIN();
-    assert ( NULL != io_err );
-    assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
-
-    /* write report title */
-    utf8stringbuf_append_str( out_report, "STEP: Ensure that relationship are visible\n" );
-
-    utf8stringbuf_append_str( out_report, "NOT YET IMPLEMENTED.\n" );
-    err_result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
-
-    TRACE_END_ERR( err_result );
-    return err_result;
-}
-
-ctrl_error_t ctrl_consistency_checker_private_ensure_non_circular_relationships ( ctrl_consistency_checker_t *this_,
-                                                                                  bool modify_db,
-                                                                                  uint32_t *io_err,
-                                                                                  uint32_t *io_fix,
-                                                                                  utf8stringbuf_t out_report )
-{
-    TRACE_BEGIN();
-    assert ( NULL != io_err );
-    assert ( NULL != io_fix );
-    ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
-
-    /* write report title */
-    utf8stringbuf_append_str( out_report, "STEP: Ensure that relationships are not circular (depending on the type)\n" );
-
-    utf8stringbuf_append_str( out_report, "NOT YET IMPLEMENTED.\n" );
-    err_result |= CTRL_ERROR_NOT_YET_IMPLEMENTED;
 
     TRACE_END_ERR( err_result );
     return err_result;

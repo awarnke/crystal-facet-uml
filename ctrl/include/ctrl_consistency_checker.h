@@ -198,7 +198,7 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
                                                                               );
 
 /*!
- *  \brief counts the number of diagrams in the subtree below the giben root: children and further descendants (root is excluded)
+ *  \brief counts the number of diagrams in the subtree below the given root: children and further descendants (root is excluded)
  *
  *  \param this_ pointer to own object attributes
  *  \param root_diagram_id id of the root diagram of the subtree
@@ -252,10 +252,10 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
                                                                                       utf8stringbuf_t out_report
                                                                                     );
 
-/*!
+/*
  *  \brief checks and repairs the database with regards to relationships are visible in at least one diagram
  *
- *  This function assumes that realtions are only visible if at least one diagram contains from and to classifiers.
+ *  This function assumes that relations are only visible if at least one diagram contains from and to classifiers.
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
@@ -266,14 +266,17 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
+/*
 ctrl_error_t ctrl_consistency_checker_private_ensure_visible_relationships ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
                                                                              utf8stringbuf_t out_report
                                                                            );
+Is this required? Source and destination classifiers exist and are visible. This should be enough.
+*/
 
-/*!
+/*
  *  \brief checks and repairs the database with regards to relationships are not circular (depending on the type)
  *
  *  The following relationship types shall not be circular:
@@ -296,12 +299,15 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_visible_relationships ( ctr
  *          CTRL_ERROR_NO_DB if database not open/loaded,
  *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
  */
+/*
 ctrl_error_t ctrl_consistency_checker_private_ensure_non_circular_relationships ( ctrl_consistency_checker_t *this_,
                                                                                   bool modify_db,
                                                                                   uint32_t *io_err,
                                                                                   uint32_t *io_fix,
                                                                                   utf8stringbuf_t out_report
                                                                                 );
+Is this required? Maybe the model shows different views on different abstraction levels and circles are therefore valid.
+*/
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_H */
 
