@@ -78,6 +78,8 @@ struct gui_main_window_struct {
     GtkWidget *tool_about_icon;
     GtkToolItem *tool_about;
 
+    GtkAccelGroup *keyboard_shortcut_group;
+
     GtkWidget *name_entry;
     GtkWidget *description_text_view;
     GtkWidget *type_combo_box;

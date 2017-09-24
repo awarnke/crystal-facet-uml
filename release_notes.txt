@@ -1,5 +1,6 @@
 2017-0x-xx 0.17 [xxxxxxx]
-  + ...
+  + Key control is possible: CTRL+C,V,X,Y,Z
+  + Layout of relationships improved
 2017-09-11 0.16.2 [146b4e4]
   + bugfix: install uses less global paths for app icon
 2017-09-10 0.16.1 [ce19eb3]

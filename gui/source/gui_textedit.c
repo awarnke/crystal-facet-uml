@@ -32,7 +32,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         GtkTreeIter iter;
         (*this_).diagram_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "LIST", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "LIST (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, 1, "BLOCK_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -40,7 +40,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM, 1, "SYSML_INTERNAL_BLOCK_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, 1, "SYSML_PARAMETRIC_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, 1, "SYSML_PARAMETRIC_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, 1, "SYSML_REQUIREMENTS_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -50,13 +50,13 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "UML_STATE_MACHINE_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "UML_SEQUENCE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "UML_SEQUENCE_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "UML_COMMUNICATION_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "UML_INTERACTION_OVERVIEW_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "UML_INTERACTION_OVERVIEW_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "UML_TIMING_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "UML_TIMING_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "UML_DEPLOYMENT_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -68,7 +68,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "UML_CLASS_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "UML_PROFILE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "UML_PROFILE_DIAGRAM (not yet implemented)", -1 );
     }
 
     {
@@ -132,15 +132,15 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "UML_ASSOCIATION (class)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class), no circles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class, no circles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "UML_COMPOSITION (class), no circles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "UML_COMPOSITION (class, no circles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "UML_GENERALIZATION (class), no circles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "UML_GENERALIZATION (class, no circles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "UML_REALIZATION (class), no circles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "UML_REALIZATION (class, no circles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "UML_CONTAINMENT (package), no cicles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "UML_CONTAINMENT (package, no cicles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, 1, "UML_ASYNC_CALL (sequence)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
@@ -154,7 +154,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "UML_OBJECT_FLOW (activity)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment), no circles", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment, no circles)", -1 );
         /*
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment), no circles", -1 );
