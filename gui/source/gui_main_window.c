@@ -100,7 +100,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
     (*this_).edit_cut = gtk_tool_button_new( (*this_).edit_cut_icon, "Cut" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_cut),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -110,7 +110,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
     (*this_).edit_copy = gtk_tool_button_new( (*this_).edit_copy_icon, "Copy" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_copy),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -120,7 +120,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
     (*this_).edit_paste = gtk_tool_button_new( (*this_).edit_paste_icon, "Paste" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_paste),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -130,7 +130,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
     (*this_).edit_delete = gtk_tool_button_new( (*this_).edit_delete_icon, "Delete" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_delete),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -152,7 +152,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_undo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_undo( res ));
     (*this_).edit_undo = gtk_tool_button_new( (*this_).edit_undo_icon, "Undo" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_undo), "Undo (Ctrl-Z)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_undo),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -162,7 +162,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
     (*this_).edit_redo = gtk_tool_button_new( (*this_).edit_redo_icon, "Redo" );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_redo), "Redo (Ctrl-Y)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_redo),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
@@ -233,7 +233,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).edit_commit_button), NULL );
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit" );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_commit_button), "Commit (Ctrl-S)" );
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_commit_button),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,

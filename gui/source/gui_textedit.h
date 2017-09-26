@@ -25,7 +25,7 @@ struct gui_textedit_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
-    
+
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
     data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
     data_classifier_t private_classifier_cache;  /*!< own instance of a classifier cache */
@@ -141,6 +141,33 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
  *  \brief callback that informs that the data of an object changed
  */
 void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief commits changes to the objects name.
+ *
+ *  If the name is not modified, nothing happens.
+ *  \param this_ pointer to own object attributes
+ *  \param name_widget pointer to the gtk entry widget
+ */
+void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry *name_widget );
+
+/*!
+ *  \brief commits changes to the objects stereotype.
+ *
+ *  If the stereotype is not modified, nothing happens.
+ *  \param this_ pointer to own object attributes
+ *  \param stereotype_widget pointer to the gtk entry widget
+ */
+void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_, GtkEntry *stereotype_widget );
+
+/*!
+ *  \brief commits changes to the objects description.
+ *
+ *  If the description is not modified, nothing happens.
+ *  \param this_ pointer to own object attributes
+ *  \param description_widget pointer to the gtk text view widget
+ */
+void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, GtkTextView *description_widget );
 
 #include "gui_textedit.inl"
 

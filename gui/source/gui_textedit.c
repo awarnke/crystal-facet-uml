@@ -202,14 +202,12 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry *name_widget )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
 
     const char* text;
-    text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
+    text = gtk_entry_get_text( name_widget );
 
     TRACE_INFO_STR( "text:", text );
 
@@ -235,17 +233,17 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
                 if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                          GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                          text
-                                                                       );
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                         text
+                    );
                 }
                 else if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
                 {
                     gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                              GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                                           );
+                    );
                 }
                 else if ( CTRL_ERROR_NONE != ctrl_err )
                 {
@@ -343,18 +341,27 @@ gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *ev
         break;
     }
 
+    TRACE_END();
+}
+
+gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    gui_textedit_private_name_commit_changes( this_,  GTK_ENTRY ( widget ) );
+
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 
-gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, GtkTextView *description_widget )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
     GtkTextBuffer *buffer;
-    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
+    buffer = gtk_text_view_get_buffer ( description_widget );
 
     GtkTextIter start;
     GtkTextIter end;
@@ -373,7 +380,7 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
         {
             TSLOG_WARNING( "no object selected where description can be updated." );
         }
-            break;
+        break;
 
         case DATA_TABLE_CLASSIFIER:
         {
@@ -488,19 +495,28 @@ gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEv
         break;
     }
 
-    TRACE_TIMESTAMP();
     TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
 }
 
-gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
 
+    gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_, GtkEntry *stereotype_widget )
+{
+    TRACE_BEGIN();
+
     const char* text;
-    text = gtk_entry_get_text( GTK_ENTRY ( widget ) );
+    text = gtk_entry_get_text( stereotype_widget );
 
     TRACE_INFO_STR( "text:", text );
 
@@ -587,6 +603,17 @@ gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEve
         }
         break;
     }
+
+    TRACE_END();
+}
+
+gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+
+    gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( widget ) );
 
     TRACE_TIMESTAMP();
     TRACE_END();
