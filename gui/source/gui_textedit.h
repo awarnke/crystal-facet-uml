@@ -36,6 +36,10 @@ struct gui_textedit_struct {
     GtkListStore *classifier_types;
     GtkListStore *relationship_types;
     GtkListStore *feature_types;
+
+    GtkEntry *name_entry;  /*!< pointer to external text entry widget */
+    GtkTextView *description_text_view;  /*!< pointer to external text entry widget */
+    GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
 };
 
 typedef struct gui_textedit_struct gui_textedit_t;
@@ -44,11 +48,17 @@ typedef struct gui_textedit_struct gui_textedit_t;
  *  \brief initializes the gui_textedit_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param name_entry  pointer to text entry widget
+ *  \param description_text_view pointer to text entry widget
+ *  \param stereotype_entry pointer to external text entry widget
  *  \param controller pointer to the controller object to use
  *  \param db_reader pointer to the database reader object to use
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_textedit_init ( gui_textedit_t *this_,
+                         GtkEntry *name_entry,
+                         GtkTextView *description_text_view,
+                         GtkEntry *stereotype_entry,
                          ctrl_controller_t *controller,
                          data_database_reader_t *db_reader,
                          gui_simple_message_to_user_t *message_to_user

@@ -219,13 +219,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init text edit widgets */
 
-    gui_textedit_init( &((*this_).text_editor), controller, db_reader, &((*this_).message_to_user) );
-    GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
-    (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
-    GtkCellRenderer *column;
-    column = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
     (*this_).name_entry = gtk_entry_new();
     (*this_).description_text_view = gtk_text_view_new ();
     (*this_).stereotype_entry = gtk_entry_new();
@@ -240,6 +233,20 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  GDK_KEY_s,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE );
+    gui_textedit_init( &((*this_).text_editor),
+                       GTK_ENTRY( (*this_).name_entry ),
+                       GTK_TEXT_VIEW( (*this_).description_text_view ),
+                       GTK_ENTRY( (*this_).stereotype_entry ),
+                       controller,
+                       db_reader,
+                       &((*this_).message_to_user)
+                     );
+    GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
+    (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
+    GtkCellRenderer *column;
+    column = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
 
     /* init the file chooser */
 

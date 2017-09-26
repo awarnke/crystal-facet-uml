@@ -10,15 +10,25 @@
 #include <stdbool.h>
 
 void gui_textedit_init ( gui_textedit_t *this_,
+                         GtkEntry *name_entry,
+                         GtkTextView *description_text_view,
+                         GtkEntry *stereotype_entry,
                          ctrl_controller_t *controller,
                          data_database_reader_t *db_reader,
                          gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
+    assert( NULL != name_entry );
+    assert( NULL != description_text_view );
+    assert( NULL != stereotype_entry );
+
     assert( NULL != controller );
     assert( NULL != db_reader );
     assert( NULL != message_to_user );
 
+    (*this_).name_entry = name_entry;
+    (*this_).description_text_view = description_text_view;
+    (*this_).stereotype_entry = stereotype_entry;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     (*this_).message_to_user = message_to_user;
@@ -198,6 +208,10 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
     (*this_).message_to_user = NULL;
+
+    (*this_).name_entry = NULL;
+    (*this_).description_text_view = NULL;
+    (*this_).stereotype_entry = NULL;
 
     TRACE_END();
 }
@@ -738,6 +752,10 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
     this_ = (gui_textedit_t*) user_data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    gui_textedit_private_name_commit_changes ( this_, (*this_).name_entry );
+    gui_textedit_private_stereotype_commit_changes ( this_, (*this_).stereotype_entry );
+    gui_textedit_private_description_commit_changes ( this_, (*this_).description_text_view );
 
     TRACE_TIMESTAMP();
     TRACE_END();
