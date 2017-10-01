@@ -15,7 +15,7 @@ Automotive
 Machine construction
 
 
-Military
+Defense
 
 
 Backend Server

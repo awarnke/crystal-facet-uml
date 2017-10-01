@@ -1,9 +1,6 @@
 Measures for Maintainability
 
 
-Modularity
-
-
 Reusability
 
 
@@ -14,3 +11,6 @@ Modifyability
 
 
 Testability
+
+
+Modularity

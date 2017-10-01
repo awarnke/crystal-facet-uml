@@ -2,6 +2,10 @@ Overview
 | This diagram shows the most important features of crystal facet uml
 
 
+SW Architect
+  creates --> Define consistent UML diagrams
+
+
 Define consistent UML diagrams
 | The main goal of crystal facet uml is to create a set of consistent uml diagrams.
   Consistent relations between objects

@@ -259,7 +259,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
     );
-    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1_sqlite3" );
+    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
     gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
 
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",

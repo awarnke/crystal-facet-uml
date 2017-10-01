@@ -13,6 +13,19 @@ Example Guidelines
   implements --> Coding Guidelines
 
 
+Static Code Analysis
+  enhances --> Maturity
+
+
+Maturity
+
+
+Code Generation
+| An understandable model and a small code generator
+| allow to generate mature software.
+  supports --> Maturity
+
+
 Coding Guidelines
   static thread model
   | Execution threads shall not be started/stopped dynamically
@@ -41,9 +54,6 @@ Coding Guidelines
   improves --> Maturity
 
 
-Maturity
-
-
 Availability
 
 
@@ -55,11 +65,11 @@ Redundancy
   enhances --> Availability
 
 
-Fault Tolerance
-
-
 Fault injection Tests
   improves --> Fault Tolerance
+
+
+Fault Tolerance
 
 
 Recoverability

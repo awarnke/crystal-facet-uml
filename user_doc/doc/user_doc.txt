@@ -163,6 +163,8 @@
  *
  *  https://github.com/awarnke/crystal_facet_uml
  *
+ *  https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml
+ *
  *  \author (c) 2016-2017 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 

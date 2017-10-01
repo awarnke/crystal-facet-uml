@@ -2,149 +2,149 @@ Quality Characteristics
 | according to ISO 25010
 
 
-Completeness
-   --> Functional Suitability
-
-
-Maturity
-   --> Reliability
-
-
 Functional Suitability
-
-
-Correctness
-   --> Functional Suitability
-
-
-Availability
-   --> Reliability
+   --> Completeness
+   --> Correctness
+   --> Appropriateness
 
 
 Reliability
-
-
-Appropriateness
-   --> Functional Suitability
-
-
-Fault Tolerance
-   --> Reliability
-
-
-Confidentiality
-   --> Security
-
-
-Time Behaviour
-   --> Performance Efficiency
-
-
-Recoverability
-   --> Reliability
-
-
-Integrity
-   --> Security
-
-
-Resource Utilization
-   --> Performance Efficiency
-
-
-Performance Efficiency
-
-
-Non-Repudiation
-   --> Security
-
-
-Capacity
-   --> Performance Efficiency
-
-
-Authenticity
-   --> Security
-
-
-Modularity
-   --> Maintainability
+   --> Maturity
+   --> Availability
+   --> Fault Tolerance
+   --> Recoverability
 
 
 Security
+   --> Authenticity
+   --> Non-Repudiation
+   --> Accountability
+   --> Integrity
+   --> Confidentiality
 
 
-Recognizability
-   --> Usability
+Completeness
 
 
-Accountability
-   --> Security
+Maturity
 
 
-Reusability
-   --> Maintainability
+Non-Repudiation
 
 
-Compatibility
+Correctness
 
 
-Learnability
-   --> Usability
+Availability
 
 
-Analyzability
-   --> Maintainability
+Confidentiality
 
 
-Co-existence
-   --> Compatibility
+Appropriateness
 
 
-Operability
-   --> Usability
+Fault Tolerance
 
 
-Maintainability
+Authenticity
 
 
-Interoperability
-   --> Compatibility
+Recoverability
 
 
-User Error Protection
-   --> Usability
+Integrity
 
 
-Adaptability
-   --> Portability
-
-
-Modifyability
-   --> Maintainability
+Performance Efficiency
+   --> Time Behaviour
+   --> Resource Utilization
+   --> Capacity
 
 
 Usability
+   --> Recognizability
+   --> Learnability
+   --> Operability
+   --> User Error Protection
+   --> Aesthetics
+   --> Accessibility
+
+
+Accountability
+
+
+Capacity
 
 
 Aesthetics
-   --> Usability
 
 
-Installability
-   --> Portability
+Time Behaviour
 
 
-Testability
-   --> Maintainability
+Recognizability
+
+
+Maintainability
+   --> Testability
+   --> Modifyability
+   --> Analyzability
+   --> Reusability
+   --> Modularity
 
 
 Portability
+   --> Adaptability
+   --> Installability
+   --> Replaceability
+
+
+Resource Utilization
+
+
+Learnability
+
+
+Reusability
+
+
+Adaptability
 
 
 Accessibility
-   --> Usability
+
+
+Analyzability
 
 
 Replaceability
-   --> Portability
+
+
+Compatibility
+   --> Co-existence
+   --> Interoperability
+
+
+User Error Protection
+
+
+Modifyability
+
+
+Co-existence
+
+
+Operability
+
+
+Testability
+
+
+Interoperability
+
+
+Modularity
+
+
+Installability
