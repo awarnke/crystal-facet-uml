@@ -16,7 +16,7 @@ BuildRequires:  cmake
 BuildRequires:  gtk3
 BuildRequires:  gtk3-devel
 BuildRequires:  unzip
-BuildRequires:  desktop-file-utils
+#BuildRequires:  desktop-file-utils
 #BuildRequires:  xdg-utils
 #PreReq:
 #Provides:       crystal_facet_uml
@@ -35,7 +35,9 @@ make %{?_smp_mflags}
 %install
 mkdir -p %{buildroot}/usr/bin 
 cp crystal_facet_uml %{buildroot}/usr/bin
-desktop-file-install cfu_install_files/crystal_facet_uml.desktop
+mkdir -p %{buildroot}/usr/share/applications
+cp ../installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/applications
+#desktop-file-install ../installation_linux/config/crystal_facet_uml.desktop
 #cp cfu_install_files/crystal_facet_uml.desktop .
 #cp ../gui/source/resources/crystal_facet_uml_80x80.png crystal_facet_uml.png
 #cp ../gui/source/resources/crystal_facet_uml.png crystal_facet_uml.png
@@ -45,9 +47,11 @@ desktop-file-install cfu_install_files/crystal_facet_uml.desktop
 #xdg-icon-resource install --novendor --size 80 crystal_facet_uml.png crystal_facet_uml
 mkdir -p %{buildroot}/usr/share/pixmaps
 cp ../gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
+mkdir -p %{buildroot}/usr/share/man/man1
+cp ../installation_linux/man/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
 
 %check
-./unittest_crystal_facet_uml -u
+./unittest_crystal_facet_uml -a
 
 %files
 %defattr(-,root,root)
@@ -55,6 +59,7 @@ cp ../gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pi
 /usr/bin/crystal_facet_uml
 /usr/share/pixmaps/crystal_facet_uml.png
 /usr/share/applications/crystal_facet_uml.desktop
+/usr/share/man/man1/crystal_facet_uml.1.gz
 
 %changelog
 

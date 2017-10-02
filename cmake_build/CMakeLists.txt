@@ -61,7 +61,7 @@ MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=D
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "../installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/../gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
-INSTALL(FILES "../installation_linux/man/crystal_facet_uml.1.gz" DESTINATION "/usr/local/man/man1/")
+INSTALL(FILES "../installation_linux/man/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
 MESSAGE("Note: run 'cd ../installation_files/man && ./make.sh && cd ../../cmake_build' before running 'make install' or 'make package'")
 
 INCLUDE_DIRECTORIES(../embunit)

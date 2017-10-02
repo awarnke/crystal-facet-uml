@@ -1,5 +1,6 @@
 #!/bin/sh
 echo "copying files to be packed"
+rm crystal_facet_uml.zip
 rm -fr crystal_facet_uml
 mkdir crystal_facet_uml
 cp -r ../architecture crystal_facet_uml/
