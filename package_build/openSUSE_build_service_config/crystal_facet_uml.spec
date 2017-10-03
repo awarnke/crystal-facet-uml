@@ -33,7 +33,7 @@ cmake -DCMAKE_BUILD_TYPE=Release .
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}/usr/bin 
+mkdir -p %{buildroot}/usr/bin
 cp crystal_facet_uml %{buildroot}/usr/bin
 mkdir -p %{buildroot}/usr/share/applications
 cp ../installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/applications
@@ -45,6 +45,7 @@ cp ../installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share
 #xdg-desktop-icon install --novendor crystal_facet_uml.desktop
 #xdg-desktop-icon install --novendor crystal_facet_uml.png
 #xdg-icon-resource install --novendor --size 80 crystal_facet_uml.png crystal_facet_uml
+# hmm - cp seems to be more portable than all these scripts - only drawback are the absolute pathnames
 mkdir -p %{buildroot}/usr/share/pixmaps
 cp ../gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
 mkdir -p %{buildroot}/usr/share/man/man1

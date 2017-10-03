@@ -1,38 +1,19 @@
 #!/bin/sh
-echo "copying files to be packed"
+echo "clean up previous build"
 rm crystal_facet_uml.zip
 rm -fr crystal_facet_uml
-mkdir crystal_facet_uml
-cp -r ../architecture crystal_facet_uml/
-cp -r ../data crystal_facet_uml/
-cp -r ../embunit crystal_facet_uml/
-cp -r ../gui crystal_facet_uml/
-cp -r ../tslog crystal_facet_uml/
-cp ../readme.markdown crystal_facet_uml/
-cp ../release_notes.txt crystal_facet_uml/
-cp -r ../trace crystal_facet_uml/
-cp -r ../utf8stringbuf crystal_facet_uml/
-mkdir crystal_facet_uml/cmake_build
-cp ../cmake_build/CMakeLists.txt crystal_facet_uml/cmake_build/
-cp -r ../ctrl crystal_facet_uml/
-mkdir crystal_facet_uml/doxygen_build
-cp ../doxygen_build/doxygen_config crystal_facet_uml/doxygen_build/
-cp ../license.txt crystal_facet_uml/
-cp -r ../main crystal_facet_uml/
-cp -r ../pencil crystal_facet_uml/
-cp -r ../sqlite crystal_facet_uml/
-cp -r ../universal crystal_facet_uml/
-cp -r ../user_doc crystal_facet_uml/
-cp -r ../example_diagrams crystal_facet_uml/
-cp -r ../installation_linux crystal_facet_uml/
+
+echo "pack archive"
+cd ..
+git archive --format zip --prefix=crystal_facet_uml/ --output package_build/crystal_facet_uml-x.y.z-src.zip master
+cd package_build
+
+echo "test archive"
+unzip crystal_facet_uml-x.y.z-src.zip
 
 echo "building doc"
 cd crystal_facet_uml/doxygen_build
-doxygen doxygen_config
-cd doc/latex
-make
-mv refman.pdf ../../crystal_facet_uml_documentation.pdf
-cd ../..
+./make.sh
 cd ../..
 echo "building man page"
 cd crystal_facet_uml/installation_linux/man
@@ -42,13 +23,14 @@ echo "building binary"
 cd crystal_facet_uml/cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release .
 make
-rm -fr CMakeFiles
-rm -f CMakeCache.txt
-rm -f cmake_install.cmake
+cd ../..
+echo "run unit tests"
+cd crystal_facet_uml/cmake_build
+./unittest_crystal_facet_uml -a
 cd ../..
 
-echo "zipping src package"
-zip -r crystal_facet_uml.zip crystal_facet_uml/
+echo "clean up test"
+sleep 10
 rm -fr crystal_facet_uml
 
 echo "binary packages are created by sudo make package"
