@@ -10,6 +10,7 @@
 
 #include "gui_simple_message_to_user.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
@@ -24,6 +25,7 @@
 struct gui_textedit_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
+    data_database_t *database;  /*!< pointer to external data_database_t */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
@@ -53,6 +55,7 @@ typedef struct gui_textedit_struct gui_textedit_t;
  *  \param stereotype_entry pointer to external text entry widget
  *  \param controller pointer to the controller object to use
  *  \param db_reader pointer to the database reader object to use
+ *  \param database pointer to the database object to use, used to flush the database if requested
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_textedit_init ( gui_textedit_t *this_,
@@ -61,6 +64,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
                          GtkEntry *stereotype_entry,
                          ctrl_controller_t *controller,
                          data_database_reader_t *db_reader,
+                         data_database_t *database,
                          gui_simple_message_to_user_t *message_to_user
                        );
 

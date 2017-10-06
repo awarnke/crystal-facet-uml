@@ -239,6 +239,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                        GTK_ENTRY( (*this_).stereotype_entry ),
                        controller,
                        db_reader,
+                       database,
                        &((*this_).message_to_user)
                      );
     GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );

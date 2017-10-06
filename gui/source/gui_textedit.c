@@ -15,6 +15,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
                          GtkEntry *stereotype_entry,
                          ctrl_controller_t *controller,
                          data_database_reader_t *db_reader,
+                         data_database_t *database,
                          gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
@@ -31,6 +32,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
     (*this_).stereotype_entry = stereotype_entry;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).database = database;
     (*this_).message_to_user = message_to_user;
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
     data_classifier_init_empty( &((*this_).private_classifier_cache) );
@@ -756,6 +758,19 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
     gui_textedit_private_name_commit_changes ( this_, (*this_).name_entry );
     gui_textedit_private_stereotype_commit_changes ( this_, (*this_).stereotype_entry );
     gui_textedit_private_description_commit_changes ( this_, (*this_).description_text_view );
+
+    data_error_t d_err;
+    d_err = DATA_ERROR_NONE;
+    d_err |= data_database_trace_stats( (*this_).database );
+    d_err |= data_database_flush_caches( (*this_).database );
+    d_err |= data_database_trace_stats( (*this_).database );
+    if ( DATA_ERROR_NONE != d_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
+        );
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();

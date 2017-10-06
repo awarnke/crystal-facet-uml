@@ -81,6 +81,22 @@ void data_database_destroy ( data_database_t *this_ );
 static inline sqlite3 *data_database_get_database_ptr ( data_database_t *this_ );
 
 /*!
+ *  \brief flushes caches of the current database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_AT_DB in case of an error
+ */
+data_error_t data_database_flush_caches ( data_database_t *this_ );
+
+/*!
+ *  \brief prints statistics of the current database file to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return DATA_ERROR_NONE in case of success
+ */
+data_error_t data_database_trace_stats ( data_database_t *this_ );
+
+/*!
  *  \brief returns the database filename
  *
  *  \param this_ pointer to own object attributes

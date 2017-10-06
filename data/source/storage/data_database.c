@@ -460,6 +460,49 @@ void data_database_destroy ( data_database_t *this_ )
     TRACE_END();
 }
 
+data_error_t data_database_flush_caches ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+    data_error_t result = DATA_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        sqlite_err = sqlite3_db_cacheflush( (*this_).db );
+        if ( SQLITE_OK != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
+            result = DATA_ERROR_AT_DB;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_trace_stats ( data_database_t *this_ )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    if ( (*this_).is_open )
+    {
+        sqlite3_int64 use;
+        sqlite3_int64 max;
+
+        use = sqlite3_memory_used();
+        max = sqlite3_memory_highwater(false);
+        TRACE_INFO_INT_INT( "sqlite3_memory_used/highwater():", use, max );
+    }
+    else
+    {
+        TRACE_INFO( "database not open." );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t data_database_add_db_listener( data_database_t *this_, data_database_listener_t *listener )
 {
     TRACE_BEGIN();
