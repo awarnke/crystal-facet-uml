@@ -110,8 +110,10 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             {
                 utf8stringbuf_append_str( (*this_).content,
                                           "This is " META_INFO_PROGRAM_NAME_STR " version " META_INFO_VERSION_STR "\n"
-                                          "License: Apache 2.0\n"
-                                          "Author+Copyright: 2016-2017 Andreas Warnke" );
+                                          "Copyright: " META_INFO_COPYRIGHT_STR "\n"
+                                          "License: " META_INFO_LICENSE_STR "\n"
+                                          "Contains " META_INFO_LIB_LICENSES_STR
+                );
             }
             break;
 
