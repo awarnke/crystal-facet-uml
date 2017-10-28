@@ -1,5 +1,5 @@
-2017-xx-xx 0.18.0 [xxxxxxx]
-  + ???
+2017-10-28 0.17.1 [xxxxxxx]
+  + fix for include paths on openSuSE Tumbleweed i586
 2017-10-02 0.17.0 [fba4323]
   + Key control is possible: CTRL+C,V,X,Y,Z
   + Layout of relationships improved
