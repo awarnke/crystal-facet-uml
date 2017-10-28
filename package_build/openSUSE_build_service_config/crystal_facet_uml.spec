@@ -8,7 +8,7 @@ Release:        0
 License:        Apache-2.0
 Summary:        Draws UML Diagrams
 Url:            https://github.com/awarnke/crystal_facet_uml
-Group:          Development/Tools
+Group:          Development/Tools/Doc Generators
 Source:         crystal_facet_uml-%{version}-src.zip
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
