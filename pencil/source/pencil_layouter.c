@@ -116,6 +116,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     /* store the classifier bounds into input_data_layouter_t */
     pencil_layouter_private_estimate_classifier_bounds( this_, font_layout );
 
+    /* embrace children */
+    pencil_layouter_private_embrace_children( this_ );
+
     /* move the classifiers to avoid overlaps */
     pencil_layouter_private_move_classifiers_to_avoid_overlaps( this_ );
 
@@ -278,6 +281,70 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
     }
 
     geometry_rectangle_reinit( out_features_bounds, left, top, width, height );
+    TRACE_END();
+}
+
+void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* search containment relations */
+    for ( uint32_t rel_idx = 0; rel_idx < pencil_input_data_get_relationship_count ( (*this_).input_data ); rel_idx ++ )
+    {
+        data_relationship_t *the_relationship;
+        the_relationship = pencil_input_data_get_relationship_ptr( (*this_).input_data, rel_idx );
+        if ( data_relationship_is_valid( the_relationship ) )
+        {
+            data_relationship_type_t the_type;
+            the_type = data_relationship_get_main_type ( the_relationship );
+
+            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+            {
+                int64_t from_id;
+                int64_t to_id;
+                int32_t from_index;
+                int32_t to_index;
+                from_id = data_relationship_get_from_classifier_id ( the_relationship );
+                to_id = data_relationship_get_to_classifier_id ( the_relationship );
+                from_index = pencil_input_data_get_classifier_index ( (*this_).input_data, from_id );
+                to_index = pencil_input_data_get_classifier_index ( (*this_).input_data, to_id );
+                if (( from_id != to_id )&&( from_index != -1 )&&( to_index != -1 ))
+                {
+                    geometry_rectangle_t *parent_bounds;
+                    parent_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), from_index );
+                    geometry_rectangle_t *parent_space;
+                    parent_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), from_index );
+                    geometry_rectangle_t *child_bounds;
+                    child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), to_index );
+                    geometry_rectangle_t *child_space;
+                    child_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), to_index );
+
+                    /* for test: enlarge the parent, shring the child */
+                    TRACE_INFO_INT_INT( "Parent/Child classifiers found in the diagram, ids:", from_id, to_id );
+                    geometry_rectangle_expand( parent_bounds, 6, 6 );
+                    geometry_rectangle_shift( parent_bounds, -3, -3 );
+                    geometry_rectangle_expand( parent_space, 6, 6 );
+                    geometry_rectangle_shift( parent_space, -3, -3 );
+                    geometry_rectangle_expand( child_bounds, -6, -6 );
+                    geometry_rectangle_shift( child_bounds, 3, 3 );
+                    geometry_rectangle_expand( child_space, -6, -6 );
+                    geometry_rectangle_shift( child_space, 3, 3 );
+                }
+                else
+                {
+                    if ( from_id == to_id )
+                    {
+                        TRACE_INFO_INT( "Classifier contains itself, id:", from_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT_INT( "Classifier(s) of relationship is not in the diagram, ids:", from_id, to_id );
+                    }
+                }
+            }
+        }
+    }
+
     TRACE_END();
 }
 

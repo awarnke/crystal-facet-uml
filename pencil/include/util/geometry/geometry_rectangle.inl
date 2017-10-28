@@ -209,6 +209,21 @@ static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, doubl
     (*this_).top += delta_y;
 }
 
+static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, double delta_width, double delta_height )
+{
+    (*this_).width += delta_width;
+    if ( (*this_).width < 0.0 )
+    {
+        (*this_).width = 0.0;
+    }
+    
+    (*this_).height += delta_height;
+    if ( (*this_).height < 0.0 )
+    {
+        (*this_).height = 0.0;
+    }
+}
+
 static inline void geometry_rectangle_trace ( const geometry_rectangle_t *this_ )
 {
     TRACE_INFO( "geometry_rectangle_t" );

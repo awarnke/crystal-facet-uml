@@ -212,6 +212,13 @@ void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this
                                                        );
 
 /*!
+ *  \brief resize classifiers so that they embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ );
+
+/*!
  *  \brief move classifiers to avoid overlaps
  *
  *  \param this_ pointer to own object attributes

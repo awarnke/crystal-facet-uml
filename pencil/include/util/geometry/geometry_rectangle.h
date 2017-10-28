@@ -206,6 +206,17 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
 static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, double delta_x, double delta_y );
 
 /*!
+ *  \brief expands or shrinks the geometry_rectangle_t
+ *
+ *  The top left corner remains fix.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param delta_width value by which to increase the width. In case of a negative value, the rectangle shrinks (but not below 0).
+ *  \param delta_height value by which to increase the height. In case of a negative value, the rectangle shrinks (but not below 0).
+ */
+static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, double delta_width, double delta_height );
+
+/*!
  *  \brief prints the geometry_rectangle_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
