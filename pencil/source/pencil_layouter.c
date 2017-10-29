@@ -116,7 +116,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     /* store the classifier bounds into input_data_layouter_t */
     pencil_layouter_private_estimate_classifier_bounds( this_, font_layout );
 
-    /* embrace children */
+    /* parent classifiers embrace their children */
     pencil_layouter_private_embrace_children( this_ );
 
     /* move the classifiers to avoid overlaps */
@@ -316,19 +316,74 @@ void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ )
                     parent_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), from_index );
                     geometry_rectangle_t *child_bounds;
                     child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), to_index );
-                    geometry_rectangle_t *child_space;
-                    child_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), to_index );
 
-                    /* for test: enlarge the parent, shring the child */
-                    TRACE_INFO_INT_INT( "Parent/Child classifiers found in the diagram, ids:", from_id, to_id );
+                    /* for test: enlarge the parent, shrink the child */
+                    TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
+                    /*
                     geometry_rectangle_expand( parent_bounds, 6, 6 );
                     geometry_rectangle_shift( parent_bounds, -3, -3 );
                     geometry_rectangle_expand( parent_space, 6, 6 );
                     geometry_rectangle_shift( parent_space, -3, -3 );
-                    geometry_rectangle_expand( child_bounds, -6, -6 );
-                    geometry_rectangle_shift( child_bounds, 3, 3 );
-                    geometry_rectangle_expand( child_space, -6, -6 );
-                    geometry_rectangle_shift( child_space, 3, 3 );
+                    */
+
+                    /* try embrace child */
+                    geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
+                    geometry_rectangle_t probe_parent_space;  /* try out a new parent space rectangle */
+                    geometry_rectangle_copy( &probe_parent_bounds, parent_bounds );
+                    geometry_rectangle_copy( &probe_parent_space, parent_space );
+                    double extend_to_left = 0.0;
+                    double extend_to_right = 0.0;
+                    double extend_to_top = 0.0;
+                    double extend_to_bottom = 0.0;
+                    extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( child_bounds );
+                    extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( child_bounds );
+                    extend_to_right = geometry_rectangle_get_right( child_bounds ) - geometry_rectangle_get_right( parent_space );
+                    extend_to_bottom = geometry_rectangle_get_bottom( child_bounds ) - geometry_rectangle_get_bottom( parent_space );
+                    if ( extend_to_left < 0.0 )
+                    {
+                        extend_to_left = 0.0;
+                    }
+                    if ( extend_to_top < 0.0 )
+                    {
+                        extend_to_top = 0.0;
+                    }
+                    if ( extend_to_right < 0.0 )
+                    {
+                        extend_to_right = 0.0;
+                    }
+                    if ( extend_to_bottom < 0.0 )
+                    {
+                        extend_to_bottom = 0.0;
+                    }
+                    geometry_rectangle_expand( &probe_parent_bounds, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+                    geometry_rectangle_shift( &probe_parent_bounds, -extend_to_left, -extend_to_top );
+                    geometry_rectangle_expand( &probe_parent_space, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+                    geometry_rectangle_shift( &probe_parent_space, -extend_to_left, -extend_to_top );
+
+                    /* check what else would be embraced */
+                    bool illegal_overlap = false;
+                    uint32_t count_clasfy;
+                    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+                    for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
+                    {
+                        if (( c_index != from_index )&&( c_index != to_index ))
+                        {
+                            geometry_rectangle_t *current_bounds;
+                            current_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), c_index );
+                            illegal_overlap |= geometry_rectangle_is_intersecting( current_bounds, &probe_parent_bounds );
+                        }
+                    }
+
+                    /* cancel or commit */
+                    if ( ! illegal_overlap )
+                    {
+                        geometry_rectangle_replace ( parent_bounds, &probe_parent_bounds );
+                        geometry_rectangle_replace ( parent_space, &probe_parent_space );
+                    }
+
+                    /* cleanup */
+                    geometry_rectangle_destroy( &probe_parent_bounds );
+                    geometry_rectangle_destroy( &probe_parent_space );
                 }
                 else
                 {
