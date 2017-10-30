@@ -140,6 +140,37 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
     TRACE_END();
 }
 
+bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id, int64_t child_id )
+{
+    TRACE_BEGIN();
+    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    bool result = false;
+
+    for ( uint32_t rel_idx = 0; rel_idx < (*this_).relationship_count; rel_idx ++ )
+    {
+        data_relationship_t *the_relationship;
+        the_relationship = &((*this_).relationships[rel_idx]);
+
+        data_relationship_type_t the_type;
+        the_type = data_relationship_get_main_type ( the_relationship );
+
+        if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+        {
+            int64_t from_id;
+            int64_t to_id;
+            from_id = data_relationship_get_from_classifier_id ( the_relationship );
+            to_id = data_relationship_get_to_classifier_id ( the_relationship );
+            if (( from_id == parent_id )&&( to_id == child_id ))
+            {
+                result = true;
+            }
+        }
+    }
+
+    TRACE_END();
+    return result;
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke

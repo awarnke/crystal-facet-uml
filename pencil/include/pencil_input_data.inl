@@ -165,6 +165,26 @@ static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( penc
     return result;
 }
 
+static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *this_, uint32_t parent_index, uint32_t child_index )
+{
+    assert( parent_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( child_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    bool result = false;
+
+    data_visible_classifier_t *visible_parent;
+    data_visible_classifier_t *visible_child;
+    visible_parent = pencil_input_data_get_visible_classifier_ptr ( this_, parent_index );
+    visible_child = pencil_input_data_get_visible_classifier_ptr ( this_, child_index );
+    data_classifier_t *parent;
+    data_classifier_t *child;
+    parent = data_visible_classifier_get_classifier_ptr( visible_parent );
+    child = data_visible_classifier_get_classifier_ptr( visible_child );
+
+    result = pencil_input_data_is_parent ( this_, data_classifier_get_id( parent ), data_classifier_get_id( child ) );
+
+    return result;
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke

@@ -310,21 +310,13 @@ void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ )
                 to_index = pencil_input_data_get_classifier_index ( (*this_).input_data, to_id );
                 if (( from_id != to_id )&&( from_index != -1 )&&( to_index != -1 ))
                 {
+                    TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
                     geometry_rectangle_t *parent_bounds;
                     parent_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), from_index );
                     geometry_rectangle_t *parent_space;
                     parent_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), from_index );
                     geometry_rectangle_t *child_bounds;
                     child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), to_index );
-
-                    /* for test: enlarge the parent, shrink the child */
-                    TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
-                    /*
-                    geometry_rectangle_expand( parent_bounds, 6, 6 );
-                    geometry_rectangle_shift( parent_bounds, -3, -3 );
-                    geometry_rectangle_expand( parent_space, 6, 6 );
-                    geometry_rectangle_shift( parent_space, -3, -3 );
-                    */
 
                     /* try embrace child */
                     geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
@@ -485,9 +477,9 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( &((*this_).layout_data), index );
 
-        int64_t weight = 0;
+        int64_t weight = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
 
-        /* reduce weight by area outside the diagram border */
+        /* reduce weight by area outside the diagram border: the more outside diagram area, the earlier it should be moved */
         {
             geometry_rectangle_t border_intersect;
             int intersect_error2;
@@ -503,7 +495,7 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
             geometry_rectangle_destroy( &border_intersect );
         }
 
-        /* reduce weight by intersects with other rectangles */
+        /* reduce weight by intersects with other rectangles: the more intersects, the earlier it should be moved */
         for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
         {
             geometry_rectangle_t *probe_bounds;
@@ -519,6 +511,15 @@ void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter
             }
 
             geometry_rectangle_destroy( &intersect );
+        }
+
+        /* reduce weight by own size: the bigger the object, the earlier it should be moved */
+        {
+            double default_classifier_area = geometry_rectangle_get_area( &((*this_).default_classifier_size) );
+            double classifier_area = geometry_rectangle_get_area( classifier_bounds );
+            assert( default_classifier_area > 0.000000001 );
+            assert( classifier_area > 0.000000001 );
+            weight -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
         }
 
         int insert_error;

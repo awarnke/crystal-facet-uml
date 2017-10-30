@@ -148,6 +148,26 @@ static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_d
 static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
+ *  \brief determines if parent is a direct parent of child
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_index index of the parent classifier; 0 <= parent_index < pencil_input_data_get_visible_classifier_count().
+ *  \param child_index index of the child classifier; 0 <= child_index < pencil_input_data_get_visible_classifier_count().
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from parent to child within this pencil_input_data object
+ */
+static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *this_, uint32_t parent_index, uint32_t child_index );
+
+/*!
+ *  \brief determines if parent is a direct parent of child
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_id id of the parent classifier
+ *  \param child_id id of the child classifier
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from parent to child within this pencil_input_data object
+ */
+bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id, int64_t child_id );
+
+/*!
  *  \brief checks if the diagram and diagram-contents data is valid
  *
  *  \param this_ pointer to own object attributes
