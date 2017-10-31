@@ -360,9 +360,16 @@ void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ )
                     {
                         if (( c_index != from_index )&&( c_index != to_index ))
                         {
-                            geometry_rectangle_t *current_bounds;
-                            current_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), c_index );
-                            illegal_overlap |= geometry_rectangle_is_intersecting( current_bounds, &probe_parent_bounds );
+                            if ( pencil_input_data_is_parent_by_index( (*this_).input_data, from_index, c_index ) )
+                            {
+                                /* it is ok to embrace also other children, no illegal_overlap */
+                            }
+                            else
+                            {
+                                geometry_rectangle_t *current_bounds;
+                                current_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( &((*this_).layout_data), c_index );
+                                illegal_overlap |= geometry_rectangle_is_intersecting( current_bounds, &probe_parent_bounds );
+                            }
                         }
                     }
 
@@ -655,6 +662,10 @@ void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layou
         else if ( probe_top > bottom )
         {
             /* no overlap, finished. */
+        }
+        else if ( pencil_input_data_is_parent_by_index( (*this_).input_data, probe_index, index ) )
+        {
+            /* overlapping the parent is ok, finished */
         }
         else
         {
@@ -1088,9 +1099,6 @@ void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layo
     static unsigned int random;
     random ++;
     index_of_best = random % solutions_count;
-    */
-    /*
-    index_of_best = 0;
     */
 
     /* the best */
@@ -1749,7 +1757,8 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                             }
                         }
                     }
-                    if ( ! data_id_is_valid( &result ) )
+                    else
+                    /* if ( ! data_id_is_valid( &result ) ) */ /* since parents can contain children, the fallback is not automatically the parent */
                     {
                         if ( dereference )
                         {
