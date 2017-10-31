@@ -2,8 +2,14 @@ Overview
 | This diagram shows the most important features of crystal facet uml
 
 
+SW Integration Tester
+
+
 SW Architect
   creates --> Define consistent UML diagrams
+
+
+SW Integrator
 
 
 Define consistent UML diagrams
@@ -11,3 +17,13 @@ Define consistent UML diagrams
   Consistent relations between objects
   Consistent naming of objects
   Consistent locations of objects in diagrams
+  what to integrate? --> SW Integrator
+  what to test? --> SW Integration Tester
+  what to store in verson control? --> Configuration Manager
+  what to create? --> SW Developer
+
+
+SW Developer
+
+
+Configuration Manager

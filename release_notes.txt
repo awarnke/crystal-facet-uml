@@ -1,5 +1,5 @@
-2017-xx-yy 0.xx.y []
-  + 
+2017-xx-yy 0.18.0 [xxxxxxx]
+  + classifiers can contain classifiers
 2017-10-28 0.17.1 [c5ff71e]
   + fix for include paths on openSuSE Tumbleweed i586
 2017-10-02 0.17.0 [fba4323]

@@ -77,7 +77,11 @@ static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t 
     }
 }
 
-static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align )
+static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_,
+                                                         uint32_t ratio_width,
+                                                         uint32_t ratio_height,
+                                                         shape_h_align_t h_align,
+                                                         shape_v_align_t v_align  )
 {
     if ( (*this_).width * ratio_height == (*this_).height * ratio_width )
     {
@@ -88,15 +92,14 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
         /* the rectangle needs to shrink at left and/or right */
         uint32_t new_width;
         new_width = ( (*this_).height * ratio_width ) / ratio_height;
-        switch ( align & SHAPE_ALIGNMENT_HORIZONTAL_MASK )
+        switch ( h_align )
         {
-            case SHAPE_ALIGNMENT_HORIZONTAL_LEFT:
+            case SHAPE_H_ALIGN_LEFT:
                 break;
-            case SHAPE_ALIGNMENT_HORIZONTAL_RIGHT:
+            case SHAPE_H_ALIGN_RIGHT:
                 (*this_).left += ((*this_).width - new_width);
                 break;
-            case SHAPE_ALIGNMENT_HORIZONTAL_UNSPECIFIED: /* and */
-            case SHAPE_ALIGNMENT_HORIZONTAL_CENTER: /* and */
+            case SHAPE_H_ALIGN_CENTER: /* and */
             default:
                 (*this_).left += ( ((*this_).width - new_width)/2 );
         }
@@ -107,17 +110,16 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
         /* the rectangle needs to shrink at top and/or bottom */
         uint32_t new_height;
         new_height = ( (*this_).width * ratio_height ) / ratio_width;
-        switch ( align & SHAPE_ALIGNMENT_VERTICAL_MASK )
+        switch ( v_align )
         {
-            case SHAPE_ALIGNMENT_VERTICAL_TOP:
+            case SHAPE_V_ALIGN_TOP:
                 break;
-            case SHAPE_ALIGNMENT_VERTICAL_BOTTOM:
-                (*this_).top += ((*this_).height - new_height);
-                break;
-            case SHAPE_ALIGNMENT_VERTICAL_UNSPECIFIED: /* and */
-            case SHAPE_ALIGNMENT_VERTICAL_MIDDLE: /* and */
-            default:
+            case SHAPE_V_ALIGN_BOTTOM:
                 (*this_).top += ( ((*this_).height - new_height)/2 );
+                break;
+            case SHAPE_V_ALIGN_CENTER: /* and */
+            default:
+                (*this_).top += ((*this_).height - new_height);
         }
         (*this_).height = new_height;
     }

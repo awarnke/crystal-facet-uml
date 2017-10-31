@@ -349,14 +349,13 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
             {
                 shape_int_rectangle_init( &card_bounds, self_left, self_top, self_width, self_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
             }
             else if ( card_idx == 1 )  /* parent */
             {
                 shape_int_rectangle_init( &card_bounds, left, top, parent_width, parent_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                /*shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_TOP | SHAPE_ALIGNMENT_HORIZONTAL_LEFT );*/
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
             }
             else
             {
@@ -364,7 +363,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
                 int max_children = (*this_).card_num-2;
                 shape_int_rectangle_init( &card_bounds, left+(width*current_child)/max_children, children_top, width/max_children, children_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
             }
 
             gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
@@ -378,7 +377,7 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
                 shape_int_rectangle_t card_bounds;
                 card_bounds = area_bounds;
                 shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_ALIGNMENT_VERTICAL_MIDDLE | SHAPE_ALIGNMENT_HORIZONTAL_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
                 gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
                 gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
                 gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );

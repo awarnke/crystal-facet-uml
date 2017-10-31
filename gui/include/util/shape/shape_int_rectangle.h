@@ -9,7 +9,8 @@
  *  \brief Stores integer coordinates of a rectangle
  */
 
-#include "util/shape/shape_alignment.h"
+#include "util/shape/shape_h_align.h"
+#include "util/shape/shape_v_align.h"
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -111,9 +112,15 @@ static inline void shape_int_rectangle_shrink_by_border ( shape_int_rectangle_t 
  *  \param this_ pointer to own object attributes
  *  \param ratio_width example width to specify the ratio. This is not the new width - it is just a factor to determine the new ratio.
  *  \param ratio_height example height to specify the ratio. This is not the new height - it is just a factor to determine the new height.
- *  \param align this parameter controls where in the original rectangle, the newly shrinked rectangle is located.
+ *  \param h_align this parameter controls where in the original rectangle, the newly shrinked rectangle is located horizontal.
+ *  \param v_align this parameter controls where in the original rectangle, the newly shrinked rectangle is located vertical.
  */
-static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_, uint32_t ratio_width, uint32_t ratio_height, shape_alignment_t align );
+static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *this_,
+                                                         uint32_t ratio_width,
+                                                         uint32_t ratio_height,
+                                                         shape_h_align_t h_align,
+                                                         shape_v_align_t v_align
+);
 
 /*!
  *  \brief prints the shape_int_rectangle_t struct to the trace output

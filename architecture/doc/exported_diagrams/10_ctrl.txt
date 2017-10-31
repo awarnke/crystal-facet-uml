@@ -2,6 +2,13 @@ ctrl
 | This diagram shows the main classes in the ctrl package.
 
 
+ctrl
+| - provides write access to the database
+| - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
+   --> ctrl_controller
+   --> ctrl_consistency_checker
+
+
 ctrl_controller
 | - changes the database contents
 | - maintains the undo redo list

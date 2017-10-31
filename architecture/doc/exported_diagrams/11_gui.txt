@@ -2,6 +2,17 @@ gui
 | This diagram shows the main classes in the gui package.
 
 
+gui
+| - allows a user 
+|     - to select the database
+|     - to export diagrams
+|     - to modify the uml-model
+   --> gui_window_manager
+   --> gui_main_window
+   --> gui_sketch_card
+   --> gui_sketch_area
+
+
 gui_main_window
 | - represents an application window
   has --> gui_sketch_area
