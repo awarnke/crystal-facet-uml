@@ -6,17 +6,12 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Calculates positions of classifiers, features and relationships in a diagram
+ *  \brief Calculates positions relationships in a diagram
  */
 
-#include "pencil_layouter.h"
 #include "pencil_input_data.h"
-#include "pencil_marker.h"
-#include "pencil_classifier_painter.h"
 #include "pencil_size.h"
 #include "pencil_input_data_layout.h"
-#include "pencil_diagram_painter.h"
-#include "pencil_feature_painter.h"
 #include "pencil_relationship_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -39,7 +34,7 @@ struct pencil_relationship_layouter_struct {
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an instance of a drawing rectangle containing inner contents of the diagram */
 
-    pencil_relationship_painter_t *relationship_painter;  /*!< pointer to an instance of a painter object to ask for display dimensions */
+    pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
 
 typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_t;
@@ -52,14 +47,12 @@ typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
  *  \param diagram_draw_area pointer to the drawing rectangle containing inner contents of the diagram
- *  \param relationship_painter pointer to the painter object
  */
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
                                         pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
                                         pencil_size_t *pencil_size,
-                                        geometry_rectangle_t *diagram_draw_area,
-                                        pencil_relationship_painter_t *relationship_painter
+                                        geometry_rectangle_t *diagram_draw_area
                                       );
 
 /*!
@@ -74,7 +67,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_private_determine_relationship_shapes ( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ );
 
 /*!
  *  \brief determine order by which to shape relationships

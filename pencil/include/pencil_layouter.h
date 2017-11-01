@@ -16,7 +16,7 @@
 #include "pencil_input_data_layout.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_feature_painter.h"
-#include "pencil_relationship_painter.h"
+#include "pencil_relationship_layouter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -45,7 +45,8 @@ struct pencil_layouter_struct {
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
     pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
-    pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
+
+    pencil_relationship_layouter_t pencil_relationship_layouter;  /*!< own instance of a helper object to layout relationships */
 };
 
 typedef struct pencil_layouter_struct pencil_layouter_t;
@@ -273,130 +274,6 @@ void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layoute
                                                                   uint32_t *out_index_of_best
                                                                 );
 
-/*!
- *  \brief determines the shapes of the relationships
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_layouter_private_determine_relationship_shapes ( pencil_layouter_t *this_ );
-
-/*!
- *  \brief determine order by which to shape relationships
- *
- *  Relationships that are not visible are ignored. Therefore out_sorted may contain fewer relationships than (*this_).input_data.
- *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted sorting order by which to shape relationships; must not be NULL, shall be initialized to empty.
- */
-void pencil_layouter_private_propose_order_to_shape_relationships ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
-
-/*!
- *  \brief propose multiple solutions to shape one relationship
- *
- *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
- *  \param sort_index index of the current relationship for which to propose solutions
- *  \param solutions_max maximum number (array size) of solutions to propose
- *  \param out_solutions array of solutions
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- */
-void pencil_layouter_private_propose_solutions_to_shape_relationship ( pencil_layouter_t *this_,
-                                                                       const universal_array_index_sorter_t *sorted,
-                                                                       uint32_t sort_index,
-                                                                       uint32_t solutions_max,
-                                                                       geometry_connector_t out_solutions[],
-                                                                       uint32_t *out_solutions_count
-                                                                     );
-
-/*!
- *  \brief selects one solution to shape a relationship
- *
- *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
- *  \param sort_index index (in sorted relationships) of the current relationship for which to select a solution
- *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- *  \param solutions array of solutions
- *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
- */
-void pencil_layouter_private_select_solution_to_shape_relationship ( pencil_layouter_t *this_,
-                                                                     const universal_array_index_sorter_t *sorted,
-                                                                     uint32_t sort_index,
-                                                                     uint32_t solutions_count,
-                                                                     const geometry_connector_t solutions[],
-                                                                     uint32_t *out_index_of_best
-                                                                   );
-
-/*!
- *  \brief layouts a connection from one rectangle to another in shape of Z or N
- *
- *  \param this_ pointer to own object attributes
- *  \param source_rect pointer to the source rectangle
- *  \param dest_rect pointer to the destination rectangle
- *  \param solutions_max maximum number (array size) of solutions to propose
- *  \param out_solutions array of solutions
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- */
-void pencil_layouter_private_connect_rectangles_by_ZN ( pencil_layouter_t *this_,
-                                                        const geometry_rectangle_t *source_rect,
-                                                        const geometry_rectangle_t *dest_rect,
-                                                        uint32_t solutions_max,
-                                                        geometry_connector_t out_solutions[],
-                                                        uint32_t *out_solutions_count
-                                                      );
-
-/*!
- *  \brief layouts a connection from one rectangle to another in shape of U or C
- *
- *  \param this_ pointer to own object attributes
- *  \param source_rect pointer to the source rectangle
- *  \param dest_rect pointer to the destination rectangle
- *  \param solutions_max maximum number (array size) of solutions to propose
- *  \param out_solutions array of solutions
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- */
-void pencil_layouter_private_connect_rectangles_by_UC ( pencil_layouter_t *this_,
-                                                        const geometry_rectangle_t *source_rect,
-                                                        const geometry_rectangle_t *dest_rect,
-                                                        uint32_t solutions_max,
-                                                        geometry_connector_t out_solutions[],
-                                                        uint32_t *out_solutions_count
-                                                      );
-
-/*!
- *  \brief layouts a connection from one rectangle to another in shape of L or 7
- *
- *  \param this_ pointer to own object attributes
- *  \param source_rect pointer to the source rectangle
- *  \param dest_rect pointer to the destination rectangle
- *  \param solutions_max maximum number (array size) of solutions to propose
- *  \param out_solutions array of solutions
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- */
-void pencil_layouter_private_connect_rectangles_by_L7 ( pencil_layouter_t *this_,
-                                                        const geometry_rectangle_t *source_rect,
-                                                        const geometry_rectangle_t *dest_rect,
-                                                        uint32_t solutions_max,
-                                                        geometry_connector_t out_solutions[],
-                                                        uint32_t *out_solutions_count
-                                                      );
-
-/*!
- *  \brief finds an empty, unused line in a rectangle
- *
- *  \param this_ pointer to own object attributes
- *  \param search_rect pointer to the rectangle within which to search
- *  \param horizontal_line true if space for a horizontal line is searched for, false for vertical line
- *  \param min_gap minimum distance to other objects on the diagram
- *  \param out_success pointer to locatoin where to store if the function was successful or not
- *  \param out_coordinate ordinate (y-coordinate) or abscissa (x-coordinate) value where space is available.
- */
-void pencil_layouter_private_find_space_for_line ( pencil_layouter_t *this_,
-                                                   const geometry_rectangle_t *search_rect,
-                                                   bool horizontal_line,
-                                                   double min_gap,
-                                                   bool *out_success,
-                                                   double *out_coordinate
-                                                 );
 
 #include "pencil_layouter.inl"
 

@@ -11,21 +11,19 @@ void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
                                         pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
                                         pencil_size_t *pencil_size,
-                                        geometry_rectangle_t *diagram_draw_area,
-                                        pencil_relationship_painter_t *relationship_painter )
+                                        geometry_rectangle_t *diagram_draw_area )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
     assert( NULL != diagram_draw_area );
-    assert( NULL != relationship_painter );
 
     (*this_).input_data = input_data;
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
     (*this_).diagram_draw_area = diagram_draw_area;
-    (*this_).relationship_painter = relationship_painter;
+    pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
     TRACE_END();
 }
@@ -34,10 +32,12 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
 {
     TRACE_BEGIN();
 
+    pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
+
     TRACE_END();
 }
 
-void pencil_relationship_layouter_private_determine_relationship_shapes ( pencil_relationship_layouter_t *this_ )
+void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
     assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
