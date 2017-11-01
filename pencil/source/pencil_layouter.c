@@ -34,7 +34,10 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
                                      input_data,
                                      &((*this_).layout_data),
                                      &((*this_).pencil_size),
-                                     &((*this_).diagram_draw_area)
+                                     &((*this_).diagram_draw_area),
+                                     &((*this_).default_classifier_size),
+                                     &((*this_).x_scale),
+                                     &((*this_).y_scale)
                                    );
 
     TRACE_END();
