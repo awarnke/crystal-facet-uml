@@ -17,6 +17,7 @@
 #include "pencil_diagram_painter.h"
 #include "pencil_feature_painter.h"
 #include "pencil_relationship_layouter.h"
+#include "pencil_classifier_layouter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -42,11 +43,10 @@ struct pencil_layouter_struct {
     geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
     geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
 
-    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
-    pencil_feature_painter_t feature_painter;  /*!< own instance of a painter object to ask for display dimensions */
 
     pencil_relationship_layouter_t pencil_relationship_layouter;  /*!< own instance of a helper object to layout relationships */
+    pencil_classifier_layouter_t pencil_classifier_layouter;  /*!< own instance of a helper object to layout classifiers and features */
 };
 
 typedef struct pencil_layouter_struct pencil_layouter_t;
@@ -189,90 +189,6 @@ static inline universal_bool_list_t pencil_layouter_is_pos_on_grid ( pencil_layo
  *  \param this_ pointer to own object attributes
  */
 void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t *this_ );
-
-/*!
- *  \brief estimates classifier bounds for each classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- */
-void pencil_layouter_private_estimate_classifier_bounds ( pencil_layouter_t *this_, PangoLayout *font_layout );
-
-/*!
- *  \brief calculates feature bounds of all features for one classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier for which to calculate the feature bounds
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_features_bounds memory location where the result shall be stored. Must not be NULL.
- */
-void pencil_layouter_private_calculate_features_bounds ( pencil_layouter_t *this_,
-                                                         int64_t classifier_id,
-                                                         PangoLayout *font_layout,
-                                                         geometry_rectangle_t *out_features_bounds
-                                                       );
-
-/*!
- *  \brief resize classifiers so that they embrace their children
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_layouter_private_embrace_children( pencil_layouter_t *this_ );
-
-/*!
- *  \brief move classifiers to avoid overlaps
- *
- *  \param this_ pointer to own object attributes
- */
-void pencil_layouter_private_move_classifiers_to_avoid_overlaps ( pencil_layouter_t *this_ );
-
-/*!
- *  \brief determine order by whicht to move classifiers
- *
- *  \param this_ pointer to own object attributes
- *  \param out_sorted sorting order by which to move classifiers; must not be NULL, shall be initialized to empty.
- */
-void pencil_layouter_private_propose_order_to_move_classifiers ( pencil_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
-
-/*!
- *  \brief propose multiple solutions to move one classifiers
- *
- *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index of the current classifier for which to propose solutions
- *  \param solutions_max maximum number (array size) of solutions to propose
- *  \param out_solution_move_dx array of solutions: proposal to move in x direction
- *  \param out_solution_move_dy array of solutions: proposal to move in y direction
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- */
-void pencil_layouter_private_propose_solutions_to_move_classifier ( pencil_layouter_t *this_,
-                                                                    const universal_array_index_sorter_t *sorted,
-                                                                    uint32_t sort_index,
-                                                                    uint32_t solutions_max,
-                                                                    double out_solution_move_dx[],
-                                                                    double out_solution_move_dy[],
-                                                                    uint32_t *out_solutions_count
-                                                                  );
-
-/*!
- *  \brief selects one solution to move a classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to move classifiers; must not be NULL.
- *  \param sort_index index (in sorted classifiers) of the current classifier for which to select a solution
- *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- *  \param solution_move_dx array of solutions: proposal to move in x direction
- *  \param solution_move_dy array of solutions: proposal to move in y direction
- *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
- */
-void pencil_layouter_private_select_solution_to_move_classifier ( pencil_layouter_t *this_,
-                                                                  const universal_array_index_sorter_t *sorted,
-                                                                  uint32_t sort_index,
-                                                                  uint32_t solutions_count,
-                                                                  const double solution_move_dx[],
-                                                                  const double solution_move_dy[],
-                                                                  uint32_t *out_index_of_best
-                                                                );
 
 
 #include "pencil_layouter.inl"
