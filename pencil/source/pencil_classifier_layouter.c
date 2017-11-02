@@ -260,7 +260,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
     universal_array_index_sorter_init( &sorted );
 
     /* sort the classifiers by their movement-needs */
-    pencil_classifier_layouter_private_propose_order_to_move_classifiers ( this_, &sorted );
+    pencil_classifier_layouter_private_propose_processing_order ( this_, &sorted );
 
     /* move the classifiers */
     uint32_t count_sorted;
@@ -274,14 +274,14 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         double solution_move_dy[5];
 
         /* propose options */
-        pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( this_,
-                                                                       &sorted,
-                                                                       sort_index,
-                                                                       SOLUTIONS_MAX,
-                                                                       solution_move_dx,
-                                                                       solution_move_dy,
-                                                                       &solutions_count
-                                                                     );
+        pencil_classifier_layouter_private_propose_solutions ( this_,
+                                                               &sorted,
+                                                               sort_index,
+                                                               SOLUTIONS_MAX,
+                                                               solution_move_dx,
+                                                               solution_move_dy,
+                                                               &solutions_count
+                                                             );
 
         /* select best option */
         uint32_t index_of_best;
@@ -291,14 +291,14 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         }
         else
         {
-            pencil_classifier_layouter_private_select_solution_to_move_classifier ( this_,
-                                                                        &sorted,
-                                                                        sort_index,
-                                                                        solutions_count,
-                                                                        solution_move_dx,
-                                                                        solution_move_dy,
-                                                                        &index_of_best
-                                                                    );
+            pencil_classifier_layouter_private_select_solution ( this_,
+                                                                 &sorted,
+                                                                 sort_index,
+                                                                 solutions_count,
+                                                                 solution_move_dx,
+                                                                 solution_move_dy,
+                                                                 &index_of_best
+                                                               );
         }
 
         /* perform best option */
@@ -319,7 +319,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_propose_order_to_move_classifiers ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_classifier_layouter_private_propose_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
@@ -393,21 +393,21 @@ void pencil_classifier_layouter_private_propose_order_to_move_classifiers ( penc
  *  \brief constants for directions of moving objects
  */
 enum pencil_classifier_layouter_private_move_enum {
-    PENCIL_LAYOUTER_PRIVATE_MOVE_NOT = 0,  /*!< only move to visible arey - nothing more */
-    PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN = 1,  /*!< moves up the minimum distance (up means smaller y-values) */
-    PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN = 2,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN = 3,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN = 4,
-    PENCIL_LAYOUTER_PRIVATE_MOVE_MAX = 5,  /*!< constant defining the total number of available options */
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT = 0,  /*!< only move to visible arey - nothing more */
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN = 1,  /*!< moves up the minimum distance (up means smaller y-values) */
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN = 2,
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN = 3,
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN = 4,
+    PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX = 5,  /*!< constant defining the total number of available options */
 };
 
-void pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( pencil_classifier_layouter_t *this_,
-                                                                    const universal_array_index_sorter_t *sorted,
-                                                                    uint32_t sort_index,
-                                                                    uint32_t solutions_max,
-                                                                    double out_solution_move_dx[],
-                                                                    double out_solution_move_dy[],
-                                                                    uint32_t *out_solutions_count )
+void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_layouter_t *this_,
+                                                            const universal_array_index_sorter_t *sorted,
+                                                            uint32_t sort_index,
+                                                            uint32_t solutions_max,
+                                                            double out_solution_move_dx[],
+                                                            double out_solution_move_dy[],
+                                                            uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -416,7 +416,7 @@ void pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( p
     assert ( NULL != out_solution_move_dy );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( PENCIL_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
+    assert ( PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
 
     /* get classifier to move */
     uint32_t index;
@@ -457,20 +457,20 @@ void pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( p
     }
 
     *out_solutions_count = 1;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_NOT] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_NOT] = shift_y;
+    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT] = shift_x;
+    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_NOT] = shift_y;
 
     /* determine minimum and comfort distances between classifiers */
     double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
 
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_y;
-    out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_x;
-    out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_y;
+    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_x;
+    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = shift_y;
+    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_x;
+    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = shift_y;
+    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_x;
+    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = shift_y;
+    out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_x;
+    out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = shift_y;
 
     /* adjust information on current rectangle */
     top += shift_y;
@@ -521,33 +521,33 @@ void pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( p
 
             double my_shift_x_left_min;
             my_shift_x_left_min = probe_left - right - gap;
-            if ( my_shift_x_left_min < out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] )
+            if ( my_shift_x_left_min < out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] )
             {
-                out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = my_shift_x_left_min;
+                out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_LEFT_MIN] = my_shift_x_left_min;
             }
 
             double my_shift_x_right_min;
             my_shift_x_right_min = probe_right - left + gap;
-            if ( my_shift_x_right_min > out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] )
+            if ( my_shift_x_right_min > out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] )
             {
-                out_solution_move_dx[PENCIL_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = my_shift_x_right_min;
+                out_solution_move_dx[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_RIGHT_MIN] = my_shift_x_right_min;
             }
 
             double my_shift_y_up_min;
             my_shift_y_up_min = probe_top - bottom - gap;
-            if ( my_shift_y_up_min < out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] )
+            if ( my_shift_y_up_min < out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] )
             {
-                out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_UP_MIN] = my_shift_y_up_min;
+                out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_UP_MIN] = my_shift_y_up_min;
             }
 
             double my_shift_y_down_min;
             my_shift_y_down_min = probe_bottom - top + gap;
-            if ( my_shift_y_down_min > out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] )
+            if ( my_shift_y_down_min > out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] )
             {
-                out_solution_move_dy[PENCIL_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = my_shift_y_down_min;
+                out_solution_move_dy[PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_DOWN_MIN] = my_shift_y_down_min;
             }
 
-            *out_solutions_count = PENCIL_LAYOUTER_PRIVATE_MOVE_MAX;
+            *out_solutions_count = PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX;
 
             /* trace */
             data_visible_classifier_t *visible_classifier_p;
@@ -574,13 +574,13 @@ void pencil_classifier_layouter_private_propose_solutions_to_move_classifier ( p
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_select_solution_to_move_classifier ( pencil_classifier_layouter_t *this_,
-                                                                  const universal_array_index_sorter_t *sorted,
-                                                                  uint32_t sort_index,
-                                                                  uint32_t solutions_count,
-                                                                  const double solution_move_dx[],
-                                                                  const double solution_move_dy[],
-                                                                  uint32_t *out_index_of_best )
+void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layouter_t *this_,
+                                                          const universal_array_index_sorter_t *sorted,
+                                                          uint32_t sort_index,
+                                                          uint32_t solutions_count,
+                                                          const double solution_move_dx[],
+                                                          const double solution_move_dy[],
+                                                          uint32_t *out_index_of_best )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
