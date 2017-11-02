@@ -57,7 +57,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
         rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
         for ( uint32_t index = 0; index < rel_count; index ++ )
         {
-            if ( pencil_input_data_layout_is_relationship_visible ( layout_data, index ) )
+            if ( PENCIL_VISIBILITY_SHOW == pencil_input_data_layout_get_relationship_visibility ( layout_data, index ) )
             {
                 data_relationship_t *the_relationship;
                 the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );

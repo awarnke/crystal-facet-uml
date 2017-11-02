@@ -13,7 +13,7 @@ static inline void pencil_input_data_layout_init( pencil_input_data_layout_t *th
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         geometry_connector_init_empty( &((*this_).relationship_shape[idx]) );
-        (*this_).relationship_visible[idx] = false;
+        (*this_).relationship_visible[idx] = PENCIL_VISIBILITY_HIDE;
     }
 }
 
@@ -48,13 +48,13 @@ static inline geometry_connector_t *pencil_input_data_layout_get_relationship_sh
     return &((*this_).relationship_shape[index]);
 }
 
-static inline bool pencil_input_data_layout_is_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index )
+static inline pencil_visibility_t pencil_input_data_layout_get_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     return (*this_).relationship_visible[index];
 }
 
-static inline void pencil_input_data_layout_set_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index, bool visible )
+static inline void pencil_input_data_layout_set_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     ((*this_).relationship_visible[index]) = visible;

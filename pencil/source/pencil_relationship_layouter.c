@@ -139,12 +139,12 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
                 TSLOG_WARNING( "not all relationships are shaped" );
             }
 
-            pencil_input_data_layout_set_relationship_visible ( (*this_).layout_data, index, true );
+            pencil_input_data_layout_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
         }
         else
         {
             TRACE_INFO_INT( "relationship not shown because one of the parties is not visible. index:", index );
-            pencil_input_data_layout_set_relationship_visible ( (*this_).layout_data, index, false );
+            pencil_input_data_layout_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
         }
     }
 

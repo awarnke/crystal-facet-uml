@@ -12,6 +12,7 @@
 #include "util/geometry/geometry_connector.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "pencil_input_data.h"
+#include "option/pencil_visibility.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -33,7 +34,7 @@ struct pencil_input_data_layout_struct {
     geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records where features or contained classifiers are drawn */
 
     /* relationship layout */
-    bool relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */
+    pencil_visibility_t relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */
     geometry_connector_t relationship_shape[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< shape of relationship records */
 };
 
@@ -87,7 +88,7 @@ static inline geometry_connector_t *pencil_input_data_layout_get_relationship_sh
  *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
  *  \return true if visible.
  */
-static inline bool pencil_input_data_layout_is_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index );
+static inline pencil_visibility_t pencil_input_data_layout_get_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index );
 
 /*!
  *  \brief sets the visibility of a relationship
@@ -96,7 +97,7 @@ static inline bool pencil_input_data_layout_is_relationship_visible ( pencil_inp
  *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
  *  \param visible true if visible.
  */
-static inline void pencil_input_data_layout_set_relationship_visible ( pencil_input_data_layout_t *this_, uint32_t index, bool visible );
+static inline void pencil_input_data_layout_set_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible );
 
 #include "pencil_input_data_layout.inl"
 
