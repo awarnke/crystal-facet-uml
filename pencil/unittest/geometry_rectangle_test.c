@@ -57,6 +57,12 @@ static void test_contain(void)
     contains = geometry_rectangle_is_containing( &rect_b, &rect_a );
     TEST_ASSERT_EQUAL_INT( false, contains );
 
+    contains = geometry_rectangle_contains( &rect_a, 9.0, 9.0 );
+    TEST_ASSERT_EQUAL_INT( false, contains );
+
+    contains = geometry_rectangle_contains( &rect_a, 19.0, 19.0 );
+    TEST_ASSERT_EQUAL_INT( true, contains );
+
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );

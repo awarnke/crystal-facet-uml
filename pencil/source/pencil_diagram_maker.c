@@ -57,10 +57,23 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
         rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
         for ( uint32_t index = 0; index < rel_count; index ++ )
         {
-            if ( PENCIL_VISIBILITY_SHOW == pencil_input_data_layout_get_relationship_visibility ( layout_data, index ) )
+            bool show_relation;
+            data_relationship_t *the_relationship;
+            the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+            show_relation = ( PENCIL_VISIBILITY_SHOW == pencil_input_data_layout_get_relationship_visibility ( layout_data, index ) );
+            if ( ! show_relation )
             {
-                data_relationship_t *the_relationship;
-                the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+                if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
+                    || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
+                    || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
+                    || DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted )
+                )
+                {
+                    show_relation = true;
+                }
+            }
+            if ( show_relation )
+            {
                 pencil_relationship_painter_draw ( &((*this_).relationship_painter),
                                                    the_relationship,
                                                    data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
