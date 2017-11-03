@@ -84,7 +84,7 @@ void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *th
                                                                  );
         }
 
-        /* perform best option */
+        /* store best option to (*this_).layout_data */
         uint32_t index;
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         /* copy the relationship shape */

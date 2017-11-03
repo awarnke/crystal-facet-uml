@@ -90,6 +90,13 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_ );
 
 /*!
+ *  \brief hides containment relationships if parents embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ );
+
+/*!
  *  \brief move classifiers to avoid overlaps
  *
  *  \param this_ pointer to own object attributes

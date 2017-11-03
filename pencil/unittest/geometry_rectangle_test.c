@@ -5,11 +5,13 @@
 
 static void set_up(void);
 static void tear_down(void);
+static void test_contain(void);
 static void test_intersect(void);
 
 TestRef geometry_rectangle_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
+        new_TestFixture("test_contain",test_contain),
         new_TestFixture("test_intersect",test_intersect),
     };
     EMB_UNIT_TESTCALLER(result,"geometry_rectangle_test_get_list",set_up,tear_down,fixtures);
@@ -23,6 +25,41 @@ static void set_up(void)
 
 static void tear_down(void)
 {
+}
+
+static void test_contain(void)
+{
+    geometry_rectangle_t rect_a;
+    geometry_rectangle_t rect_b;
+    bool contains;
+
+    /* no contain */
+    geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
+    geometry_rectangle_init ( &rect_b, 11.0, 11.0, 11.0 /*width*/, 11.0 /*height*/ );
+
+    contains = geometry_rectangle_is_containing( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( false, contains );
+
+    contains = geometry_rectangle_is_containing( &rect_b, &rect_a );
+    TEST_ASSERT_EQUAL_INT( false, contains );
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+    geometry_rectangle_destroy ( &rect_b );
+
+    /* contain */
+    geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
+    geometry_rectangle_init ( &rect_b, 10.0, 11.0, 9.0 /*width*/, 9.0 /*height*/ );
+
+    contains = geometry_rectangle_is_containing( &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( true, contains );
+
+    contains = geometry_rectangle_is_containing( &rect_b, &rect_a );
+    TEST_ASSERT_EQUAL_INT( false, contains );
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+    geometry_rectangle_destroy ( &rect_b );
 }
 
 static void test_intersect(void)
@@ -74,7 +111,7 @@ static void test_intersect(void)
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( true, intersects );
-    
+
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );

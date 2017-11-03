@@ -197,6 +197,15 @@ static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *thi
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
+ *  \brief determines if the given rectangle contains the other
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return false if the rectangle does not contain the other. (touching is containing)
+ */
+static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
+
+/*!
  *  \brief moves the geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes

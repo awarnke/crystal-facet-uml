@@ -251,6 +251,55 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
     TRACE_END();
 }
 
+void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_classifier_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* search containment relations */
+    for ( uint32_t rel_idx = 0; rel_idx < pencil_input_data_get_relationship_count ( (*this_).input_data ); rel_idx ++ )
+    {
+        data_relationship_t *the_relationship;
+        the_relationship = pencil_input_data_get_relationship_ptr( (*this_).input_data, rel_idx );
+        if ( data_relationship_is_valid( the_relationship ) )
+        {
+            data_relationship_type_t the_type;
+            pencil_visibility_t visibility;
+            the_type = data_relationship_get_main_type ( the_relationship );
+            visibility = pencil_input_data_layout_get_relationship_visibility( (*this_).layout_data, rel_idx );
+
+            if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+                && ( PENCIL_VISIBILITY_SHOW == visibility ))
+            {
+                int64_t from_id;
+                int64_t to_id;
+                int32_t from_index;
+                int32_t to_index;
+                from_id = data_relationship_get_from_classifier_id ( the_relationship );
+                to_id = data_relationship_get_to_classifier_id ( the_relationship );
+                from_index = pencil_input_data_get_classifier_index ( (*this_).input_data, from_id );
+                to_index = pencil_input_data_get_classifier_index ( (*this_).input_data, to_id );
+                if (( from_id != to_id )&&( from_index != -1 )&&( to_index != -1 ))
+                {
+                    TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
+                    geometry_rectangle_t *parent_space;
+                    parent_space = pencil_input_data_layout_get_classifier_space_ptr ( (*this_).layout_data, from_index );
+                    geometry_rectangle_t *child_bounds;
+                    child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, to_index );
+
+                    /* hide if parent embraced child completely */
+                    if ( geometry_rectangle_is_containing( parent_space, child_bounds ) )
+                    {
+                        pencil_input_data_layout_set_relationship_visibility( (*this_).layout_data, rel_idx, PENCIL_VISIBILITY_IMPLICIT );
+                        TRACE_INFO_INT( "Containment relation is PENCIL_VISIBILITY_IMPLICIT, id:", data_relationship_get_id( the_relationship ) );
+                    }
+                }
+            }
+        }
+    }
+
+    TRACE_END();
+}
+
 void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();

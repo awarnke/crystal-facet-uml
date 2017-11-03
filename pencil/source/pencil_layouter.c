@@ -138,6 +138,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     /* calculate the relationship shapes */
     pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
 
+    /* hide containment relationships if children are embraced */
+    pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
+
     TRACE_END();
 }
 

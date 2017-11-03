@@ -120,6 +120,36 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
     return result;
 }
 
+static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
+{
+    assert( NULL != that );
+
+    bool result;
+    double rect_this_right;
+    double rect_this_bottom;
+    double rect_that_right;
+    double rect_that_bottom;
+
+    rect_this_right = (*this_).left + (*this_).width;
+    rect_this_bottom = (*this_).top + (*this_).height;
+    rect_that_right = (*that).left + (*that).width;
+    rect_that_bottom = (*that).top + (*that).height;
+
+    if ( ( (*this_).left < (*that).left + 0.000000001 ) /* touching is containing */
+        && ( (*this_).top < (*that).top + 0.000000001 )
+        && ( rect_this_right + 0.000000001 > rect_that_right )
+        && ( rect_this_bottom + 0.000000001 > rect_that_bottom ) )
+    {
+        result = true;
+    }
+    else
+    {
+        result = false;
+    }
+
+    return result;
+}
+
 static inline void geometry_rectangle_init_by_corners ( geometry_rectangle_t *this_, double x1, double y1, double x2, double y2 )
 {
     if ( x1 < x2 )
@@ -216,7 +246,7 @@ static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, doub
     {
         (*this_).width = 0.0;
     }
-    
+
     (*this_).height += delta_height;
     if ( (*this_).height < 0.0 )
     {
