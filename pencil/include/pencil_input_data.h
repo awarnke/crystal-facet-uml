@@ -90,6 +90,15 @@ static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_i
 static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
+ *  \brief gets a visible classifier within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement fpr which to retrieve the visible classifier
+ *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
+ */
+data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id );
+
+/*!
  *  \brief gets the classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes

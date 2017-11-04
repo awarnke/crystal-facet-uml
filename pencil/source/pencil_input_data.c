@@ -163,6 +163,36 @@ bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id
             if (( from_id == parent_id )&&( to_id == child_id ))
             {
                 result = true;
+                break;
+            }
+        }
+    }
+
+    TRACE_END();
+    return result;
+}
+
+data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id )
+{
+    TRACE_BEGIN();
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    data_visible_classifier_t *result = NULL;
+
+    /* iterate over all visible classifiers */
+    uint32_t count;
+    for ( uint32_t index = 0; index < (*this_).visible_classifier_count; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier;
+        visible_classifier = &((*this_).visible_classifiers[index]);
+
+        if ( data_visible_classifier_is_valid( visible_classifier ) )
+        {
+            data_diagramelement_t *diagramelement;
+            diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+            if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
+            {
+                result = visible_classifier;
+                break;
             }
         }
     }

@@ -53,40 +53,13 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                                       );
 
         /* draw all contained relationships */
-        uint32_t rel_count;
-        rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
-        for ( uint32_t index = 0; index < rel_count; index ++ )
-        {
-            bool show_relation;
-            data_relationship_t *the_relationship;
-            the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
-            show_relation = ( PENCIL_VISIBILITY_SHOW == pencil_input_data_layout_get_relationship_visibility ( layout_data, index ) );
-            if ( ! show_relation )
-            {
-                if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
-                    || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
-                    || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
-                    || DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted )
-                )
-                {
-                    show_relation = true;
-                }
-            }
-            if ( show_relation )
-            {
-                pencil_relationship_painter_draw ( &((*this_).relationship_painter),
-                                                   the_relationship,
-                                                   data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
-                                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
-                                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
-                                                   pencil_size,
-                                                   pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
-                                                   layout,
-                                                   cr
-                                                 );
-            }
-        }
-
+        pencil_diagram_maker_private_draw_relationships ( this_,
+                                                          mark_focused,
+                                                          mark_highlighted,
+                                                          mark_selected,
+                                                          layout,
+                                                          cr
+                                                        );
     }
 
     g_object_unref (layout);
@@ -172,6 +145,81 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
         else
         {
             TSLOG_ERROR("invalid visible classifier in array!");
+        }
+    }
+
+    TRACE_END();
+}
+
+void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *this_,
+                                                       data_id_t mark_focused,
+                                                       data_id_t mark_highlighted,
+                                                       data_small_set_t *mark_selected,
+                                                       PangoLayout *layout,
+                                                       cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != mark_selected );
+    assert( NULL != cr );
+
+    pencil_input_data_layout_t *layout_data;
+    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+
+    uint32_t rel_count;
+    rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < rel_count; index ++ )
+    {
+        pencil_visibility_t show_relation;
+        data_relationship_t *the_relationship;
+        the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+        show_relation = pencil_input_data_layout_get_relationship_visibility ( layout_data, index );
+        if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
+        {
+            if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
+                || data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
+                || data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ) )
+            {
+                /* the implicit relationship is focused or marked or highlighted */
+                show_relation = PENCIL_VISIBILITY_SHOW;
+            }
+            else
+            {
+                if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &mark_highlighted ) )
+                {
+                    int64_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
+                    data_visible_classifier_t *visible_clsfy;
+                    visible_clsfy = pencil_input_data_get_visible_classifier_by_id_ptr ( (*this_).input_data, diagramelement_id );
+                    if ( visible_clsfy != NULL )
+                    {
+                        if ( data_visible_classifier_is_valid( visible_clsfy ) )
+                        {
+                            data_classifier_t *classifier;
+                            classifier = data_visible_classifier_get_classifier_ptr( visible_clsfy );
+                            if (( data_classifier_get_id( classifier ) == data_relationship_get_from_classifier_id( the_relationship ) )
+                                ||( data_classifier_get_id( classifier ) == data_relationship_get_to_classifier_id( the_relationship ) ))
+                            {
+                                /* the implicit relationship has highlighted from or to classifier */
+                                show_relation = PENCIL_VISIBILITY_SHOW;
+                            }
+                        }
+                    }
+
+                }
+            }
+        }
+        if ( PENCIL_VISIBILITY_SHOW == show_relation )
+        {
+            pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+            pencil_relationship_painter_draw ( &((*this_).relationship_painter),
+                                               the_relationship,
+                                               data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                               data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
+                                               data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
+                                               pencil_size,
+                                               pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
+                                               layout,
+                                               cr
+            );
         }
     }
 
