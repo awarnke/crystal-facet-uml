@@ -15,6 +15,10 @@ pencil_layouter
 |     2) assigning elements to coordinates
   modifies --> pencil_input_data_layout
   asks for sizes --> pencil_xxx_painter
+   --> pencil_xxx_layouter
+
+
+pencil_xxx_layouter
 
 
 pencil
@@ -25,6 +29,7 @@ pencil
    --> pencil_xxx_painter
    --> pencil_input_data
    --> pencil_input_data_layout
+   --> pencil_xxx_layouter
 
 
 pencil_xxx_painter

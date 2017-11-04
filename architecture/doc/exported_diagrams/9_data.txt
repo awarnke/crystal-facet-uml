@@ -16,12 +16,12 @@ data_database_writer
 | - writes changes to the database
 | - retrieves the old, changed values for the undo/redo list
   uses --> data_database_reader
-  depends on --> data_database
+  has --> data_database
 
 
 data_database_reader
 | - reads data from the database
-  depends on --> data_database
+  has --> data_database
 
 
 data_database

@@ -8,13 +8,6 @@ Functional Suitability
    --> Appropriateness
 
 
-Reliability
-   --> Maturity
-   --> Availability
-   --> Fault Tolerance
-   --> Recoverability
-
-
 Security
    --> Authenticity
    --> Non-Repudiation
@@ -23,43 +16,70 @@ Security
    --> Confidentiality
 
 
+Reliability
+   --> Maturity
+   --> Availability
+   --> Fault Tolerance
+   --> Recoverability
+
+
+Portability
+   --> Adaptability
+   --> Installability
+   --> Replaceability
+
+
 Completeness
-
-
-Maturity
 
 
 Non-Repudiation
 
 
+Maturity
+
+
+Adaptability
+
+
 Correctness
-
-
-Availability
 
 
 Confidentiality
 
 
+Availability
+
+
+Replaceability
+
+
 Appropriateness
-
-
-Fault Tolerance
 
 
 Authenticity
 
 
-Recoverability
+Fault Tolerance
+
+
+Installability
 
 
 Integrity
 
 
-Performance Efficiency
-   --> Time Behaviour
-   --> Resource Utilization
-   --> Capacity
+Recoverability
+
+
+Compatibility
+   --> Co-existence
+   --> Interoperability
+
+
+Accountability
+
+
+Interoperability
 
 
 Usability
@@ -71,19 +91,7 @@ Usability
    --> Accessibility
 
 
-Accountability
-
-
-Capacity
-
-
-Aesthetics
-
-
-Time Behaviour
-
-
-Recognizability
+Co-existence
 
 
 Maintainability
@@ -94,57 +102,49 @@ Maintainability
    --> Modularity
 
 
-Portability
-   --> Adaptability
-   --> Installability
-   --> Replaceability
-
-
-Resource Utilization
-
-
-Learnability
+Accessibility
 
 
 Reusability
 
 
-Adaptability
+Recognizability
 
 
-Accessibility
+Performance Efficiency
+   --> Time Behaviour
+   --> Resource Utilization
+   --> Capacity
 
 
 Analyzability
 
 
-Replaceability
+Operability
 
 
-Compatibility
-   --> Co-existence
-   --> Interoperability
-
-
-User Error Protection
+Time Behaviour
 
 
 Modifyability
 
 
-Co-existence
+Learnability
 
 
-Operability
+Capacity
 
 
 Testability
 
 
-Interoperability
+Aesthetics
+
+
+Resource Utilization
 
 
 Modularity
 
 
-Installability
+User Error Protection

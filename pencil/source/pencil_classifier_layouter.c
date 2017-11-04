@@ -213,6 +213,10 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
                             {
                                 /* it is ok to embrace also other children, no illegal_overlap */
                             }
+                            else if ( pencil_input_data_is_parent_by_index( (*this_).input_data, c_index, from_index ) )
+                            {
+                                /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
+                            }
                             else
                             {
                                 geometry_rectangle_t *current_bounds;

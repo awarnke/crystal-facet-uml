@@ -2,14 +2,14 @@ Overview
 | This diagram shows the most important features of crystal facet uml
 
 
+Configuration Manager
+
+
 SW Integration Tester
 
 
 SW Architect
   creates --> Define consistent UML diagrams
-
-
-SW Integrator
 
 
 Define consistent UML diagrams
@@ -26,4 +26,4 @@ Define consistent UML diagrams
 SW Developer
 
 
-Configuration Manager
+SW Integrator

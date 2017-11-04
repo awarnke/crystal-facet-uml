@@ -42,9 +42,9 @@ Mark Classifiers
 | The highlighting may be different in different diagrams where the classifier is shown.
   highlight
   grey out
-  depends on --> Show Classifiers
+   --> Show Classifiers
 
 
 Classifier is contained (child)
 | A Classifier can either exist stand-alone or be a sub-element of another classifier.
-  depends on --> Classifier has relations
+   --> Classifier has relations
