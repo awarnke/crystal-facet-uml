@@ -171,6 +171,30 @@ void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier
                                                          double *out_width
                                                        );
 
+/*!
+ *  \brief determines the dimensions of the border of the classifier-shape.
+ *
+ *  E.g. a simple line border is 2.0 * pencil_size_get_standard_object_border()
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to draw
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param out_top_border height of the top border is returned. NULL is not allowed.
+ *  \param out_left_border width of the left border is returned. NULL is not allowed.
+ *  \param out_bottom_border height of the bottom border is returned. NULL is not allowed.
+ *  \param out_right_border width of the right border is returned. NULL is not allowed.
+ */
+static inline void pencil_classifier_painter_private_get_shape_border_dimensions( const pencil_classifier_painter_t *this_,
+                                                                                  data_classifier_type_t classifier_type,
+                                                                                  const pencil_size_t *pencil_size,
+                                                                                  double *out_top_border,
+                                                                                  double *out_left_border,
+                                                                                  double *out_bottom_border,
+                                                                                  double *out_right_border
+                                                                                );
+
+#include "pencil_classifier_painter.inl"
+
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 
 

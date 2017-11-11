@@ -233,9 +233,8 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             {
-                double two_fontlines = 2.0 * pencil_size_get_larger_font_size( pencil_size );
+                double actor_height = 2.5 * pencil_size_get_larger_font_size( pencil_size );
                 double half_width = 0.5 * border_width;
-                double actor_height = border_height - two_fontlines - 2.0 * gap;
                 double actor_width;
                 pencil_classifier_painter_private_draw_actor_icon ( this_,
                                                                     border_left + half_width,
@@ -420,7 +419,7 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
 
-    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+    if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
         data_classifier_t *classifier;
         data_diagramelement_t *diagramelement;
@@ -431,9 +430,22 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
 
         TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
+        /* determine border sizes of the classifier-shape */
+        double top_border;
+        double left_border;
+        double bottom_border;
+        double right_border;
+        pencil_classifier_painter_private_get_shape_border_dimensions( this_,
+                                                                       data_classifier_get_main_type ( classifier ),
+                                                                       pencil_size,
+                                                                       &top_border,
+                                                                       &left_border,
+                                                                       &bottom_border,
+                                                                       &right_border );
+
         /* bounding rectangle */
-        width += 6.0 * gap;
-        height += 6.0 * gap;
+        width += left_border + right_border;
+        height += top_border + bottom_border;
 
         /* stereotype text */
         int text1_height = 0;
@@ -504,105 +516,54 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
     assert( NULL != out_classifier_space );
     assert( NULL != font_layout );
 
-    data_classifier_t *classifier;
-    classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+    double space_left = 0.0;
+    double space_top = 0.0;
+    double space_width = 0.0;
+    double space_height = 0.0;
 
-    bool has_stereotype;
-    has_stereotype = data_classifier_has_stereotype( classifier );
-
-    double space_left;
-    double space_top;
-    double space_width;
-    double space_height;
-    space_left = geometry_rectangle_get_left( classifier_bounds )
-                 + 2.0 * pencil_size_get_standard_object_border( pencil_size );
-    space_width = geometry_rectangle_get_width( classifier_bounds )
-                  - 4.0 * pencil_size_get_standard_object_border( pencil_size );
-    space_height = geometry_rectangle_get_height( classifier_bounds )
-                   - 4.0 * pencil_size_get_standard_object_border( pencil_size )
-                   - pencil_size_get_larger_font_size( pencil_size );
-
-    /* for underscores under object instance names: */
-    space_height = space_height
-                   - 2.0 * pencil_size_get_standard_object_border( pencil_size );
-    if ( has_stereotype )
+    if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
-        space_height = space_height
-        - pencil_size_get_font_line_gap( pencil_size )
-        - pencil_size_get_standard_font_size( pencil_size );
-        /* this is an approximation to fix the differnce between font size and the actual line height */
-        space_height = space_height
-        - 2.0 * pencil_size_get_font_line_gap( pencil_size );
+        /* get the classifier */
+        data_classifier_t *classifier;
+        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+
+        /* determine border sizes of the classifier-shape */
+        double top_border;
+        double left_border;
+        double bottom_border;
+        double right_border;
+        pencil_classifier_painter_private_get_shape_border_dimensions( this_,
+                                                                    data_classifier_get_main_type ( classifier ),
+                                                                    pencil_size,
+                                                                    &top_border,
+                                                                    &left_border,
+                                                                    &bottom_border,
+                                                                    &right_border );
+
+        /* determine stereotype and name heights */
+        bool has_stereotype;
+        has_stereotype = data_classifier_has_stereotype( classifier );
+        double stereotype_and_name_height;
+        stereotype_and_name_height = pencil_size_get_larger_font_size( pencil_size );
+        /* for underscores under object instance names, add 2 * gap: */
+        stereotype_and_name_height += 2.0 * pencil_size_get_standard_object_border( pencil_size );
+        if ( has_stereotype )
+        {
+            stereotype_and_name_height += pencil_size_get_font_line_gap( pencil_size );
+            stereotype_and_name_height += pencil_size_get_standard_font_size( pencil_size );
+            /* this is an approximation to fix the differnce between font size and the actual line height */
+            stereotype_and_name_height += 2.0 * pencil_size_get_font_line_gap( pencil_size );
+        }
+
+        /* calculate the result */
+        space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
+        space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
+        space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + stereotype_and_name_height;
+        space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - stereotype_and_name_height;
     }
-    space_top = geometry_rectangle_get_bottom( classifier_bounds )
-                - space_height
-                - 2.0 * pencil_size_get_standard_object_border( pencil_size );
-
-    switch ( data_classifier_get_main_type ( classifier ) )
+    else
     {
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
-        {
-            /* within a use case, space is limited: */
-            double some_offset = pencil_size_get_standard_font_size( pencil_size );
-            space_height -= 2.0 * some_offset;
-            space_top += some_offset;
-            space_width -= 2.0 * some_offset;
-            space_left += some_offset;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
-        {
-            /* the 3d border of a node shrinks the space */
-            double gap = pencil_size_get_standard_object_border( pencil_size );
-            double offset_3d = 2.0*gap;
-            space_top += offset_3d;
-            space_height -= offset_3d;
-            space_width -= offset_3d;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
-        {
-            /* align the space with the actor icon on top */
-            double two_fontlines = 2.0 * pencil_size_get_larger_font_size( pencil_size );
-            space_top = geometry_rectangle_get_top( classifier_bounds );
-            space_height = geometry_rectangle_get_height( classifier_bounds )
-                           - 4.0 * pencil_size_get_standard_object_border( pencil_size )
-                           - two_fontlines;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-        {
-            double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
-            space_top += top_ornament_height;
-            space_height -= top_ornament_height;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_FEATURE:
-        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
-        {
-            /* standard size */
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_get_drawing_space()");
-        }
-        break;
+        TSLOG_ERROR("invalid visible classifier in array!");
     }
 
     geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
