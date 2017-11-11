@@ -233,8 +233,9 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             {
+                double two_fontlines = 2.0 * pencil_size_get_larger_font_size( pencil_size );
                 double half_width = 0.5 * border_width;
-                double actor_height = 0.7 * border_height;
+                double actor_height = border_height - two_fontlines - 2.0 * gap;
                 double actor_width;
                 pencil_classifier_painter_private_draw_actor_icon ( this_,
                                                                     border_left + half_width,
@@ -506,17 +507,24 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
     data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
 
-    bool has_stereotype = data_classifier_has_stereotype( classifier );
-    double space_left = geometry_rectangle_get_left( classifier_bounds )
-    + 2.0 * pencil_size_get_standard_object_border( pencil_size );
-    double space_width = geometry_rectangle_get_width( classifier_bounds )
-    - 4.0 * pencil_size_get_standard_object_border( pencil_size );
-    double space_height = geometry_rectangle_get_height( classifier_bounds )
-    - 4.0 * pencil_size_get_standard_object_border( pencil_size )
-    - pencil_size_get_larger_font_size( pencil_size );
+    bool has_stereotype;
+    has_stereotype = data_classifier_has_stereotype( classifier );
+
+    double space_left;
+    double space_top;
+    double space_width;
+    double space_height;
+    space_left = geometry_rectangle_get_left( classifier_bounds )
+                 + 2.0 * pencil_size_get_standard_object_border( pencil_size );
+    space_width = geometry_rectangle_get_width( classifier_bounds )
+                  - 4.0 * pencil_size_get_standard_object_border( pencil_size );
+    space_height = geometry_rectangle_get_height( classifier_bounds )
+                   - 4.0 * pencil_size_get_standard_object_border( pencil_size )
+                   - pencil_size_get_larger_font_size( pencil_size );
+
     /* for underscores under object instance names: */
     space_height = space_height
-    - 2.0 * pencil_size_get_standard_object_border( pencil_size );
+                   - 2.0 * pencil_size_get_standard_object_border( pencil_size );
     if ( has_stereotype )
     {
         space_height = space_height
@@ -526,9 +534,77 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
         space_height = space_height
         - 2.0 * pencil_size_get_font_line_gap( pencil_size );
     }
-    double space_top = geometry_rectangle_get_bottom( classifier_bounds )
-    - space_height
-    - 2.0 * pencil_size_get_standard_object_border( pencil_size );
+    space_top = geometry_rectangle_get_bottom( classifier_bounds )
+                - space_height
+                - 2.0 * pencil_size_get_standard_object_border( pencil_size );
+
+    switch ( data_classifier_get_main_type ( classifier ) )
+    {
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            /* within a use case, space is limited: */
+            double some_offset = pencil_size_get_standard_font_size( pencil_size );
+            space_height -= 2.0 * some_offset;
+            space_top += some_offset;
+            space_width -= 2.0 * some_offset;
+            space_left += some_offset;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        {
+            /* the 3d border of a node shrinks the space */
+            double gap = pencil_size_get_standard_object_border( pencil_size );
+            double offset_3d = 2.0*gap;
+            space_top += offset_3d;
+            space_height -= offset_3d;
+            space_width -= offset_3d;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            /* align the space with the actor icon on top */
+            double two_fontlines = 2.0 * pencil_size_get_larger_font_size( pencil_size );
+            space_top = geometry_rectangle_get_top( classifier_bounds );
+            space_height = geometry_rectangle_get_height( classifier_bounds )
+                           - 4.0 * pencil_size_get_standard_object_border( pencil_size )
+                           - two_fontlines;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
+            space_top += top_ornament_height;
+            space_height -= top_ornament_height;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_FEATURE:
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            /* standard size */
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_get_drawing_space()");
+        }
+        break;
+    }
+
     geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
 
     TRACE_END();

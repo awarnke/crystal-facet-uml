@@ -1,22 +1,26 @@
 2017-xx-xx 0.19.0 [xxxxxxx]
 
   GOAL: Improve usability
+  @gui
   [ ] Add a link to the user documentation to the plain empty starting page
   [ ] The 2nd click on the about button shall remove the about message
-  [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  [ ] In the diagram overview of a newly initialized database, show some help messages
   [ ] Beautify layer backgrounds - e.g. light-blue sky in root-diagram
   [ ] Pink-select and de-select elements only if a modifier key is hold down or at the second click
   [ ] In new-object and new-diagram modes, draw a warning-symbol below the cursor
   [ ] in overview mode, limit the number of visible children and add scroll arrows (to be tested)
-  [ ] in overview mode, add brothers and sister diagrams
+  [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
   [ ] in overview mode, allow to shift diagrams vertically
   [ ] in overview mode, allow to move diagrams horizontally
-  [ ] reset-selection shall select everything is nothing is selected
+  [ ] reset-selection shall select everything if nothing is selected
   [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
-  [ ]
-  [ ]
-  [ ]
-  [ ]
+  [ ] The default-names of new objects shall be more unique, less duplicate name errors
+  @gui+ctrl
+  [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  @gui+pencil
+  [ ] In new object mode, clicking into the space area shall create new features
+  @pencil
+  [ ] Nicer layout: space area shall depend on the classifier type
 
 
 2017-11-05 0.18.0 [2ac058e]
