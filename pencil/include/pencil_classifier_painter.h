@@ -79,12 +79,14 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_classifier_bounds memory location where the result shall be stored. Must not be NULL.
+ *  \param out_classifier_space memory location where the drawing space corresponding to the result bounds shall be stored. Must not be NULL.
  */
 void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_painter_t *this_,
                                                     data_visible_classifier_t *visible_classifier,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
-                                                    geometry_rectangle_t *out_classifier_bounds
+                                                    geometry_rectangle_t *out_classifier_bounds,
+                                                    geometry_rectangle_t *out_classifier_space
                                                   );
 
 /*!
@@ -192,6 +194,24 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
                                                                                   double *out_bottom_border,
                                                                                   double *out_right_border
                                                                                 );
+
+/*!
+ *  \brief determines the dimensions of the stereotype and name of the classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_text_height height of the text is returned. NULL is not allowed.
+ *  \param out_text_width width of the text is returned. NULL is not allowed.
+ */
+static inline void pencil_classifier_painter_private_get_stereotype_and_name_dimensions( const pencil_classifier_painter_t *this_,
+                                                                                         data_visible_classifier_t *visible_classifier,
+                                                                                         const pencil_size_t *pencil_size,
+                                                                                         PangoLayout *font_layout,
+                                                                                         double *out_text_height,
+                                                                                         double *out_text_width
+                                                                                       );
 
 #include "pencil_classifier_painter.inl"
 

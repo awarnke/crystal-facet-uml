@@ -69,18 +69,22 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
             classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
 
             /* determine the minimum size of the classifier */
-            geometry_rectangle_t minimum_size;
+            geometry_rectangle_t minimum_bounds;
+            geometry_rectangle_t minimum_space;
             pencil_classifier_painter_get_minimum_bounds ( &((*this_).classifier_painter),
                                                            visible_classifier2,
                                                            (*this_).pencil_size,
                                                            font_layout,
-                                                           &minimum_size
+                                                           &minimum_bounds,
+                                                           &minimum_space
                                                          );
-            double min_width = geometry_rectangle_get_width( &minimum_size );
-            double min_height = geometry_rectangle_get_height( &minimum_size );
+            double min_width = geometry_rectangle_get_width( &minimum_bounds );
+            double min_height = geometry_rectangle_get_height( &minimum_bounds );
 
             /* determine the minimum size of the contained features */
             {
+                double min_space_width = geometry_rectangle_get_width( &minimum_space );
+
                 geometry_rectangle_t features_bounds;
                 geometry_rectangle_init_empty( &features_bounds );
                 pencil_feature_layouter_calculate_features_bounds ( &((*this_).feature_layouter),
@@ -92,7 +96,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
                 /* adjust width and height to feature bounds */
                 double feat_width = geometry_rectangle_get_width( &features_bounds );
                 feat_width += 4.0 * pencil_size_get_standard_object_border( (*this_).pencil_size );
-                min_width = ( min_width < feat_width ) ? feat_width : min_width;
+                min_width = ( min_space_width < feat_width ) ? ( min_width - min_space_width + feat_width ) : min_width;
                 min_height += geometry_rectangle_get_height( &features_bounds );
 
                 geometry_rectangle_destroy( &features_bounds );

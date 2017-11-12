@@ -404,37 +404,35 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
                                                     data_visible_classifier_t *visible_classifier,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
-                                                    geometry_rectangle_t *out_classifier_bounds )
+                                                    geometry_rectangle_t *out_classifier_bounds,
+                                                    geometry_rectangle_t *out_classifier_space )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != visible_classifier );
     assert( NULL != out_classifier_bounds );
+    assert( NULL != out_classifier_space );
     assert( NULL != font_layout );
 
-    double left = 0.0;
-    double top = 0.0;
-    double width = 0.0;
-    double height = 0.0;
+    /* border sizes of the classifier-shape */
+    double top_border = 0.0;
+    double left_border = 0.0;
+    double bottom_border = 0.0;
+    double right_border = 0.0;
 
-    double gap = pencil_size_get_standard_object_border( pencil_size );
+    /* stereotype and name dimensions */
+    double text_height;
+    double text_width;
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
         data_classifier_t *classifier;
         data_diagramelement_t *diagramelement;
         classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
 
         TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
         /* determine border sizes of the classifier-shape */
-        double top_border;
-        double left_border;
-        double bottom_border;
-        double right_border;
         pencil_classifier_painter_private_get_shape_border_dimensions( this_,
                                                                        data_classifier_get_main_type ( classifier ),
                                                                        pencil_size,
@@ -443,62 +441,27 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
                                                                        &bottom_border,
                                                                        &right_border );
 
-        /* bounding rectangle */
-        width += left_border + right_border;
-        height += top_border + bottom_border;
-
-        /* stereotype text */
-        int text1_height = 0;
-        int text1_width = 0;
-        {
-            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
-            {
-                /* prepare text */
-                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, "<<" );
-                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-                utf8stringbuf_append_str( stereotype_buf, ">>" );
-
-                /* determine text width and height */
-                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
-                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
-            }
-        }
-
-        /* draw name text */
-        int text2_width;
-        int text2_height;
-        {
-            /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
-            utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
-            {
-                utf8stringbuf_clear( name_buf );
-            }
-            utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
-
-            /* determine text width and height */
-            pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-        }
-
-        width += ( text1_width > text2_width ) ? text1_width : text2_width;
-        height += text1_height + text2_height;
+        /* determine stereotype and name dimensions */
+        pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
+                                                                              visible_classifier,
+                                                                              pencil_size,
+                                                                              font_layout,
+                                                                              &text_height,
+                                                                              &text_width );
     }
     else
     {
         TSLOG_ERROR("invalid visible classifier in array!");
     }
 
+    /* minimum bounding box */
+    double left = 0.0;
+    double top = 0.0;
+    double width = left_border + text_width + right_border;
+    double height = top_border + text_height + bottom_border;
+
     geometry_rectangle_reinit( out_classifier_bounds, left, top, width, height );
+    geometry_rectangle_reinit( out_classifier_space, left + left_border, top + top_border + text_height, text_width, 0.0 );
     TRACE_END();
 }
 
@@ -540,26 +503,21 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                                     &bottom_border,
                                                                     &right_border );
 
-        /* determine stereotype and name heights */
-        bool has_stereotype;
-        has_stereotype = data_classifier_has_stereotype( classifier );
-        double stereotype_and_name_height;
-        stereotype_and_name_height = pencil_size_get_larger_font_size( pencil_size );
-        /* for underscores under object instance names, add 2 * gap: */
-        stereotype_and_name_height += 2.0 * pencil_size_get_standard_object_border( pencil_size );
-        if ( has_stereotype )
-        {
-            stereotype_and_name_height += pencil_size_get_font_line_gap( pencil_size );
-            stereotype_and_name_height += pencil_size_get_standard_font_size( pencil_size );
-            /* this is an approximation to fix the differnce between font size and the actual line height */
-            stereotype_and_name_height += 2.0 * pencil_size_get_font_line_gap( pencil_size );
-        }
+        /* determine stereotype and name dimensions */
+        double text_height;
+        double text_width;
+        pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
+                                                                              visible_classifier,
+                                                                              pencil_size,
+                                                                              font_layout,
+                                                                              &text_height,
+                                                                              &text_width );
 
         /* calculate the result */
         space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
         space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
-        space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + stereotype_and_name_height;
-        space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - stereotype_and_name_height;
+        space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
+        space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
     }
     else
     {
