@@ -84,9 +84,15 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
 
+            /* precalculate text dimensions to vertically center the text */
+            int text2_width;
+            int text2_height;
+            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
+            double y_adjust = ( height - text2_height ) / 2.0;
+
             /* draw text */
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_move_to ( cr, left, top );
+            cairo_move_to ( cr, left, top + y_adjust );
             pango_cairo_show_layout (cr, layout);
         }
 
@@ -156,8 +162,9 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
         lineheight = pencil_size_get_standard_font_size( pencil_size )
                      + pencil_size_get_font_line_gap( pencil_size );
 
+        height += lineheight;
+        /*height += text2_height;*/
         width += text2_width;
-        height += lineheight /*text2_height*/;
     }
     else
     {

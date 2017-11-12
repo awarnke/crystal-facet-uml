@@ -1,16 +1,88 @@
 Measures for Maintainability
 
 
+Simplicity
+   --> KISS
+   --> YAGNI
+   --> Occam's razor
+  supports --> Modifyability
+  supports --> Reusability
+
+
 Reusability
+
+
+KISS
+| Keep it simple and stupid
 
 
 Analyzability
 
 
+YAGNI
+| You aren't gonna need it
+
+
+Occam's razor
+| Among competing hypotheses, the one with the fewest assumptions should be selected
+
+
 Modifyability
+
+
+SOLID
+   --> Interface Segregation
+   --> Liskov Substitution
+   --> Dependency Inversion
+   --> Open/Closed
+   --> Single Responsability
+  supports --> Modularity
+
+
+Information Hiding
+| A sofware component shall hide its implementation details and make information accessible only via defined interfaces
+  enables --> Reusability
+  supports --> Modularity
+  simplifies --> Testability
+  simplifies --> Analyzability
+
+
+Single Responsability
+| A software component shall be responsible for one topic only
+
+
+Interface Segregation
+| Avoid general purpose interfaces, design multiple interfaces specific to the needs of different users/clients
 
 
 Testability
 
 
+Open/Closed
+| Open for extension, closed for modification
+
+
+Liskov Substitution
+| An implementation of an interface can be replaced by another implementation of the same interface. In object oriented design, types can be replaced by subtypes.
+
+
+Dependency Inversion
+| A software component shall depend on abstractions, not on concrete implementations
+  use Abstractions
+
+
 Modularity
+
+
+Least Astonishment
+| If a reader is astonished when looking at the design, a redesign shall be considered.
+| Measure: Conformity of style and concepts
+
+
+Strong Cohesion
+  influences --> Modularity
+
+
+Loose Coupling
+| split an entity that consists of multiple loosely coupled parts
+  supports --> Modularity
