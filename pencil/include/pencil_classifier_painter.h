@@ -89,7 +89,7 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
                                                     geometry_rectangle_t *out_classifier_space
                                                   );
 
-/*!
+/* !
  *  \brief determines the inner drawing space for contained classifiers and features
  *
  *  \param this_ pointer to own object attributes
@@ -99,6 +99,7 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_classifier_space memory location where the result shall be stored. Must not be NULL.
  */
+/*
 void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
                                                    data_visible_classifier_t *visible_classifier,
                                                    const pencil_size_t *pencil_size,
@@ -106,6 +107,7 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                    PangoLayout *font_layout,
                                                    geometry_rectangle_t *out_classifier_space
                                                  );
+*/
 
 /*!
  *  \brief draws the component icon at the defined location
