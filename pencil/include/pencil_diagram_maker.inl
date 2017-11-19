@@ -54,26 +54,32 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     g_object_unref (font_layout);
 }
 
-static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
-                                                                    double x,
-                                                                    double y,
-                                                                    bool dereference )
+static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
+                                                                         double x,
+                                                                         double y,
+                                                                         bool dereference,
+                                                                         data_id_t *out_selected_object_id,
+                                                                         data_id_t *out_surrounding_object_id )
 {
-    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference );
+    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference, out_selected_object_id, out_surrounding_object_id );
 }
 
-static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                             double x,
-                                                                             double y )
+static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                                     double x,
+                                                                     double y,
+                                                                     int32_t *out_order_x,
+                                                                     int32_t *out_order_y )
 {
-    return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y );
+    return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y, 3.15, out_order_x, out_order_y );
 }
 
-static inline universal_bool_list_t pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
-                                                                          double x,
-                                                                          double y )
+static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+                                                         double x,
+                                                         double y,
+                                                         bool *out_x_on_grid,
+                                                         bool *out_y_on_grid )
 {
-    return pencil_layouter_is_pos_on_grid ( &((*this_).layouter), x, y );
+    pencil_layouter_is_pos_on_grid ( &((*this_).layouter), x, y, 3.13, out_x_on_grid, out_y_on_grid );
 }
 
 

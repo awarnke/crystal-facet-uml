@@ -43,28 +43,42 @@ static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_l
     return result;
 }
 
-static inline universal_int32_pair_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                                        double x,
-                                                                        double y )
+static inline pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
+                                                                double x,
+                                                                double y,
+                                                                double snap_distance,
+                                                                int32_t *out_order_x,
+                                                                int32_t *out_order_y )
 {
-    universal_int32_pair_t result;
-    int32_t x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, 3.15 );
-    int32_t y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, 3.15 );
-    universal_int32_pair_init( &result, x_order, y_order );
+    assert ( NULL != out_order_x );
+    assert ( NULL != out_order_y );
+    pencil_error_t result = PENCIL_ERROR_NONE;
+
+    *out_order_x = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+    *out_order_y = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+    if ( ! geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) )
+    {
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
 
     return result;
 }
 
-static inline universal_bool_list_t pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
-                                                                     double x,
-                                                                     double y )
+static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
+                                                    double x,
+                                                    double y,
+                                                    double snap_distance,
+                                                    bool *out_x_on_grid,
+                                                    bool *out_y_on_grid )
 {
-    universal_bool_list_t result;
+    assert ( NULL != out_x_on_grid );
+    assert ( NULL != out_y_on_grid );
+
     double x_dist = geometry_non_linear_scale_get_closest_fix_location( &((*this_).x_scale), x ) - x;
     double y_dist = geometry_non_linear_scale_get_closest_fix_location( &((*this_).y_scale), y ) - y;
-    universal_bool_list_init_pair( &result, ((-3.13 < x_dist)&&( x_dist < 3.13)), ((-3.13 < y_dist)&&( y_dist < 3.13)) );
 
-    return result;
+    *out_x_on_grid = ((-snap_distance < x_dist)&&( x_dist < snap_distance));
+    *out_y_on_grid = ((-snap_distance < y_dist)&&( y_dist < snap_distance));
 }
 
 

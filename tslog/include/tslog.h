@@ -18,7 +18,7 @@
 #include <unistd.h>
 #endif
 
-#define TSLOG_OUT_STREAM stdout
+#define TSLOG_OUT_STREAM stderr
 #define ERRSLP 3
 
 #ifndef NDEBUG  /* SWITCH */

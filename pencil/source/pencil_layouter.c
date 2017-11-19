@@ -169,15 +169,20 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     TRACE_END();
 }
 
-data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
-                                                 double x,
-                                                 double y,
-                                                 bool dereference )
+pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
+                                                      double x,
+                                                      double y,
+                                                      bool dereference,
+                                                      data_id_t *out_selected_object_id,
+                                                      data_id_t *out_surrounding_object_id )
 {
     TRACE_BEGIN();
+    assert( NULL != out_selected_object_id );
+    assert( NULL != out_surrounding_object_id );
 
-    data_id_t result;
-    data_id_init_void( &result );
+    pencil_error_t result = PENCIL_ERROR_NONE;
+    data_id_reinit_void( out_selected_object_id );
+    data_id_reinit_void( out_surrounding_object_id );
     data_diagram_t *diag;
     diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
 
@@ -198,41 +203,45 @@ data_id_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                     data_relationship_t *current_relation;
                     current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
 
-                    data_id_reinit( &result, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( current_relation ) );
+                    data_id_reinit( out_selected_object_id, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( current_relation ) );
                 }
             }
         }
 
         /* determine a classifier at the given position */
-        if ( ! data_id_is_valid( &result ) )
+        if ( ! data_id_is_valid( out_selected_object_id ) )
         {
-            result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference );
+            result = pencil_layouter_private_get_classifier_id_at_pos( this_, x, y, dereference, out_selected_object_id, out_surrounding_object_id );
         }
 
         /* fallback: return the diagram */
-        if ( ! data_id_is_valid( &result ) )
+        if ( ! data_id_is_valid( out_selected_object_id ) )
         {
-            data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
+            data_id_reinit( out_selected_object_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
         }
     }
     else
     {
-        TRACE_INFO( "no object at given location or no diagram chosen" );
-        data_id_init_void( &result );
+        TRACE_INFO( "given location outside diagram or no diagram chosen" );
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
     return result;
 }
 
-data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
-                                                             double x,
-                                                             double y,
-                                                             bool dereference )
+pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+                                                                  double x,
+                                                                  double y,
+                                                                  bool dereference,
+                                                                  data_id_t *out_selected_object_id,
+                                                                  data_id_t *out_surrounding_object_id )
 {
     TRACE_BEGIN();
-    data_id_t result;
-    data_id_init_void( &result );
+    assert( NULL != out_selected_object_id );
+    assert( NULL != out_surrounding_object_id );
+
+    pencil_error_t result = PENCIL_ERROR_NONE;
 
     if ( geometry_rectangle_contains( &((*this_).diagram_draw_area), x, y ) )
     {
@@ -279,7 +288,7 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                                                                                    );
                                 if ( geometry_rectangle_contains( &feature_bounds, x, y ) )
                                 {
-                                    data_id_reinit( &result, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) );
+                                    data_id_reinit( out_selected_object_id, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) );
                                 }
                                 linenumber ++;
                                 geometry_rectangle_destroy( &feature_bounds );
@@ -287,15 +296,15 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
                         }
                     }
                     else
-                    /* if ( ! data_id_is_valid( &result ) ) */ /* since parents can contain children, the fallback is not automatically the parent */
+                    /* if ( ! data_id_is_valid( out_selected_object_id ) ) */ /* since parents can contain children, the fallback is not automatically the parent */
                     {
                         if ( dereference )
                         {
-                            data_id_reinit( &result, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+                            data_id_reinit( out_selected_object_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
                         }
                         else
                         {
-                            data_id_reinit( &result, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
+                            data_id_reinit( out_selected_object_id, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
                         }
                     }
                 }
@@ -307,7 +316,7 @@ data_id_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *
         }
     }
 
-    TRACE_END();
+    TRACE_END_ERR( result );
     return result;
 }
 

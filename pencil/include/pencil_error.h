@@ -1,30 +1,29 @@
-/* File: pencil_visibility.h; Copyright and License: see below */
+/* File: pencil_error.h; Copyright and License: see below */
 
-#ifndef PENCIL_VISIBILITY_H
-#define PENCIL_VISIBILITY_H
+#ifndef PENCIL_ERROR_H
+#define PENCIL_ERROR_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines visibility of objects
+ *  \brief Notifies errors in the pencil module
  */
 
 /*!
- *  \brief enumeration of all visibility types
+ *  \brief error constants which explain errors which occurred in the pencil module
  */
-enum pencil_visibility_enum {
-    PENCIL_VISIBILITY_HIDE,  /*!< object is not shown */
-    PENCIL_VISIBILITY_IMPLICIT,  /*!< object need not be drawn explicitly unless required by conditions */
-    PENCIL_VISIBILITY_SHOW,  /*!< object is shown */
+enum pencil_error_enum {
+    PENCIL_ERROR_NONE = 0,  /*!< 0: success */
+    PENCIL_ERROR_OUT_OF_BOUNDS = 1,  /*!< 1: input parameters are out of bounds */
 };
 
-typedef enum pencil_visibility_enum pencil_visibility_t;
+typedef enum pencil_error_enum pencil_error_t;
 
-#endif  /* PENCIL_VISIBILITY_H */
+#endif  /* PENCIL_ERROR_H */
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2017-2017 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

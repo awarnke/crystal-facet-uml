@@ -101,6 +101,28 @@
  *  - Exceptions shall be documented.
  *  .
  *
+ *  \section cfu-error Error Handling
+ *
+ *  This section explains the detection of faults and anomalies, the propagation from detection to error handler and
+ *  how an error handler shall react. Small anomalies shall be logged but need not be handled.
+ *
+ *  \subsection cfu-error-handling Technical concepts
+ *
+ *  The following mechanisms shall be used for detection, propagation and handling of errors:
+ *  - assert
+ *    \n assert statements shall be used to validate that a function is called under appropriate conditions.
+ *    \n assert statements shall have no effect in NDEBUG mode, stop the program otherwise.
+ *  - logging
+ *    \n Faults and anomalies shall be logged when they occur.
+ *  - error_codes
+ *    \n The return parameter of a function shall be the error code. Futher return values shall be declared as *out_xy parmeter.
+ *    \n Exception to his rule are helper and utility functions which do not report errors (only perform asserts).
+ *  - error handlig
+ *    \n Errors shall be reported to the user: in GUI mode, a message shall be shown in a window, in console mode, it shall be
+ *    shown on std_err.
+ *    \n If possible, the program shall continue running.
+ *  .
+ *
  *  \section cfu-programming-guidelines-apx Appendix
  *  \author (c) 2016-2017 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
  */

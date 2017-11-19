@@ -16,6 +16,7 @@
 #include "pencil_classifier_painter.h"
 #include "pencil_relationship_painter.h"
 #include "pencil_size.h"
+#include "pencil_error.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
@@ -137,13 +138,17 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
  *  \param y y-position
  *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
  *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
- *  \return an object id. The id is invalid if there is no object at the given location.
+ *  \param out_selected_object_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_object_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
-static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
-                                                                    double x,
-                                                                    double y,
-                                                                    bool dereference
-                                                                  );
+static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
+                                                                       double x,
+                                                                       double y,
+                                                                       bool dereference,
+                                                                       data_id_t *out_selected_object_id,
+                                                                       data_id_t *out_surrounding_object_id
+                                                                     );
 
 /*!
  *  \brief gets the order values at a given position
@@ -151,12 +156,16 @@ static inline data_id_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagr
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \return the x- and y- order values as first and second element of the pair
+ *  \param out_order_x x-order value at given x-position
+ *  \param out_order_y y-order value at given y-position
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
-static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                             double x,
-                                                                             double y
-                                                                           );
+static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                                   double x,
+                                                                   double y,
+                                                                   int32_t *out_order_x,
+                                                                   int32_t *out_order_y
+                                                                 );
 
 /*!
  *  \brief determines if the given position is on a grid line
@@ -164,12 +173,15 @@ static inline universal_int32_pair_t pencil_diagram_maker_get_order_at_pos ( pen
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \return a pair of bool values indicating if x- and y- position values are on grid lines
+ *  \param out_x_on_grid flag indicating if the given x position is on a grid line
+ *  \param out_y_on_grid flag indicating if the given y position is on a grid line
  */
-static inline universal_bool_list_t pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
-                                                                          double x,
-                                                                          double y
-                                                                        );
+static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+                                                         double x,
+                                                         double y,
+                                                         bool *out_x_on_grid,
+                                                         bool *out_y_on_grid
+                                                       );
 
 #include "pencil_diagram_maker.inl"
 
