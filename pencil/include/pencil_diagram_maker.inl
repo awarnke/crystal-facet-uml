@@ -61,7 +61,7 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
                                                                          data_id_t *out_selected_object_id,
                                                                          data_id_t *out_surrounding_object_id )
 {
-    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, dereference, out_selected_object_id, out_surrounding_object_id );
+    return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter), x, y, 3.0, dereference, out_selected_object_id, out_surrounding_object_id );
 }
 
 static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,

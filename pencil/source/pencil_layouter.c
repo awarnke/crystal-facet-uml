@@ -172,6 +172,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
 pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
+                                                      double snap_distance,
                                                       bool dereference,
                                                       data_id_t *out_selected_object_id,
                                                       data_id_t *out_surrounding_object_id )
@@ -198,7 +199,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                 geometry_connector_t *relationship_shape;
                 relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
 
-                if ( geometry_connector_is_close( relationship_shape, x, y, 3.0 /*=distance*/ ) )
+                if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
                 {
                     data_relationship_t *current_relation;
                     current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, rel_index );
@@ -218,6 +219,10 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
         if ( ! data_id_is_valid( out_selected_object_id ) )
         {
             data_id_reinit( out_selected_object_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
+        }
+        if ( ! data_id_is_valid( out_surrounding_object_id ) )
+        {
+            data_id_reinit( out_surrounding_object_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) );
         }
     }
     else
@@ -288,16 +293,26 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
                                                                                    );
                                 if ( geometry_rectangle_contains( &feature_bounds, x, y ) )
                                 {
+                                    /* feature is found */
                                     data_id_reinit( out_selected_object_id, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) );
                                 }
                                 linenumber ++;
                                 geometry_rectangle_destroy( &feature_bounds );
                             }
                         }
+                        /* surrounding classifier is found */
+                        if ( dereference )
+                        {
+                            data_id_reinit( out_surrounding_object_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+                        }
+                        else
+                        {
+                            data_id_reinit( out_surrounding_object_id, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id( diagramelement ) );
+                        }
                     }
                     else
-                    /* if ( ! data_id_is_valid( out_selected_object_id ) ) */ /* since parents can contain children, the fallback is not automatically the parent */
                     {
+                        /* classifier is found */
                         if ( dereference )
                         {
                             data_id_reinit( out_selected_object_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );

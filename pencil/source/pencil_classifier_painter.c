@@ -487,11 +487,11 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
-        /* get the classifier * /
+        /-* get the classifier *- /
         data_classifier_t *classifier;
         classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
 
-        /* determine border sizes of the classifier-shape * /
+        /-* determine border sizes of the classifier-shape *- /
         double top_border;
         double left_border;
         double bottom_border;
@@ -504,7 +504,7 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                                     &bottom_border,
                                                                     &right_border );
 
-        /* determine stereotype and name dimensions * /
+        /-* determine stereotype and name dimensions *- /
         double text_height;
         double text_width;
         pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
@@ -514,7 +514,7 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                                               &text_height,
                                                                               &text_width );
 
-        /* calculate the result * /
+        /-* calculate the result *- /
         space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
         space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
         space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
@@ -530,7 +530,7 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
     TRACE_END();
 }
 */
-        
+
 void pencil_classifier_painter_private_draw_component_icon ( const pencil_classifier_painter_t *this_,
                                                              double x,
                                                              double y,
