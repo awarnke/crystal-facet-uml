@@ -45,19 +45,22 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
 
 static inline data_id_t gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y, bool dereference )
 {
-    data_id_t selected_obj_id;
-    data_id_t surrounding_obj_id;
+    data_id_t selected_visible_obj_id;
+    data_id_t selected_model_obj_id;
+    data_id_t surrounding_visible_obj_id;
+    data_id_t surrounding_model_obj_id;
 
     pencil_error_t err;
     err = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),
                                                      (double) x,
                                                      (double) y,
-                                                     dereference,
-                                                     &selected_obj_id,
-                                                     &surrounding_obj_id
+                                                     &selected_visible_obj_id,
+                                                     &selected_model_obj_id,
+                                                     &surrounding_visible_obj_id,
+                                                     &surrounding_model_obj_id
                                                    );
 
-    return selected_obj_id;
+    return dereference ? selected_model_obj_id : selected_visible_obj_id;
 }
 
 static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
