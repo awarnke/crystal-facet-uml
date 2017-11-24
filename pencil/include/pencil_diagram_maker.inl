@@ -57,19 +57,15 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
 static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
                                                                          double x,
                                                                          double y,
-                                                                         data_id_t *out_selected_visible_object_id,
-                                                                         data_id_t *out_selected_model_object_id,
-                                                                         data_id_t *out_surrounding_visible_object_id,
-                                                                         data_id_t *out_surrounding_model_object_id )
+                                                                         pencil_visible_object_id_t* out_selected_id,
+                                                                         pencil_visible_object_id_t* out_surrounding_id )
 {
     return pencil_layouter_get_object_id_at_pos ( &((*this_).layouter),
                                                   x,
                                                   y,
                                                   3.0,
-                                                  out_selected_visible_object_id,
-                                                  out_selected_model_object_id,
-                                                  out_surrounding_visible_object_id,
-                                                  out_surrounding_model_object_id
+                                                  out_selected_id,
+                                                  out_surrounding_id
                                                 );
 }
 

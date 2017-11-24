@@ -15,6 +15,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
+#include "pencil_visible_object_id.h"
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
 #include "gui_sketch_marker.h"
@@ -210,11 +211,15 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param dereference true if the real, dereferenced object shall be returned (e.g. data_classifier_t or data_diagram_t),
- *                     false if the visible object shall be returned (e.g. data_diagramelement_t or data_diagram_t)
- *  \return an object id. The id is invalid if there is no object at the given location.
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  */
-static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y, bool dereference );
+static inline void gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_,
+                                                          int32_t x,
+                                                          int32_t y,
+                                                          pencil_visible_object_id_t* out_selected_id,
+                                                          pencil_visible_object_id_t* out_surrounding_id
+                                                        );
 
 /*!
  *  \brief gets the gui_sketch_card_t at a given position

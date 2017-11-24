@@ -57,11 +57,17 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
     return result;
 }
 
-static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y, bool dereference )
+static inline void gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_,
+                                                          int32_t x,
+                                                          int32_t y,
+                                                          pencil_visible_object_id_t* out_selected_id,
+                                                          pencil_visible_object_id_t* out_surrounding_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
-    data_id_t result;
-    data_id_init_void( &result );
+    assert( NULL != out_selected_id );
+    assert( NULL != out_surrounding_id );
+    pencil_visible_object_id_init_void( out_selected_id );
+    pencil_visible_object_id_init_void( out_surrounding_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
@@ -71,17 +77,20 @@ static inline data_id_t gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t
         card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
-            data_id_destroy( &result );
-            result = gui_sketch_card_get_object_id_at_pos ( card, x, y, dereference );
-            if ( ! data_id_is_valid( &result ) )
+            gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, out_surrounding_id );
+            if ( ! pencil_visible_object_id_is_valid( out_selected_id ) )
             {
                 data_diagram_t *selected_diag;
                 selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
+                pencil_visible_object_id_reinit_by_table_and_id( out_selected_id,
+                                                                 DATA_TABLE_DIAGRAM,
+                                                                 data_diagram_get_id( selected_diag ),
+                                                                 DATA_TABLE_DIAGRAM,
+                                                                 data_diagram_get_id( selected_diag )
+                                                               );
             }
         }
     }
-    return result;
 }
 
 static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )

@@ -551,15 +551,16 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             }
             else
             {
-                data_id_t object_under_mouse;
-                object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
+                pencil_visible_object_id_t object_under_mouse;
+                pencil_visible_object_id_t object_surrounding_mouse;
+                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+                if ( ! data_id_equals( pencil_visible_object_id_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
                 {
-                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                    if ( pencil_visible_object_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                     {
-                        gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
+                        gui_sketch_marker_set_highlighted( (*this_).marker, pencil_visible_object_id_get_visible_id ( &object_under_mouse ) );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -576,15 +577,16 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
         {
-            data_id_t object_under_mouse;
-            object_under_mouse = gui_sketch_area_get_object_id_at_pos ( this_, x, y, false );
+            pencil_visible_object_id_t object_under_mouse;
+            pencil_visible_object_id_t object_surrounding_mouse;
+            gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
             data_id_t object_highlighted;
             object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-            if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+            if ( ! data_id_equals( pencil_visible_object_id_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
             {
-                if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                if ( pencil_visible_object_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                 {
-                    gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
+                    gui_sketch_marker_set_highlighted( (*this_).marker, pencil_visible_object_id_get_visible_id ( &object_under_mouse ) );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -677,20 +679,20 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 TRACE_INFO( "GUI_SKETCH_TOOLS_EDIT" );
 
                 /* determine the focused object */
-                data_id_t focused_id;
-                focused_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ false );
-                data_id_trace( &focused_id );
-                data_id_t focused_real_object_id;
-                focused_real_object_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
-                data_id_trace( &focused_real_object_id );
+                pencil_visible_object_id_t focused_object;
+                pencil_visible_object_id_t focus_surrounding_object;
+                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &focused_object, &focus_surrounding_object );
+                pencil_visible_object_id_trace( &focused_object );
+                pencil_visible_object_id_trace( &focus_surrounding_object );
 
                 /* store focused object and notify listener */
-                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_object_id );
+                gui_sketch_marker_set_focused( (*this_).marker,
+                                               pencil_visible_object_id_get_visible_id( &focused_object ),
+                                               pencil_visible_object_id_get_model_id( &focused_object )
+                                             );
                 gui_sketch_area_private_notify_listener( this_ );
-                /* if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &focused_id ) ) */
-                {
-                    gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_id );
-                }
+
+                gui_sketch_marker_toggle_selected_obj( (*this_).marker, pencil_visible_object_id_get_visible_id( &focused_object ) );
 
                 /* mark dirty rect */
                 gtk_widget_queue_draw( widget );
@@ -711,12 +713,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
 
                 /* determine the object at click location */
-                data_id_t clicked_id;
-                clicked_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ false );
-                data_id_trace( &clicked_id );
-                data_id_t clicked_real_object_id;
-                clicked_real_object_id = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
-                data_id_trace( &clicked_real_object_id );
+                pencil_visible_object_id_t clicked_object;
+                pencil_visible_object_id_t click_surrounding_object;
+                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &clicked_object, &click_surrounding_object );
+                pencil_visible_object_id_trace( &clicked_object );
+                pencil_visible_object_id_trace( &click_surrounding_object );
 
                 if ( NULL == target )
                 {
@@ -724,10 +725,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &clicked_real_object_id ) )
+                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
                 {
                     /* store focused object and notify listener */
-                    gui_sketch_marker_set_focused( (*this_).marker, clicked_id, clicked_real_object_id );
+                    gui_sketch_marker_set_focused( (*this_).marker,
+                                                   pencil_visible_object_id_get_visible_id( &clicked_object ),
+                                                   pencil_visible_object_id_get_model_id( &clicked_object )
+                                                 );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
                 else
@@ -941,7 +945,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                     /* which object is at the target location? */
                     data_id_t destination_real;
-                    destination_real = gui_sketch_area_get_object_id_at_pos ( this_, x, y, /* dereference: */ true );
+                    pencil_visible_object_id_t destination_object;
+                    pencil_visible_object_id_t dest_surrounding_object;
+
+                    gui_sketch_area_get_object_id_at_pos ( this_, x, y, &destination_object, &dest_surrounding_object );
+                    destination_real = pencil_visible_object_id_get_model_id( &destination_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
                     {

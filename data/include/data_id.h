@@ -116,7 +116,6 @@ static inline bool data_id_is_valid ( const data_id_t *this_ );
  */
 static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, int64_t row_id );
 
-
 #include "data_id.inl"
 
 #endif  /* DATA_ID_H */

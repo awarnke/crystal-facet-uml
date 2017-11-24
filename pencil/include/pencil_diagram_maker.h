@@ -137,19 +137,15 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param out_selected_visible_object_id the visible object id at the given location (e.g. data_diagramelement_t). The id is invalid if there is no object at the given location.
- *  \param out_selected_model_object_id the model object id at the given location (e.g. data_classifier_t). The id is invalid if there is no object at the given location.
- *  \param out_surrounding_visible_object_id the id of the embracing visible object at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_model_object_id the id of the embracing model object at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
 static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
                                                                          double x,
                                                                          double y,
-                                                                         data_id_t *out_selected_visible_object_id,
-                                                                         data_id_t *out_selected_model_object_id,
-                                                                         data_id_t *out_surrounding_visible_object_id,
-                                                                         data_id_t *out_surrounding_model_object_id
+                                                                         pencil_visible_object_id_t* out_selected_id,
+                                                                         pencil_visible_object_id_t* out_surrounding_id
                                                                        );
 
 /*!
