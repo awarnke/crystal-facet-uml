@@ -580,13 +580,20 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             pencil_visible_object_id_t object_under_mouse;
             pencil_visible_object_id_t object_surrounding_mouse;
             gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
+            data_id_t classifier_under_mouse;
+            classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_under_mouse );
+            if ( ! data_id_is_valid( &classifier_under_mouse ) || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &classifier_under_mouse )))
+            {
+                classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_surrounding_mouse );
+            }
+
             data_id_t object_highlighted;
             object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-            if ( ! data_id_equals( pencil_visible_object_id_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
+            if ( ! data_id_equals( &classifier_under_mouse, &object_highlighted ) )
             {
-                if ( pencil_visible_object_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                if ( data_id_is_valid( &classifier_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                 {
-                    gui_sketch_marker_set_highlighted( (*this_).marker, pencil_visible_object_id_get_visible_id ( &object_under_mouse ) );
+                    gui_sketch_marker_set_highlighted( (*this_).marker, classifier_under_mouse );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -725,12 +732,12 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
+                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &click_surrounding_object ) ) )
                 {
                     /* store focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
-                                                   pencil_visible_object_id_get_visible_id( &clicked_object ),
-                                                   pencil_visible_object_id_get_model_id( &clicked_object )
+                                                   pencil_visible_object_id_get_visible_id( &click_surrounding_object ),
+                                                   pencil_visible_object_id_get_model_id( &click_surrounding_object )
                                                  );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
@@ -949,7 +956,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     pencil_visible_object_id_t dest_surrounding_object;
 
                     gui_sketch_area_get_object_id_at_pos ( this_, x, y, &destination_object, &dest_surrounding_object );
-                    destination_real = pencil_visible_object_id_get_model_id( &destination_object );
+                    destination_real = pencil_visible_object_id_get_model_id( &dest_surrounding_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
                     {
