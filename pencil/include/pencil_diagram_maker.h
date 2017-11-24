@@ -17,6 +17,7 @@
 #include "pencil_relationship_painter.h"
 #include "pencil_size.h"
 #include "pencil_error.h"
+#include "pencil_visible_object_id.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
