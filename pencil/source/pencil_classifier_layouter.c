@@ -222,11 +222,11 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
                     {
                         if (( c_index != from_index )&&( c_index != to_index ))
                         {
-                            if ( pencil_input_data_is_parent_by_index( (*this_).input_data, from_index, c_index ) )
+                            if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, from_index, c_index ) )
                             {
                                 /* it is ok to embrace also other children, no illegal_overlap */
                             }
-                            else if ( pencil_input_data_is_parent_by_index( (*this_).input_data, c_index, from_index ) )
+                            else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, c_index, from_index ) )
                             {
                                 /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
                             }
@@ -577,7 +577,7 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
         {
             /* no overlap, finished. */
         }
-        else if ( pencil_input_data_is_parent_by_index( (*this_).input_data, probe_index, index ) )
+        else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, probe_index, index ) )
         {
             /* overlapping the parent is ok, finished */
         }

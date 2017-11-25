@@ -185,6 +185,26 @@ static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *t
     return result;
 }
 
+static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
+{
+    assert( ancestor_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( descendant_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    bool result = false;
+
+    data_visible_classifier_t *visible_ancestor;
+    data_visible_classifier_t *visible_descendant;
+    visible_ancestor = pencil_input_data_get_visible_classifier_ptr ( this_, ancestor_index );
+    visible_descendant = pencil_input_data_get_visible_classifier_ptr ( this_, descendant_index );
+    data_classifier_t *ancestor;
+    data_classifier_t *descendant;
+    ancestor = data_visible_classifier_get_classifier_ptr( visible_ancestor );
+    descendant = data_visible_classifier_get_classifier_ptr( visible_descendant );
+
+    result = pencil_input_data_is_ancestor ( this_, data_classifier_get_id( ancestor ), data_classifier_get_id( descendant ) );
+    
+    return result;
+}
+
 
 /*
 Copyright 2016-2017 Andreas Warnke

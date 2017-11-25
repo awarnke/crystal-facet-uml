@@ -177,6 +177,26 @@ static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *t
 bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id, int64_t child_id );
 
 /*!
+ *  \brief determines if ancestor is an ancestor of descendant
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ancestor_index index of the ancestor classifier; 0 <= ancestor_index < pencil_input_data_get_visible_classifier_count().
+ *  \param descendant_index index of the descendant classifier; 0 <= descendant_index < pencil_input_data_get_visible_classifier_count().
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within this pencil_input_data object
+ */
+static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index );
+
+/*!
+ *  \brief determines if ancestor is an ancestor of descendant
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ancestor_id id of the ancestor classifier
+ *  \param descendant_id id of the descendant classifier
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within this pencil_input_data object
+ */
+bool pencil_input_data_is_ancestor ( pencil_input_data_t *this_, int64_t ancestor_id, int64_t descendant_id );
+
+/*!
  *  \brief checks if the diagram and diagram-contents data is valid
  *
  *  \param this_ pointer to own object attributes

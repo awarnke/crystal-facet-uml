@@ -7,6 +7,8 @@
 /*!
  *  \file
  *  \brief Defines a set of object-ids. Maximum size is limited.
+ *
+ *  The size of this data type is appropriate for usage on stack
  */
 
 #include "data_table.h"
