@@ -20,10 +20,12 @@
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @gui+pencil
-  [ ] In new object mode, clicking into the space area shall create new features
+  [ ] In new object mode, clicking into the space area of possible parent classifiers shall create new classifiers
   @pencil
   [ ] if grandparents contain parents and children, the children shall automatically be embraced by parent and grandparent
 
+  + Easier selection of intended relations in GUI_SKETCH_TOOLS_EDIT mode
+  + Easier selection of intended classifiers in GUI_SKETCH_TOOLS_CREATE_OBJECT mode
   + Nicer layout: space area shall depend on the classifier type
 2017-11-05 0.18.0 [2ac058e]
   + parent classifiers can contain children
