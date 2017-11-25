@@ -95,13 +95,21 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
         switch ( h_align )
         {
             case SHAPE_H_ALIGN_LEFT:
-                break;
+            {
+            }
+            break;
+
             case SHAPE_H_ALIGN_RIGHT:
+            {
                 (*this_).left += ((*this_).width - new_width);
-                break;
+            }
+            break;
+
             case SHAPE_H_ALIGN_CENTER: /* and */
             default:
+            {
                 (*this_).left += ( ((*this_).width - new_width)/2 );
+            }
         }
         (*this_).width = new_width;
     }
@@ -113,13 +121,21 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
         switch ( v_align )
         {
             case SHAPE_V_ALIGN_TOP:
-                break;
+            {
+            }
+            break;
+
             case SHAPE_V_ALIGN_BOTTOM:
-                (*this_).top += ( ((*this_).height - new_height)/2 );
-                break;
+            {
+                (*this_).top += ((*this_).height - new_height);
+            }
+            break;
+
             case SHAPE_V_ALIGN_CENTER: /* and */
             default:
-                (*this_).top += ((*this_).height - new_height);
+            {
+                (*this_).top += ( ((*this_).height - new_height)/2 );
+            }
         }
         (*this_).height = new_height;
     }
