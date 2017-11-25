@@ -580,7 +580,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             pencil_visible_object_id_t object_under_mouse;
             pencil_visible_object_id_t object_surrounding_mouse;
             gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
-            data_id_t classifier_under_mouse;
+            data_id_t  classifier_under_mouse;
             classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_under_mouse );
             if ( ! data_id_is_valid( &classifier_under_mouse ) || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &classifier_under_mouse )))
             {
@@ -725,6 +725,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 gui_sketch_area_get_object_id_at_pos ( this_, x, y, &clicked_object, &click_surrounding_object );
                 pencil_visible_object_id_trace( &clicked_object );
                 pencil_visible_object_id_trace( &click_surrounding_object );
+                if ( ! pencil_visible_object_id_is_valid( &clicked_object )
+                    || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( pencil_visible_object_id_get_visible_id_ptr( &clicked_object ) )))
+                {
+                    clicked_object = click_surrounding_object;
+                }
 
                 if ( NULL == target )
                 {
@@ -732,12 +737,12 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &click_surrounding_object ) ) )
+                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
                 {
                     /* store focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
-                                                   pencil_visible_object_id_get_visible_id( &click_surrounding_object ),
-                                                   pencil_visible_object_id_get_model_id( &click_surrounding_object )
+                                                   pencil_visible_object_id_get_visible_id( &clicked_object ),
+                                                   pencil_visible_object_id_get_model_id( &clicked_object )
                                                  );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
@@ -954,9 +959,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_t destination_real;
                     pencil_visible_object_id_t destination_object;
                     pencil_visible_object_id_t dest_surrounding_object;
-
                     gui_sketch_area_get_object_id_at_pos ( this_, x, y, &destination_object, &dest_surrounding_object );
-                    destination_real = pencil_visible_object_id_get_model_id( &dest_surrounding_object );
+                    if ( ! pencil_visible_object_id_is_valid( &destination_object )
+                        || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( pencil_visible_object_id_get_visible_id_ptr( &destination_object ) )))
+                    {
+                        destination_object = dest_surrounding_object;
+                    }
+                    destination_real = pencil_visible_object_id_get_model_id( &destination_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
                     {
