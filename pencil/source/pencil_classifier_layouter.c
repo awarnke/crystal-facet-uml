@@ -150,9 +150,22 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
 {
     TRACE_BEGIN();
 
+    universal_array_index_sorter_t sorted_relationships;
+    universal_array_index_sorter_init( &sorted_relationships );
+
+    /* sort the relationships by their number of descendants */
+    pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
+
+    /* move the classifiers */
+    uint32_t count_sorted;
+    count_sorted = universal_array_index_sorter_get_count( &sorted_relationships );
+
     /* search containment relations */
-    for ( uint32_t rel_idx = 0; rel_idx < pencil_input_data_get_relationship_count ( (*this_).input_data ); rel_idx ++ )
+    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
     {
+        uint32_t rel_idx;
+        rel_idx = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
+
         data_relationship_t *the_relationship;
         the_relationship = pencil_input_data_get_relationship_ptr( (*this_).input_data, rel_idx );
         if ( data_relationship_is_valid( the_relationship ) )
@@ -168,6 +181,36 @@ void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classif
 {
     TRACE_BEGIN();
     assert( NULL != out_sorted );
+
+    for ( uint32_t rel_idx = 0; rel_idx < pencil_input_data_get_relationship_count ( (*this_).input_data ); rel_idx ++ )
+    {
+        data_relationship_t *the_relationship;
+        the_relationship = pencil_input_data_get_relationship_ptr( (*this_).input_data, rel_idx );
+        if ( data_relationship_is_valid( the_relationship ) )
+        {
+            /* determine from classifier */
+            int64_t from_id;
+            int32_t from_index;
+            from_id = data_relationship_get_from_classifier_id ( the_relationship );
+            from_index = pencil_input_data_get_classifier_index ( (*this_).input_data, from_id );
+
+            /* count the descendants */
+            uint32_t from_descendant_count = 0;
+            if ( from_index != -1 )
+            {
+                from_descendant_count = pencil_input_data_count_descendants_of_index( (*this_).input_data, from_index );
+            }
+
+            /* sort it into the array by the number of decendants: */
+            /* the less descendants the earlier it shall be processed. */
+            int err;
+            err = universal_array_index_sorter_insert( out_sorted, rel_idx, (double)from_descendant_count );
+            if ( 0 != err )
+            {
+                TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+            }
+        }
+    }
 
     TRACE_END();
 }
