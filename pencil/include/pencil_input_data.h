@@ -38,6 +38,8 @@ struct pencil_input_data_struct {
     data_feature_t features[PENCIL_INPUT_DATA_MAX_FEATURES];  /*!< all contained feature records */
     uint32_t relationship_count;  /*!< number of all contained relationship records */
     data_relationship_t relationships[PENCIL_INPUT_DATA_MAX_RELATIONSHIPS];  /*!< all contained relationship records */
+
+    bool containment_cache[PENCIL_INPUT_DATA_MAX_CLASSIFIERS][PENCIL_INPUT_DATA_MAX_CLASSIFIERS];  /*!< states if ancestor index classifier directly or indirectly contains child index classifier */
 };
 
 typedef struct pencil_input_data_struct pencil_input_data_t;
@@ -157,26 +159,6 @@ static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_d
 static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
- *  \brief determines if parent is a direct parent of child
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_index index of the parent classifier; 0 <= parent_index < pencil_input_data_get_visible_classifier_count().
- *  \param child_index index of the child classifier; 0 <= child_index < pencil_input_data_get_visible_classifier_count().
- *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from parent to child within this pencil_input_data object
- */
-static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *this_, uint32_t parent_index, uint32_t child_index );
-
-/*!
- *  \brief determines if parent is a direct parent of child
- *
- *  \param this_ pointer to own object attributes
- *  \param parent_id id of the parent classifier
- *  \param child_id id of the child classifier
- *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from parent to child within this pencil_input_data object
- */
-bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id, int64_t child_id );
-
-/*!
  *  \brief determines if ancestor is an ancestor of descendant
  *
  *  \param this_ pointer to own object attributes
@@ -187,14 +169,22 @@ bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id
 static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index );
 
 /*!
- *  \brief determines if ancestor is an ancestor of descendant
+ *  \brief counts the number of ancestors of a classifier denoted by index
  *
  *  \param this_ pointer to own object attributes
- *  \param ancestor_id id of the ancestor classifier
- *  \param descendant_id id of the descendant classifier
- *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within this pencil_input_data object
+ *  \param classifier_index index of the classifier; 0 <= classifier_index < pencil_input_data_get_visible_classifier_count().
+ *  \return number of ancestors of classifier_index which are listed in this_.
  */
-bool pencil_input_data_is_ancestor ( pencil_input_data_t *this_, int64_t ancestor_id, int64_t descendant_id );
+static inline uint32_t pencil_input_data_count_ancestors_of_index ( pencil_input_data_t *this_, uint32_t classifier_index );
+
+/*!
+ *  \brief counts the number of descendants of a classifier denoted by index
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_index index of the classifier; 0 <= classifier_index < pencil_input_data_get_visible_classifier_count().
+ *  \return number of descendants of classifier_index which are listed in this_.
+ */
+static inline uint32_t pencil_input_data_count_descendants_of_index ( pencil_input_data_t *this_, uint32_t classifier_index );
 
 /*!
  *  \brief checks if the diagram and diagram-contents data is valid
@@ -210,6 +200,13 @@ static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ );
+
+/*!
+ *  \brief initializes or re-initializes the containment_cache
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_input_data_private_update_containment_cache ( pencil_input_data_t *this_ );
 
 /*!
  *  \brief destroys all contained visible classifiers

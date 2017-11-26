@@ -165,43 +165,48 @@ static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( penc
     return result;
 }
 
-static inline bool pencil_input_data_is_parent_by_index ( pencil_input_data_t *this_, uint32_t parent_index, uint32_t child_index )
+static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
 {
-    assert( parent_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
-    assert( child_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
-    bool result = false;
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( ancestor_index < (*this_).visible_classifier_count );
+    assert( descendant_index < (*this_).visible_classifier_count );
 
-    data_visible_classifier_t *visible_parent;
-    data_visible_classifier_t *visible_child;
-    visible_parent = pencil_input_data_get_visible_classifier_ptr ( this_, parent_index );
-    visible_child = pencil_input_data_get_visible_classifier_ptr ( this_, child_index );
-    data_classifier_t *parent;
-    data_classifier_t *child;
-    parent = data_visible_classifier_get_classifier_ptr( visible_parent );
-    child = data_visible_classifier_get_classifier_ptr( visible_child );
+    return (*this_).containment_cache[ancestor_index][descendant_index];
+}
 
-    result = pencil_input_data_is_parent ( this_, data_classifier_get_id( parent ), data_classifier_get_id( child ) );
+static inline uint32_t pencil_input_data_count_ancestors_of_index ( pencil_input_data_t *this_, uint32_t classifier_index )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( classifier_index < (*this_).visible_classifier_count );
+
+    uint32_t result = 0;
+
+    for ( uint32_t ancestor_index = 0; ancestor_index < (*this_).visible_classifier_count; ancestor_index ++ )
+    {
+        if ( (*this_).containment_cache[ancestor_index][classifier_index] )
+        {
+            result ++;
+        }
+    }
 
     return result;
 }
 
-static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
+static inline uint32_t pencil_input_data_count_descendants_of_index ( pencil_input_data_t *this_, uint32_t classifier_index )
 {
-    assert( ancestor_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
-    assert( descendant_index < PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
-    bool result = false;
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( classifier_index < (*this_).visible_classifier_count );
 
-    data_visible_classifier_t *visible_ancestor;
-    data_visible_classifier_t *visible_descendant;
-    visible_ancestor = pencil_input_data_get_visible_classifier_ptr ( this_, ancestor_index );
-    visible_descendant = pencil_input_data_get_visible_classifier_ptr ( this_, descendant_index );
-    data_classifier_t *ancestor;
-    data_classifier_t *descendant;
-    ancestor = data_visible_classifier_get_classifier_ptr( visible_ancestor );
-    descendant = data_visible_classifier_get_classifier_ptr( visible_descendant );
+    uint32_t result = 0;
 
-    result = pencil_input_data_is_ancestor ( this_, data_classifier_get_id( ancestor ), data_classifier_get_id( descendant ) );
-    
+    for ( uint32_t descendant_index = 0; descendant_index < (*this_).visible_classifier_count; descendant_index ++ )
+    {
+        if ( (*this_).containment_cache[classifier_index][descendant_index] )
+        {
+            result ++;
+        }
+    }
+
     return result;
 }
 

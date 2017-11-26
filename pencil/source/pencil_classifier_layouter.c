@@ -581,6 +581,10 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
         {
             /* overlapping the parent is ok, finished */
         }
+        else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, index, probe_index ) )
+        {
+            /* overlapping the child is ok, finished */
+        }
         else
         {
             /* there is an overlap - at least when considering the comfort zone */
@@ -704,6 +708,7 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
                 /* get classifier to check overlaps */
                 uint32_t probe_index;
                 probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
+
                 geometry_rectangle_t *probe_bounds;
                 probe_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, probe_index );
 
@@ -712,10 +717,22 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
                 intersect_err = geometry_rectangle_init_by_intersect( &probe_intersect, &solution_bounds, probe_bounds );
                 if ( 0 == intersect_err )
                 {
-                    /* already processed classifiers have higher severity because these do not move anymore */
-                    double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
-                    double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
-                    debts_of_current += severity * probe_intersect_area;
+                    /* there is an intersect */
+                    if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, index, probe_index ) )
+                    {
+                        /* no debt: parent my overlap children */
+                    }
+                    else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, probe_index, index ) )
+                    {
+                        /* no debt: child may overlap parent */
+                    }
+                    else
+                    {
+                        /* already processed classifiers have higher severity because these do not move anymore */
+                        double severity = ( probe_sort_index < sort_index ) ? 4.0 : 1.0;
+                        double probe_intersect_area = geometry_rectangle_get_area ( &probe_intersect );
+                        debts_of_current += severity * probe_intersect_area;
+                    }
                 }
                 /* else no intersect/overlap */
             }

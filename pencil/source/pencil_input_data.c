@@ -137,119 +137,10 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         }
     }
 
-    TRACE_END();
-}
-
-bool pencil_input_data_is_parent ( pencil_input_data_t *this_, int64_t parent_id, int64_t child_id )
-{
-    TRACE_BEGIN();
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
-    bool result = false;
-
-    for ( uint32_t rel_idx = 0; rel_idx < (*this_).relationship_count; rel_idx ++ )
-    {
-        data_relationship_t *the_relationship;
-        the_relationship = &((*this_).relationships[rel_idx]);
-
-        data_relationship_type_t the_type;
-        the_type = data_relationship_get_main_type ( the_relationship );
-
-        if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
-        {
-            int64_t from_id;
-            int64_t to_id;
-            from_id = data_relationship_get_from_classifier_id ( the_relationship );
-            to_id = data_relationship_get_to_classifier_id ( the_relationship );
-            if (( from_id == parent_id )&&( to_id == child_id ))
-            {
-                result = true;
-                break;
-            }
-        }
-    }
+    /* update the containment cache */
+    pencil_input_data_private_update_containment_cache( this_ );
 
     TRACE_END();
-    return result;
-}
-
-bool pencil_input_data_is_ancestor ( pencil_input_data_t *this_, int64_t ancestor_id, int64_t descendant_id )
-{
-    TRACE_BEGIN();
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
-    bool result = false;
-
-    /* initialize one set of descendants of ancestor and another set of ancestors of decendants */
-    data_small_set_t ancestor_set;
-    data_small_set_t descendant_set;
-    data_small_set_init ( &ancestor_set );
-    data_small_set_init ( &descendant_set );
-
-    data_error_t data_err = DATA_ERROR_NONE;
-    data_err |= data_small_set_add_row_id ( &ancestor_set, DATA_TABLE_CLASSIFIER, ancestor_id );
-    data_err |= data_small_set_add_row_id ( &descendant_set, DATA_TABLE_CLASSIFIER, descendant_id );
-
-    static const int MAX_SEARCH_PASSES = 3;  /* with 3 passes, we can find ancesters and decendants which are related via 2*3=6 links */
-    bool new_containments_found = true;
-
-    for ( int pass = 0; ( pass < MAX_SEARCH_PASSES ) && new_containments_found; pass ++ )
-    {
-        new_containments_found = false;
-
-        for ( uint32_t rel_idx = 0; rel_idx < (*this_).relationship_count; rel_idx ++ )
-        {
-            data_relationship_t *the_relationship;
-            the_relationship = &((*this_).relationships[rel_idx]);
-
-            data_relationship_type_t the_type;
-            the_type = data_relationship_get_main_type ( the_relationship );
-
-            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
-            {
-                int64_t from_id;
-                int64_t to_id;
-                from_id = data_relationship_get_from_classifier_id ( the_relationship );
-                to_id = data_relationship_get_to_classifier_id ( the_relationship );
-
-                if ( data_small_set_contains_row_id( &ancestor_set, DATA_TABLE_CLASSIFIER, from_id ) )
-                {
-                    if ( data_small_set_contains_row_id( &descendant_set, DATA_TABLE_CLASSIFIER, to_id ) )
-                    {
-                        /* this is the final missing link */
-                        result = true;
-                        new_containments_found = false; /* break also the outer loop */
-                        break;
-                    }
-                    else
-                    {
-                        /* this is the right ancestor, add to_id */
-                        data_err |= data_small_set_add_row_id ( &ancestor_set, DATA_TABLE_CLASSIFIER, to_id );
-                        new_containments_found = true;
-                    }
-                }
-                else
-                {
-                    if ( data_small_set_contains_row_id( &descendant_set, DATA_TABLE_CLASSIFIER, to_id ) )
-                    {
-                        /* this is the right ancestor, add to_id */
-                        data_err |= data_small_set_add_row_id ( &descendant_set, DATA_TABLE_CLASSIFIER, from_id );
-                        new_containments_found = true;
-                    }
-                    else
-                    {
-                        /* this relation has nothing to do with descendant_set or ancestor_set */
-                    }
-                }
-            }
-        }
-    }
-
-    if ( data_err != DATA_ERROR_NONE )
-    {
-        TRACE_INFO_HEX( "Some error occurred at adding items to a data_small_set_t:", data_err );
-    }
-
-    TRACE_END();
-    return result;
 }
 
 data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id )
@@ -279,6 +170,85 @@ data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( 
 
     TRACE_END();
     return result;
+}
+
+void pencil_input_data_private_update_containment_cache ( pencil_input_data_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+
+    /* reset the containment array */
+    memset( &((*this_).containment_cache), '\0', sizeof( (*this_).containment_cache ) );
+
+    static const int MAX_SEARCH_PASSES = 4;  /* with 4 passes, we can find ancesters and decendants which are related via 2*4=8 links and more */
+    bool new_containments_found = true;
+
+    for ( int pass = 0; ( pass < MAX_SEARCH_PASSES ) && new_containments_found; pass ++ )
+    {
+        new_containments_found = false;
+
+        for ( uint32_t rel_idx = 0; rel_idx < (*this_).relationship_count; rel_idx ++ )
+        {
+            data_relationship_t *the_relationship;
+            the_relationship = &((*this_).relationships[rel_idx]);
+
+            data_relationship_type_t the_type;
+            the_type = data_relationship_get_main_type ( the_relationship );
+
+            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+            {
+                int64_t parent_id;
+                int64_t child_id;
+                parent_id = data_relationship_get_from_classifier_id ( the_relationship );
+                child_id = data_relationship_get_to_classifier_id ( the_relationship );
+                int32_t parent_index;
+                int32_t child_index;
+                parent_index = pencil_input_data_get_classifier_index ( this_, parent_id );
+                child_index = pencil_input_data_get_classifier_index ( this_, child_id );
+                if ( ( parent_index != -1 )&&( child_index != -1 ) )
+                {
+                    assert ( 0 <= parent_index );
+                    assert ( parent_index < (*this_).visible_classifier_count );
+                    assert ( 0 <= child_index );
+                    assert ( child_index < (*this_).visible_classifier_count );
+
+                    /* add the current relation to the containment_cache */
+                    (*this_).containment_cache[parent_index][child_index] = true;
+
+                    /* all ancestors of parent are ancestors of child */
+                    for ( uint32_t ancestor_index = 0; ancestor_index < (*this_).visible_classifier_count; ancestor_index ++ )
+                    {
+                        if ( (*this_).containment_cache[ancestor_index][parent_index] )
+                        {
+                            if ( ! (*this_).containment_cache[ancestor_index][child_index] )
+                            {
+                                new_containments_found = true;
+                                (*this_).containment_cache[ancestor_index][child_index] = true;
+                            }
+                        }
+                    }
+
+                    /* all descendants of child are descendants of parent */
+                    for ( uint32_t descendant_index = 0; descendant_index < (*this_).visible_classifier_count; descendant_index ++ )
+                    {
+                        if ( (*this_).containment_cache[child_index][descendant_index] )
+                        {
+                            if ( ! (*this_).containment_cache[parent_index][descendant_index] )
+                            {
+                                new_containments_found = true;
+                                (*this_).containment_cache[parent_index][descendant_index] = true;
+                            }
+                        }
+                    }
+
+                }
+                /* else relation points outside the set of classifiers visible in current diagram */
+            }
+        }
+    }
+
+    TRACE_END();
 }
 
 
