@@ -90,6 +90,22 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_ );
 
 /*!
+ *  \brief determine order by which to embrace classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_sorted sorting order of relationships by which to adapt classifiers; must not be NULL, shall be initialized to empty.
+ */
+void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+
+/*!
+ *  \brief try to resize classifiers so that they embrace their children
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_relationship the relationship to process: the parent tries to embrace the child
+ */
+void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, data_relationship_t *the_relationship );
+
+/*!
  *  \brief hides containment relationships if parents embrace their children
  *
  *  \param this_ pointer to own object attributes
@@ -104,7 +120,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
 void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ );
 
 /*!
- *  \brief determine order by whicht to move classifiers
+ *  \brief determine order by which to move classifiers
  *
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to move classifiers; must not be NULL, shall be initialized to empty.

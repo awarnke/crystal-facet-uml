@@ -157,113 +157,132 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
         the_relationship = pencil_input_data_get_relationship_ptr( (*this_).input_data, rel_idx );
         if ( data_relationship_is_valid( the_relationship ) )
         {
-            data_relationship_type_t the_type;
-            the_type = data_relationship_get_main_type ( the_relationship );
+            pencil_classifier_layouter_private_try_embrace_child( this_, the_relationship );
+        }
+    }
 
-            if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_propose_embracing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_sorted );
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_layouter_t *this_, data_relationship_t *the_relationship )
+{
+    TRACE_BEGIN();
+    assert( NULL != the_relationship );
+
+    data_relationship_type_t the_type;
+    the_type = data_relationship_get_main_type ( the_relationship );
+
+    if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
+    {
+        int64_t from_id;
+        int64_t to_id;
+        int32_t from_index;
+        int32_t to_index;
+        from_id = data_relationship_get_from_classifier_id ( the_relationship );
+        to_id = data_relationship_get_to_classifier_id ( the_relationship );
+        from_index = pencil_input_data_get_classifier_index ( (*this_).input_data, from_id );
+        to_index = pencil_input_data_get_classifier_index ( (*this_).input_data, to_id );
+        if (( from_id != to_id )&&( from_index != -1 )&&( to_index != -1 ))
+        {
+            TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
+            geometry_rectangle_t *parent_bounds;
+            parent_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, from_index );
+            geometry_rectangle_t *parent_space;
+            parent_space = pencil_input_data_layout_get_classifier_space_ptr ( (*this_).layout_data, from_index );
+            geometry_rectangle_t *child_bounds;
+            child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, to_index );
+
+            /* try embrace child */
+            geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
+            geometry_rectangle_t probe_parent_space;  /* try out a new parent space rectangle */
+            geometry_rectangle_copy( &probe_parent_bounds, parent_bounds );
+            geometry_rectangle_copy( &probe_parent_space, parent_space );
+            double extend_to_left = 0.0;
+            double extend_to_right = 0.0;
+            double extend_to_top = 0.0;
+            double extend_to_bottom = 0.0;
+            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( child_bounds );
+            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( child_bounds );
+            extend_to_right = geometry_rectangle_get_right( child_bounds ) - geometry_rectangle_get_right( parent_space );
+            extend_to_bottom = geometry_rectangle_get_bottom( child_bounds ) - geometry_rectangle_get_bottom( parent_space );
+            if ( extend_to_left < 0.0 )
             {
-                int64_t from_id;
-                int64_t to_id;
-                int32_t from_index;
-                int32_t to_index;
-                from_id = data_relationship_get_from_classifier_id ( the_relationship );
-                to_id = data_relationship_get_to_classifier_id ( the_relationship );
-                from_index = pencil_input_data_get_classifier_index ( (*this_).input_data, from_id );
-                to_index = pencil_input_data_get_classifier_index ( (*this_).input_data, to_id );
-                if (( from_id != to_id )&&( from_index != -1 )&&( to_index != -1 ))
+                extend_to_left = 0.0;
+            }
+            if ( extend_to_top < 0.0 )
+            {
+                extend_to_top = 0.0;
+            }
+            if ( extend_to_right < 0.0 )
+            {
+                extend_to_right = 0.0;
+            }
+            if ( extend_to_bottom < 0.0 )
+            {
+                extend_to_bottom = 0.0;
+            }
+            geometry_rectangle_expand( &probe_parent_bounds, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+            geometry_rectangle_shift( &probe_parent_bounds, -extend_to_left, -extend_to_top );
+            geometry_rectangle_expand( &probe_parent_space, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+            geometry_rectangle_shift( &probe_parent_space, -extend_to_left, -extend_to_top );
+
+            /* check what else would be embraced */
+            bool illegal_overlap = false;
+            uint32_t count_clasfy;
+            count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+            for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
+            {
+                if (( c_index != from_index )&&( c_index != to_index ))
                 {
-                    TRACE_INFO_INT_INT( "Parent/child classifiers found in the diagram, ids:", from_id, to_id );
-                    geometry_rectangle_t *parent_bounds;
-                    parent_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, from_index );
-                    geometry_rectangle_t *parent_space;
-                    parent_space = pencil_input_data_layout_get_classifier_space_ptr ( (*this_).layout_data, from_index );
-                    geometry_rectangle_t *child_bounds;
-                    child_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, to_index );
-
-                    /* try embrace child */
-                    geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
-                    geometry_rectangle_t probe_parent_space;  /* try out a new parent space rectangle */
-                    geometry_rectangle_copy( &probe_parent_bounds, parent_bounds );
-                    geometry_rectangle_copy( &probe_parent_space, parent_space );
-                    double extend_to_left = 0.0;
-                    double extend_to_right = 0.0;
-                    double extend_to_top = 0.0;
-                    double extend_to_bottom = 0.0;
-                    extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( child_bounds );
-                    extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( child_bounds );
-                    extend_to_right = geometry_rectangle_get_right( child_bounds ) - geometry_rectangle_get_right( parent_space );
-                    extend_to_bottom = geometry_rectangle_get_bottom( child_bounds ) - geometry_rectangle_get_bottom( parent_space );
-                    if ( extend_to_left < 0.0 )
+                    if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, from_index, c_index ) )
                     {
-                        extend_to_left = 0.0;
+                        /* it is ok to embrace also other children, no illegal_overlap */
                     }
-                    if ( extend_to_top < 0.0 )
+                    else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, c_index, from_index ) )
                     {
-                        extend_to_top = 0.0;
-                    }
-                    if ( extend_to_right < 0.0 )
-                    {
-                        extend_to_right = 0.0;
-                    }
-                    if ( extend_to_bottom < 0.0 )
-                    {
-                        extend_to_bottom = 0.0;
-                    }
-                    geometry_rectangle_expand( &probe_parent_bounds, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-                    geometry_rectangle_shift( &probe_parent_bounds, -extend_to_left, -extend_to_top );
-                    geometry_rectangle_expand( &probe_parent_space, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-                    geometry_rectangle_shift( &probe_parent_space, -extend_to_left, -extend_to_top );
-
-                    /* check what else would be embraced */
-                    bool illegal_overlap = false;
-                    uint32_t count_clasfy;
-                    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-                    for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
-                    {
-                        if (( c_index != from_index )&&( c_index != to_index ))
-                        {
-                            if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, from_index, c_index ) )
-                            {
-                                /* it is ok to embrace also other children, no illegal_overlap */
-                            }
-                            else if ( pencil_input_data_is_ancestor_by_index( (*this_).input_data, c_index, from_index ) )
-                            {
-                                /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
-                            }
-                            else
-                            {
-                                geometry_rectangle_t *current_bounds;
-                                current_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, c_index );
-                                illegal_overlap |= geometry_rectangle_is_intersecting( current_bounds, &probe_parent_bounds );
-                            }
-                        }
-                    }
-
-                    /* cancel or commit */
-                    if ( ! illegal_overlap )
-                    {
-                        geometry_rectangle_replace ( parent_bounds, &probe_parent_bounds );
-                        geometry_rectangle_replace ( parent_space, &probe_parent_space );
-                    }
-
-                    /* cleanup */
-                    geometry_rectangle_destroy( &probe_parent_bounds );
-                    geometry_rectangle_destroy( &probe_parent_space );
-                }
-                else
-                {
-                    if ( from_id == to_id )
-                    {
-                        TRACE_INFO_INT( "Classifier contains itself, id:", from_id );
+                        /* it is ok if parent is already contained in grand-parent classifier, no illegal_overlap */
                     }
                     else
                     {
-                        TRACE_INFO_INT_INT( "Classifier(s) of relationship is not in the diagram, ids:", from_id, to_id );
+                        geometry_rectangle_t *current_bounds;
+                        current_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( (*this_).layout_data, c_index );
+                        illegal_overlap |= geometry_rectangle_is_intersecting( current_bounds, &probe_parent_bounds );
                     }
                 }
             }
+
+            /* cancel or commit */
+            if ( ! illegal_overlap )
+            {
+                geometry_rectangle_replace ( parent_bounds, &probe_parent_bounds );
+                geometry_rectangle_replace ( parent_space, &probe_parent_space );
+            }
+
+            /* cleanup */
+            geometry_rectangle_destroy( &probe_parent_bounds );
+            geometry_rectangle_destroy( &probe_parent_space );
+        }
+        else
+        {
+            if ( from_id == to_id )
+            {
+                TRACE_INFO_INT( "Classifier contains itself, id:", from_id );
+            }
+            else
+            {
+                TRACE_INFO_INT_INT( "Classifier(s) of relationship is not in the diagram, ids:", from_id, to_id );
+            }
         }
     }
+    /* else this is not a parent child relationship */
 
     TRACE_END();
 }
