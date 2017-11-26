@@ -19,12 +19,13 @@
   [ ] New objects shall have the type of previously type-changed objects (arrows, features and classifiers)
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  @gui+pencil
+  @gui
   [ ] In new object mode, clicking into the space area of possible parent classifiers shall create new classifiers
 
-  + children of CONTAINMENT relations area automatically be embraced by any ancestor
-  + Easier selection of intended relations in GUI_SKETCH_TOOLS_EDIT mode
-  + Easier selection of intended classifiers in GUI_SKETCH_TOOLS_CREATE_OBJECT mode
+  + children of CONTAINMENT relations are automatically embraced by _any_ ancestor
+  + nicer layout when parents embrace CONTAINED children
+  + Easier selection of the right relation in GUI_SKETCH_TOOLS_EDIT mode
+  + Easier selection of classifiers in GUI_SKETCH_TOOLS_CREATE_OBJECT mode
   + Nicer layout: space area shall depend on the classifier type
 2017-11-05 0.18.0 [2ac058e]
   + parent classifiers can contain children

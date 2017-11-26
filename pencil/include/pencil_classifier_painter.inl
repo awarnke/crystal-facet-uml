@@ -80,6 +80,8 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
@@ -95,7 +97,7 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
 
         default:
         {
-            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_get_drawing_space()");
+            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_private_get_shape_border_dimensions()");
             *out_top_border = 0.0;
             *out_left_border = 0.0;
             *out_bottom_border = 0.0;
