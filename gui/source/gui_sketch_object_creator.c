@@ -141,6 +141,46 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     return c_result;
 }
 
+ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+                                                        int64_t parent_classifier_id,
+                                                        int32_t list_order,
+                                                        int64_t *out_feature_id )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_feature_id );
+
+    ctrl_error_t c_result;
+
+    /* get classifier controller */
+    ctrl_classifier_controller_t *classifier_control;
+    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+    /* define feature */
+    data_feature_t new_feature;
+    data_error_t data_err;
+    data_err = data_feature_init ( &new_feature,
+                                   DATA_ID_VOID_ID, /* feature_id */
+                                   DATA_FEATURE_TYPE_OPERATION,
+                                   parent_classifier_id,
+                                   "get_state",
+                                   "uint32_t(*)(void)",
+                                   "",
+                                   list_order
+                                 );
+
+    /* create feature */
+    int64_t new_feature_id;
+    c_result = ctrl_classifier_controller_create_feature ( classifier_control,
+                                                           &new_feature,
+                                                           false, /*=add_to_latest_undo_set*/
+                                                           out_feature_id
+                                                         );
+    data_feature_destroy ( &new_feature );
+
+    TRACE_END_ERR( c_result );
+    return c_result;
+}
+
 
 /*
 Copyright 2017-2017 Andreas Warnke

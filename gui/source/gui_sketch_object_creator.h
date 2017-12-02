@@ -82,12 +82,11 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  *  \brief creates a new relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram where the new classifier shall appear
- *  \param x_order x order where the new classifier shall be located
- *  \param y_order y order where the new classifier shall be located
- *  \param out_diagramelement_id row_id of the newly created diagramelement
- *  \param out_classifier_id row_id of the newly created classifier
- *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ *  \param from_classifier_id id of the classifier where the new relationship shall start from
+ *  \param to_classifier_id id of the classifier where the new relationship shall end at
+ *  \param list_order order where the new relationship shall be located
+ *  \param out_relationship_id row_id of the newly created relationship
+ *  \return CTRL_ERROR_NONE in case of success
  */
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
                                                              int64_t from_classifier_id,
@@ -95,6 +94,21 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                              int32_t list_order,
                                                              int64_t *out_relationship_id
                                                            );
+
+/*!
+ *  \brief creates a new feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_classifier_id id of the parent classifier where the new feature shall appear
+ *  \param list_order order where the new feature shall be located
+ *  \param out_feature_id row_id of the newly created feature
+ *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ */
+ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+                                                        int64_t parent_classifier_id,
+                                                        int32_t list_order,
+                                                        int64_t *out_feature_id
+                                                      );
 
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
