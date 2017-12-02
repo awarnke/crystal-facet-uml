@@ -72,6 +72,75 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     return c_result;
 }
 
+ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
+                                                        int64_t parent_diagram_id,
+                                                        int64_t *out_diagram_id )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_diagram_id );
+
+    ctrl_error_t c_result;
+
+    ctrl_diagram_controller_t *diag_control;
+    diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+    char* new_name;
+    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
+    new_name = NAMES[(parent_diagram_id)&0x07];
+
+    int64_t new_diag_id;
+    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, parent_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, out_diagram_id );
+
+    TRACE_END_ERR( c_result );
+    return c_result;
+}
+
+ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+                                                             int64_t from_classifier_id,
+                                                             int64_t to_classifier_id,
+                                                             int32_t list_order,
+                                                             int64_t *out_relationship_id )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_relationship_id );
+
+    ctrl_error_t c_result;
+
+    /* get classifier controller */
+    ctrl_classifier_controller_t *classifier_control;
+    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+    /* propose a type for the relationship */
+    /*
+     *                            data_relationship_type_t new_rel_type;
+     *                            new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), data_classifier_type_t from_classifier_type );
+     */
+
+    /* define relationship */
+    data_relationship_t new_relationship;
+    data_error_t d_err;
+    d_err = data_relationship_init ( &new_relationship,
+                                     DATA_ID_VOID_ID,
+                                     DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
+                                     from_classifier_id,
+                                     to_classifier_id,
+                                     "depends on", /* =relationship_name */
+                                     "", /* =relationship_description */
+                                     list_order
+    );
+
+    /* create relationship */
+    c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
+                                                                &new_relationship,
+                                                                false, /*=add_to_latest_undo_set*/
+                                                                out_relationship_id
+                                                              );
+    data_relationship_destroy ( &new_relationship );
+
+    TRACE_END_ERR( c_result );
+    return c_result;
+}
+
 
 /*
 Copyright 2017-2017 Andreas Warnke

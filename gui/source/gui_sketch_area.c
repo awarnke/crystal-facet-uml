@@ -909,16 +909,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
                     TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
-                    ctrl_diagram_controller_t *diag_control;
-                    diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                    char* new_name;
-                    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
-                    new_name = NAMES[(x+y)&0x07];
-
-                    int64_t new_diag_id;
                     ctrl_error_t c_result;
-                    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, selected_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, &new_diag_id );
+                    int64_t new_diag_id;
+                    c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
+                                                                          selected_diagram_id,
+                                                                          &new_diag_id
+                                                                        );
 
                     /* load/reload data to be drawn */
                     gui_sketch_area_private_load_cards( this_, new_diag_id );
@@ -963,10 +959,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                             && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_real ) ) )
                         {
-                            /* get classifier controller */
-                            ctrl_classifier_controller_t *classifier_control;
-                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
                             /* propose a list_order for the relationship */
                             int32_t list_order_proposal = 0;
                             gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -975,34 +967,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
                             }
 
-                            /* propose a type for the relationship */
-                            /*
-                            data_relationship_type_t new_rel_type;
-                            new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), data_classifier_type_t from_classifier_type );
-                            */
-
-                            /* define relationship */
-                            data_relationship_t new_relationship;
-                            data_error_t d_err;
-                            d_err = data_relationship_init ( &new_relationship,
-                                                             DATA_ID_VOID_ID,
-                                                             DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY,
-                                                             data_id_get_row_id( &focused_real ),
-                                                             data_id_get_row_id( &destination_real ),
-                                                             "depends on", /* =relationship_name */
-                                                             "", /* =relationship_description */
-                                                             list_order_proposal
-                                                           );
-
-                            /* create relationship */
                             int64_t new_relationship_id;
                             ctrl_error_t c_result;
-                            c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
-                                                                                        &new_relationship,
-                                                                                        false, /*=add_to_latest_undo_set*/
-                                                                                        &new_relationship_id
-                                                                                      );
-                            data_relationship_destroy ( &new_relationship );
+                            c_result = gui_sketch_object_creator_create_relationship ( &((*this_).object_creator),
+                                                                                       data_id_get_row_id( &focused_real ),
+                                                                                       data_id_get_row_id( &destination_real ),
+                                                                                       list_order_proposal,
+                                                                                       &new_relationship_id
+                                                                                     );
 
                             if ( CTRL_ERROR_NONE != c_result )
                             {

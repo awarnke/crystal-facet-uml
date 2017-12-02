@@ -47,7 +47,7 @@ void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
 void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ );
 
 /*!
- *  \brief destroys the gui_sketch_object_creator_t struct
+ *  \brief creates a new classifier
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram where the new classifier shall appear
@@ -64,6 +64,38 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                                            int64_t *out_diagramelement_id,
                                                            int64_t *out_classifier_id
                                                          );
+
+/*!
+ *  \brief creates a new diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear
+ *  \param out_diagram_id row_id of the newly created diagram
+ *  \return CTRL_ERROR_NONE in case of success
+ */
+ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
+                                                        int64_t parent_diagram_id,
+                                                        int64_t *out_diagram_id
+                                                      );
+
+/*!
+ *  \brief creates a new relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram where the new classifier shall appear
+ *  \param x_order x order where the new classifier shall be located
+ *  \param y_order y order where the new classifier shall be located
+ *  \param out_diagramelement_id row_id of the newly created diagramelement
+ *  \param out_classifier_id row_id of the newly created classifier
+ *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
+ */
+ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+                                                             int64_t from_classifier_id,
+                                                             int64_t to_classifier_id,
+                                                             int32_t list_order,
+                                                             int64_t *out_relationship_id
+                                                           );
+
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 
