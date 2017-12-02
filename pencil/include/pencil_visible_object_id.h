@@ -43,7 +43,7 @@ static inline void pencil_visible_object_id_reinit_void ( pencil_visible_object_
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_id visible object id
- *  \param object_id model object id
+ *  \param model_id model object id
  */
 static inline void pencil_visible_object_id_init ( pencil_visible_object_id_t *this_, data_id_t visible_id, data_id_t model_id );
 
@@ -52,7 +52,7 @@ static inline void pencil_visible_object_id_init ( pencil_visible_object_id_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_id visible object id
- *  \param object_id model object id
+ *  \param model_id model object id
  */
 static inline void pencil_visible_object_id_reinit ( pencil_visible_object_id_t *this_, data_id_t visible_id, data_id_t model_id );
 

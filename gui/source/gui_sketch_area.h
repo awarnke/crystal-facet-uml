@@ -20,6 +20,7 @@
 #include "gui_sketch_tools.h"
 #include "gui_sketch_marker.h"
 #include "gui_sketch_drag_state.h"
+#include "gui_sketch_object_creator.h"
 #include "gui_resources.h"
 #include "gui_simple_message_to_user.h"
 #include <gtk/gtk.h>
@@ -54,6 +55,7 @@ struct gui_sketch_area_struct {
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
 
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
+    gui_sketch_object_creator_t object_creator;  /*!< own instance of an object creator */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;

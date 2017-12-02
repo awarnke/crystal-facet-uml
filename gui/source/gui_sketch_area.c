@@ -41,6 +41,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
         (*this_).listener[index] = NULL;
     }
     (*this_).marker = marker;
+    gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader );
 
     gui_sketch_area_private_load_cards( this_, DATA_ID_VOID_ID );
 
@@ -83,6 +84,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
         (*this_).listener[index] = NULL;
     }
 
+    gui_sketch_object_creator_destroy ( &((*this_).object_creator) );
     (*this_).marker = NULL;
     (*this_).tools = NULL;
     (*this_).message_to_user = NULL;
@@ -761,34 +763,23 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     int32_t y_order = universal_int32_pair_get_second( &order );
                     TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
-                    ctrl_classifier_controller_t *classifier_control;
-                    classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                    static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
-                    static uint8_t my_counter = 0;
-                    char newname_buf[24];
-                    utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-                    utf8stringbuf_copy_str( full_new_name, NAMES[(x+y)&0x07] );
-                    utf8stringbuf_append_int( full_new_name, my_counter++ );
-
-                    int64_t new_classifier_id;
-                    int64_t new_diagele_id;
                     ctrl_error_t c_result;
-                    c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
-                                                                                         selected_diagram_id,
-                                                                                         DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                                         utf8stringbuf_get_string( full_new_name ),
-                                                                                         x_order,
-                                                                                         y_order,
-                                                                                         &new_diagele_id,
-                                                                                         &new_classifier_id
-                                                                                       );
+                    int64_t new_diagele_id;
+                    int64_t new_classifier_id;
+                    c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
+                                                                             selected_diagram_id,
+                                                                             x_order,
+                                                                             y_order,
+                                                                             &new_diagele_id,
+                                                                             &new_classifier_id
+                                                                           );
+
                     if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                     {
                         gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
                                                                              GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                                              GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                             utf8stringbuf_get_string( full_new_name )
+                                                                             ""
                                                                            );
                     }
                     else
@@ -983,6 +974,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             {
                                 list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
                             }
+
+                            /* propose a type for the relationship */
+                            /*
+                            data_relationship_type_t new_rel_type;
+                            new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), data_classifier_type_t from_classifier_type );
+                            */
 
                             /* define relationship */
                             data_relationship_t new_relationship;

@@ -14,8 +14,9 @@
  */
 enum data_relationship_type_enum {
     DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY = 0,
-    /* class diagram */
+    /* class and use-case diagram */
     DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION = 200,
+    /* class diagram */
     DATA_RELATIONSHIP_TYPE_UML_AGGREGATION = 201,
     DATA_RELATIONSHIP_TYPE_UML_COMPOSITION = 202,
     DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION = 210,  /*!< equals inherits from */
@@ -24,18 +25,19 @@ enum data_relationship_type_enum {
     DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL = 220,  /*!< equals message or signal */
     DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL = 221,  /*!< equals function call */
     DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL = 222,  /*!< equals function result */
-    /* composition diagram */
+    /* composition diagram, block diagram, deployent diagram */
     DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH = 230,
-    /* activity diagram */
+    /* activity and state and INTERACTION_OVERVIEW_DIAGRAM diagrams */
     DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW = 240,
+    /* activity diagrams */
     DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW = 241,
     /* deployment diagram */
     DATA_RELATIONSHIP_TYPE_UML_DEPLOY = 250,
     DATA_RELATIONSHIP_TYPE_UML_MANIFEST = 251,
-    /* use case diagram */
+    /* use case diagram: a use case has the standard direct relations of a classifier plus include and extend */
     DATA_RELATIONSHIP_TYPE_UML_EXTEND = 260,
     DATA_RELATIONSHIP_TYPE_UML_INCLUDE = 261,
-    /* package diagram */
+    /* package diagram, use-case diagram (for system boundary) */
     DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT = 300,
 };
 
