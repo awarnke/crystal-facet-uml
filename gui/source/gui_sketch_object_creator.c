@@ -181,6 +181,29 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     return c_result;
 }
 
+bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id )
+{
+    TRACE_BEGIN();
+
+    bool result;
+    data_error_t db_err;
+
+    db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_row_id, &((*this_).private_temp_classifier) );
+    if ( DATA_ERROR_NONE == db_err )
+    {
+        data_classifier_type_t classifier_type;
+        classifier_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
+        result = data_rules_has_features( &((*this_).data_rules), classifier_type );
+        data_classifier_destroy( &((*this_).private_temp_classifier) );
+    }
+    else
+    {
+        result = false;
+        TSLOG_ERROR_INT( "gui_sketch_object_creator_has_classifier_features could not load classifier:", classifier_row_id );
+    }
+
+    return result;
+}
 
 /*
 Copyright 2017-2017 Andreas Warnke

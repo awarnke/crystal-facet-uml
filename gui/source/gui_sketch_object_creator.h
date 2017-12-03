@@ -23,6 +23,9 @@ struct gui_sketch_object_creator_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+
+    data_diagram_t private_temp_diagram;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
+    data_classifier_t private_temp_classifier;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
 };
 
 typedef struct gui_sketch_object_creator_struct gui_sketch_object_creator_t;
@@ -110,6 +113,14 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                         int64_t *out_feature_id
                                                       );
 
+/*!
+ *  \brief determines if the classifier type allows features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type the classifier row id
+ *  \return true if the classifier may have features, false otherwise. false also if classifier_row_id is invalid.
+ */
+bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id );
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 

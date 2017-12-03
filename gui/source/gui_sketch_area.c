@@ -680,6 +680,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
                 }
+                else
+                {
+                    TSLOG_WARNING("invalid clicked object at gui_sketch_area_button_press_callback");
+                }
             }
             break;
 
@@ -741,7 +745,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
                 {
-                    /* store focused object and notify listener */
+                    /* set focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
                                                    pencil_visible_object_id_get_visible_id( &clicked_object ),
                                                    pencil_visible_object_id_get_model_id( &clicked_object )
@@ -782,6 +786,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                                              ""
                                                                            );
                     }
+                    else if ( CTRL_ERROR_NONE != c_result )
+                    {
+                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
+                    }
                     else
                     {
                         /* set focused object and notify listener */
@@ -792,9 +800,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
                         gui_sketch_area_private_notify_listener( this_ );
                         gui_sketch_marker_clear_selected_set( (*this_).marker );
-                    }
 
-                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                    }
                 }
             }
             break;
@@ -916,18 +924,25 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                           &new_diag_id
                                                                         );
 
-                    /* load/reload data to be drawn */
-                    gui_sketch_area_private_load_cards( this_, new_diag_id );
+                    if ( CTRL_ERROR_NONE != c_result )
+                    {
+                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
+                    }
+                    else
+                    {
+                        /* load/reload data to be drawn */
+                        gui_sketch_area_private_load_cards( this_, new_diag_id );
 
-                    /* notify listener */
-                    data_id_t focused_id;
-                    data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                    gui_sketch_area_private_notify_listener( this_ );
-                    gui_sketch_marker_clear_selected_set( (*this_).marker );
+                        /* notify listener */
+                        data_id_t focused_id;
+                        data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                        gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-                    /* change the selected tool */
-                    gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
+                        /* change the selected tool */
+                        gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
+                    }
                 }
             }
             break;
@@ -978,7 +993,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             if ( CTRL_ERROR_NONE != c_result )
                             {
-                                TSLOG_ERROR("unexpected error at ctrl_classifier_controller_create_relationship");
+                                TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_relationship");
                             }
                             else
                             {
@@ -1001,41 +1016,57 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                         {
-                            /* propose a list_order for the feature */
-                            int32_t list_order_proposal = 0;
-                            gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                            if ( NULL != target )
+                            /* create a feature or a contained classifier, depending on the classifier type */
+                            if ( gui_sketch_object_creator_has_classifier_features ( &((*this_).object_creator), data_id_get_row_id( &focused_real ) ) )
                             {
-                                list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
-                            }
+                                /* propose a list_order for the feature */
+                                int32_t list_order_proposal = 0;
+                                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                                if ( NULL != target )
+                                {
+                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
+                                }
 
-                            int64_t new_feature_id;
-                            ctrl_error_t ctrl_err;
-                            ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
-                                                                                  data_id_get_row_id( &focused_real ),
-                                                                                  list_order_proposal,
-                                                                                  &new_feature_id
-                                                                                );
+                                int64_t new_feature_id;
+                                ctrl_error_t ctrl_err;
+                                ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
+                                                                                      data_id_get_row_id( &focused_real ),
+                                                                                      list_order_proposal,
+                                                                                      &new_feature_id
+                                                                                    );
 
-                            if ( CTRL_ERROR_DUPLICATE_NAME == ctrl_err )
-                            {
-                                gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                     GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                                     "get_state"
-                                );
+                                if ( CTRL_ERROR_NONE != ctrl_err )
+                                {
+                                    TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_feature");
+                                }
+                                else
+                                {
+                                    /* set focused object and notify listener */
+                                    data_id_t new_focused_id;
+                                    data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
+                                    gui_sketch_marker_set_focused( (*this_).marker, new_focused_id, new_focused_id );
+                                    gui_sketch_area_private_notify_listener( this_ );
+                                    gui_sketch_marker_clear_selected_set( (*this_).marker );
+                                }
                             }
                             else
                             {
-                                /* set focused object and notify listener */
-                                data_id_t focused_id;
-                                data_id_init( &focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                                gui_sketch_area_private_notify_listener( this_ );
-                                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                                TSLOG_WARNING("not yet implemented");
                             }
                         }
+                        else
+                        {
+                            TSLOG_WARNING("unexpected state at gui_sketch_area_button_release_callback");
+                        }
                     }
+                    else
+                    {
+                        TSLOG_WARNING("invalid clicked object at gui_sketch_area_button_release_callback");
+                    }
+                }
+                else
+                {
+                    TSLOG_WARNING("unexpected drag-state at gui_sketch_area_button_release_callback");
                 }
             }
             break;

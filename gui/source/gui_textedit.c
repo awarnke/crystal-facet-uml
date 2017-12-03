@@ -142,7 +142,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, 1, "UML_DEPENDENCY", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "UML_ASSOCIATION (class)", -1 );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "UML_ASSOCIATION (class, use-case)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "UML_AGGREGATION (class, no circles)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
@@ -167,19 +167,12 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "UML_OBJECT_FLOW (activity)", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "UML_DEPLOY (deployment, no circles)", -1 );
-        /*
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "UML_MANIFEST (deployment), no circles", -1 );
-        --> t.b.d: exists in uml but how to handle this in crystal facet uml?
-        */
-        /*cmake .#
-         *
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "UML_EXTEND (use-case), no circles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "UML_INCLUDE (use-case), no circles", -1 );
-        --> t.b.d: these are just stereotypes, no main types.
-        */
     }
 
     TRACE_END();
