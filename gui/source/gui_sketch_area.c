@@ -1066,12 +1066,15 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 ctrl_error_t c_result;
                                 int64_t new_diagele_id;
                                 int64_t new_classifier_id;
-                                c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
-                                                                                         selected_diagram_id,
-                                                                                         x_order,
-                                                                                         y_order,
-                                                                                         &new_diagele_id,
-                                                                                         &new_classifier_id
+                                int64_t new_relationship_id;
+                                c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
+                                                                                                  selected_diagram_id,
+                                                                                                  data_id_get_row_id( &focused_real ),
+                                                                                                  x_order,
+                                                                                                  y_order,
+                                                                                                  &new_diagele_id,
+                                                                                                  &new_classifier_id,
+                                                                                                  &new_relationship_id
                                 );
 
                                 if ( CTRL_ERROR_DUPLICATE_NAME == c_result )

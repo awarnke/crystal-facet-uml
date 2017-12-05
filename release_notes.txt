@@ -20,9 +20,8 @@
                              or     the type fitting most to the diagram type
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  @gui
-  [ ] In new object mode, clicking into the space area of possible parent classifiers shall create new classifiers
 
+  + In new object mode, clicking into a possible parent classifiers creates a new child (depending on type)
   + children of CONTAINMENT relations are automatically embraced by _any_ ancestor
   + nicer layout when parents embrace CONTAINED children
   + Easier selection of the right relation in GUI_SKETCH_TOOLS_EDIT mode

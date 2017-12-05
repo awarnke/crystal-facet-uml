@@ -103,6 +103,62 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     return c_result;
 }
 
+ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_object_creator_t *this_,
+                                                                    int64_t diagram_id,
+                                                                    int64_t parent_classifier_id,
+                                                                    int32_t x_order,
+                                                                    int32_t y_order,
+                                                                    int64_t *out_diagramelement_id,
+                                                                    int64_t *out_classifier_id,
+                                                                    int64_t *out_relationship_id )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_classifier_id );
+    assert ( NULL != out_diagramelement_id );
+    assert ( NULL != out_relationship_id );
+
+    ctrl_error_t c_result;
+
+    c_result = gui_sketch_object_creator_create_classifier ( this_,
+                                                             diagram_id,
+                                                             x_order,
+                                                             y_order,
+                                                             out_diagramelement_id,
+                                                             out_classifier_id
+                                                           );
+
+    if ( CTRL_ERROR_NONE == c_result )
+    {
+        /* get classifier controller */
+        ctrl_classifier_controller_t *classifier_control;
+        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+        /* define relationship */
+        data_relationship_t new_relationship;
+        data_error_t d_err;
+        d_err = data_relationship_init ( &new_relationship,
+                                         DATA_ID_VOID_ID,
+                                         DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT,
+                                         parent_classifier_id,
+                                         *out_classifier_id,
+                                         "", /* =relationship_name */
+                                         "", /* =relationship_description */
+                                         y_order  /* =list_order */
+                                       );
+
+        /* create relationship */
+        c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
+                                                                    &new_relationship,
+                                                                    true, /*=add_to_latest_undo_set*/
+                                                                    out_relationship_id
+                                                                  );
+        data_relationship_destroy ( &new_relationship );
+    }
+
+    TRACE_END_ERR( c_result );
+    return c_result;
+}
+
 ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
                                                         int64_t parent_diagram_id,
                                                         int64_t *out_diagram_id )
