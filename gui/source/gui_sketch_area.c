@@ -533,10 +533,10 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 gui_sketch_marker_set_highlighted( (*this_).marker, focused );
 
                 /* what is the target location? */
-                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                if ( NULL != target )
+                gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                if ( NULL != target_card )
                 {
-                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
                     int32_t x_order = universal_int32_pair_get_first( &order );
                     int32_t y_order = universal_int32_pair_get_second( &order );
                     TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
@@ -544,11 +544,15 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     /* move the object in the display-cache accordingly */
                     if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                     {
-                        gui_sketch_card_move_classifier_to_order( target, data_id_get_row_id( &focused_real ), x_order, y_order );
+                        gui_sketch_card_move_classifier_to_order( target_card, data_id_get_row_id( &focused_real ), x_order, y_order );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
                     }
+                }
+                else
+                {
+                    TRACE_INFO( "mouse click outside sketch card." );
                 }
             }
             else
@@ -723,7 +727,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_OBJECT" );
 
                 /* what is the target location? */
-                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
 
                 /* determine the object at click location */
                 pencil_visible_object_id_t clicked_object;
@@ -737,7 +741,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     clicked_object = click_surrounding_object;
                 }
 
-                if ( NULL == target )
+                if ( NULL == target_card )
                 {
                     TRACE_INFO_INT_INT("No card at",x,y);
                     /* if this happens, we should invalidate the marked object. */
@@ -758,11 +762,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
 
                     /* create a new classifier */
-                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target );
+                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
                     int64_t selected_diagram_id = data_diagram_get_id( target_diag );
                     TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
-                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
                     int32_t x_order = universal_int32_pair_get_first( &order );
                     int32_t y_order = universal_int32_pair_get_second( &order );
                     TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
@@ -869,8 +873,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_trace( &focused_real );
 
                     /* what is the target location? */
-                    gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                    if ( NULL == target )
+                    gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( NULL == target_card )
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
                     }
@@ -880,7 +884,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     }
                     else
                     {
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target, x, y );
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
                         int32_t x_order = universal_int32_pair_get_first( &order );
                         int32_t y_order = universal_int32_pair_get_second( &order );
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
@@ -976,10 +980,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         {
                             /* propose a list_order for the relationship */
                             int32_t list_order_proposal = 0;
-                            gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                            if ( NULL != target )
+                            gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                            if ( NULL != target_card )
                             {
-                                list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
+                                list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
                             }
 
                             int64_t new_relationship_id;
@@ -1012,20 +1016,18 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* click on classifier without drag */
                     data_id_t focused_real;
                     focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
-                    if ( data_id_is_valid( &focused_real ) )
+                    gui_sketch_card_t *target_card;
+                    target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( data_id_is_valid( &focused_real ) && ( NULL != target_card ) )
                     {
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                         {
-                            /* create a feature or a contained classifier, depending on the classifier type */
+                            /* create a feature =xor= a contained-classifier, depending on the classifier type */
                             if ( gui_sketch_object_creator_has_classifier_features ( &((*this_).object_creator), data_id_get_row_id( &focused_real ) ) )
                             {
                                 /* propose a list_order for the feature */
                                 int32_t list_order_proposal = 0;
-                                gui_sketch_card_t *target = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                                if ( NULL != target )
-                                {
-                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target ) + 1024;
-                                }
+                                list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
 
                                 int64_t new_feature_id;
                                 ctrl_error_t ctrl_err;
@@ -1051,7 +1053,52 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             }
                             else
                             {
-                                TSLOG_WARNING("not yet implemented");
+                                /* create a new classifier */
+                                data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                                int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                                universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
+                                int32_t x_order = universal_int32_pair_get_first( &order );
+                                int32_t y_order = universal_int32_pair_get_second( &order );
+                                TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                                ctrl_error_t c_result;
+                                int64_t new_diagele_id;
+                                int64_t new_classifier_id;
+                                c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
+                                                                                         selected_diagram_id,
+                                                                                         x_order,
+                                                                                         y_order,
+                                                                                         &new_diagele_id,
+                                                                                         &new_classifier_id
+                                );
+
+                                if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                                {
+                                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                         GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                         ""
+                                    );
+                                }
+                                else if ( CTRL_ERROR_NONE != c_result )
+                                {
+                                    TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
+                                }
+                                else
+                                {
+                                    /* set focused object and notify listener */
+                                    data_id_t focused_id;
+                                    data_id_t focused_real_id;
+                                    data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
+                                    data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
+                                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
+                                    gui_sketch_area_private_notify_listener( this_ );
+                                    gui_sketch_marker_clear_selected_set( (*this_).marker );
+
+                                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                                }
                             }
                         }
                         else
@@ -1066,7 +1113,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 else
                 {
-                    TSLOG_WARNING("unexpected drag-state at gui_sketch_area_button_release_callback");
+                    TRACE_INFO("according to drag-state, the button press was already handled at press-time");
                 }
             }
             break;

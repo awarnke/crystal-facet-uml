@@ -83,28 +83,49 @@ static void classifier_create_read_modify_read(void)
     int64_t diagele_id;
     data_classifier_t read_classifier;
     ctrl_classifier_controller_t *classifier_ctrl;
+    ctrl_diagram_controller_t *diagram_ctrl;
     uint32_t read_vis_classifiers_count;
     data_visible_classifier_t read_vis_classifiers[2];
     data_classifier_t *first_classifier;
     classifier_ctrl = ctrl_controller_get_classifier_control_ptr( &controller );
+    diagram_ctrl = ctrl_controller_get_diagram_control_ptr ( &controller );
 
     /* create a record */
-
-    classifier_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
-                                                                         DIAGRAM_ID,
-                                                                         DATA_CLASSIFIER_TYPE_UML_COMPONENT,
-                                                                         "my_component",
-                                                                         45,
-                                                                         4500,
-                                                                         &diagele_id,
-                                                                         &classifier_id );
+    data_classifier_t new_classifier;
+    data_err = data_classifier_init_new ( &new_classifier,
+                                          DATA_CLASSIFIER_TYPE_UML_COMPONENT,
+                                          "",  /* stereotype */
+                                          "my_component",
+                                          "",  /* description */
+                                          45,
+                                          4500
+                                        );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
+                                                              &new_classifier,
+                                                              false,  /* add_to_latest_undo_set */
+                                                              &classifier_id
+                                                            );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
+    data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
 
-    /* read this record */
+    data_diagramelement_t new_diagele;
+    data_diagramelement_init_new ( &new_diagele,
+                                   DIAGRAM_ID,
+                                   classifier_id,
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+                                 );
+    ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
+                                                               &new_diagele,
+                                                               true,  /* add_to_latest_undo_set */
+                                                               &diagele_id
+                                                             );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    data_diagramelement_destroy ( &new_diagele );
+    TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
 
+    /* read this record */
     data_classifier_init_empty( &read_classifier );
     data_err = data_database_reader_get_classifier_by_id ( &db_reader, classifier_id, &read_classifier );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -199,18 +220,39 @@ static void create_diagramelements_and_delete(void)
     TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
 
     /* create a classifier */
-    classifier_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
-                                                                         diagram_id,
-                                                                         DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                                                         "my_if",
-                                                                         88,
-                                                                         8800,
-                                                                         &diag_element_id,
-                                                                         &classifier_id );
+    data_classifier_t new_classifier;
+    data_err = data_classifier_init_new ( &new_classifier,
+                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          "",  /* stereotype */
+                                          "my_if",
+                                          "",  /* description */
+                                          88,
+                                          8800
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
+                                                              &new_classifier,
+                                                              false,  /* add_to_latest_undo_set */
+                                                              &classifier_id
+    );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT( DATA_ID_VOID_ID != diag_element_id );
+    data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+
+    data_diagramelement_t new_diagele;
+    data_diagramelement_init_new ( &new_diagele,
+                                   diagram_id,
+                                   classifier_id,
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+    );
+    ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
+                                                               &new_diagele,
+                                                               true,  /* add_to_latest_undo_set */
+                                                               &diag_element_id
+    );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    data_diagramelement_destroy ( &new_diagele );
+    TEST_ASSERT( DATA_ID_VOID_ID != diag_element_id );
 
     /* get the id of the diagramelement */
     data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 2, &read_vis_classifiers, &read_vis_classifiers_count );

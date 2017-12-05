@@ -63,29 +63,6 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ );
 /* ================================ CLASSIFIER ================================ */
 
 /*!
- *  \brief creates a new classifier or package or other object and attaches it to a diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram, to which to link the newly created classifier
- *  \param classifier_type main_type of the classifier to create
- *  \param classifier_name name of the classifier to create
- *  \param x_order x_order value of the new classifier
- *  \param y_order y_order value of the new classifier
- *  \param out_new_diagramelement_id id of the newly created diagramelement.
- *  \param out_new_classifier_id id of the newly created classifier.
- *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
- */
-ctrl_error_t ctrl_classifier_controller_create_classifier_in_diagram ( ctrl_classifier_controller_t *this_,
-                                                                       int64_t diagram_id,
-                                                                       data_classifier_type_t classifier_type,
-                                                                       const char* classifier_name,
-                                                                       int32_t x_order,
-                                                                       int32_t y_order,
-                                                                       int64_t* out_new_diagramelement_id,
-                                                                       int64_t* out_new_classifier_id
-);
-
-/*!
  *  \brief creates a new classifier but does not attach it to a diagram - which leaves the classifier unreferenced.
  *
  *  \param this_ pointer to own object attributes

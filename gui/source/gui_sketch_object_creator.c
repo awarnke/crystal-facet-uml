@@ -46,8 +46,13 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
 
     ctrl_error_t c_result;
 
+    /* get classifier controller */
     ctrl_classifier_controller_t *classifier_control;
     classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+    /* get diagram controller */
+    ctrl_diagram_controller_t *diagram_control;
+    diagram_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
     static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
     static uint8_t my_counter = 0;
@@ -56,17 +61,43 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     utf8stringbuf_copy_str( full_new_name, NAMES[(x_order+y_order)&0x07] );
     utf8stringbuf_append_int( full_new_name, my_counter++ );
 
-    int64_t new_classifier_id;
-    int64_t new_diagele_id;
-    c_result = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_control,
-                                                                         diagram_id,
-                                                                         DATA_CLASSIFIER_TYPE_BLOCK,
-                                                                         utf8stringbuf_get_string( full_new_name ),
-                                                                         x_order,
-                                                                         y_order,
-                                                                         out_diagramelement_id,
-                                                                         out_classifier_id
-                                                                       );
+    /* define classifier */
+    data_classifier_t new_classifier;
+    data_error_t d_err;
+    d_err = data_classifier_init_new ( &new_classifier,
+                                       DATA_CLASSIFIER_TYPE_BLOCK,
+                                       "",  /* stereotype */
+                                       utf8stringbuf_get_string( full_new_name ),
+                                       "",  /* description */
+                                       x_order,
+                                       y_order
+                                     );
+
+    c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
+                                                              &new_classifier,
+                                                              false,  /* add_to_latest_undo_set */
+                                                              out_classifier_id
+                                                            );
+
+    if ( CTRL_ERROR_NONE == c_result )
+    {
+        data_diagramelement_t new_diagele;
+        data_diagramelement_init_new ( &new_diagele,
+                                       diagram_id,
+                                       *out_classifier_id,
+                                       DATA_DIAGRAMELEMENT_FLAG_NONE
+                                     );
+
+        c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
+                                                                   &new_diagele,
+                                                                   true,  /* add_to_latest_undo_set */
+                                                                   out_diagramelement_id
+                                                                 );
+
+        data_diagramelement_destroy ( &new_diagele );
+    }
+
+    data_classifier_destroy ( &new_classifier );
 
     TRACE_END_ERR( c_result );
     return c_result;

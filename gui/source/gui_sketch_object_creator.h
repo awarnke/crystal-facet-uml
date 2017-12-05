@@ -117,7 +117,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
  *  \brief determines if the classifier type allows features
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_type the classifier row id
+ *  \param classifier_row_id the classifier row id
  *  \return true if the classifier may have features, false otherwise. false also if classifier_row_id is invalid.
  */
 bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id );

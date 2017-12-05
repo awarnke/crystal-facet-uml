@@ -90,18 +90,39 @@ static void undo_redo_classifier(void)
 
     /* create a classifier and a diagramelement */
     classifier_id = DATA_ID_VOID_ID;
-    diagele_id = DATA_ID_VOID_ID;
-    ctrl_err = ctrl_classifier_controller_create_classifier_in_diagram ( classifier_ctrl,
-                                                                         root_diagram_id,
-                                                                         DATA_CLASSIFIER_TYPE_UML_NODE,
-                                                                         "my_node",
-                                                                         17,
-                                                                         1700,
-                                                                         &diagele_id,
-                                                                         &classifier_id
-                                                                       );
+    data_classifier_t new_classifier;
+    data_err = data_classifier_init_new ( &new_classifier,
+                                          DATA_CLASSIFIER_TYPE_UML_NODE,
+                                          "",  /* stereotype */
+                                          "my_node",
+                                          "",  /* description */
+                                          17,
+                                          1700
+    );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
+                                                              &new_classifier,
+                                                              false,  /* add_to_latest_undo_set */
+                                                              &classifier_id
+    );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
+
+    diagele_id = DATA_ID_VOID_ID;
+    data_diagramelement_t new_diagele;
+    data_diagramelement_init_new ( &new_diagele,
+                                   root_diagram_id,
+                                   classifier_id,
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+    );
+    ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
+                                                               &new_diagele,
+                                                               true,  /* add_to_latest_undo_set */
+                                                               &diagele_id
+    );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    data_diagramelement_destroy ( &new_diagele );
     TEST_ASSERT( DATA_ID_VOID_ID != diagele_id );
 
     /* update the classifier */
