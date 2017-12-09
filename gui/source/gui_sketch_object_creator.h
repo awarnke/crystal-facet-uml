@@ -26,6 +26,8 @@ struct gui_sketch_object_creator_struct {
 
     data_diagram_t private_temp_diagram;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
     data_classifier_t private_temp_classifier;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
+    data_relationship_t private_temp_relationship;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
+    data_feature_t private_temp_feature;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
 };
 
 typedef struct gui_sketch_object_creator_struct gui_sketch_object_creator_t;
