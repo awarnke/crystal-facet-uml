@@ -77,17 +77,17 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     type_of_new_classifier = data_rules_get_default_classifier_type( &((*this_).data_rules), diag_type );
 
     /* find a good, unused name */
-    static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
-    static uint8_t my_counter = 0;
-    char newname_buf[24];
+    char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
     {
         bool name_ok = false;
         static const int MAX_SEARCH_STEP = 64;
+        static int my_counter = 0;
         for ( int search_step = 0; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok ); search_step ++ )
         {
             my_counter ++;
-            utf8stringbuf_copy_str( full_new_name, NAMES[(x_order+y_order)&0x07] );
+            gui_sketch_object_creator_private_propose_classifier_name( this_, type_of_new_classifier, full_new_name );
+            utf8stringbuf_append_str( full_new_name, "-" );
             utf8stringbuf_append_int( full_new_name, my_counter+search_step );
 
             /* check if that name is already in use */
@@ -215,12 +215,16 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     ctrl_diagram_controller_t *diag_control;
     diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
-    char* new_name;
-    static char *(NAMES[8]) = {"Upper Layer","Overview","Power States","Startup Sequence","Shutdown states","Boot timings","Lower Layer","Hello World"};
-    new_name = NAMES[(parent_diagram_id)&0x07];
+    char newname_buf[DATA_DIAGRAM_MAX_NAME_SIZE];
+    utf8stringbuf_t new_name = UTF8STRINGBUF( newname_buf );
+    gui_sketch_object_creator_private_propose_diagram_name( this_, new_name );
 
     int64_t new_diag_id;
-    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control, parent_diagram_id, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, new_name, out_diagram_id );
+    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control,
+                                                              parent_diagram_id,
+                                                              DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
+                                                              utf8stringbuf_get_string(new_name),
+                                                              out_diagram_id );
 
     TRACE_END_ERR( c_result );
     return c_result;
@@ -349,6 +353,158 @@ bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creat
 
     return result;
 }
+
+void gui_sketch_object_creator_private_propose_diagram_name( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name )
+{
+    static int cycle_names = 0;
+    static char *(NAMES[8]) = {"Overview","Context","Structure","Deployment","Lifecycle","Errors","Use Cases","Sequence"};
+
+    cycle_names ++;
+    utf8stringbuf_copy_str( out_name, NAMES[cycle_names&0x07] );
+}
+
+void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_object_creator_t *this_,
+                                                                data_classifier_type_t c_type,
+                                                                utf8stringbuf_t out_name )
+{
+    static int cycle_names = 0;
+    static char *(BLOCK_NAMES[8]) = {"DRAM","SoC","NAND","NOR","PMIC","Watchdog","CPU","SRAM"};
+    static char *(FEATURE_NAMES[8]) = {"Usability","Reliability","Function","Security","Performance","Compatibility","Maintainability","Portability"};
+    static char *(REQUIREMENT_NAMES[8]) = {"reaction time","startup time","latency","resource consumption","update","fault tolerance","availability","hardware abstraction"};
+    static char *(ACTOR_NAMES[8]) = {"Customer","Database","Service/Maintenance","Operator","Backend/Server","Authorities","Hacker/Cheater","Peer/Client"};
+    static char *(USECASE_NAMES[8]) = {"Get Status","Perform Transaction","SW Update","Pay Order","Deliver","Debug","Prove Eventlog","Manage Rights"};
+    static char *(BOUNDARIES_NAMES[8]) = {"Controller SW","Machine","Backend","Virtual Machine","Security Module","Terminal","Smart Device","PC"};
+    static char *(ACTIVITY_NAMES[8]) = {"Startup","SW Update","Background Scan","Sleep","User Input","Normal Operation","Error Reporting","Idle"};
+    static char *(STATE_NAMES[8]) = {"off","starting","on","debugging","wait","shutdown","send","receive"};
+    static char *(DIAGREF_NAMES[8]) = {"Startup","Data Upload","Data Download","Shutdown","Suspend and Resume","Background Activities","Error Notification","SW Update"};
+    static char *(COMPONENT_NAMES[8]) = {"Persistence","ErrorLogger","UserInterface","PeripheralControl","Monitor","ServiceDiscovery","LifecycleManager","Controller"};
+    static char *(ARTIFACT_NAMES[8]) = {"Firmware","Code","Data","Settings","Log","ErrorReport","RuleSet","Inventory"};
+    static char *(IF_NAMES[8]) = {"Authentication_IF","Log_IF","TraceChannel_IF","Update_IF","DataSync_IF","DataLink_IF","AliveSignal_IF","PowerControl_IF"};
+    static char *(CLASS_NAMES[8]) = {"Serializer","Deserializer","CompressionAlg","Transformer","Wrapper","EventLoop","RingBuffer","Multiplexer"};
+    static char *(PACKAGE_NAMES[8]) = {"Drivers","Platform Services","User Applications","Utilities","Debug Tools","Authentication and Authorization","Controller","Maintenance Tools"};
+    static char *(NOTE_NAMES[8]) = {"Note","Comment","Hint","Todo","Remark","Question","Rationale","Proposal"};
+
+    cycle_names ++;
+
+    switch ( c_type )
+    {
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        {
+            utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_FEATURE:
+        {
+            utf8stringbuf_copy_str( out_name, FEATURE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        {
+            utf8stringbuf_copy_str( out_name, REQUIREMENT_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            utf8stringbuf_copy_str( out_name, ACTOR_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            utf8stringbuf_copy_str( out_name, USECASE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        {
+            utf8stringbuf_copy_str( out_name, BOUNDARIES_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        {
+            utf8stringbuf_copy_str( out_name, ACTIVITY_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
+        {
+            utf8stringbuf_copy_str( out_name, STATE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        {
+            utf8stringbuf_copy_str( out_name, DIAGREF_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        {
+            utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:  /* and */
+        {
+            utf8stringbuf_copy_str( out_name, COMPONENT_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        {
+            utf8stringbuf_copy_str( out_name, COMPONENT_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            utf8stringbuf_copy_str( out_name, ARTIFACT_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:  /* and */
+        {
+            utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:  /* and */
+        {
+            utf8stringbuf_copy_str( out_name, CLASS_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:  /* and */
+        {
+            utf8stringbuf_copy_str( out_name, CLASS_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            utf8stringbuf_copy_str( out_name, PACKAGE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            utf8stringbuf_copy_str( out_name, NOTE_NAMES[cycle_names&0x07] );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("data_classifier_type_t out of range in gui_sketch_object_creator_private_propose_classifier_name");
+            utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
+        }
+        break;
+    }
+}
+
 
 /*
 Copyright 2017-2017 Andreas Warnke

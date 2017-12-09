@@ -147,6 +147,26 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
  */
 bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id );
 
+/*!
+ *  \brief proposes a default name for diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_name a name for a diagram
+ */
+void gui_sketch_object_creator_private_propose_diagram_name ( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name );
+
+/*!
+ *  \brief proposes a default name for classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param c_type type of the classifier
+ *  \param out_name a name for a classifier
+ */
+void gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_object_creator_t *this_,
+                                                                 data_classifier_type_t c_type,
+                                                                 utf8stringbuf_t out_name
+                                                               );
+
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 
 

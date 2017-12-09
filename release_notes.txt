@@ -1,5 +1,4 @@
-2017-xx-xx 0.20.0 [xxxxxxx]
-
+future:
   GOAL: Improve usability
   @gui
   [ ] Add a link to the user documentation to the plain empty starting page
@@ -18,11 +17,8 @@
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
 
 2017-12-xx 0.19.0 [xxxxxxx]
-
-  [ ] The default-names of new relationships and features shall match their type
-  [ ] New objects shall have either the type of previously type-changed objects (arrows, features and classifiers)
-                             or     the type fitting most to the diagram type
-
+  + The default-names of new classifiers match their type
+  + default-types of new objects fit to the diagram type and to the origin-classifier type now.
   + default-names of new objects are unique, no duplicate name errors unless forced
   + In new object mode, clicking into a possible parent classifiers creates a new child (depending on type)
   + children of CONTAINMENT relations are automatically embraced by _any_ ancestor
