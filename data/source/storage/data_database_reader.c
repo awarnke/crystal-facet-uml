@@ -180,7 +180,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            TSLOG_WARNING( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -427,6 +427,12 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
     "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
 
 /*!
+ *  \brief predefined search statement to find a classifier by name
+ */
+static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME[] =
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE name=?;";
+
+/*!
  *  \brief predefined search statement to find classifier by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
@@ -501,7 +507,66 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+
+        if ( SQLITE_ROW == sqlite_err )
+        {
+            result |= data_classifier_init( out_classifier,
+                                            sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_STEREOTYPE_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
+                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
+            );
+
+            data_classifier_trace( out_classifier );
+        }
+
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_DONE != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+            result |= DATA_ERROR_DB_STRUCTURE;
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_classifier );
+    assert( NULL != name );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_classifier_by_name;
+
+        result |= data_database_reader_private_bind_text_to_statement( this_, prepared_statement, name );
+
+        TRACE_INFO( "sqlite3_step()" );
+        sqlite_err = sqlite3_step( prepared_statement );
+        if ( SQLITE_ROW != sqlite_err )
+        {
+            TSLOG_EVENT( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -674,7 +739,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            TSLOG_WARNING( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -795,7 +860,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            TSLOG_WARNING( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -1075,7 +1140,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_ERROR( "sqlite3_step did not find a row." );
+            TSLOG_WARNING( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -1303,6 +1368,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME ),
+                                                                   &((*this_).private_prepared_query_classifier_by_name)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_classifiers_by_diagram_id)
@@ -1382,6 +1453,8 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_parent_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_name );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
 

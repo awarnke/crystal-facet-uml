@@ -37,6 +37,7 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
     sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
+    sqlite3_stmt *private_prepared_query_classifier_by_name;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
     sqlite3_stmt *private_prepared_query_diagramelement_by_id;
     sqlite3_stmt *private_prepared_query_feature_by_id;
@@ -161,6 +162,17 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier );
+
+/*!
+ *  \brief reads a classifier from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param name the classifier to be read from the database
+ *  \param out_classifier the classifier read from the database (in case of success)
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_DB_STRUCTURE if name does not exist or DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_t *this_, const char *name, data_classifier_t *out_classifier );
 
 /*!
  *  \brief reads all classifiers of a diagram from the database.
@@ -381,6 +393,18 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id1, int64_t id2 );
+
+/*!
+ *  \brief binds a single string to a prepared statement.
+ *
+ *  The prepared statement shall have only one variable of type string.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \param text char sequence to bind to the prepared statement.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_bind_text_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, const char *text );
 
 #include "storage/data_database_reader.inl"
 

@@ -54,12 +54,28 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     ctrl_diagram_controller_t *diagram_control;
     diagram_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
+    /* find a good, unused name */
     static char *(NAMES[8]) = {"off-","on-","debug-","persistence-","communication-","bootloader-","driver-","application-"};
     static uint8_t my_counter = 0;
     char newname_buf[24];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
-    utf8stringbuf_copy_str( full_new_name, NAMES[(x_order+y_order)&0x07] );
-    utf8stringbuf_append_int( full_new_name, my_counter++ );
+    {
+        bool name_ok = false;
+        static const int MAX_SEARCH_STEP = 64;
+        for ( int search_step = 0; ( search_step < MAX_SEARCH_STEP )&&( ! name_ok ); search_step ++ )
+        {
+            my_counter ++;
+            utf8stringbuf_copy_str( full_new_name, NAMES[(x_order+y_order)&0x07] );
+            utf8stringbuf_append_int( full_new_name, my_counter+search_step );
+
+            /* check if that name is already in use */
+            data_error_t exists_err;
+            exists_err = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
+                                                                       utf8stringbuf_get_string( full_new_name ),
+                                                                       &((*this_).private_temp_classifier) );
+            name_ok = ( DATA_ERROR_NONE != exists_err );  /* name ok if name does not yet exist */
+        }
+    }
 
     /* define classifier */
     data_classifier_t new_classifier;

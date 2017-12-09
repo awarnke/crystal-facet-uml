@@ -321,6 +321,19 @@ static void test_search_classifiers(void)
                                                                     &out_classifier_count );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 3, out_classifier_count );
+
+    /* test 3 */
+    data_err = data_database_reader_get_classifier_by_name ( &db_reader,
+                                                             "name-12",
+                                                             &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_id( &out_classifier ) );
+
+    /* test 4 */
+    data_err = data_database_reader_get_classifier_by_name ( &db_reader,
+                                                             "does not exist",
+                                                             &out_classifier );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
 }
 
 static void test_search_features(void)
