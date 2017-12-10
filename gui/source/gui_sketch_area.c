@@ -701,15 +701,29 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 gui_sketch_area_get_object_id_at_pos ( this_, x, y, &focused_object, &focus_surrounding_object );
                 pencil_visible_object_id_trace( &focused_object );
                 pencil_visible_object_id_trace( &focus_surrounding_object );
+                data_id_t focused_object_visible;
+                focused_object_visible = pencil_visible_object_id_get_visible_id( &focused_object );
 
-                /* store focused object and notify listener */
-                gui_sketch_marker_set_focused( (*this_).marker,
-                                               pencil_visible_object_id_get_visible_id( &focused_object ),
-                                               pencil_visible_object_id_get_model_id( &focused_object )
-                                             );
-                gui_sketch_area_private_notify_listener( this_ );
+                /* which object is currently focused? */
+                data_id_t focused_visible_before;
+                data_id_t focused_real_before;
+                focused_visible_before = gui_sketch_marker_get_focused ( (*this_).marker );
+                focused_real_before = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
 
-                gui_sketch_marker_toggle_selected_obj( (*this_).marker, pencil_visible_object_id_get_visible_id( &focused_object ) );
+                if ( data_id_equals ( &focused_object_visible, &focused_visible_before ) )
+                {
+                    /* the clicked object is already focused */
+                    gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_object_visible );
+                }
+                else
+                {
+                    /* store focused object and notify listener */
+                    gui_sketch_marker_set_focused ( (*this_).marker,
+                                                    focused_object_visible,
+                                                    pencil_visible_object_id_get_model_id( &focused_object )
+                                                  );
+                    gui_sketch_area_private_notify_listener( this_ );
+                }
 
                 /* mark dirty rect */
                 gtk_widget_queue_draw( widget );
@@ -863,7 +877,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
-
                     /* which object is selected? */
                     data_id_t focused_visible;
                     data_id_t focused_real;

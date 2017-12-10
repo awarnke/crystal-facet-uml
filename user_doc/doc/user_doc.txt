@@ -118,8 +118,8 @@
  *  \image html resources/tool_edit.png
  *  \image latex resources/tool_edit.pdf "" width=1cm
  *  \li To move classifiers within the diagram, press, drag and release the mouse button.
- *  \li To mark diagram and/or classifiers and/or features and/or relationships with pink corners, click on these objects.
- *  \li To select the diagram or a classifier or a feature or a relationship with yellow corners, clicl on this object.
+ *  \li To select the diagram or a classifier or a feature or a relationship with yellow corners, click on this object.
+ *  \li To mark diagram and/or classifiers and/or features and/or relationships with pink corners, click on these objects twice.
  *
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=1cm

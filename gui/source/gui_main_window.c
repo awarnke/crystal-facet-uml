@@ -40,17 +40,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     (*this_).message_text_label = gtk_label_new ("");
 #if (( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))
-    /*
-     *  set_xalign exists since gtk 3.16. If you compile on older versions, use gtk_misc_set_alignment instead.
-     *  Or accept less beautiful layout.
-     */
     gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
 #else
-    /*
-     *  the "set alignment" below is deprecated - but the two commented ones do not work ...
-     */
     gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
-    /* gtk_widget_set_valign (GTK_WIDGET( (*this_).message_text_label ), GTK_ALIGN_START ); */
 #endif
     (*this_).message_icon_image = gtk_image_new_from_pixbuf ( gui_resources_get_crystal_facet_uml( res ) );
     gui_simple_message_to_user_init( &((*this_).message_to_user), (*this_).message_text_label, (*this_).message_icon_image, res );
@@ -306,7 +298,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_undo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
-    /* gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
+    /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 0, 2, 1, 1 );
