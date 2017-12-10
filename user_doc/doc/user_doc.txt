@@ -108,23 +108,25 @@
  *
  *  \image html resources/tool_create_diagram.png
  *  \image latex resources/tool_create_diagram.pdf "" width=1cm
- *  \li Create a child-diagram by clicking in the children-area in the current view.
+ *  \li To create a child-diagram, click into the children-area of the current view.
  *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=1cm
- *  \li Navigate to the parent diagram or to a child diagram.
+ *  \li To navigate to the parent diagram, click on the parent diagram.
+ *  \li To navigate to a child diagram, click on the child diagram.
  *
  *  \image html resources/tool_edit.png
  *  \image latex resources/tool_edit.pdf "" width=1cm
- *  \li Move classifiers in the diagram
- *  \li Mark the diagram, classifiers and relationships with pink corners
- *  \li Select the diagram, a classifier, a feature or a relationship with yellow corners.
+ *  \li To move classifiers within the diagram, press, drag and release the mouse button.
+ *  \li To mark diagram and/or classifiers and/or features and/or relationships with pink corners, click on these objects.
+ *  \li To select the diagram or a classifier or a feature or a relationship with yellow corners, clicl on this object.
  *
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=1cm
- *  \li Create a classifier by clicking at an empty space in the diagram
- *  \li Create a relationship by clicking on the source classifier and dragging to the destination classifier
- *  \li Create a feature by clicking on the classifier
+ *  \li To create a classifier, click at an empty space in the diagram.
+ *  \li To create a child classifier, click into a classifier that can contain children (e.g. nodes, components, packages, activities).
+ *  \li To create a relationship, press on the source classifier and drag it to the destination classifier.
+ *  \li To create a feature, click into a classifier that can contain features (e.g. blocks, classes, objects, interfaces).
  *
  *  \section cfu-ele_config Element Configuration
  *
