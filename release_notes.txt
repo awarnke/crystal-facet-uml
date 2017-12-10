@@ -16,7 +16,7 @@ future:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
 
-2017-12-10 0.19.0 [xxxxxxx]
+2017-12-10 0.19.0 [221effc]
   + The default-names of new classifiers match their type
   + default-types of new objects fit to the diagram type and to the origin-classifier type now.
   + default-names of new objects are unique, no duplicate name errors unless forced
