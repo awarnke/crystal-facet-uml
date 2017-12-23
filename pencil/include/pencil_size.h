@@ -26,16 +26,16 @@ enum pencil_size_const_enum {
  *  \brief attributes of the pencil_input_data_t
  */
 struct pencil_size_struct {
-    double standard_font_size;  /*! text size of standard text */
-    PangoFontDescription *standard_font_description;  /*! text description of standard text */
-    double larger_font_size;  /*! text size of larger text */
-    PangoFontDescription *larger_font_description;  /*! text description of larger text */
-    double standard_line_width;  /*! line width of standard lines */
-    double bold_line_width;  /*! line width of bold lines */
-    double line_dash_length;  /*! dash length of a dashed line */
+    double standard_font_size;  /*!< text size of standard text */
+    PangoFontDescription *standard_font_description;  /*!< text description of standard text */
+    double larger_font_size;  /*!< text size of larger text */
+    PangoFontDescription *larger_font_description;  /*!< text description of larger text */
+    double standard_line_width;  /*!< line width of standard lines */
+    double bold_line_width;  /*!< line width of bold lines */
+    double line_dash_length;  /*!< dash length of a dashed line */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
-    double arrow_stroke_length;  /*! length of a stroke to paint an arrow tip */
-    double arrow_stroke_087_length;  /*! sqrt(0.75)=0.8660 parts of the length of a stroke to paint an arrow */
+    double arrow_stroke_length;  /*!< length of a stroke to paint an arrow tip */
+    double arrow_stroke_087_length;  /*!< sqrt(0.75)=0.8660 parts of the length of a stroke to paint an arrow */
     double preferred_object_distance;  /*!< preferred distance between two objects or object and connector */
     GdkRGBA standard_color;  /*!< foreground color of all standard objects */
     GdkRGBA select_color;  /*!< foreground color of all currently selected objects (user selected set): pink */

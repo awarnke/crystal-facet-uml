@@ -1,7 +1,19 @@
 Domains
 
 
+Medical
+
+
+Defense
+
+
 Aerospace
+
+
+Transport and Logistics
+
+
+Government
 
 
 Avionics
@@ -10,15 +22,22 @@ Avionics
 Automotive
   Electronic Control Units
   Infotainment
+  Automated Driving
 
 
-Machine construction
+Finance
 
 
-Defense
+Industrial Machinery
+
+
+Rail
 
 
 Backend Server
 
 
-Medical
+Telecommunication
+
+
+Energy

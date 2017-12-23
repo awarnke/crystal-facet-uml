@@ -6,16 +6,21 @@ Who
 | Roles,
 | Skills, Knowledge,
 | Trainings
+  Roles
+  Knowledge/Skills
   enables --> Process
 
 
 How
 | Guidelines, Checklists,
 | Templates
+  Guidelines
   enables --> Process
 
 
 Input
+  Requirements/Design
+  Software/Data
   is precondition for --> Process
 
 
@@ -28,11 +33,17 @@ Process
 Output
 | Process output,
 | Evidence on performed process
+  Software/Documentation
+  Evidence/Reports
 
 
 With What
+  Tools
+  Templates
   enables --> Process
 
 
 What Results
+  Metrics
+  Definition of Done
   controls --> Process

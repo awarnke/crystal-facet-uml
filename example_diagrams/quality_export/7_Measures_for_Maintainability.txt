@@ -30,15 +30,6 @@ Occam's razor
 Modifyability
 
 
-SOLID
-   --> Interface Segregation
-   --> Liskov Substitution
-   --> Dependency Inversion
-   --> Open/Closed
-   --> Single Responsability
-  supports --> Modularity
-
-
 Information Hiding
 | A sofware component shall hide its implementation details and make information accessible only via defined interfaces
   enables --> Reusability
@@ -49,6 +40,15 @@ Information Hiding
 
 Single Responsability
 | A software component shall be responsible for one topic only
+
+
+SOLID
+   --> Interface Segregation
+   --> Liskov Substitution
+   --> Dependency Inversion
+   --> Open/Closed
+   --> Single Responsability
+  supports --> Modularity
 
 
 Interface Segregation

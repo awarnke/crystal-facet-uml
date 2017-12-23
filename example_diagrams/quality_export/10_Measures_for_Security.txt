@@ -1,0 +1,81 @@
+Measures for Security
+| Functional safety and security are different goals 
+| but have common mechanisms to support these.
+| 
+| The diagram is not meant to be complete,
+| it just shows that technical mechanisms support quality goals.
+
+
+Non-Repudiation
+
+
+Cryptographic Signatures
+  asymmetric
+  shared key (symmetric)
+  supports --> Authenticity
+  may support --> Non-Repudiation
+  support --> Secure Boot
+
+
+Encryption
+  symmetric
+  public/private
+  supports --> Confidentiality
+
+
+Confidentiality
+
+
+Secure Boot
+   --> Integrity
+   --> Authenticity
+
+
+Authenticity
+
+
+Over-the-Air Updates
+  Security Updates in Time
+  supports --> Integrity
+
+
+Integrity
+
+
+Least Priviledge
+| Entities shall have only the access rights they need for their purpose
+  supports --> Accountability
+
+
+Accountability
+
+
+Partitioning
+  supports --> Integrity
+
+
+Certificates
+  chain of certificates
+  use --> Cryptographic Signatures
+  divide and manage --> Accountability
+
+
+Groups
+| Grouping Clients/Actors helps
+| Grouping Services 
+| helps in administration of access rights
+  support --> Accountability
+
+
+Network Partitioniong
+  Network Zones (VLANs)
+  Gateways/Firewalls/Proxies
+  implements --> Partitioning
+
+
+Inner-Node Partitions
+  Hypervisor Partitions
+  OS-Process Boundaries
+  Microkernel OS for Driver Partitioning
+  Containers (Linux,QNX-Partitions,Address-space)
+  implements --> Partitioning

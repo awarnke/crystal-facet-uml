@@ -1,0 +1,52 @@
+Elements for Safety
+
+
+Monitoring
+  Function Monitoring (L2)
+  System Monitoring (L3)
+  - alive Monitoring
+  - control flow supervision
+  may support a claim --> Functional Safety
+
+
+Real Time Execution
+  Guaranteed Calculation Time
+  Real Time Clock
+  may support a claim --> Functional Safety
+
+
+Functional Safety
+
+
+Cryptographic Signatures
+  asymmetric
+  shared key (symmetric)
+  may support --> Trusted Data Paths
+
+
+Trusted Data Paths
+  Dual Data Paths
+  End to End Protection
+  may support a claim --> Functional Safety
+
+
+Input Signal Validation
+  may support a claim --> Functional Safety
+
+
+Partitioning
+  may support a claim --> Functional Safety
+
+
+Network Partitioniong
+  Network Zones (VLANs)
+  Gateways/Firewalls/Proxies
+  implements --> Partitioning
+
+
+Inner-Node Partitions
+  Hypervisor Partitions
+  OS-Process Boundaries
+  Microkernel OS for Driver Partitioning
+  Containers (Linux,QNX-Partitions,Address-space)
+  implements --> Partitioning

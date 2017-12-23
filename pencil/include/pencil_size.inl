@@ -50,20 +50,20 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).gray_out_color.alpha = 1.0;
 
     /* guess some default values: */
-    (*this_).standard_font_size = 9.0;
+    (*this_).standard_font_size = 12.0;
     (*this_).standard_font_description = pango_font_description_new ();
     pango_font_description_set_family_static ( (*this_).standard_font_description, "Sans" );
     pango_font_description_set_style ( (*this_).standard_font_description, PANGO_STYLE_NORMAL );
     pango_font_description_set_weight ( (*this_).standard_font_description, PANGO_WEIGHT_MEDIUM );
     pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
-    pango_font_description_set_size ( (*this_).standard_font_description, 9 * PANGO_SCALE );
-    (*this_).larger_font_size = 12.0;
+    pango_font_description_set_size ( (*this_).standard_font_description, 12 * PANGO_SCALE );
+    (*this_).larger_font_size = 14.0;
     (*this_).larger_font_description = pango_font_description_new ();
     pango_font_description_set_family_static ( (*this_).larger_font_description, "Sans" );
     pango_font_description_set_style ( (*this_).larger_font_description, PANGO_STYLE_NORMAL );
     pango_font_description_set_weight ( (*this_).larger_font_description, PANGO_WEIGHT_BOLD );
     pango_font_description_set_stretch ( (*this_).larger_font_description, PANGO_STRETCH_NORMAL );
-    pango_font_description_set_size ( (*this_).larger_font_description, 12 * PANGO_SCALE );
+    pango_font_description_set_size ( (*this_).larger_font_description, 14 * PANGO_SCALE );
     (*this_).standard_line_width = 1.0;
     (*this_).bold_line_width = 2.0;
     (*this_).line_dash_length = 5.0;
@@ -81,13 +81,13 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
     {
         (*this_).standard_font_size = 1.0;
     }
-    pango_font_description_set_size ( (*this_).standard_font_description, ((int)(*this_).standard_font_size) * PANGO_SCALE );
-    (*this_).larger_font_size = smaller_border/44.0;
+    pango_font_description_set_size ( (*this_).standard_font_description, ((int)((*this_).standard_font_size * PANGO_SCALE) ));
+    (*this_).larger_font_size = smaller_border/48.0;
     if ( (*this_).larger_font_size < 1.0 )
     {
         (*this_).larger_font_size = 1.0;
     }
-    pango_font_description_set_size ( (*this_).larger_font_description, ((int)(*this_).larger_font_size) * PANGO_SCALE );
+    pango_font_description_set_size ( (*this_).larger_font_description, ((int)((*this_).larger_font_size * PANGO_SCALE) ));
     (*this_).standard_line_width = smaller_border/400.0;
     (*this_).bold_line_width = smaller_border/200.0;
     (*this_).line_dash_length = smaller_border/80.0;

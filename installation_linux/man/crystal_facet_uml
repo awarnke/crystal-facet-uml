@@ -1,18 +1,39 @@
 .TH crystal_facet_uml 1 "2017-09-16" crystal_facet_uml
 .SH NAME
-    crystal_facet_uml - creates a set of UML diagrams in vector graphics format.
+    crystal_facet_uml \- creates a set of UML diagrams in vector graphics format.
 .SH SYNOPSIS
-    crystal_facet_uml [-u databasefile]
-    crystal_facet_uml -t|-r databasefile
-    crystal_facet_uml -h
+    \fBcrystal_facet_uml\fR [-u \fIdatabasefile\fR]
+    \fBcrystal_facet_uml\fR -t|-r \fIdatabasefile\fR
+    \fBcrystal_facet_uml\fR -h
 .SH DESCRIPTION
     crystal_facet_uml is a tool to draw uml diagrams using a graphical user interface.
     It stores these diagrams in a database and exports them to vector graphics files.
+.SH OPTIONS
+.TP
+\fB\- h\fR
+help
+prints help information to the console
+.TP
+\fB\- t\fR
+test \fIdatabasefile\fR
+tests the databasefile and prints results to the console
+.TP
+\fB\- u\fR
+use \fIdatabasefile\fR
+opens or creates databasefile and starts gui interactive mode
+.TP
+\fB\- r\fR
+repair \fIdatabasefile\fR
+repairs the databasefile and prints results to the console
 .SH EXAMPLES
     crystal_facet_uml &
     journalctrl -f
 .SH SEE ALSO
-    sqlite journalctrl
+    sqlite (the database format)
+    journalctrl (error logs)
+.PP
+    http://www.andreaswarnke.de/crystal_facet_uml/html/index.html
+    crystal_facet_uml_user_documentation.pdf
 .SH BUGS
     Not all uml diagram types and uml elements are supported yet.
 .SH AUTHOR

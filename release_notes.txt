@@ -12,6 +12,7 @@
   [ ] in overview mode, allow to move diagrams horizontally
   [ ] reset-selection shall select everything if nothing is selected
   [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
+  [ ] while editing text, del, ctrl x/c/v should work (maybe deactivate the accellerator group during editing?)
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil

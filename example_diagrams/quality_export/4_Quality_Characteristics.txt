@@ -32,13 +32,13 @@ Portability
 Completeness
 
 
-Non-Repudiation
-
-
 Maturity
 
 
 Adaptability
+
+
+Non-Repudiation
 
 
 Correctness

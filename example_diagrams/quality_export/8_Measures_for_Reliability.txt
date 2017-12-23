@@ -1,6 +1,13 @@
 Measures for Reliability
 
 
+Mature Platform
+  OS provides resource limits
+  OS does not swap, does not overcommit
+  OS has mature peripheral-drivers
+   --> Maturity
+
+
 Layered Architecture
   improves --> Maturity
 
@@ -72,4 +79,13 @@ Fault injection Tests
 Fault Tolerance
 
 
+Input Signal Validation
+   --> Fault Tolerance
+
+
 Recoverability
+
+
+Partitioning
+   --> Fault Tolerance
+   --> Recoverability
