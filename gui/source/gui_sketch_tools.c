@@ -159,6 +159,16 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    gui_sketch_tools_cut( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_cut( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
     data_small_set_t *set_to_be_cut;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -173,7 +183,6 @@ void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 
     gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
@@ -181,6 +190,16 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    gui_sketch_tools_copy( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_copy( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
     data_small_set_t *set_to_be_copied;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -198,7 +217,6 @@ void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 
     gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_copied );
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
@@ -207,12 +225,20 @@ void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
 
+    gui_sketch_tools_paste( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_paste( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     int64_t destination_diagram_id = gui_sketch_marker_get_focused_diagram( (*this_).marker );
     gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes), destination_diagram_id );
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
@@ -220,6 +246,17 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_tools_t *this_ = data;
+
+    gui_sketch_tools_delete( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_sketch_tools_delete( gui_sketch_tools_t *this_ )
+{
+    TRACE_BEGIN();
+
     data_small_set_t *set_to_be_deleted;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -232,7 +269,6 @@ void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
 
     gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 

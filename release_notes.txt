@@ -12,12 +12,12 @@
   [ ] in overview mode, allow to move diagrams horizontally
   [ ] reset-selection shall select everything if nothing is selected
   [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
-  [ ] while editing text, del, ctrl x/c/v should work (maybe deactivate the accellerator group during editing?)
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] In COMMENTS/notes, show not the title but the description
 
+  + Ctrl-X/C/V,DEL work as expected during text editing
   + Pink-select elements only at the second click
 2017-12-10 0.19.0 [221effc]
   + The default-names of new classifiers match their type

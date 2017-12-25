@@ -98,42 +98,54 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
     (*this_).edit_cut = gtk_tool_button_new( (*this_).edit_cut_icon, "Cut" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
+    /*
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_cut),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_x,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE );
+    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    */
 
     (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
     (*this_).edit_copy = gtk_tool_button_new( (*this_).edit_copy_icon, "Copy" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
+    /*
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_copy),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_c,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE );
+    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    */
 
     (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
     (*this_).edit_paste = gtk_tool_button_new( (*this_).edit_paste_icon, "Paste" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
+    /*
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_paste),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_v,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE );
+    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    */
 
     (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
     (*this_).edit_delete = gtk_tool_button_new( (*this_).edit_delete_icon, "Delete" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
+    /*
     gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_delete),
                                  "clicked",
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_Delete,
                                  0,
                                  GTK_ACCEL_VISIBLE );
+    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    */
 
     (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
     (*this_).edit_instantiate = gtk_tool_button_new( (*this_).edit_instantiate_icon, "Instantiate" );
@@ -324,6 +336,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );

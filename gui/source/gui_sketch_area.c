@@ -484,9 +484,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     int32_t y;
     GdkModifierType state;
 
-    x = (int32_t) evt->x;
-    y = (int32_t) evt->y;
-    state = (GdkModifierType) evt->state;
+    x = (int32_t) (*evt).x;
+    y = (int32_t) (*evt).y;
+    state = (GdkModifierType) (*evt).state;
 
     TRACE_INFO_INT_INT( "x/y", x, y );
     gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
@@ -632,7 +632,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     /* in general, hide the last message */
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    if ( evt->button == 1 ) {
+    if ( (*evt).button == 1 ) {
         TRACE_INFO("press");
 
         gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
@@ -640,8 +640,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         /* get position */
         int32_t x;
         int32_t y;
-        x = (int32_t) evt->x;
-        y = (int32_t) evt->y;
+        x = (int32_t) (*evt).x;
+        y = (int32_t) (*evt).y;
         TRACE_INFO_INT_INT( "x/y", x, y );
 
         /* check that drag state is false */
@@ -843,14 +843,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
 
-    if ( evt->button == 1 ) {
+    if ( (*evt).button == 1 ) {
         TRACE_INFO("release");
 
         /* get position */
         int32_t x;
         int32_t y;
-        x = (int32_t) evt->x;
-        y = (int32_t) evt->y;
+        x = (int32_t) (*evt).x;
+        y = (int32_t) (*evt).y;
         TRACE_INFO_INT_INT("x/y",x,y);
 
         /* check that drag state is true */
@@ -1151,6 +1151,54 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
     TRACE_TIMESTAMP();
     TRACE_END();
     return TRUE;
+}
+
+gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_sketch_area_t *this_ = data;
+    gboolean result_event_handled = false;
+
+    if ( (*evt).state == GDK_CONTROL_MASK )
+    {
+        if ( (*evt).keyval == GDK_KEY_x )
+        {
+            TRACE_INFO ( "key pressed: Ctrl-X" );
+            gui_sketch_tools_cut( (*this_).tools );
+            result_event_handled = true;
+        }
+        else if ( (*evt).keyval == GDK_KEY_c )
+        {
+            TRACE_INFO ( "key pressed: Ctrl-C" );
+            gui_sketch_tools_copy( (*this_).tools );
+            result_event_handled = true;
+        }
+        else if ( (*evt).keyval == GDK_KEY_v )
+        {
+            TRACE_INFO ( "key pressed: Ctrl-V" );
+            gui_sketch_tools_paste( (*this_).tools );
+            result_event_handled = true;
+        }
+        /* other keys are out of scope */
+    }
+    else if ( (*evt).state == 0 )
+    {
+        if ( (*evt).keyval == GDK_KEY_Delete )
+        {
+            TRACE_INFO ( "key pressed: DEL" );
+            gui_sketch_tools_delete( (*this_).tools );
+            result_event_handled = true;
+        }
+        /* other keys are out of scope */
+    }
+    else
+    {
+        /* other states are out of scope */
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+    return result_event_handled;
 }
 
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_id_t *object_id, gpointer data )

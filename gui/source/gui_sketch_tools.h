@@ -185,6 +185,26 @@ static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ 
 void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ );
 
 /*!
+ *  \brief cuts the selected objects to the clipboard
+ */
+void gui_sketch_tools_cut( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief copies the selected objects to the clipboard
+ */
+void gui_sketch_tools_copy( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief pastes the objects from the clipboard
+ */
+void gui_sketch_tools_paste( gui_sketch_tools_t *this_ );
+
+/*!
+ *  \brief deletes the selected objects
+ */
+void gui_sketch_tools_delete( gui_sketch_tools_t *this_ );
+
+/*!
  *  \brief deletes a set of objects
  */
 void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_deleted );

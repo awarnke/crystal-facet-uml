@@ -162,6 +162,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data );
 
 /*!
+ *  \brief callback that informs that the keyboard was pressed
+ */
+gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data );
+
+/*!
  *  \brief callback that informs that the displayed data changed
  */
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_id_t *object_id, gpointer data );
