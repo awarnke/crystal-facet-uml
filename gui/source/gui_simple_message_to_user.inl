@@ -8,6 +8,17 @@ static inline void gui_simple_message_to_user_show_message ( gui_simple_message_
 }
 
 
+static inline gui_simple_message_type_t gui_simple_message_to_user_get_type_id( gui_simple_message_to_user_t *this_ )
+{
+    return (*this_).type_id;
+}
+
+static inline gui_simple_message_content_t gui_simple_message_to_user_get_content_id( gui_simple_message_to_user_t *this_ )
+{
+    return (*this_).content_id;
+}
+
+
 /*
 Copyright 2016-2017 Andreas Warnke
 

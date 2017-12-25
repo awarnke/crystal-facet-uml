@@ -99,52 +99,32 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).edit_cut = gtk_tool_button_new( (*this_).edit_cut_icon, "Cut" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_cut), "Cut (Ctrl-X)" );
     /*
-    gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_cut),
-                                 "clicked",
-                                 (*this_).keyboard_shortcut_group,
-                                 GDK_KEY_x,
-                                 GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
-    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    GDK_KEY_x + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
     */
 
     (*this_).edit_copy_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_copy( res ));
     (*this_).edit_copy = gtk_tool_button_new( (*this_).edit_copy_icon, "Copy" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_copy), "Copy (Ctrl-C)" );
     /*
-    gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_copy),
-                                 "clicked",
-                                 (*this_).keyboard_shortcut_group,
-                                 GDK_KEY_c,
-                                 GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
-    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    GDK_KEY_c + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
     */
 
     (*this_).edit_paste_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_paste( res ));
     (*this_).edit_paste = gtk_tool_button_new( (*this_).edit_paste_icon, "Paste" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_paste), "Paste (Ctrl-V)" );
     /*
-    gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_paste),
-                                 "clicked",
-                                 (*this_).keyboard_shortcut_group,
-                                 GDK_KEY_v,
-                                 GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
-    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    GK_KEY_v + GDK_CONTROL_MASK handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
     */
 
     (*this_).edit_delete_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_delete( res ));
     (*this_).edit_delete = gtk_tool_button_new( (*this_).edit_delete_icon, "Delete" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).edit_delete), "Delete (DEL)" );
     /*
-    gtk_widget_add_accelerator ( GTK_WIDGET((*this_).edit_delete),
-                                 "clicked",
-                                 (*this_).keyboard_shortcut_group,
-                                 GDK_KEY_Delete,
-                                 0,
-                                 GTK_ACCEL_VISIBLE );
-    handling see gui_sketch_area_key_press_callback(); moved there to not interfere with text input fields
+    GDK_KEY_Delete handling see gui_sketch_area_key_press_callback();
+    moved there to not interfere with text input fields
     */
 
     (*this_).edit_instantiate_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_instantiate( res ));
@@ -500,7 +480,15 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_main_window_t *this_ = data;
 
-    gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ABOUT, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
+    if ( GUI_SIMPLE_MESSAGE_CONTENT_ABOUT == gui_simple_message_to_user_get_content_id( &((*this_).message_to_user) ) )
+    {
+        /* hide the already visible about message */
+        gui_simple_message_to_user_hide( &((*this_).message_to_user) );
+    }
+    else
+    {
+        gui_simple_message_to_user_show_message_with_string( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_ABOUT, GUI_SIMPLE_MESSAGE_CONTENT_ABOUT, NULL );
+    }
 
     TRACE_TIMESTAMP();
     TRACE_END();

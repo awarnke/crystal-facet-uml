@@ -12,6 +12,7 @@
  *  \brief enumeration on message text-ids
  */
 enum gui_simple_message_content_enum {
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE,  /*!< there is no message */
     GUI_SIMPLE_MESSAGE_CONTENT_ABOUT,  /*!< shows the about text */
     GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_NOT_OPENED,  /*!< the chosen database file cannot be used */
     GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,  /*!< the chosen database file was opened but with a warning/error */

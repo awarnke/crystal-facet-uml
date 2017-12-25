@@ -180,7 +180,7 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -267,7 +267,7 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -338,7 +338,7 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_diagram[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_diagram[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -396,7 +396,7 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= DATA_SMALL_SET_MAX_SET_SIZE))
             {
-                TSLOG_ERROR_INT( "out_diagram_ids[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_diagram_ids[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -507,7 +507,7 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -670,7 +670,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_visible_classifier[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_visible_classifier[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -739,7 +739,7 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -860,7 +860,7 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -950,7 +950,7 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_feature[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -1024,7 +1024,7 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_feature[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_feature[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -1140,7 +1140,7 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
         sqlite_err = sqlite3_step( prepared_statement );
         if ( SQLITE_ROW != sqlite_err )
         {
-            TSLOG_WARNING( "sqlite3_step did not find a row." );
+            TSLOG_ANOMALY( "sqlite3_step did not find a row." );
             result |= DATA_ERROR_DB_STRUCTURE;
         }
 
@@ -1230,7 +1230,7 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_relationship[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )
@@ -1305,7 +1305,7 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
             {
-                TSLOG_ERROR_INT( "out_relationship[] full:", (row_index+1) );
+                TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
                 result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
             }
             if ( SQLITE_DONE == sqlite_err )

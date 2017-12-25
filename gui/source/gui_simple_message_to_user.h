@@ -25,6 +25,8 @@ enum gui_simple_message_to_user_max_enum {
  *  \brief attributes of the simple_message_to_user widget-set
  */
 struct gui_simple_message_to_user_struct {
+    gui_simple_message_type_t type_id;  /*!< current visible type */
+    gui_simple_message_content_t content_id;  /*!< current visible content */
     GtkWidget *text_label;  /*!< pointer to external GtkWidget */
     GtkWidget *icon_image;  /*!< pointer to external GtkWidget */
     gui_resources_t *res;  /*!< pointer to external gui_resources_t */
@@ -97,6 +99,20 @@ void gui_simple_message_to_user_show_message_with_int ( gui_simple_message_to_us
  *  \param this_ pointer to own object attributes
  */
 void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ );
+
+/*!
+ *  \brief gets the type of the currently visible message type id
+ *
+ *  \return message type
+ */
+static inline gui_simple_message_type_t gui_simple_message_to_user_get_type_id( gui_simple_message_to_user_t *this_ );
+
+/*!
+ *  \brief gets the type of the currently visible message content id
+ *
+ *  \return message content
+ */
+static inline gui_simple_message_content_t gui_simple_message_to_user_get_content_id( gui_simple_message_to_user_t *this_ );
 
 #include "gui_simple_message_to_user.inl"
 

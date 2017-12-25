@@ -13,6 +13,8 @@ void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkW
     assert ( icon_image != NULL );
     assert ( res != NULL );
 
+    (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
+    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE;
     (*this_).text_label = text_label;
     (*this_).icon_image = icon_image;
     (*this_).res = res;
@@ -64,6 +66,8 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
     }
     else
     {
+        (*this_).type_id = type_id;
+        (*this_).content_id = content_id;
 
         switch ( type_id )
         {
@@ -253,6 +257,8 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).type_id = GUI_SIMPLE_MESSAGE_TYPE_NO_MESSAGE;
+    (*this_).content_id = GUI_SIMPLE_MESSAGE_CONTENT_NO_MESSAGE;
     gtk_widget_hide( GTK_WIDGET ( (*this_).text_label ) );
     gtk_widget_hide( GTK_WIDGET ( (*this_).icon_image ) );
 

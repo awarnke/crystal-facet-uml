@@ -8,7 +8,18 @@
  *  \file
  *  \brief Prints error and event logs to a byte stream
  *
- *  In contrast to syslog and printf, these macros are typesafe
+ *  In contrast to syslog and printf, these macros are typesafe.
+ *
+ *  An error is a condition that leads to an observalbe malfunction.
+ *  E.g. removing the device on which the database is stored.
+ *
+ *  A warning is issued when a condition may possibly lead to a malfunction.
+ *  E.g. database file is closed.
+ *
+ *  An anomaly is a condition that is expected to not cause a malfunction but
+ *  that should be logged to easier analyze issues.
+ *
+ *  An event is a signal that is send to or received from external software parts.
  */
 
 #include <stdio.h>
@@ -72,6 +83,26 @@
  *  \brief logs a warning string and an information string
  */
 #define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+
+/*!
+ *  \brief logs an anomaly string
+ */
+#define TSLOG_ANOMALY(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"ANOM: %s\n",string_test); }
+
+/*!
+ *  \brief logs an anomaly string and an integer
+ */
+#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"ANOM: %s %i\n",string_test,int_test); }
+
+/*!
+ *  \brief logs an anomaly string and a hexadecimal integer
+ */
+#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"ANOM: %s 0x%x\n",string_test,int_test); }
+
+/*!
+ *  \brief logs an anomaly string and an information string
+ */
+#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"ANOM: %s %s\n",string_test,string2_test); }
 
 /*!
  *  \brief logs an event string
@@ -144,6 +175,26 @@
  *  \brief logs a warning string and an information string
  */
 #define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_WARNING,"WARN: %s %s",string_test,string2_test); }
+
+/*!
+ *  \brief logs an anomaly string
+ */
+#define TSLOG_ANOMALY(x) { const char *string_test = x; syslog(LOG_INFO,"ANOM: %s",string_test); }
+
+/*!
+ *  \brief logs an anomaly string and an integer
+ */
+#define TSLOG_ANOMALY_INT(x,i) { const char *string_test = x; const int int_test = i; syslog(LOG_INFO,"ANOM: %s %i",string_test,int_test); }
+
+/*!
+ *  \brief logs an anomaly string and a hexadecimal integer
+ */
+#define TSLOG_ANOMALY_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; syslog(LOG_INFO,"ANOM: %s 0x%x",string_test,int_test); }
+
+/*!
+ *  \brief logs an anomaly string and an information string
+ */
+#define TSLOG_ANOMALY_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_INFO,"ANOM: %s %s",string_test,string2_test); }
 
 /*!
  *  \brief logs an event string

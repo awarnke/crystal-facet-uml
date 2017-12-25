@@ -686,7 +686,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 else
                 {
-                    TSLOG_WARNING("invalid clicked object at gui_sketch_area_button_press_callback");
+                    TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
                 }
             }
             break;
