@@ -9,7 +9,6 @@
   [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
   [ ] in overview mode, allow to shift diagrams vertically
   [ ] in overview mode, allow to move diagrams horizontally
-  [ ] reset-selection shall select everything if nothing is selected
   [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
