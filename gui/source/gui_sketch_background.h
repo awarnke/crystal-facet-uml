@@ -54,6 +54,42 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                               cairo_t *cr
                                             );
 
+/*!
+ *  \brief draws background graphics to the cairo context for navigation mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x coordinate of the drawing area
+ *  \param y coordinate of the drawing area
+ *  \param width size of the drawing area
+ *  \param height size of the drawing area
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
+                                            int x,
+                                            int y,
+                                            unsigned int width,
+                                            unsigned int height,
+                                            cairo_t *cr
+                                          );
+
+/*!
+ *  \brief draws background graphics to the cairo context for edit mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x coordinate of the drawing area
+ *  \param y coordinate of the drawing area
+ *  \param width size of the drawing area
+ *  \param height size of the drawing area
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
+                                      int x,
+                                      int y,
+                                      unsigned int width,
+                                      unsigned int height,
+                                      cairo_t *cr
+                                    );
+
 #endif  /* GUI_SKETCH_BACKGROUND_H */
 
 

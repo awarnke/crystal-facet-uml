@@ -44,7 +44,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     GdkPixbuf *cfu_icon = gui_resources_get_crystal_facet_uml( (*this_).res );
     double cfu_icon_width = gdk_pixbuf_get_width ( cfu_icon );
     double cfu_icon_height = gdk_pixbuf_get_height ( cfu_icon );
-    gdk_cairo_set_source_pixbuf( cr, cfu_icon, 72.0, 48.0 );
+    gdk_cairo_set_source_pixbuf( cr, cfu_icon, x+72.0, y+48.0 );
     cairo_rectangle ( cr, x+72, y+48, 72 + cfu_icon_width, 48 + cfu_icon_height );
     cairo_fill (cr);
 
@@ -58,7 +58,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
     double use_db_icon_width = gdk_pixbuf_get_width ( use_db_icon );
     double use_db_icon_height = gdk_pixbuf_get_height ( use_db_icon );
-    gdk_cairo_set_source_pixbuf( cr, use_db_icon, 72.0, 96.0 );
+    gdk_cairo_set_source_pixbuf( cr, use_db_icon, x+72.0, y+96.0 );
     cairo_rectangle ( cr, x+72, y+96, 72 + use_db_icon_width, 96 + use_db_icon_height );
     cairo_fill (cr);
 
@@ -67,6 +67,55 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     cairo_show_text ( cr, "To begin, please" );
     cairo_move_to ( cr, x+72 + use_db_icon_width + 8, y+96 + 2*14 );
     cairo_show_text ( cr, "create or open a database file first." );
+
+    TRACE_END();
+}
+
+void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
+                                            int x,
+                                            int y,
+                                            unsigned int width,
+                                            unsigned int height,
+                                            cairo_t *cr )
+{
+    TRACE_BEGIN();
+
+    cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
+    cairo_rectangle ( cr, x, y, width, (height*3)/10 );
+    cairo_fill (cr);
+
+    cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+    cairo_rectangle ( cr, x, y+(height*3)/10, width, (height*4)/10 );
+    cairo_fill (cr);
+
+    cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
+    cairo_rectangle ( cr, x, y+(height*7)/10, width, (height*3)/10 );
+    cairo_fill (cr);
+
+    cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+    cairo_set_font_size ( cr, 12.0 );
+    cairo_move_to ( cr, x+8, y+8 + 14 );
+    cairo_show_text ( cr, "parent diagram" );
+    cairo_move_to ( cr, x+8, y+(height*3)/10 + 8 + 14 );
+    cairo_show_text ( cr, "current diagram" );
+    cairo_move_to ( cr, x+8, y+(height*7)/10 + 8 + 14 );
+    cairo_show_text ( cr, "children diagrams" );
+
+    TRACE_END();
+}
+
+void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
+                                      int x,
+                                      int y,
+                                      unsigned int width,
+                                      unsigned int height,
+                                      cairo_t *cr )
+{
+    TRACE_BEGIN();
+
+    cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
+    cairo_rectangle ( cr, x, y, width, height );
+    cairo_fill (cr);
 
     TRACE_END();
 }
