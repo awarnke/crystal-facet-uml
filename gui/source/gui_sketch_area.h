@@ -21,6 +21,8 @@
 #include "gui_sketch_marker.h"
 #include "gui_sketch_drag_state.h"
 #include "gui_sketch_object_creator.h"
+#include "gui_sketch_overlay.h"
+#include "gui_sketch_background.h"
 #include "gui_resources.h"
 #include "gui_simple_message_to_user.h"
 #include <gtk/gtk.h>
@@ -47,6 +49,8 @@ struct gui_sketch_area_struct {
     gui_resources_t *res;  /*!< pointer to external resources */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
     gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
+    gui_sketch_overlay_t overlay;  /*!< own instance of sketch overlay */
+    gui_sketch_background_t background;  /*!< own instance of sketch background */
     gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 

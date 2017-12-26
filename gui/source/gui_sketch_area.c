@@ -1,14 +1,12 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
 #include "gui_sketch_area.h"
-#include "gui_sketch_overlay.h"
 #include "pencil_diagram_maker.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_table.h"
 #include "data_id.h"
 #include "trace.h"
 #include "tslog.h"
-#include "meta/meta_info.h"
 #include "universal_int32_pair.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
@@ -41,6 +39,8 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
         (*this_).listener[index] = NULL;
     }
     (*this_).marker = marker;
+    gui_sketch_overlay_init( &((*this_).overlay) );
+    gui_sketch_background_init( &((*this_).background), res );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader );
 
     gui_sketch_area_private_load_cards( this_, DATA_ID_VOID_ID );
@@ -85,6 +85,8 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     }
 
     gui_sketch_object_creator_destroy ( &((*this_).object_creator) );
+    gui_sketch_overlay_destroy( &((*this_).overlay) );
+    gui_sketch_background_destroy( &((*this_).background) );
     (*this_).marker = NULL;
     (*this_).tools = NULL;
     (*this_).message_to_user = NULL;
@@ -113,40 +115,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     }
     else if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
-        cairo_set_source_rgba( cr, 0.3, 0.3, 0.3, 1.0 );
-        cairo_rectangle ( cr, 0, 0, 64, height );
-        cairo_fill (cr);
-
-        cairo_set_source_rgba( cr, 0.7, 0.7, 0.7, 1.0 );
-        cairo_rectangle ( cr, 64, 0, width-64, height );
-        cairo_fill (cr);
-
-        GdkPixbuf *cfu_icon = gui_resources_get_crystal_facet_uml( (*this_).res );
-        double cfu_icon_width = gdk_pixbuf_get_width ( cfu_icon );
-        double cfu_icon_height = gdk_pixbuf_get_height ( cfu_icon );
-        gdk_cairo_set_source_pixbuf( cr, cfu_icon, 72.0, 48.0 );
-        cairo_rectangle ( cr, 72, 48, 72 + cfu_icon_width, 48 + cfu_icon_height );
-        cairo_fill (cr);
-
-        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        cairo_set_font_size ( cr, 12.0 );
-        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 14 );
-        cairo_show_text ( cr, "Welcome to" );
-        cairo_move_to ( cr, 72 + cfu_icon_width + 8, 48 + 2*14 );
-        cairo_show_text ( cr, META_INFO_PROGRAM_NAME_STR );
-
-        GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
-        double use_db_icon_width = gdk_pixbuf_get_width ( use_db_icon );
-        double use_db_icon_height = gdk_pixbuf_get_height ( use_db_icon );
-        gdk_cairo_set_source_pixbuf( cr, use_db_icon, 72.0, 96.0 );
-        cairo_rectangle ( cr, 72, 96, 72 + use_db_icon_width, 96 + use_db_icon_height );
-        cairo_fill (cr);
-
-        cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
-        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 14 );
-        cairo_show_text ( cr, "To begin, please" );
-        cairo_move_to ( cr, 72 + use_db_icon_width + 8, 96 + 2*14 );
-        cairo_show_text ( cr, "create or open a database file first." );
+        gui_sketch_background_draw_introduction( &((*this_).background), 0, 0, width, height, cr );
     }
     else
     {
@@ -444,15 +413,12 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     /* overlay tool-helper lines */
     int32_t mouse_x = gui_sketch_drag_state_get_to_x ( &((*this_).drag_state) );
     int32_t mouse_y = gui_sketch_drag_state_get_to_y ( &((*this_).drag_state) );
-    gui_sketch_overlay_t overlay;
-    gui_sketch_overlay_init( &overlay );
-    gui_sketch_overlay_draw( &overlay,
+    gui_sketch_overlay_draw( &((*this_).overlay),
                              selected_tool,
                              &((*this_).drag_state),
                              gui_sketch_area_get_card_at_pos ( this_, mouse_x, mouse_y ),
                              cr
                            );
-    gui_sketch_overlay_destroy( &overlay );
 
     TRACE_END();
 }

@@ -38,6 +38,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         {
         }
         break;
+
         case GUI_SKETCH_TOOLS_EDIT:
         {
             if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
@@ -77,6 +78,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
             }
         }
         break;
+
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
         {
             if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
@@ -172,10 +174,12 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
             }
         }
         break;
+
         case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
         {
         }
         break;
+        
         default:
         {
             TSLOG_ERROR("selected_tool is out of range");
