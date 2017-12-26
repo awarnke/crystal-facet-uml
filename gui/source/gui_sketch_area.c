@@ -372,11 +372,19 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     /* draw background */
     if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
     {
-        gui_sketch_background_draw_navigation( &((*this_).background), 0, 0, width, height, cr );
+        unsigned int depth;
+        unsigned int children;
+        depth = ( gui_sketch_card_is_valid( &((*this_).cards[1]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
+        children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
+        gui_sketch_background_draw_navigation( &((*this_).background),
+                                               depth, children, (GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool),
+                                               0, 0, width, height, cr );
     }
     else
     {
-        gui_sketch_background_draw_edit( &((*this_).background), 0, 0, width, height, cr );
+        gui_sketch_background_draw_edit( &((*this_).background),
+                                         (GUI_SKETCH_TOOLS_CREATE_OBJECT == selected_tool),
+                                         0, 0, width, height, cr );
     }
 
     /* draw all cards */

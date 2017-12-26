@@ -32,10 +32,22 @@ static const double DARK_R = 0.3;
 static const double DARK_G = 0.3;
 static const double DARK_B = 0.3;
 static const double DARK_A = 1.0;
+static const double D_GREY_R = 0.4;
+static const double D_GREY_G = 0.4;
+static const double D_GREY_B = 0.4;
+static const double D_GREY_A = 1.0;
 static const double GREY_R = 0.7;
 static const double GREY_G = 0.7;
 static const double GREY_B = 0.7;
 static const double GREY_A = 1.0;
+static const double ORANGE_R = 1.0;
+static const double ORANGE_G = 0.8;
+static const double ORANGE_B = 0.5;
+static const double ORANGE_A = 1.0;
+static const double SKYBLUE_R = 0.6;
+static const double SKYBLUE_G = 0.8;
+static const double SKYBLUE_B = 1.0;
+static const double SKYBLUE_A = 1.0;
 static const double BORDER = 8;  /* border between text/icons and ground rectangle */
 
 void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
@@ -66,53 +78,40 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     cairo_rectangle ( cr, text_area_start, y, width-text_area_start, height );
     cairo_fill (cr);
 
-    GdkPixbuf *cfu_icon = gui_resources_get_crystal_facet_uml( (*this_).res );
-    double cfu_icon_width = gdk_pixbuf_get_width ( cfu_icon );
-    double cfu_icon_height = gdk_pixbuf_get_height ( cfu_icon );
-    gdk_cairo_set_source_pixbuf( cr, cfu_icon, text_area_start+BORDER, y+BORDER+48.0 );
-    cairo_rectangle ( cr, text_area_start+BORDER, y+BORDER+48,
-                      text_area_start+BORDER+cfu_icon_width, y+BORDER+48+cfu_icon_height );
-    cairo_fill (cr);
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_crystal_facet_uml( (*this_).res ),
+                                                         "Welcome to",
+                                                         META_INFO_PROGRAM_NAME_STR,
+                                                         text_area_start+BORDER,
+                                                         y+BORDER+48,
+                                                         cr
+                                                       );
 
-    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-    cairo_set_font_size ( cr, 12.0 );
-    cairo_move_to ( cr, text_area_start+BORDER+cfu_icon_width+BORDER, y+BORDER+48 + 14 );
-    cairo_show_text ( cr, "Welcome to" );
-    cairo_move_to ( cr, text_area_start+BORDER+cfu_icon_width+BORDER, y+BORDER+48 + 2*14 );
-    cairo_show_text ( cr, META_INFO_PROGRAM_NAME_STR );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_file_use_db( (*this_).res ),
+                                                         "To begin, please",
+                                                         "create or open a database file first.",
+                                                         text_area_start+BORDER,
+                                                         y+BORDER+96,
+                                                         cr
+                                                       );
 
-    GdkPixbuf *use_db_icon = gui_resources_get_file_use_db( (*this_).res );
-    double use_db_icon_width = gdk_pixbuf_get_width ( use_db_icon );
-    double use_db_icon_height = gdk_pixbuf_get_height ( use_db_icon );
-    gdk_cairo_set_source_pixbuf( cr, use_db_icon, text_area_start+BORDER, y+BORDER+96.0 );
-    cairo_rectangle ( cr, text_area_start+BORDER, y+BORDER+96,
-                      text_area_start+BORDER+use_db_icon_width, y+BORDER+96+use_db_icon_height );
-    cairo_fill (cr);
-
-    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-    cairo_move_to ( cr, text_area_start+BORDER+use_db_icon_width+BORDER, y+BORDER+96 + 14 );
-    cairo_show_text ( cr, "To begin, please" );
-    cairo_move_to ( cr, text_area_start+BORDER+use_db_icon_width+BORDER, y+BORDER+96 + 2*14 );
-    cairo_show_text ( cr, "create or open a database file first." );
-
-    GdkPixbuf *message_user_doc_icon = gui_resources_get_message_user_doc( (*this_).res );
-    double message_user_doc_width = gdk_pixbuf_get_width ( message_user_doc_icon );
-    double message_user_doc_height = gdk_pixbuf_get_height ( message_user_doc_icon );
-    gdk_cairo_set_source_pixbuf( cr, message_user_doc_icon, text_area_start+BORDER, y+BORDER+192.0 );
-    cairo_rectangle ( cr, text_area_start+BORDER, y+BORDER+192,
-                      text_area_start+BORDER+message_user_doc_width, y+BORDER+192+message_user_doc_height );
-    cairo_fill (cr);
-
-    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-    cairo_move_to ( cr, text_area_start+BORDER+message_user_doc_width+BORDER, y+BORDER+192 + 14 );
-    cairo_show_text ( cr, "The user manual crystal_facet_uml_user_documentation.pdf is available." );
-    cairo_move_to ( cr, text_area_start+BORDER+message_user_doc_width+BORDER, y+BORDER+192 + 2*14 );
-    cairo_show_text ( cr, "see http://www.andreaswarnke.de/crystal_facet_uml/html/index.html" );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_message_user_doc( (*this_).res ),
+                                                         "The user manual crystal_facet_uml_user_documentation.pdf is available.",
+                                                         "see http://www.andreaswarnke.de/crystal_facet_uml/html/index.html",
+                                                         text_area_start+BORDER,
+                                                         y+BORDER+192,
+                                                         cr
+                                                       );
 
     TRACE_END();
 }
 
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
+                                            unsigned int tree_depth,
+                                            unsigned int num_children,
+                                            bool create_mode,
                                             int x,
                                             int y,
                                             unsigned int width,
@@ -121,31 +120,111 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
 {
     TRACE_BEGIN();
 
-    cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
-    cairo_rectangle ( cr, x, y, width, (height*3)/10 );
+    int block_top = y;
+    if ( 0 == tree_depth )
+    {
+        cairo_set_source_rgba( cr, SKYBLUE_R, SKYBLUE_G, SKYBLUE_B, SKYBLUE_A );
+    }
+    else
+    {
+        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
+    }
+    cairo_rectangle ( cr, x, block_top, width, (height*3)/10 );
     cairo_fill (cr);
+    block_top += (height*3)/10;
 
     cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
-    cairo_rectangle ( cr, x, y+(height*3)/10, width, (height*4)/10 );
+    cairo_rectangle ( cr, x, block_top, width, (height*4)/10 );
     cairo_fill (cr);
+    block_top += (height*4)/10;
 
-    cairo_set_source_rgba( cr, 0.4, 0.4, 0.4, 1.0 );
-    cairo_rectangle ( cr, x, y+(height*7)/10, width, (height*3)/10 );
+    if ( create_mode )
+    {
+        cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
+    }
+    else
+    {
+        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
+    }
+    cairo_rectangle ( cr, x, block_top, width, height-block_top );
     cairo_fill (cr);
 
     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
     cairo_set_font_size ( cr, 12.0 );
-    cairo_move_to ( cr, x+8, y+8 + 14 );
+    cairo_move_to ( cr, x+BORDER, y+BORDER + 14 );
     cairo_show_text ( cr, "parent diagram" );
-    cairo_move_to ( cr, x+8, y+(height*3)/10 + 8 + 14 );
+    cairo_move_to ( cr, x+BORDER, y+(height*3)/10 +BORDER+ 14 );
     cairo_show_text ( cr, "current diagram" );
-    cairo_move_to ( cr, x+8, y+(height*7)/10 + 8 + 14 );
+    cairo_move_to ( cr, x+BORDER, y+(height*7)/10 +BORDER+ 14 );
     cairo_show_text ( cr, "children diagrams" );
+
+    if ( ( 0 == tree_depth )&&( 0 == num_children ))
+    {
+        /* this is a new, empty database */
+        /* print some guidance */
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_message_user_doc( (*this_).res ),
+                                                             "Quick",
+                                                             "Intro:",
+                                                             x+24+BORDER,
+                                                             y+BORDER+48,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_tool_create_diagram( (*this_).res ),
+                                                             "Click to create a",
+                                                             "diagram below the current.",
+                                                             x+120+BORDER,
+                                                             y+BORDER+0,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_tool_navigate( (*this_).res ),
+                                                             "Click to navigate to",
+                                                             "parent/child diagrams.",
+                                                             x+120+BORDER,
+                                                             y+BORDER+48,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_tool_edit( (*this_).res ),
+                                                             "Single click to focus,",
+                                                             "second click to mark items.",
+                                                             x+320+BORDER,
+                                                             y+BORDER+0,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_tool_create_object( (*this_).res ),
+                                                             "Click to create items.",
+                                                             "Drag to create arrows.",
+                                                             x+320+BORDER,
+                                                             y+BORDER+48,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_edit_commit( (*this_).res ),
+                                                             "Changes are stored automatically.",
+                                                             "Explicit safe action is optional.",
+                                                             x+520+BORDER,
+                                                             y+BORDER+0,
+                                                             cr
+        );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_file_export( (*this_).res ),
+                                                             "Select the output folder",
+                                                             "to export all diagrams.",
+                                                             x+520+BORDER,
+                                                             y+BORDER+48,
+                                                             cr
+        );
+    }
 
     TRACE_END();
 }
 
 void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
+                                      bool create_mode,
                                       int x,
                                       int y,
                                       unsigned int width,
@@ -154,9 +233,44 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
 {
     TRACE_BEGIN();
 
-    cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
+    if ( create_mode )
+    {
+        cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
+    }
+    else
+    {
+        cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
+    }
     cairo_rectangle ( cr, x, y, width, height );
     cairo_fill (cr);
+
+    TRACE_END();
+}
+
+void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_t *this_,
+                                                          GdkPixbuf *icon_1,
+                                                          const char *text_1,
+                                                          const char *text_2,
+                                                          int x,
+                                                          int y,
+                                                          cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != icon_1 );
+    assert( NULL != text_1 );
+    assert( NULL != text_2 );
+
+    double icon_width = gdk_pixbuf_get_width ( icon_1 );
+    double icon_height = gdk_pixbuf_get_height ( icon_1 );
+    gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
+    cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
+    cairo_fill (cr);
+
+    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+    cairo_move_to ( cr, x+icon_width+BORDER, y + 14 );
+    cairo_show_text ( cr, text_1 );
+    cairo_move_to ( cr, x+icon_width+BORDER, y + 2*14 );
+    cairo_show_text ( cr, text_2 );
 
     TRACE_END();
 }

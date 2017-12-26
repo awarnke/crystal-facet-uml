@@ -11,6 +11,7 @@
 
 #include "gui_resources.h"
 #include <gtk/gtk.h>
+#include <stdbool.h>
 
 /*!
  *  \brief attributes of the sketch background
@@ -58,6 +59,9 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
  *  \brief draws background graphics to the cairo context for navigation mode
  *
  *  \param this_ pointer to own object attributes
+ *  \param tree_depth depth of the current diagram in the tree. 0 represents the root node or no valid diagram.
+ *  \param num_children number of children at the current diagram.
+ *  \param create_mode true if the user creates items, false if navigation mode.
  *  \param x coordinate of the drawing area
  *  \param y coordinate of the drawing area
  *  \param width size of the drawing area
@@ -65,6 +69,9 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
+                                            unsigned int tree_depth,
+                                            unsigned int num_children,
+                                            bool create_mode,
                                             int x,
                                             int y,
                                             unsigned int width,
@@ -76,6 +83,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
  *  \brief draws background graphics to the cairo context for edit mode
  *
  *  \param this_ pointer to own object attributes
+ *  \param create_mode true if the user creates items, false if edit mode.
  *  \param x coordinate of the drawing area
  *  \param y coordinate of the drawing area
  *  \param width size of the drawing area
@@ -83,12 +91,34 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
+                                      bool create_mode,
                                       int x,
                                       int y,
                                       unsigned int width,
                                       unsigned int height,
                                       cairo_t *cr
                                     );
+
+/*!
+ *  \brief draws an icon and two lines of text
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param icon_1 a pointer to an icon
+ *  \param text_1 a pointer to a text message, line 1
+ *  \param icon_1 a pointer to a text message, line 2
+ *  \param x coordinate of the output location
+ *  \param y coordinate of the output location
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_t *this_,
+                                                          GdkPixbuf *icon_1,
+                                                          const char *text_1,
+                                                          const char *text_2,
+                                                          int x,
+                                                          int y,
+                                                          cairo_t *cr
+                                                        );
+
 
 #endif  /* GUI_SKETCH_BACKGROUND_H */
 
