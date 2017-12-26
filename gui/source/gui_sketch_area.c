@@ -109,11 +109,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
 
-    if (( width < 48 )||( height < 48 )) {
-        /* window is too small, output a dark-grey rectangle */
-
-    }
-    else if ( ! data_database_reader_is_open( (*this_).db_reader ) )
+    if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
         gui_sketch_background_draw_introduction( &((*this_).background), 0, 0, width, height, cr );
     }

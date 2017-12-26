@@ -1,7 +1,6 @@
 2017-12-xx 0.20.0 [xxxxxxx]
   GOAL: Improve usability
   @gui
-  [ ] Add a link to the user documentation to the plain empty starting page
   [ ] In the diagram overview of a newly initialized database, show some help messages
   [ ] Beautify layer backgrounds - e.g. light-blue sky in root-diagram
   [ ] In new-object and new-diagram modes, draw a warning-symbol below the cursor
@@ -15,7 +14,7 @@
   @pencil
   [ ] In COMMENTS/notes, show not the title but the description
 
-  + link to the home page is added in the man page
+  + link to the home page is added in the man page and on the startup screen
   + The 2nd click on the about button removes the about message
   + Ctrl-X/C/V,DEL work as expected during text editing
   + Pink-select elements only at the second click

@@ -33,6 +33,7 @@ struct gui_resources_struct {
     GdkPixbuf *message_error;
     GdkPixbuf *message_info;
     GdkPixbuf *message_warn;
+    GdkPixbuf *message_user_doc;
     GdkPixbuf *tool_create_diagram;
     GdkPixbuf *tool_navigate;
     GdkPixbuf *tool_create_object;
@@ -173,6 +174,13 @@ static inline GdkPixbuf *gui_resources_get_message_info ( gui_resources_t *this_
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the message_user_doc
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_create_diagram

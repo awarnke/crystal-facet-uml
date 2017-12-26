@@ -85,6 +85,11 @@ static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_
     return (*this_).message_warn;
 }
 
+static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *this_ )
+{
+    return (*this_).message_user_doc;
+}
+
 static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t *this_ )
 {
     return (*this_).tool_create_diagram;

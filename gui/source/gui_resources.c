@@ -23,6 +23,7 @@
 #include "resources/message_error.c"
 #include "resources/message_info.c"
 #include "resources/message_warn.c"
+#include "resources/message_user_doc.c"
 #include "resources/tool_create_diagram.c"
 #include "resources/tool_navigate.c"
 #include "resources/tool_create_object.c"
@@ -163,7 +164,7 @@ void gui_resources_init ( gui_resources_t *this_ )
         NULL,
         NULL
     );
-    
+
     (*this_).file_export = gdk_pixbuf_new_from_data(
         &(file_export.pixel_data[0]),
         GDK_COLORSPACE_RGB,
@@ -232,6 +233,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         message_warn.width,
         message_warn.height,
         message_warn.width * message_warn.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).message_user_doc = gdk_pixbuf_new_from_data(
+        &(message_user_doc.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        message_user_doc.width,
+        message_user_doc.height,
+        message_user_doc.width * message_user_doc.bytes_per_pixel,
         NULL,
         NULL
     );
