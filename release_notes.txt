@@ -1,4 +1,4 @@
-ideas:
+ideas for future versions:
   @gui
   [ ] in overview mode, limit the number of visible children and add scroll arrows (to be tested)
   [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
@@ -10,7 +10,7 @@ ideas:
   @pencil
   [ ] In COMMENTS/notes, show not the title but the description
 
-2017-12-xx 0.20.0 [xxxxxxx]
+2017-12-26 0.20.0 [xxxxxxx]
   + navigation mode: a newly initialized database shows a quick guide
   + navigation mode: root diagram has sky-blue background
   + orange background color marks new-object and new-diagram modes
