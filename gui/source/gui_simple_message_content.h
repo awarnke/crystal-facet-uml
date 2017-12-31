@@ -31,6 +31,7 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE,  /*!< operation cannot be performed on some elements in the set */
     GUI_SIMPLE_MESSAGE_CONTENT_CLICK_IN_CHILDREN_AREA,  /*!< click in the children area to create a child */
     GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR,  /*!< database could not write to file */
+    GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE,  /*!< root diagram cannot move to other tree location */
 
     GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };
@@ -41,7 +42,7 @@ typedef enum gui_simple_message_content_enum gui_simple_message_content_t;
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

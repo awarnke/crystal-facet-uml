@@ -20,30 +20,9 @@
  *
  *  This section describes the taken design decisions: alternatives and rationales for decisions.
  *
- *  \subsection cfu-cli Design decisions on interfaces
- *
- *  - __data storage__
- *    \n Q: Which technique is used to store data persistently?
- *      - __XML__ (A1)
- *        \n The database is stored in XML format.
- *          - pro: text based, fits to svn and git repositories
- *          - con: all data needs to fit to RAM (or complex data handling)
- *      - __Json__ (A2)
- *        \n The database is stored in Json format.
- *          - pro: text based, fits to svn and git repositories
- *          - con: all data needs to fit to RAM (or complex data handling)
- *      - __SQLite DB__ (A3)
- *        \n The database is stored in sqlite3 format.
- *          - pro: the database cares on handling big amounts of data
- *          - con: binary files are not suitable for git repositories
- *      - __Key-Value-Pairs__ (A4)
- *        \n The database is stored as key-value pairs.
- *          - pro: allows automatic merges by git and svn
- *          - con: all data needs to fit to RAM (or complex data handling)
- *      .
- *      Decision: (A3) is taken, most future-proof in case the database becomes large
- *      \n DEC-101
- *  .
+ *  \image html 13_Design_Decisions.png
+ *  \image latex 13_Design_Decisions.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/13_Design_Decisions.txt
  *
  *  \section cfu-solution Solution
  *
@@ -76,6 +55,12 @@
  *  \image latex 8_pencil.pdf "" width=15cm
  *  \verbinclude exported_diagrams/8_pencil.txt
  *
+ *  \subsubsection Database Format
+ *
+ *  \image html 15_Database_Structure.png
+ *  \image latex 15_Database_Structure.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/15_Database_Structure.txt
+ *
  *  \subsubsection Further Packages
  *
  *  \image html 3_External_Libraries.png
@@ -96,7 +81,15 @@
  *  \image latex 5_Unit-Test.pdf "" width=15cm
  *  \verbinclude exported_diagrams/5_Unit-Test.txt
  *
+ *  \subsection cfu-static-views Behavioral Views
+ *
+ *  \subsubsection Lifecycle
+ *
+ *  \image html 12_Lifecycle.png
+ *  \image latex 12_Lifecycle.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/12_Lifecycle.txt
+ *
  *  \section cfu-arc-apx Appendix
- *  \author (c) 2016-2017 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2018 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
  */
 

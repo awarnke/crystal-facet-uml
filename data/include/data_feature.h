@@ -35,9 +35,9 @@ struct data_feature_struct {
     int64_t id;
     data_feature_type_t main_type;
     int64_t classifier_id;
-    utf8stringbuf_t key;
+    utf8stringbuf_t key;  /*!< name of the feature */
     char private_key_buffer[DATA_FEATURE_MAX_KEY_SIZE];
-    utf8stringbuf_t value;
+    utf8stringbuf_t value;  /*!< type of the feature */
     char private_value_buffer[DATA_FEATURE_MAX_VALUE_SIZE];
     utf8stringbuf_t description;
     char private_description_buffer[DATA_FEATURE_MAX_DESCRIPTION_SIZE];
@@ -274,7 +274,7 @@ static inline void data_feature_trace ( data_feature_t *this_ );
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

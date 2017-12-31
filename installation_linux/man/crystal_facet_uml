@@ -27,7 +27,7 @@ repair \fIdatabasefile\fR
 repairs the databasefile and prints results to the console
 .SH EXAMPLES
     crystal_facet_uml &
-    journalctrl -f
+    journalctl -f
 .SH SEE ALSO
     sqlite (the database format)
     journalctrl (error logs)
@@ -39,4 +39,4 @@ repairs the databasefile and prints results to the console
 .SH AUTHOR
     crystal_facet_uml(at)andreaswarnke(dot)de
 .SH COPYRIGHT
-    (c) 2016-2017 Andreas Warnke
+    (c) 2016-2018 Andreas Warnke

@@ -237,6 +237,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Root diagram cannot move to another location." );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");
@@ -267,7 +273,7 @@ void gui_simple_message_to_user_hide ( gui_simple_message_to_user_t *this_ )
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

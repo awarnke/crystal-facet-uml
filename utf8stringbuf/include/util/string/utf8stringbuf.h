@@ -27,7 +27,7 @@
  *  \endcode
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author (c) 2012-2017 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author (c) 2012-2018 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include <string.h>

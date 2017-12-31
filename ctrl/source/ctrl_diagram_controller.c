@@ -166,7 +166,8 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
 
 ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_controller_t *this_,
                                                                 int64_t diagram_id,
-                                                                int64_t new_diagram_parent_id )
+                                                                int64_t new_diagram_parent_id,
+                                                                bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -180,6 +181,18 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_parent_id ( ctrl_diagram_con
         data_diagram_t new_diagram;
         data_diagram_copy( &new_diagram, &old_diagram );
         data_diagram_set_parent_id( &new_diagram, new_diagram_parent_id );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
@@ -405,7 +418,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

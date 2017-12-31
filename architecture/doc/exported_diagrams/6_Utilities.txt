@@ -5,16 +5,69 @@ Utilities
 main
 | - starts the software
 | - evaluates command line parameters
-
-
-universal
-| provides small, generic utility classes that are independant of the project
+   --> main
 
 
 trace
 | - provides trace macros
+| - traces allow to reconstruct/follow the program flow
+   --> Info
+   --> Timestamp
+   --> End (function)
+   --> Begin (function)
+
+
+Begin (function)
+
+
+Info
+
+
+main
+
+
+End (function)
+
+
+Timestamp
+
+
+universal
+| provides small, generic utility classes that are independant of the project
+   --> Bool List
+   --> Array Index Sorter
+   --> Int Pair
+
+
+Array Index Sorter
+
+
+Error
+| An error is a condition that leads to an observalbe malfunction.
+
+
+Event
+|  An event is a signal that is send to or received from external software parts.
+
+
+Int Pair
+
+
+Bool List
+
+
+Warning
+| A warning is issued when a condition may possibly lead to a malfunction.
+
+
+Anomaly
+| An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues.
 
 
 tslog
 | - provides macros for event-logging and error-logging
 | - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters
+   --> Error
+   --> Anomaly
+   --> Event
+   --> Warning

@@ -1,0 +1,22 @@
+Lifecycle
+
+
+start
+  start repair via command line --> run test/repair via CLI
+  start GUI --> show GUI, no DB file selected
+
+
+run test/repair via CLI
+  report and finish --> end
+
+
+show GUI, no DB file selected
+  select DB file --> show GUI, show+alter DB
+
+
+end
+
+
+show GUI, show+alter DB
+  switch DB file --> show GUI, show+alter DB
+  quit --> end

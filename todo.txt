@@ -1,0 +1,17 @@
+ideas for future versions:
+  @gui
+  [ ] in overview mode, limit the number of visible children and add scroll arrows (to be tested)
+  [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
+  [ ] in overview mode, allow to shift diagrams vertically
+  [ ] in overview mode, allow to move diagrams horizontally
+  [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
+  [ ] paste: Allow to paste relationships
+  [ ] paste: Keep structure of diagrams and contained elements when pasting objects
+  @gui+ctrl
+  [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  @pencil
+  [ ] In COMMENTS/notes, show not the title but the description
+  [ ] Support Diagram-Types: List, Sequence, Timing, Profile
+  [ ] Beautify relations where source and destination is identical
+
+

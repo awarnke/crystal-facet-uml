@@ -2,28 +2,28 @@ Overview
 | This diagram shows the most important features of crystal facet uml
 
 
-Configuration Manager
-
-
 SW Integration Tester
 
 
 SW Architect
-  creates --> Define consistent UML diagrams
+  creates --> Design consistent UML diagrams
 
 
-Define consistent UML diagrams
+Design consistent UML diagrams
 | The main goal of crystal facet uml is to create a set of consistent uml diagrams.
   Consistent relations between objects
   Consistent naming of objects
   Consistent locations of objects in diagrams
-  what to integrate? --> SW Integrator
-  what to test? --> SW Integration Tester
-  what to store in verson control? --> Configuration Manager
+  what items to integrate? --> SW Integrator
+  what interfaces to test? --> SW Integration Tester
+  what items have same lifecycle? --> Configuration Manager
   what to create? --> SW Developer
 
 
-SW Developer
+Configuration Manager
 
 
 SW Integrator
+
+
+SW Developer

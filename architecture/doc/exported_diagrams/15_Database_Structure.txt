@@ -1,0 +1,43 @@
+Database Structure
+| This diagram shows the tables and relationships of the database.
+
+
+diagrams
+  id: int64_t
+  diagram_type: enum
+  name
+  description
+  parent --> diagrams
+
+
+relationships
+  id: int64_t
+  main_type: enum
+  name
+  description
+  from --> classifiers
+  to --> classifiers
+
+
+diagramelements
+  id: int64_t
+  display_flags
+   --> diagrams
+   --> classifiers
+
+
+classifiers
+  id: int64_t
+  main_type: enum
+  stereotype
+  name
+  description
+
+
+features
+  id: int64_t
+  main_type: enum
+  key
+  value
+  description
+   --> classifiers

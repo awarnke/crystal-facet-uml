@@ -507,7 +507,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
 
 
 /*
-Copyright 2017-2017 Andreas Warnke
+Copyright 2017-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

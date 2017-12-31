@@ -1138,6 +1138,76 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
             gui_sketch_tools_delete( (*this_).tools );
             result_event_handled = true;
         }
+        else if ( (*evt).keyval == GDK_KEY_F7 )
+        {
+            TRACE_INFO ( "key pressed: F7" );
+            if ( GUI_SKETCH_TOOLS_NAVIGATE == gui_sketch_tools_get_selected_tool( (*this_).tools ) )
+            {
+                TRACE_INFO ( "entry point for shift-node-up" );
+                /* todo */
+
+                data_diagram_t *old_current;
+                old_current = gui_sketch_card_get_diagram_ptr ( &((*this_).cards[0]) );
+
+                int64_t main_diagram_id = data_diagram_get_id( old_current );
+                TRACE_INFO_INT( "main_diagram_id:", main_diagram_id );
+                if ( DATA_ID_VOID_ID != main_diagram_id )
+                {
+                    data_diagram_t *old_parent;
+                    old_parent = gui_sketch_card_get_diagram_ptr ( &((*this_).cards[1]) );
+
+                    int64_t parent_diagram_id = data_diagram_get_parent_id( old_current );
+                    TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
+                    if ( DATA_ID_VOID_ID != parent_diagram_id )
+                    {
+
+                        parent_diagram_id = data_diagram_get_id( old_parent );
+                        TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
+                        int64_t grandparent_diagram_id = data_diagram_get_parent_id( old_parent );
+                        TRACE_INFO_INT( "grandparent_diagram_id:", grandparent_diagram_id );
+
+                        ctrl_diagram_controller_t *diag_control;
+                        diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                        ctrl_error_t c_err;
+                        c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
+                                                                                  main_diagram_id,
+                                                                                  grandparent_diagram_id,
+                                                                                  false /* add_to_latest_undo_set */
+                                                                                );
+                        if ( CTRL_ERROR_NONE != c_err )
+                        {
+                            TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                        }
+                        c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
+                                                                                  parent_diagram_id,
+                                                                                  main_diagram_id,
+                                                                                  true /* add_to_latest_undo_set */
+                                                                                );
+                        if ( CTRL_ERROR_NONE != c_err )
+                        {
+                            TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                        }
+                    }
+                    else
+                    {
+                        /* current diagram is root */
+                        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                 GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
+                        );
+                    }
+                }
+                else
+                {
+                    /* current diagram is invalid */
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
+                                                           );
+                }
+            }
+        }
         /* other keys are out of scope */
     }
     else
@@ -1232,7 +1302,7 @@ void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ )
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

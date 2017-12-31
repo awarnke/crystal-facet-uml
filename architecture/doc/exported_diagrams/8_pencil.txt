@@ -21,22 +21,21 @@ pencil_layouter
 pencil_xxx_layouter
 
 
-pencil
-| - renders diagrams to cairo drawing contexts
-| - highlights uml-elements as requested by the gui module
-   --> pencil_diagram_maker
-   --> pencil_layouter
-   --> pencil_xxx_painter
-   --> pencil_input_data
-   --> pencil_input_data_layout
-   --> pencil_xxx_layouter
-
-
 pencil_xxx_painter
 | - knows the bounding boxes of single elements
 | - draws single graphical elements
   requires --> pencil_input_data_layout
   requires --> pencil_input_data
+
+
+pencil
+| - renders diagrams to cairo drawing contexts
+| - highlights uml-elements as requested by the gui module
+   --> pencil_diagram_maker
+   --> pencil_xxx_painter
+   --> pencil_input_data
+   --> pencil_input_data_layout
+   --> pencil_layouter
 
 
 pencil_input_data

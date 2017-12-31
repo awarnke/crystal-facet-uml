@@ -83,7 +83,7 @@ static inline void pencil_visible_object_id_trace ( pencil_visible_object_id_t *
 
 
 /*
-Copyright 2017-2017 Andreas Warnke
+Copyright 2017-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

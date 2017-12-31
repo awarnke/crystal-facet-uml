@@ -62,7 +62,7 @@ static inline void pencil_input_data_layout_set_relationship_visibility ( pencil
 
 
 /*
-Copyright 2017-2017 Andreas Warnke
+Copyright 2017-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

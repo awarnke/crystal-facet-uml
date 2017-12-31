@@ -30,14 +30,14 @@ pencil
   uses --> data
 
 
-ctrl
-| - provides write access to the database
-| - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
-  uses --> data
-
-
 data
 | - provides read access to ctrl, pencil and gui components
 | - provides write acccess to only the ctrl component
 | - ensures low-level consistency of database: all referenced objects exist.
 | - sends notifications on changes
+
+
+ctrl
+| - provides write access to the database
+| - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
+  uses --> data

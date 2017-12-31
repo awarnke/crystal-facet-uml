@@ -1,15 +1,5 @@
-ideas for future versions:
-  @gui
-  [ ] in overview mode, limit the number of visible children and add scroll arrows (to be tested)
-  [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
-  [ ] in overview mode, allow to shift diagrams vertically
-  [ ] in overview mode, allow to move diagrams horizontally
-  [ ] the type-dropdown box shall appear over the window - without this nasty scrolling
-  @gui+ctrl
-  [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  @pencil
-  [ ] In COMMENTS/notes, show not the title but the description
-
+2018-01-xx 1.0.0 [yyyyyyy]
+  + F7 in navigation view moves child diagram up and parent down
 2017-12-26 0.20.0 [534b171]
   + navigation mode: a newly initialized database shows a quick guide
   + navigation mode: root diagram has sky-blue background

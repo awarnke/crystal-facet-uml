@@ -862,7 +862,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
 
 
 /*
-Copyright 2017-2017 Andreas Warnke
+Copyright 2017-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -46,7 +46,7 @@ Meta-Information
 
 > Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
 >
-> Author+Copyright: 2016-2017 Andreas Warnke
+> Author+Copyright: 2016-2018 Andreas Warnke
 >
 > License: Apache 2.0 License
 >

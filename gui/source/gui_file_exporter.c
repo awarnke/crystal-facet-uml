@@ -507,7 +507,7 @@ void gui_file_exporter_private_append_valid_chars_to_filename( gui_file_exporter
 
 
 /*
-Copyright 2016-2017 Andreas Warnke
+Copyright 2016-2018 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

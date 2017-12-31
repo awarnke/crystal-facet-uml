@@ -16,7 +16,7 @@ cd ../..
 echo "== building user doc and sourccode doc =="
 rm -fr ../doxygen_build/doc
 doxygen Doxyfile
-cd doc/latex
-make
-mv refman.pdf ../../crystal_facet_uml_documentation.pdf
-cd ../..
+#cd doc/latex
+#make
+#mv refman.pdf ../../crystal_facet_uml_documentation.pdf
+#cd ../..

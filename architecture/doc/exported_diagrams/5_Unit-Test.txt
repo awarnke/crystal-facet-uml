@@ -2,13 +2,37 @@ Unit-Test
 | This diagram shows the sw-components involved in unit-testing.
 
 
+main/unittest
+| Each SW-moldule may have a subfolder named unittest which contains a set of tests; these
+| - test the SW-module
+   --> unittest_main
+  depends on --> embunit
+   --> data/unittest
+   --> pencil/unittest
+   --> universal/unittest
+   --> ctrl/unittest
+
+
+unittest_main
+
+
+data/unittest
+   --> embunit
+
+
+pencil/unittest
+   --> embunit
+
+
+ctrl/unittest
+   --> embunit
+
+
+universal/unittest
+   --> embunit
+
+
 embunit
 | Test framework
 | - runs test cases
 | - reports test results
-
-
-unittest(s) + unittest_main
-| Each SW-moldule may have a subfolder named unittest which contains a set of tests; these
-| - test the SW-module
-  depends on --> embunit
