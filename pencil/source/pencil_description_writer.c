@@ -80,6 +80,13 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
         result = -1;
     }
 
+    /* print id */
+    result |= pencil_description_writer_private_write_id( this_,
+                                                          DATA_TABLE_DIAGRAM,
+                                                          data_diagram_get_id(diag),
+                                                          out
+                                                        );
+
     /* print an empty line */
     out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
     if ( out_count != TITLE_END_LEN )
@@ -139,6 +146,13 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
                 TSLOG_ERROR_INT( "not all bytes could be written. missing:", classifier_name_len - out_count );
                 result = -1;
             }
+
+            /* print id */
+            result |= pencil_description_writer_private_write_id( this_,
+                                                                  DATA_TABLE_CLASSIFIER,
+                                                                  data_classifier_get_id(classifier),
+                                                                  out
+            );
 
             /* print an empty line */
             out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
@@ -226,6 +240,13 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
                         result = -1;
                     }
                 }
+
+                /* print id */
+                result |= pencil_description_writer_private_write_id( this_,
+                                                                      DATA_TABLE_FEATURE,
+                                                                      data_feature_get_id(feature),
+                                                                      out
+                );
 
                 /* print an empty line */
                 out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
@@ -323,6 +344,13 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                                 TSLOG_ERROR_INT( "not all bytes could be written. missing:", dest_classifier_name_len - out_count );
                                 result = -1;
                             }
+
+                            /* print id */
+                            result |= pencil_description_writer_private_write_id( this_,
+                                                                                  DATA_TABLE_RELATIONSHIP,
+                                                                                  data_relationship_get_id(relation),
+                                                                                  out
+                            );
 
                             /* print an empty line */
                             out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
@@ -439,6 +467,105 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
                 line_length = 0;
             }
         }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
+                                                 data_table_t table,
+                                                 int64_t row_id,
+                                                 FILE *out )
+{
+    TRACE_BEGIN();
+    assert( NULL != out );
+    assert( DATA_TABLE_VOID != table );
+    assert( DATA_ID_VOID_ID != row_id );
+    int result = 0;
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
+
+    char id_buf[24];
+    utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+    utf8stringbuf_clear( id_str );
+
+    utf8stringbuf_append_str( id_str, "    [" );
+    if ( 100 > row_id )
+    {
+        if ( 10 > row_id )
+        {
+            if ( 0 <= row_id )
+            {
+                utf8stringbuf_append_str( id_str, "000" );
+            }
+            else
+            {
+                /* row_id is negative */
+            }
+        }
+        else
+        {
+            utf8stringbuf_append_str( id_str, "00" );
+        }
+    }
+    else
+    {
+        if ( 1000 > row_id )
+        {
+            utf8stringbuf_append_str( id_str, "0" );
+        }
+        else
+        {
+            /* row_id is greater thatn 1000 */
+        }
+    }
+    utf8stringbuf_append_int( id_str, row_id );
+    switch ( table )
+    {
+        case DATA_TABLE_CLASSIFIER:
+        {
+            utf8stringbuf_append_str( id_str, "C" );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            utf8stringbuf_append_str( id_str, "F" );
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            utf8stringbuf_append_str( id_str, "R" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            utf8stringbuf_append_str( id_str, "E" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            utf8stringbuf_append_str( id_str, "D" );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "pencil_description_writer_private_write_id has incomplete switch on data_table_t" );
+        }
+        break;
+    }
+    utf8stringbuf_append_str( id_str, "]" );
+
+    unsigned int len = utf8stringbuf_get_length(id_str);
+    out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, out );
+    if ( out_count != len )
+    {
+        TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
+        result = -1;
     }
 
     TRACE_END_ERR( result );

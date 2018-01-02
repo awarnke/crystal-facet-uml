@@ -1,73 +1,73 @@
-Utilities
+Utilities    [0006D]
 | This diagram shows small utility modules.
 
 
-main
+main    [0021C]
 | - starts the software
 | - evaluates command line parameters
-   --> main
+   --> main    [0090R]
 
 
-trace
+trace    [0020C]
 | - provides trace macros
 | - traces allow to reconstruct/follow the program flow
-   --> Info
-   --> Timestamp
-   --> End (function)
-   --> Begin (function)
+   --> Info    [0088R]
+   --> Timestamp    [0089R]
+   --> End (function)    [0087R]
+   --> Begin (function)    [0086R]
 
 
-Begin (function)
+Begin (function)    [0069C]
 
 
-Info
+Info    [0071C]
 
 
-main
+main    [0073C]
 
 
-End (function)
+End (function)    [0070C]
 
 
-Timestamp
+Timestamp    [0072C]
 
 
-universal
+universal    [0030C]
 | provides small, generic utility classes that are independant of the project
-   --> Bool List
-   --> Array Index Sorter
-   --> Int Pair
+   --> Bool List    [0069R]
+   --> Array Index Sorter    [0070R]
+   --> Int Pair    [0068R]
 
 
-Array Index Sorter
+Array Index Sorter    [0058C]
 
 
-Error
+Error    [0052C]
 | An error is a condition that leads to an observalbe malfunction.
 
 
-Event
+Event    [0055C]
 |  An event is a signal that is send to or received from external software parts.
 
 
-Int Pair
+Int Pair    [0056C]
 
 
-Bool List
+Bool List    [0057C]
 
 
-Warning
+Warning    [0053C]
 | A warning is issued when a condition may possibly lead to a malfunction.
 
 
-Anomaly
+Anomaly    [0054C]
 | An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues.
 
 
-tslog
+tslog    [0019C]
 | - provides macros for event-logging and error-logging
 | - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters
-   --> Error
-   --> Anomaly
-   --> Event
-   --> Warning
+   --> Error    [0064R]
+   --> Anomaly    [0066R]
+   --> Event    [0067R]
+   --> Warning    [0065R]

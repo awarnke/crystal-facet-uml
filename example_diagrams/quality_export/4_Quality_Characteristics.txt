@@ -1,150 +1,150 @@
-Quality Characteristics
+Quality Characteristics    [0004D]
 | according to ISO 25010
 
 
-Functional Suitability
-   --> Completeness
-   --> Correctness
-   --> Appropriateness
+Functional Suitability    [0015C]
+   --> Completeness    [0056R]
+   --> Correctness    [0057R]
+   --> Appropriateness    [0058R]
 
 
-Security
-   --> Authenticity
-   --> Non-Repudiation
-   --> Accountability
-   --> Integrity
-   --> Confidentiality
+Security    [0018C]
+   --> Authenticity    [0082R]
+   --> Non-Repudiation    [0083R]
+   --> Accountability    [0084R]
+   --> Integrity    [0085R]
+   --> Confidentiality    [0086R]
 
 
-Reliability
-   --> Maturity
-   --> Availability
-   --> Fault Tolerance
-   --> Recoverability
+Reliability    [0021C]
+   --> Maturity    [0062R]
+   --> Availability    [0063R]
+   --> Fault Tolerance    [0064R]
+   --> Recoverability    [0065R]
 
 
-Portability
-   --> Adaptability
-   --> Installability
-   --> Replaceability
+Portability    [0020C]
+   --> Adaptability    [0068R]
+   --> Installability    [0069R]
+   --> Replaceability    [0070R]
 
 
-Completeness
+Completeness    [0016C]
 
 
-Maturity
+Non-Repudiation    [0038C]
 
 
-Adaptability
+Maturity    [0035C]
 
 
-Non-Repudiation
+Adaptability    [0048C]
 
 
-Correctness
+Correctness    [0014C]
 
 
-Confidentiality
+Confidentiality    [0039C]
 
 
-Availability
+Availability    [0034C]
 
 
-Replaceability
+Replaceability    [0050C]
 
 
-Appropriateness
+Appropriateness    [0013C]
 
 
-Authenticity
+Authenticity    [0042C]
 
 
-Fault Tolerance
+Fault Tolerance    [0036C]
 
 
-Installability
+Installability    [0049C]
 
 
-Integrity
+Integrity    [0040C]
 
 
-Recoverability
+Recoverability    [0037C]
 
 
-Compatibility
-   --> Co-existence
-   --> Interoperability
+Compatibility    [0022C]
+   --> Co-existence    [0066R]
+   --> Interoperability    [0067R]
 
 
-Accountability
+Accountability    [0041C]
 
 
-Interoperability
+Interoperability    [0028C]
 
 
-Usability
-   --> Recognizability
-   --> Learnability
-   --> Operability
-   --> User Error Protection
-   --> Aesthetics
-   --> Accessibility
+Usability    [0017C]
+   --> Recognizability    [0071R]
+   --> Learnability    [0072R]
+   --> Operability    [0073R]
+   --> User Error Protection    [0074R]
+   --> Aesthetics    [0075R]
+   --> Accessibility    [0076R]
 
 
-Co-existence
+Co-existence    [0027C]
 
 
-Maintainability
-   --> Testability
-   --> Modifyability
-   --> Analyzability
-   --> Reusability
-   --> Modularity
+Maintainability    [0012C]
+   --> Testability    [0077R]
+   --> Modifyability    [0078R]
+   --> Analyzability    [0079R]
+   --> Reusability    [0080R]
+   --> Modularity    [0081R]
 
 
-Accessibility
+Accessibility    [0029C]
 
 
-Reusability
+Reusability    [0044C]
 
 
-Recognizability
+Recognizability    [0030C]
 
 
-Performance Efficiency
-   --> Time Behaviour
-   --> Resource Utilization
-   --> Capacity
+Performance Efficiency    [0023C]
+   --> Time Behaviour    [0059R]
+   --> Resource Utilization    [0060R]
+   --> Capacity    [0061R]
 
 
-Analyzability
+Analyzability    [0045C]
 
 
-Operability
+Operability    [0024C]
 
 
-Time Behaviour
+Time Behaviour    [0025C]
 
 
-Modifyability
+Modifyability    [0046C]
 
 
-Learnability
+Learnability    [0032C]
 
 
-Capacity
+Capacity    [0026C]
 
 
-Testability
+Testability    [0047C]
 
 
-Aesthetics
+Aesthetics    [0031C]
 
 
-Resource Utilization
+Resource Utilization    [0019C]
 
 
-Modularity
+Modularity    [0043C]
 
 
-User Error Protection
+User Error Protection    [0033C]

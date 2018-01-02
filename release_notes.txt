@@ -1,5 +1,6 @@
 2018-01-xx 1.0.0 [yyyyyyy]
   + F7 in navigation view moves child diagram up and parent down
+  + The text export contains IDs
 2017-12-26 0.20.0 [534b171]
   + navigation mode: a newly initialized database shows a quick guide
   + navigation mode: root diagram has sky-blue background

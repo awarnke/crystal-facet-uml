@@ -1,49 +1,50 @@
-Process Quality
+Process Quality    [0003D]
 | The turtle diagram shows the elements of a process.
 
 
-Who
+Who    [0010C]
 | Roles,
 | Skills, Knowledge,
 | Trainings
-  Roles
-  Knowledge/Skills
-  enables --> Process
+  Roles + Responsibilities    [0048F]
+  Knowledge/Skills    [0049F]
+  enables --> Process    [0004R]
 
 
-How
+How    [0008C]
 | Guidelines, Checklists,
 | Templates
-  Guidelines
-  enables --> Process
+  Guidelines    [0052F]
+  Tutorials    [0065F]
+  enables --> Process    [0005R]
 
 
-Input
-  Requirements/Design
-  Software/Data
-  is precondition for --> Process
+Input    [0011C]
+  Requirements/Design    [0057F]
+  Software/Data    [0058F]
+  is precondition for --> Process    [0001R]
 
 
-Process
-  Name
-  Description
-  creates --> Output
+Process    [0005C]
+  Name    [0011F]
+  Description    [0012F]
+  creates --> Output    [0002R]
 
 
-Output
+Output    [0007C]
 | Process output,
 | Evidence on performed process
-  Software/Documentation
-  Evidence/Reports
+  Software/Documentation    [0055F]
+  Evidence/Reports    [0056F]
 
 
-With What
-  Tools
-  Templates
-  enables --> Process
+With What    [0006C]
+  Tools    [0050F]
+  Templates    [0051F]
+  enables --> Process    [0003R]
 
 
-What Results
-  Metrics
-  Definition of Done
-  controls --> Process
+What Results    [0009C]
+  Metrics    [0053F]
+  Definition of Done    [0054F]
+  controls --> Process    [0006R]

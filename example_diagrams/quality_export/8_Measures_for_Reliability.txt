@@ -1,91 +1,91 @@
-Measures for Reliability
+Measures for Reliability    [0008D]
 
 
-Mature Platform
-  OS provides resource limits
-  OS does not swap, does not overcommit
-  OS has mature peripheral-drivers
-   --> Maturity
+Mature Platform    [0109C]
+  OS provides resource limits    [0061F]
+  OS does not swap, does not overcommit    [0062F]
+  OS has mature peripheral-drivers    [0063F]
+   --> Maturity    [0124R]
 
 
-Layered Architecture
-  improves --> Maturity
+Layered Architecture    [0061C]
+  improves --> Maturity    [0039R]
 
 
-Example Guidelines
-  Spark/ADA: Avionics
-  Power of Ten: NASA
-  SecureC
-  MISRA-C/C++: automotive
-  implements --> Coding Guidelines
+Example Guidelines    [0073C]
+  Spark/ADA: Avionics    [0022F]
+  Power of Ten: NASA    [0019F]
+  SecureC    [0021F]
+  MISRA-C/C++: automotive    [0020F]
+  implements --> Coding Guidelines    [0054R]
 
 
-Static Code Analysis
-  enhances --> Maturity
+Static Code Analysis    [0086C]
+  enhances --> Maturity    [0099R]
 
 
-Maturity
+Maturity    [0035C]
 
 
-Code Generation
+Code Generation    [0087C]
 | An understandable model and a small code generator
 | allow to generate mature software.
-  supports --> Maturity
+  supports --> Maturity    [0100R]
 
 
-Coding Guidelines
-  static thread model
+Coding Guidelines    [0062C]
+  static thread model    [0010F]
   | Execution threads shall not be started/stopped dynamically
-  no endless loops
+  no endless loops    [0008F]
   | Every loop shall have a counter to ensures that 
   | after a predefined maximum value the loop is definitely quit
-  consistent error handling
+  consistent error handling    [0009F]
   | Inconsistencies in error handling make 
   | bugs in error handling more likely
-  valid Memory Addresses
+  valid Memory Addresses    [0007F]
   | Only valid memory addresses may be read/written.
   | E.g. Java solves this by prohibiting pointers,
   | In C/C++, check pointers and array indices before usage
-  no dynamic Memory
+  no dynamic Memory    [0006F]
   | When the program is running, 
   | - it must not fail due to 
   |   - memory fragmentation (virtual addresses/physical pages)
   |   - out of memory situations
   | - it shall have a defined timing (which new/malloc cannot provide)
-  no recursion: avoid Stack overflow
-  lock critical sections
+  no recursion: avoid Stack overflow    [0005F]
+  lock critical sections    [0024F]
   | Always lock critical sections.
   | Exceptions to locking are a nightmare.
-  single point of return: simple control flow
+  single point of return: simple control flow    [0023F]
   | Simple control flow is key to understandable code
-  improves --> Maturity
+  improves --> Maturity    [0040R]
 
 
-Availability
+Availability    [0034C]
 
 
-Redundancy
-  2 of 3 voter
-  duo-duplex
-  limp home
-  function migration
-  enhances --> Availability
+Redundancy    [0074C]
+  2 of 3 voter    [0025F]
+  duo-duplex    [0026F]
+  limp home    [0027F]
+  function migration    [0028F]
+  enhances --> Availability    [0055R]
 
 
-Fault injection Tests
-  improves --> Fault Tolerance
+Fault injection Tests    [0063C]
+  improves --> Fault Tolerance    [0041R]
 
 
-Fault Tolerance
+Fault Tolerance    [0036C]
 
 
-Input Signal Validation
-   --> Fault Tolerance
+Input Signal Validation    [0083C]
+   --> Fault Tolerance    [0128R]
 
 
-Recoverability
+Recoverability    [0037C]
 
 
-Partitioning
-   --> Fault Tolerance
-   --> Recoverability
+Partitioning    [0075C]
+   --> Fault Tolerance    [0129R]
+   --> Recoverability    [0130R]

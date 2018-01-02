@@ -1,4 +1,4 @@
-Measures for Security
+Measures for Security    [0010D]
 | Functional safety and security are different goals 
 | but have common mechanisms to support these.
 | 
@@ -6,76 +6,76 @@ Measures for Security
 | it just shows that technical mechanisms support quality goals.
 
 
-Non-Repudiation
+Non-Repudiation    [0038C]
 
 
-Cryptographic Signatures
-  asymmetric
-  shared key (symmetric)
-  supports --> Authenticity
-  may support --> Non-Repudiation
-  support --> Secure Boot
+Cryptographic Signatures    [0079C]
+  asymmetric    [0038F]
+  shared key (symmetric)    [0039F]
+  supports --> Authenticity    [0091R]
+  may support --> Non-Repudiation    [0120R]
+  support --> Secure Boot    [0123R]
 
 
-Encryption
-  symmetric
-  public/private
-  supports --> Confidentiality
+Encryption    [0080C]
+  symmetric    [0036F]
+  public/private    [0037F]
+  supports --> Confidentiality    [0092R]
 
 
-Confidentiality
+Confidentiality    [0039C]
 
 
-Secure Boot
-   --> Integrity
-   --> Authenticity
+Secure Boot    [0108C]
+   --> Integrity    [0121R]
+   --> Authenticity    [0122R]
 
 
-Authenticity
+Authenticity    [0042C]
 
 
-Over-the-Air Updates
-  Security Updates in Time
-  supports --> Integrity
+Over-the-Air Updates    [0078C]
+  Security Updates in Time    [0035F]
+  supports --> Integrity    [0090R]
 
 
-Integrity
+Integrity    [0040C]
 
 
-Least Priviledge
+Least Priviledge    [0099C]
 | Entities shall have only the access rights they need for their purpose
-  supports --> Accountability
+  supports --> Accountability    [0112R]
 
 
-Accountability
+Accountability    [0041C]
 
 
-Partitioning
-  supports --> Integrity
+Partitioning    [0075C]
+  supports --> Integrity    [0089R]
 
 
-Certificates
-  chain of certificates
-  use --> Cryptographic Signatures
-  divide and manage --> Accountability
+Certificates    [0114C]
+  chain of certificates    [0064F]
+  use --> Cryptographic Signatures    [0126R]
+  divide and manage --> Accountability    [0127R]
 
 
-Groups
+Groups    [0113C]
 | Grouping Clients/Actors helps
 | Grouping Services 
 | helps in administration of access rights
-  support --> Accountability
+  support --> Accountability    [0125R]
 
 
-Network Partitioniong
-  Network Zones (VLANs)
-  Gateways/Firewalls/Proxies
-  implements --> Partitioning
+Network Partitioniong    [0076C]
+  Network Zones (VLANs)    [0029F]
+  Gateways/Firewalls/Proxies    [0030F]
+  implements --> Partitioning    [0087R]
 
 
-Inner-Node Partitions
-  Hypervisor Partitions
-  OS-Process Boundaries
-  Microkernel OS for Driver Partitioning
-  Containers (Linux,QNX-Partitions,Address-space)
-  implements --> Partitioning
+Inner-Node Partitions    [0077C]
+  Hypervisor Partitions    [0031F]
+  OS-Process Boundaries    [0032F]
+  Microkernel OS for Driver Partitioning    [0033F]
+  Containers (Linux,QNX-Partitions,Address-space)    [0034F]
+  implements --> Partitioning    [0088R]

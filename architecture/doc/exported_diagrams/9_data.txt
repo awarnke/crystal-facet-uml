@@ -1,30 +1,30 @@
-data
+data    [0009D]
 | This diagram shows the main classes in the data package.
 
 
-data_database_writer
+data_database_writer    [0039C]
 | - writes changes to the database
 | - retrieves the old, changed values for the undo/redo list
-  uses --> data_database_reader
-  has --> data_database
+  uses --> data_database_reader    [0027R]
+  has --> data_database    [0029R]
 
 
-data_database_reader
+data_database_reader    [0038C]
 | - reads data from the database
-  has --> data_database
+  has --> data_database    [0028R]
 
 
-data
+data    [0004C]
 | - provides read access to ctrl, pencil and gui components
 | - provides write acccess to only the ctrl component
 | - ensures low-level consistency of database: all referenced objects exist.
 | - sends notifications on changes
-   --> data_database_writer
-   --> data_database_reader
-   --> data_database
+   --> data_database_writer    [0040R]
+   --> data_database_reader    [0041R]
+   --> data_database    [0042R]
 
 
-data_database
+data_database    [0037C]
 | - wraps the sqlite database
 | - knows the current status and filename
 | - opens and closes the database

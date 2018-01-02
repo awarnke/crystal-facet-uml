@@ -13,8 +13,7 @@ ideas for future versions:
   [ ] In COMMENTS/notes, show not the title but the description
   [ ] Support Diagram-Types: List, Sequence, Timing, Profile, Parametric, Interaction-Overview
   [ ] Beautify relations where source and destination is identical
-  [ ] Print IDs to diagrams and exported texts
   @data
-  [ ] When a non-DB file is opened, a new file with the old filename at the new folder shall not be created.
+  @ctrl
 
 

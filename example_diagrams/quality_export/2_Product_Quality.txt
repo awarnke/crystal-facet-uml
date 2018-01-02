@@ -1,11 +1,11 @@
-Product Quality
+Product Quality    [0002D]
 
 
-Quality in Use
+Quality in Use    [0004C]
 | Quality in use can be measured when the product is already in use, 
 | e.g. the percentage of satisfied customers can be determined.
 
 
-Ext/Int Product Quality 
+Ext/Int Product Quality     [0003C]
 | Product quality are internal and externally visible qualities, 
 | such as memory consumption or startup timings.

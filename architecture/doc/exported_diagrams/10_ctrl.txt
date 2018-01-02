@@ -1,22 +1,22 @@
-ctrl
+ctrl    [0010D]
 | This diagram shows the main classes in the ctrl package.
 
 
-ctrl_controller
+ctrl_controller    [0040C]
 | - changes the database contents
 | - maintains the undo redo list
-  classifiers: ctrl_classifier_controller_t
-  diagrams: ctrl_diagram_controller_t
-  undo_redo_list: ctrl_undo_redo_list_t
-  has --> ctrl_consistency_checker
+  classifiers: ctrl_classifier_controller_t    [0009F]
+  diagrams: ctrl_diagram_controller_t    [0010F]
+  undo_redo_list: ctrl_undo_redo_list_t    [0011F]
+  has --> ctrl_consistency_checker    [0030R]
 
 
-ctrl
+ctrl    [0003C]
 | - provides write access to the database
 | - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
-   --> ctrl_controller
-   --> ctrl_consistency_checker
+   --> ctrl_controller    [0043R]
+   --> ctrl_consistency_checker    [0044R]
 
 
-ctrl_consistency_checker
+ctrl_consistency_checker    [0041C]
 | - checks and repairs a database

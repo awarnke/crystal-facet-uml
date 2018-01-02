@@ -10,6 +10,7 @@
  */
 
 #include "pencil_input_data.h"
+#include "data_table.h"
 #include <stdio.h>
 
 /*!
@@ -100,6 +101,23 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
                                                                       const char *multiline_string,
                                                                       FILE *out
                                                                     );
+
+/*!
+ *  \brief prints an id
+ *
+ *  if the id is invalid, nothing is printed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table table identifier
+ *  \param row_id row identifier
+ *  \param out a stream where to print the data
+ *  \return -1 in case of error, 0 in case of success
+ */
+int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
+                                                 data_table_t table,
+                                                 int64_t row_id,
+                                                 FILE *out
+                                               );
 
 #endif  /* PENCIL_DESCRIPTION_WRITER_H */
 

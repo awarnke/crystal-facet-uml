@@ -1,88 +1,88 @@
-Measures for Maintainability
+Measures for Maintainability    [0007D]
 
 
-Simplicity
-   --> KISS
-   --> YAGNI
-   --> Occam's razor
-  supports --> Modifyability
-  supports --> Reusability
+Simplicity    [0098C]
+   --> KISS    [0106R]
+   --> YAGNI    [0107R]
+   --> Occam's razor    [0108R]
+  supports --> Modifyability    [0109R]
+  supports --> Reusability    [0110R]
 
 
-Reusability
+Reusability    [0044C]
 
 
-KISS
+KISS    [0094C]
 | Keep it simple and stupid
 
 
-Analyzability
+Analyzability    [0045C]
 
 
-YAGNI
+YAGNI    [0095C]
 | You aren't gonna need it
 
 
-Occam's razor
+Occam's razor    [0097C]
 | Among competing hypotheses, the one with the fewest assumptions should be selected
 
 
-Modifyability
+Modifyability    [0046C]
 
 
-Information Hiding
+Information Hiding    [0102C]
 | A sofware component shall hide its implementation details and make information accessible only via defined interfaces
-  enables --> Reusability
-  supports --> Modularity
-  simplifies --> Testability
-  simplifies --> Analyzability
+  enables --> Reusability    [0115R]
+  supports --> Modularity    [0116R]
+  simplifies --> Testability    [0117R]
+  simplifies --> Analyzability    [0118R]
 
 
-Single Responsability
+Single Responsability    [0089C]
 | A software component shall be responsible for one topic only
 
 
-SOLID
-   --> Interface Segregation
-   --> Liskov Substitution
-   --> Dependency Inversion
-   --> Open/Closed
-   --> Single Responsability
-  supports --> Modularity
+SOLID    [0096C]
+   --> Interface Segregation    [0101R]
+   --> Liskov Substitution    [0102R]
+   --> Dependency Inversion    [0103R]
+   --> Open/Closed    [0104R]
+   --> Single Responsability    [0105R]
+  supports --> Modularity    [0111R]
 
 
-Interface Segregation
+Interface Segregation    [0092C]
 | Avoid general purpose interfaces, design multiple interfaces specific to the needs of different users/clients
 
 
-Testability
+Testability    [0047C]
 
 
-Open/Closed
+Open/Closed    [0090C]
 | Open for extension, closed for modification
 
 
-Liskov Substitution
+Liskov Substitution    [0091C]
 | An implementation of an interface can be replaced by another implementation of the same interface. In object oriented design, types can be replaced by subtypes.
 
 
-Dependency Inversion
+Dependency Inversion    [0093C]
 | A software component shall depend on abstractions, not on concrete implementations
-  use Abstractions
+  use Abstractions    [0046F]
 
 
-Modularity
+Modularity    [0043C]
 
 
-Least Astonishment
+Least Astonishment    [0103C]
 | If a reader is astonished when looking at the design, a redesign shall be considered.
 | Measure: Conformity of style and concepts
 
 
-Strong Cohesion
-  influences --> Modularity
+Strong Cohesion    [0104C]
+  influences --> Modularity    [0119R]
 
 
-Loose Coupling
+Loose Coupling    [0101C]
 | split an entity that consists of multiple loosely coupled parts
-  supports --> Modularity
+  supports --> Modularity    [0114R]

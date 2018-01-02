@@ -1,43 +1,43 @@
-Domains
+Domains    [0005D]
 
 
-Medical
+Medical    [0056C]
 
 
-Defense
+Defense    [0053C]
 
 
-Aerospace
+Aerospace    [0051C]
 
 
-Transport and Logistics
+Transport and Logistics    [0111C]
 
 
-Government
+Government    [0112C]
 
 
-Avionics
+Avionics    [0054C]
 
 
-Automotive
-  Electronic Control Units
-  Infotainment
-  Automated Driving
+Automotive    [0052C]
+  Electronic Control Units    [0001F]
+  Infotainment    [0002F]
+  Automated Driving    [0047F]
 
 
-Finance
+Finance    [0105C]
 
 
-Industrial Machinery
+Industrial Machinery    [0055C]
 
 
-Rail
+Rail    [0107C]
 
 
-Backend Server
+Backend Server    [0057C]
 
 
-Telecommunication
+Telecommunication    [0106C]
 
 
-Energy
+Energy    [0110C]

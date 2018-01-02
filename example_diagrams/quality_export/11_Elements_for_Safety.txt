@@ -1,52 +1,52 @@
-Elements for Safety
+Elements for Safety    [0011D]
 
 
-Monitoring
-  Function Monitoring (L2)
-  System Monitoring (L3)
-  - alive Monitoring
-  - control flow supervision
-  may support a claim --> Functional Safety
+Monitoring    [0084C]
+  Function Monitoring (L2)    [0040F]
+  System Monitoring (L3)    [0041F]
+  - alive Monitoring    [0059F]
+  - control flow supervision    [0060F]
+  may support a claim --> Functional Safety    [0093R]
 
 
-Real Time Execution
-  Guaranteed Calculation Time
-  Real Time Clock
-  may support a claim --> Functional Safety
+Real Time Execution    [0085C]
+  Guaranteed Calculation Time    [0044F]
+  Real Time Clock    [0045F]
+  may support a claim --> Functional Safety    [0098R]
 
 
-Functional Safety
+Functional Safety    [0081C]
 
 
-Cryptographic Signatures
-  asymmetric
-  shared key (symmetric)
-  may support --> Trusted Data Paths
+Cryptographic Signatures    [0079C]
+  asymmetric    [0038F]
+  shared key (symmetric)    [0039F]
+  may support --> Trusted Data Paths    [0097R]
 
 
-Trusted Data Paths
-  Dual Data Paths
-  End to End Protection
-  may support a claim --> Functional Safety
+Trusted Data Paths    [0082C]
+  Dual Data Paths    [0042F]
+  End to End Protection    [0043F]
+  may support a claim --> Functional Safety    [0094R]
 
 
-Input Signal Validation
-  may support a claim --> Functional Safety
+Input Signal Validation    [0083C]
+  may support a claim --> Functional Safety    [0095R]
 
 
-Partitioning
-  may support a claim --> Functional Safety
+Partitioning    [0075C]
+  may support a claim --> Functional Safety    [0096R]
 
 
-Network Partitioniong
-  Network Zones (VLANs)
-  Gateways/Firewalls/Proxies
-  implements --> Partitioning
+Network Partitioniong    [0076C]
+  Network Zones (VLANs)    [0029F]
+  Gateways/Firewalls/Proxies    [0030F]
+  implements --> Partitioning    [0087R]
 
 
-Inner-Node Partitions
-  Hypervisor Partitions
-  OS-Process Boundaries
-  Microkernel OS for Driver Partitioning
-  Containers (Linux,QNX-Partitions,Address-space)
-  implements --> Partitioning
+Inner-Node Partitions    [0077C]
+  Hypervisor Partitions    [0031F]
+  OS-Process Boundaries    [0032F]
+  Microkernel OS for Driver Partitioning    [0033F]
+  Containers (Linux,QNX-Partitions,Address-space)    [0034F]
+  implements --> Partitioning    [0088R]

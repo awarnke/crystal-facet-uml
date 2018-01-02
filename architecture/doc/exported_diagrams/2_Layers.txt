@@ -1,4 +1,4 @@
-Layers
+Layers    [0002D]
 | This diagram shows the layering of the main software modules.
 | 
 | Concept for Multithreading:
@@ -14,30 +14,30 @@ Layers
 |   should access a single ctrl and data instance. (Currently, the software is single-threaded)
 
 
-gui
+gui    [0001C]
 | - allows a user 
 |     - to select the database
 |     - to export diagrams
 |     - to modify the uml-model
-  uses --> pencil
-  uses --> ctrl
-  uses --> data
+  uses --> pencil    [0008R]
+  uses --> ctrl    [0009R]
+  uses --> data    [0010R]
 
 
-pencil
+pencil    [0002C]
 | - renders diagrams to cairo drawing contexts
 | - highlights uml-elements as requested by the gui module
-  uses --> data
+  uses --> data    [0011R]
 
 
-data
+data    [0004C]
 | - provides read access to ctrl, pencil and gui components
 | - provides write acccess to only the ctrl component
 | - ensures low-level consistency of database: all referenced objects exist.
 | - sends notifications on changes
 
 
-ctrl
+ctrl    [0003C]
 | - provides write access to the database
 | - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
-  uses --> data
+  uses --> data    [0012R]
