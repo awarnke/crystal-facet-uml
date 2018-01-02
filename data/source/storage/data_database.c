@@ -333,6 +333,7 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
             TSLOG_ERROR_INT( "sqlite3_open() failed:", sqlite_err );
             TSLOG_ERROR_STR( "sqlite3_open() failed:", utf8stringbuf_get_string( (*this_).db_file_name ) );
             (*this_).is_open = false;
+            result |= DATA_ERROR_NO_DB;  /* no db to use */
         }
         else
         {

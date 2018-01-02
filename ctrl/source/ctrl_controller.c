@@ -43,10 +43,13 @@ ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const c
     data_error_t open_result;
 
     close_result = data_database_close( (*this_).database );
-
     ctrl_undo_redo_list_clear( &((*this_).undo_redo_list) );
+    if ( DATA_ERROR_NONE != close_result )
+    {
+        /* we do not care about errors at closing, trace and ignore close_result */
+        TRACE_INFO_HEX( "Error at data_database_close", close_result );
+    }
 
-    /* we do not care about errors at closing, ignore close_result */
     open_result = data_database_open( (*this_).database, db_file_path );
     result = (ctrl_error_t) open_result;
 

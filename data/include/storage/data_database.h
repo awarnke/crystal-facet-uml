@@ -53,7 +53,8 @@ void data_database_init ( data_database_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path a relative or absolute file path
- *  \return DATA_ERROR_NONE in case of success
+ *  \return DATA_ERROR_NO_DB if file cannot be opened,
+ *          DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_open ( data_database_t *this_, const char* db_file_path );
 

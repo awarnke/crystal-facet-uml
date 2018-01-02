@@ -86,6 +86,8 @@ static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param db_file_path file name of the new database to be used
+ *  \return CTRL_ERROR_NO_DB if file cannot be opened,
+ *          CTRL_ERROR_NONE in case of success
  */
 ctrl_error_t ctrl_controller_switch_database ( ctrl_controller_t *this_, const char* db_file_path );
 
