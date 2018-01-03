@@ -1,4 +1,4 @@
-2018-01-xx 1.0.0 [yyyyyyy]
+2018-01-03 1.0.0 [63966bd]
   + F7 in navigation view moves child diagram up and parent down
   + The text export contains IDs
 2017-12-26 0.20.0 [534b171]
