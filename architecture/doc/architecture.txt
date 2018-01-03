@@ -83,7 +83,7 @@
  *
  *  \subsection cfu-dynamic-views Behavioral Views
  *
- *  \subsubsection cfu-lifecycle Lifecycle
+ *  \subsubsection cfu-arc-lifecycle Lifecycle
  *
  *  \image html D0012_Lifecycle.png
  *  \image latex D0012_Lifecycle.pdf "" width=15cm
