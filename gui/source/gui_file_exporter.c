@@ -262,6 +262,19 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
         /* determine filename */
         utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
         utf8stringbuf_append_str( (*this_).temp_filename, "/" );
+        utf8stringbuf_append_str( (*this_).temp_filename, "D" );
+        if (( 0 <= diagram_id )&&( diagram_id < 10 ))
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, "000" );  /* add leading zeros */
+        }
+        else if (( 10 <= diagram_id )&&( diagram_id < 100 ))
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, "00" );  /* add leading zeros */
+        }
+        else if (( 100 <= diagram_id )&&( diagram_id < 1000 ))
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, "0" );  /* add leading zeros */
+        }
         utf8stringbuf_append_int( (*this_).temp_filename, diagram_id );
         utf8stringbuf_append_str( (*this_).temp_filename, "_" );
         gui_file_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );

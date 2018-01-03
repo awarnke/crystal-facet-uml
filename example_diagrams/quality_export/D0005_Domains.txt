@@ -1,0 +1,46 @@
+Domains    [D0005]
+| Measures to improve software quality are sometimes domain-specific.
+| Some domains are focusing on tests, some on formal proves, 
+| some on reaction times till deploying software updates.
+
+
+Medical    [C0056]
+
+
+Defense    [C0053]
+
+
+Aerospace    [C0051]
+
+
+Transport and Logistics    [C0111]
+
+
+Government    [C0112]
+
+
+Avionics    [C0054]
+
+
+Automotive    [C0052]
+  Electronic Control Units    [F0001]
+  Infotainment    [F0002]
+  Automated Driving    [F0047]
+
+
+Finance    [C0105]
+
+
+Industrial Machinery    [C0055]
+
+
+Rail    [C0107]
+
+
+Backend Server    [C0057]
+
+
+Telecommunication    [C0106]
+
+
+Energy    [C0110]

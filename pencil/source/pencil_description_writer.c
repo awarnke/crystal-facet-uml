@@ -43,20 +43,22 @@ int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *o
     return result;
 }
 
-static const char *TWO_NEWLINES = "\n\n";
+static const char TWO_NEWLINES[] = "\n\n";
 static const size_t TWO_NEWLINES_LEN = 2;
-static const char *LINE_END = "\n";
+static const char LINE_END[] = "\n";
 static const size_t LINE_END_LEN = 1;
-static const char *SPACE = "  ";
+static const char SPACE[] = "  ";
 static const size_t SPACE_LEN = 2;
-static const char *COLON_SPACE = ": ";
+static const char COLON_SPACE[] = ": ";
 static const size_t COLON_SPACE_LEN = 2;
-static const char *SPACE_ARROW_SPACE = " --> ";
+static const char SPACE_ARROW_SPACE[] = " --> ";
 static const size_t SPACE_ARROW_SPACE_LEN = 5;
-static const char *TITLE_END = "\n";
+static const char ARROW_SPACE[] = "--> ";
+static const size_t ARROW_SPACE_LEN = 4;
+static const char TITLE_END[] = "\n";
 static const size_t TITLE_END_LEN = 1;
-static const char *SINGLE_INDENT = "| ";
-static const char *DOUBLE_INDENT = "  | ";
+static const char SINGLE_INDENT[] = "| ";
+static const char DOUBLE_INDENT[] = "  | ";
 
 int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out )
 {
@@ -328,11 +330,23 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                             }
 
                             /* print arrow */
-                            out_count = fwrite( SPACE_ARROW_SPACE, 1 /* size of char */, SPACE_ARROW_SPACE_LEN, out );
-                            if ( out_count != SPACE_ARROW_SPACE_LEN )
+                            if ( relation_name_len == 0 )
                             {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_ARROW_SPACE_LEN - out_count );
-                                result = -1;
+                                out_count = fwrite( ARROW_SPACE, 1 /* size of char */, ARROW_SPACE_LEN, out );
+                                if ( out_count != ARROW_SPACE_LEN )
+                                {
+                                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", ARROW_SPACE_LEN - out_count );
+                                    result = -1;
+                                }
+                            }
+                            else
+                            {
+                                out_count = fwrite( SPACE_ARROW_SPACE, 1 /* size of char */, SPACE_ARROW_SPACE_LEN, out );
+                                if ( out_count != SPACE_ARROW_SPACE_LEN )
+                                {
+                                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_ARROW_SPACE_LEN - out_count );
+                                    result = -1;
+                                }
                             }
 
                             /* print destination classifier name */
@@ -490,36 +504,6 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
     utf8stringbuf_clear( id_str );
 
     utf8stringbuf_append_str( id_str, "    [" );
-    if ( 100 > row_id )
-    {
-        if ( 10 > row_id )
-        {
-            if ( 0 <= row_id )
-            {
-                utf8stringbuf_append_str( id_str, "000" );
-            }
-            else
-            {
-                /* row_id is negative */
-            }
-        }
-        else
-        {
-            utf8stringbuf_append_str( id_str, "00" );
-        }
-    }
-    else
-    {
-        if ( 1000 > row_id )
-        {
-            utf8stringbuf_append_str( id_str, "0" );
-        }
-        else
-        {
-            /* row_id is greater thatn 1000 */
-        }
-    }
-    utf8stringbuf_append_int( id_str, row_id );
     switch ( table )
     {
         case DATA_TABLE_CLASSIFIER:
@@ -558,6 +542,36 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
         }
         break;
     }
+    if ( 100 > row_id )
+    {
+        if ( 10 > row_id )
+        {
+            if ( 0 <= row_id )
+            {
+                utf8stringbuf_append_str( id_str, "000" );
+            }
+            else
+            {
+                /* row_id is negative */
+            }
+        }
+        else
+        {
+            utf8stringbuf_append_str( id_str, "00" );
+        }
+    }
+    else
+    {
+        if ( 1000 > row_id )
+        {
+            utf8stringbuf_append_str( id_str, "0" );
+        }
+        else
+        {
+            /* row_id is greater than 1000 */
+        }
+    }
+    utf8stringbuf_append_int( id_str, row_id );
     utf8stringbuf_append_str( id_str, "]" );
 
     unsigned int len = utf8stringbuf_get_length(id_str);

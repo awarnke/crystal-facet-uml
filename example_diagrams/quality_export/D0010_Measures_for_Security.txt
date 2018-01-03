@@ -1,0 +1,81 @@
+Measures for Security    [D0010]
+| Functional safety and security are different goals 
+| but have common mechanisms to support these.
+| 
+| The diagram is not meant to be complete,
+| it just shows that technical mechanisms support quality goals.
+
+
+Non-Repudiation    [C0038]
+
+
+Cryptographic Signatures    [C0079]
+  asymmetric    [F0038]
+  shared key (symmetric)    [F0039]
+  supports --> Authenticity    [R0091]
+  may support --> Non-Repudiation    [R0120]
+  support --> Secure Boot    [R0123]
+
+
+Encryption    [C0080]
+  symmetric    [F0036]
+  public/private    [F0037]
+  supports --> Confidentiality    [R0092]
+
+
+Confidentiality    [C0039]
+
+
+Secure Boot    [C0108]
+  --> Integrity    [R0121]
+  --> Authenticity    [R0122]
+
+
+Authenticity    [C0042]
+
+
+Over-the-Air Updates    [C0078]
+  Security Updates in Time    [F0035]
+  supports --> Integrity    [R0090]
+
+
+Integrity    [C0040]
+
+
+Least Priviledge    [C0099]
+| Entities shall have only the access rights they need for their purpose
+  supports --> Accountability    [R0112]
+
+
+Accountability    [C0041]
+
+
+Partitioning    [C0075]
+  supports --> Integrity    [R0089]
+
+
+Certificates    [C0114]
+  chain of certificates    [F0064]
+  use --> Cryptographic Signatures    [R0126]
+  divide and manage --> Accountability    [R0127]
+
+
+Groups    [C0113]
+| Grouping Clients/Actors helps
+| Grouping Services 
+| helps in administration of access rights
+  support --> Accountability    [R0125]
+
+
+Network Partitioniong    [C0076]
+  Network Zones (VLANs)    [F0029]
+  Gateways/Firewalls/Proxies    [F0030]
+  implements --> Partitioning    [R0087]
+
+
+Inner-Node Partitions    [C0077]
+  Hypervisor Partitions    [F0031]
+  OS-Process Boundaries    [F0032]
+  Microkernel OS for Driver Partitioning    [F0033]
+  Containers (Linux,QNX-Partitions,Address-space)    [F0034]
+  implements --> Partitioning    [R0088]

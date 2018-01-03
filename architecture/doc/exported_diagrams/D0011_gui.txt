@@ -1,0 +1,33 @@
+gui    [D0011]
+| This diagram shows the main classes in the gui package.
+
+
+gui_window_manager    [C0045]
+| - starts and stops application windows
+  has (1..4) --> gui_main_window    [R0033]
+
+
+gui    [C0001]
+| - allows a user 
+|     - to select the database
+|     - to export diagrams
+|     - to modify the uml-model
+   --> gui_window_manager    [R0045]
+   --> gui_main_window    [R0046]
+   --> gui_sketch_card    [R0047]
+   --> gui_sketch_area    [R0048]
+
+
+gui_main_window    [C0042]
+| - represents an application window
+  has --> gui_sketch_area    [R0031]
+
+
+gui_sketch_area    [C0043]
+| - manages the main drawing area
+  has (1..n) --> gui_sketch_card    [R0032]
+
+
+gui_sketch_card    [C0044]
+| - maintains the data of one diagram
+| - displays one diagram

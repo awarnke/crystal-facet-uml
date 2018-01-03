@@ -1,0 +1,50 @@
+Features    [D0004]
+| This diagram lists the main features of crystal facet uml.
+
+
+Draw Diagrams    [C0031]
+   --> Show Classifiers    [R0057]
+
+
+Show multiple instances in same diagram    [C0011]
+| One and the same classifier can be shown in a diagram multiple times (either as class/type or as instance)
+
+
+Show Classifiers    [C0009]
+| Classifiers are drawn to diagrams
+| one classifier is visible in one or multiple diagrams
+   --> Show multiple instances in same diagram    [R0058]
+   --> Mark Classifiers    [R0061]
+   --> Classifier has relations    [R0062]
+
+
+Classifier is implicit instance    [C0015]
+| A classifier can represent an anonymous (implicit) instance without defining an explicit instance relation
+
+
+Diagrams are hierarchical    [C0016]
+| There is one root diagram. All other diagrams shall have a parent diagram.
+  <<extends>> --> Draw Diagrams    [R0014]
+
+
+Classifier is explicit instance    [C0014]
+| A classifier can be an explicitly modelled instance of another classifier
+
+
+Classifier has relations    [C0012]
+| A classifier can have zero, one or many relations; these may be of one or of differnet types.
+| Circular dependencies may be forbidden if semantics undefined.
+   --> Classifier is implicit instance    [R0059]
+   --> Classifier is explicit instance    [R0060]
+   --> Classifier is contained (child)    [R0063]
+
+
+Mark Classifiers    [C0013]
+| A classifier can be highlighted in one or several diagrams.
+| The highlighting may be different in different diagrams where the classifier is shown.
+  highlight    [F0007]
+  grey out    [F0008]
+
+
+Classifier is contained (child)    [C0010]
+| A Classifier can either exist stand-alone or be a sub-element of another classifier.

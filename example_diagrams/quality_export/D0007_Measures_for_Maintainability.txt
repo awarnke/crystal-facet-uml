@@ -1,0 +1,92 @@
+Measures for Maintainability    [D0007]
+
+
+Simplicity    [C0098]
+  --> KISS    [R0106]
+  --> YAGNI    [R0107]
+  --> Occam's razor    [R0108]
+  supports --> Modifyability    [R0109]
+  supports --> Reusability    [R0110]
+
+
+Reusability    [C0044]
+
+
+KISS    [C0094]
+| Keep it simple and stupid
+
+
+Analyzability    [C0045]
+
+
+YAGNI    [C0095]
+| You aren't gonna need it
+
+
+Occam's razor    [C0097]
+| Among competing hypotheses, the one with the fewest assumptions should be selected
+
+
+Modifyability    [C0046]
+
+
+Information Hiding    [C0102]
+| A sofware component shall hide its implementation details and 
+| make information accessible only via defined interfaces
+  enables --> Reusability    [R0115]
+  supports --> Modularity    [R0116]
+  simplifies --> Testability    [R0117]
+  simplifies --> Analyzability    [R0118]
+
+
+Single Responsability    [C0089]
+| A software component shall be responsible for one topic only
+
+
+SOLID    [C0096]
+  --> Interface Segregation    [R0101]
+  --> Liskov Substitution    [R0102]
+  --> Dependency Inversion    [R0103]
+  --> Open/Closed    [R0104]
+  --> Single Responsability    [R0105]
+  supports --> Modularity    [R0111]
+
+
+Interface Segregation    [C0092]
+| Avoid general purpose interfaces, 
+| design multiple interfaces specific to the needs of different users/clients
+
+
+Testability    [C0047]
+
+
+Open/Closed    [C0090]
+| Open for extension, closed for modification
+
+
+Liskov Substitution    [C0091]
+| An implementation of an interface can be replaced 
+| by another implementation of the same interface.
+| In object oriented design, types can be replaced by subtypes.
+
+
+Dependency Inversion    [C0093]
+| A software component shall depend on abstractions, not on concrete implementations
+  use Abstractions    [F0046]
+
+
+Modularity    [C0043]
+
+
+Least Astonishment    [C0103]
+| A reader shall not be surprised when looking at the design.
+  Conformity of style and concepts    [F0066]
+
+
+Strong Cohesion    [C0104]
+  influences --> Modularity    [R0119]
+
+
+Loose Coupling    [C0101]
+| split an entity that consists of multiple loosely coupled parts
+  supports --> Modularity    [R0114]

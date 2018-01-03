@@ -1,8 +1,0 @@
-Quality    [0001D]
-
-
-Product Quality    [0002C]
-  ISO/IEC 25010:2011    [0004F]
-
-
-Process Quality    [0001C]

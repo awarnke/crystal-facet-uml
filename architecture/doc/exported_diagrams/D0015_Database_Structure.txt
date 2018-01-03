@@ -1,0 +1,43 @@
+Database Structure    [D0015]
+| This diagram shows the tables and relationships of the database.
+
+
+diagrams    [C0084]
+  id: int64_t    [F0015]
+  diagram_type: enum    [F0028]
+  name    [F0029]
+  description    [F0030]
+  parent --> diagrams    [R0099]
+
+
+relationships    [C0081]
+  id: int64_t    [F0014]
+  main_type: enum    [F0021]
+  name    [F0022]
+  description    [F0023]
+  from --> classifiers    [R0096]
+  to --> classifiers    [R0097]
+
+
+diagramelements    [C0082]
+  id: int64_t    [F0016]
+  display_flags    [F0031]
+   --> diagrams    [R0100]
+   --> classifiers    [R0101]
+
+
+classifiers    [C0080]
+  id: int64_t    [F0012]
+  main_type: enum    [F0017]
+  stereotype    [F0018]
+  name    [F0019]
+  description    [F0020]
+
+
+features    [C0083]
+  id: int64_t    [F0013]
+  main_type: enum    [F0024]
+  key (name)    [F0025]
+  value (type)    [F0026]
+  description    [F0027]
+   --> classifiers    [R0098]
