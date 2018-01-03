@@ -31,41 +31,61 @@
  *  \image html main_window_sketch_1.png
  *  \image latex main_window_sketch_1.pdf "" width=3cm
  *
+ *  \subsection cfu-tools-create_use Create/Use DB
+ *
  *  \image html resources/file_use_db.png
  *  \image latex resources/file_use_db.pdf "" width=1cm
  *  \li Opens an existing database file or creates a new database file
+ *
+ *  \subsection cfu-tools-export Export
  *
  *  \image html resources/file_export.png
  *  \image latex resources/file_export.pdf "" width=1cm
  *  \li Exports all diagrams to the selected folder (supported formats are txt, png, pdf, ps and svg)
  *
+ *  \subsection cfu-tools-new_win New Window
+ *
  *  \image html resources/file_new_window.png
  *  \image latex resources/file_new_window.pdf "" width=1cm
  *  \li Opens another window on the same database.
+ *
+ *  \subsection cfu-tools-new_diag New Diagram
  *
  *  \image html resources/tool_create_diagram.png
  *  \image latex resources/tool_create_diagram.pdf "" width=1cm
  *  \li Create a new diagram
  *
+ *  \subsection cfu-tools-nav Navigate
+ *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=1cm
  *  \li Navigate to parent or child diagrams
+ *
+ *  \subsection cfu-tools-edit Edit
  *
  *  \image html resources/tool_edit.png
  *  \image latex resources/tool_edit.pdf "" width=1cm
  *  \li Modify elements in the diagram
  *
+ *  \subsection cfu-tools-new_obj New Object
+ *
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=1cm
  *  \li Create elements in the diagram
  *
+ *  \subsection cfu-tools-cut Cut
+ *
  *  \image html resources/edit_cut.png
  *  \image latex resources/edit_cut.pdf "" width=1cm
- *  \li Cut all pink-cornered elements to the clipboard (features not yet supported)
+ *  \li Cut all pink-cornered elements to the clipboard (features of classifiers are cut independantly of their corner-colors)
+ *
+ *  \subsection cfu-tools-copy Copy
  *
  *  \image html resources/edit_copy.png
  *  \image latex resources/edit_copy.pdf "" width=1cm
  *  \li Copy all pink-cornered elements to the clipboard (features of classifiers are copied independantly of their corner-colors)
+ *
+ *  \subsection cfu-tools-paste Paste
  *
  *  \image html resources/edit_paste.png
  *  \image latex resources/edit_paste.pdf "" width=1cm
@@ -73,29 +93,43 @@
  *      If id and name are identical to an existing element, an instance of the existing element is pasted to the diagram.
  *      Otherwise a new element is created.
  *
+ *  \subsection cfu-tools-del Delete
+ *
  *  \image html resources/edit_delete.png
  *  \image latex resources/edit_delete.pdf "" width=1cm
  *  \li Deletes all pink-cornered elements. This operation may fail if marked elements have unmarked children.
+ *
+ *  \subsection cfu-tools-inst Instantiate
  *
  *  \image html resources/edit_instantiate.png
  *  \image latex resources/edit_instantiate.pdf "" width=1cm
  *  \li Toggles the pink-cornered classifiers between classes and instances. (Does not work for relationships and features)
  *
+ *  \subsection cfu-tools-highlight Highlight
+ *
  *  \image html resources/edit_highlight.png
  *  \image latex resources/edit_highlight.pdf "" width=1cm
  *  \li Toggles the pink-cornered classifiers between yellow-marked, greyed-out and normal. (Does not work for relationships and features)
+ *
+ *  \subsection cfu-tools-reset_sel Reset Selection
  *
  *  \image html resources/edit_reset.png
  *  \image latex resources/edit_reset.pdf "" width=1cm
  *  \li Resets the pink-cornered selection
  *
+ *  \subsection cfu-tools-undo Undo
+ *
  *  \image html resources/edit_undo.png
  *  \image latex resources/edit_undo.pdf "" width=1cm
  *  \li Un-does the last operation (Opening a database and exporting files cannot be undone)
  *
+ *  \subsection cfu-tools-redo Redo
+ *
  *  \image html resources/edit_redo.png
  *  \image latex resources/edit_redo.pdf "" width=1cm
  *  \li Re-does the last un-done operation
+ *
+ *  \subsection cfu-tools-about About
  *
  *  \image html resources/crystal_facet_uml.png
  *  \image latex crystal_facet_uml.pdf "" width=1cm
@@ -106,9 +140,13 @@
  *  \image html main_window_sketch_2.png
  *  \image latex main_window_sketch_2.pdf "" width=3cm
  *
+ *  \subsection cfu-sketch-new_diag New Diagram
+ *
  *  \image html resources/tool_create_diagram.png
  *  \image latex resources/tool_create_diagram.pdf "" width=1cm
  *  \li To create a child-diagram, click into the children-area of the current view.
+ *
+ *  \subsection cfu-sketch-nav Navigate
  *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=1cm
@@ -116,16 +154,21 @@
  *  \li To navigate to a child diagram, click on the child diagram.
  *  \li To restructure the diagram tree by shifting a child diagram up and the parent down, click on the child diagram and press F7.
  *
+ *  \subsection cfu-sketch-edit Edit
+ *
  *  \image html resources/tool_edit.png
  *  \image latex resources/tool_edit.pdf "" width=1cm
  *  \li To move classifiers within the diagram, press, drag and release the mouse button.
  *  \li To select the diagram or a classifier or a feature or a relationship with yellow corners, click on this object.
  *  \li To mark diagram and/or classifiers and/or features and/or relationships with pink corners, click on these objects twice.
  *
+ *  \subsection cfu-sketch-new_obj New Object
+ *
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=1cm
  *  \li To create a classifier, click at an empty space in the diagram.
  *  \li To create a child classifier, click into a classifier that can contain children (e.g. nodes, components, packages, activities).
+ *      Alternatively, create a classifier and a containment relation.
  *  \li To create a relationship, press on the source classifier and drag it to the destination classifier.
  *  \li To create a feature, click into a classifier that can contain features (e.g. blocks, classes, objects, interfaces).
  *
@@ -136,22 +179,30 @@
  *
  *  Edit the properties of the yellow-cornered object.
  *
+ *  \subsection cfu-edit-commit Commit
+ *
  *  \image html resources/edit_commit.png
  *  \image latex resources/edit_commit.pdf "" width=1cm
- *  \li Stores the latest changes to the database (as most other displayed widgets too). It is not necessary to explicitly save the file.
+ *  \li Stores the latest changes to the database immediately. This feature is optional, it is not necessary to explicitly save the file.
  *
  *  \section cfu-notifybar Notification Bar
  *
  *  \image html main_window_sketch_4.png
  *  \image latex main_window_sketch_4.pdf "" width=3cm
  *
+ *  \subsection cfu-notify-info Information
+ *
  *  \image html resources/message_info.png
  *  \image latex resources/message_info.pdf "" width=1cm
  *  \li Informs on success of an operation, e.g. an export
  *
+ *  \subsection cfu-notify-warn Warning
+ *
  *  \image html resources/message_warn.png
  *  \image latex resources/message_warn.pdf "" width=1cm
  *  \li Informs on a possible problem
+ *
+ *  \subsection cfu-notify-error Error
  *
  *  \image html resources/message_error.png
  *  \image latex resources/message_error.pdf "" width=1cm
@@ -168,8 +219,12 @@
  *
  *  https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml
  *
+ *  User documentation is available here:
+ *
  *  http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf
  *
+ *  https://github.com/awarnke/crystal_facet_uml/blob/master/doxygen_build/crystal_facet_uml_user_documentation.pdf
+ * 
  *  \subsection cfu-license License
  *  License of crystal_facet_uml is Apache-2.0.
  *  crystal_facet_uml contains sqlite which is Public Domain.

@@ -124,6 +124,6 @@
  *  .
  *
  *  \section cfu-programming-guidelines-apx Appendix
- *  \author (c) 2016-2018 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 

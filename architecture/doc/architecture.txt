@@ -47,9 +47,9 @@
  *  \image latex D0010_ctrl.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0010_ctrl.txt
  *
- *  \image html D00011_gui.png
- *  \image latex D00011_gui.pdf "" width=15cm
- *  \verbinclude exported_diagrams/D00011_gui.txt
+ *  \image html D0011_gui.png
+ *  \image latex D0011_gui.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0011_gui.txt
  *
  *  \image html D0008_pencil.png
  *  \image latex D0008_pencil.pdf "" width=15cm
@@ -90,6 +90,6 @@
  *  \verbinclude exported_diagrams/D0012_Lifecycle.txt
  *
  *  \section cfu-arc-apx Appendix
- *  \author (c) 2016-2018 A.Warnke; Email-contact: ipc-quartztime-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 
