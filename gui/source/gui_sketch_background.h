@@ -105,7 +105,7 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param icon_1 a pointer to an icon
  *  \param text_1 a pointer to a text message, line 1
- *  \param icon_1 a pointer to a text message, line 2
+ *  \param text_2 a pointer to a text message, line 2
  *  \param x coordinate of the output location
  *  \param y coordinate of the output location
  *  \param cr cairo drawing context

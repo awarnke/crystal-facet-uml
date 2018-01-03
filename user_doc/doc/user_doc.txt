@@ -179,6 +179,14 @@
  *
  *  Edit the properties of the yellow-cornered object.
  *
+ *  \image html main_window_sketch_3_zoom.png
+ *  \image latex main_window_sketch_3_zoom.pdf "" width=5cm
+ *
+ *  \li 0.: stereotype of the focused object (deactivated depending on object-type)
+ *  \li 1.: name of the focused object
+ *  \li 2.: type of the focused object
+ *  \li 3.: description of the focused object
+ *
  *  \subsection cfu-edit-commit Commit
  *
  *  \image html resources/edit_commit.png
@@ -224,7 +232,7 @@
  *  http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf
  *
  *  https://github.com/awarnke/crystal_facet_uml/blob/master/doxygen_build/crystal_facet_uml_user_documentation.pdf
- * 
+ *
  *  \subsection cfu-license License
  *  License of crystal_facet_uml is Apache-2.0.
  *  crystal_facet_uml contains sqlite which is Public Domain.

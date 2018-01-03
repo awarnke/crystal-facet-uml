@@ -31,13 +31,13 @@
  *
  *  \subsection cfu-static-views Static Views
  *
- *  \subsubsection Overview
+ *  \subsubsection cfu-overview Overview
  *
  *  \image html D0002_Layers.png
  *  \image latex D0002_Layers.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0002_Layers.txt
  *
- *  \subsubsection Main Packages (detail)
+ *  \subsubsection cfu-main-pack Main Packages (detail)
  *
  *  \image html D0009_data.png
  *  \image latex D0009_data.pdf "" width=15cm
@@ -55,13 +55,13 @@
  *  \image latex D0008_pencil.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0008_pencil.txt
  *
- *  \subsubsection Database Format
+ *  \subsubsection cfu_db_format Database Format
  *
  *  \image html D0015_Database_Structure.png
  *  \image latex D0015_Database_Structure.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0015_Database_Structure.txt
  *
- *  \subsubsection Further Packages
+ *  \subsubsection cfu-further-pack Further Packages
  *
  *  \image html D0003_External_Libraries.png
  *  \image latex D0003_External_Libraries.pdf "" width=15cm
@@ -71,7 +71,7 @@
  *  \image latex D0006_Utilities.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0006_Utilities.txt
  *
- *  \subsubsection Tools to build and test
+ *  \subsubsection cfu-tools-build Tools to build and test
  *
  *  \image html D0007_ArcBuildConfig_Tools.png
  *  \image latex D0007_ArcBuildConfig_Tools.pdf "" width=15cm
@@ -81,9 +81,9 @@
  *  \image latex D0005_Unit-Test.pdf "" width=15cm
  *  \verbinclude exported_diagrams/D0005_Unit-Test.txt
  *
- *  \subsection cfu-static-views Behavioral Views
+ *  \subsection cfu-dynamic-views Behavioral Views
  *
- *  \subsubsection Lifecycle
+ *  \subsubsection cfu-lifecycle Lifecycle
  *
  *  \image html D0012_Lifecycle.png
  *  \image latex D0012_Lifecycle.pdf "" width=15cm
