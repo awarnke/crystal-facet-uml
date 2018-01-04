@@ -14,8 +14,8 @@ ctrl_controller    [C0040]
 ctrl    [C0003]
 | - provides write access to the database
 | - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
-   --> ctrl_controller    [R0043]
-   --> ctrl_consistency_checker    [R0044]
+  --> ctrl_controller    [R0043]
+  --> ctrl_consistency_checker    [R0044]
 
 
 ctrl_consistency_checker    [C0041]

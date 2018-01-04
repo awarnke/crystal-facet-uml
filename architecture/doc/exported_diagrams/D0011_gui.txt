@@ -12,10 +12,10 @@ gui    [C0001]
 |     - to select the database
 |     - to export diagrams
 |     - to modify the uml-model
-   --> gui_window_manager    [R0045]
-   --> gui_main_window    [R0046]
-   --> gui_sketch_card    [R0047]
-   --> gui_sketch_area    [R0048]
+  --> gui_window_manager    [R0045]
+  --> gui_main_window    [R0046]
+  --> gui_sketch_card    [R0047]
+  --> gui_sketch_area    [R0048]
 
 
 gui_main_window    [C0042]

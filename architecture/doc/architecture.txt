@@ -20,9 +20,33 @@
  *
  *  This section describes the taken design decisions: alternatives and rationales for decisions.
  *
- *  \image html D0013_Design_Decisions.png
- *  \image latex D0013_Design_Decisions.pdf "" width=15cm
- *  \verbinclude exported_diagrams/D0013_Design_Decisions.txt
+ *  \image html D0016_Design_Decisions.png
+ *  \image latex D0016_Design_Decisions.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0016_Design_Decisions.txt
+ *
+ *  \image html D0013_Alternatives_on_persistent_Data_Storage.png
+ *  \image latex D0013_Alternatives_on_persistent_Data_Storage.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0013_Alternatives_on_persistent_Data_Storage.txt
+ *
+ *  \image html D0017_Alternatives_on_data_structure_of_UML-Model.png
+ *  \image latex D0017_Alternatives_on_data_structure_of_UML-Model.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0017_Alternatives_on_data_structure_of_UML-Model.txt
+ *
+ *  \image html D0020_Details_on_simple_data_structure.png
+ *  \image latex D0020_Details_on_simple_data_structure.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0020_Details_on_simple_data_structure.txt
+ *
+ *  \image html D0018_Alternatives_on_UML-Model_selection_for_Diagram.png
+ *  \image latex D0018_Alternatives_on_UML-Model_selection_for_Diagram.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0018_Alternatives_on_UML-Model_selection_for_Diagram.txt
+ *
+ *  \image html D0019_Details_on_Classifier_or_Relationship_Sel.png
+ *  \image latex D0019_Details_on_Classifier_or_Relationship_Sel.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0019_Details_on_Classifier_or_Relationship_Sel.txt
+ *
+ *  \image html D0021_Details_on_Classifier_Selected_View.png
+ *  \image latex D0021_Details_on_Classifier_Selected_View.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0021_Details_on_Classifier_Selected_View.txt
  *
  *  \section cfu-solution Solution
  *

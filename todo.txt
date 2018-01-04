@@ -14,7 +14,6 @@ ideas for future versions:
   [ ] Support Diagram-Types: List, Sequence, Timing, Profile, Parametric, Interaction-Overview
   [ ] Beautify relations where source and destination is identical
   [ ] include and extends relationships shall show their stereotype
-  [ ] if a classifier is greyed out, grey-out also contained features
   @data
   [ ] more relationship types needed: requirements have derive and refine relations
   [ ] ports for blocks and components

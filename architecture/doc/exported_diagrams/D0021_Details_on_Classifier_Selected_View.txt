@@ -1,5 +1,5 @@
-Database Structure    [D0015]
-| This diagram shows the tables and relationships of the database.
+Details on Classifier Selected View    [D0021]
+| Details on Classifier Selection of Diagram elements.
 
 
 diagrams    [C0084]
@@ -17,6 +17,16 @@ relationships    [C0081]
   description    [F0023]
   from --> classifiers    [R0096]
   to --> classifiers    [R0097]
+
+
+Classifier selection defines view    [C0090]
+| Diagramelements define which classifiers are visible in which diagram.
+| All features of a visible classifier are shown.
+| All relationships are shown that have visible classifiers at both ends.
+|     pro: simple selection rule
+|     con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).
+|          This solution assumes that the model is correct for all diagrams.
+  --> diagramelements    [R0112]
 
 
 diagramelements    [C0082]

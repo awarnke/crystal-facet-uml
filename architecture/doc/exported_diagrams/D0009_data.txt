@@ -19,9 +19,9 @@ data    [C0004]
 | - provides write acccess to only the ctrl component
 | - ensures low-level consistency of database: all referenced objects exist.
 | - sends notifications on changes
-   --> data_database_writer    [R0040]
-   --> data_database_reader    [R0041]
-   --> data_database    [R0042]
+  --> data_database_writer    [R0040]
+  --> data_database_reader    [R0041]
+  --> data_database    [R0042]
 
 
 data_database    [C0037]

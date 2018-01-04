@@ -3,7 +3,7 @@ Features    [D0004]
 
 
 Draw Diagrams    [C0031]
-   --> Show Classifiers    [R0057]
+  --> Show Classifiers    [R0057]
 
 
 Show multiple instances in same diagram    [C0011]
@@ -13,9 +13,9 @@ Show multiple instances in same diagram    [C0011]
 Show Classifiers    [C0009]
 | Classifiers are drawn to diagrams
 | one classifier is visible in one or multiple diagrams
-   --> Show multiple instances in same diagram    [R0058]
-   --> Mark Classifiers    [R0061]
-   --> Classifier has relations    [R0062]
+  --> Show multiple instances in same diagram    [R0058]
+  --> Mark Classifiers    [R0061]
+  --> Classifier has relations    [R0062]
 
 
 Classifier is implicit instance    [C0015]
@@ -34,9 +34,9 @@ Classifier is explicit instance    [C0014]
 Classifier has relations    [C0012]
 | A classifier can have zero, one or many relations; these may be of one or of differnet types.
 | Circular dependencies may be forbidden if semantics undefined.
-   --> Classifier is implicit instance    [R0059]
-   --> Classifier is explicit instance    [R0060]
-   --> Classifier is contained (child)    [R0063]
+  --> Classifier is implicit instance    [R0059]
+  --> Classifier is explicit instance    [R0060]
+  --> Classifier is contained (child)    [R0063]
 
 
 Mark Classifiers    [C0013]

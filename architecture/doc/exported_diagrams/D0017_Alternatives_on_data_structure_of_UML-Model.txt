@@ -1,0 +1,25 @@
+Alternatives on data structure of UML-Model    [D0017]
+
+
+Structure of the UML-Model    [C0086]
+
+
+Simple data structure    [C0088]
+| The data is structured with focus on simplicity.
+|     pro: Simple data structure.
+|          There are similarities to UML (M2 Meta-Model) and MOF (M3 Meta-Model).
+|     con: takes into account that some things of UML cannot be represented
+  solves --> Structure of the UML-Model    [R0110]
+
+
+Simple structure is chosen    [C0091]
+  --> Simple data structure    [R0117]
+
+
+Copy of the OMG UML Defintion Model    [C0089]
+| The data is structured according to the UML meta model defined by OMG.
+|     pro: allows to model all UML elements
+|          easy conversion to XMI and back
+|     con: the UML meta model is complex.
+|          Not suitable for a small diagram-drawing application like crystal_facet_uml.
+  solves --> Structure of the UML-Model    [R0109]

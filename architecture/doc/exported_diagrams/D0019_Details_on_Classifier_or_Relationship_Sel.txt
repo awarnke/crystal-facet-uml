@@ -1,5 +1,5 @@
-Database Structure    [D0015]
-| This diagram shows the tables and relationships of the database.
+Details on Classifier or Relationship Sel.    [D0019]
+| Details on Classifier or Relationship Selection of Diagram elements.
 
 
 diagrams    [C0084]
@@ -17,6 +17,20 @@ relationships    [C0081]
   description    [F0023]
   from --> classifiers    [R0096]
   to --> classifiers    [R0097]
+
+
+Classifier or Relationship selection def. view    [C0092]
+| Depending on the diagram type, either classifiers determine what is visble or relationships determine what is visible.
+|     pro: similar concept for diagrams that show options/alternatives/scenarios to diagrams that show invariants.
+|     con: Bigger extension to existing structure in version 1.0.0
+|          Algorithm to distinguish used from unused elements gets complicated
+  --> diagramrelationships    [R0121]
+  --> diagramelements    [R0131]
+
+
+diagramrelationships    [C0095]
+  --> relationships    [R0126]
+  --> diagrams    [R0130]
 
 
 diagramelements    [C0082]
