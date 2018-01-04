@@ -1,3 +1,5 @@
+2018-01-xx 1.1.0 [xxxxxxx]
+  + greyed-out classifiers also grey-out their contained features
 2018-01-03 1.0.0 [4262282]
   + F7 in navigation view moves child diagram up and parent down
   + The text export contains IDs

@@ -96,6 +96,9 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
             diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
 
+            data_diagramelement_flag_t display_flags;
+            display_flags = data_diagramelement_get_display_flags( diagramelement );
+
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index );
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
@@ -131,6 +134,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                   data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
                                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
                                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
+                                                  (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
                                                   pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
                                                   &feature_bounds,
                                                   layout,

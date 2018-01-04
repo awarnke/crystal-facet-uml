@@ -140,6 +140,11 @@
  *  \image html main_window_sketch_2.png
  *  \image latex main_window_sketch_2.pdf "" width=3cm
  *
+ *  Diagrams are layouted automatically. You can influence the locations of classifiers only.
+ *  When adding too many classifiers or relations, auto layouting may not achieve the expected results.
+ *  In many cases, splitting the diagram into two or more diagrams solves the layouting issues and
+ *  at the same time improves understandability by focusing on one aspect/topic per diagram.
+ *
  *  \subsection cfu-sketch-new_diag New Diagram
  *
  *  \image html resources/tool_create_diagram.png
