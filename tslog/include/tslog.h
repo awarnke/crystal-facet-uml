@@ -27,10 +27,11 @@
 #include <syslog.h>
 #ifndef NDEBUG
 #include <unistd.h>
+#include <assert.h>
 #endif
 
 #define TSLOG_OUT_STREAM stderr
-#define ERRSLP 3
+#define WARN_DELAY 3
 
 #ifndef NDEBUG  /* SWITCH */
 
@@ -47,42 +48,42 @@
 /*!
  *  \brief logs an error string
  */
-#define TSLOG_ERROR(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nERR : %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_ERROR(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nERR : %s\n",string_test); fflush(TSLOG_OUT_STREAM); assert(0); }
 
 /*!
  *  \brief logs an error string and an integer
  */
-#define TSLOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_ERROR_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); assert(0); }
 
 /*!
  *  \brief logs an error string and a hexadecimal integer
  */
-#define TSLOG_ERROR_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_ERROR_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nERR : %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); assert(0); }
 
 /*!
  *  \brief logs an error string and an information string
  */
-#define TSLOG_ERROR_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_ERROR_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nERR : %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); assert(0); }
 
 /*!
  *  \brief logs a warning string
  */
-#define TSLOG_WARNING(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_WARNING(x) { const char *string_test = x; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s\n",string_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and an integer
  */
-#define TSLOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_WARNING_INT(x,i) { const char *string_test = x; const int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %i\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and a hexadecimal integer
  */
-#define TSLOG_WARNING_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_WARNING_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s 0x%x\n",string_test,int_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs a warning string and an information string
  */
-#define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(ERRSLP); }
+#define TSLOG_WARNING_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"\nWARN: %s %s\n",string_test,string2_test); fflush(TSLOG_OUT_STREAM); sleep(WARN_DELAY); }
 
 /*!
  *  \brief logs an anomaly string

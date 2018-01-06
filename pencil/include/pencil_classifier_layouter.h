@@ -167,6 +167,31 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
                                                                   uint32_t *out_index_of_best
                                                                 );
 
+/*!
+ *  \brief defines classifier bounds for list diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ */
+void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+
+/*!
+ *  \brief defines classifier bounds for sequence diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ */
+void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+
+/*!
+ *  \brief defines classifier bounds for timing diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ */
+void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+
+
 #endif  /* PENCIL_CLASSIFIER_LAYOUTER_H */
 
 

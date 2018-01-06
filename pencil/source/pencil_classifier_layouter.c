@@ -814,6 +814,171 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
     TRACE_END();
 }
 
+void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+
+    /* get the diagram coordinates */
+    double diag_x;
+    double diag_y;
+    double diag_w;
+    double diag_h;
+    diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
+    diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
+    diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
+    diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
+
+    /* store the classifier bounds into input_data_layouter_t */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier2;
+        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+
+        if (( visible_classifier2 != NULL ) && ( data_visible_classifier_is_valid( visible_classifier2 ) ))
+        {
+            data_classifier_t *classifier2;
+            classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
+
+            /* get the bounds and inner space rectangles to modify */
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, index );
+            geometry_rectangle_t *classifier_space;
+            classifier_space = pencil_input_data_layout_get_classifier_space_ptr( (*this_).layout_data, index );
+
+            /* define the bounding box */
+            geometry_rectangle_init( classifier_bounds,
+                                     diag_x,
+                                     diag_y+((index*diag_h)/count_clasfy),
+                                     diag_w,
+                                     (diag_h/count_clasfy)
+                                   );
+
+            /* update inner space */
+            pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
+                                                          visible_classifier2,
+                                                          (*this_).pencil_size,
+                                                          classifier_bounds,
+                                                          font_layout,
+                                                          classifier_space
+                                                        );
+        }
+    }
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+
+    /* get the diagram coordinates */
+    double diag_x;
+    double diag_y;
+    double diag_w;
+    double diag_h;
+    diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
+    diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
+    diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
+    diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
+
+    /* store the classifier bounds into input_data_layouter_t */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier2;
+        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+
+        if (( visible_classifier2 != NULL ) && ( data_visible_classifier_is_valid( visible_classifier2 ) ))
+        {
+            data_classifier_t *classifier2;
+            classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
+
+            /* get the bounds and inner space rectangles to modify */
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, index );
+            geometry_rectangle_t *classifier_space;
+            classifier_space = pencil_input_data_layout_get_classifier_space_ptr( (*this_).layout_data, index );
+
+            /* define the bounding box */
+            geometry_rectangle_init( classifier_bounds,
+                                     diag_x+((index*diag_w)/count_clasfy),
+                                     diag_y,
+                                     (diag_w/count_clasfy),
+                                     diag_h/8
+                                   );
+
+            /* update inner space */
+            pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
+                                                        visible_classifier2,
+                                                        (*this_).pencil_size,
+                                                        classifier_bounds,
+                                                        font_layout,
+                                                        classifier_space
+            );
+        }
+    }
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+
+    /* get the diagram coordinates */
+    double diag_x;
+    double diag_y;
+    double diag_w;
+    double diag_h;
+    diag_x = geometry_rectangle_get_left ( (*this_).diagram_draw_area );
+    diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
+    diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
+    diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
+
+    /* store the classifier bounds into input_data_layouter_t */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier2;
+        visible_classifier2 = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+
+        if (( visible_classifier2 != NULL ) && ( data_visible_classifier_is_valid( visible_classifier2 ) ))
+        {
+            data_classifier_t *classifier2;
+            classifier2 = data_visible_classifier_get_classifier_ptr( visible_classifier2 );
+
+            /* get the bounds and inner space rectangles to modify */
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, index );
+            geometry_rectangle_t *classifier_space;
+            classifier_space = pencil_input_data_layout_get_classifier_space_ptr( (*this_).layout_data, index );
+
+            /* define the bounding box */
+            geometry_rectangle_init( classifier_bounds,
+                                     diag_x,
+                                     diag_y+((index*diag_h)/count_clasfy),
+                                     diag_w/4,
+                                     (diag_h/count_clasfy)
+            );
+
+            /* update inner space */
+            pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
+                                                          visible_classifier2,
+                                                          (*this_).pencil_size,
+                                                          classifier_bounds,
+                                                          font_layout,
+                                                          classifier_space
+            );
+        }
+    }
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2017-2018 Andreas Warnke

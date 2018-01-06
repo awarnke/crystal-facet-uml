@@ -75,6 +75,10 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     /* update the pointer to the input data */
     (*this_).input_data = input_data;
 
+    /* get the diagram data */
+    data_diagram_t *diagram;
+    diagram = pencil_input_data_get_diagram_ptr ( (*this_).input_data );
+
     /* update the bounding rectangle */
     geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
 
@@ -84,7 +88,7 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
     pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
-                                               pencil_input_data_get_diagram_ptr ( input_data ),
+                                               diagram,
                                                &((*this_).pencil_size),
                                                &((*this_).diagram_bounds),
                                                &((*this_).diagram_draw_area) );
@@ -123,23 +127,53 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 {
     TRACE_BEGIN();
 
+    /* get the diagram data */
+    data_diagram_t *diagram;
+    diagram = pencil_input_data_get_diagram_ptr ( (*this_).input_data );
+    data_diagram_type_t diag_type;
+    diag_type = data_diagram_get_diagram_type ( diagram );
+
     /* adjust the default classifier rectangle */
     pencil_layouter_private_propose_default_classifier_size( this_ );
 
-    /* store the classifier bounds into input_data_layouter_t */
-    pencil_classifier_layouter_estimate_bounds( &((*this_).pencil_classifier_layouter), font_layout );
+    if (( DATA_DIAGRAM_TYPE_LIST == diag_type )
+        ||( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+        ||( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type ))
+    {
+        /* store the classifier bounds into input_data_layouter_t */
+        if ( DATA_DIAGRAM_TYPE_LIST == diag_type )
+        {
+            pencil_classifier_layouter_layout_for_list( &((*this_).pencil_classifier_layouter), font_layout );
+        }
+        else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+        {
+            pencil_classifier_layouter_layout_for_sequence( &((*this_).pencil_classifier_layouter), font_layout );
+        }
+        else /* ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type ) */
+        {
+            pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
+        }
 
-    /* parent classifiers embrace their children */
-    pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
+        /* calculate the relationship shapes */
+        pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+    }
+    else
+    {
+        /* store the classifier bounds into input_data_layouter_t */
+        pencil_classifier_layouter_estimate_bounds( &((*this_).pencil_classifier_layouter), font_layout );
 
-    /* move the classifiers to avoid overlaps */
-    pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
+        /* parent classifiers embrace their children */
+        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
 
-    /* calculate the relationship shapes */
-    pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+        /* move the classifiers to avoid overlaps */
+        pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
 
-    /* hide containment relationships if children are embraced */
-    pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
+        /* calculate the relationship shapes */
+        pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+
+        /* hide containment relationships if children are embraced */
+        pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
+    }
 
     TRACE_END();
 }

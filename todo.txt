@@ -10,7 +10,7 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
-  [ ] In COMMENTS/notes, show not the title but the description
+  [ ] In COMMENTS/notes and requirements, show not only the title but the description
   [ ] Support Diagram-Types: List, Sequence, Timing, Profile, Parametric, Interaction-Overview
   [ ] Beautify relations where source and destination is identical
   [ ] include and extends relationships shall show their stereotype
