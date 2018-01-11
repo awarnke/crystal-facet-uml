@@ -5,7 +5,7 @@ Utilities    [D0006]
 main    [C0021]
 | - starts the software
 | - evaluates command line parameters
-  --> main    [R0090]
+  --> main.c    [R0090]
 
 
 trace    [C0020]
@@ -23,7 +23,7 @@ Begin (function)    [C0069]
 Info    [C0071]
 
 
-main    [C0073]
+main.c    [C0073]
 
 
 End (function)    [C0070]

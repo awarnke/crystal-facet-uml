@@ -1,5 +1,4 @@
-Details on Classifier Selected View    [D0021]
-| Details on Classifier Selection of Diagram elements.
+Classifier and Port/Lifeline selection def view    [D0024]
 
 
 diagrams    [C0084]
@@ -19,16 +18,6 @@ relationships    [C0081]
   to --> classifiers    [R0097]
 
 
-Classifier selection defines view    [C0090]
-| Diagramelements define which classifiers are visible in which diagram.
-| All features of a visible classifier are shown.
-| All relationships are shown that have visible classifiers at both ends.
-|     pro: simple selection rule
-|     con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).
-|          This solution assumes that the model is invariant for all diagrams.
-  --> diagramelements    [R0112]
-
-
 diagramelements    [C0082]
   id: int64_t    [F0016]
   display_flags    [F0031]
@@ -42,6 +31,28 @@ classifiers    [C0080]
   stereotype    [F0018]
   name    [F0019]
   description    [F0020]
+
+
+Classifier and port/lifeline selection def view    [C0107]
+  --> diagramelements    [R0142]
+  --> Lifeline/Port    [R0144]
+  --> Relationship-2    [R0146]
+  --> diagramelements-2    [R0147]
+
+
+diagramelements-2    [C0110]
+  --> diagramelements    [R0148]
+  visible_lifeline --> Lifeline/Port    [R0149]
+
+
+Relationship-2    [C0109]
+  from_feature_id: int64_t    [F0032]
+  to_feature_id: int64_t    [F0033]
+  --> relationships    [R0145]
+
+
+Lifeline/Port    [C0108]
+  --> features    [R0143]
 
 
 features    [C0083]

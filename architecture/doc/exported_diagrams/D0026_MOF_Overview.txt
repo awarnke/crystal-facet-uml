@@ -1,0 +1,18 @@
+MOF Overview    [D0026]
+| This diagram shows a selection of MOF meta classes.
+
+
+MOF (M3)    [C0111]
+  --> MOF::Class    [R0153]
+  --> MOF::Feature    [R0154]
+  --> MOF::Association    [R0155]
+
+
+MOF::Class    [C0115]
+
+
+MOF::Feature    [C0116]
+
+
+MOF::Association    [C0117]
+| This diagram shows some example classes of the MOF Meta Model.

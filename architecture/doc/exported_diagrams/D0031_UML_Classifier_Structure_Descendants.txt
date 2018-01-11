@@ -1,0 +1,83 @@
+UML Classifier Structure Descendants    [D0031]
+
+
+UML::NamedElement    [C0127]
+| description: see http://www.omg.org/spec/UML/2.5
+
+
+UML::TemplateableElement    [C0122]
+| description: see http://www.omg.org/spec/UML/2.5
+
+
+UML::PackageableElement    [C0128]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::NamedElement    [R0174]
+
+
+UML::RedefinableElement    [C0126]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::NamedElement    [R0169]
+
+
+UML::Type    [C0123]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::PackageableElement    [R0173]
+
+
+UML::Namespace    [C0124]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::NamedElement    [R0172]
+
+
+UML::Package    [C0136]
+  --> UML::PackageableElement    [R0185]
+  --> UML::Namespace    [R0186]
+  --> UML::TemplateableElement    [R0187]
+
+
+UML::Classifier    [C0125]
+  --> UML::Namespace    [R0165]
+  --> UML::TemplateableElement    [R0166]
+  --> UML::Type    [R0167]
+  --> UML::RedefinableElement    [R0168]
+
+
+UML::StructuredClassifier    [C0138]
+  --> UML::Classifier    [R0189]
+
+
+UML::BehavioredClassifier    [C0141]
+  --> UML::Classifier    [R0193]
+
+
+UML::DeploymentTarget    [C0148]
+  --> UML::NamedElement    [R0200]
+
+
+UML::DeployedArtifact    [C0150]
+  --> UML::NamedElement    [R0202]
+
+
+UML::EncapsulatedClassifier    [C0139]
+  --> UML::StructuredClassifier    [R0190]
+
+
+UML::Class    [C0140]
+  --> UML::EncapsulatedClassifier    [R0191]
+  --> UML::BehavioredClassifier    [R0192]
+
+
+UML::Interface    [C0137]
+  --> UML::Classifier    [R0188]
+
+
+UML::Node    [C0149]
+  --> UML::DeploymentTarget    [R0201]
+
+
+UML::Artifact    [C0151]
+  --> UML::DeployedArtifact    [R0203]
+
+
+UML::Component    [C0142]
+  --> UML::Class    [R0194]

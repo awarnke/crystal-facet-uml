@@ -1,0 +1,24 @@
+UML Feature Ancestors    [D0029]
+
+
+UML::Element    [C0118]
+  ownedElement --> UML::Element    [R0161]
+
+
+UML::NamedElement    [C0127]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::Element    [R0171]
+
+
+UML::RedefinableElement    [C0126]
+| description: see http://www.omg.org/spec/UML/2.5
+  --> UML::NamedElement    [R0169]
+
+
+UML::Classifier    [C0125]
+  --> UML::RedefinableElement    [R0168]
+
+
+UML::Feature    [C0129]
+  --> UML::RedefinableElement    [R0175]
+  featuringClassifier --> UML::Classifier    [R0176]

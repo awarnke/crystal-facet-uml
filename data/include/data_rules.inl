@@ -153,7 +153,7 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
         {
-            result = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
+            result = DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION;
         }
         break;
 

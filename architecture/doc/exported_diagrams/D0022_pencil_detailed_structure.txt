@@ -1,0 +1,59 @@
+pencil detailed structure    [D0022]
+
+
+pencil_xxx_layouter    [C0033]
+| - layouts multiple elements within the bounds of a diagram
+  --> pencil_classifier_layouter    [R0133]
+  --> pencil_relationship_layouter    [R0135]
+  --> pencil_layouter    [R0132]
+  --> pencil_feature_layouter    [R0134]
+  modifies --> pencil_input_data_layout    [R0022]
+  asks for sizes --> pencil_xxx_painter    [R0034]
+
+
+pencil_layouter    [C0098]
+| - layouts multiple elements within the bounds of a diagram
+| - layouting is implemented in two steps:
+|     1) defining a grid which associates abstract ordering data to diagram coordinates and 
+|     2) assigning elements to coordinates
+
+
+pencil_relationship_layouter    [C0101]
+
+
+pencil_classifier_layouter    [C0099]
+
+
+pencil_feature_layouter    [C0100]
+
+
+pencil_xxx_painter    [C0034]
+| - knows the bounding boxes of single elements
+| - draws single graphical elements
+  --> pencil_diagram_painter    [R0137]
+  --> pencil_feature_painter    [R0138]
+  --> pencil_relationship_painter    [R0139]
+  --> pencil_classifier_painter    [R0136]
+  requires --> pencil_input_data_layout    [R0025]
+  requires --> pencil_input_data    [R0026]
+
+
+pencil_diagram_painter    [C0103]
+
+
+pencil_relationship_painter    [C0105]
+
+
+pencil_classifier_painter    [C0102]
+
+
+pencil_feature_painter    [C0104]
+
+
+pencil_input_data    [C0035]
+| - caches data from the database needed to draw a diagram
+
+
+pencil_input_data_layout    [C0036]
+| - stores locations of layouted elements (in the current diagram)
+  extends --> pencil_input_data    [R0021]
