@@ -131,9 +131,13 @@ void gui_textedit_init ( gui_textedit_t *this_,
         GtkTreeIter iter;
         (*this_).feature_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY (class)", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY (class,block)", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
         gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION (class)", -1 );
+        gtk_list_store_append( (*this_).feature_types, &iter);
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "PORT (component,block)", -1 );
+        gtk_list_store_append( (*this_).feature_types, &iter);
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE (sequence,timing)", -1 );
     }
 
     {
