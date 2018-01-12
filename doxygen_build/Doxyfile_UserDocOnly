@@ -4,4 +4,5 @@
 OUTPUT_DIRECTORY       = userdoc
 
 # Overwrite the input files:
-INPUT                  = ../user_doc/doc/user_doc.txt
+INPUT                  = ../user_doc/doc/user_doc.txt \
+                         ../user_doc/doc/modelling_guidelines.txt

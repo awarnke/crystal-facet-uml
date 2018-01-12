@@ -1,0 +1,30 @@
+/*!
+ *  \page cfu-modelling-guidelines-page crystal_facet_uml modelling guidelines
+ *
+ *  \section cfu-modelling-intro Modelling Introduction
+ *
+ *  This page lists remarks on creating a software architecture and design document in general
+ *  and it lists hints on getting along with the tool crystal_facet_uml.
+ *
+ *  As all tools, this program has its strengths and weaknesses.
+ *  This page helps in making use of the strenghts.
+ *
+ *  \section cfu-modelling-tool-hints crystal_facet_uml general hints
+ *
+ *  \li Diagrams are organized as a tree: Start the root of the tree showing the major use cases/features of your software.
+ *  \li At the second level of the tree, list the main areas to be modelled, e.g. context (problem space) of development,
+ *      tools and dataflows of development (solution space), context (problem space) of operating environment,
+ *      system in operating environment (solution space), design decisions.
+ *  \li Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
+ *  \li Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
+ *      to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
+ *
+ *  \section cfu-modelling-hints general hints on documentation
+ *
+ *  ...
+ *
+ *  \section cfu-modelling-info Further Information
+ *
+ *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ */
+

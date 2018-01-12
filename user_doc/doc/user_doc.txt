@@ -1,5 +1,5 @@
 /*!
- *  \mainpage crystal facet uml user manual
+ *  \mainpage crystal_facet_uml user manual
  *
  *  \image html crystal_facet_uml_80x80.png
  *  \image latex crystal_facet_uml.pdf "" width=3cm
