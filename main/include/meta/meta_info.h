@@ -14,7 +14,7 @@
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_LICENSE_STR "Apache-2.0"
 #define META_INFO_COPYRIGHT_STR "2016-2018 A.Warnke"
-#define META_INFO_LIB_LICENSES_STR "sqlite 3.10.2 (Public Domain)"
+#define META_INFO_LIB_LICENSES_STR "sqlite 3.21.0 (Public Domain)"
 #define META_INFO_UNITTEST_LIB_LICENSES_STR "embunit 1.0.1 (by yusuke sasaki[arms22], MIT/X Consortium License)"
 
 /* Note: when changing META_INFO_VERSION_STR, */

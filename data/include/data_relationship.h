@@ -39,6 +39,8 @@ struct data_relationship_struct {
     utf8stringbuf_t description;
     char private_description_buffer[DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE];
     int32_t list_order;
+    /*int64_t from_feature_id;*/
+    /*int64_t to_feature_id;*/
 };
 
 typedef struct data_relationship_struct data_relationship_t;

@@ -192,6 +192,31 @@
  *  \li 2.: type of the focused object
  *  \li 3.: description of the focused object
  *
+ *  \subsection cfu-edit-stringlengths Maximum stringlengths
+ *
+ *  All strings (names, descriptions, stereotypes) have a maximum length.
+ *
+ *  Ascii characters require one, most other characters two bytes.
+ *  Current sizes in bytes are:
+ *
+ *  Classifiers:
+ *  \li DATA_CLASSIFIER_MAX_NAME_LENGTH = 47,
+ *  \li DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH = 47,
+ *  \li DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH = 4095,
+ *
+ *  Features:
+ *  \li DATA_FEATURE_MAX_KEY_LENGTH = 47,  (name)
+ *  \li DATA_FEATURE_MAX_VALUE_LENGTH = 255,  (type)
+ *  \li DATA_FEATURE_MAX_DESCRIPTION_LENGTH = 1023,
+ *
+ *  Relationships:
+ *  \li DATA_RELATIONSHIP_MAX_NAME_LENGTH = 47,
+ *  \li DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,
+ *
+ *  Diagrams:
+ *  \li DATA_DIAGRAM_MAX_NAME_LENGTH = 47,
+ *  \li DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = 8191,
+ *
  *  \subsection cfu-edit-commit Commit
  *
  *  \image html resources/edit_commit.png

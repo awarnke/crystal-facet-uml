@@ -18,9 +18,9 @@
  *  \brief constants for max string sizes
  */
 enum data_feature_max_enum {
-    DATA_FEATURE_MAX_KEY_SIZE = 48,
+    DATA_FEATURE_MAX_KEY_SIZE = 48,  /* name */
     DATA_FEATURE_MAX_KEY_LENGTH = 47,
-    DATA_FEATURE_MAX_VALUE_SIZE = 256,
+    DATA_FEATURE_MAX_VALUE_SIZE = 256,  /* type */
     DATA_FEATURE_MAX_VALUE_LENGTH = 255,
     DATA_FEATURE_MAX_DESCRIPTION_SIZE = 1024,
     DATA_FEATURE_MAX_DESCRIPTION_LENGTH = 1023,
