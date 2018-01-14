@@ -51,8 +51,12 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
+        "from_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "to_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(from_classifier_id) REFERENCES classifiers(id), "
-        "FOREIGN KEY(to_classifier_id) REFERENCES classifiers(id) "
+        "FOREIGN KEY(to_classifier_id) REFERENCES classifiers(id), "
+        "FOREIGN KEY(from_feature_id) REFERENCES features(id), "
+        "FOREIGN KEY(to_feature_id) REFERENCES features(id) "
     ");";
 
 /*!
@@ -62,6 +66,30 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS relationship_ordering ON relationships ( "
         "list_order ASC "
     ");";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *
+ *  This command extends relationships by from_feature_id field.
+ *  \see http://sqlite.org/lang_altertable.html
+ */
+static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 =
+    "ALTER TABLE relationships "
+    "ADD COLUMN from_feature_id INTEGER DEFAULT -1;";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *
+ *  This command extends relationships by to_feature_id field.
+ *  \see http://sqlite.org/lang_altertable.html
+ */
+static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 =
+    "ALTER TABLE relationships "
+    "ADD COLUMN to_feature_id INTEGER DEFAULT -1;";
 
 /*!
  *  \brief string constant to create an sql database table
@@ -120,9 +148,23 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
         "diagram_id INTEGER, "
         "classifier_id INTEGER, "
         "display_flags INTEGER, "
+        "focused_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
-        "FOREIGN KEY(classifier_id) REFERENCES classifiers(id) "
+        "FOREIGN KEY(classifier_id) REFERENCES classifiers(id), "
+        "FOREIGN KEY(focused_feature_id) REFERENCES feature(id) "
     ");";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The DEFAULT clause is needed to convert the existing records to the new format.
+ *
+ *  This command extends diagramelements by to_feature_id field.
+ *  \see http://sqlite.org/lang_altertable.html
+ */
+static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 =
+    "ALTER TABLE diagramelements "
+    "ADD COLUMN focused_feature_id INTEGER DEFAULT -1;";
 
 data_error_t data_database_private_initialize_tables( sqlite3 *db )
 {
@@ -283,6 +325,77 @@ data_error_t data_database_private_initialize_indexes( sqlite3 *db )
     return result;
 }
 
+data_error_t data_database_private_update_tables( sqlite3 *db )
+{
+    TRACE_BEGIN();
+    int sqlite_err;
+    char *error_msg = NULL;
+    data_error_t result = DATA_ERROR_NONE;
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        /*result = DATA_ERROR_AT_DB;*/
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        /*result = DATA_ERROR_AT_DB;*/
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+        /*result = DATA_ERROR_AT_DB;*/
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
@@ -342,6 +455,10 @@ data_error_t data_database_open ( data_database_t *this_, const char* db_file_pa
             if ( init_err == DATA_ERROR_NONE )
             {
                 init_err = data_database_private_initialize_indexes( (*this_).db );
+            }
+            if ( init_err == DATA_ERROR_NONE )
+            {
+                init_err = data_database_private_update_tables( (*this_).db );
             }
 
             if ( init_err == DATA_ERROR_NONE )

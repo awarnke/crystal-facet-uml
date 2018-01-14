@@ -716,13 +716,13 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
  *  \brief prefix string constant to insert a diagramelement
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX =
-    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags) VALUES (";
+    "INSERT INTO diagramelements (diagram_id,classifier_id,display_flags,focused_feature_id) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a diagramelement with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_WITH_ID_PREFIX =
-    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags) VALUES (";
+    "INSERT INTO diagramelements (id,diagram_id,classifier_id,display_flags,focused_feature_id) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a diagramelement
@@ -784,6 +784,8 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).classifier_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).display_flags );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).focused_feature_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -1178,13 +1180,13 @@ data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( dat
  *  \brief prefix string constant to insert a relationship
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_PREFIX =
-    "INSERT INTO relationships (main_type,from_classifier_id,to_classifier_id,name,description,list_order) VALUES (";
+    "INSERT INTO relationships (main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a relationship with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_WITH_ID_PREFIX =
-    "INSERT INTO relationships (id,main_type,from_classifier_id,to_classifier_id,name,description,list_order) VALUES (";
+    "INSERT INTO relationships (id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,from_feature_id,to_feature_id) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a relationship
@@ -1283,6 +1285,10 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).list_order );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).from_feature_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).to_feature_id );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )

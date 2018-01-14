@@ -21,7 +21,7 @@ struct data_diagramelement_struct {
     int64_t diagram_id;  /*!< id of the referenced diagram_t */
     int64_t classifier_id;  /*!< id of the referenced classifier_t */
     data_diagramelement_flag_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
-    /*int64_t focused_feature_id;*/
+    int64_t focused_feature_id;  /*!< focused_feature_id is optional; -1 if not used */
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;

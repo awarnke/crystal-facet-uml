@@ -16,6 +16,8 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
+    (*this_).from_feature_id = DATA_ID_VOID_ID;
+    (*this_).to_feature_id = DATA_ID_VOID_ID;
 }
 
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
@@ -58,7 +60,10 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
         TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
+
     (*this_).list_order = list_order;
+    (*this_).from_feature_id = DATA_ID_VOID_ID;
+    (*this_).to_feature_id = DATA_ID_VOID_ID;
 
     return result;
 }
@@ -201,6 +206,8 @@ static inline void data_relationship_trace ( data_relationship_t *this_ )
     TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).name) );
     TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     TRACE_INFO_INT( "- list_order:", (*this_).list_order );
+    TRACE_INFO_INT( "- from_feature_id:", (*this_).from_feature_id );
+    TRACE_INFO_INT( "- to_feature_id:", (*this_).to_feature_id );
 }
 
 
