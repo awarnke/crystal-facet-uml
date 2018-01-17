@@ -236,6 +236,10 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
                     int64_t child_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN );
                     /*int64_t parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_PARENT_ID_COLUMN );*/
                     bool parent_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_PARENT_ID_COLUMN ) );
+                    if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN ) )
+                    {
+                        child_parent_id = DATA_ID_VOID_ID;
+                    }
                     if ( child_parent_id == DATA_ID_VOID_ID )
                     {
                         TRACE_INFO_INT( "root:", child_id );

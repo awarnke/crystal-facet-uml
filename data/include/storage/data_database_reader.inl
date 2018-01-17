@@ -97,6 +97,23 @@ static inline data_error_t data_database_reader_private_finalize_statement ( dat
     return result;
 }
 
+static inline data_error_t data_database_reader_private_bind_void_to_statement ( data_database_reader_t *this_,
+                                                                                 sqlite3_stmt *statement_ptr )
+{
+    assert( NULL != statement_ptr );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    sqlite_err = sqlite3_reset( statement_ptr );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    return result;
+}
+
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_,
                                                                                sqlite3_stmt *statement_ptr,
                                                                                int64_t id )
@@ -113,12 +130,12 @@ static inline data_error_t data_database_reader_private_bind_id_to_statement ( d
         result |= DATA_ERROR_AT_DB;
     }
 
-    TRACE_INFO_STR( "sqlite3_bind_int():", sqlite3_sql(statement_ptr) );
-    TRACE_INFO_INT( "sqlite3_bind_int():", id );
-    sqlite_err = sqlite3_bind_int( statement_ptr, FIRST_SQL_BIND_PARAM, id );
+    TRACE_INFO_STR( "sqlite3_bind_int64():", sqlite3_sql(statement_ptr) );
+    TRACE_INFO_INT( "sqlite3_bind_int64():", id );
+    sqlite_err = sqlite3_bind_int64( statement_ptr, FIRST_SQL_BIND_PARAM, id );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
 
@@ -143,13 +160,18 @@ static inline data_error_t data_database_reader_private_bind_two_ids_to_statemen
         result |= DATA_ERROR_AT_DB;
     }
 
-    TRACE_INFO_STR( "sqlite3_bind_int():", sqlite3_sql(statement_ptr) );
-    TRACE_INFO_INT_INT( "sqlite3_bind_int():", id1, id2 );
-    sqlite_err = sqlite3_bind_int( statement_ptr, FIRST_SQL_BIND_PARAM, id1 );
+    TRACE_INFO_STR( "sqlite3_bind_int64():", sqlite3_sql(statement_ptr) );
+    TRACE_INFO_INT_INT( "sqlite3_bind_int64():", id1, id2 );
+    sqlite_err = sqlite3_bind_int64( statement_ptr, FIRST_SQL_BIND_PARAM, id1 );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
     sqlite_err = sqlite3_bind_int( statement_ptr, SECOND_SQL_BIND_PARAM, id2 );
     if ( SQLITE_OK != sqlite_err )
     {
-        TSLOG_ERROR_INT( "sqlite3_bind_int() failed:", sqlite_err );
+        TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
 

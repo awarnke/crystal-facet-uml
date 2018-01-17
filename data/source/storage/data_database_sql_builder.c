@@ -23,6 +23,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_START = "\'";
 static const char *DATA_DATABASE_SQL_BUILDER_STRING_VALUE_END = "\'";
 
 /*!
+ *  \brief constant representing the null value
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_NULL_VALUE = "NULL";
+
+/*!
  *  \brief translation table to encode strings for usage in string literals
  *
  *  Note: This table is not suitable for searches using the LIKE operator because _ and % are not handled.
@@ -135,7 +140,14 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
         strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).id );
         strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     }
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).parent_id );
+    if ( DATA_ID_VOID_ID == (*diagram).parent_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).parent_id );
+    }
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagram).diagram_type );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
@@ -332,7 +344,14 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
 
     strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_PREFIX );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_COL_PARENT_ID );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_parent_id );
+    if ( DATA_ID_VOID_ID == new_diagram_parent_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_diagram_parent_id );
+    }
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAM_INFIX );
 
@@ -769,7 +788,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
 
     utf8stringbuf_clear( (*this_).sql_stringbuf );
 
-    if ( (*diagramelement).id == DATA_ID_VOID_ID )
+    if ( DATA_ID_VOID_ID == (*diagramelement).id )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_PREFIX );
     }
@@ -785,7 +804,14 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).display_flags );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).focused_feature_id );
+    if ( DATA_ID_VOID_ID == (*diagramelement).focused_feature_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*diagramelement).focused_feature_id );
+    }
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAMELEMENT_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -1286,9 +1312,23 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).from_feature_id );
+    if ( DATA_ID_VOID_ID == (*relationship).from_feature_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).from_feature_id );
+    }
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).to_feature_id );
+    if ( DATA_ID_VOID_ID == (*relationship).to_feature_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*relationship).to_feature_id );
+    }
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_RELATIONSHIP_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )

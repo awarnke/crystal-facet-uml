@@ -1,6 +1,9 @@
 2018-01-xx 1.1.0 [xxxxxxx]
   + greyed-out classifiers also grey-out their contained features
   . sqlite updated from 3.10.2 to 3.21.0
+  . Database format changed.
+    A newer crystal_facet_uml can still open older database files (and immediately update the file format).
+    Older crystal_facet_uml cannot open database files created or opened by a newer crystal_facet_uml.
 2018-01-03 1.0.0 [4262282]
   + F7 in navigation view moves child diagram up and parent down
   + The text export contains IDs

@@ -30,7 +30,8 @@
 #include <assert.h>
 #endif
 
-#define TSLOG_OUT_STREAM stderr
+/*define TSLOG_OUT_STREAM stderr -- stdout is better because traces and logs are merged to the same stream in the right order */
+#define TSLOG_OUT_STREAM stdout
 #define WARN_DELAY 3
 #define ERR_DELAY 3
 

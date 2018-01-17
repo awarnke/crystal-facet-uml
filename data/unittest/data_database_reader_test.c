@@ -49,6 +49,10 @@ TestRef data_database_reader_test_get_list(void)
 
 static void set_up(void)
 {
+    /* remove old database files first */
+    int err;
+    err = remove( DATABASE_FILENAME );
+
     /* open a database and initialize a reader and a writer */
     data_database_init( &database );
     data_database_open( &database, DATABASE_FILENAME );

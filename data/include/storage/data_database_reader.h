@@ -34,8 +34,10 @@ struct data_database_reader_struct {
     bool is_open;  /*!< the prepared statements are only initialized if the database is open */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
+    sqlite3_stmt *private_prepared_query_diagrams_by_parent_id_null;
     sqlite3_stmt *private_prepared_query_diagrams_by_classifier_id;
     sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id;
+    sqlite3_stmt *private_prepared_query_diagram_ids_by_parent_id_null;
     sqlite3_stmt *private_prepared_query_classifier_by_id;
     sqlite3_stmt *private_prepared_query_classifier_by_name;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
@@ -370,32 +372,41 @@ static inline data_error_t data_database_reader_private_prepare_statement ( data
 static inline data_error_t data_database_reader_private_finalize_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr );
 
 /*!
- *  \brief binds a single integer to a prepared statement.
+ *  \brief resets a statement only, without binding.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param statement_ptr pointer to a statement object
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+static inline data_error_t data_database_reader_private_bind_void_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr );
+
+/*!
+ *  \brief binds a single integer to a prepared statement (after reset).
  *
  *  The prepared statement shall have only one variable of type integer.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id integer to bind to the prepared statement.
+ *  \param id integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_id_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id );
 
 /*!
- *  \brief binds two integers to a prepared statement.
+ *  \brief binds two integers to a prepared statement (after reset).
  *
  *  The prepared statement shall have exactly two variables of type integer.
  *
  *  \param this_ pointer to own object attributes
  *  \param statement_ptr pointer to a statement object
- *  \param id1 first integer to bind to the prepared statement.
- *  \param id2 second integer to bind to the prepared statement.
+ *  \param id1 first integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
+ *  \param id2 second integer to bind to the prepared statement. DATA_ID_VOID_ID does not work because VOID is mapped to NULL and cannot be selected by the = operator.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
 static inline data_error_t data_database_reader_private_bind_two_ids_to_statement ( data_database_reader_t *this_, sqlite3_stmt *statement_ptr, int64_t id1, int64_t id2 );
 
 /*!
- *  \brief binds a single string to a prepared statement.
+ *  \brief binds a single string to a prepared statement (after reset).
  *
  *  The prepared statement shall have only one variable of type string.
  *

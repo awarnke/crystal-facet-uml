@@ -51,8 +51,8 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
         "name TEXT, "
         "description TEXT, "
         "list_order INTEGER, "
-        "from_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
-        "to_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "from_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "to_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(from_classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(to_classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(from_feature_id) REFERENCES features(id), "
@@ -77,7 +77,7 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
  */
 static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 =
     "ALTER TABLE relationships "
-    "ADD COLUMN from_feature_id INTEGER DEFAULT -1;";
+    "ADD COLUMN from_feature_id INTEGER DEFAULT NULL;";
 
 /*!
  *  \brief string constant to update an sql database table
@@ -89,7 +89,7 @@ static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 =
  */
 static const char *DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 =
     "ALTER TABLE relationships "
-    "ADD COLUMN to_feature_id INTEGER DEFAULT -1;";
+    "ADD COLUMN to_feature_id INTEGER DEFAULT NULL;";
 
 /*!
  *  \brief string constant to create an sql database table
@@ -123,7 +123,7 @@ static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
 static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
     "CREATE TABLE IF NOT EXISTS diagrams ( "
         "id INTEGER PRIMARY KEY ASC, "
-        "parent_id INTEGER, "
+        "parent_id INTEGER, "  /* is NULL for the root diagram */
         "diagram_type INTEGER, "
         "name TEXT, "
         "description TEXT, "
@@ -140,6 +140,14 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
     ");";
 
 /*!
+ *  \brief string constant to update an sql database table
+ *
+ *  The root diagram is marked by parent_id = NULL, not anymore by -1.
+ */
+static const char *DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT =
+    "UPDATE diagrams SET parent_id=NULL WHERE parent_id=-1;";
+
+/*!
  *  \brief string constant to create an sql database table
  */
 static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
@@ -148,7 +156,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
         "diagram_id INTEGER, "
         "classifier_id INTEGER, "
         "display_flags INTEGER, "
-        "focused_feature_id INTEGER DEFAULT -1, "  /* DEFAULT needed in case a new DB is modified by an old program version */
+        "focused_feature_id INTEGER DEFAULT NULL, "  /* DEFAULT needed in case a new DB is modified by an old program version */
         "FOREIGN KEY(diagram_id) REFERENCES diagrams(id), "
         "FOREIGN KEY(classifier_id) REFERENCES classifiers(id), "
         "FOREIGN KEY(focused_feature_id) REFERENCES feature(id) "
@@ -164,7 +172,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMELEMENTS_TABLE =
  */
 static const char *DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 =
     "ALTER TABLE diagramelements "
-    "ADD COLUMN focused_feature_id INTEGER DEFAULT -1;";
+    "ADD COLUMN focused_feature_id INTEGER DEFAULT NULL;";
 
 data_error_t data_database_private_initialize_tables( sqlite3 *db )
 {
@@ -332,6 +340,8 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
     char *error_msg = NULL;
     data_error_t result = DATA_ERROR_NONE;
 
+    /* update table relationships from version 1.0.0 to later versions */
+
     TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
@@ -339,7 +349,6 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
         /* this command will fail whenever the database already has a suitable format */
         TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_1 );
         TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        /*result = DATA_ERROR_AT_DB;*/
     }
     else
     {
@@ -359,7 +368,6 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
         /* this command will fail whenever the database already has a suitable format */
         TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_RELATIONSHIPINSTANCE_TABLE_2 );
         TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        /*result = DATA_ERROR_AT_DB;*/
     }
     else
     {
@@ -372,6 +380,8 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
         error_msg = NULL;
     }
 
+    /* update table diagramelements from version 1.0.0 to later versions */
+
     TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
@@ -379,11 +389,27 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
         /* this command will fail whenever the database already has a suitable format */
         TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
         TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
-        /*result = DATA_ERROR_AT_DB;*/
     }
     else
     {
         TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_DIAGRAMELEMENTS_TABLE_1 );
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    /* update table diagrams from version 1.0.0 to later versions */
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
+        TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
     }
     if ( error_msg != NULL )
     {
