@@ -753,6 +753,39 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
     return result;
 }
 
+data_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_,
+                                                                             int64_t diagramelement_id,
+                                                                             int64_t new_focused_feature_id,
+                                                                             data_diagramelement_t *out_old_diagramelement )
+{
+    TRACE_BEGIN();
+    data_error_t result = DATA_ERROR_NONE;
+
+    result |= data_database_writer_private_lock( this_ );
+
+    result |= data_database_writer_private_transaction_begin ( this_ );
+
+    /* Note: out_old_diagramelement is NULL if old data shall not be returned */
+    if ( NULL != out_old_diagramelement )
+    {
+        result |= data_database_reader_get_diagramelement_by_id ( (*this_).db_reader, diagramelement_id, out_old_diagramelement );
+    }
+
+    result |= data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd( &((*this_).sql_builder), diagramelement_id, new_focused_feature_id );
+    char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
+
+    result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+
+    result |= data_database_writer_private_transaction_commit ( this_ );
+
+    result |= data_database_writer_private_unlock( this_ );
+
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, diagramelement_id );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ FEATURE ================================ */
 
 data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, int64_t* out_new_id )

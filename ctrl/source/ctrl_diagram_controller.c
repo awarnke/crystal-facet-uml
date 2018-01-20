@@ -384,13 +384,63 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
     data_error_t data_result;
     data_diagramelement_t old_diagramelement;
 
-    data_result = data_database_writer_update_diagramelement_display_flags( (*this_).db_writer, diagramelement_id, new_diagramelement_display_flags, &old_diagramelement );
+    data_result = data_database_writer_update_diagramelement_display_flags( (*this_).db_writer,
+                                                                            diagramelement_id,
+                                                                            new_diagramelement_display_flags,
+                                                                            &old_diagramelement
+                                                                          );
     if ( DATA_ERROR_NONE == data_result )
     {
         /* prepare the new diagram */
         data_diagramelement_t new_diagramelement;
         data_diagramelement_copy( &new_diagramelement, &old_diagramelement );
         data_diagramelement_set_display_flags( &new_diagramelement, new_diagramelement_display_flags );
+
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
+        /* store the change of the diagramelement to the undo redo list */
+        ctrl_undo_redo_list_add_update_diagramelement( (*this_).undo_redo_list, &old_diagramelement, &new_diagramelement );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_diagramelement_destroy( &new_diagramelement );
+        data_diagramelement_destroy( &old_diagramelement );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
+                                                                                int64_t diagramelement_id,
+                                                                                int64_t new_diagramelement_focused_feature_id,
+                                                                                bool add_to_latest_undo_set )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_diagramelement_t old_diagramelement;
+
+    data_result = data_database_writer_update_diagramelement_focused_feature_id( (*this_).db_writer,
+                                                                                 diagramelement_id,
+                                                                                 new_diagramelement_focused_feature_id,
+                                                                                 &old_diagramelement
+                                                                               );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new diagram */
+        data_diagramelement_t new_diagramelement;
+        data_diagramelement_copy( &new_diagramelement, &old_diagramelement );
+        data_diagramelement_set_focused_feature_id( &new_diagramelement, new_diagramelement_focused_feature_id );
 
         /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
         if ( add_to_latest_undo_set )

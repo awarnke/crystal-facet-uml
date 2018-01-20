@@ -233,6 +233,16 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
  */
 data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
 
+/*!
+ *  \brief builds the sql command string to update a diagramelement record. The result is stored in (*this_).private_sql_stringbuf.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be updated
+ *  \param new_focused_feature_id new focused_feature_id of the diagramelement
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id );
+
 /* ================================ FEATURE ================================ */
 
 /*!

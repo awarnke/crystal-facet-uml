@@ -270,6 +270,17 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
  */
 data_error_t data_database_writer_update_diagramelement_display_flags ( data_database_writer_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags, data_diagramelement_t *out_old_diagramelement );
 
+/*!
+ *  \brief updates the diagramelement attribute: focused_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be updated
+ *  \param new_focused_feature_id new focused_feature_id of the diagramelement
+ *  \param out_old_diagramelement storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_diagramelement_focused_feature_id ( data_database_writer_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id, data_diagramelement_t *out_old_diagramelement );
+
 /* ================================ FEATURE ================================ */
 
 /*!

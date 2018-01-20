@@ -461,9 +461,9 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, index );
 
-        int64_t weight = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
+        int64_t simpleness = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
 
-        /* reduce weight by area outside the diagram border: the more outside diagram area, the earlier it should be moved */
+        /* reduce simpleness by area outside the diagram border: the more outside diagram area, the earlier it should be moved */
         {
             geometry_rectangle_t border_intersect;
             int intersect_error2;
@@ -473,13 +473,13 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
                 TSLOG_WARNING( "a rectangle to be drawn is completely outside the diagram area" );
             }
 
-            weight += 16.0 * geometry_rectangle_get_area( &border_intersect );
-            weight -= 16.0 * geometry_rectangle_get_area( classifier_bounds );
+            simpleness += 16.0 * geometry_rectangle_get_area( &border_intersect );
+            simpleness -= 16.0 * geometry_rectangle_get_area( classifier_bounds );
 
             geometry_rectangle_destroy( &border_intersect );
         }
 
-        /* reduce weight by intersects with other rectangles: the more intersects, the earlier it should be moved */
+        /* reduce simpleness by intersects with other rectangles: the more intersects, the earlier it should be moved */
         for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
         {
             geometry_rectangle_t *probe_bounds;
@@ -491,23 +491,23 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
 
             if ( 0 == intersect_error )
             {
-                weight -= geometry_rectangle_get_area( &intersect );
+                simpleness -= geometry_rectangle_get_area( &intersect );
             }
 
             geometry_rectangle_destroy( &intersect );
         }
 
-        /* reduce weight by own size: the bigger the object, the earlier it should be moved */
+        /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
         {
             double default_classifier_area = geometry_rectangle_get_area( (*this_).default_classifier_size );
             double classifier_area = geometry_rectangle_get_area( classifier_bounds );
             assert( default_classifier_area > 0.000000001 );
             assert( classifier_area > 0.000000001 );
-            weight -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
+            simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
         }
 
         int insert_error;
-        insert_error = universal_array_index_sorter_insert( out_sorted, index, weight );
+        insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
         if ( 0 != insert_error )
         {
             TSLOG_WARNING( "not all rectangles are moved" );

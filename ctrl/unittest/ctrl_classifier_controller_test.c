@@ -216,7 +216,8 @@ static void create_diagramelements_and_delete(void)
     ctrl_err = ctrl_diagram_controller_create_root_diagram_if_not_exists ( diagram_ctrl,
                                                                            DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM,
                                                                            "root_diagram",
-                                                                           &diagram_id );
+                                                                           &diagram_id
+                                                                         );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
 
@@ -229,13 +230,13 @@ static void create_diagramelements_and_delete(void)
                                           "",  /* description */
                                           88,
                                           8800
-    );
+                                        );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
                                                               &new_classifier,
                                                               false,  /* add_to_latest_undo_set */
                                                               &classifier_id
-    );
+                                                            );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     data_classifier_destroy ( &new_classifier );
     TEST_ASSERT( DATA_ID_VOID_ID != classifier_id );
@@ -246,12 +247,12 @@ static void create_diagramelements_and_delete(void)
                                    classifier_id,
                                    DATA_DIAGRAMELEMENT_FLAG_NONE,
                                    -45623
-    );
+                                 );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                &new_diagele,
                                                                true,  /* add_to_latest_undo_set */
                                                                &diag_element_id
-    );
+                                                             );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     data_diagramelement_destroy ( &new_diagele );
     TEST_ASSERT( DATA_ID_VOID_ID != diag_element_id );
@@ -318,7 +319,8 @@ static void features_CRURDR(void)
                                    "startup_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
+                                   5000000 /* list order */
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* create the feature in the db */
@@ -343,27 +345,32 @@ static void features_CRURDR(void)
 
     ctrl_err = ctrl_classifier_controller_update_feature_main_type ( classifier_ctrl,
                                                                      new_feature_id,
-                                                                     DATA_FEATURE_TYPE_OPERATION );
+                                                                     DATA_FEATURE_TYPE_OPERATION
+                                                                   );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_feature_key ( classifier_ctrl,
                                                                new_feature_id,
-                                                               "get_startup_time()" );
+                                                               "get_startup_time()"
+                                                             );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_feature_value ( classifier_ctrl,
                                                                  new_feature_id,
-                                                                 "(void)->(uint64_t)" );
+                                                                 "(void)->(uint64_t)"
+                                                               );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_feature_description ( classifier_ctrl,
                                                                        new_feature_id,
-                                                                       "gets the startup time in nanoseconds" );
+                                                                       "gets the startup time in nanoseconds"
+                                                                     );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_feature_list_order ( classifier_ctrl,
                                                                       new_feature_id,
-                                                                      -40 );
+                                                                      -40
+                                                                    );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* check what was changed in the database */
@@ -420,7 +427,8 @@ static void relationship_CRURDR(void)
     ctrl_err = ctrl_classifier_controller_create_relationship ( classifier_ctrl,
                                                                 &probe,
                                                                 false, /* add_to_latest_undo_set */
-                                                                &new_relationship_id );
+                                                                &new_relationship_id
+                                                              );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* check what was written to the database */
@@ -439,22 +447,26 @@ static void relationship_CRURDR(void)
 
     ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
                                                                           new_relationship_id,
-                                                                          DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL );
+                                                                          DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL
+                                                                        );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_relationship_name ( classifier_ctrl,
                                                                      new_relationship_id,
-                                                                     "async message" );
+                                                                     "async message"
+                                                                   );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_relationship_description ( classifier_ctrl,
                                                                             new_relationship_id,
-                                                                            "good for modularization" );
+                                                                            "good for modularization"
+                                                                          );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     ctrl_err = ctrl_classifier_controller_update_relationship_list_order ( classifier_ctrl,
                                                                            new_relationship_id,
-                                                                           -88000 );
+                                                                           -88000
+                                                                         );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* check what was changed in the database */
@@ -469,7 +481,7 @@ static void relationship_CRURDR(void)
     TEST_ASSERT_EQUAL_INT( -88000, data_relationship_get_list_order( &check ) );
     TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check ) );
     TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check ) );
-    
+
     /* delete the relationship from the database */
     data_small_set_t small_set;
     data_id_t element_id;

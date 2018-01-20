@@ -312,7 +312,9 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             }
             int64_t diag_elem_id = data_diagramelement_get_id ( diag_element );
             data_diagramelement_flag_t diag_elem_display_flags = data_diagramelement_get_display_flags ( diag_element );
+            int64_t diag_feature_id = data_diagramelement_get_focused_feature_id ( diag_element );
             result |= (ctrl_error_t) data_database_writer_update_diagramelement_display_flags ( (*this_).db_writer, diag_elem_id, diag_elem_display_flags, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_diagramelement_focused_feature_id ( (*this_).db_writer, diag_elem_id, diag_feature_id, NULL );
         }
         break;
 

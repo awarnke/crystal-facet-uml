@@ -207,6 +207,22 @@ ctrl_error_t ctrl_diagram_controller_update_diagramelement_display_flags ( ctrl_
                                                                            bool add_to_latest_undo_set
                                                                          );
 
+/*!
+ *  \brief updates the diagramelement attribute: focused_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement to be updated
+ *  \param new_diagramelement_focused_feature_id new focused_feature_id of the diagramelement
+ *  \param add_to_latest_undo_set true if this update-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
+                                                                                int64_t diagramelement_id,
+                                                                                int64_t new_diagramelement_focused_feature_id,
+                                                                                bool add_to_latest_undo_set
+                                                                              );
+
 #endif  /* CTRL_DIAGRAM_CONTROLLER_H */
 
 

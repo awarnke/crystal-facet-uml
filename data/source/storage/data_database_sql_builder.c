@@ -770,6 +770,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX = "UPD
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS = "display_flags=";
 
 /*!
+ *  \brief field name string constant to be used for updating a diagramelement
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID = "focused_feature_id=";
+
+/*!
  *  \brief infix string constant to update a diagramelement
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX = " WHERE id=";
@@ -856,6 +861,32 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_DISPLAY_FLAGS );
 
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_display_flags );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, diagramelement_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_focused_feature_id );
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
 

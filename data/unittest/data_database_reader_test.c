@@ -72,7 +72,7 @@ static void set_up(void)
                                    "diagram_name-6",
                                    "diagram_description-6",
                                    10444 /*=list_order*/
-    );
+                                 );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &root_diagram, NULL /*=out_new_id*/ );
@@ -87,7 +87,7 @@ static void set_up(void)
                                    "diagram_name-7",
                                    "diagram_description-7",
                                    10555 /*=list_order*/
-    );
+                                 );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -103,7 +103,7 @@ static void set_up(void)
                                       "description-12",
                                       -34000 /*=x_order*/,
                                       -16000 /*=y_order*/
-    );
+                                    );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
@@ -118,7 +118,7 @@ static void set_up(void)
                                       "description-13",
                                       -34000 /*=x_order*/,
                                       -48000 /*=y_order*/
-    );
+                                    );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
@@ -132,7 +132,7 @@ static void set_up(void)
                                12 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                DATA_ID_VOID_ID
-    );
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
     assert( DATA_ERROR_NONE == data_err );
@@ -144,7 +144,7 @@ static void set_up(void)
                                12 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                8192
-    );
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &duplicate_diagramelement, NULL /*=out_new_id*/ );
     assert( DATA_ERROR_NONE == data_err );
@@ -156,7 +156,7 @@ static void set_up(void)
                                12 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                DATA_ID_VOID_ID
-    );
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
     assert( DATA_ERROR_NONE == data_err );
@@ -168,7 +168,7 @@ static void set_up(void)
                                13 /*=classifier_id*/,
                                DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                DATA_ID_VOID_ID
-    );
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
     assert( DATA_ERROR_NONE == data_err );
@@ -217,7 +217,8 @@ static void set_up(void)
                                    "startup_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
+                                   5000000 /* list order */
+                                 );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
@@ -231,7 +232,8 @@ static void set_up(void)
                                    "startup_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
+                                   5000000 /* list order */
+                                 );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &second_feature, NULL /*=out_new_id*/ );
@@ -245,7 +247,8 @@ static void set_up(void)
                                    "shutdown_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to shut down", /* feature_description */
-                                   5000000 /* list order */ );
+                                   5000000 /* list order */
+                                 );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &thrid_feature, NULL /*=out_new_id*/ );
@@ -282,7 +285,8 @@ static void test_search_diagrams(void)
                                                                 6,
                                                                 MAX_ARRAY_SIZE,
                                                                 &(diagram_list),
-                                                                &out_diagram_count );
+                                                                &out_diagram_count
+                                                              );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, out_diagram_count );
 
@@ -291,7 +295,8 @@ static void test_search_diagrams(void)
     data_small_set_init( &out_diagram_ids );
     data_err = data_database_reader_get_diagram_ids_by_parent_id ( &db_reader,
                                                                    6,
-                                                                   &out_diagram_ids );
+                                                                   &out_diagram_ids
+                                                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 1, data_small_set_get_count( &out_diagram_ids ) );
 
@@ -300,7 +305,8 @@ static void test_search_diagrams(void)
                                                                     12,
                                                                     MAX_ARRAY_SIZE,
                                                                     &(diagram_list),
-                                                                    &out_diagram_count );
+                                                                    &out_diagram_count
+                                                                  );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_diagram_count );
 }
@@ -332,21 +338,24 @@ static void test_search_classifiers(void)
                                                                     7,
                                                                     MAX_ARRAY_SIZE,
                                                                     &(visible_classifier_list),
-                                                                    &out_classifier_count );
+                                                                    &out_classifier_count
+                                                                  );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 3, out_classifier_count );
 
     /* test 3 */
     data_err = data_database_reader_get_classifier_by_name ( &db_reader,
                                                              "name-12",
-                                                             &out_classifier );
+                                                             &out_classifier
+                                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 12, data_classifier_get_id( &out_classifier ) );
 
     /* test 4 */
     data_err = data_database_reader_get_classifier_by_name ( &db_reader,
                                                              "does not exist",
-                                                             &out_classifier );
+                                                             &out_classifier
+                                                           );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_DB_STRUCTURE, data_err );
 }
 
@@ -366,7 +375,8 @@ static void test_search_features(void)
                                                                     13, /* classifier_id*/
                                                                     MAX_ARRAY_SIZE,
                                                                     &(feature_list),
-                                                                    &out_feature_count );
+                                                                    &out_feature_count
+                                                                  );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_feature_count );
 
@@ -375,7 +385,8 @@ static void test_search_features(void)
                                                                  7, /* diagram_id */
                                                                  MAX_ARRAY_SIZE,
                                                                  &(feature_list),
-                                                                 &out_feature_count );
+                                                                 &out_feature_count
+                                                               );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 3, out_feature_count );
 }
@@ -396,7 +407,8 @@ static void test_search_relationships(void)
                                                                          13, /*classifier_id*/
                                                                          MAX_ARRAY_SIZE,
                                                                          &(relation_list),
-                                                                         &out_relationship_count );
+                                                                         &out_relationship_count
+                                                                       );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
 
@@ -405,7 +417,8 @@ static void test_search_relationships(void)
                                                                       7, /* diagram_id */
                                                                       MAX_ARRAY_SIZE,
                                                                       &(relation_list),
-                                                                      &out_relationship_count );
+                                                                      &out_relationship_count
+                                                                    );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     TEST_ASSERT_EQUAL_INT( 2, out_relationship_count );
 }
