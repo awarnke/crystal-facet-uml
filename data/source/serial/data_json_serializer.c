@@ -468,7 +468,7 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
         strerr |= utf8stringbuf_append_int( out,
                                             data_diagram_get_list_order( object ));
         strerr |= utf8stringbuf_append_str( out,
-                                            DATA_JSON_CONSTANTS_NL );
+                                            DATA_JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
         /* end diagram */
         strerr |= utf8stringbuf_append_str( out,
@@ -685,7 +685,7 @@ data_error_t data_json_serializer_append_relationship ( data_json_serializer_t *
         strerr |= utf8stringbuf_append_int( out,
                                             data_relationship_get_to_feature_id( object ));
         strerr |= utf8stringbuf_append_str( out,
-                                            DATA_JSON_CONSTANTS_NL );
+                                            DATA_JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
         /* end relationship */
         strerr |= utf8stringbuf_append_str( out,
@@ -849,7 +849,7 @@ utf8error_t data_json_serializer_private_append_feature ( data_json_serializer_t
     strerr |= utf8stringbuf_append_int( out,
                                         data_feature_get_list_order( object ));
     strerr |= utf8stringbuf_append_str( out,
-                                        DATA_JSON_CONSTANTS_NL );
+                                        DATA_JSON_CONSTANTS_NL );  /* LAST, no NEXT */
 
     /* end feature */
     strerr |= utf8stringbuf_append_str( out,

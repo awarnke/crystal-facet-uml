@@ -114,7 +114,7 @@ static void undo_redo_classifier(void)
     data_diagramelement_init_new ( &new_diagele,
                                    root_diagram_id,
                                    classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
                                    DATA_ID_VOID_ID
     );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
@@ -180,12 +180,14 @@ static void undo_redo_classifier(void)
     {
         uint32_t read_vis_classifiers_count;
         data_visible_classifier_t read_vis_classifiers[1];
-        data_classifier_t *first_classifier;
-        first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, root_diagram_id, 1, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, read_vis_classifiers_count );
+
+        data_classifier_t *first_classifier;
+        first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
+
         TEST_ASSERT_EQUAL_INT( classifier_id, data_classifier_get_id( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( DATA_CLASSIFIER_TYPE_UML_NODE, data_classifier_get_main_type( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "my_stereo", data_classifier_get_stereotype_ptr( first_classifier ) ) );
@@ -193,6 +195,14 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 17, data_classifier_get_x_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 1700, data_classifier_get_y_order( first_classifier ) );
+
+        data_diagramelement_t *first_diagele;
+        first_diagele = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );
+
+        TEST_ASSERT_EQUAL_INT( root_diagram_id, data_diagramelement_get_diagram_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_EMPHASIS, data_diagramelement_get_display_flags( first_diagele ) );
+        TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagramelement_get_focused_feature_id( first_diagele ) );
     }
 }
 
@@ -339,7 +349,7 @@ static void undo_redo_feature_and_relationship(void)
                                         "than the sum of its parts", /* relationship_description */
                                         -66000, /* list_order */
                                         DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
+                                        150160 /* to_feature_id */
                                       );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -397,6 +407,8 @@ static void undo_redo_feature_and_relationship(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
     TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
 
     /* undo step 4 */
     ctrl_err = ctrl_controller_undo ( &controller );
@@ -497,6 +509,8 @@ static void undo_redo_feature_and_relationship(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check_r ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check_r ) ) );
     TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check_r ) );
+    TEST_ASSERT_EQUAL_INT( 150160, data_relationship_get_to_feature_id( &check_r ) );
 
     /* redo step 5 */
     ctrl_err = ctrl_controller_redo ( &controller );
