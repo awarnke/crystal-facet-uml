@@ -55,8 +55,8 @@ void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *th
     {
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 6;
-        geometry_connector_t solution[6];
+        static const uint32_t SOLUTIONS_MAX = 8;
+        geometry_connector_t solution[8];
 
         /* propose options */
         pencil_relationship_layouter_private_propose_solutions ( this_,
@@ -112,9 +112,19 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         data_relationship_t *current_relation;
         current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
 
-        int64_t weight = 0;
+        int64_t simpleness = 0;
 
-        /* determine weight by distance between source and destination */
+        /* determine simpleness by relationship type */
+        data_relationship_type_t reltype;
+        reltype = data_relationship_get_main_type( current_relation );
+        if (( DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY == reltype )
+            ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
+        {
+            /* containment may be solved by embracing, mere dependencies are unimportant */
+            simpleness += geometry_rectangle_get_width ( (*this_).diagram_draw_area );
+        }
+
+        /* determine simpleness by distance between source and destination */
         int32_t source_index;
         int32_t dest_index;
         source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
@@ -129,11 +139,11 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
             geometry_rectangle_t *dest_rect;
             source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, source_index );
             dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, dest_index );
-            weight -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
-            weight -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
+            simpleness -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
+            simpleness -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
 
             int insert_error;
-            insert_error = universal_array_index_sorter_insert( out_sorted, index, weight );
+            insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
             if ( 0 != insert_error )
             {
                 TSLOG_WARNING( "not all relationships are shaped" );
@@ -164,7 +174,7 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( 6 <= solutions_max );  /* current implementation requires at least 6 options */
+    assert ( 8 <= solutions_max );  /* current implementation requires at least 8 options */
 
     uint32_t index;
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
@@ -272,7 +282,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             if ( (current_area - 0.1) > intersect_area )
             {
-                debts_of_current += 100000.0;
+                debts_of_current += 10000000.0;
             }
         }
 
@@ -286,7 +296,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
             {
-                debts_of_current += 10000.0;
+                debts_of_current += 1000000.0;
             }
         }
 
@@ -300,7 +310,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             probe_shape = pencil_input_data_layout_get_relationship_shape_ptr( (*this_).layout_data, probe_index );
             uint32_t intersects;
             intersects = geometry_connector_count_connector_intersects( &(solutions[solution_idx]), probe_shape );
-            debts_of_current += 100.0 * intersects;
+            debts_of_current += 10000.0 * intersects;
         }
 
         /* update best solution */
@@ -482,7 +492,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     assert( NULL != dest_rect );
     assert ( NULL != out_solutions );
     assert ( NULL != out_solutions_count );
-    assert ( 2 <= solutions_max );  /* current implementation calculates exactly 2 options */
+    assert ( 4 <= solutions_max );  /* current implementation calculates exactly 4 options */
 
     uint32_t solutions_count = 0;
 
@@ -502,57 +512,66 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
 
     double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
-    if ( fabs( src_x_center - dst_x_center ) < fabs ( src_y_center - dst_y_center ) )
+    /* prevent that forward and retour are on same line */
+    if ( fabs( src_y_center - dst_y_center ) < 0.0001 )
     {
-        /* connect via left side */
-        {
-            geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
-                                                src_left,
-                                                src_y_center,
-                                                dst_left,
-                                                dst_y_center,
-                                                fmin( src_left, dst_left ) - good_dist
-                                              );
-            solutions_count ++;
-        }
-
-        /* connect via right side */
-        {
-            geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
-                                                src_right,
-                                                src_y_center,
-                                                dst_right,
-                                                dst_y_center,
-                                                fmax( src_right, dst_right ) + good_dist
-                                              );
-            solutions_count ++;
-        }
+        /* forward way is identical to retour - may be a relation to self */
+        src_y_center += good_dist/2.0;
+        dst_y_center -= good_dist/2.0;
     }
-    else
+    if ( fabs( src_x_center - dst_x_center ) < 0.0001 )
     {
-        /* connect via top side */
-        {
-            geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
-                                                  src_x_center,
-                                                  src_top,
-                                                  dst_x_center,
-                                                  dst_top,
-                                                  fmin( src_top, dst_top ) - good_dist
-                                                );
-            solutions_count ++;
-        }
+        /* forward way is identical to retour - may be a relation to self */
+        src_x_center -= good_dist/2.0;
+        dst_x_center += good_dist/2.0;
+    }
 
-        /* connect via bottom side */
-        {
-            geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
-                                                  src_x_center,
-                                                  src_bottom,
-                                                  dst_x_center,
-                                                  dst_bottom,
-                                                  fmax( src_bottom, dst_bottom ) + good_dist
-                                                );
-            solutions_count ++;
-        }
+    /* connect via left side */
+    {
+        geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
+                                            src_left,
+                                            src_y_center,
+                                            dst_left,
+                                            dst_y_center,
+                                            fmin( src_left, dst_left ) - good_dist
+                                            );
+        solutions_count ++;
+    }
+
+    /* connect via right side */
+    {
+        geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
+                                            src_right,
+                                            src_y_center,
+                                            dst_right,
+                                            dst_y_center,
+                                            fmax( src_right, dst_right ) + good_dist
+                                            );
+        solutions_count ++;
+    }
+
+    /* connect via top side */
+    {
+        geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
+                                                src_x_center,
+                                                src_top,
+                                                dst_x_center,
+                                                dst_top,
+                                                fmin( src_top, dst_top ) - good_dist
+                                            );
+        solutions_count ++;
+    }
+
+    /* connect via bottom side */
+    {
+        geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
+                                                src_x_center,
+                                                src_bottom,
+                                                dst_x_center,
+                                                dst_bottom,
+                                                fmax( src_bottom, dst_bottom ) + good_dist
+                                            );
+        solutions_count ++;
     }
 
     *out_solutions_count = solutions_count;

@@ -4,6 +4,7 @@
   . Database format changed.
     A newer crystal_facet_uml can still open older database files (and immediately update the file format).
     Older crystal_facet_uml cannot open database files created or opened by a newer crystal_facet_uml.
+  + relations where source and destination are identical are beautified
 2018-01-03 1.0.0 [4262282]
   + F7 in navigation view moves child diagram up and parent down
   + The text export contains IDs
