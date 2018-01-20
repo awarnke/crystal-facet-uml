@@ -190,7 +190,7 @@ static void diagram_missing_parent_consistency(void)
                                    "diagram_name-4",
                                    "diagram_description-4",
                                    10333 /*=list_order*/
-    );
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -204,7 +204,7 @@ static void diagram_missing_parent_consistency(void)
                                    "diagram_name-6",
                                    "diagram_description-6",
                                    10444 /*=list_order*/
-    );
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -330,7 +330,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                    "diagram_name-6",
                                    "diagram_description-6",
                                    10444 /*=list_order*/
-    );
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -346,7 +346,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                       "description-12",
                                       -34000 /*=x_order*/,
                                       -16000 /*=y_order*/
-    );
+                                    );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
@@ -358,8 +358,9 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                13 /*=id*/,
                                6 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
-    );
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -369,8 +370,9 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                15 /*=id*/,
                                6 /*=diagram_id*/,
                                18 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
-    );
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -380,8 +382,9 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                17 /*=id*/,
                                2 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
-    );
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -391,8 +394,9 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
                                19 /*=id*/,
                                2 /*=diagram_id*/,
                                18 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
-    );
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -440,7 +444,7 @@ static void repair_unreferenced_classifiers(void)
                                    "diagram_name-6",
                                    "diagram_description-6",
                                    10444 /*=list_order*/
-    );
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -456,7 +460,7 @@ static void repair_unreferenced_classifiers(void)
                                       "description-12",
                                       -34000 /*=x_order*/,
                                       -16000 /*=y_order*/
-    );
+                                    );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
@@ -505,7 +509,7 @@ static void repair_unreferenced_classifiers_2(void)
                                    "diagram_name-6",
                                    "diagram_description-6",
                                    10444 /*=list_order*/
-    );
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
@@ -521,7 +525,7 @@ static void repair_unreferenced_classifiers_2(void)
                                       "description-12",
                                       -34000 /*=x_order*/,
                                       -16000 /*=y_order*/
-    );
+                                    );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
@@ -536,7 +540,8 @@ static void repair_unreferenced_classifiers_2(void)
                                    "startup_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
+                                   5000000 /* list order */
+                                 );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
@@ -551,7 +556,10 @@ static void repair_unreferenced_classifiers_2(void)
                                         12, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
@@ -628,7 +636,8 @@ static void repair_invalid_feature_parent(void)
                                13 /*=id*/,
                                6 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
     );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
@@ -735,8 +744,9 @@ static void repair_invalid_relationship(void)
                                13 /*=id*/,
                                6 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
-    );
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
+                             );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
@@ -750,7 +760,10 @@ static void repair_invalid_relationship(void)
                                         12, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
@@ -765,7 +778,10 @@ static void repair_invalid_relationship(void)
                                         12121212, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &i1_relation, NULL /*=out_new_id*/ );
@@ -780,7 +796,10 @@ static void repair_invalid_relationship(void)
                                         12, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &i2_relation, NULL /*=out_new_id*/ );
@@ -795,7 +814,10 @@ static void repair_invalid_relationship(void)
                                         12121212, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &i3_relation, NULL /*=out_new_id*/ );

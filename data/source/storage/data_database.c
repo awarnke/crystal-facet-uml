@@ -142,7 +142,7 @@ static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
 /*!
  *  \brief string constant to update an sql database table
  *
- *  The root diagram is marked by parent_id = NULL, not anymore by -1.
+ *  The root diagram is marked by parent_id = NULL, not by -1 anymore.
  */
 static const char *DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT =
     "UPDATE diagrams SET parent_id=NULL WHERE parent_id=-1;";

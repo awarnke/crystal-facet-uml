@@ -130,7 +130,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
     utf8error_t strerr = UTF8ERROR_SUCCESS;
     data_error_t result = DATA_ERROR_NONE;
 
-    if ( (*diagram).id == DATA_ID_VOID_ID )
+    if ( DATA_ID_VOID_ID == (*diagram).id  )
     {
         strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_DIAGRAM_PREFIX );
     }

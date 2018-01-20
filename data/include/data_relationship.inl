@@ -33,7 +33,9 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
                                                     int64_t to_classifier_id,
                                                     const char* relationship_name,
                                                     const char* relationship_description,
-                                                    int32_t list_order )
+                                                    int32_t list_order,
+                                                    int64_t from_feature_id,
+                                                    int64_t to_feature_id )
 {
     assert( NULL != relationship_name );
     assert( NULL != relationship_description );
@@ -62,8 +64,8 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     }
 
     (*this_).list_order = list_order;
-    (*this_).from_feature_id = DATA_ID_VOID_ID;
-    (*this_).to_feature_id = DATA_ID_VOID_ID;
+    (*this_).from_feature_id = from_feature_id;
+    (*this_).to_feature_id = to_feature_id;
 
     return result;
 }
@@ -189,6 +191,26 @@ static inline int32_t data_relationship_get_list_order ( data_relationship_t *th
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order )
 {
     (*this_).list_order = list_order;
+}
+
+static inline int64_t data_relationship_get_from_feature_id ( data_relationship_t *this_ )
+{
+    return (*this_).from_feature_id;
+}
+
+static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id )
+{
+    (*this_).from_feature_id = from_feature_id;
+}
+
+static inline int64_t data_relationship_get_to_feature_id ( data_relationship_t *this_ )
+{
+    return (*this_).to_feature_id;
+}
+
+static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id )
+{
+    (*this_).to_feature_id = to_feature_id;
 }
 
 static inline bool data_relationship_is_valid ( data_relationship_t *this_ )

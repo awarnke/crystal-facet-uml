@@ -49,11 +49,13 @@ static inline void data_diagramelement_reinit_empty ( data_diagramelement_t *thi
  *  \param diagram_id id of the referenced diagram_t
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
                                                   int64_t diagram_id,
                                                   int64_t classifier_id,
-                                                  data_diagramelement_flag_t display_flags
+                                                  data_diagramelement_flag_t display_flags,
+                                                  int64_t focused_feature_id
                                                 );
 
 /*!
@@ -64,12 +66,14 @@ static inline void data_diagramelement_init_new ( data_diagramelement_t *this_,
  *  \param diagram_id id of the referenced diagram_t
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_init ( data_diagramelement_t *this_,
                                               int64_t id,
                                               int64_t diagram_id,
                                               int64_t classifier_id,
-                                              data_diagramelement_flag_t display_flags
+                                              data_diagramelement_flag_t display_flags,
+                                              int64_t focused_feature_id
                                             );
 
 /*!
@@ -80,12 +84,14 @@ static inline void data_diagramelement_init ( data_diagramelement_t *this_,
  *  \param diagram_id id of the referenced diagram_t
  *  \param classifier_id id of the referenced classifier_t
  *  \param display_flags flags how to display the classifier in the context of this diagram. \see data_diagramelement_display_flag_enum
+ *  \param focused_feature_id id of the focused feature_t or DATA_ID_VOID_ID if no feature is focused
  */
 static inline void data_diagramelement_reinit ( data_diagramelement_t *this_,
                                                 int64_t id,
                                                 int64_t diagram_id,
                                                 int64_t classifier_id,
-                                                data_diagramelement_flag_t display_flags
+                                                data_diagramelement_flag_t display_flags,
+                                                int64_t focused_feature_id
                                               );
 
 /*!
@@ -173,6 +179,22 @@ static inline data_diagramelement_flag_t data_diagramelement_get_display_flags (
  *  \param display_flags new attribute display_flags
  */
 static inline void data_diagramelement_set_display_flags ( data_diagramelement_t *this_, data_diagramelement_flag_t display_flags );
+
+/*!
+ *  \brief gets the attribute focused_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute focused_feature_id, DATA_ID_VOID_ID if there is no focused feature
+ */
+static inline int64_t data_diagramelement_get_focused_feature_id ( data_diagramelement_t *this_ );
+
+/*!
+ *  \brief sets the attribute focused_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param focused_feature_id new attribute focused_feature_id
+ */
+static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, int64_t focused_feature_id );
 
 #include "data_diagramelement.inl"
 

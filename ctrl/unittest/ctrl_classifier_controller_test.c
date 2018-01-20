@@ -114,7 +114,8 @@ static void classifier_create_read_modify_read(void)
     data_diagramelement_init_new ( &new_diagele,
                                    DIAGRAM_ID,
                                    classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                   DATA_ID_VOID_ID
                                  );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                &new_diagele,
@@ -243,7 +244,8 @@ static void create_diagramelements_and_delete(void)
     data_diagramelement_init_new ( &new_diagele,
                                    diagram_id,
                                    classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                   -45623
     );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                &new_diagele,
@@ -269,6 +271,7 @@ static void create_diagramelements_and_delete(void)
     TEST_ASSERT_EQUAL_INT( diagram_id, data_diagramelement_get_diagram_id( &diag_element ) );
     TEST_ASSERT_EQUAL_INT( classifier_id, data_diagramelement_get_classifier_id( &diag_element ) );
     TEST_ASSERT_EQUAL_INT( diag_element_id, data_diagramelement_get_id( &diag_element ) );
+    TEST_ASSERT_EQUAL_INT( -45623, data_diagramelement_get_focused_feature_id( &diag_element ) );
 
     /* get all diagrams by classifier id */
     data_err = data_database_reader_get_diagrams_by_classifier_id ( &db_reader, classifier_id, 2, &out_diagram, &out_diagram_count );
@@ -406,7 +409,10 @@ static void relationship_CRURDR(void)
                                         86001, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        100666 /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* create the relationship in the db */
@@ -428,6 +434,8 @@ static void relationship_CRURDR(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "the composition is more", data_relationship_get_name_ptr( &check ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "than the sum of its parts", data_relationship_get_description_ptr( &check ) ) );
     TEST_ASSERT_EQUAL_INT( -66000, data_relationship_get_list_order( &check ) );
+    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check ) );
+    TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check ) );
 
     ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( classifier_ctrl,
                                                                           new_relationship_id,
@@ -459,7 +467,9 @@ static void relationship_CRURDR(void)
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "async message", data_relationship_get_name_ptr( &check ) ) );
     TEST_ASSERT_EQUAL_INT( 0, strcmp( "good for modularization", data_relationship_get_description_ptr( &check ) ) );
     TEST_ASSERT_EQUAL_INT( -88000, data_relationship_get_list_order( &check ) );
-
+    TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_relationship_get_from_feature_id( &check ) );
+    TEST_ASSERT_EQUAL_INT( 100666, data_relationship_get_to_feature_id( &check ) );
+    
     /* delete the relationship from the database */
     data_small_set_t small_set;
     data_id_t element_id;

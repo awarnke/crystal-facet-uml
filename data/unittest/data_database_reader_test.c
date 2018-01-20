@@ -130,7 +130,8 @@ static void set_up(void)
                                130 /*=id*/,
                                6 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
     );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
@@ -141,7 +142,8 @@ static void set_up(void)
                                131 /*=id*/,
                                7 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               8192
     );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &duplicate_diagramelement, NULL /*=out_new_id*/ );
@@ -152,7 +154,8 @@ static void set_up(void)
                                132 /*=id*/,
                                7 /*=diagram_id*/,
                                12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
     );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
@@ -163,7 +166,8 @@ static void set_up(void)
                                133 /*=id*/,
                                7 /*=diagram_id*/,
                                13 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS
+                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                               DATA_ID_VOID_ID
     );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
@@ -178,7 +182,10 @@ static void set_up(void)
                                         13, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        17, /* from_feature_id */
+                                        18 /* to_feature_id */
+                                      );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
@@ -192,7 +199,10 @@ static void set_up(void)
                                         13, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -77000 /* list_order */ );
+                                        -77000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     assert( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &second_relation, NULL /*=out_new_id*/ );

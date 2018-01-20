@@ -476,7 +476,7 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME[] =
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "SELECT classifiers.id,classifiers.main_type,classifiers.stereotype,"
     "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,"
-    "diagramelements.id,diagramelements.display_flags "
+    "diagramelements.id,diagramelements.display_flags,diagramelements.focused_feature_id "
     "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
     "WHERE diagramelements.diagram_id=? ORDER BY classifiers.y_order ASC,classifiers.x_order ASC;";
 
@@ -524,6 +524,11 @@ static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 7;
  *  \brief the column id of the result where this parameter is stored: diagramelements.display_flags
  */
 static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 8;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.focused_feature_id
+ */
+static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 9;
 
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
 {
@@ -700,8 +705,13 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                              sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN ),
                                              diagram_id,
                                              classifier_id,
-                                             sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN )
+                                             sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN )
                 );
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN ) )
+                {
+                    data_diagramelement_set_focused_feature_id ( current_diag_element, DATA_ID_VOID_ID );
+                }
 
                 data_classifier_trace( current_classifier );
                 data_diagramelement_trace( current_diag_element );
@@ -735,7 +745,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *  \brief predefined search statement to find a diagramelement by id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID[] =
-    "SELECT id,diagram_id,classifier_id,display_flags FROM diagramelements WHERE id=?;";
+    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id FROM diagramelements WHERE id=?;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -756,6 +766,11 @@ static const int RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN = 2;
  *  \brief the column id of the result where this parameter is stored: display_flags
  */
 static const int RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: focused_feature_id
+ */
+static const int RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN = 4;
 
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement )
 {
@@ -787,8 +802,13 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
                                       sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_ID_COLUMN ),
                                       sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN ),
                                       sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN ),
-                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN )
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN ),
+                                      sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN )
             );
+            if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
+            {
+                data_diagramelement_set_focused_feature_id ( out_diagramelement, DATA_ID_VOID_ID );
+            }
 
             data_diagramelement_trace( out_diagramelement );
         }
@@ -1089,7 +1109,9 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
  *  \brief predefined search statement to find a relationship by id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
-"SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM relationships WHERE id=?;";
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "from_feature_id,to_feature_id "
+    "FROM relationships WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find relationships by diagram-id
@@ -1097,6 +1119,7 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID[] =
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "SELECT relationships.id,relationships.main_type,relationships.from_classifier_id,relationships.to_classifier_id,"
     "relationships.name,relationships.description,relationships.list_order,"
+    "relationships.from_feature_id,relationships.to_feature_id,"
     "source.id, dest.id " /* source.id, dest.id needed only for debugging */
     "FROM relationships "
     "INNER JOIN diagramelements AS source "
@@ -1110,7 +1133,9 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
  *  \brief predefined search statement to find relationships by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order FROM relationships "
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "from_feature_id,to_feature_id "
+    "FROM relationships "
     "WHERE from_classifier_id=? OR to_classifier_id=?;";
 
 /*!
@@ -1149,14 +1174,23 @@ static const int RESULT_RELATIONSHIP_DESCRIPTION_COLUMN = 5;
 static const int RESULT_RELATIONSHIP_LIST_ORDER_COLUMN = 6;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: from_feature_id
+ */
+static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: to_feature_id
+ */
+static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 8;
+/*!
  *  \brief the column id of the result where this parameter is stored: source diagramelements.id
  */
-static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 7;
+static const int RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN = 9;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: dest diagramelements.id
  */
-static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 8;
+static const int RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN = 10;
 
 data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_t *this_, int64_t id, data_relationship_t *out_relationship )
 {
@@ -1191,8 +1225,18 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
                                               sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                               (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                              sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
+                                              sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
+                                              sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
+                                              sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
             );
+            if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
+            {
+                data_relationship_set_from_feature_id ( out_relationship, DATA_ID_VOID_ID );
+            }
+            if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
+            {
+                data_relationship_set_to_feature_id ( out_relationship, DATA_ID_VOID_ID );
+            }
 
             data_relationship_trace( out_relationship );
         }
@@ -1261,8 +1305,18 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
-                );
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
+                                                );
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
 
                 data_relationship_trace( current_relation );
             }
@@ -1334,8 +1388,18 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN )
-                );
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
+                                                );
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
 
                 TRACE_INFO_INT( "(source)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_SOURCE_DIAGRAMELEMENTS_ID_COLUMN ) );
                 TRACE_INFO_INT( "(dest)diagramelements.id:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DEST_DIAGRAMELEMENTS_ID_COLUMN ) );

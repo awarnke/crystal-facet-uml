@@ -46,7 +46,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "LIST (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, 1, "BLOCK_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, 1, "BLOCK_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "SYSML_BLOCK_DEFINITION_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -137,7 +137,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).feature_types, &iter);
         gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "PORT (component,block)", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE (sequence,timing)", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE (sequence,timing) (not yet impl.)", -1 );
     }
 
     {

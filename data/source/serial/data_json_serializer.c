@@ -653,6 +653,38 @@ data_error_t data_json_serializer_append_relationship ( data_json_serializer_t *
         strerr |= utf8stringbuf_append_int( out,
                                             data_relationship_get_list_order( object ));
         strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NEXT_NL );
+
+        /* from_feature_id */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_relationship_get_from_feature_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_NEXT_NL );
+
+        /* to_feature_id */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_TAB
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID
+                                            DATA_JSON_CONSTANTS_QUOTE
+                                            DATA_JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_relationship_get_to_feature_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
                                             DATA_JSON_CONSTANTS_NL );
 
         /* end relationship */

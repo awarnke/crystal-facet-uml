@@ -70,6 +70,8 @@ static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
  *  \param relationship_name name of the relationship. relationship_name must not be NULL.
  *  \param relationship_description description of the relationship. relationship_description must not be NULL.
  *  \param list_order list_order of the relationship
+ *  \param from_feature_id id of the source feature if the relationship starts at a feature, DATA_ID_VOID_ID otherwise
+ *  \param to_feature_id id of the destination feature if the relationship ends at a feature, DATA_ID_VOID_ID otherwise
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_relationship_init ( data_relationship_t *this_,
@@ -79,7 +81,9 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
                                                     int64_t to_classifier_id,
                                                     const char* relationship_name,
                                                     const char* relationship_description,
-                                                    int32_t list_order
+                                                    int32_t list_order,
+                                                    int64_t from_feature_id,
+                                                    int64_t to_feature_id
                                                   );
 
 /*!
@@ -234,6 +238,38 @@ static inline int32_t data_relationship_get_list_order ( data_relationship_t *th
  *  \param list_order new list_order of this object
  */
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order );
+
+/*!
+ *  \brief gets the attribute from_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline int64_t data_relationship_get_from_feature_id ( data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute from_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_feature_id new from_feature_id of this object
+ */
+static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id );
+
+/*!
+ *  \brief gets the attribute to_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline int64_t data_relationship_get_to_feature_id ( data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute to_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param to_feature_id new to_feature_id of this object
+ */
+static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id );
 
 /*!
  *  \brief checks if attribute id is not DATA_ID_VOID_ID

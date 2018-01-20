@@ -128,7 +128,7 @@ data_error_t data_database_private_initialize_tables( sqlite3 *db );
 data_error_t data_database_private_initialize_indexes( sqlite3 *db );
 
 /*!
- *  \brief updates old tables from version 1.0.0 and earlier to current dataabase scheme
+ *  \brief updates old tables from version 1.0.0 and earlier to current database scheme
  *  \param db an sqlite3 database
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */

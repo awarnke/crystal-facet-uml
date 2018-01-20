@@ -411,7 +411,12 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 ctrl_error_t write_error2;
                                 int64_t new_element_id;
                                 data_diagramelement_t diag_ele;
-                                data_diagramelement_init_new( &diag_ele, diagram_id, the_classifier_id, DATA_DIAGRAMELEMENT_FLAG_NONE );
+                                data_diagramelement_init_new ( &diag_ele,
+                                                               diagram_id,
+                                                               the_classifier_id,
+                                                               DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                                               DATA_ID_VOID_ID
+                                                             );
                                 write_error2 = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                                                &diag_ele,
                                                                                                ! is_first,

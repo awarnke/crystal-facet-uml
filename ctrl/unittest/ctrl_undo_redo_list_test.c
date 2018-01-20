@@ -114,7 +114,8 @@ static void undo_redo_classifier(void)
     data_diagramelement_init_new ( &new_diagele,
                                    root_diagram_id,
                                    classifier_id,
-                                   DATA_DIAGRAMELEMENT_FLAG_NONE
+                                   DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                   DATA_ID_VOID_ID
     );
     ctrl_err = ctrl_diagram_controller_create_diagramelement ( diag_ctrl,
                                                                &new_diagele,
@@ -336,7 +337,10 @@ static void undo_redo_feature_and_relationship(void)
                                         86001, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
-                                        -66000 /* list_order */ );
+                                        -66000, /* list_order */
+                                        DATA_ID_VOID_ID, /* from_feature_id */
+                                        DATA_ID_VOID_ID /* to_feature_id */
+                                      );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
     /* 3b. create the relationship in the db */

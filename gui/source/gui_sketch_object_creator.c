@@ -130,7 +130,8 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
         data_diagramelement_init_new ( &new_diagele,
                                        diagram_id,
                                        *out_classifier_id,
-                                       DATA_DIAGRAMELEMENT_FLAG_NONE
+                                       DATA_DIAGRAMELEMENT_FLAG_NONE,
+                                       DATA_ID_VOID_ID
                                      );
 
         c_result = ctrl_diagram_controller_create_diagramelement ( diagram_control,
@@ -187,7 +188,9 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
                                          *out_classifier_id,
                                          "", /* =relationship_name */
                                          "", /* =relationship_description */
-                                         y_order  /* =list_order */
+                                         y_order,  /* =list_order */
+                                         DATA_ID_VOID_ID,
+                                         DATA_ID_VOID_ID
                                        );
 
         /* create relationship */
@@ -276,8 +279,10 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                      to_classifier_id,
                                      "", /* =relationship_name */
                                      "", /* =relationship_description */
-                                     list_order
-    );
+                                     list_order,
+                                     DATA_ID_VOID_ID,
+                                     DATA_ID_VOID_ID
+                                   );
 
     /* create relationship */
     c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
