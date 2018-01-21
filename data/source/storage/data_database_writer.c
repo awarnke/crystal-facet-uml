@@ -114,7 +114,16 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, new_id );
+    /* notify listeners */
+    int64_t parent_id;
+    parent_id = data_diagram_get_parent_id( diagram );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_CREATE,
+                                      DATA_TABLE_DIAGRAM,
+                                      new_id,
+                                      DATA_TABLE_DIAGRAM,
+                                      parent_id
+                                    );
 
     if ( NULL != out_new_id )
     {
@@ -182,7 +191,12 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, obj_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_DELETE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     obj_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -216,7 +230,12 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     diagram_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -250,7 +269,12 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     diagram_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -283,7 +307,12 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     diagram_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -316,7 +345,12 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAM,
+                                                     diagram_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -349,7 +383,14 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAM, diagram_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                      DATA_TABLE_DIAGRAM,
+                                      diagram_id,
+                                      DATA_TABLE_DIAGRAM,
+                                      new_diagram_parent_id
+                                    );
 
     TRACE_END_ERR( result );
     return result;
@@ -375,7 +416,14 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, new_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_CREATE,
+                                      DATA_TABLE_CLASSIFIER,
+                                      new_id,
+                                      DATA_TABLE_VOID,  /* classifiers have no parent */
+                                      DATA_ID_VOID_ID  /* classifiers have no parent */
+                                    );
 
     if ( NULL != out_new_id )
     {
@@ -453,7 +501,12 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, obj_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_DELETE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     obj_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -486,7 +539,12 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -519,7 +577,12 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -552,7 +615,12 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -585,7 +653,12 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -618,7 +691,12 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -651,7 +729,12 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_CLASSIFIER, classifier_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -677,7 +760,16 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, new_id );
+    /* notify listeners */
+    int64_t diagram_id;
+    diagram_id = data_diagramelement_get_diagram_id( diagramelement );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_CREATE,
+                                      DATA_TABLE_DIAGRAMELEMENT,
+                                      new_id,
+                                      DATA_TABLE_DIAGRAM,
+                                      diagram_id
+                                    );
 
     if ( NULL != out_new_id )
     {
@@ -714,7 +806,12 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, obj_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_DELETE,
+                                                     DATA_TABLE_DIAGRAMELEMENT,
+                                                     obj_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -747,7 +844,12 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, diagramelement_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAMELEMENT,
+                                                     diagramelement_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -780,7 +882,12 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_DIAGRAMELEMENT, diagramelement_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_DIAGRAMELEMENT,
+                                                     diagramelement_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -804,7 +911,16 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, new_id );
+    /* notify listeners */
+    int64_t classifier_id;
+    classifier_id = data_feature_get_classifier_id( feature );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_CREATE,
+                                      DATA_TABLE_FEATURE,
+                                      new_id,
+                                      DATA_TABLE_CLASSIFIER,
+                                      classifier_id
+                                    );
 
     if ( NULL != out_new_id )
     {
@@ -839,7 +955,12 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, obj_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_DELETE,
+                                                     DATA_TABLE_FEATURE,
+                                                     obj_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -869,7 +990,12 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -899,7 +1025,12 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -929,7 +1060,12 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -959,7 +1095,12 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -989,7 +1130,12 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_FEATURE, feature_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -1013,7 +1159,16 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, new_id );
+    /* notify listeners */
+    int64_t from_classifier_id;
+    from_classifier_id = data_relationship_get_from_classifier_id( relationship );
+    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
+                                      DATA_CHANGE_EVENT_TYPE_CREATE,
+                                      DATA_TABLE_RELATIONSHIP,
+                                      new_id,
+                                      DATA_TABLE_CLASSIFIER,
+                                      from_classifier_id
+                                    );
 
     if ( NULL != out_new_id )
     {
@@ -1048,7 +1203,12 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, obj_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_DELETE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     obj_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -1078,7 +1238,12 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relationship_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -1108,7 +1273,12 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relationship_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -1138,7 +1308,12 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relationship_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;
@@ -1168,7 +1343,12 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
 
     result |= data_database_writer_private_unlock( this_ );
 
-    data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ), DATA_TABLE_RELATIONSHIP, relationship_id );
+    /* notify listeners */
+    data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
+                                                     DATA_CHANGE_EVENT_TYPE_UPDATE,
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relationship_id
+                                                   );
 
     TRACE_END_ERR( result );
     return result;

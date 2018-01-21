@@ -23,7 +23,12 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
         }
         break;
 
-        case DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM:  /* and */
+        case DATA_DIAGRAM_TYPE_BOX_DIAGRAM:
+        {
+            result = DATA_CLASSIFIER_TYPE_UML_PACKAGE;
+        }
+        break;
+
         case DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM:  /* and */
         case DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM:
         {

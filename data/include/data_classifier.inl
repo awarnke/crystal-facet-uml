@@ -161,7 +161,7 @@ static inline void data_classifier_destroy ( data_classifier_t *this_ )
     (*this_).id = DATA_ID_VOID_ID;
 }
 
-static inline void data_classifier_trace ( data_classifier_t *this_ )
+static inline void data_classifier_trace ( const data_classifier_t *this_ )
 {
     TRACE_INFO( "data_classifier_t" );
     TRACE_INFO_INT( "- id:", (*this_).id );
@@ -173,7 +173,7 @@ static inline void data_classifier_trace ( data_classifier_t *this_ )
     TRACE_INFO_INT( "- y_order:", (*this_).y_order );
 }
 
-static inline int64_t data_classifier_get_id ( data_classifier_t *this_ )
+static inline int64_t data_classifier_get_id ( const data_classifier_t *this_ )
 {
     return (*this_).id;
 }
@@ -183,7 +183,7 @@ static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id
     (*this_).id = id;
 }
 
-static inline data_classifier_type_t data_classifier_get_main_type ( data_classifier_t *this_ )
+static inline data_classifier_type_t data_classifier_get_main_type ( const data_classifier_t *this_ )
 {
     return (*this_).main_type;
 }
@@ -273,7 +273,7 @@ static inline data_error_t data_classifier_set_description ( data_classifier_t *
     return result;
 }
 
-static inline int32_t data_classifier_get_x_order ( data_classifier_t *this_ )
+static inline int32_t data_classifier_get_x_order ( const data_classifier_t *this_ )
 {
     return (*this_).x_order;
 }
@@ -283,7 +283,7 @@ static inline void data_classifier_set_x_order ( data_classifier_t *this_, int32
     (*this_).x_order = x_order;
 }
 
-static inline int32_t data_classifier_get_y_order ( data_classifier_t *this_ )
+static inline int32_t data_classifier_get_y_order ( const data_classifier_t *this_ )
 {
     return (*this_).y_order;
 }
@@ -293,7 +293,7 @@ static inline void data_classifier_set_y_order ( data_classifier_t *this_, int32
     (*this_).y_order = y_order;
 }
 
-static inline bool data_classifier_is_valid ( data_classifier_t *this_ )
+static inline bool data_classifier_is_valid ( const data_classifier_t *this_ )
 {
     return ( DATA_ID_VOID_ID != (*this_).id );
 }

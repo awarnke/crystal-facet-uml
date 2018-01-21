@@ -112,7 +112,7 @@ static inline void data_feature_destroy ( data_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_feature_get_id ( data_feature_t *this_ );
+static inline int64_t data_feature_get_id ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -128,7 +128,7 @@ static inline void data_feature_set_id ( data_feature_t *this_, int64_t id );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline data_feature_type_t data_feature_get_main_type ( data_feature_t *this_ );
+static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute main_type
@@ -144,7 +144,7 @@ static inline void data_feature_set_main_type ( data_feature_t *this_, data_feat
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_feature_get_classifier_id ( data_feature_t *this_ );
+static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute classifier_id
@@ -201,7 +201,7 @@ static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *t
  *  \param this_ pointer to own object attributes
  *  \return true if the value is not empty
  */
-static inline bool data_feature_has_value ( data_feature_t *this_ );
+static inline bool data_feature_has_value ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute value
@@ -243,7 +243,7 @@ static inline data_error_t data_feature_set_description ( data_feature_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int32_t data_feature_get_list_order ( data_feature_t *this_ );
+static inline int32_t data_feature_get_list_order ( const data_feature_t *this_ );
 
 /*!
  *  \brief sets the attribute list_order
@@ -259,14 +259,14 @@ static inline void data_feature_set_list_order ( data_feature_t *this_, int32_t 
  *  \param this_ pointer to own object attributes
  *  \return true if the id of the feature is not DATA_ID_VOID_ID
  */
-static inline bool data_feature_is_valid ( data_feature_t *this_ );
+static inline bool data_feature_is_valid ( const data_feature_t *this_ );
 
 /*!
  *  \brief prints the data_feature_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_feature_trace ( data_feature_t *this_ );
+static inline void data_feature_trace ( const data_feature_t *this_ );
 
 #include "data_feature.inl"
 

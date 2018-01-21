@@ -49,7 +49,12 @@ void data_change_notifier_destroy ( data_change_notifier_t *this_ )
     TRACE_END();
 }
 
-void data_change_notifier_emit_signal ( data_change_notifier_t *this_, data_table_t table, int64_t row_id )
+void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
+                                        data_change_event_type_t event_type,
+                                        data_table_t table,
+                                        int64_t row_id,
+                                        data_table_t parent_table,
+                                        int64_t parent_row_id )
 {
     TRACE_BEGIN();
 

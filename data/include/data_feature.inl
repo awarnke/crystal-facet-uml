@@ -100,7 +100,7 @@ static inline void data_feature_destroy ( data_feature_t *this_ )
     (*this_).id = DATA_ID_VOID_ID;
 }
 
-static inline int64_t data_feature_get_id ( data_feature_t *this_ )
+static inline int64_t data_feature_get_id ( const data_feature_t *this_ )
 {
     return (*this_).id;
 }
@@ -110,7 +110,7 @@ static inline void data_feature_set_id ( data_feature_t *this_, int64_t id )
     (*this_).id = id;
 }
 
-static inline data_feature_type_t data_feature_get_main_type ( data_feature_t *this_ )
+static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ )
 {
     return (*this_).main_type;
 }
@@ -120,7 +120,7 @@ static inline void data_feature_set_main_type ( data_feature_t *this_, data_feat
     (*this_).main_type = main_type;
 }
 
-static inline int64_t data_feature_get_classifier_id ( data_feature_t *this_ )
+static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;
 }
@@ -164,7 +164,7 @@ static inline utf8stringbuf_t data_feature_get_value_buf_ptr ( data_feature_t *t
     return (*this_).value;
 }
 
-static inline bool data_feature_has_value ( data_feature_t *this_ )
+static inline bool data_feature_has_value ( const data_feature_t *this_ )
 {
     return ( ! utf8stringbuf_equals_str( (*this_).value, "" ) );
 }
@@ -207,7 +207,7 @@ static inline data_error_t data_feature_set_description ( data_feature_t *this_,
     return result;
 }
 
-static inline int32_t data_feature_get_list_order ( data_feature_t *this_ )
+static inline int32_t data_feature_get_list_order ( const data_feature_t *this_ )
 {
     return (*this_).list_order;
 }
@@ -217,12 +217,12 @@ static inline void data_feature_set_list_order ( data_feature_t *this_, int32_t 
     (*this_).list_order = list_order;
 }
 
-static inline bool data_feature_is_valid ( data_feature_t *this_ )
+static inline bool data_feature_is_valid ( const data_feature_t *this_ )
 {
     return ( DATA_ID_VOID_ID != (*this_).id );
 }
 
-static inline void data_feature_trace ( data_feature_t *this_ )
+static inline void data_feature_trace ( const data_feature_t *this_ )
 {
     TRACE_INFO( "data_feature_t" );
     TRACE_INFO_INT( "- id:", (*this_).id );

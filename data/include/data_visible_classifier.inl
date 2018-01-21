@@ -22,7 +22,7 @@ static inline data_diagramelement_t *data_visible_classifier_get_diagramelement_
     return &((*this_).diagramelement);
 }
 
-static inline bool data_visible_classifier_is_valid ( data_visible_classifier_t *this_ )
+static inline bool data_visible_classifier_is_valid ( const data_visible_classifier_t *this_ )
 {
     bool result;
     result = data_classifier_is_valid( &((*this_).classifier) ) && data_diagramelement_is_valid( &((*this_).diagramelement) );

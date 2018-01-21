@@ -282,7 +282,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             if ( (current_area - 0.1) > intersect_area )
             {
-                debts_of_current += 10000000.0;
+                debts_of_current += 1000000.0;
             }
         }
 
@@ -296,7 +296,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
             {
-                debts_of_current += 1000000.0;
+                debts_of_current += 100000.0;
             }
         }
 
@@ -310,7 +310,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             probe_shape = pencil_input_data_layout_get_relationship_shape_ptr( (*this_).layout_data, probe_index );
             uint32_t intersects;
             intersects = geometry_connector_count_connector_intersects( &(solutions[solution_idx]), probe_shape );
-            debts_of_current += 10000.0 * intersects;
+            debts_of_current += 1000.0 * intersects;
         }
 
         /* update best solution */

@@ -38,6 +38,7 @@ struct gui_textedit_struct {
     GtkListStore *classifier_types;
     GtkListStore *relationship_types;
     GtkListStore *feature_types;
+    GtkListStore *feature_lifeline_type;
 
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkTextView *description_text_view;  /*!< pointer to external text entry widget */

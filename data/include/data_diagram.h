@@ -124,7 +124,7 @@ static inline void data_diagram_destroy ( data_diagram_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_diagram_trace ( data_diagram_t *this_ );
+static inline void data_diagram_trace ( const data_diagram_t *this_ );
 
 /*!
  *  \brief gets the attribute id
@@ -132,7 +132,7 @@ static inline void data_diagram_trace ( data_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_diagram_get_id ( data_diagram_t *this_ );
+static inline int64_t data_diagram_get_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute id
@@ -148,7 +148,7 @@ static inline void data_diagram_set_id ( data_diagram_t *this_, int64_t id );
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int64_t data_diagram_get_parent_id ( data_diagram_t *this_ );
+static inline int64_t data_diagram_get_parent_id ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute parent_id
@@ -163,7 +163,7 @@ static inline void data_diagram_set_parent_id ( data_diagram_t *this_, int64_t p
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_diagram_type_t data_diagram_get_diagram_type ( data_diagram_t *this_ );
+static inline data_diagram_type_t data_diagram_get_diagram_type ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute diagram_type
@@ -229,7 +229,7 @@ static inline data_error_t data_diagram_set_description ( data_diagram_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline int32_t data_diagram_get_list_order ( data_diagram_t *this_ );
+static inline int32_t data_diagram_get_list_order ( const data_diagram_t *this_ );
 
 /*!
  *  \brief sets the attribute list_order
@@ -245,7 +245,7 @@ static inline void data_diagram_set_list_order ( data_diagram_t *this_, int32_t 
  *  \param this_ pointer to own object attributes
  *  \return true if the id of the diagram is not DATA_ID_VOID_ID
  */
-static inline bool data_diagram_is_valid ( data_diagram_t *this_ );
+static inline bool data_diagram_is_valid ( const data_diagram_t *this_ );
 
 #include "data_diagram.inl"
 

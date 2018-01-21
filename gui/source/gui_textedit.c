@@ -46,7 +46,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "LIST (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BLOCK_DIAGRAM, 1, "BLOCK_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "BOX_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "SYSML_BLOCK_DEFINITION_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -136,8 +136,13 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION (class)", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
         gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "PORT (component,block)", -1 );
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE (sequence,timing) (not yet impl.)", -1 );
+    }
+
+    {
+        GtkTreeIter iter;
+        (*this_).feature_lifeline_type = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).feature_lifeline_type, &iter);
+        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE (sequence,timing)", -1 );
     }
 
     {
@@ -203,6 +208,9 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     g_object_unref((*this_).feature_types);
     (*this_).feature_types = NULL;
+
+    g_object_unref((*this_).feature_lifeline_type);
+    (*this_).feature_lifeline_type = NULL;
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -1034,10 +1042,20 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
 
             data_feature_type_t feature_type;
             feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
+            if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
+            {
+                int index2;
+                index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_lifeline_type ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_lifeline_type ) );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index2 );
+            }
+            else
+            {
+                int index;
+                index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
+            }
         }
         break;
 

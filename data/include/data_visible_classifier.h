@@ -58,7 +58,7 @@ static inline data_diagramelement_t *data_visible_classifier_get_diagramelement_
  *  \param this_ pointer to own object attributes
  *  \return true if both members are valid
  */
-static inline bool data_visible_classifier_is_valid ( data_visible_classifier_t *this_ );
+static inline bool data_visible_classifier_is_valid ( const data_visible_classifier_t *this_ );
 
 #include "data_visible_classifier.inl"
 
