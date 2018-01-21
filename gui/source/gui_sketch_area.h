@@ -10,6 +10,7 @@
 
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_change_message.h"
 #include "data_diagram.h"
 #include "data_table.h"
 #include "ctrl_controller.h"
@@ -173,7 +174,7 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
 /*!
  *  \brief callback that informs that the displayed data changed
  */
-void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_id_t *object_id, gpointer data );
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer data );
 
 /*!
  *  \brief callback that informs that the chosen tool changed

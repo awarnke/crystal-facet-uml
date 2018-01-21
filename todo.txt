@@ -7,6 +7,7 @@ ideas for future versions:
   [ ] paste: Allow to paste relationships
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
+  [ ] performance optimization: redraw only when shown items have changed.
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil

@@ -1220,7 +1220,7 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
     return result_event_handled;
 }
 
-void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_id_t *object_id, gpointer data )
+void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;

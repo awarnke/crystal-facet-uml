@@ -11,6 +11,7 @@
 #include "gui_simple_message_to_user.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database.h"
+#include "storage/data_change_message.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
@@ -140,22 +141,22 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
 /*!
  *  \brief callback that informs that the data of an object changed
  */
-void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the data of an object changed
  */
-void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the data of an object changed
  */
-void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the data of an object changed
  */
-void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 /*!
  *  \brief commits changes to the objects name.

@@ -33,15 +33,15 @@ static inline data_change_event_type_t data_change_message_get_event ( const dat
 
 static inline data_id_t data_change_message_get_modified ( const data_change_message_t *this_ )
 {
-    return (*this_).event;
+    return (*this_).modified;
 }
 
 static inline data_id_t data_change_message_get_parent ( const data_change_message_t *this_ )
 {
-    return (*this_).event;
+    return (*this_).parent;
 }
 
-static inline void data_change_message_trace ( const data_change_message_t *this_ );
+static inline void data_change_message_trace ( const data_change_message_t *this_ )
 {
     TRACE_INFO( "data_change_message_t" );
     switch ( (*this_).event )
@@ -64,6 +64,24 @@ static inline void data_change_message_trace ( const data_change_message_t *this
         }
         break;
 
+        case DATA_CHANGE_EVENT_TYPE_DB_OPENED:
+        {
+            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_OPENED");
+        }
+        break;
+
+        case DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE:
+        {
+            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE");
+        }
+        break;
+
+        case DATA_CHANGE_EVENT_TYPE_DB_CLOSED:
+        {
+            TRACE_INFO("- event: DATA_CHANGE_EVENT_TYPE_DB_CLOSED");
+        }
+        break;
+
         default:
         {
             TSLOG_ERROR("- event: out of range");
@@ -71,9 +89,9 @@ static inline void data_change_message_trace ( const data_change_message_t *this
         break;
     }
     TRACE_INFO( "- modified:" );
-    data_id_trace( &((*this_).modified );
+    data_id_trace( &((*this_).modified) );
     TRACE_INFO( "- parent:" );
-    data_id_trace( &((*this_).parent );
+    data_id_trace( &((*this_).parent) );
 }
 
 

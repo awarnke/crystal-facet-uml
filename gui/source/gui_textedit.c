@@ -1273,20 +1273,22 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, boo
     TRACE_END();
 }
 
-void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    data_id_t id;
+    id = data_change_message_get_modified( msg );
 
-    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
-        data_id_trace( id );
-        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
 
         /* update data */
-        switch ( data_id_get_table(id) )
+        switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
@@ -1342,20 +1344,22 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_id_t *id, 
     TRACE_END();
 }
 
-void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    data_id_t id;
+    id = data_change_message_get_modified( msg );
 
-    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
-        data_id_trace( id );
-        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
 
         /* update data */
-        switch ( data_id_get_table(id) )
+        switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
@@ -1405,22 +1409,24 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_id_t
     TRACE_END();
 }
 
-void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    data_id_t id;
+    id = data_change_message_get_modified( msg );
     GtkTextBuffer *buffer;
     buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
 
-    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
-        data_id_trace( id );
-        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
 
         /* update data */
-        switch ( data_id_get_table(id) )
+        switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
@@ -1480,20 +1486,22 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_id_
     TRACE_END();
 }
 
-void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    data_id_t id;
+    id = data_change_message_get_modified( msg );
 
-    if ( data_id_equals( id, &((*this_).selected_object_id) ) )
+    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
-        data_id_trace( id );
-        gui_textedit_private_load_object( this_, *id, true /* force_reload */ );
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
 
         /* update data */
-        switch ( data_id_get_table(id) )
+        switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {

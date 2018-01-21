@@ -17,6 +17,7 @@
 #include "gui_file_manager.h"
 #include "gui_file_exporter.h"
 #include "storage/data_database.h"
+#include "storage/data_change_message.h"
 #include "ctrl_controller.h"
 #include "util/observer/observer.h"
 #include <gtk/gtk.h>
@@ -156,7 +157,7 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data );
 /*!
  *  \brief callback that informs that the data of an object or the whole database changed
  */
-void gui_main_window_data_changed_callback( GtkWidget *window, data_id_t *id, gpointer user_data );
+void gui_main_window_data_changed_callback( GtkWidget *window, data_change_message_t *msg, gpointer user_data );
 
 #endif  /* GUI_MAIN_WINDOW_H */
 

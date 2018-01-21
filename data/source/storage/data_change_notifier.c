@@ -2,6 +2,7 @@
 
 #include "data_id.h"
 #include "storage/data_change_notifier.h"
+#include "storage/data_change_message.h"
 #include "trace.h"
 #include "tslog.h"
 #include <glib-object.h>
@@ -58,14 +59,32 @@ void data_change_notifier_emit_signal ( data_change_notifier_t *this_,
 {
     TRACE_BEGIN();
 
-    data_id_t modified_id;
-    data_id_init( &modified_id, table, row_id );
+    /* prepare */
+    data_id_t modified_element_id;
+    data_id_t parent_element_id;
+    data_change_message_t message;
 
+    data_id_init( &modified_element_id, table, row_id );
+    data_id_init( &parent_element_id, parent_table, parent_row_id );
+    data_change_message_init ( &message,
+                               event_type,
+                               modified_element_id,
+                               parent_element_id
+                             );
+
+    data_change_message_trace( &message );
+
+    /* send messages */
     for ( int32_t pos = 0; pos < (*this_).num_listeners; pos ++ )
     {
         TRACE_INFO_INT( "g_signal_emit to listener", pos );
-        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &modified_id );
+        g_signal_emit( (*this_).listener_array[pos], data_change_notifier_glib_signal_id, 0, &message );
     }
+
+    /* clean up */
+    data_id_destroy( &modified_element_id );
+    data_id_destroy( &parent_element_id );
+    data_change_message_destroy( &message );
 
     TRACE_END();
 }

@@ -495,12 +495,13 @@ void gui_main_window_about_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_main_window_data_changed_callback( GtkWidget *window, data_id_t *id, gpointer user_data )
+void gui_main_window_data_changed_callback( GtkWidget *window, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
     gui_main_window_t *this_ = user_data;
 
-    if ( DATA_TABLE_VOID == data_id_get_table( id ) )
+    if (( DATA_CHANGE_EVENT_TYPE_DB_OPENED == data_change_message_get_event( msg ) )
+        || ( DATA_CHANGE_EVENT_TYPE_DB_CLOSED == data_change_message_get_event( msg ) ))
     {
         /* the database has changed */
         const char *filename = data_database_get_filename_ptr( (*this_).database );
