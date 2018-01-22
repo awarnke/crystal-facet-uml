@@ -394,7 +394,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             /* draw text */
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+f_line_gap );
+            cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+gap+gap );
             pango_cairo_show_layout (cr, font_layout);
         }
 

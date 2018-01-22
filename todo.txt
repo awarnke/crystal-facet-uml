@@ -11,7 +11,6 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
-  [ ] In COMMENTS/notes and requirements, show not only the title but the description
   [ ] Support Diagram-Types: List, Sequence, Timing, Profile, Parametric, Interaction-Overview
   [ ] include and extends relationships shall show their stereotype
   @data
