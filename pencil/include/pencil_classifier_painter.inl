@@ -172,12 +172,28 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
+            /* for space between stereotype and name */
+            text2_height += pencil_size_get_font_line_gap( pencil_size );
+
             /* for underscores under object instance names, add 2 * gap: */
             space_for_line = 2.0 * pencil_size_get_standard_object_border( pencil_size );
         }
 
-        *out_text_height = text1_height + text2_height + space_for_line;
-        *out_text_width = ( text1_width > text2_width ) ? text1_width : text2_width;
+        /* draw description text */
+        int text3_width = 0;
+        int text3_height = 0;
+        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
+            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
+        {
+            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
+            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+        }
+
+        *out_text_height = text1_height + text2_height + space_for_line + text3_height;
+        double intermediate_max_w;
+        intermediate_max_w = ( text1_width > text2_width ) ? text1_width : text2_width;
+        *out_text_width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width;
     }
     else
     {

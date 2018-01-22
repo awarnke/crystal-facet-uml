@@ -339,6 +339,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         }
 
         /* draw name text */
+        int text2_height = 0;
         {
             /* prepare text */
             char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
@@ -354,7 +355,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
 
             int text2_width;
-            int text2_height;
             pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
@@ -380,6 +380,22 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_line_to ( cr, left + 0.5*( width + text2_width ), text1_top+text1_height+f_line_gap+text2_height );
                 cairo_stroke (cr);
             }
+        }
+
+        /* draw description text */
+        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
+            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
+        {
+            int text3_width;
+            int text3_height;
+            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
+            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+
+            /* draw text */
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+            cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+f_line_gap );
+            pango_cairo_show_layout (cr, font_layout);
         }
 
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ) )
