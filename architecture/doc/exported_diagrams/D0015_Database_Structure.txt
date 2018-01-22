@@ -17,6 +17,8 @@ relationships    [C0081]
   description    [F0023]
   from --> classifiers    [R0096]
   to --> classifiers    [R0097]
+  from --> features    [R0205]
+  to --> features    [R0206]
 
 
 diagramelements    [C0082]
@@ -24,6 +26,8 @@ diagramelements    [C0082]
   display_flags    [F0031]
   --> diagrams    [R0100]
   --> classifiers    [R0101]
+  focused_feature --> features    [R0204]
+  | to select one of possibly several lifelines
 
 
 classifiers    [C0080]
@@ -32,6 +36,7 @@ classifiers    [C0080]
   stereotype    [F0018]
   name    [F0019]
   description    [F0020]
+  --> features    [R0210]
 
 
 features    [C0083]
@@ -40,4 +45,3 @@ features    [C0083]
   key (name)    [F0025]
   value (type)    [F0026]
   description    [F0027]
-  --> classifiers    [R0098]

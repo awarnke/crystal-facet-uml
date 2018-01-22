@@ -15,15 +15,21 @@ Classifier selection defines view    [C0090]
 | All relationships are shown that have visible classifiers at both ends.
 |     pro: simple selection rule
 |     con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).
-|          This solution assumes that the model is invariant for all diagrams.
+|          This solution assumes that the model is invariant for all diagrams,
+|         therefore all diagrams showing examples/scenarios have to show own instances of classes,
+|         not generic classes that are used in other diagrams.
   solves --> Diagram shows Selection of UML-Model    [R0116]
 
 
 Diagram shows Selection of UML-Model    [C0087]
-| Each diagram shows selected parts of the UML-Model. How to select the parts?
+| Each diagram shall show selected parts of the UML-Model, 
+| especially the scenario-based sequence and timing diagrams.
 
 
 Classifier+Lifeline solution is chosen    [C0097]
+| This solution allows with few additional relationships
+| to provide a user friendly solution to 
+| scenario and example based diagrams.
   --> Classifier and port/lifeline selection def view    [R0141]
 
 

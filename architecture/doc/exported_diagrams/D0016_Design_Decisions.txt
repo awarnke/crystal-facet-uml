@@ -13,7 +13,9 @@ Persistent Data Storage    [C0075]
 
 
 Structure of the UML-Model    [C0086]
+| The database structure shall be simple but also close to UML
 
 
 Diagram shows Selection of UML-Model    [C0087]
-| Each diagram shows selected parts of the UML-Model. How to select the parts?
+| Each diagram shall show selected parts of the UML-Model, 
+| especially the scenario-based sequence and timing diagrams.

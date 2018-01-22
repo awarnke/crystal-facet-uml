@@ -2,11 +2,11 @@ Overview    [D0001]
 | This diagram shows the use-cases that crystal facet uml addresses.
 
 
-SW Integration Tester    [C0050]
-
-
 SW Architect    [C0046]
   creates --> Design consistent UML diagrams    [R0035]
+
+
+SW Integration Tester    [C0050]
 
 
 Design consistent UML diagrams    [C0008]

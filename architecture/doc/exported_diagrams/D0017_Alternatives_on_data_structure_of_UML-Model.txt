@@ -2,6 +2,7 @@ Alternatives on data structure of UML-Model    [D0017]
 
 
 Structure of the UML-Model    [C0086]
+| The database structure shall be simple but also close to UML
 
 
 Simple data structure    [C0088]
@@ -13,6 +14,9 @@ Simple data structure    [C0088]
 
 
 Simple structure is chosen    [C0091]
+| The OMG UML definition model is quite complex
+| and exceeds the possibilities of a small OSS program
+| like crystal_facet_uml.
   --> Simple data structure    [R0117]
 
 

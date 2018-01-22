@@ -1,5 +1,9 @@
 Details on Classifier Selected View    [D0021]
-| Details on Classifier Selection of Diagram elements.
+| The simple solution is to not implement special mechanisms
+| for scenario-based diagrams
+| but to require that all shown classifiers in a 
+| scenario based diagram are explicit instances
+| of the model-class.
 
 
 diagrams    [C0084]
@@ -17,6 +21,8 @@ relationships    [C0081]
   description    [F0023]
   from --> classifiers    [R0096]
   to --> classifiers    [R0097]
+  from --> features    [R0205]
+  to --> features    [R0206]
 
 
 Classifier selection defines view    [C0090]
@@ -25,15 +31,17 @@ Classifier selection defines view    [C0090]
 | All relationships are shown that have visible classifiers at both ends.
 |     pro: simple selection rule
 |     con: Problematic for diagrams that show possible scenarios and alternatives (e.g sequences).
-|          This solution assumes that the model is invariant for all diagrams.
-  --> diagramelements    [R0112]
+|          This solution assumes that the model is invariant for all diagrams,
+|         therefore all diagrams showing examples/scenarios have to show own instances of classes,
+|         not generic classes that are used in other diagrams.
+  --> diagramelements_simple    [R0209]
 
 
-diagramelements    [C0082]
-  id: int64_t    [F0016]
-  display_flags    [F0031]
-  --> diagrams    [R0100]
-  --> classifiers    [R0101]
+diagramelements_simple    [C0152]
+  id: int64_t    [F0034]
+  display_flags    [F0035]
+  --> diagrams    [R0207]
+  --> classifiers    [R0208]
 
 
 classifiers    [C0080]
@@ -42,6 +50,7 @@ classifiers    [C0080]
   stereotype    [F0018]
   name    [F0019]
   description    [F0020]
+  --> features    [R0210]
 
 
 features    [C0083]
@@ -50,4 +59,3 @@ features    [C0083]
   key (name)    [F0025]
   value (type)    [F0026]
   description    [F0027]
-  --> classifiers    [R0098]

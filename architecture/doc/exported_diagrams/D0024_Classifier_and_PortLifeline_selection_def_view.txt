@@ -1,4 +1,10 @@
 Classifier and Port/Lifeline selection def view    [D0024]
+| This (finally chosen and implemented) solution
+| selects timing and sequence lifelines 
+| by a focused_feature link.
+| To enhance usability, this cannot be selected
+| but the program creates an own lifeline 
+| for every scenario-based diagram.
 
 
 diagrams    [C0084]
@@ -16,6 +22,8 @@ relationships    [C0081]
   description    [F0023]
   from --> classifiers    [R0096]
   to --> classifiers    [R0097]
+  from --> features    [R0205]
+  to --> features    [R0206]
 
 
 diagramelements    [C0082]
@@ -23,6 +31,8 @@ diagramelements    [C0082]
   display_flags    [F0031]
   --> diagrams    [R0100]
   --> classifiers    [R0101]
+  focused_feature --> features    [R0204]
+  | to select one of possibly several lifelines
 
 
 classifiers    [C0080]
@@ -31,28 +41,7 @@ classifiers    [C0080]
   stereotype    [F0018]
   name    [F0019]
   description    [F0020]
-
-
-Classifier and port/lifeline selection def view    [C0107]
-  --> diagramelements    [R0142]
-  --> Lifeline/Port    [R0144]
-  --> Relationship-2    [R0146]
-  --> diagramelements-2    [R0147]
-
-
-diagramelements-2    [C0110]
-  --> diagramelements    [R0148]
-  visible_lifeline --> Lifeline/Port    [R0149]
-
-
-Relationship-2    [C0109]
-  from_feature_id: int64_t    [F0032]
-  to_feature_id: int64_t    [F0033]
-  --> relationships    [R0145]
-
-
-Lifeline/Port    [C0108]
-  --> features    [R0143]
+  --> features    [R0210]
 
 
 features    [C0083]
@@ -61,4 +50,3 @@ features    [C0083]
   key (name)    [F0025]
   value (type)    [F0026]
   description    [F0027]
-  --> classifiers    [R0098]
