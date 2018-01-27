@@ -1,3 +1,5 @@
+2018-0x-xx 1.2.0 [xxxxxxx]
+  + 
 2018-01-23 1.1.0 [086e559]
   + greyed-out classifiers also grey-out their contained features
   . sqlite updated from 3.10.2 to 3.21.0
