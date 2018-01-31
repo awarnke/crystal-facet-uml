@@ -86,7 +86,9 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
     return result;
 }
 
-ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifier_controller_t *this_, int64_t obj_id )
+ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_controller_t *this_,
+                                                           int64_t obj_id,
+                                                           bool add_to_latest_undo_set )
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
@@ -126,6 +128,17 @@ ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifi
     }
     else
     {
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
+        {
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
+            {
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+            }
+        }
+
         /* delete all features */
         {
             bool no_more_features = false;
@@ -226,6 +239,9 @@ ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifi
                 result |= (ctrl_error_t) data_result;
             }
         }
+
+        /* add a boundary to the undo redo list */
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
     }
 
     TRACE_END_ERR( result );
@@ -441,241 +457,6 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
     return result;
 }
 
-/* ================================ COMMON ================================ */
-
-ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_, data_small_set_t objects )
-{
-    TRACE_BEGIN();
-    ctrl_error_t result = CTRL_ERROR_NONE;
-
-    if ( data_small_set_is_empty( &objects ) )
-    {
-        result = CTRL_ERROR_INPUT_EMPTY;
-    }
-    else
-    {
-        int index;
-
-        /* STEP ZERO: Delete all objects that can be immediately deleted */
-
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
-        {
-            data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
-            switch ( data_id_get_table( &current_id ) )
-            {
-                case DATA_TABLE_CLASSIFIER:
-                {
-                    /* see step two */
-                }
-                break;
-
-                case DATA_TABLE_FEATURE:
-                {
-                    data_feature_t old_feat;
-                    data_error_t current_result4;
-                    current_result4 = data_database_writer_delete_feature( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_feat );
-
-                    result |= (ctrl_error_t) current_result4;
-
-                    if ( DATA_ERROR_NONE == current_result4 )
-                    {
-                        /* store the deleted feature to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feat );
-
-                        data_feature_destroy( &old_feat );
-                    }
-                }
-                break;
-
-                case DATA_TABLE_RELATIONSHIP:
-                {
-                    data_relationship_t old_relation;
-                    data_error_t current_result5;
-                    current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_relation );
-
-                    result |= (ctrl_error_t) current_result5;
-
-                    if ( DATA_ERROR_NONE == current_result5 )
-                    {
-                        /* store the deleted relationship to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &old_relation );
-
-                        data_relationship_destroy( &old_relation );
-                    }
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAMELEMENT:
-                {
-                    /* see step one */
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAM:
-                {
-                    /* see step two */
-                }
-                break;
-
-                default:
-                {
-                    result |= CTRL_ERROR_VALUE_OUT_OF_RANGE;
-                }
-                break;
-            }
-        }
-
-        /* STEP ONE: Delete all objects that can be deleted after relationships and features are gone */
-
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
-        {
-            data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
-            switch ( data_id_get_table( &current_id ) )
-            {
-                case DATA_TABLE_CLASSIFIER:
-                {
-                    /* see step two */
-                }
-                break;
-
-                case DATA_TABLE_FEATURE:
-                {
-                    /* see step zero */
-                }
-                break;
-
-                case DATA_TABLE_RELATIONSHIP:
-                {
-                    /* see step zero */
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAMELEMENT:
-                {
-                    data_error_t current_result;
-                    data_diagramelement_t old_diagramelement;
-                    data_id_trace( &current_id );
-                    current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
-                                                                                data_id_get_row_id( &current_id ),
-                                                                                &old_diagramelement
-                                                                            );
-                    result |= (ctrl_error_t) current_result;
-
-                    if ( DATA_ERROR_NONE == current_result )
-                    {
-                        /* store the deleted classifier to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
-                    }
-
-                    /* try to also delete the classifier, ignore errors because it is ok if the clasifier is still referenced */
-                    if ( DATA_ERROR_NONE == current_result )
-                    {
-                        ctrl_error_t my_ctrl_result;
-
-                        my_ctrl_result = ctrl_classifier_controller_private_delete_classifier( this_,
-                                                                                               data_diagramelement_get_classifier_id( &old_diagramelement )
-                                                                                             );
-
-                        if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & my_ctrl_result ))
-                        {
-                            TSLOG_WARNING( "The classifier cannot be deleted because it is still referenced." );
-                        }
-                        else
-                        {
-                            /* report this unexpected error */
-                            result |= my_ctrl_result;
-                        }
-                        data_diagramelement_destroy( &old_diagramelement );
-                    }
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAM:
-                {
-                    /* see step two */
-                }
-                break;
-
-                default:
-                {
-                    /* see step zero */
-                }
-                break;
-            }
-        }
-
-        /* STEP TWO: Delete all objects that can be deleted after step one */
-
-        for ( index = 0; index < data_small_set_get_count( &objects ); index ++ )
-        {
-            data_id_t current_id;
-            current_id = data_small_set_get_id( &objects, index );
-            switch ( data_id_get_table( &current_id ) )
-            {
-                case DATA_TABLE_CLASSIFIER:
-                {
-                    ctrl_error_t current_result2;
-
-                    current_result2 = ctrl_classifier_controller_private_delete_classifier( this_, data_id_get_row_id( &current_id ) );
-
-                    result |= current_result2;
-                }
-                break;
-
-                case DATA_TABLE_FEATURE:
-                {
-                    /* see step zero */
-                }
-                break;
-
-                case DATA_TABLE_RELATIONSHIP:
-                {
-                    /* see step zero */
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAMELEMENT:
-                {
-                    /* see step one */
-                }
-                break;
-
-                case DATA_TABLE_DIAGRAM:
-                {
-                    data_diagram_t old_diagram;
-                    data_error_t current_result3;
-                    current_result3 = data_database_writer_delete_diagram ( (*this_).db_writer, data_id_get_row_id( &current_id ), &old_diagram );
-
-                    result |= (ctrl_error_t) current_result3;
-
-                    if ( DATA_ERROR_NONE == current_result3 )
-                    {
-                        /* store the deleted diagram to the undo redo list */
-                        ctrl_undo_redo_list_add_delete_diagram( (*this_).undo_redo_list, &old_diagram );
-
-                        data_diagram_destroy( &old_diagram );
-                    }
-                }
-                break;
-
-                default:
-                {
-                    /* see step zero */
-                }
-                break;
-            }
-        }
-
-        /* add a boundary to the undo redo list after all deletions */
-        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
 /* ================================ FEATURE ================================ */
 
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
@@ -723,6 +504,48 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
     result = (ctrl_error_t) data_result;
 
     data_feature_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
+                                                         int64_t obj_id,
+                                                         bool add_to_latest_undo_set )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    /* TODO: deletes a feature record and associated relationships */
+
+    if ( true )  /* TODO: The feature is not deleted if still referenced by diagramelements */
+    {
+        data_feature_t old_feat;
+        data_error_t current_result4;
+        current_result4 = data_database_writer_delete_feature( (*this_).db_writer, obj_id, &old_feat );
+
+        if ( DATA_ERROR_NONE == current_result4 )
+        {
+            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+            if ( add_to_latest_undo_set )
+            {
+                ctrl_error_t internal_err;
+                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+                if ( CTRL_ERROR_NONE != internal_err )
+                {
+                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                }
+            }
+
+            /* store the deleted feature to the undo redo list */
+            ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feat );
+            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+            data_feature_destroy( &old_feat );
+        }
+
+        result |= (ctrl_error_t) current_result4;
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -920,6 +743,46 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
     result = (ctrl_error_t) data_result;
 
     data_relationship_destroy( &to_be_created );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
+                                                              int64_t obj_id,
+                                                              bool add_to_latest_undo_set )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    if ( true ) /* there are no conditions to delete a relationship */
+    {
+        data_relationship_t old_relation;
+        data_error_t current_result5;
+        current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
+
+        if ( DATA_ERROR_NONE == current_result5 )
+        {
+            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+            if ( add_to_latest_undo_set )
+            {
+                ctrl_error_t internal_err;
+                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+                if ( CTRL_ERROR_NONE != internal_err )
+                {
+                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+                }
+            }
+
+            /* store the deleted relationship to the undo redo list */
+            ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &old_relation );
+            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+            data_relationship_destroy( &old_relation );
+        }
+
+        result |= (ctrl_error_t) current_result5;
+    }
 
     TRACE_END_ERR( result );
     return result;

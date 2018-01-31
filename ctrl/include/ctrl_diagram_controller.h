@@ -11,6 +11,7 @@
 
 #include "ctrl_error.h"
 #include "ctrl_undo_redo_list.h"
+#include "ctrl_policy_enforcer.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -28,6 +29,7 @@ struct ctrl_diagram_controller_struct {
     data_database_writer_t *db_writer;  /*!< pointer to external database writer */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
+    ctrl_policy_enforcer_t *policy_enforcer;  /*!< pointer to external ctrl_policy_enforcer_t */
 };
 
 typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
@@ -37,12 +39,14 @@ typedef struct ctrl_diagram_controller_struct ctrl_diagram_controller_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param undo_redo_list pointer to list of undo/redo actions
+ *  \param policy_enforcer pointer to policy enforcer that keeps the database in a gui-suiting style
  *  \param database pointer to database object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
+                                    ctrl_policy_enforcer_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer
@@ -71,7 +75,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
                                                       const data_diagram_t *new_diagram,
                                                       bool add_to_latest_undo_set,
                                                       int64_t* out_new_id
-);
+                                                    );
 
 /*!
  *  \brief creates a new diagram
@@ -104,6 +108,26 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
                                                                          const char* diagram_name,
                                                                          int64_t* out_new_id
                                                                        );
+
+/*!
+ *  \brief deletes a diagram record and associated diagramelements
+ *         (see ctrl_diagram_controller_delete_diagramelement for additional actions)
+ *         and stores all actions in the undo redo list.
+ *
+ *  Note: The diagram is not deleted if still referenced by other diagrams.
+ *
+ *  \see ctrl_diagram_controller_delete_diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the diagram record to be deleted.
+ *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t *this_,
+                                                      int64_t obj_id,
+                                                      bool add_to_latest_undo_set
+                                                    );
 
 /*!
  *  \brief updates the diagram attribute: parent_id
@@ -189,6 +213,22 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
                                                              const data_diagramelement_t *new_diagramelement,
                                                              bool add_to_latest_undo_set,
                                                              int64_t* out_new_id
+                                                           );
+
+/*!
+ *  \brief deletes a diagramelement record and associated classifiers (if not referenced anymore)
+ *         and associated features (via policy_enforcer)
+ *         and stores all actions in the undo redo list.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the diagramelement record to be deleted.
+ *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_controller_t *this_,
+                                                             int64_t obj_id,
+                                                             bool add_to_latest_undo_set
                                                            );
 
 /*!

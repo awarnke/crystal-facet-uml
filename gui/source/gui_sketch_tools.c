@@ -276,10 +276,8 @@ void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_
 {
     TRACE_BEGIN();
     ctrl_error_t ctrl_err;
-    ctrl_classifier_controller_t *c_controller;
 
-    c_controller = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-    ctrl_err = ctrl_classifier_controller_delete_set ( c_controller, *set_to_be_deleted );
+    ctrl_err = ctrl_controller_delete_set ( (*this_).controller, *set_to_be_deleted );
     if ( CTRL_ERROR_INPUT_EMPTY == ctrl_err )
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,

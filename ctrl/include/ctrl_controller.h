@@ -13,6 +13,7 @@
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "ctrl_undo_redo_list.h"
+#include "ctrl_policy_enforcer.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -29,6 +30,7 @@ struct ctrl_controller_struct {
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
     ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
+    ctrl_policy_enforcer_t policy_enforcer;  /*!< own instance of ctrl_policy_enforcer_t */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;
@@ -62,6 +64,8 @@ static inline ctrl_classifier_controller_t *ctrl_controller_get_classifier_contr
  */
 static inline ctrl_diagram_controller_t *ctrl_controller_get_diagram_control_ptr ( ctrl_controller_t *this_ );
 
+/* ================================ interface for undo redo ================================ */
+
 /*!
  *  \brief un-does a set of actions.
  *
@@ -80,6 +84,8 @@ static inline ctrl_error_t ctrl_controller_undo ( ctrl_controller_t *this_ );
  *          CTRL_ERROR_NONE otherwise.
  */
 static inline ctrl_error_t ctrl_controller_redo ( ctrl_controller_t *this_ );
+
+/* ================================ interface for database file ================================ */
 
 /*!
  *  \brief switches the currently used database file
@@ -109,6 +115,19 @@ static inline ctrl_error_t ctrl_controller_repair_database ( ctrl_controller_t *
                                                              uint32_t *out_fix,
                                                              utf8stringbuf_t out_report
                                                            );
+
+/* ================================ interface for sets of elements ================================ */
+
+/*!
+ *  \brief deletes a set of classifiers, diagramelements, features, relations
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param objects set of object ids to be deleted
+ *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_controller_delete_set ( ctrl_controller_t *this_,
+                                          data_small_set_t objects
+                                        );
 
 #include "ctrl_controller.inl"
 

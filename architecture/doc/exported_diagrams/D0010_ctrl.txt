@@ -5,10 +5,20 @@ ctrl    [D0010]
 ctrl_controller    [C0040]
 | - changes the database contents
 | - maintains the undo redo list
-  classifiers: ctrl_classifier_controller_t    [F0009]
-  diagrams: ctrl_diagram_controller_t    [F0010]
-  undo_redo_list: ctrl_undo_redo_list_t    [F0011]
   has --> ctrl_consistency_checker    [R0030]
+  has --> ctrl_undo_redo_list    [R0213]
+  has --> ctrl_policy_enforcer    [R0214]
+  has --> ctrl_classifier_controller    [R0216]
+  has --> ctrl_diagram_controller    [R0218]
+
+
+ctrl_diagram_controller    [C0156]
+  calls --> ctrl_policy_enforcer    [R0219]
+
+
+ctrl_policy_enforcer    [C0154]
+| ensures that application level policies on the model are adhered.
+  calls --> ctrl_classifier_controller    [R0220]
 
 
 ctrl    [C0003]
@@ -16,6 +26,17 @@ ctrl    [C0003]
 | - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
   --> ctrl_controller    [R0043]
   --> ctrl_consistency_checker    [R0044]
+  --> ctrl_diagram_controller    [R0217]
+  --> ctrl_classifier_controller    [R0215]
+  --> ctrl_undo_redo_list    [R0211]
+  --> ctrl_policy_enforcer    [R0212]
+
+
+ctrl_classifier_controller    [C0155]
+
+
+ctrl_undo_redo_list    [C0153]
+| manages a list of actions to be undone or/and redone.
 
 
 ctrl_consistency_checker    [C0041]

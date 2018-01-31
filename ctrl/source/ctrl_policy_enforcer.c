@@ -5,17 +5,15 @@
 #include "tslog.h"
 
 void ctrl_policy_enforcer_init ( ctrl_policy_enforcer_t *this_,
-                                 ctrl_undo_redo_list_t *undo_redo_list,
-                                 data_database_t *database,
                                  data_database_reader_t *db_reader,
-                                 data_database_writer_t *db_writer )
+                                 ctrl_classifier_controller_t *clfy_ctrl )
 {
     TRACE_BEGIN();
+    assert( NULL != db_reader );
+    assert( NULL != clfy_ctrl );
 
-    (*this_).undo_redo_list = undo_redo_list;
-    (*this_).database = database;
     (*this_).db_reader = db_reader;
-    (*this_).db_writer = db_writer;
+    (*this_).clfy_ctrl = clfy_ctrl;
 
     TRACE_END();
 }
@@ -24,66 +22,87 @@ void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).undo_redo_list = NULL;
-    (*this_).database = NULL;
     (*this_).db_reader = NULL;
-    (*this_).db_writer = NULL;
+    (*this_).clfy_ctrl = NULL;
 
     TRACE_END();
 }
 
 /* ================================ LIFELINES ================================ */
 
-ctrl_error_t ctrl_policy_enforcer_update_diagram_type ( ctrl_policy_enforcer_t *this_,
-                                                        const data_diagram_t *new_diagram,
-                                                        bool add_to_latest_undo_set,
-                                                        int64_t* out_new_id )
+ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforcer_t *this_,
+                                                             const data_diagram_t *new_diagram,
+                                                             bool add_to_latest_undo_set,
+                                                             int64_t* out_new_id )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagram );
-    data_diagram_t to_be_created;
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    int64_t new_id;
-
-    data_diagram_copy( &to_be_created, new_diagram );
-    data_diagram_set_id( &to_be_created, DATA_ID_VOID_ID );
-
-    data_result = data_database_writer_create_diagram( (*this_).db_writer, &to_be_created, &new_id );
-    if ( DATA_ERROR_NONE == data_result )
-    {
-        /* store new id to diagram object */
-        data_diagram_set_id( &to_be_created, new_id );
-
-        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-        if ( add_to_latest_undo_set )
-        {
-            ctrl_error_t internal_err;
-            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-            if ( CTRL_ERROR_NONE != internal_err )
-            {
-                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-            }
-        }
-
-        /* store the new diagram to the undo redo list */
-        ctrl_undo_redo_list_add_create_diagram( (*this_).undo_redo_list, &to_be_created );
-        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-        /* copy new id to out parameter */
-        if ( NULL != out_new_id )
-        {
-            *out_new_id = new_id;
-        }
-    }
-    result = (ctrl_error_t) data_result;
-
-    data_diagram_destroy( &to_be_created );
 
     TRACE_END_ERR( result );
     return result;
 }
 
+ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enforcer_t *this_,
+                                                               const data_diagram_t *new_diagram,
+                                                               bool add_to_latest_undo_set,
+                                                               int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != new_diagram );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_policy_enforcer_pre_delete_diagramelement ( ctrl_policy_enforcer_t *this_,
+                                                              const data_diagramelement_t *old_diagramelement,
+                                                              bool add_to_latest_undo_set,
+                                                              int64_t* out_new_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != old_diagramelement );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+/* ================================ NO ABANDONED CLASSIFIERS ================================ */
+
+ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement ( ctrl_policy_enforcer_t *this_,
+                                                               const data_diagramelement_t *deleted_diagramelement
+                                                             )
+{
+    TRACE_BEGIN();
+    assert( NULL != deleted_diagramelement );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+
+    /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
+    ctrl_error_t my_ctrl_result;
+
+    my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
+                                                                   data_diagramelement_get_classifier_id( deleted_diagramelement ),
+                                                                   true /* = add_to_latest_undo_set */
+    );
+
+    if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & my_ctrl_result ))
+    {
+        TSLOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
+    }
+    else
+    {
+        /* report this unexpected error */
+        result |= my_ctrl_result;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
 
 /*
 Copyright 2018-2018 Andreas Warnke

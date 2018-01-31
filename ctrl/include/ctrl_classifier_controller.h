@@ -76,20 +76,24 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
                                                             const data_classifier_t *new_classifier,
                                                             bool add_to_latest_undo_set,
                                                             int64_t* out_new_id
-);
+                                                          );
 
 /*!
  *  \brief deletes a classifier record and associated relationships and features
  *         and stores all actions in the undo redo list.
  *
  *  Note: The classifier is not deleted if still referenced by diagramelements.
- *  Note: No boundary is added to the undo redo list. Therefore this function is private.
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
+ *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-ctrl_error_t ctrl_classifier_controller_private_delete_classifier( ctrl_classifier_controller_t *this_, int64_t obj_id );
+ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
+                                                            int64_t obj_id,
+                                                            bool add_to_latest_undo_set
+                                                          );
 
 /*!
  *  \brief updates the classifier attribute: stereotype
@@ -184,19 +188,6 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
                                                                             int32_t new_classifier_y_order
                                                                           );
 
-/* ================================ COMMON ================================ */
-
-/*!
- *  \brief deletes a set of classifiers, diagramelements, features, relations
- *
- *  \param this_ pointer to own object attributes
- *  \param objects set of object ids to be deleted
- *  \return error id in case of an error, e.g. CTRL_ERROR_INPUT_EMPTY in case of empty set, CTRL_ERROR_NONE otherwise
- */
-ctrl_error_t ctrl_classifier_controller_delete_set ( ctrl_classifier_controller_t *this_,
-                                                     data_small_set_t objects
-                                                   );
-
 /* ================================ FEATURE ================================ */
 
 /*!
@@ -213,6 +204,23 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
                                                          const data_feature_t *new_feature,
                                                          bool add_to_latest_undo_set,
                                                          int64_t* out_new_id
+                                                       );
+
+/*!
+ *  \brief deletes a feature record and associated relationships
+ *         and stores all actions in the undo redo list.
+ *
+ *  Note: The feature is not deleted if still referenced by diagramelements.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the feature record to be deleted.
+ *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
+                                                         int64_t obj_id,
+                                                         bool add_to_latest_undo_set
                                                        );
 
 /*!
@@ -296,6 +304,21 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
                                                               const data_relationship_t *new_relationship,
                                                               bool add_to_latest_undo_set,
                                                               int64_t* out_new_id
+                                                            );
+
+/*!
+ *  \brief deletes a relationship record
+ *         and stores all actions in the undo redo list.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id id of the relationship record to be deleted.
+ *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
+ *                                false if a new boundary shall be created in the undo_redo_list_t.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ */
+ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
+                                                              int64_t obj_id,
+                                                              bool add_to_latest_undo_set
                                                             );
 
 /*!

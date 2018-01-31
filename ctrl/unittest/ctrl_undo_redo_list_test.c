@@ -389,7 +389,7 @@ static void undo_redo_feature_and_relationship(void)
     data_err = data_small_set_add_obj ( &small_set, element_id );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    ctrl_err = ctrl_classifier_controller_delete_set ( classifier_ctrl, small_set );
+    ctrl_err = ctrl_controller_delete_set ( &controller, small_set );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     /* the undo-list is filled now. test undo */
