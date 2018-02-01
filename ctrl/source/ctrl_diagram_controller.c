@@ -174,39 +174,35 @@ ctrl_error_t ctrl_diagram_controller_delete_diagram ( ctrl_diagram_controller_t 
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    /* TODO: is " Note: The diagram is not deleted if still referenced by other diagrams." checked by data package? */
+    /* delete diagram */
+    /* data_database_writer_delete_diagram checks that this diagram is not a parent */
+    /* and is not referenced by diagramelements */
+    /* fails otherwise: DATA_ERROR_OBJECT_STILL_REFERENCED */
+    data_diagram_t old_diagram;
+    data_error_t current_result3;
+    current_result3 = data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, &old_diagram );
 
-    if ( true )  /* there are no conditions to delete a diagram */
+    if ( DATA_ERROR_NONE == current_result3 )
     {
-        data_diagram_t old_diagram;
-        data_error_t current_result3;
-        current_result3 = data_database_writer_delete_diagram ( (*this_).db_writer, obj_id, &old_diagram );
-
-        if ( DATA_ERROR_NONE == current_result3 )
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
         {
-            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-            if ( add_to_latest_undo_set )
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
             {
-                ctrl_error_t internal_err;
-                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-                if ( CTRL_ERROR_NONE != internal_err )
-                {
-                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-                }
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
-
-            /* store the deleted diagram to the undo redo list */
-            ctrl_undo_redo_list_add_delete_diagram( (*this_).undo_redo_list, &old_diagram );
-            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-            data_diagram_destroy( &old_diagram );
         }
 
-        result |= (ctrl_error_t) current_result3;
+        /* store the deleted diagram to the undo redo list */
+        ctrl_undo_redo_list_add_delete_diagram( (*this_).undo_redo_list, &old_diagram );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
+        data_diagram_destroy( &old_diagram );
     }
 
-    /* TODO: deletes a diagram record and associated diagramelements */
+    result |= (ctrl_error_t) current_result3;
 
     TRACE_END_ERR( result );
     return result;
@@ -429,49 +425,42 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    if ( true )
+    /* delete diagramelement */
+    data_error_t current_result;
+    data_diagramelement_t old_diagramelement;
+    current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
+                                                                    obj_id,
+                                                                    &old_diagramelement
+                                                                );
+
+    if ( DATA_ERROR_NONE == current_result )
     {
-        data_error_t current_result;
-        data_diagramelement_t old_diagramelement;
-        current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
-                                                                     obj_id,
-                                                                     &old_diagramelement
-                                                                   );
-
-        if ( DATA_ERROR_NONE == current_result )
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
         {
-            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-            if ( add_to_latest_undo_set )
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
             {
-                ctrl_error_t internal_err;
-                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-                if ( CTRL_ERROR_NONE != internal_err )
-                {
-                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-                }
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
-
-            /* store the deleted classifier to the undo redo list */
-            ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
-            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
         }
 
-        result |= (ctrl_error_t) current_result;
+        /* store the deleted classifier to the undo redo list */
+        ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+    }
 
-        /* TODO: deletes a diagramelement record and associated classifiers (if not referenced anymore)
-         *         and associated features (via policy_enforcer)
-         * */
+    result |= (ctrl_error_t) current_result;
 
+    /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
+    if ( DATA_ERROR_NONE == current_result )
+    {
+        result |= ctrl_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
+                                                                    &old_diagramelement
+                                                                  );
 
-        /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
-        if ( DATA_ERROR_NONE == current_result )
-        {
-            result |=  ctrl_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
-                                                                         &old_diagramelement
-            );
-
-            data_diagramelement_destroy( &old_diagramelement );
-        }
+        data_diagramelement_destroy( &old_diagramelement );
     }
 
     TRACE_END_ERR( result );

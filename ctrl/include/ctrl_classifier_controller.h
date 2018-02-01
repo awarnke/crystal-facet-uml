@@ -207,10 +207,11 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
                                                        );
 
 /*!
- *  \brief deletes a feature record and associated relationships
+ *  \brief deletes a feature record
+ *         TODO: and associated relationships
  *         and stores all actions in the undo redo list.
  *
- *  Note: The feature is not deleted if still referenced by diagramelements.
+ *  TODO: Note: The feature is not deleted if still referenced by diagramelements.
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the feature record to be deleted.

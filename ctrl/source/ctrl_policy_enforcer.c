@@ -31,12 +31,10 @@ void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ )
 /* ================================ LIFELINES ================================ */
 
 ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforcer_t *this_,
-                                                             const data_diagram_t *new_diagram,
-                                                             bool add_to_latest_undo_set,
-                                                             int64_t* out_new_id )
+                                                             const data_diagram_t *updated_diagram )
 {
     TRACE_BEGIN();
-    assert( NULL != new_diagram );
+    assert( NULL != updated_diagram );
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
@@ -45,12 +43,10 @@ ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforce
 }
 
 ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                               const data_diagram_t *new_diagram,
-                                                               bool add_to_latest_undo_set,
-                                                               int64_t* out_new_id )
+                                                               const data_diagramelement_t *new_diagramelement )
 {
     TRACE_BEGIN();
-    assert( NULL != new_diagram );
+    assert( NULL != new_diagramelement );
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
@@ -58,13 +54,11 @@ ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enfor
     return result;
 }
 
-ctrl_error_t ctrl_policy_enforcer_pre_delete_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *old_diagramelement,
-                                                              bool add_to_latest_undo_set,
-                                                              int64_t* out_new_id )
+ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement2 ( ctrl_policy_enforcer_t *this_,
+                                                                const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
-    assert( NULL != old_diagramelement );
+    assert( NULL != deleted_diagramelement );
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
@@ -88,7 +82,7 @@ ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement ( ctrl_policy_enfor
     my_ctrl_result = ctrl_classifier_controller_delete_classifier( (*this_).clfy_ctrl,
                                                                    data_diagramelement_get_classifier_id( deleted_diagramelement ),
                                                                    true /* = add_to_latest_undo_set */
-    );
+                                                                 );
 
     if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & my_ctrl_result ))
     {
@@ -103,6 +97,7 @@ ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement ( ctrl_policy_enfor
     TRACE_END_ERR( result );
     return result;
 }
+
 
 /*
 Copyright 2018-2018 Andreas Warnke

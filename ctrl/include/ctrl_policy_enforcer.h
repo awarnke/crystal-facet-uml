@@ -65,25 +65,12 @@ void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ );
  *    all contained elements shall get a lifeline
  *    and this lifeline shall be the focused_feature of the diagramelement.
  *
- *  TODO: Is this really a good strategy?
- *
- *  Wouldn't it be better to associate lifelines with "instances":
- *  When making an instance of an element, it gets a lifeline?
- *
- *  Note: in both versions, the model in the database would be the same in the end.
- *  Therefore decision can be changed later...
- *
  *  \param this_ pointer to own object attributes
- *  \param new_diagram data of the new diagram to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
+ *  \param updated_diagram data of the updated diagram.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforcer_t *this_,
-                                                             const data_diagram_t *new_diagram,
-                                                             bool add_to_latest_undo_set,
-                                                             int64_t* out_new_id
+                                                             const data_diagram_t *updated_diagram
                                                            );
 
 /*!
@@ -97,25 +84,12 @@ ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforce
  *    the new diagramelement shall get a lifeline
  *    and this lifeline shall be the focused_feature of the diagramelement.
  *
- *  TODO: Is this really a good strategy?
- *
- *  Wouldn't it be better to associate lifelines with "instances":
- *  When making an instance of an element, it gets a lifeline?
- *
- *  Note: in both versions, the model in the database would be the same in the end.
- *  Therefore decision can be changed later...
- *
  *  \param this_ pointer to own object attributes
- *  \param new_diagram data of the new diagram to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
+ *  \param new_diagramelement data of the new diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                               const data_diagram_t *new_diagram,
-                                                               bool add_to_latest_undo_set,
-                                                               int64_t* out_new_id
+                                                               const data_diagramelement_t *new_diagramelement
                                                              );
 
 /*!
@@ -131,17 +105,12 @@ ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enfor
  *  Rows are deleted in an order that enables an always consistent database structure.
  *
  *  \param this_ pointer to own object attributes
- *  \param old_diagramelement data of the new diagram to be created; the id is ignored.
- *  \param add_to_latest_undo_set true if this add-action shall be merged to the last set of actions in the undo_redo_list_t,
- *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
+ *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_pre_delete_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *old_diagramelement,
-                                                              bool add_to_latest_undo_set,
-                                                              int64_t* out_new_id
-                                                            );
+ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement2 ( ctrl_policy_enforcer_t *this_,
+                                                                const data_diagramelement_t *deleted_diagramelement
+                                                              );
 
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 

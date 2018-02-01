@@ -520,6 +520,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 
     if ( true )  /* TODO: The feature is not deleted if still referenced by diagramelements */
     {
+        /* delete feature */
         data_feature_t old_feat;
         data_error_t current_result4;
         current_result4 = data_database_writer_delete_feature( (*this_).db_writer, obj_id, &old_feat );
@@ -755,34 +756,32 @@ ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_co
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
 
-    if ( true ) /* there are no conditions to delete a relationship */
+    /* delete relationship */
+    data_relationship_t old_relation;
+    data_error_t current_result5;
+    current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
+
+    if ( DATA_ERROR_NONE == current_result5 )
     {
-        data_relationship_t old_relation;
-        data_error_t current_result5;
-        current_result5 = data_database_writer_delete_relationship( (*this_).db_writer, obj_id, &old_relation );
-
-        if ( DATA_ERROR_NONE == current_result5 )
+        /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+        if ( add_to_latest_undo_set )
         {
-            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-            if ( add_to_latest_undo_set )
+            ctrl_error_t internal_err;
+            internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+            if ( CTRL_ERROR_NONE != internal_err )
             {
-                ctrl_error_t internal_err;
-                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-                if ( CTRL_ERROR_NONE != internal_err )
-                {
-                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-                }
+                TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
             }
-
-            /* store the deleted relationship to the undo redo list */
-            ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &old_relation );
-            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-            data_relationship_destroy( &old_relation );
         }
 
-        result |= (ctrl_error_t) current_result5;
+        /* store the deleted relationship to the undo redo list */
+        ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &old_relation );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_relationship_destroy( &old_relation );
     }
+
+    result |= (ctrl_error_t) current_result5;
 
     TRACE_END_ERR( result );
     return result;

@@ -110,8 +110,8 @@ ctrl_error_t ctrl_diagram_controller_create_root_diagram_if_not_exists ( ctrl_di
                                                                        );
 
 /*!
- *  \brief deletes a diagram record and associated diagramelements
- *         (see ctrl_diagram_controller_delete_diagramelement for additional actions)
+ *  \brief deletes a diagram record
+ *         TODO: and associated diagramelements (see ctrl_diagram_controller_delete_diagramelement for additional actions)
  *         and stores all actions in the undo redo list.
  *
  *  Note: The diagram is not deleted if still referenced by other diagrams.
@@ -216,8 +216,9 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
                                                            );
 
 /*!
- *  \brief deletes a diagramelement record and associated classifiers (if not referenced anymore)
- *         and associated features (via policy_enforcer)
+ *  \brief deletes a diagramelement record
+ *         and associated classifiers (if not referenced anymore)
+ *         TODO: and associated features (via policy_enforcer)
  *         and stores all actions in the undo redo list.
  *
  *  \param this_ pointer to own object attributes
