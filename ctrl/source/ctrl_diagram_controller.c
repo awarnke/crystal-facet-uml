@@ -324,14 +324,23 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
         data_diagram_t new_diagram;
         data_diagram_copy( &new_diagram, &old_diagram );
         data_diagram_set_diagram_type( &new_diagram, new_diagram_type );
+
         /* store the change of the diagram to the undo redo list */
         ctrl_undo_redo_list_add_update_diagram( (*this_).undo_redo_list, &old_diagram, &new_diagram );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
+        /* apply policy rules */
+        result |= ctrl_policy_enforcer_post_update_diagram_type ( (*this_).policy_enforcer,
+                                                                  &new_diagram
+                                                                );
+
         data_diagram_destroy( &new_diagram );
         data_diagram_destroy( &old_diagram );
     }
-    result = (ctrl_error_t) data_result;
+    else
+    {
+        result = (ctrl_error_t) data_result;
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -404,13 +413,21 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
         ctrl_undo_redo_list_add_create_diagramelement( (*this_).undo_redo_list, &to_be_created );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
+        /* apply policies */
+        result |= ctrl_policy_enforcer_post_create_diagramelement ( (*this_).policy_enforcer,
+                                                                    &to_be_created
+                                                                  );
+
         /* copy new id to out parameter */
         if ( NULL != out_new_id )
         {
             *out_new_id = new_id;
         }
     }
-    result = (ctrl_error_t) data_result;
+    else
+    {
+        result = (ctrl_error_t) data_result;
+    }
 
     data_diagramelement_destroy( &to_be_created );
 
@@ -429,9 +446,9 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
     data_error_t current_result;
     data_diagramelement_t old_diagramelement;
     current_result = data_database_writer_delete_diagramelement( (*this_).db_writer,
-                                                                    obj_id,
-                                                                    &old_diagramelement
-                                                                );
+                                                                 obj_id,
+                                                                 &old_diagramelement
+                                                               );
 
     if ( DATA_ERROR_NONE == current_result )
     {
@@ -449,18 +466,17 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
         /* store the deleted classifier to the undo redo list */
         ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-    }
 
-    result |= (ctrl_error_t) current_result;
-
-    /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
-    if ( DATA_ERROR_NONE == current_result )
-    {
+        /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
         result |= ctrl_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
                                                                     &old_diagramelement
                                                                   );
 
         data_diagramelement_destroy( &old_diagramelement );
+    }
+    else
+    {
+        result |= (ctrl_error_t) current_result;
     }
 
     TRACE_END_ERR( result );
