@@ -75,6 +75,9 @@ static void focused_lifeline_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
+
+
+    
 }
 
 
