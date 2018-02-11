@@ -467,7 +467,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
         ctrl_undo_redo_list_add_delete_diagramelement( (*this_).undo_redo_list, &old_diagramelement );
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
-        /* try to also delete the classifier, ignore errors because it is ok if the classifier is still referenced */
+        /* try to also delete the classifier and focused lifelines */
         result |= ctrl_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
                                                                     &old_diagramelement
                                                                   );

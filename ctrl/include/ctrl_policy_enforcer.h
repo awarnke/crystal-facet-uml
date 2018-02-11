@@ -15,11 +15,13 @@
  */
 
 #include "ctrl_error.h"
-#include "ctrl_classifier_controller.h"
 #include "storage/data_database_reader.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <stdint.h>
+
+struct ctrl_classifier_controller_struct;
+struct ctrl_diagram_controller_struct;
 
 /*!
  *  \brief all data attributes needed for the policy enforcer
@@ -29,7 +31,8 @@
  */
 struct ctrl_policy_enforcer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    ctrl_classifier_controller_t *clfy_ctrl;  /*!< pointer to external classifier controller */
+    struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
+    struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
 };
 
 typedef struct ctrl_policy_enforcer_struct ctrl_policy_enforcer_t;
@@ -40,10 +43,12 @@ typedef struct ctrl_policy_enforcer_struct ctrl_policy_enforcer_t;
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
+ *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
 void ctrl_policy_enforcer_init ( ctrl_policy_enforcer_t *this_,
                                  data_database_reader_t *db_reader,
-                                 ctrl_classifier_controller_t *clfy_ctrl
+                                 struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                 struct ctrl_diagram_controller_struct *diag_ctrl
                                );
 
 /*!
