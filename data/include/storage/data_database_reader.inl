@@ -168,7 +168,7 @@ static inline data_error_t data_database_reader_private_bind_two_ids_to_statemen
         TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
     }
-    sqlite_err = sqlite3_bind_int( statement_ptr, SECOND_SQL_BIND_PARAM, id2 );
+    sqlite_err = sqlite3_bind_int64( statement_ptr, SECOND_SQL_BIND_PARAM, id2 );
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_int64() failed:", sqlite_err );

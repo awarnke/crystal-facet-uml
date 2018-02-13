@@ -42,6 +42,7 @@ struct data_database_reader_struct {
     sqlite3_stmt *private_prepared_query_classifier_by_name;
     sqlite3_stmt *private_prepared_query_classifiers_by_diagram_id;
     sqlite3_stmt *private_prepared_query_diagramelement_by_id;
+    sqlite3_stmt *private_prepared_query_diagramelements_by_diagram_id;
     sqlite3_stmt *private_prepared_query_feature_by_id;
     sqlite3_stmt *private_prepared_query_features_by_classifier_id;
     sqlite3_stmt *private_prepared_query_features_by_diagram_id;
@@ -208,6 +209,24 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
  *          E.g. DATA_ERROR_DB_STRUCTURE if id does not exist or DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reader_t *this_, int64_t id, data_diagramelement_t *out_diagramelement );
+
+/*!
+ *  \brief reads all diagramelements from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram
+ *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
+ *  \param out_diagramelement array of diagramelements read from the database (in case of success)
+ *  \param out_diagramelement_count number of diagramelement records stored in out_diagramelement
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ */
+data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
+                                                                      int64_t diagram_id,
+                                                                      uint32_t max_out_array_size,
+                                                                      data_diagramelement_t (*out_diagramelement)[],
+                                                                      uint32_t *out_diagramelement_count
+                                                                    );
 
 /* ================================ FEATURE ================================ */
 

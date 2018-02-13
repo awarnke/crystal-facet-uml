@@ -23,6 +23,16 @@
 struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
+
+
+/*!
+ *  \brief constants of ctrl_policy_enforcer_t
+ */
+enum ctrl_policy_enforcer_const_enum {
+    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements in a diagram */
+};
+
+
 /*!
  *  \brief all data attributes needed for the policy enforcer
  *
@@ -33,6 +43,8 @@ struct ctrl_policy_enforcer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
+
+    data_diagramelement_t private_temp_diagele_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES];
 };
 
 typedef struct ctrl_policy_enforcer_struct ctrl_policy_enforcer_t;

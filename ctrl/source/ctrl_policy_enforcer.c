@@ -44,6 +44,45 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
+    data_diagram_type_t new_type;
+    new_type = data_diagram_get_diagram_type ( updated_diagram );
+    if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == new_type )
+        || ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == new_type )
+        || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == new_type ))
+    {
+        /* this diagram type needs lifelines */
+
+        int64_t diagram_id;
+        diagram_id = data_diagram_get_id ( updated_diagram );
+
+        /* search all contained diagramelements */
+        uint32_t diagramelement_count;
+        data_result = data_database_reader_get_diagramelements_by_diagram_id ( (*this_).db_reader,
+                                                                               diagram_id,
+                                                                               GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES,
+                                                                               &((*this_).private_temp_diagele_buf),
+                                                                               &diagramelement_count
+                                                                             );
+        result |= (ctrl_error_t) data_result;
+
+        if ( DATA_ERROR_NONE == data_result )
+        {
+            /* search the diagramelements */
+            for ( uint32_t index = 0; index < diagramelement_count; index ++ )
+            {
+                data_diagramelement_t *current_diagele;
+                current_diagele = &((*this_).private_temp_diagele_buf[index]);
+                int64_t focused_feature;
+                focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
+
+                if ( DATA_ID_VOID_ID == focused_feature )
+                {
+                    /* diagramelement without focused feature found */
+                }
+            }
+        }
+    }
+
     TRACE_END_ERR( result );
     return result;
 }
@@ -103,6 +142,17 @@ ctrl_error_t ctrl_policy_enforcer_private_delete_a_lifeline ( ctrl_policy_enforc
     assert( NULL != deleted_diagramelement );
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
+
+    /* delete the lifeline of the already deleted data_diagramelement_t */
+    int64_t focused_feature_id;
+    focused_feature_id = data_diagramelement_get_focused_feature_id( deleted_diagramelement );
+    if ( DATA_ID_VOID_ID != focused_feature_id )
+    {
+        result |= ctrl_classifier_controller_delete_feature ( (*this_).clfy_ctrl,
+                                                              focused_feature_id,
+                                                              true /* add_to_latest_undo_set */
+                                                            );
+    }
 
     TRACE_END_ERR( result );
     return result;

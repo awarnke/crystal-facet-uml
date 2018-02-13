@@ -748,6 +748,12 @@ static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID[] =
     "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id FROM diagramelements WHERE id=?;";
 
 /*!
+ *  \brief predefined search statement to find diagramelements by diagram id
+ */
+static const char DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID[] =
+    "SELECT id,diagram_id,classifier_id,display_flags,focused_feature_id FROM diagramelements WHERE diagram_id=?;";
+
+/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_DIAGRAMELEMENT_ID_COLUMN = 0;
@@ -818,6 +824,80 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         {
             TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
             result |= DATA_ERROR_DB_STRUCTURE;
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_database_reader_t *this_,
+                                                                      int64_t diagram_id,
+                                                                      uint32_t max_out_array_size,
+                                                                      data_diagramelement_t (*out_diagramelement)[],
+                                                                      uint32_t *out_diagramelement_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagramelement_count );
+    assert( NULL != out_diagramelement );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_diagramelements_by_diagram_id;
+
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
+
+        *out_diagramelement_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_diagramelement_count = row_index+1;
+                data_diagramelement_t *current_diagele = &((*out_diagramelement)[row_index]);
+
+                data_diagramelement_init( current_diagele,
+                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_ID_COLUMN ),
+                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DIAGRAM_ID_COLUMN ),
+                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_CLASSIFIER_ID_COLUMN ),
+                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_DISPLAY_FLAGS_COLUMN ),
+                                          sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN )
+                );
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENT_FOCUSED_FEATURE_ID_COLUMN ) )
+                {
+                    data_diagramelement_set_focused_feature_id ( current_diagele, DATA_ID_VOID_ID );
+                }
+
+                data_diagramelement_trace( current_diagele );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ANOMALY_INT( "out_diagramelement[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
         }
     }
     else
@@ -1500,6 +1580,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID ),
+                                                                   &((*this_).private_prepared_query_diagramelements_by_diagram_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
                                                                    &((*this_).private_prepared_query_feature_by_id)
@@ -1577,6 +1663,8 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_classifiers_by_diagram_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelement_by_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_diagramelements_by_diagram_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_feature_by_id );
 
