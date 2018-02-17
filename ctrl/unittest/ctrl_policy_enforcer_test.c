@@ -10,7 +10,8 @@
 
 static void set_up(void);
 static void tear_down(void);
-static void focused_lifeline_consistency(void);
+static void diagram_to_lifeline_consistency(void);
+static void diagramelement_to_lifeline_consistency(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -40,7 +41,8 @@ static ctrl_controller_t controller;
 TestRef ctrl_policy_enforcer_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("focused_lifeline_consistency",focused_lifeline_consistency),
+        new_TestFixture("diagram_to_lifeline_consistency",diagram_to_lifeline_consistency),
+        new_TestFixture("diagramelement_to_lifeline_consistency",diagramelement_to_lifeline_consistency),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_policy_enforcer_test",set_up,tear_down,fixtures);
 
@@ -71,13 +73,90 @@ static void tear_down(void)
     err = remove( DATABASE_FILENAME );
 }
 
-static void focused_lifeline_consistency(void)
+static void diagram_to_lifeline_consistency(void)
 {
     ctrl_error_t ctrl_err;
     data_error_t data_err;
 
+    /* create two diagrams of type DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM */
+    {
+        data_diagram_t new_diagram;
 
-    
+        /*
+        ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t *this_,
+                                                              const data_diagram_t *new_diagram,
+                                                              bool add_to_latest_undo_set,
+                                                              int64_t* out_new_id
+        );
+        */
+
+    }
+
+    /* create a classifier of type DATA_CLASSIFIER_TYPE_UML_CLASS */
+    {
+
+    }
+
+    /* create two diagramelements, one for each diagram */
+    {
+
+    }
+
+    /* change the type of first diagram to DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    {
+
+    }
+
+    /* check that the classifier now has a feature of type DATA_FEATURE_TYPE_LIFELINE */
+    {
+
+    }
+
+    /* delete the first diagram (but not the classifier) */
+    {
+
+    }
+
+    /* check that the feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
+    {
+
+    }
+}
+
+static void diagramelement_to_lifeline_consistency(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+
+    /* create a diagram of type DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM */
+    {
+
+    }
+
+    /* create a classifier of type DATA_CLASSIFIER_TYPE_UML_CLASS */
+    {
+
+    }
+
+    /* create two diagramelements for the classifier */
+    {
+
+    }
+
+    /* check that the classifier now has two features of type DATA_FEATURE_TYPE_LIFELINE */
+    {
+
+    }
+
+    /* delete the first diagramelement (but not the classifier) */
+    {
+
+    }
+
+    /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
+    {
+
+    }
 }
 
 

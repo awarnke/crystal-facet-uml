@@ -13,6 +13,7 @@ ctrl_controller    [C0040]
 
 
 ctrl_diagram_controller    [C0156]
+| performs changes on diagram and diagramelement tables
   calls --> ctrl_policy_enforcer    [R0219]
 
 
@@ -33,6 +34,7 @@ ctrl    [C0003]
 
 
 ctrl_classifier_controller    [C0155]
+| performs changes on classifier, feature and relationship tables
 
 
 ctrl_undo_redo_list    [C0153]

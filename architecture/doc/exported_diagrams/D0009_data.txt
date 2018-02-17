@@ -4,6 +4,7 @@ data    [D0009]
 
 data_database_writer    [C0039]
 | - writes changes to the database
+| - ensures low-level consistency of the database, e.g. all foreign keys point to existing rows (referential integrity)
 | - retrieves the old, changed values for the undo/redo list
   uses --> data_database_reader    [R0027]
   has --> data_database    [R0029]

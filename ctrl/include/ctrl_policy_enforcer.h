@@ -23,8 +23,6 @@
 struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
-
-
 /*!
  *  \brief constants of ctrl_policy_enforcer_t
  */
