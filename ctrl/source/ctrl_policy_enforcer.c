@@ -78,6 +78,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
                 if ( DATA_ID_VOID_ID == focused_feature )
                 {
                     /* diagramelement without focused feature found */
+                    result |= ctrl_policy_enforcer_private_create_one_lifeline ( this_, current_diagele );
                 }
             }
         }
@@ -95,12 +96,46 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
 
+    /* load the diagram and check the type */
+    data_diagram_t the_diag;
+    data_result = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
+                                                           data_diagramelement_get_diagram_id( new_diagramelement ),
+                                                           &the_diag
+                                                         );
+
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        data_diagram_type_t dig_type = data_diagram_get_diagram_type( &the_diag );
+        if (( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == dig_type )
+            || ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == dig_type )
+            || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == dig_type ))
+        {
+            result |= ctrl_policy_enforcer_private_create_one_lifeline ( this_, new_diagramelement );
+        }
+    }
+    else
+    {
+        result |= (ctrl_error_t) data_result;
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enforcer_t *this_,
+                                                                const data_diagramelement_t *the_diagramelement )
+{
+    TRACE_BEGIN();
+    assert( NULL != the_diagramelement );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
     /* define the lifeline to create */
     data_feature_t new_lifeline;
     data_result = data_feature_init ( &new_lifeline,
                                       DATA_ID_VOID_ID,
                                       DATA_FEATURE_TYPE_LIFELINE,
-                                      data_diagramelement_get_classifier_id( new_diagramelement ),
+                                      data_diagramelement_get_classifier_id( the_diagramelement ),
                                       "",  /* key */
                                       "",  /* value or type */
                                       "",  /* description */
@@ -109,24 +144,21 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
     result |= (ctrl_error_t) data_result;
 
     /* create the lifeline */
-    int64_t out_new_id;
-    /*
+    int64_t new_feature_id;
     result |= ctrl_classifier_controller_create_feature ( (*this_).clfy_ctrl,
                                                           &new_lifeline,
-                                                          true, / * add_to_latest_undo_set * /
-                                                          &out_new_id
+                                                          true, /* add_to_latest_undo_set */
+                                                          &new_feature_id
                                                         );
-*/
 
     /* the newly create lifeline is the focused feature */
-    /*
-    ctrl_error_t ctrl_diagram_controller_update_diagramelement_focused_feature_id ( ctrl_diagram_controller_t *this_,
-                                                                                    int64_t diagramelement_id,
-                                                                                    int64_t new_diagramelement_focused_feature_id,
-                                                                                    bool add_to_latest_undo_set
-    );
-    */
-
+    int64_t diagramelement_id;
+    diagramelement_id = data_diagramelement_get_id( the_diagramelement );
+    result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
+                                                                                 diagramelement_id,
+                                                                                 new_feature_id,
+                                                                                 true /* add_to_latest_undo_set */
+                                                                               );
 
     /* cleanup */
     data_feature_destroy ( &new_lifeline );

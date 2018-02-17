@@ -218,7 +218,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
 /*!
  *  \brief deletes a diagramelement record
  *         and associated classifiers (if not referenced anymore)
- *         TODO: and associated features (via policy_enforcer)
+ *         and the possibly associated feature (via policy_enforcer)
  *         and stores all actions in the undo redo list.
  *
  *  \param this_ pointer to own object attributes

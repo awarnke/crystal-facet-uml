@@ -145,6 +145,17 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
                                                             );
 
 /*!
+ *  \brief creates one lifeline, unconditional
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param the_diagramelement data of the diagramelement.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enforcer_t *this_,
+                                                                const data_diagramelement_t *the_diagramelement
+                                                              );
+
+/*!
  *  \brief executes policies involved in deleting a diagramelement.
  *
  *  Current rules are:
