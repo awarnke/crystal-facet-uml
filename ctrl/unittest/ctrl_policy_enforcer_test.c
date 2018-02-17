@@ -269,7 +269,7 @@ static void diagram_to_lifeline_consistency(void)
                                                                         max_featues_size,
                                                                         &features,
                                                                         &feature_count
-        );
+                                                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 0, feature_count );
     }
@@ -380,18 +380,53 @@ static void diagramelement_to_lifeline_consistency(void)
     }
 
     /* check that the classifier now has two features of type DATA_FEATURE_TYPE_LIFELINE */
+    static const uint32_t max_featues_size=3;
+    data_feature_t features[3];
+    uint32_t feature_count;
     {
-
+        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+                                                                        classifier_id,
+                                                                        max_featues_size,
+                                                                        &features,
+                                                                        &feature_count
+        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 2, feature_count );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[1]) ) );
     }
 
     /* delete the first diagramelement (but not the classifier) */
     {
-
+        ctrl_err = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
+                                                                   first_diag_element_id,
+                                                                   false /* add_to_latest_undo_set */
+        );
+        TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }
 
     /* check that one feature of type DATA_FEATURE_TYPE_LIFELINE is deleted */
     {
+        data_err = data_database_reader_get_features_by_classifier_id ( &db_reader,
+                                                                        classifier_id,
+                                                                        max_featues_size,
+                                                                        &features,
+                                                                        &feature_count
+        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        TEST_ASSERT_EQUAL_INT( 1, feature_count );
+        TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
+    }
 
+    /* check that this is referenced */
+    {
+        data_diagramelement_t check_diagele2;
+        data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, second_diag_element_id, &check_diagele2 );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        TEST_ASSERT_EQUAL_INT( data_feature_get_id( &(features[0])), data_diagramelement_get_focused_feature_id( &check_diagele2 ) );
+
+        data_diagramelement_destroy ( &check_diagele2 );
     }
 }
 
