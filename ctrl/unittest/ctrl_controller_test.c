@@ -26,7 +26,7 @@ static data_database_t database;
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
-static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu.sqlite3";
+static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1";
 
 /*!
  *  \brief controller instance on which the tests are performed
@@ -116,7 +116,7 @@ static void open_invalid_file(void)
     size_t written;
     written = fwrite ( DATABASE_FILENAME, 1, sizeof(DATABASE_FILENAME), nondb );
     TEST_ASSERT_EQUAL_INT( sizeof(DATABASE_FILENAME), written );
-    TEST_ASSERT_EQUAL_INT( 47, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
+    TEST_ASSERT_EQUAL_INT( 40, sizeof(DATABASE_FILENAME) );  /* check if sizeof works as expected */
 
     stdio_err = fclose( nondb );
     TEST_ASSERT_EQUAL_INT( 0, stdio_err );

@@ -26,7 +26,7 @@ static data_database_t database;
 /*!
  *  \brief database filename on which the tests are performed and which is automatically deleted when finished
  */
-static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu.sqlite3";
+static const char* DATABASE_FILENAME = "unittest_crystal_facet_uml_default.cfu1";
 
 /*!
  *  \brief database reader to access the database

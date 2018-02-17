@@ -107,6 +107,7 @@ int main (int argc, char *argv[]) {
     exit_code = testresult.failureCount;
 
     TSLOG_DESTROY();
+    TRACE_INFO( "to find failures, search for pattern _test.c" );
     TRACE_INFO( "--------------------" );
     TRACE_TIMESTAMP();
     TRACE_END_ERR( exit_code );
