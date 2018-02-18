@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Calculates positions of classifiers, features and relationships in a diagram
+ *  \brief Calculates positions of classifiers and features in a diagram
  */
 
 #include "pencil_input_data.h"
@@ -30,7 +30,7 @@
  */
 struct pencil_classifier_layouter_struct {
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
-    pencil_input_data_layout_t *layout_data;  /* pointer to an external layout data */
+    pencil_input_data_layout_t *layout_data;  /* pointer to external layout data */
 
     pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle containing inner contents of the diagram */
@@ -40,7 +40,7 @@ struct pencil_classifier_layouter_struct {
 
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
 
-    pencil_feature_layouter_t feature_layouter;  /*!< own instance of a helper object to layout features */
+    pencil_feature_layouter_t *feature_layouter;  /*!< pointer or an external helper to layout features */
 };
 
 typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
@@ -56,6 +56,7 @@ typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
  *  \param default_classifier_size pointer to the default size of a classifier
  *  \param x_scale pointer to the scale object for the x-axis
  *  \param y_scale pointer to the scale object for the y-axis
+ *  \param feature_layouter pointer to a feature layout helper
  */
 void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       pencil_input_data_t *input_data,
@@ -64,7 +65,8 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       geometry_rectangle_t *diagram_draw_area,
                                       geometry_rectangle_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
-                                      geometry_non_linear_scale_t *y_scale
+                                      geometry_non_linear_scale_t *y_scale,
+                                      pencil_feature_layouter_t *feature_layouter
                                     );
 
 /*!

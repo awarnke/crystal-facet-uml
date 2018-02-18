@@ -24,12 +24,11 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
 
-    pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
-                                       input_data,
-                                       &((*this_).layout_data),
-                                       &((*this_).pencil_size),
-                                       &((*this_).diagram_draw_area)
-                                     );
+    pencil_feature_layouter_init( &((*this_).feature_layouter),
+                                  input_data,
+                                  &((*this_).layout_data),
+                                  &((*this_).pencil_size)
+                                );
     pencil_classifier_layouter_init( &((*this_).pencil_classifier_layouter),
                                      input_data,
                                      &((*this_).layout_data),
@@ -37,8 +36,15 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
                                      &((*this_).diagram_draw_area),
                                      &((*this_).default_classifier_size),
                                      &((*this_).x_scale),
-                                     &((*this_).y_scale)
+                                     &((*this_).y_scale),
+                                     &((*this_).feature_layouter)
                                    );
+    pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
+                                       input_data,
+                                       &((*this_).layout_data),
+                                       &((*this_).pencil_size),
+                                       &((*this_).diagram_draw_area)
+                                     );
 
     TRACE_END();
 }
@@ -47,8 +53,9 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_classifier_layouter_destroy( &((*this_).pencil_classifier_layouter) );
     pencil_relationship_layouter_destroy( &((*this_).pencil_relationship_layouter) );
+    pencil_classifier_layouter_destroy( &((*this_).pencil_classifier_layouter) );
+    pencil_feature_layouter_destroy( &((*this_).feature_layouter) );
 
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
 

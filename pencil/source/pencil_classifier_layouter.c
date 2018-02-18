@@ -14,13 +14,15 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       geometry_rectangle_t *diagram_draw_area,
                                       geometry_rectangle_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
-                                      geometry_non_linear_scale_t *y_scale  )
+                                      geometry_non_linear_scale_t *y_scale,
+                                      pencil_feature_layouter_t *feature_layouter )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
     assert( NULL != diagram_draw_area );
+    assert( NULL != feature_layouter );
 
     (*this_).input_data = input_data;
     (*this_).layout_data = layout_data;
@@ -29,13 +31,8 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
     (*this_).default_classifier_size = default_classifier_size;
     (*this_).x_scale = x_scale;
     (*this_).y_scale = y_scale;
+    (*this_).feature_layouter = feature_layouter;
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
-
-    pencil_feature_layouter_init( &((*this_).feature_layouter),
-                                  input_data,
-                                  layout_data,
-                                  pencil_size
-                                );
 
     TRACE_END();
 }
@@ -43,8 +40,6 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
 void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
-
-    pencil_feature_layouter_destroy( &((*this_).feature_layouter) );
 
     pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
 
@@ -92,7 +87,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 
                 geometry_rectangle_t features_bounds;
                 geometry_rectangle_init_empty( &features_bounds );
-                pencil_feature_layouter_calculate_features_bounds ( &((*this_).feature_layouter),
+                pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
                                                                     data_classifier_get_id( classifier2 ),
                                                                     font_layout,
                                                                     &features_bounds

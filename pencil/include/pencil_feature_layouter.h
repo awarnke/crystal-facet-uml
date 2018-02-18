@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Calculates positions of classifiers, features and relationships in a diagram
+ *  \brief Calculates positions of features in a diagram
  */
 
 #include "pencil_input_data.h"
@@ -29,7 +29,7 @@
  */
 struct pencil_feature_layouter_struct {
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
-    pencil_input_data_layout_t *layout_data;  /* pointer to an external layout data */
+    pencil_input_data_layout_t *layout_data;  /* pointer to external layout data */
 
     pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
