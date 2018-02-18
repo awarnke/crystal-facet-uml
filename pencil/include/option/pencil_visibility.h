@@ -14,7 +14,7 @@
  */
 enum pencil_visibility_enum {
     PENCIL_VISIBILITY_HIDE,  /*!< object is not shown */
-    PENCIL_VISIBILITY_IMPLICIT,  /*!< object need not be drawn explicitly unless required by conditions */
+    PENCIL_VISIBILITY_IMPLICIT,  /*!< object need not be drawn explicitly unless required by conditions like mouse-over or selected */
     PENCIL_VISIBILITY_SHOW,  /*!< object is shown */
 };
 

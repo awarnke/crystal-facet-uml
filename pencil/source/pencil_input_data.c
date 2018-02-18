@@ -9,6 +9,7 @@
 void pencil_input_data_init( pencil_input_data_t *this_ )
 {
     TRACE_BEGIN();
+    TRACE_INFO_INT( "sizeof(pencil_input_data_t):", sizeof(pencil_input_data_t) );
 
     data_diagram_init_empty( &((*this_).diagram) );
     (*this_).visible_classifier_count = 0;

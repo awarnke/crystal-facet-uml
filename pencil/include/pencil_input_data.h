@@ -23,8 +23,8 @@
  */
 enum pencil_input_data_max_enum {
     PENCIL_INPUT_DATA_MAX_CLASSIFIERS = 128,  /*!< maximum number of classifiers to be shown in one single diagram */
-    PENCIL_INPUT_DATA_MAX_FEATURES = 256,  /*!< maximum number of features to be shown in one single diagram */
-    PENCIL_INPUT_DATA_MAX_RELATIONSHIPS = 256,  /*!< maximum number of relationships to be shown in one single diagram */
+    PENCIL_INPUT_DATA_MAX_FEATURES = 256,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
+    PENCIL_INPUT_DATA_MAX_RELATIONSHIPS = 1024,  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */
 };
 
 /*!
