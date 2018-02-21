@@ -11,6 +11,9 @@
 
 #include "util/geometry/geometry_connector.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "layout/layout_feature.h"
+#include "layout/layout_relationship.h"
+#include "layout/layout_visible_classifier.h"
 #include "pencil_input_data.h"
 #include "option/pencil_visibility.h"
 #include <cairo.h>
@@ -35,8 +38,8 @@ struct pencil_input_data_layout_struct {
     geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records where features or contained classifiers are drawn */
 
     /* feature layout */
-    pencil_visibility_t feature_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< defines if the relationship is visible */
-    geometry_rectangle_t feature_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< shape of relationship records */
+    pencil_visibility_t feature_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< TODO: defines if the feature is visible */
+    geometry_rectangle_t feature_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< TODO: bounds of feature records */
 
     /* relationship layout */
     pencil_visibility_t relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */

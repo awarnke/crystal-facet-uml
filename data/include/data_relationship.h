@@ -10,6 +10,7 @@
  */
 
 #include "data_relationship_type.h"
+#include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdint.h>
 #include <stdbool.h>

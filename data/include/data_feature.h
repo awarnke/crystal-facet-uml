@@ -10,6 +10,7 @@
  */
 
 #include "data_feature_type.h"
+#include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
 #include <stdint.h>

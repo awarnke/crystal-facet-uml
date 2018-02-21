@@ -29,6 +29,7 @@ static inline bool data_visible_classifier_is_valid ( const data_visible_classif
     return result;
 }
 
+
 /*
 Copyright 2016-2018 Andreas Warnke
 
