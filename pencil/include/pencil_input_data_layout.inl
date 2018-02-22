@@ -9,14 +9,14 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_boun
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
     assert ( index < (*this_).visible_classifier_count );
-    return &((*this_).classifier_bounds[index]);
+    return layout_visible_classifier_get_bounds_ptr ( &((*this_).visible_classifier_layout[index]) );
 }
 
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_space_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
     assert ( index < (*this_).visible_classifier_count );
-    return &((*this_).classifier_space[index]);
+    return layout_visible_classifier_get_space_ptr ( &((*this_).visible_classifier_layout[index]) );
 }
 
 static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ )
@@ -44,21 +44,21 @@ static inline pencil_visibility_t pencil_input_data_layout_get_relationship_visi
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     assert ( index < (*this_).relationship_count );
-    return (*this_).relationship_visible[index];
+    return layout_relationship_get_visibility ( &((*this_).relationship_layout[index]) );
 }
 
 static inline void pencil_input_data_layout_set_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     assert ( index < (*this_).relationship_count );
-    ((*this_).relationship_visible[index]) = visible;
+    layout_relationship_set_visibility ( &((*this_).relationship_layout[index]), visible );
 }
 
 static inline geometry_connector_t *pencil_input_data_layout_get_relationship_shape_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     assert ( index < (*this_).relationship_count );
-    return &((*this_).relationship_shape[index]);
+    return layout_relationship_get_shape_ptr ( &((*this_).relationship_layout[index]) );
 }
 
 static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_input_data_layout_t *this_ )

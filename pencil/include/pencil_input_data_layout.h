@@ -34,8 +34,6 @@ enum pencil_input_data_layout_max_enum {
  */
 struct pencil_input_data_layout_struct {
     /* classifier layout*/
-    geometry_rectangle_t classifier_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< outer bounds of classifier records */
-    geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records where features or contained classifiers are drawn */
     layout_visible_classifier_t visible_classifier_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< layout data of visible classifiers */
     uint32_t visible_classifier_count;  /*!< number of all layouted visible classifier records */
 
@@ -44,8 +42,6 @@ struct pencil_input_data_layout_struct {
     uint32_t feature_count;  /*!< number of all layouted feature records */
 
     /* relationship layout */
-    pencil_visibility_t relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */
-    geometry_connector_t relationship_shape[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< shape of relationship records */
     layout_relationship_t relationship_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< layout data of relationships */
     uint32_t relationship_count;  /*!< number of all layouted relationship records */
 };

@@ -16,6 +16,16 @@ static inline void layout_visible_classifier_destroy ( layout_visible_classifier
     (*this_).visible_classifier_data = NULL;
 }
 
+static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( layout_visible_classifier_t *this_ )
+{
+    return &((*this_).classifier_bounds);
+}
+
+static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
+{
+    return &((*this_).classifier_space);
+}
+
 static inline data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ )
 {
     assert ( NULL != (*this_).visible_classifier_data );

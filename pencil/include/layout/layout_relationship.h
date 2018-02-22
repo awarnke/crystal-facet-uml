@@ -40,6 +40,30 @@ static inline void layout_relationship_init_empty ( layout_relationship_t *this_
 static inline void layout_relationship_destroy ( layout_relationship_t *this_ );
 
 /*!
+ *  \brief gets the visibility of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return visibility of the relationship layout.
+ */
+static inline pencil_visibility_t layout_relationship_get_visibility ( const layout_relationship_t *this_ );
+
+/*!
+ *  \brief sets the visibility of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param visible visibility of the relationship layout.
+ */
+static inline void layout_relationship_set_visibility ( layout_relationship_t *this_, pencil_visibility_t visible );
+
+/*!
+ *  \brief gets the shape of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ );
+
+/*!
  *  \brief gets the data_relationship_t object
  *
  *  \param this_ pointer to own object attributes

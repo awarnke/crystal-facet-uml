@@ -39,6 +39,22 @@ static inline void layout_visible_classifier_init_empty ( layout_visible_classif
 static inline void layout_visible_classifier_destroy ( layout_visible_classifier_t *this_ );
 
 /*!
+ *  \brief gets the bounding box of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the inner space box of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ );
+
+/*!
  *  \brief gets the pointer to the data_visible_classifier_t object
  *
  *  \param this_ pointer to own object attributes
