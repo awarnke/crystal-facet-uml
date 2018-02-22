@@ -15,15 +15,55 @@ void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
         geometry_rectangle_init_empty( &((*this_).classifier_bounds[idx]) );
         geometry_rectangle_init_empty( &((*this_).classifier_space[idx]) );
     }
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES; idx ++ )
-    {
-        (*this_).feature_visible[idx] = PENCIL_VISIBILITY_HIDE;
-        geometry_rectangle_init_empty( &((*this_).feature_bounds[idx]) );
-    }
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         (*this_).relationship_visible[idx] = PENCIL_VISIBILITY_HIDE;
         geometry_connector_init_empty( &((*this_).relationship_shape[idx]) );
+    }
+
+    (*this_).visible_classifier_count = 0;
+    (*this_).feature_count = 0;
+    (*this_).relationship_count = 0;
+
+    TRACE_END();
+}
+
+void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_input_data_t *input_data )
+{
+    TRACE_BEGIN();
+    assert ( NULL != input_data );
+
+    pencil_input_data_layout_destroy( this_ );
+    pencil_input_data_layout_init( this_ );
+
+    (*this_).visible_classifier_count = pencil_input_data_get_visible_classifier_count( input_data );
+    assert ( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
+
+    (*this_).feature_count = pencil_input_data_get_feature_count( input_data );
+    assert ( (*this_).feature_count <= PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES );
+
+    (*this_).relationship_count = pencil_input_data_get_relationship_count( input_data );
+    assert ( (*this_).relationship_count <= PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+
+    for ( int idx = 0; idx < (*this_).visible_classifier_count; idx ++ )
+    {
+        layout_visible_classifier_init_empty( &((*this_).visible_classifier_layout[idx]),
+                                              pencil_input_data_get_visible_classifier_ptr( input_data, idx )
+                                            );
+    }
+
+    for ( int idx = 0; idx < (*this_).feature_count; idx ++ )
+    {
+        layout_feature_init_empty( &((*this_).feature_layout[idx]),
+                                   pencil_input_data_get_feature_ptr( input_data, idx )
+                                 );
+    }
+
+    for ( int idx = 0; idx < (*this_).relationship_count; idx ++ )
+    {
+        layout_relationship_init_empty( &((*this_).relationship_layout[idx]),
+                                        pencil_input_data_get_relationship_ptr( input_data, idx )
+                                      );
     }
 
     TRACE_END();
@@ -38,15 +78,26 @@ void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ )
         geometry_rectangle_destroy( &((*this_).classifier_bounds[idx]) );
         geometry_rectangle_destroy( &((*this_).classifier_space[idx]) );
     }
-    for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES; idx ++ )
-    {
-        geometry_rectangle_destroy( &((*this_).feature_bounds[idx]) );
-    }
     for ( int idx = 0; idx < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS; idx ++ )
     {
         geometry_connector_destroy( &((*this_).relationship_shape[idx]) );
     }
-    
+
+    for ( int idx = 0; idx < (*this_).visible_classifier_count; idx ++ )
+    {
+        layout_visible_classifier_destroy( &((*this_).visible_classifier_layout[idx]) );
+    }
+
+    for ( int idx = 0; idx < (*this_).feature_count; idx ++ )
+    {
+        layout_feature_destroy( &((*this_).feature_layout[idx]) );
+    }
+
+    for ( int idx = 0; idx < (*this_).relationship_count; idx ++ )
+    {
+        layout_relationship_destroy( &((*this_).relationship_layout[idx]) );
+    }
+
     TRACE_END();
 }
 

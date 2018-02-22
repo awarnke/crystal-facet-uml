@@ -134,6 +134,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 {
     TRACE_BEGIN();
 
+    /* re-initialize the layout data objects */
+    pencil_input_data_layout_reinit( &((*this_).layout_data), (*this_).input_data );
+
     /* get the diagram data */
     data_diagram_t *diagram;
     diagram = pencil_input_data_get_diagram_ptr ( (*this_).input_data );

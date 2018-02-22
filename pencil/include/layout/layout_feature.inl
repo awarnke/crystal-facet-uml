@@ -14,6 +14,11 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ )
     (*this_).feature_data = NULL;
 }
 
+static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ )
+{
+    return &((*this_).feature_bounds);
+}
+
 static inline data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ )
 {
     assert ( NULL != (*this_).feature_data );

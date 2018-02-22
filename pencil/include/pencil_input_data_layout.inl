@@ -8,33 +8,34 @@
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
+    assert ( index < (*this_).visible_classifier_count );
     return &((*this_).classifier_bounds[index]);
 }
 
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_space_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
+    assert ( index < (*this_).visible_classifier_count );
     return &((*this_).classifier_space[index]);
+}
+
+static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ )
+{
+    return (*this_).visible_classifier_count;
 }
 
 /* ================================ features ================================ */
 
-static inline pencil_visibility_t pencil_input_data_layout_get_feature_visibility ( pencil_input_data_layout_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
-    return (*this_).feature_visible[index];
-}
-
-static inline void pencil_input_data_layout_set_feature_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible )
-{
-    assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
-    ((*this_).feature_visible[index]) = visible;
-}
-
 static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
-    return &((*this_).feature_bounds[index]);
+    assert ( index < (*this_).feature_count );
+    return layout_feature_get_bounds_ptr ( &((*this_).feature_layout[index]) );
+}
+
+static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input_data_layout_t *this_ )
+{
+    return (*this_).feature_count;
 }
 
 /* ================================ relationships ================================ */
@@ -42,19 +43,27 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_
 static inline pencil_visibility_t pencil_input_data_layout_get_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    assert ( index < (*this_).relationship_count );
     return (*this_).relationship_visible[index];
 }
 
 static inline void pencil_input_data_layout_set_relationship_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    assert ( index < (*this_).relationship_count );
     ((*this_).relationship_visible[index]) = visible;
 }
 
 static inline geometry_connector_t *pencil_input_data_layout_get_relationship_shape_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    assert ( index < (*this_).relationship_count );
     return &((*this_).relationship_shape[index]);
+}
+
+static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_input_data_layout_t *this_ )
+{
+    return (*this_).relationship_count;
 }
 
 

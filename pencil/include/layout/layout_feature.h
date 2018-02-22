@@ -38,6 +38,14 @@ static inline void layout_feature_init_empty ( layout_feature_t *this_, data_fea
 static inline void layout_feature_destroy ( layout_feature_t *this_ );
 
 /*!
+ *  \brief gets the bounding box of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ );
+
+/*!
  *  \brief gets the data_feature_t object
  *
  *  \param this_ pointer to own object attributes

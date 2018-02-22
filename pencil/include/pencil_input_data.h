@@ -67,6 +67,8 @@ void pencil_input_data_destroy( pencil_input_data_t *this_ );
  */
 void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
 
+/* ================================ diagram ================================ */
+
 /*!
  *  \brief gets the diagram within the painter input data
  *
@@ -74,6 +76,8 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
  *  \return pointer to current diagram cache
  */
 static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ );
+
+/* ================================ classifiers ================================ */
 
 /*!
  *  \brief gets the number of visible classifiers within the painter input data
@@ -118,6 +122,8 @@ static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_i
  */
 static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data_t *this_, int64_t row_id );
 
+/* ================================ features ================================ */
+
 /*!
  *  \brief gets the number of features within the painter input data
  *
@@ -141,6 +147,8 @@ static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_d
  *  \return pointer to data_feature_t[] otherwise.
  */
 static inline data_feature_t *pencil_input_data_get_feature_list_ptr ( pencil_input_data_t *this_ );
+
+/* ================================ relationships ================================ */
 
 /*!
  *  \brief gets the number of relationships within the painter input data
@@ -185,6 +193,8 @@ static inline uint32_t pencil_input_data_count_ancestors_of_index ( pencil_input
  *  \return number of descendants of classifier_index which are listed in this_.
  */
 static inline uint32_t pencil_input_data_count_descendants_of_index ( pencil_input_data_t *this_, uint32_t classifier_index );
+
+/* ================================ misc ================================ */
 
 /*!
  *  \brief checks if the diagram and diagram-contents data is valid

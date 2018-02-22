@@ -36,14 +36,18 @@ struct pencil_input_data_layout_struct {
     /* classifier layout*/
     geometry_rectangle_t classifier_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< outer bounds of classifier records */
     geometry_rectangle_t classifier_space[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< inner space of classifier records where features or contained classifiers are drawn */
+    layout_visible_classifier_t visible_classifier_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< layout data of visible classifiers */
+    uint32_t visible_classifier_count;  /*!< number of all layouted visible classifier records */
 
     /* feature layout */
-    pencil_visibility_t feature_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< TODO: defines if the feature is visible */
-    geometry_rectangle_t feature_bounds[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< TODO: bounds of feature records */
+    layout_feature_t feature_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES];  /*!< layout data of features */
+    uint32_t feature_count;  /*!< number of all layouted feature records */
 
     /* relationship layout */
     pencil_visibility_t relationship_visible[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< defines if the relationship is visible */
     geometry_connector_t relationship_shape[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< shape of relationship records */
+    layout_relationship_t relationship_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< layout data of relationships */
+    uint32_t relationship_count;  /*!< number of all layouted relationship records */
 };
 
 typedef struct pencil_input_data_layout_struct pencil_input_data_layout_t;
@@ -54,6 +58,14 @@ typedef struct pencil_input_data_layout_struct pencil_input_data_layout_t;
  *  \param this_ pointer to own object attributes
  */
 void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ );
+
+/*!
+ *  \brief re-initializes the painter input data layout
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be layouted
+ */
+void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_input_data_t *input_data );
 
 /*!
  *  \brief destroys the painter input data layout
@@ -82,25 +94,14 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_boun
  */
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_space_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
+/*!
+ *  \brief gets the number of visible classifiers within the painter layout data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ );
+
 /* ================================ features ================================ */
-
-/*!
- *  \brief gets the visibility of a feature
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the feature visibility to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
- *  \return true if visible.
- */
-static inline pencil_visibility_t pencil_input_data_layout_get_feature_visibility ( pencil_input_data_layout_t *this_, uint32_t index );
-
-/*!
- *  \brief sets the visibility of a feature
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the feature visibility to set; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
- *  \param visible true if visible.
- */
-static inline void pencil_input_data_layout_set_feature_visibility ( pencil_input_data_layout_t *this_, uint32_t index, pencil_visibility_t visible );
 
 /*!
  *  \brief gets the bounding box of a feature
@@ -110,6 +111,13 @@ static inline void pencil_input_data_layout_set_feature_visibility ( pencil_inpu
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets the number of features within the painter layout data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input_data_layout_t *this_ );
 
 /* ================================ relationships ================================ */
 
@@ -139,6 +147,13 @@ static inline void pencil_input_data_layout_set_relationship_visibility ( pencil
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_connector_t *pencil_input_data_layout_get_relationship_shape_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets the number of relationships within the painter layout data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_input_data_layout_t *this_ );
 
 #include "pencil_input_data_layout.inl"
 
