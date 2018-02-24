@@ -130,7 +130,7 @@ static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64
     (*this_).classifier_id = classifier_id;
 }
 
-static inline const char *data_feature_get_key_ptr ( data_feature_t *this_ )
+static inline const char *data_feature_get_key_ptr ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).key );
 }
@@ -154,7 +154,7 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
     return result;
 }
 
-static inline const char *data_feature_get_value_ptr ( data_feature_t *this_ )
+static inline const char *data_feature_get_value_ptr ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).value );
 }
@@ -183,7 +183,7 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
     return result;
 }
 
-static inline const char *data_feature_get_description_ptr ( data_feature_t *this_ )
+static inline const char *data_feature_get_description_ptr ( const data_feature_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }

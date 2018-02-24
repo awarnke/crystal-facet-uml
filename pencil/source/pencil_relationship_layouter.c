@@ -10,19 +10,17 @@
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
                                         pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
-                                        pencil_size_t *pencil_size,
-                                        geometry_rectangle_t *diagram_draw_area )
+                                        pencil_size_t *pencil_size )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
-    assert( NULL != diagram_draw_area );
 
     (*this_).input_data = input_data;
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
-    (*this_).diagram_draw_area = diagram_draw_area;
+
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
 
     TRACE_END();
@@ -104,6 +102,14 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
     assert ( NULL != out_sorted );
     assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
+
     /* sort the relationships by their shaping-needs */
     uint32_t count_relations;
     count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
@@ -121,7 +127,7 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
             ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
         {
             /* containment may be solved by embracing, mere dependencies are unimportant */
-            simpleness += geometry_rectangle_get_width ( (*this_).diagram_draw_area );
+            simpleness += geometry_rectangle_get_width ( diagram_draw_area );
         }
 
         /* determine simpleness by distance between source and destination */
@@ -251,6 +257,14 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
 
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
+
     /* define potential solution and rating */
     uint32_t index_of_best;
     double debts_of_best;
@@ -277,7 +291,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             double current_area = geometry_rectangle_get_area ( &connectors_bounds );
             geometry_rectangle_t intersect;
-            geometry_rectangle_init_by_intersect( &intersect, &connectors_bounds, (*this_).diagram_draw_area );
+            geometry_rectangle_init_by_intersect( &intersect, &connectors_bounds, diagram_draw_area );
             double intersect_area = geometry_rectangle_get_area ( &intersect );
 
             if ( (current_area - 0.1) > intersect_area )

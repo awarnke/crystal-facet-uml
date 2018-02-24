@@ -108,7 +108,7 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
 }
 
 static inline void pencil_classifier_painter_private_get_stereotype_and_name_dimensions( const pencil_classifier_painter_t *this_,
-                                                                                         data_visible_classifier_t *visible_classifier,
+                                                                                         const data_visible_classifier_t *visible_classifier,
                                                                                          const pencil_size_t *pencil_size,
                                                                                          PangoLayout *font_layout,
                                                                                          double *out_text_height,
@@ -122,10 +122,10 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
-        data_classifier_t *classifier;
-        data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+        const data_classifier_t *classifier;
+        const data_diagramelement_t *diagramelement;
+        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
 

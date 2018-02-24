@@ -52,7 +52,6 @@ typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
  *  \param input_data pointer to the (cached) data to be layouted
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
- *  \param diagram_draw_area pointer to the drawing rectangle containing inner contents of the diagram
  *  \param default_classifier_size pointer to the default size of a classifier
  *  \param x_scale pointer to the scale object for the x-axis
  *  \param y_scale pointer to the scale object for the y-axis
@@ -62,7 +61,6 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       pencil_input_data_t *input_data,
                                       pencil_input_data_layout_t *layout_data,
                                       pencil_size_t *pencil_size,
-                                      geometry_rectangle_t *diagram_draw_area,
                                       geometry_rectangle_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
                                       geometry_non_linear_scale_t *y_scale,

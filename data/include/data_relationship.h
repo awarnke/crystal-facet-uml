@@ -180,7 +180,7 @@ static inline void data_relationship_set_to_classifier_id ( data_relationship_t 
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_relationship_get_name_ptr ( data_relationship_t *this_ );
+static inline const char *data_relationship_get_name_ptr ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute name as utf8stringbuf_t
@@ -205,7 +205,7 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_relationship_get_description_ptr ( data_relationship_t *this_ );
+static inline const char *data_relationship_get_description_ptr ( const data_relationship_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t

@@ -46,6 +46,14 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ );
 static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ );
 
 /*!
+ *  \brief sets the bounding box of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_bounds coordinates of new bounding box
+ */
+static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds );
+
+/*!
  *  \brief gets the data_feature_t object
  *
  *  \param this_ pointer to own object attributes

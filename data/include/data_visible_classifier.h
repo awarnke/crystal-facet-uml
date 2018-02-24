@@ -45,12 +45,28 @@ static inline void data_visible_classifier_destroy ( data_visible_classifier_t *
 static inline data_classifier_t *data_visible_classifier_get_classifier_ptr ( data_visible_classifier_t *this_ );
 
 /*!
+ *  \brief gets the pointer to the const classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a valid pointer to a classifier, never NULL. Note: The pointer is valid, but the referenced object may not.
+ */
+static inline const data_classifier_t *data_visible_classifier_get_classifier_const ( const data_visible_classifier_t *this_ );
+
+/*!
  *  \brief gets the pointer to the diagramelement
  *
  *  \param this_ pointer to own object attributes
  *  \return a valid pointer to a diagramelement, never NULL. Note: The pointer is valid, but the referenced object may not.
  */
 static inline data_diagramelement_t *data_visible_classifier_get_diagramelement_ptr ( data_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the pointer to the const diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a valid pointer to a diagramelement, never NULL. Note: The pointer is valid, but the referenced object may not.
+ */
+static inline const data_diagramelement_t *data_visible_classifier_get_diagramelement_const ( const data_visible_classifier_t *this_ );
 
 /*!
  *  \brief checks if classifier and diagramelement are valid

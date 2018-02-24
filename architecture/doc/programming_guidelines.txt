@@ -60,6 +60,7 @@
  *  - All struct elements are private and shall be accessed via "_get_", "_is_" and "_set_" functions.
  *    \n To achieve good runtime-performance, these may be declared as "static inline".
  *  - Functions that expose pointers or accessors to internal data shall be post-fixed by "_ptr".
+ *    \n If the exposed member is const, "_const" may alternatively be used as postfix.
  *    \n Care needs to be taken when changing internal data from outside
  *    and when reading data from outside while it may be changed from inside.
  *  - All functions may assume (unless explicitly documented) that they are only called

@@ -3,6 +3,14 @@
 #include "tslog.h"
 #include <assert.h>
 
+/* ================================ diagram ================================ */
+
+static inline layout_diagram_t *pencil_input_data_layout_get_diagram_layout_ptr ( pencil_input_data_layout_t *this_ )
+{
+    /*assert ( (*this_).diagram_valid );*/ /* we return the pointer even if diagram_layout is not yet initialized */
+    return &((*this_).diagram_layout);
+}
+
 /* ================================ classifiers ================================ */
 
 static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
@@ -24,6 +32,13 @@ static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( p
     return (*this_).visible_classifier_count;
 }
 
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_visible_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+{
+    assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
+    assert ( index < (*this_).visible_classifier_count );
+    return &((*this_).visible_classifier_layout[index]);
+}
+
 /* ================================ features ================================ */
 
 static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
@@ -36,6 +51,13 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_
 static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input_data_layout_t *this_ )
 {
     return (*this_).feature_count;
+}
+
+static inline layout_feature_t *pencil_input_data_layout_get_feature_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+{
+    assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert ( index < (*this_).feature_count );
+    return &((*this_).feature_layout[index]);
 }
 
 /* ================================ relationships ================================ */
@@ -64,6 +86,13 @@ static inline geometry_connector_t *pencil_input_data_layout_get_relationship_sh
 static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_input_data_layout_t *this_ )
 {
     return (*this_).relationship_count;
+}
+
+static inline layout_relationship_t *pencil_input_data_layout_get_relationship_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+{
+    assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    assert ( index < (*this_).relationship_count );
+    return &((*this_).relationship_layout[index]);
 }
 
 

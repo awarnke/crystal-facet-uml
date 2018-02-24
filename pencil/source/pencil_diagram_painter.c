@@ -26,21 +26,22 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ )
 }
 
 void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
-                                   data_diagram_t *the_diagram,
+                                   layout_diagram_t *layouted_diagram,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    const pencil_size_t *pencil_size,
-                                   const geometry_rectangle_t *diagram_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
-    assert( NULL != the_diagram );
+    assert( NULL != layouted_diagram );
     assert( NULL != layout );
     assert( NULL != cr );
-    assert( NULL != diagram_bounds );
+
+    const data_diagram_t *the_diagram = layout_diagram_get_data_ptr( layouted_diagram );
+    const geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr( layouted_diagram );
 
     double left = geometry_rectangle_get_left ( diagram_bounds );
     double top = geometry_rectangle_get_top ( diagram_bounds );
@@ -135,7 +136,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
 }
 
 void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *this_,
-                                                data_diagram_t *the_diagram,
+                                                const data_diagram_t *the_diagram,
                                                 const pencil_size_t *pencil_size,
                                                 const geometry_rectangle_t *diagram_bounds,
                                                 geometry_rectangle_t *out_diagram_space )

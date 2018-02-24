@@ -161,7 +161,7 @@ static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_key_ptr ( data_feature_t *this_ );
+static inline const char *data_feature_get_key_ptr ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute key as utf8stringbuf_t
@@ -186,7 +186,7 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_value_ptr ( data_feature_t *this_ );
+static inline const char *data_feature_get_value_ptr ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute value as utf8stringbuf_t
@@ -219,7 +219,7 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_feature_get_description_ptr ( data_feature_t *this_ );
+static inline const char *data_feature_get_description_ptr ( const data_feature_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t

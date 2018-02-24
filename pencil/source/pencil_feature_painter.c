@@ -26,22 +26,23 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
 }
 
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   data_feature_t *the_feature,
+                                   layout_feature_t *layouted_feature,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool grey_out,
                                    pencil_size_t *pencil_size,
-                                   geometry_rectangle_t *feature_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
-    assert( NULL != the_feature );
+    assert( NULL != layouted_feature );
     assert( NULL != layout );
     assert( NULL != cr );
-    assert( NULL != feature_bounds );
+
+    const data_feature_t *the_feature = layout_feature_get_data_ptr( layouted_feature );
+    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
 
     double left, top;
     double width, height;
@@ -120,8 +121,8 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 }
 
 void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
-                                                 data_feature_t *the_feature,
-                                                 pencil_size_t *pencil_size,
+                                                 const data_feature_t *the_feature,
+                                                 const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
                                                  geometry_rectangle_t *out_feature_bounds )
 {

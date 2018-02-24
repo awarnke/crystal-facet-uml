@@ -30,9 +30,7 @@
 struct pencil_relationship_layouter_struct {
     pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
     pencil_input_data_layout_t *layout_data;  /* pointer to an instance of layout data */
-
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
-    geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an instance of a drawing rectangle containing inner contents of the diagram */
 
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
 };
@@ -46,13 +44,11 @@ typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_
  *  \param input_data pointer to the (cached) data to be layouted
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
- *  \param diagram_draw_area pointer to the drawing rectangle containing inner contents of the diagram
  */
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
                                         pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
-                                        pencil_size_t *pencil_size,
-                                        geometry_rectangle_t *diagram_draw_area
+                                        pencil_size_t *pencil_size
                                       );
 
 /*!

@@ -12,6 +12,7 @@
 #include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_size.h"
+#include "layout/layout_feature.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "data_small_set.h"
@@ -46,24 +47,22 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param the_feature pointer to the data to be drawn
+ *  \param layouted_feature pointer to the layout-information and data to be drawn
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param grey_out true if the object is to be marked as greyed out. Is ignored in case mark_highlighted is true.
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param feature_bounds the destination rectangle where to draw the classifier
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
-                                   data_feature_t *the_feature,
+                                   layout_feature_t *layouted_feature,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    bool grey_out,
                                    pencil_size_t *pencil_size,
-                                   geometry_rectangle_t *feature_bounds,
                                    PangoLayout *layout,
                                    cairo_t *cr
                                  );
@@ -78,8 +77,8 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
  *  \param out_feature_bounds memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_,
-                                                 data_feature_t *the_feature,
-                                                 pencil_size_t *pencil_size,
+                                                 const data_feature_t *the_feature,
+                                                 const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
                                                  geometry_rectangle_t *out_feature_bounds
                                                );

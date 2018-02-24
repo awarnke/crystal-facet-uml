@@ -12,14 +12,13 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     TRACE_BEGIN();
     assert( NULL != input_data );
 
-    geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
     pencil_size_init_empty( &((*this_).pencil_size) );
-    geometry_rectangle_init_empty( &((*this_).diagram_draw_area) );
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
     geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
 
     pencil_input_data_layout_init( &((*this_).layout_data) );
+    (*this_).diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( &((*this_).layout_data) );
     (*this_).input_data = input_data;
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
@@ -33,7 +32,6 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
                                      input_data,
                                      &((*this_).layout_data),
                                      &((*this_).pencil_size),
-                                     &((*this_).diagram_draw_area),
                                      &((*this_).default_classifier_size),
                                      &((*this_).x_scale),
                                      &((*this_).y_scale),
@@ -42,8 +40,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
                                        input_data,
                                        &((*this_).layout_data),
-                                       &((*this_).pencil_size),
-                                       &((*this_).diagram_draw_area)
+                                       &((*this_).pencil_size)
                                      );
 
     TRACE_END();
@@ -59,13 +56,12 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
 
-    geometry_rectangle_destroy( &((*this_).diagram_bounds) );
     pencil_size_destroy( &((*this_).pencil_size) );
-    geometry_rectangle_destroy( &((*this_).diagram_draw_area) );
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
     geometry_rectangle_destroy( &((*this_).default_classifier_size) );
 
+    (*this_).diagram_layout = NULL;
     pencil_input_data_layout_destroy( &((*this_).layout_data) );
     (*this_).input_data = NULL;
 
@@ -82,29 +78,34 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
     /* update the pointer to the input data */
     (*this_).input_data = input_data;
 
+    /* re-initialize the layout data objects */
+    pencil_input_data_layout_reinit( &((*this_).layout_data), (*this_).input_data );
+
     /* get the diagram data */
     data_diagram_t *diagram;
     diagram = pencil_input_data_get_diagram_ptr ( (*this_).input_data );
 
     /* update the bounding rectangle */
-    geometry_rectangle_replace( &((*this_).diagram_bounds), &diagram_bounds );
+    layout_diagram_set_bounds( (*this_).diagram_layout, &diagram_bounds );
 
     /* calculate the pencil-sizes and the drawing rectangle */
-    double width = geometry_rectangle_get_width ( &((*this_).diagram_bounds) );
-    double height = geometry_rectangle_get_height ( &((*this_).diagram_bounds) );
+    double width = geometry_rectangle_get_width ( &diagram_bounds );
+    double height = geometry_rectangle_get_height ( &diagram_bounds );
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
+    geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
     pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
                                                diagram,
                                                &((*this_).pencil_size),
-                                               &((*this_).diagram_bounds),
-                                               &((*this_).diagram_draw_area) );
+                                               &diagram_bounds,
+                                               diagram_draw_area );
 
     /* calculate the axis scales */
-    double draw_left = geometry_rectangle_get_left ( &((*this_).diagram_draw_area) );
-    double draw_top = geometry_rectangle_get_top ( &((*this_).diagram_draw_area) );
-    double draw_right = geometry_rectangle_get_right ( &((*this_).diagram_draw_area) );
-    double draw_bottom = geometry_rectangle_get_bottom ( &((*this_).diagram_draw_area) );
+    double draw_left = geometry_rectangle_get_left ( diagram_draw_area );
+    double draw_top = geometry_rectangle_get_top ( diagram_draw_area );
+    double draw_right = geometry_rectangle_get_right ( diagram_draw_area );
+    double draw_bottom = geometry_rectangle_get_bottom ( diagram_draw_area );
     geometry_non_linear_scale_reinit( &((*this_).x_scale), draw_left, draw_right );
     geometry_non_linear_scale_reinit( &((*this_).y_scale), draw_top, draw_bottom );
 
@@ -133,9 +134,6 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
 void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
-
-    /* re-initialize the layout data objects */
-    pencil_input_data_layout_reinit( &((*this_).layout_data), (*this_).input_data );
 
     /* get the diagram data */
     data_diagram_t *diagram;
@@ -192,11 +190,18 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
 {
     TRACE_BEGIN();
 
+    /* get the diagram draw area */
+    double diagram_area;
+    {
+        geometry_rectangle_t *diagram_draw_area;
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
+        diagram_area = geometry_rectangle_get_area( diagram_draw_area );
+    }
+
     /* adjust the default classifier rectangle */
     uint32_t count_clasfy;
     count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
 
-    double diagram_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
     double classifier_area;
     if ( count_clasfy > 0 )
     {
@@ -230,7 +235,11 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     data_diagram_t *diag;
     diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
 
-    if ( geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) && data_diagram_is_valid(diag) )
+    /* get bounding box */
+    geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_ptr( (*this_).diagram_layout );
+
+    if ( geometry_rectangle_contains( diagram_bounds, x, y ) && data_diagram_is_valid(diag) )
     {
         /* check the relationship shapes */
         {
@@ -316,12 +325,16 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 
     pencil_error_t result = PENCIL_ERROR_NONE;
 
-    if ( geometry_rectangle_contains( &((*this_).diagram_draw_area), x, y ) )
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
+
+    if ( geometry_rectangle_contains( diagram_draw_area, x, y ) )
     {
         /* iterate over all classifiers */
         uint32_t count;
         count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
-        double surrounding_classifier_area = geometry_rectangle_get_area( &((*this_).diagram_draw_area) );
+        double surrounding_classifier_area = geometry_rectangle_get_area( diagram_draw_area );
 
         for ( uint32_t index = 0; index < count; index ++ )
         {

@@ -13,6 +13,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
+#include "layout/layout_visible_classifier.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
@@ -49,22 +50,20 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
- *  \param visible_classifier pointer to the data to be drawn
+ *  \param layouted_classifier pointer to the layout-information and data to be drawn
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param classifier_bounds the destination rectangle where to draw the classifier
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
-                                      data_visible_classifier_t *visible_classifier,
+                                      layout_visible_classifier_t *layouted_classifier,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
                                       const data_small_set_t *mark_selected,
                                       const pencil_size_t *pencil_size,
-                                      const geometry_rectangle_t *classifier_bounds,
                                       PangoLayout *font_layout,
                                       cairo_t *cr
                                     );
@@ -82,7 +81,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
  *  \param out_classifier_space memory location where the drawing space corresponding to the result bounds shall be stored. Must not be NULL.
  */
 void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_painter_t *this_,
-                                                    data_visible_classifier_t *visible_classifier,
+                                                    const data_visible_classifier_t *visible_classifier,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
                                                     geometry_rectangle_t *out_classifier_bounds,
@@ -100,7 +99,7 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
  *  \param out_classifier_space memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
-                                                   data_visible_classifier_t *visible_classifier,
+                                                   const data_visible_classifier_t *visible_classifier,
                                                    const pencil_size_t *pencil_size,
                                                    const geometry_rectangle_t *classifier_bounds,
                                                    PangoLayout *font_layout,
@@ -206,7 +205,7 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
  *  \param out_text_width width of the text is returned. NULL is not allowed.
  */
 static inline void pencil_classifier_painter_private_get_stereotype_and_name_dimensions( const pencil_classifier_painter_t *this_,
-                                                                                         data_visible_classifier_t *visible_classifier,
+                                                                                         const data_visible_classifier_t *visible_classifier,
                                                                                          const pencil_size_t *pencil_size,
                                                                                          PangoLayout *font_layout,
                                                                                          double *out_text_height,

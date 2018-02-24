@@ -26,21 +26,22 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 }
 
 void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
-                                        data_relationship_t *the_relationship,
+                                        layout_relationship_t *layouted_relationship,
                                         bool mark_focused,
                                         bool mark_highlighted,
                                         bool mark_selected,
                                         pencil_size_t *pencil_size,
-                                        geometry_connector_t *connector_shape,
                                         PangoLayout *layout,
                                         cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
-    assert( NULL != the_relationship );
-    assert( NULL != connector_shape );
+    assert( NULL != layouted_relationship );
     assert( NULL != layout );
     assert( NULL != cr );
+
+    const data_relationship_t *the_relationship = layout_relationship_get_data_ptr( layouted_relationship );
+    const geometry_connector_t *connector_shape = layout_relationship_get_shape_ptr( layouted_relationship );
 
     if ( data_relationship_is_valid( the_relationship ) )
     {

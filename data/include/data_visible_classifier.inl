@@ -17,7 +17,17 @@ static inline data_classifier_t *data_visible_classifier_get_classifier_ptr ( da
     return &((*this_).classifier);
 }
 
+static inline const data_classifier_t *data_visible_classifier_get_classifier_const ( const data_visible_classifier_t *this_ )
+{
+    return &((*this_).classifier);
+}
+
 static inline data_diagramelement_t *data_visible_classifier_get_diagramelement_ptr ( data_visible_classifier_t *this_ )
+{
+    return &((*this_).diagramelement);
+}
+
+static inline const data_diagramelement_t *data_visible_classifier_get_diagramelement_const ( const data_visible_classifier_t *this_ )
 {
     return &((*this_).diagramelement);
 }

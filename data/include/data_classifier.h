@@ -197,7 +197,7 @@ static inline void data_classifier_set_main_type ( data_classifier_t *this_, dat
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_classifier_get_stereotype_ptr ( data_classifier_t *this_ );
+static inline const char *data_classifier_get_stereotype_ptr ( const data_classifier_t *this_ );
 
 /*!
  *  \brief gets the attribute stereotype as utf8stringbuf_t
@@ -230,7 +230,7 @@ static inline data_error_t data_classifier_set_stereotype ( data_classifier_t *t
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_classifier_get_name_ptr ( data_classifier_t *this_ );
+static inline const char *data_classifier_get_name_ptr ( const data_classifier_t *this_ );
 
 /*!
  *  \brief gets the attribute name as utf8stringbuf_t
@@ -255,7 +255,7 @@ static inline data_error_t data_classifier_set_name ( data_classifier_t *this_, 
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
-static inline const char *data_classifier_get_description_ptr ( data_classifier_t *this_ );
+static inline const char *data_classifier_get_description_ptr ( const data_classifier_t *this_ );
 
 /*!
  *  \brief gets the attribute description as utf8stringbuf_t

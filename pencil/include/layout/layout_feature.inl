@@ -19,6 +19,11 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
     return &((*this_).feature_bounds);
 }
 
+static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds )
+{
+    geometry_rectangle_replace( &((*this_).feature_bounds), feature_bounds );
+}
+
 static inline data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ )
 {
     assert ( NULL != (*this_).feature_data );

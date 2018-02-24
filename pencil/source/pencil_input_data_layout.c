@@ -10,6 +10,7 @@ void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
     TRACE_BEGIN();
     TRACE_INFO_INT( "sizeof(pencil_input_data_layout_t):", sizeof(pencil_input_data_layout_t) );
 
+    (*this_).diagram_valid = false;
     (*this_).visible_classifier_count = 0;
     (*this_).feature_count = 0;
     (*this_).relationship_count = 0;
@@ -23,6 +24,11 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
     assert ( NULL != input_data );
 
     pencil_input_data_layout_destroy( this_ );
+
+    (*this_).diagram_valid = true;
+    layout_diagram_init_empty ( &((*this_).diagram_layout),
+                                pencil_input_data_get_diagram_ptr( input_data )
+                              );
 
     (*this_).visible_classifier_count = pencil_input_data_get_visible_classifier_count( input_data );
     assert ( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
@@ -60,6 +66,11 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ )
 {
     TRACE_BEGIN();
+
+    if ( (*this_).diagram_valid )
+    {
+        layout_diagram_destroy ( &((*this_).diagram_layout) );
+    }
 
     for ( int idx = 0; idx < (*this_).visible_classifier_count; idx ++ )
     {

@@ -13,11 +13,6 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
     return &((*this_).pencil_size);
 }
 
-static inline geometry_rectangle_t *pencil_layouter_get_diagram_bounds_ptr ( pencil_layouter_t *this_ )
-{
-    return &((*this_).diagram_bounds);
-}
-
 static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_layouter_t *this_,
                                                                         int64_t classifier_id,
                                                                         uint32_t c_index,
@@ -56,7 +51,12 @@ static inline pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_
 
     *out_order_x = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
     *out_order_y = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
-    if ( ! geometry_rectangle_contains( &((*this_).diagram_bounds), x, y ) )
+
+    /* get bounding box */
+    geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_ptr( (*this_).diagram_layout );
+
+    if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
         result = PENCIL_ERROR_OUT_OF_BOUNDS;
     }

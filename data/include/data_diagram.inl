@@ -165,7 +165,7 @@ static inline void data_diagram_set_diagram_type ( data_diagram_t *this_, data_d
     (*this_).diagram_type = diagram_type;
 }
 
-static inline const char *data_diagram_get_name_ptr ( data_diagram_t *this_ )
+static inline const char *data_diagram_get_name_ptr ( const data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
 }
@@ -189,7 +189,7 @@ static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const 
     return result;
 }
 
-static inline const char *data_diagram_get_description_ptr ( data_diagram_t *this_ )
+static inline const char *data_diagram_get_description_ptr ( const data_diagram_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }

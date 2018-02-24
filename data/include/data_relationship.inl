@@ -135,7 +135,7 @@ static inline void data_relationship_set_to_classifier_id ( data_relationship_t 
     (*this_).to_classifier_id = to_classifier_id;
 }
 
-static inline const char *data_relationship_get_name_ptr ( data_relationship_t *this_ )
+static inline const char *data_relationship_get_name_ptr ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).name );
 }
@@ -159,7 +159,7 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
     return result;
 }
 
-static inline const char *data_relationship_get_description_ptr ( data_relationship_t *this_ )
+static inline const char *data_relationship_get_description_ptr ( const data_relationship_t *this_ )
 {
     return utf8stringbuf_get_string( (*this_).description );
 }

@@ -11,7 +11,6 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       pencil_input_data_t *input_data,
                                       pencil_input_data_layout_t *layout_data,
                                       pencil_size_t *pencil_size,
-                                      geometry_rectangle_t *diagram_draw_area,
                                       geometry_rectangle_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
                                       geometry_non_linear_scale_t *y_scale,
@@ -21,18 +20,23 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
     assert( NULL != input_data );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
-    assert( NULL != diagram_draw_area );
     assert( NULL != feature_layouter );
 
     (*this_).input_data = input_data;
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
-    (*this_).diagram_draw_area = diagram_draw_area;
     (*this_).default_classifier_size = default_classifier_size;
     (*this_).x_scale = x_scale;
     (*this_).y_scale = y_scale;
     (*this_).feature_layouter = feature_layouter;
     pencil_classifier_painter_init( &((*this_).classifier_painter) );
+
+    /* get draw area */
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( (*this_).layout_data );
+        (*this_).diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
 
     TRACE_END();
 }

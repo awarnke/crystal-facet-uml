@@ -20,23 +20,28 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     PangoLayout *layout;
     layout = pango_cairo_create_layout (cr);
 
-    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
-    geometry_rectangle_t *diagram_bounds = pencil_layouter_get_diagram_bounds_ptr ( &((*this_).layouter) );
-    double width = geometry_rectangle_get_width ( diagram_bounds );
-    double height = geometry_rectangle_get_height ( diagram_bounds );
+    /* get layout data object */
     pencil_input_data_layout_t *layout_data;
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+
+    /* get diagram bounds */
+    layout_diagram_t *diagram_layout;
+    diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( layout_data );
+    geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr ( diagram_layout );
+    double width = geometry_rectangle_get_width ( diagram_bounds );
+    double height = geometry_rectangle_get_height ( diagram_bounds );
+
+    pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
     /* draw diagram */
     data_diagram_t *diag;
     diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
     pencil_diagram_painter_draw ( &((*this_).diagram_painter),
-                                  diag,
+                                  diagram_layout,
                                   data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
                                   pencil_size,
-                                  diagram_bounds,
                                   layout,
                                   cr
                                 );
@@ -83,11 +88,13 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    count = pencil_input_data_layout_get_visible_classifier_count ( layout_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
+        layout_visible_classifier_t *classifier_layout;
+        classifier_layout = pencil_input_data_layout_get_visible_classifier_layout_ptr( layout_data, index );
         data_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+        visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
@@ -104,12 +111,11 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
-                                            visible_classifier,
+                                            classifier_layout,
                                             mark_focused,
                                             mark_highlighted,
                                             mark_selected,
                                             pencil_size,
-                                            classifier_bounds,
                                             layout,
                                             cr
                                           );
@@ -129,17 +135,19 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                                          f_idx,
                                                                          linenumber
                     );
+                    layout_feature_t *feature_workaround;
+                    feature_workaround = pencil_input_data_layout_get_feature_layout_ptr( layout_data, f_idx );
+                    layout_feature_set_bounds( feature_workaround, &feature_bounds );
                     pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                                  the_feature,
+                                                  feature_workaround,
                                                   data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
                                                   data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
                                                   data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
                                                   (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
                                                   pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
-                                                  &feature_bounds,
                                                   layout,
                                                   cr
-                    );
+                                                );
                     linenumber ++;
                     geometry_rectangle_destroy( &feature_bounds );
                 }
@@ -170,13 +178,15 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     uint32_t rel_count;
-    rel_count = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    rel_count = pencil_input_data_layout_get_relationship_count ( layout_data );
     for ( uint32_t index = 0; index < rel_count; index ++ )
     {
         pencil_visibility_t show_relation;
         data_relationship_t *the_relationship;
-        the_relationship = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
-        show_relation = pencil_input_data_layout_get_relationship_visibility ( layout_data, index );
+        layout_relationship_t *relationship_layout;
+        relationship_layout = pencil_input_data_layout_get_relationship_layout_ptr ( layout_data, index );
+        the_relationship = layout_relationship_get_data_ptr ( relationship_layout );
+        show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
         {
             if ( data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) )
@@ -215,12 +225,11 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         {
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),
-                                               the_relationship,
+                                               relationship_layout,
                                                data_id_equals_id( &mark_focused, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
                                                data_id_equals_id( &mark_highlighted, DATA_TABLE_RELATIONSHIP, data_relationship_get_id( the_relationship ) ),
                                                data_small_set_contains_row_id( mark_selected, DATA_TABLE_RELATIONSHIP, data_relationship_get_id(the_relationship) ),
                                                pencil_size,
-                                               pencil_input_data_layout_get_relationship_shape_ptr ( layout_data, index ),
                                                layout,
                                                cr
             );

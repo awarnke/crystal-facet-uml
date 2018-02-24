@@ -11,6 +11,7 @@
 
 #include "util/geometry/geometry_connector.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "layout/layout_diagram.h"
 #include "layout/layout_feature.h"
 #include "layout/layout_relationship.h"
 #include "layout/layout_visible_classifier.h"
@@ -33,6 +34,10 @@ enum pencil_input_data_layout_max_enum {
  *  \brief attributes of the pencil_input_data_layout_t
  */
 struct pencil_input_data_layout_struct {
+    /* diagram layout*/
+    layout_diagram_t diagram_layout;  /*!< layout data of the diagram */
+    bool diagram_valid;  /*!< true if diagram_layout is initialized */
+
     /* classifier layout*/
     layout_visible_classifier_t visible_classifier_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS];  /*!< layout data of visible classifiers */
     uint32_t visible_classifier_count;  /*!< number of all layouted visible classifier records */
@@ -70,6 +75,16 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
  */
 void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ );
 
+/* ================================ diagram ================================ */
+
+/*!
+ *  \brief gets the layouted diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to layout_diagram_t.
+ */
+static inline layout_diagram_t *pencil_input_data_layout_get_diagram_layout_ptr ( pencil_input_data_layout_t *this_ );
+
 /* ================================ classifiers ================================ */
 
 /*!
@@ -97,13 +112,22 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_spac
  */
 static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ );
 
+/*!
+ *  \brief gets the layouted visible_classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS.
+ *  \return pointer to layout_visible_classifier_t.
+ */
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_visible_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+
 /* ================================ features ================================ */
 
 /*!
  *  \brief gets the bounding box of a feature
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the featore bounds to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
+ *  \param index index of the feature bounds to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
@@ -114,6 +138,15 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_feature_bounds_
  *  \param this_ pointer to own object attributes
  */
 static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input_data_layout_t *this_ );
+
+/*!
+ *  \brief gets the layouted feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted feature to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
+ *  \return pointer to layout_feature_t.
+ */
+static inline layout_feature_t *pencil_input_data_layout_get_feature_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
 /* ================================ relationships ================================ */
 
@@ -150,6 +183,15 @@ static inline geometry_connector_t *pencil_input_data_layout_get_relationship_sh
  *  \param this_ pointer to own object attributes
  */
 static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_input_data_layout_t *this_ );
+
+/*!
+ *  \brief gets the layouted relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted relationship to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
+ *  \return pointer to layout_relationship_t.
+ */
+static inline layout_relationship_t *pencil_input_data_layout_get_relationship_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
 #include "pencil_input_data_layout.inl"
 
