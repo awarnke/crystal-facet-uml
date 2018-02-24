@@ -19,7 +19,7 @@
 struct layout_relationship_struct {
     pencil_visibility_t visible;  /*!< defines if the relationship is visible */
     geometry_connector_t shape;  /*!< shape of relationship records */
-    data_relationship_t *relationship_data;  /*!< pointer to the data object of the relationship */
+    const data_relationship_t *data;  /*!< pointer to the data object of the relationship */
 };
 
 typedef struct layout_relationship_struct layout_relationship_t;
@@ -69,7 +69,7 @@ static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_r
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a data_relationship_t object.
  */
-static inline data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ );
+static inline const data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ );
 
 #include "layout_relationship.inl"
 

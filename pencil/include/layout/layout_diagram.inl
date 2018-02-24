@@ -4,37 +4,37 @@
 
 static inline void layout_diagram_init_empty ( layout_diagram_t *this_, data_diagram_t *diagram_data )
 {
-    geometry_rectangle_init_empty( &((*this_).diagram_bounds) );
-    geometry_rectangle_init_empty( &((*this_).diagram_draw_area) );
-    (*this_).diagram_data = diagram_data;
+    geometry_rectangle_init_empty( &((*this_).bounds) );
+    geometry_rectangle_init_empty( &((*this_).draw_area) );
+    (*this_).data = diagram_data;
 }
 
 static inline void layout_diagram_destroy ( layout_diagram_t *this_ )
 {
-    geometry_rectangle_destroy( &((*this_).diagram_bounds) );
-    geometry_rectangle_destroy( &((*this_).diagram_draw_area) );
-    (*this_).diagram_data = NULL;
+    geometry_rectangle_destroy( &((*this_).bounds) );
+    geometry_rectangle_destroy( &((*this_).draw_area) );
+    (*this_).data = NULL;
 }
 
 static inline geometry_rectangle_t *layout_diagram_get_bounds_ptr ( layout_diagram_t *this_ )
 {
-    return &((*this_).diagram_bounds);
+    return &((*this_).bounds);
 }
 
 static inline void layout_diagram_set_bounds ( layout_diagram_t *this_, const geometry_rectangle_t *diagram_bounds )
 {
-    geometry_rectangle_replace( &((*this_).diagram_bounds), diagram_bounds );
+    geometry_rectangle_replace( &((*this_).bounds), diagram_bounds );
 }
 
 static inline geometry_rectangle_t *layout_diagram_get_draw_area_ptr ( layout_diagram_t *this_ )
 {
-    return &((*this_).diagram_draw_area);
+    return &((*this_).draw_area);
 }
 
-static inline data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ )
+static inline const data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ )
 {
-    assert ( NULL != (*this_).diagram_data );
-    return (*this_).diagram_data;
+    assert ( NULL != (*this_).data );
+    return (*this_).data;
 }
 
 

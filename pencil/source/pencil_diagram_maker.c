@@ -92,16 +92,16 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     for ( uint32_t index = 0; index < count; index ++ )
     {
         layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_input_data_layout_get_visible_classifier_layout_ptr( layout_data, index );
-        data_visible_classifier_t *visible_classifier;
+        classifier_layout = pencil_input_data_layout_get_classifier_layout_ptr( layout_data, index );
+        const data_visible_classifier_t *visible_classifier;
         visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
-            data_classifier_t *classifier;
-            data_diagramelement_t *diagramelement;
-            classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-            diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+            const data_classifier_t *classifier;
+            const data_diagramelement_t *diagramelement;
+            classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+            diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
 
             data_diagramelement_flag_t display_flags;
             display_flags = data_diagramelement_get_display_flags( diagramelement );
@@ -182,7 +182,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     for ( uint32_t index = 0; index < rel_count; index ++ )
     {
         pencil_visibility_t show_relation;
-        data_relationship_t *the_relationship;
+        const data_relationship_t *the_relationship;
         layout_relationship_t *relationship_layout;
         relationship_layout = pencil_input_data_layout_get_relationship_layout_ptr ( layout_data, index );
         the_relationship = layout_relationship_get_data_ptr ( relationship_layout );

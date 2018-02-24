@@ -119,7 +119,7 @@ static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( p
  *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
-static inline layout_visible_classifier_t *pencil_input_data_layout_get_visible_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
 /* ================================ features ================================ */
 

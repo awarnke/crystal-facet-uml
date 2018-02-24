@@ -6,13 +6,13 @@ static inline void layout_relationship_init_empty ( layout_relationship_t *this_
 {
     (*this_).visible = PENCIL_VISIBILITY_HIDE;
     geometry_connector_init_empty( &((*this_).shape) );
-    (*this_).relationship_data = relationship_data;
+    (*this_).data = relationship_data;
 }
 
 static inline void layout_relationship_destroy ( layout_relationship_t *this_ )
 {
     geometry_connector_destroy( &((*this_).shape) );
-    (*this_).relationship_data = NULL;
+    (*this_).data = NULL;
 }
 
 static inline pencil_visibility_t layout_relationship_get_visibility ( const layout_relationship_t *this_ )
@@ -30,10 +30,10 @@ static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_r
     return &((*this_).shape);
 }
 
-static inline data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ )
+static inline const data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ )
 {
-    assert ( NULL != (*this_).relationship_data );
-    return (*this_).relationship_data;
+    assert ( NULL != (*this_).data );
+    return (*this_).data;
 }
 
 

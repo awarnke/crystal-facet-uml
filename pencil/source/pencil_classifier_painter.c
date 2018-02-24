@@ -45,7 +45,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    data_visible_classifier_t *visible_classifier = layout_visible_classifier_get_data_ptr( layouted_classifier );
+    const data_visible_classifier_t *visible_classifier = layout_visible_classifier_get_data_ptr( layouted_classifier );
     const geometry_rectangle_t *classifier_bounds = layout_visible_classifier_get_bounds_ptr( layouted_classifier );
 
     double left, top;
@@ -61,10 +61,10 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
     if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
     {
-        data_classifier_t *classifier;
-        data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+        const data_classifier_t *classifier;
+        const data_diagramelement_t *diagramelement;
+        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
 

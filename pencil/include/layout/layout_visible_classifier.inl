@@ -4,32 +4,32 @@
 
 static inline void layout_visible_classifier_init_empty ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data )
 {
-    geometry_rectangle_init_empty( &((*this_).classifier_bounds) );
-    geometry_rectangle_init_empty( &((*this_).classifier_space) );
-    (*this_).visible_classifier_data = visible_classifier_data;
+    geometry_rectangle_init_empty( &((*this_).bounds) );
+    geometry_rectangle_init_empty( &((*this_).space) );
+    (*this_).data = visible_classifier_data;
 }
 
 static inline void layout_visible_classifier_destroy ( layout_visible_classifier_t *this_ )
 {
-    geometry_rectangle_destroy( &((*this_).classifier_bounds) );
-    geometry_rectangle_destroy( &((*this_).classifier_space) );
-    (*this_).visible_classifier_data = NULL;
+    geometry_rectangle_destroy( &((*this_).bounds) );
+    geometry_rectangle_destroy( &((*this_).space) );
+    (*this_).data = NULL;
 }
 
 static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( layout_visible_classifier_t *this_ )
 {
-    return &((*this_).classifier_bounds);
+    return &((*this_).bounds);
 }
 
 static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
 {
-    return &((*this_).classifier_space);
+    return &((*this_).space);
 }
 
-static inline data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ )
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ )
 {
-    assert ( NULL != (*this_).visible_classifier_data );
-    return (*this_).visible_classifier_data;
+    assert ( NULL != (*this_).data );
+    return (*this_).data;
 }
 
 

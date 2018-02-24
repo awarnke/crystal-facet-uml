@@ -16,8 +16,8 @@
  *  \brief visibility, shape and location of a feature
  */
 struct layout_feature_struct {
-    geometry_rectangle_t feature_bounds;  /*!< bounds of a feature */
-    data_feature_t *feature_data;  /*!< pointer to the data object of the feature */
+    geometry_rectangle_t bounds;  /*!< bounds of a feature */
+    const data_feature_t *data;  /*!< pointer to the data object of the feature */
 };
 
 typedef struct layout_feature_struct layout_feature_t;
@@ -59,7 +59,7 @@ static inline void layout_feature_set_bounds ( layout_feature_t *this_, const ge
  *  \param this_ pointer to own object attributes
  *  \return a pointer to the corresponding data_feature_t object
  */
-static inline data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ );
+static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ );
 
 #include "layout_feature.inl"
 

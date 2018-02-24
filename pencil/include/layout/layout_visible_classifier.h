@@ -16,9 +16,9 @@
  *  \brief shape and location of a visible_classifier
  */
 struct layout_visible_classifier_struct {
-    geometry_rectangle_t classifier_bounds;  /*!< outer bounds of a classifier record */
-    geometry_rectangle_t classifier_space;  /*!< inner space of a classifier record where features or contained classifiers are drawn */
-    data_visible_classifier_t *visible_classifier_data;  /*!< pointer to the data object of the visible classifier */
+    geometry_rectangle_t bounds;  /*!< outer bounds of a classifier record */
+    geometry_rectangle_t space;  /*!< inner space of a classifier record where features or contained classifiers are drawn */
+    const data_visible_classifier_t *data;  /*!< pointer to the data object of the visible classifier */
 };
 
 typedef struct layout_visible_classifier_struct layout_visible_classifier_t;
@@ -60,7 +60,7 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( la
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a data_visible_classifier_t object.
  */
-static inline data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ );
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ );
 
 #include "layout_visible_classifier.inl"
 

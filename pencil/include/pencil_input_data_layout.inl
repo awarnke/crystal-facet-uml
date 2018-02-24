@@ -32,7 +32,7 @@ static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( p
     return (*this_).visible_classifier_count;
 }
 
-static inline layout_visible_classifier_t *pencil_input_data_layout_get_visible_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
     assert ( index < (*this_).visible_classifier_count );

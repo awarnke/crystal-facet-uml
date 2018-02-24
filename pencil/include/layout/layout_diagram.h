@@ -16,9 +16,9 @@
  *  \brief dimensions of a diagram
  */
 struct layout_diagram_struct {
-    geometry_rectangle_t diagram_bounds;  /*!< bounding box of the diagram */
-    geometry_rectangle_t diagram_draw_area;  /*!< drawing rectangle of inner contents of the diagram */
-    data_diagram_t *diagram_data;  /*!< pointer to the data object of the diagram */
+    geometry_rectangle_t bounds;  /*!< bounding box of the diagram */
+    geometry_rectangle_t draw_area;  /*!< drawing rectangle of inner contents of the diagram */
+    const data_diagram_t *data;  /*!< pointer to the data object of the diagram */
 };
 
 typedef struct layout_diagram_struct layout_diagram_t;
@@ -68,7 +68,7 @@ static inline geometry_rectangle_t *layout_diagram_get_draw_area_ptr ( layout_di
  *  \param this_ pointer to own object attributes
  *  \return a pointer to the corresponding data_diagram_t object
  */
-static inline data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ );
+static inline const data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ );
 
 #include "layout_diagram.inl"
 
