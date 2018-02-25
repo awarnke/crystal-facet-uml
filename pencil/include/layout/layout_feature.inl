@@ -2,10 +2,16 @@
 
 #include <assert.h>
 
-static inline void layout_feature_init_empty ( layout_feature_t *this_, data_feature_t *feature_data )
+static inline void layout_feature_init ( layout_feature_t *this_,
+                                         const data_feature_t *feature_data,
+                                         layout_visible_classifier_t *classifier )
 {
+    assert ( NULL != feature_data );
+    assert ( NULL != classifier );
+
     geometry_rectangle_init_empty( &((*this_).bounds) );
     (*this_).data = feature_data;
+    (*this_).classifier = classifier;
 }
 
 static inline void layout_feature_destroy ( layout_feature_t *this_ )
@@ -26,8 +32,17 @@ static inline void layout_feature_set_bounds ( layout_feature_t *this_, const ge
 
 static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ )
 {
-    assert ( NULL != (*this_).data );
     return (*this_).data;
+}
+
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ )
+{
+    return (*this_).classifier;
+}
+
+static inline int64_t layout_feature_get_feature_id ( const layout_feature_t *this_ )
+{
+    return data_feature_get_id( (*this_).data );
 }
 
 

@@ -2,11 +2,24 @@
 
 #include <assert.h>
 
-static inline void layout_relationship_init_empty ( layout_relationship_t *this_, data_relationship_t *relationship_data )
+static inline void layout_relationship_init ( layout_relationship_t *this_,
+                                              const data_relationship_t *relationship_data,
+                                              layout_visible_classifier_t *from_classifier,
+                                              layout_visible_classifier_t *to_classifier,
+                                              layout_feature_t *from_feature,
+                                              layout_feature_t *to_feature )
 {
+    assert ( NULL != relationship_data );
+    assert ( NULL != from_classifier );
+    assert ( NULL != to_classifier );
+
     (*this_).visible = PENCIL_VISIBILITY_HIDE;
     geometry_connector_init_empty( &((*this_).shape) );
     (*this_).data = relationship_data;
+    (*this_).from_classifier = from_classifier;
+    (*this_).to_classifier = to_classifier;
+    (*this_).from_feature = from_feature;
+    (*this_).to_feature = to_feature;
 }
 
 static inline void layout_relationship_destroy ( layout_relationship_t *this_ )
@@ -34,6 +47,26 @@ static inline const data_relationship_t *layout_relationship_get_data_ptr ( cons
 {
     assert ( NULL != (*this_).data );
     return (*this_).data;
+}
+
+static inline layout_visible_classifier_t *layout_relationship_get_from_classifier_ptr ( layout_relationship_t *this_ )
+{
+    return (*this_).from_classifier;
+}
+
+static inline layout_visible_classifier_t *layout_relationship_get_to_classifier_ptr ( layout_relationship_t *this_ )
+{
+    return (*this_).to_classifier;
+}
+
+static inline layout_feature_t *layout_relationship_get_from_feature_ptr ( layout_relationship_t *this_ )
+{
+    return (*this_).from_feature;
+}
+
+static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( layout_relationship_t *this_ )
+{
+    return (*this_).to_feature;
 }
 
 

@@ -29,7 +29,7 @@ typedef struct layout_visible_classifier_struct layout_visible_classifier_t;
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier_data pointer to data object which is layouted
  */
-static inline void layout_visible_classifier_init_empty ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data );
+static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data );
 
 /*!
  *  \brief destroys the layout_visible_classifier_t struct
@@ -60,7 +60,31 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( la
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a data_visible_classifier_t object.
  */
-static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ );
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the pointer to the const classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a pointer to a classifier.
+ */
+static inline const data_classifier_t *layout_visible_classifier_get_classifier_ptr ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the pointer to the const diagramelement
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a pointer to a diagramelement.
+ */
+static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_ptr ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the row id of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the classifier
+ */
+static inline int64_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ );
 
 #include "layout_visible_classifier.inl"
 

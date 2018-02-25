@@ -2,8 +2,10 @@
 
 #include <assert.h>
 
-static inline void layout_visible_classifier_init_empty ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data )
+static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data )
 {
+    assert ( NULL != visible_classifier_data );
+
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).space) );
     (*this_).data = visible_classifier_data;
@@ -26,10 +28,24 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( la
     return &((*this_).space);
 }
 
-static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( layout_visible_classifier_t *this_ )
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ )
 {
-    assert ( NULL != (*this_).data );
     return (*this_).data;
+}
+
+static inline const data_classifier_t *layout_visible_classifier_get_classifier_ptr ( const layout_visible_classifier_t *this_ )
+{
+    return data_visible_classifier_get_classifier_const ( (*this_).data );
+}
+
+static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_ptr ( const layout_visible_classifier_t *this_ )
+{
+    return data_visible_classifier_get_diagramelement_const ( (*this_).data );
+}
+
+static inline int64_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ )
+{
+    return data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ));
 }
 
 

@@ -9,6 +9,7 @@
  *  \brief Defines visibility, shape and location of a feature
  */
 
+#include "layout/layout_visible_classifier.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_feature.h"
 
@@ -18,6 +19,7 @@
 struct layout_feature_struct {
     geometry_rectangle_t bounds;  /*!< bounds of a feature */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
+    layout_visible_classifier_t *classifier;  /*!< pointer to the layout of the parent visible classifier */
 };
 
 typedef struct layout_feature_struct layout_feature_t;
@@ -27,8 +29,12 @@ typedef struct layout_feature_struct layout_feature_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_data pointer to data object which is layouted
+ *  \param classifier pointer to layout of the parent classifier object
  */
-static inline void layout_feature_init_empty ( layout_feature_t *this_, data_feature_t *feature_data );
+static inline void layout_feature_init ( layout_feature_t *this_,
+                                         const data_feature_t *feature_data,
+                                         layout_visible_classifier_t *classifier
+                                       );
 
 /*!
  *  \brief destroys the layout_feature_t struct
@@ -60,6 +66,22 @@ static inline void layout_feature_set_bounds ( layout_feature_t *this_, const ge
  *  \return a pointer to the corresponding data_feature_t object
  */
 static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ );
+
+/*!
+ *  \brief gets the layout_visible_classifier_t object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a pointer to the parent layout_visible_classifier_t object
+ */
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ );
+
+/*!
+ *  \brief gets the row id of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the feature
+ */
+static inline int64_t layout_feature_get_feature_id ( const layout_feature_t *this_ );
 
 #include "layout_feature.inl"
 

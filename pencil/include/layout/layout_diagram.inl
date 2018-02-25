@@ -2,8 +2,10 @@
 
 #include <assert.h>
 
-static inline void layout_diagram_init_empty ( layout_diagram_t *this_, data_diagram_t *diagram_data )
+static inline void layout_diagram_init ( layout_diagram_t *this_, data_diagram_t *diagram_data )
 {
+    assert ( NULL != diagram_data );
+
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).draw_area) );
     (*this_).data = diagram_data;
