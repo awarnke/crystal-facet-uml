@@ -8,16 +8,13 @@
 #include <math.h>
 
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
-                                        pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
                                         pencil_size_t *pencil_size )
 {
     TRACE_BEGIN();
-    assert( NULL != input_data );
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
 
-    (*this_).input_data = input_data;
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
 
@@ -185,24 +182,20 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     uint32_t index;
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
 
-    data_relationship_t *current_relation;
-    current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+    layout_relationship_t *current_relation;
+    current_relation = pencil_input_data_layout_get_relationship_ptr ( (*this_).layout_data, index );
 
     /* propose connections between source and destination */
-    int32_t source_index;
-    int32_t dest_index;
-    source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                           data_relationship_get_from_classifier_id(current_relation)
-                                                         );
-    dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                         data_relationship_get_to_classifier_id(current_relation)
-                                                       );
-    if (( -1 != source_index ) && ( -1 != dest_index ))
+    layout_visible_classifier_t *source_layout;
+    layout_visible_classifier_t *dest_layout;
+    source_layout = layout_relationship_get_from_classifier_ptr( current_relation );
+    dest_layout = layout_relationship_get_to_classifier_ptr( current_relation );
+    if (( NULL != source_layout ) && ( NULL != dest_layout ))
     {
         geometry_rectangle_t *source_rect;
         geometry_rectangle_t *dest_rect;
-        source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, source_index );
-        dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, dest_index );
+        source_rect = layout_visible_classifier_get_bounds_ptr( source_layout );
+        dest_rect = layout_visible_classifier_get_bounds_ptr( dest_layout );
 
         uint32_t solutions_by_ZN;
         uint32_t solutions_by_L7;
@@ -302,7 +295,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
-        count_clasfy = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+        count_clasfy = pencil_input_data_layout_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             geometry_rectangle_t *classifier_bounds;
@@ -769,7 +762,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
 
     /* iterate over all classifiers */
     uint32_t count_classifiers;
-    count_classifiers = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    count_classifiers = pencil_input_data_layout_get_visible_classifier_count ( (*this_).layout_data );
     const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )

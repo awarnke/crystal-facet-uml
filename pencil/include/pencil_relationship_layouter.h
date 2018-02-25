@@ -28,7 +28,6 @@
  *  \brief attributes of the relationship layouter
  */
 struct pencil_relationship_layouter_struct {
-    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
     pencil_input_data_layout_t *layout_data;  /* pointer to an instance of layout data */
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
@@ -41,12 +40,10 @@ typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_
  *  \brief initializes the layouter
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be layouted
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
-                                        pencil_input_data_t *input_data,
                                         pencil_input_data_layout_t *layout_data,
                                         pencil_size_t *pencil_size
                                       );
@@ -68,7 +65,7 @@ void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *th
 /*!
  *  \brief determine order by which to shape relationships
  *
- *  Relationships that are not visible are ignored. Therefore out_sorted may contain fewer relationships than (*this_).input_data.
+ *  Relationships that are not visible are ignored. Therefore out_sorted may contain fewer relationships than (*this_).layout_data.
  *
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to shape relationships; must not be NULL, shall be initialized to empty.

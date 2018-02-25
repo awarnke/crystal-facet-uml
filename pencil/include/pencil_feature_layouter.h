@@ -28,7 +28,6 @@
  *  \brief attributes of the feature layouter
  */
 struct pencil_feature_layouter_struct {
-    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
     pencil_input_data_layout_t *layout_data;  /* pointer to external layout data */
 
     pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
@@ -42,12 +41,10 @@ typedef struct pencil_feature_layouter_struct pencil_feature_layouter_t;
  *  \brief initializes the feature layouter
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be layouted
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
-                                   pencil_input_data_t *input_data,
                                    pencil_input_data_layout_t *layout_data,
                                    pencil_size_t *pencil_size
                                  );
