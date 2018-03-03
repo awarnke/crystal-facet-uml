@@ -119,8 +119,8 @@ static inline uint32_t pencil_input_data_get_classifier_index_from_pointer ( con
     assert ( NULL != classifier_ptr );  /* input parameters test */
     assert ( classifier_ptr >= &((*this_).visible_classifiers[0]) );  /* input parameters test */
     assert ( classifier_ptr < &((*this_).visible_classifiers[PENCIL_INPUT_DATA_MAX_CLASSIFIERS]) );  /* input parameters test */
-    assert ( 3 == (*this_).visible_classifiers - &((*this_).visible_classifiers[3]) );  /* compiler test */
-    return ( (*this_).visible_classifiers - classifier_ptr );
+    assert ( 3 == &((*this_).visible_classifiers[3]) - (*this_).visible_classifiers );  /* compiler test */
+    return ( classifier_ptr - (*this_).visible_classifiers );
 }
 
 static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t *this_ )

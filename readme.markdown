@@ -20,7 +20,7 @@ How to build
 >
 > cmake .
 >
-> make
+> make -j5    # j5 starts 5 jobs in parallel to efficiently use 4 cores
 
 How to run
 -----------
