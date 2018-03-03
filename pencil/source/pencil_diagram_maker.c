@@ -26,7 +26,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 
     /* get diagram bounds */
     layout_diagram_t *diagram_layout;
-    diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( layout_data );
+    diagram_layout = pencil_input_data_layout_get_diagram_ptr( layout_data );
     geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr ( diagram_layout );
     double width = geometry_rectangle_get_width ( diagram_bounds );
     double height = geometry_rectangle_get_height ( diagram_bounds );
@@ -88,11 +88,11 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_input_data_layout_get_visible_classifier_count ( layout_data );
+    count = pencil_input_data_layout_get_classifier_count ( layout_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_input_data_layout_get_classifier_layout_ptr( layout_data, index );
+        classifier_layout = pencil_input_data_layout_get_classifier_ptr( layout_data, index );
         const data_visible_classifier_t *visible_classifier;
         visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
@@ -136,7 +136,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                                          linenumber
                     );
                     layout_feature_t *feature_workaround;
-                    feature_workaround = pencil_input_data_layout_get_feature_layout_ptr( layout_data, f_idx );
+                    feature_workaround = pencil_input_data_layout_get_feature_ptr( layout_data, f_idx );
                     layout_feature_set_bounds( feature_workaround, &feature_bounds );
                     pencil_feature_painter_draw ( &((*this_).feature_painter),
                                                   feature_workaround,
@@ -184,7 +184,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         pencil_visibility_t show_relation;
         const data_relationship_t *the_relationship;
         layout_relationship_t *relationship_layout;
-        relationship_layout = pencil_input_data_layout_get_relationship_layout_ptr ( layout_data, index );
+        relationship_layout = pencil_input_data_layout_get_relationship_ptr ( layout_data, index );
         the_relationship = layout_relationship_get_data_ptr ( relationship_layout );
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )

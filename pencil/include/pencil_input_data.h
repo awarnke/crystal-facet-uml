@@ -122,6 +122,17 @@ static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_i
  */
 static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data_t *this_, int64_t row_id );
 
+/*!
+ *  \brief gets the classifier index within the painter input data from a pointer
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_ptr pointer to the classifier of which to retrieve the index. must be a valid pointer to (*this_).visible_classifiers.
+ *  \return index of data_classifier_t.
+ */
+static inline uint32_t pencil_input_data_get_classifier_index_from_pointer ( const pencil_input_data_t *this_,
+                                                                             const data_visible_classifier_t *classifier_ptr
+                                                                           );
+
 /* ================================ features ================================ */
 
 /*!
@@ -174,7 +185,7 @@ static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( penc
  *  \param descendant_index index of the descendant classifier; 0 <= descendant_index < pencil_input_data_get_visible_classifier_count().
  *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within this pencil_input_data object
  */
-static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index );
+static inline bool pencil_input_data_is_ancestor_by_index ( const pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index );
 
 /*!
  *  \brief counts the number of ancestors of a classifier denoted by index
@@ -183,7 +194,7 @@ static inline bool pencil_input_data_is_ancestor_by_index ( pencil_input_data_t 
  *  \param classifier_index index of the classifier; 0 <= classifier_index < pencil_input_data_get_visible_classifier_count().
  *  \return number of ancestors of classifier_index which are listed in this_.
  */
-static inline uint32_t pencil_input_data_count_ancestors_of_index ( pencil_input_data_t *this_, uint32_t classifier_index );
+static inline uint32_t pencil_input_data_count_ancestors_of_index ( const pencil_input_data_t *this_, uint32_t classifier_index );
 
 /*!
  *  \brief counts the number of descendants of a classifier denoted by index
@@ -192,7 +203,7 @@ static inline uint32_t pencil_input_data_count_ancestors_of_index ( pencil_input
  *  \param classifier_index index of the classifier; 0 <= classifier_index < pencil_input_data_get_visible_classifier_count().
  *  \return number of descendants of classifier_index which are listed in this_.
  */
-static inline uint32_t pencil_input_data_count_descendants_of_index ( pencil_input_data_t *this_, uint32_t classifier_index );
+static inline uint32_t pencil_input_data_count_descendants_of_index ( const pencil_input_data_t *this_, uint32_t classifier_index );
 
 /* ================================ misc ================================ */
 

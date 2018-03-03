@@ -49,6 +49,9 @@ struct pencil_input_data_layout_struct {
     /* relationship layout */
     layout_relationship_t relationship_layout[PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS];  /*!< layout data of relationships */
     uint32_t relationship_count;  /*!< number of all layouted relationship records */
+
+    /* input data */
+    const pencil_input_data_t *input_data;  /*!< the input data which is base for the layout data */
 };
 
 typedef struct pencil_input_data_layout_struct pencil_input_data_layout_t;
@@ -83,7 +86,7 @@ void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return pointer to layout_diagram_t.
  */
-static inline layout_diagram_t *pencil_input_data_layout_get_diagram_layout_ptr ( pencil_input_data_layout_t *this_ );
+static inline layout_diagram_t *pencil_input_data_layout_get_diagram_ptr ( pencil_input_data_layout_t *this_ );
 
 /* ================================ classifiers ================================ */
 
@@ -110,7 +113,7 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_spac
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ );
+static inline uint32_t pencil_input_data_layout_get_classifier_count ( pencil_input_data_layout_t *this_ );
 
 /*!
  *  \brief gets the layouted visible_classifier
@@ -119,7 +122,7 @@ static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( p
  *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
-static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
 /* ================================ features ================================ */
 
@@ -146,7 +149,7 @@ static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input
  *  \param index index of the layouted feature to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES.
  *  \return pointer to layout_feature_t.
  */
-static inline layout_feature_t *pencil_input_data_layout_get_feature_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+static inline layout_feature_t *pencil_input_data_layout_get_feature_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
 
 /* ================================ relationships ================================ */
 
@@ -191,7 +194,35 @@ static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_
  *  \param index index of the layouted relationship to retrieve; 0 <= index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS.
  *  \return pointer to layout_relationship_t.
  */
-static inline layout_relationship_t *pencil_input_data_layout_get_relationship_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+static inline layout_relationship_t *pencil_input_data_layout_get_relationship_ptr ( pencil_input_data_layout_t *this_, uint32_t index );
+
+/*!
+ *  \brief determines if ancestor is an ancestor of descendant
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ancestor the ancestor classifier
+ *  \param descendant the descendant classifier
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within the pencil_input_data object
+ */
+static inline bool pencil_input_data_layout_is_ancestor ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant );
+
+/*!
+ *  \brief counts the number of ancestors of a classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier the classifier of which to count ancestors
+ *  \return number of ancestors of classifier which are listed in this_.
+ */
+static inline uint32_t pencil_input_data_layout_count_ancestors ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *classifier );
+
+/*!
+ *  \brief counts the number of descendants of a classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier the classifier of which to count decendants
+ *  \return number of descendants of classifier which are listed in this_.
+ */
+static inline uint32_t pencil_input_data_layout_count_descendants ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *classifier );
 
 #include "pencil_input_data_layout.inl"
 

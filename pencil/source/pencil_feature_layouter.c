@@ -50,8 +50,8 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     for ( uint32_t f_idx = 0; f_idx < pencil_input_data_layout_get_feature_count ( (*this_).layout_data ); f_idx ++ )
     {
         layout_feature_t *feature_layout;
-        feature_layout = pencil_input_data_layout_get_feature_layout_ptr ( (*this_).layout_data, f_idx );
-        data_feature_t *the_feature;
+        feature_layout = pencil_input_data_layout_get_feature_ptr ( (*this_).layout_data, f_idx );
+        const data_feature_t *the_feature;
         the_feature = layout_feature_get_data_ptr ( feature_layout );
         if ( data_feature_is_valid( the_feature ) )
         {

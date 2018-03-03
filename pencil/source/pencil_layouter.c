@@ -18,18 +18,16 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
 
     pencil_input_data_layout_init( &((*this_).layout_data) );
-    (*this_).diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( &((*this_).layout_data) );
+    (*this_).diagram_layout = pencil_input_data_layout_get_diagram_ptr( &((*this_).layout_data) );
     (*this_).input_data = input_data;
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
 
     pencil_feature_layouter_init( &((*this_).feature_layouter),
-                                  input_data,
                                   &((*this_).layout_data),
                                   &((*this_).pencil_size)
                                 );
     pencil_classifier_layouter_init( &((*this_).pencil_classifier_layouter),
-                                     input_data,
                                      &((*this_).layout_data),
                                      &((*this_).pencil_size),
                                      &((*this_).default_classifier_size),
@@ -38,7 +36,6 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
                                      &((*this_).feature_layouter)
                                    );
     pencil_relationship_layouter_init( &((*this_).pencil_relationship_layouter),
-                                       input_data,
                                        &((*this_).layout_data),
                                        &((*this_).pencil_size)
                                      );

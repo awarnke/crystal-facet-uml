@@ -5,7 +5,7 @@
 
 /* ================================ diagram ================================ */
 
-static inline layout_diagram_t *pencil_input_data_layout_get_diagram_layout_ptr ( pencil_input_data_layout_t *this_ )
+static inline layout_diagram_t *pencil_input_data_layout_get_diagram_ptr ( pencil_input_data_layout_t *this_ )
 {
     /*assert ( (*this_).diagram_valid );*/ /* we return the pointer even if diagram_layout is not yet initialized */
     return &((*this_).diagram_layout);
@@ -27,12 +27,12 @@ static inline geometry_rectangle_t *pencil_input_data_layout_get_classifier_spac
     return layout_visible_classifier_get_space_ptr ( &((*this_).visible_classifier_layout[index]) );
 }
 
-static inline uint32_t pencil_input_data_layout_get_visible_classifier_count ( pencil_input_data_layout_t *this_ )
+static inline uint32_t pencil_input_data_layout_get_classifier_count ( pencil_input_data_layout_t *this_ )
 {
     return (*this_).visible_classifier_count;
 }
 
-static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+static inline layout_visible_classifier_t *pencil_input_data_layout_get_classifier_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
     assert ( index < (*this_).visible_classifier_count );
@@ -53,7 +53,7 @@ static inline uint32_t pencil_input_data_layout_get_feature_count ( pencil_input
     return (*this_).feature_count;
 }
 
-static inline layout_feature_t *pencil_input_data_layout_get_feature_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+static inline layout_feature_t *pencil_input_data_layout_get_feature_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
     assert ( index < (*this_).feature_count );
@@ -88,11 +88,50 @@ static inline uint32_t pencil_input_data_layout_get_relationship_count ( pencil_
     return (*this_).relationship_count;
 }
 
-static inline layout_relationship_t *pencil_input_data_layout_get_relationship_layout_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
+static inline layout_relationship_t *pencil_input_data_layout_get_relationship_ptr ( pencil_input_data_layout_t *this_, uint32_t index )
 {
     assert( index < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
     assert ( index < (*this_).relationship_count );
     return &((*this_).relationship_layout[index]);
+}
+
+static inline bool pencil_input_data_layout_is_ancestor ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant )
+{
+    assert ( NULL != ancestor );
+    assert ( NULL != descendant );
+
+    /* get index */
+    uint32_t ancestor_index;
+    uint32_t descendant_index;
+    ancestor_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(ancestor) );
+    descendant_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(descendant) );
+
+    /* ask input_data */
+    return pencil_input_data_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
+}
+
+static inline uint32_t pencil_input_data_layout_count_ancestors ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *classifier )
+{
+    assert ( NULL != classifier );
+
+    /* get index */
+    uint32_t classifier_index;
+    classifier_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+
+    /* ask input_data */
+    return pencil_input_data_count_ancestors_of_index ( (*this_).input_data, classifier_index );
+}
+
+static inline uint32_t pencil_input_data_layout_count_descendants ( pencil_input_data_layout_t *this_, layout_visible_classifier_t *classifier )
+{
+    assert ( NULL != classifier );
+
+    /* get index */
+    uint32_t classifier_index;
+    classifier_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+
+    /* ask input_data */
+    return pencil_input_data_count_descendants_of_index ( (*this_).input_data, classifier_index );
 }
 
 

@@ -14,6 +14,7 @@ void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
     (*this_).visible_classifier_count = 0;
     (*this_).feature_count = 0;
     (*this_).relationship_count = 0;
+    (*this_).input_data = NULL;
 
     TRACE_END();
 }
@@ -26,6 +27,8 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
     /* clean up */
     pencil_input_data_layout_destroy( this_ );
 
+    /* init input data */
+    (*this_).input_data = input_data;
 
     /* init diagram */
     {

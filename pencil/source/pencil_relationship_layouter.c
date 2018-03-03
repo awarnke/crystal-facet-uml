@@ -35,7 +35,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
 void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -103,23 +103,23 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
     geometry_rectangle_t *diagram_draw_area;
     {
         layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( (*this_).layout_data );
+        diagram_layout = pencil_input_data_layout_get_diagram_ptr( (*this_).layout_data );
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
     }
 
     /* sort the relationships by their shaping-needs */
     uint32_t count_relations;
-    count_relations = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    count_relations = pencil_input_data_layout_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        data_relationship_t *current_relation;
-        current_relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+        layout_relationship_t *current_relation;
+        current_relation = pencil_input_data_layout_get_relationship_ptr ( (*this_).layout_data, index );
 
         int64_t simpleness = 0;
 
         /* determine simpleness by relationship type */
         data_relationship_type_t reltype;
-        reltype = data_relationship_get_main_type( current_relation );
+        reltype = data_relationship_get_main_type( layout_relationship_get_data_ptr ( current_relation ));
         if (( DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY == reltype )
             ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
         {
@@ -128,20 +128,15 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         }
 
         /* determine simpleness by distance between source and destination */
-        int32_t source_index;
-        int32_t dest_index;
-        source_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                               data_relationship_get_from_classifier_id(current_relation)
-                                                             );
-        dest_index = pencil_input_data_get_classifier_index( (*this_).input_data,
-                                                             data_relationship_get_to_classifier_id(current_relation)
-                                                           );
-        if (( -1 != source_index ) && ( -1 != dest_index ))
+        layout_visible_classifier_t *source_layout;
+        layout_visible_classifier_t *dest_layout;
+        source_layout = layout_relationship_get_from_classifier_ptr( current_relation );
+        dest_layout = layout_relationship_get_to_classifier_ptr( current_relation );
         {
             geometry_rectangle_t *source_rect;
             geometry_rectangle_t *dest_rect;
-            source_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, source_index );
-            dest_rect = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, dest_index );
+            source_rect = layout_visible_classifier_get_bounds_ptr( source_layout );
+            dest_rect = layout_visible_classifier_get_bounds_ptr( dest_layout );
             simpleness -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
 
@@ -153,11 +148,6 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
             }
 
             pencil_input_data_layout_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
-        }
-        else
-        {
-            TRACE_INFO_INT( "relationship not shown because one of the parties is not visible. index:", index );
-            pencil_input_data_layout_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
         }
     }
 
@@ -190,7 +180,6 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     layout_visible_classifier_t *dest_layout;
     source_layout = layout_relationship_get_from_classifier_ptr( current_relation );
     dest_layout = layout_relationship_get_to_classifier_ptr( current_relation );
-    if (( NULL != source_layout ) && ( NULL != dest_layout ))
     {
         geometry_rectangle_t *source_rect;
         geometry_rectangle_t *dest_rect;
@@ -227,11 +216,6 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
 
         *out_solutions_count = solutions_by_ZN + solutions_by_L7 + solutions_by_UC;
     }
-    else
-    {
-        TSLOG_ERROR( "invisible relationship in sorted list." );
-        *out_solutions_count = 0;
-    }
 
     TRACE_END();
 }
@@ -254,7 +238,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     geometry_rectangle_t *diagram_draw_area;
     {
         layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_input_data_layout_get_diagram_layout_ptr( (*this_).layout_data );
+        diagram_layout = pencil_input_data_layout_get_diagram_ptr( (*this_).layout_data );
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
     }
 
@@ -295,7 +279,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
-        count_clasfy = pencil_input_data_layout_get_visible_classifier_count ( (*this_).layout_data );
+        count_clasfy = pencil_input_data_layout_get_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             geometry_rectangle_t *classifier_bounds;
@@ -762,7 +746,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
 
     /* iterate over all classifiers */
     uint32_t count_classifiers;
-    count_classifiers = pencil_input_data_layout_get_visible_classifier_count ( (*this_).layout_data );
+    count_classifiers = pencil_input_data_layout_get_classifier_count ( (*this_).layout_data );
     const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
