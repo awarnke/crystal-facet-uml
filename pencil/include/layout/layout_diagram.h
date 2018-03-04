@@ -70,6 +70,16 @@ static inline geometry_rectangle_t *layout_diagram_get_draw_area_ptr ( layout_di
  */
 static inline const data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ );
 
+/*!
+ *  \brief gets the row id of the diagram
+ *
+ *  This is a shortcut for data_diagram_get_id( layout_diagram_get_data_ptr ( X ) )
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the diagram
+ */
+static inline int64_t layout_diagram_get_diagram_id ( const layout_diagram_t *this_ );
+
 #include "layout_diagram.inl"
 
 #endif  /* LAYOUT_DIAGRAM_H */

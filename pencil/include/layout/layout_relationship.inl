@@ -69,6 +69,11 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( layout_
     return (*this_).to_feature;
 }
 
+static inline int64_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ )
+{
+    return data_relationship_get_id( (*this_).data );
+}
+
 
 /*
 Copyright 2018-2018 Andreas Warnke

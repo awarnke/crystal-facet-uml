@@ -8,7 +8,7 @@
  *  \file
  *  \brief Defines a pair of visible object id and model object id
  *
- *  e.g. data_diagramelement_t and data_classifier_t
+ *  e.g. data_diagramelement_t (visible) and data_classifier_t (model)
  *  or simply data_feature_t and data_feature_t if visible object and model object are identical
  */
 

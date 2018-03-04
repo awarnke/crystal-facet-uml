@@ -24,7 +24,7 @@ ctrl_policy_enforcer    [C0154]
 
 ctrl    [C0003]
 | - provides write access to the database
-| - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
+| - ensures consistency of the uml-model, e.g. no circular contains-relations, no lifelines if no corresponding diagramelement exists
   --> ctrl_controller    [R0043]
   --> ctrl_consistency_checker    [R0044]
   --> ctrl_diagram_controller    [R0217]

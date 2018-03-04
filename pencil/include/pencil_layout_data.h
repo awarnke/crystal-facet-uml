@@ -91,24 +91,6 @@ static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layo
 /* ================================ classifiers ================================ */
 
 /*!
- *  \brief gets the outer geometry of a classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the classifier bounds to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *pencil_layout_data_get_classifier_bounds_ptr ( pencil_layout_data_t *this_, uint32_t index );
-
-/*!
- *  \brief gets the inner space of a classifier
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the classifier space to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *pencil_layout_data_get_classifier_space_ptr ( pencil_layout_data_t *this_, uint32_t index );
-
-/*!
  *  \brief gets the number of visible classifiers within the painter layout data
  *
  *  \param this_ pointer to own object attributes
@@ -125,15 +107,6 @@ static inline uint32_t pencil_layout_data_get_classifier_count ( pencil_layout_d
 static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
 /* ================================ features ================================ */
-
-/*!
- *  \brief gets the bounding box of a feature
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the feature bounds to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_FEATURES.
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_rectangle_t *pencil_layout_data_get_feature_bounds_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
 /*!
  *  \brief gets the number of features within the painter layout data
@@ -170,15 +143,6 @@ static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility
  *  \param visible true if visible.
  */
 static inline void pencil_layout_data_set_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index, pencil_visibility_t visible );
-
-/*!
- *  \brief gets the geometry of a relationship
- *
- *  \param this_ pointer to own object attributes
- *  \param index index of the relationship shape to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
- *  \return pointer to geometry_rectangle_t.
- */
-static inline geometry_connector_t *pencil_layout_data_get_relationship_shape_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
 /*!
  *  \brief gets the number of relationships within the painter layout data

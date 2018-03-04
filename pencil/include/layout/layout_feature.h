@@ -78,6 +78,8 @@ static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( l
 /*!
  *  \brief gets the row id of the feature
  *
+ *  This is a shortcut for data_feature_get_id( layout_feature_get_data_ptr ( X ) )
+ *
  *  \param this_ pointer to own object attributes
  *  \return id of the feature
  */

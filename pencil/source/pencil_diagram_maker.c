@@ -96,68 +96,61 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
         const data_visible_classifier_t *visible_classifier;
         visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
-        if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
+        const data_classifier_t *classifier;
+        const data_diagramelement_t *diagramelement;
+        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+
+        data_diagramelement_flag_t display_flags;
+        display_flags = data_diagramelement_get_display_flags( diagramelement );
+
+        geometry_rectangle_t *classifier_bounds;
+        classifier_bounds = layout_visible_classifier_get_bounds_ptr ( classifier_layout );
+        pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
+
+        pencil_classifier_painter_draw( &((*this_).classifier_painter),
+                                        classifier_layout,
+                                        mark_focused,
+                                        mark_highlighted,
+                                        mark_selected,
+                                        pencil_size,
+                                        layout,
+                                        cr
+                                        );
+
+        /* draw all contained features */
+        uint32_t linenumber = 0;
+        for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
         {
-            const data_classifier_t *classifier;
-            const data_diagramelement_t *diagramelement;
-            classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-            diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-
-            data_diagramelement_flag_t display_flags;
-            display_flags = data_diagramelement_get_display_flags( diagramelement );
-
-            geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = pencil_layout_data_get_classifier_bounds_ptr ( layout_data, index );
-            pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
-
-            pencil_classifier_painter_draw( &((*this_).classifier_painter),
-                                            classifier_layout,
-                                            mark_focused,
-                                            mark_highlighted,
-                                            mark_selected,
-                                            pencil_size,
-                                            layout,
-                                            cr
-                                          );
-
-            /* draw all contained features */
-            uint32_t linenumber = 0;
-            for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
+            data_feature_t *the_feature;
+            the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
+            if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
             {
-                data_feature_t *the_feature;
-                the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
-                if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
-                {
-                    geometry_rectangle_t feature_bounds;
-                    feature_bounds = pencil_layouter_get_feature_bounds( &((*this_).layouter),
-                                                                         data_classifier_get_id( classifier ),
-                                                                         index,
-                                                                         f_idx,
-                                                                         linenumber
-                    );
-                    layout_feature_t *feature_workaround;
-                    feature_workaround = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
-                    layout_feature_set_bounds( feature_workaround, &feature_bounds );
-                    pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                                  feature_workaround,
-                                                  data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                                  data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
-                                                  data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                                  (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
-                                                  pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
-                                                  layout,
-                                                  cr
-                                                );
-                    linenumber ++;
-                    geometry_rectangle_destroy( &feature_bounds );
-                }
+                geometry_rectangle_t feature_bounds;
+                feature_bounds = pencil_layouter_get_feature_bounds( &((*this_).layouter),
+                                                                        data_classifier_get_id( classifier ),
+                                                                        index,
+                                                                        f_idx,
+                                                                        linenumber
+                );
+                layout_feature_t *feature_workaround;
+                feature_workaround = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
+                layout_feature_set_bounds( feature_workaround, &feature_bounds );
+                pencil_feature_painter_draw ( &((*this_).feature_painter),
+                                                feature_workaround,
+                                                data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
+                                                data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
+                                                data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
+                                                (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
+                                                pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                                layout,
+                                                cr
+                                            );
+                linenumber ++;
+                geometry_rectangle_destroy( &feature_bounds );
             }
+        }
 
-        }
-        else
-        {
-            TSLOG_ERROR("invalid visible classifier in array!");
-        }
     }
 
     TRACE_END();

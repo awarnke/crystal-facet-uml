@@ -36,7 +36,6 @@
  */
 struct pencil_layouter_struct {
     pencil_layout_data_t layout_data;  /* own instance of layout data */
-    layout_diagram_t *diagram_layout;  /* pointer to diagram layout data ( points to a member of layout_data ) */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */

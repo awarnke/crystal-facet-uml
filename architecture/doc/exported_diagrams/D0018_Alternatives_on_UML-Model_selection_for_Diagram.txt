@@ -23,7 +23,8 @@ Classifier selection defines view    [C0090]
 
 Diagram shows Selection of UML-Model    [C0087]
 | Each diagram shall show selected parts of the UML-Model, 
-| especially the scenario-based sequence and timing diagrams.
+| especially the scenario-based sequence,
+| communication and timing diagrams.
 
 
 Classifier+Lifeline solution is chosen    [C0097]

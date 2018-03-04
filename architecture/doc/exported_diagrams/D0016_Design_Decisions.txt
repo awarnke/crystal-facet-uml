@@ -18,4 +18,5 @@ Structure of the UML-Model    [C0086]
 
 Diagram shows Selection of UML-Model    [C0087]
 | Each diagram shall show selected parts of the UML-Model, 
-| especially the scenario-based sequence and timing diagrams.
+| especially the scenario-based sequence,
+| communication and timing diagrams.

@@ -18,7 +18,6 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
 
     pencil_layout_data_init( &((*this_).layout_data) );
-    (*this_).diagram_layout = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
 
@@ -68,7 +67,6 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
     geometry_rectangle_destroy( &((*this_).default_classifier_size) );
 
-    (*this_).diagram_layout = NULL;
     pencil_layout_data_destroy( &((*this_).layout_data) );
 
     TRACE_END();
@@ -79,13 +77,13 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_
     TRACE_BEGIN();
 
     /* get the diagram data */
-    layout_diagram_t *diagram;
-    diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( diagram );
+    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
 
     /* update the bounding rectangle */
-    layout_diagram_set_bounds( (*this_).diagram_layout, &diagram_bounds );
+    layout_diagram_set_bounds( the_diagram, &diagram_bounds );
 
     /* calculate the pencil-sizes and the drawing rectangle */
     double width = geometry_rectangle_get_width ( &diagram_bounds );
@@ -93,7 +91,7 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_
     pencil_size_reinit( &((*this_).pencil_size), width, height );
 
     geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
     pencil_diagram_painter_get_drawing_space ( &((*this_).diagram_painter),
                                                diagram_data,
                                                &((*this_).pencil_size),
@@ -131,10 +129,10 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     TRACE_BEGIN();
 
     /* get the diagram data */
-    layout_diagram_t *diagram;
-    diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( diagram );
+    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
     data_diagram_type_t diag_type;
     diag_type = data_diagram_get_diagram_type ( diagram_data );
 
@@ -190,8 +188,10 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     /* get the diagram draw area */
     double diagram_area;
     {
+        layout_diagram_t *the_diagram;
+        the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
         geometry_rectangle_t *diagram_draw_area;
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
         diagram_area = geometry_rectangle_get_area( diagram_draw_area );
     }
 
@@ -229,14 +229,14 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     pencil_error_t result = PENCIL_ERROR_NONE;
     pencil_visible_object_id_reinit_void( out_selected_id );
     pencil_visible_object_id_reinit_void( out_surrounding_id );
-    layout_diagram_t *diagram;
-    diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( diagram );
+    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
 
     /* get bounding box */
     geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( diagram );
+    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
 
     if ( geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -248,8 +248,10 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
 
             for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
             {
+                layout_relationship_t *the_relationship;
+                the_relationship = pencil_layout_data_get_relationship_ptr( &((*this_).layout_data), rel_index );
                 geometry_connector_t *relationship_shape;
-                relationship_shape = pencil_layout_data_get_relationship_shape_ptr( &((*this_).layout_data), rel_index );
+                relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
 
                 if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
                 {
@@ -327,8 +329,10 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get draw area */
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( (*this_).diagram_layout );
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
 
     if ( geometry_rectangle_contains( diagram_draw_area, x, y ) )
     {
@@ -351,8 +355,8 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 
             geometry_rectangle_t *classifier_bounds;
             geometry_rectangle_t *classifier_space;
-            classifier_bounds = pencil_layout_data_get_classifier_bounds_ptr ( &((*this_).layout_data), index );
-            classifier_space = pencil_layout_data_get_classifier_space_ptr ( &((*this_).layout_data), index );
+            classifier_bounds = layout_visible_classifier_get_bounds_ptr ( visible_classifier );
+            classifier_space = layout_visible_classifier_get_space_ptr ( visible_classifier );
 
             if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
             {

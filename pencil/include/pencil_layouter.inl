@@ -21,8 +21,10 @@ static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_l
 {
     geometry_rectangle_t result;
 
+    layout_visible_classifier_t *classifier;
+    classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), c_index );
     geometry_rectangle_t *classifier_space;
-    classifier_space = pencil_layout_data_get_classifier_space_ptr ( &((*this_).layout_data), c_index );
+    classifier_space = layout_visible_classifier_get_space_ptr ( classifier );
 
     double lineheight;
     lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
@@ -53,8 +55,10 @@ static inline pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_
     *out_order_y = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
 
     /* get bounding box */
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( (*this_).diagram_layout );
+    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {

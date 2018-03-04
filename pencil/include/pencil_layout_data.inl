@@ -13,50 +13,31 @@ static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layo
 
 /* ================================ classifiers ================================ */
 
-static inline geometry_rectangle_t *pencil_layout_data_get_classifier_bounds_ptr ( pencil_layout_data_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
-    assert ( index < (*this_).visible_classifier_count );
-    return layout_visible_classifier_get_bounds_ptr ( &((*this_).visible_classifier_layout[index]) );
-}
-
-static inline geometry_rectangle_t *pencil_layout_data_get_classifier_space_ptr ( pencil_layout_data_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
-    assert ( index < (*this_).visible_classifier_count );
-    return layout_visible_classifier_get_space_ptr ( &((*this_).visible_classifier_layout[index]) );
-}
-
 static inline uint32_t pencil_layout_data_get_classifier_count ( pencil_layout_data_t *this_ )
 {
+    assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     return (*this_).visible_classifier_count;
 }
 
 static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index )
 {
-    assert( index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
-    assert ( index < (*this_).visible_classifier_count );
+    assert( index < (*this_).visible_classifier_count );
+    assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     return &((*this_).visible_classifier_layout[index]);
 }
 
 /* ================================ features ================================ */
 
-static inline geometry_rectangle_t *pencil_layout_data_get_feature_bounds_ptr ( pencil_layout_data_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
-    assert ( index < (*this_).feature_count );
-    return layout_feature_get_bounds_ptr ( &((*this_).feature_layout[index]) );
-}
-
 static inline uint32_t pencil_layout_data_get_feature_count ( pencil_layout_data_t *this_ )
 {
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
     return (*this_).feature_count;
 }
 
 static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layout_data_t *this_, uint32_t index )
 {
-    assert( index < PENCIL_INPUT_DATA_MAX_FEATURES );
-    assert ( index < (*this_).feature_count );
+    assert( index < (*this_).feature_count );
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
     return &((*this_).feature_layout[index]);
 }
 
@@ -64,34 +45,28 @@ static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layo
 
 static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index )
 {
-    assert( index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
-    assert ( index < (*this_).relationship_count );
+    assert( index < (*this_).relationship_count );
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     return layout_relationship_get_visibility ( &((*this_).relationship_layout[index]) );
 }
 
 static inline void pencil_layout_data_set_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index, pencil_visibility_t visible )
 {
-    assert( index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
-    assert ( index < (*this_).relationship_count );
+    assert( index < (*this_).relationship_count );
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     layout_relationship_set_visibility ( &((*this_).relationship_layout[index]), visible );
-}
-
-static inline geometry_connector_t *pencil_layout_data_get_relationship_shape_ptr ( pencil_layout_data_t *this_, uint32_t index )
-{
-    assert( index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
-    assert ( index < (*this_).relationship_count );
-    return layout_relationship_get_shape_ptr ( &((*this_).relationship_layout[index]) );
 }
 
 static inline uint32_t pencil_layout_data_get_relationship_count ( pencil_layout_data_t *this_ )
 {
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     return (*this_).relationship_count;
 }
 
 static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( pencil_layout_data_t *this_, uint32_t index )
 {
-    assert( index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
-    assert ( index < (*this_).relationship_count );
+    assert( index < (*this_).relationship_count );
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     return &((*this_).relationship_layout[index]);
 }
 

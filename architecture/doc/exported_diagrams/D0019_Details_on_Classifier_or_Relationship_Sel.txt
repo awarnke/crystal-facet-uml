@@ -1,5 +1,5 @@
 Details on Classifier or Relationship Sel.    [D0019]
-| Dependin on the diagram type, selection of contents is done on classifiers or relationships.
+| Depending on the diagram type, selection of contents is done on classifiers or relationships.
 
 
 diagrams    [C0084]

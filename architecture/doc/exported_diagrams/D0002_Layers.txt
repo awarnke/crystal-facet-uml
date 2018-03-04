@@ -14,6 +14,12 @@ Layers    [D0002]
 |   should access a single ctrl and data instance. (Currently, the software is single-threaded)
 
 
+pencil    [C0002]
+| - renders diagrams to cairo drawing contexts
+| - highlights uml-elements as requested by the gui module
+  uses --> data    [R0011]
+
+
 gui    [C0001]
 | - allows a user 
 |     - to select the database
@@ -22,12 +28,6 @@ gui    [C0001]
   uses --> pencil    [R0008]
   uses --> ctrl    [R0009]
   uses --> data    [R0010]
-
-
-pencil    [C0002]
-| - renders diagrams to cairo drawing contexts
-| - highlights uml-elements as requested by the gui module
-  uses --> data    [R0011]
 
 
 data    [C0004]
@@ -39,5 +39,5 @@ data    [C0004]
 
 ctrl    [C0003]
 | - provides write access to the database
-| - ensures consistency of the uml-model, e.g. no duplicate object names, no circular contains-relations
+| - ensures consistency of the uml-model, e.g. no circular contains-relations, no lifelines if no corresponding diagramelement exists
   uses --> data    [R0012]
