@@ -136,13 +136,13 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
  *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  */
 void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_layouter_t *this_,
-                                                                    const universal_array_index_sorter_t *sorted,
-                                                                    uint32_t sort_index,
-                                                                    uint32_t solutions_max,
-                                                                    double out_solution_move_dx[],
-                                                                    double out_solution_move_dy[],
-                                                                    uint32_t *out_solutions_count
-                                                                  );
+                                                            const universal_array_index_sorter_t *sorted,
+                                                            uint32_t sort_index,
+                                                            uint32_t solutions_max,
+                                                            double out_solution_move_dx[],
+                                                            double out_solution_move_dy[],
+                                                            uint32_t *out_solutions_count
+                                                          );
 
 /*!
  *  \brief selects one solution to move a classifier
@@ -156,13 +156,13 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layouter_t *this_,
-                                                                  const universal_array_index_sorter_t *sorted,
-                                                                  uint32_t sort_index,
-                                                                  uint32_t solutions_count,
-                                                                  const double solution_move_dx[],
-                                                                  const double solution_move_dy[],
-                                                                  uint32_t *out_index_of_best
-                                                                );
+                                                          const universal_array_index_sorter_t *sorted,
+                                                          uint32_t sort_index,
+                                                          uint32_t solutions_count,
+                                                          const double solution_move_dx[],
+                                                          const double solution_move_dy[],
+                                                          uint32_t *out_index_of_best
+                                                        );
 
 /*!
  *  \brief defines classifier bounds for list diagrams

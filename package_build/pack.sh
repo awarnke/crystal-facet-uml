@@ -22,7 +22,7 @@ cd ../../..
 echo "building binary"
 cd crystal_facet_uml/cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release .
-make
+make -j5    # start up to 5 parallel processes to make use of quad-core processors
 cd ../..
 echo "run unit tests"
 cd crystal_facet_uml/cmake_build
