@@ -8,7 +8,7 @@
 #include <math.h>
 
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
-                                        pencil_input_data_layout_t *layout_data,
+                                        pencil_layout_data_t *layout_data,
                                         pencil_size_t *pencil_size )
 {
     TRACE_BEGIN();
@@ -35,7 +35,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
 void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS );
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -84,7 +84,7 @@ void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *th
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         /* copy the relationship shape */
         geometry_connector_t *relationship_shape;
-        relationship_shape = pencil_input_data_layout_get_relationship_shape_ptr( (*this_).layout_data, index );
+        relationship_shape = pencil_layout_data_get_relationship_shape_ptr( (*this_).layout_data, index );
         geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
     }
 
@@ -103,17 +103,17 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
     geometry_rectangle_t *diagram_draw_area;
     {
         layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_input_data_layout_get_diagram_ptr( (*this_).layout_data );
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
     }
 
     /* sort the relationships by their shaping-needs */
     uint32_t count_relations;
-    count_relations = pencil_input_data_layout_get_relationship_count ( (*this_).layout_data );
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
         layout_relationship_t *current_relation;
-        current_relation = pencil_input_data_layout_get_relationship_ptr ( (*this_).layout_data, index );
+        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
         int64_t simpleness = 0;
 
@@ -147,7 +147,7 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
                 TSLOG_WARNING( "not all relationships are shaped" );
             }
 
-            pencil_input_data_layout_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
         }
     }
 
@@ -173,7 +173,7 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
 
     layout_relationship_t *current_relation;
-    current_relation = pencil_input_data_layout_get_relationship_ptr ( (*this_).layout_data, index );
+    current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
     /* propose connections between source and destination */
     layout_visible_classifier_t *source_layout;
@@ -238,7 +238,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     geometry_rectangle_t *diagram_draw_area;
     {
         layout_diagram_t *diagram_layout;
-        diagram_layout = pencil_input_data_layout_get_diagram_ptr( (*this_).layout_data );
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
     }
 
@@ -279,11 +279,11 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
-        count_clasfy = pencil_input_data_layout_get_classifier_count ( (*this_).layout_data );
+        count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, clasfy_index );
+            classifier_bounds = pencil_layout_data_get_classifier_bounds_ptr( (*this_).layout_data, clasfy_index );
 
             if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
             {
@@ -298,7 +298,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             uint32_t probe_index;
             probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
             geometry_connector_t *probe_shape;
-            probe_shape = pencil_input_data_layout_get_relationship_shape_ptr( (*this_).layout_data, probe_index );
+            probe_shape = pencil_layout_data_get_relationship_shape_ptr( (*this_).layout_data, probe_index );
             uint32_t intersects;
             intersects = geometry_connector_count_connector_intersects( &(solutions[solution_idx]), probe_shape );
             debts_of_current += 1000.0 * intersects;
@@ -746,7 +746,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
 
     /* iterate over all classifiers */
     uint32_t count_classifiers;
-    count_classifiers = pencil_input_data_layout_get_classifier_count ( (*this_).layout_data );
+    count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
     const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
@@ -755,7 +755,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr( (*this_).layout_data, classifier_index );
+            classifier_bounds = pencil_layout_data_get_classifier_bounds_ptr( (*this_).layout_data, classifier_index );
 
             if ( geometry_rectangle_is_intersecting( search_rect, classifier_bounds ) )
             {

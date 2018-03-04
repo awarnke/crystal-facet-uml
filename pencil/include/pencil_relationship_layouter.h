@@ -11,7 +11,7 @@
 
 #include "pencil_input_data.h"
 #include "pencil_size.h"
-#include "pencil_input_data_layout.h"
+#include "pencil_layout_data.h"
 #include "pencil_relationship_painter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -28,7 +28,7 @@
  *  \brief attributes of the relationship layouter
  */
 struct pencil_relationship_layouter_struct {
-    pencil_input_data_layout_t *layout_data;  /* pointer to an instance of layout data */
+    pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     pencil_relationship_painter_t relationship_painter;  /*!< own instance of a painter object to ask for display dimensions */
@@ -44,7 +44,7 @@ typedef struct pencil_relationship_layouter_struct pencil_relationship_layouter_
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
-                                        pencil_input_data_layout_t *layout_data,
+                                        pencil_layout_data_t *layout_data,
                                         pencil_size_t *pencil_size
                                       );
 

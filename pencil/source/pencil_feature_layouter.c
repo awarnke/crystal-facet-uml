@@ -8,7 +8,7 @@
 #include <math.h>
 
 void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
-                                   pencil_input_data_layout_t *layout_data,
+                                   pencil_layout_data_t *layout_data,
                                    pencil_size_t *pencil_size )
 {
     TRACE_BEGIN();
@@ -47,10 +47,10 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
     double height = 0.0;
 
     /* search all contained features */
-    for ( uint32_t f_idx = 0; f_idx < pencil_input_data_layout_get_feature_count ( (*this_).layout_data ); f_idx ++ )
+    for ( uint32_t f_idx = 0; f_idx < pencil_layout_data_get_feature_count ( (*this_).layout_data ); f_idx ++ )
     {
         layout_feature_t *feature_layout;
-        feature_layout = pencil_input_data_layout_get_feature_ptr ( (*this_).layout_data, f_idx );
+        feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *the_feature;
         the_feature = layout_feature_get_data_ptr ( feature_layout );
         if ( data_feature_is_valid( the_feature ) )

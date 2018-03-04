@@ -1,14 +1,14 @@
-/* File: pencil_input_data_layout.c; Copyright and License: see below */
+/* File: pencil_layout_data.c; Copyright and License: see below */
 
-#include "pencil_input_data_layout.h"
+#include "pencil_layout_data.h"
 #include "trace.h"
 #include "tslog.h"
 #include <assert.h>
 
-void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
+void pencil_layout_data_init( pencil_layout_data_t *this_ )
 {
     TRACE_BEGIN();
-    TRACE_INFO_INT( "sizeof(pencil_input_data_layout_t):", sizeof(pencil_input_data_layout_t) );
+    TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
 
     (*this_).diagram_valid = false;
     (*this_).visible_classifier_count = 0;
@@ -19,13 +19,13 @@ void pencil_input_data_layout_init( pencil_input_data_layout_t *this_ )
     TRACE_END();
 }
 
-void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_input_data_t *input_data )
+void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t *input_data )
 {
     TRACE_BEGIN();
     assert ( NULL != input_data );
 
     /* clean up */
-    pencil_input_data_layout_destroy( this_ );
+    pencil_layout_data_destroy( this_ );
 
     /* init input data */
     (*this_).input_data = input_data;
@@ -46,7 +46,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
     {
         const uint32_t data_classifier_count = pencil_input_data_get_visible_classifier_count( input_data );
         (*this_).visible_classifier_count = data_classifier_count;
-        assert ( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_LAYOUT_MAX_CLASSIFIERS );
+        assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
         for ( uint32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
         {
@@ -81,7 +81,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 
                 if ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) )
                 {
-                    if ( (*this_).feature_count < PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES )
+                    if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
                     {
                         layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
                                              feature_data,
@@ -92,7 +92,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
                     }
                     else
                     {
-                        TSLOG_WARNING( "PENCIL_INPUT_DATA_LAYOUT_MAX_FEATURES exceeded, some features not visible" );
+                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
                     }
                 }
             }
@@ -144,7 +144,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 
                                 if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) )  /* destination found */
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS )
+                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                                   pencil_input_data_get_relationship_ptr( input_data, r_idx ),
@@ -158,7 +158,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
                                     }
                                     else
                                     {
-                                        TSLOG_WARNING( "PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
                                     }
                                 }
                             }
@@ -172,7 +172,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 
                                 if ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) )  /* destination found */
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS )
+                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                                   pencil_input_data_get_relationship_ptr( input_data, r_idx ),
@@ -186,7 +186,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
                                     }
                                     else
                                     {
-                                        TSLOG_WARNING( "PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
                                     }
                                 }
                             }
@@ -212,7 +212,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 
                                 if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) )  /* destination found */
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS )
+                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                                   pencil_input_data_get_relationship_ptr( input_data, r_idx ),
@@ -226,7 +226,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
                                     }
                                     else
                                     {
-                                        TSLOG_WARNING( "PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
                                     }
                                 }
                             }
@@ -240,7 +240,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
 
                                 if ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) )  /* destination found */
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS )
+                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
                                                                   pencil_input_data_get_relationship_ptr( input_data, r_idx ),
@@ -254,7 +254,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
                                     }
                                     else
                                     {
-                                        TSLOG_WARNING( "PENCIL_INPUT_DATA_LAYOUT_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
                                     }
                                 }
                             }
@@ -278,7 +278,7 @@ void pencil_input_data_layout_reinit( pencil_input_data_layout_t *this_, pencil_
     TRACE_END();
 }
 
-void pencil_input_data_layout_destroy( pencil_input_data_layout_t *this_ )
+void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
 {
     TRACE_BEGIN();
 

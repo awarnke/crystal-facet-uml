@@ -3,7 +3,7 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline pencil_input_data_layout_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ )
+static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ )
 {
     return &((*this_).layout_data);
 }
@@ -22,7 +22,7 @@ static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_l
     geometry_rectangle_t result;
 
     geometry_rectangle_t *classifier_space;
-    classifier_space = pencil_input_data_layout_get_classifier_space_ptr ( &((*this_).layout_data), c_index );
+    classifier_space = pencil_layout_data_get_classifier_space_ptr ( &((*this_).layout_data), c_index );
 
     double lineheight;
     lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )

@@ -21,12 +21,12 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
     layout = pango_cairo_create_layout (cr);
 
     /* get layout data object */
-    pencil_input_data_layout_t *layout_data;
+    pencil_layout_data_t *layout_data;
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     /* get diagram bounds */
     layout_diagram_t *diagram_layout;
-    diagram_layout = pencil_input_data_layout_get_diagram_ptr( layout_data );
+    diagram_layout = pencil_layout_data_get_diagram_ptr( layout_data );
     geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr ( diagram_layout );
     double width = geometry_rectangle_get_width ( diagram_bounds );
     double height = geometry_rectangle_get_height ( diagram_bounds );
@@ -83,16 +83,16 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    pencil_input_data_layout_t *layout_data;
+    pencil_layout_data_t *layout_data;
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_input_data_layout_get_classifier_count ( layout_data );
+    count = pencil_layout_data_get_classifier_count ( layout_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_input_data_layout_get_classifier_ptr( layout_data, index );
+        classifier_layout = pencil_layout_data_get_classifier_ptr( layout_data, index );
         const data_visible_classifier_t *visible_classifier;
         visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
@@ -107,7 +107,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             display_flags = data_diagramelement_get_display_flags( diagramelement );
 
             geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = pencil_input_data_layout_get_classifier_bounds_ptr ( layout_data, index );
+            classifier_bounds = pencil_layout_data_get_classifier_bounds_ptr ( layout_data, index );
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
             pencil_classifier_painter_draw( &((*this_).classifier_painter),
@@ -136,7 +136,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                                          linenumber
                     );
                     layout_feature_t *feature_workaround;
-                    feature_workaround = pencil_input_data_layout_get_feature_ptr( layout_data, f_idx );
+                    feature_workaround = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
                     layout_feature_set_bounds( feature_workaround, &feature_bounds );
                     pencil_feature_painter_draw ( &((*this_).feature_painter),
                                                   feature_workaround,
@@ -174,17 +174,17 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    pencil_input_data_layout_t *layout_data;
+    pencil_layout_data_t *layout_data;
     layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
 
     uint32_t rel_count;
-    rel_count = pencil_input_data_layout_get_relationship_count ( layout_data );
+    rel_count = pencil_layout_data_get_relationship_count ( layout_data );
     for ( uint32_t index = 0; index < rel_count; index ++ )
     {
         pencil_visibility_t show_relation;
         const data_relationship_t *the_relationship;
         layout_relationship_t *relationship_layout;
-        relationship_layout = pencil_input_data_layout_get_relationship_ptr ( layout_data, index );
+        relationship_layout = pencil_layout_data_get_relationship_ptr ( layout_data, index );
         the_relationship = layout_relationship_get_data_ptr ( relationship_layout );
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )

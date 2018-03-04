@@ -12,7 +12,7 @@
 #include "pencil_input_data.h"
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
-#include "pencil_input_data_layout.h"
+#include "pencil_layout_data.h"
 #include "pencil_feature_layouter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -29,7 +29,7 @@
  *  \brief attributes of the classifier layouter
  */
 struct pencil_classifier_layouter_struct {
-    pencil_input_data_layout_t *layout_data;  /* pointer to external layout data */
+    pencil_layout_data_t *layout_data;  /* pointer to external layout data */
 
     const pencil_size_t *pencil_size;  /*!< pointer to an external pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     const geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle containing inner contents of the diagram */
@@ -56,7 +56,7 @@ typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
  *  \param feature_layouter pointer to a feature layout helper
  */
 void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
-                                      pencil_input_data_layout_t *layout_data,
+                                      pencil_layout_data_t *layout_data,
                                       const pencil_size_t *pencil_size,
                                       geometry_rectangle_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,

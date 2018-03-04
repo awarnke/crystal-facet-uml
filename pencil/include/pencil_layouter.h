@@ -13,7 +13,7 @@
 #include "pencil_marker.h"
 #include "pencil_classifier_painter.h"
 #include "pencil_size.h"
-#include "pencil_input_data_layout.h"
+#include "pencil_layout_data.h"
 #include "pencil_diagram_painter.h"
 #include "pencil_feature_painter.h"
 #include "pencil_relationship_layouter.h"
@@ -35,8 +35,7 @@
  *  \brief attributes of the layouter
  */
 struct pencil_layouter_struct {
-    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
-    pencil_input_data_layout_t layout_data;  /* own instance of layout data */
+    pencil_layout_data_t layout_data;  /* own instance of layout data */
     layout_diagram_t *diagram_layout;  /* pointer to diagram layout data ( points to a member of layout_data ) */
 
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
@@ -62,6 +61,14 @@ typedef struct pencil_layouter_struct pencil_layouter_t;
 void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_data );
 
 /*!
+ *  \brief re-initializes the layouter to layout new/other input_data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the data to be layouted
+ */
+void pencil_layouter_reinit( pencil_layouter_t *this_, pencil_input_data_t *input_data );
+
+/*!
  *  \brief destroys the layouter
  *
  *  \param this_ pointer to own object attributes
@@ -72,13 +79,9 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ );
  *  \brief layouts the grid
  *
  *  \param this_ pointer to own object attributes
- *  \param input_data pointer to the (cached) data to be drawn
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
-                                   pencil_input_data_t *input_data,
-                                   geometry_rectangle_t diagram_bounds
-);
+void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds );
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
@@ -89,11 +92,11 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_,
 void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief returns the pencil_input_data_layout_t object
+ *  \brief returns the pencil_layout_data_t object
  *
  *  \param this_ pointer to own object attributes
  */
-static inline pencil_input_data_layout_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
+static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ );
 
 /*!
  *  \brief returns the pencil size object
@@ -107,8 +110,8 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id pointer to own object attributes
- *  \param c_index index of the classifier in the classifier array at input_data; 0 <= c_index < pencil_input_data_get_visible_classifier_count ( (*this_).input_data )
- *  \param f_index index of the feature in the feature array at input_data; 0 <= f_index < pencil_input_data_get_feature_count ( (*this_).input_data )
+ *  \param c_index index of the classifier in the classifier array at layout_data; 0 <= c_index < pencil_layout_data_get_classifier_count ( (*this_).layout_data )
+ *  \param f_index index of the feature in the feature array at layout_data; 0 <= f_index < pencil_layout_data_get_feature_count ( (*this_).layout_data )
  *  \param line_index line number of the feature at the selected classifier. first line has index 0.
  *  \return rectangle of feature bounds
  */
