@@ -1,5 +1,5 @@
-2018-0x-xx 1.2.0 [xxxxxxx]
-  + 
+2018-03-04 1.2.0 [78421df]
+  + all relations to/from multiple classifier instances are drawn
 2018-01-23 1.1.0 [086e559]
   + greyed-out classifiers also grey-out their contained features
   . sqlite updated from 3.10.2 to 3.21.0
@@ -38,9 +38,9 @@
   + Layout of relationships improved
   + Man page added
 2017-09-11 0.16.2 [146b4e4]
-  + bugfix: install uses less global paths for app icon
+  + fix: install uses less global paths for app icon
 2017-09-10 0.16.1 [ce19eb3]
-  + bugfix: desktop file is included in src distribution
+  + fix: desktop file is included in src distribution
 2017-05-24 0.16 [ac34c09]
   + Classifier drawings represent the classifier type
 2017-04-14 0.15 [69a0f6a]
