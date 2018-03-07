@@ -127,44 +127,6 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                         cr
                                         );
 
-        /* draw all contained features */
-        uint32_t linenumber = 0;
-        for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count ( (*this_).input_data ); f_idx ++ )
-        {
-            data_feature_t *the_feature;
-            the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
-            if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
-            {
-                /*
-                geometry_rectangle_t feature_bounds;
-                feature_bounds = pencil_layouter_get_feature_bounds( &((*this_).layouter),
-                                                                        data_classifier_get_id( classifier ),
-                                                                        index,
-                                                                        f_idx,
-                                                                        linenumber
-                );
-                */
-                layout_feature_t *feature_workaround;
-                feature_workaround = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
-                /*
-                layout_feature_set_bounds( feature_workaround, &feature_bounds );
-                */
-                pencil_feature_painter_draw ( &((*this_).feature_painter),
-                                                feature_workaround,
-                                                data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                                data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, data_feature_get_id( the_feature ) ),
-                                                data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
-                                                (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
-                                                pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
-                                                layout,
-                                                cr
-                                            );
-                linenumber ++;
-                /*
-                geometry_rectangle_destroy( &feature_bounds );
-                */
-            }
-        }
 
     }
 
@@ -182,7 +144,38 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
     assert( NULL != mark_selected );
     assert( NULL != cr );
 
-    TSLOG_WARNING( "pencil_diagram_maker_private_draw_features not yet implemented" );
+    pencil_layout_data_t *layout_data;
+    layout_data = pencil_layouter_get_layout_data_ptr ( &((*this_).layouter) );
+
+    /* iterate over all features */
+    uint32_t count;
+    count = pencil_layout_data_get_feature_count ( layout_data );
+    for ( uint32_t f_idx = 0; f_idx < count; f_idx ++ )
+    {
+        /* get feature */
+        layout_feature_t *the_feature;
+        the_feature = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
+
+        /* determine display flags of classifier */
+        layout_visible_classifier_t *classifier_layout;
+        classifier_layout = layout_feature_get_classifier_ptr ( the_feature );
+        const data_diagramelement_t *diagramelement;
+        diagramelement = layout_visible_classifier_get_diagramelement_ptr( classifier_layout );
+        data_diagramelement_flag_t display_flags;
+        display_flags = data_diagramelement_get_display_flags( diagramelement );
+
+        /* draw features */
+        pencil_feature_painter_draw ( &((*this_).feature_painter),
+                                      the_feature,
+                                      data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
+                                      data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
+                                      data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
+                                      (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
+                                      pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
+                                      layout,
+                                      cr
+                                    );
+    }
 
     TRACE_END();
 }
