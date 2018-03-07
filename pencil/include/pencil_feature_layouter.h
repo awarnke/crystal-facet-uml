@@ -57,6 +57,14 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
 void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ );
 
 /*!
+ *  \brief determines the bounding boxes of the features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ */
+void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout );
+
+/*!
  *  \brief calculates feature bounds of all features for one classifier
  *
  *  \param this_ pointer to own object attributes

@@ -144,6 +144,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
+    assert( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted_relationships;
     universal_array_index_sorter_init( &sorted_relationships );
@@ -165,6 +166,8 @@ void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *
         the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
         pencil_classifier_layouter_private_try_embrace_child( this_, the_relationship );
     }
+
+    universal_array_index_sorter_destroy( &sorted_relationships );
 
     TRACE_END();
 }
@@ -353,7 +356,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
 void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );

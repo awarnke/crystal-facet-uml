@@ -157,6 +157,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
             pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
         }
 
+        /* calculate the feature shapes */
+        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+
         /* calculate the relationship shapes */
         pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
     }
@@ -170,6 +173,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 
         /* move the classifiers to avoid overlaps */
         pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
+
+        /* calculate the feature shapes */
+        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
         /* calculate the relationship shapes */
         pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );

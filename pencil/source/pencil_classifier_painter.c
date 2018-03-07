@@ -59,7 +59,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
-    if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
     {
         const data_classifier_t *classifier;
         const data_diagramelement_t *diagramelement;
@@ -409,10 +408,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             pencil_marker_mark_focused_rectangle( &((*this_).marker), *classifier_bounds, cr );
         }
     }
-    else
-    {
-        TSLOG_ERROR("invalid visible classifier in array!");
-    }
 
     TRACE_END();
 }
@@ -441,35 +436,30 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
     double text_height;
     double text_width;
 
-    if ( data_visible_classifier_is_valid( visible_classifier ) )
-    {
-        const data_classifier_t *classifier;
-        data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    const data_classifier_t *classifier;
+    data_diagramelement_t *diagramelement;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
 
-        TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
+    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
-        /* determine border sizes of the classifier-shape */
-        pencil_classifier_painter_private_get_shape_border_dimensions( this_,
-                                                                       data_classifier_get_main_type ( classifier ),
-                                                                       pencil_size,
-                                                                       &top_border,
-                                                                       &left_border,
-                                                                       &bottom_border,
-                                                                       &right_border );
+    /* determine border sizes of the classifier-shape */
+    pencil_classifier_painter_private_get_shape_border_dimensions( this_,
+                                                                   data_classifier_get_main_type ( classifier ),
+                                                                   pencil_size,
+                                                                   &top_border,
+                                                                   &left_border,
+                                                                   &bottom_border,
+                                                                   &right_border
+                                                                 );
 
-        /* determine stereotype and name dimensions */
-        pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
-                                                                              visible_classifier,
-                                                                              pencil_size,
-                                                                              font_layout,
-                                                                              &text_height,
-                                                                              &text_width );
-    }
-    else
-    {
-        TSLOG_ERROR("invalid visible classifier in array!");
-    }
+    /* determine stereotype and name dimensions */
+    pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
+                                                                          visible_classifier,
+                                                                          pencil_size,
+                                                                          font_layout,
+                                                                          &text_height,
+                                                                          &text_width
+                                                                        );
 
     /* minimum bounding box */
     double left = 0.0;
@@ -501,45 +491,40 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
     double space_width = 0.0;
     double space_height = 0.0;
 
-    if ( data_visible_classifier_is_valid( visible_classifier ) )
-    {
-        /* get the classifier */
-        const data_classifier_t *classifier;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    /* get the classifier */
+    const data_classifier_t *classifier;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
 
-        /* determine border sizes of the classifier-shape */
-        double top_border;
-        double left_border;
-        double bottom_border;
-        double right_border;
-        pencil_classifier_painter_private_get_shape_border_dimensions( this_,
-                                                                    data_classifier_get_main_type ( classifier ),
-                                                                    pencil_size,
-                                                                    &top_border,
-                                                                    &left_border,
-                                                                    &bottom_border,
-                                                                    &right_border );
+    /* determine border sizes of the classifier-shape */
+    double top_border;
+    double left_border;
+    double bottom_border;
+    double right_border;
+    pencil_classifier_painter_private_get_shape_border_dimensions( this_,
+                                                                   data_classifier_get_main_type ( classifier ),
+                                                                   pencil_size,
+                                                                   &top_border,
+                                                                   &left_border,
+                                                                   &bottom_border,
+                                                                   &right_border
+                                                                 );
 
-        /* determine stereotype and name dimensions */
-        double text_height;
-        double text_width;
-        pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
-                                                                              visible_classifier,
-                                                                              pencil_size,
-                                                                              font_layout,
-                                                                              &text_height,
-                                                                              &text_width );
+    /* determine stereotype and name dimensions */
+    double text_height;
+    double text_width;
+    pencil_classifier_painter_private_get_stereotype_and_name_dimensions( this_,
+                                                                          visible_classifier,
+                                                                          pencil_size,
+                                                                          font_layout,
+                                                                          &text_height,
+                                                                          &text_width
+                                                                        );
 
-        /* calculate the result */
-        space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
-        space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
-        space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
-        space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
-    }
-    else
-    {
-        TSLOG_ERROR("invalid visible classifier in array!");
-    }
+    /* calculate the result */
+    space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
+    space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
+    space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
+    space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
 
     geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
 

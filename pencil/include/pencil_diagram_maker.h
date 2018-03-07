@@ -114,6 +114,24 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                    );
 
 /*!
+ *  \brief draws the features of classifiers into the diagram_bounds area of the cairo drawing context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param mark_focused id of the object that is to be marked as "focused"
+ *  \param mark_highlighted id of the object that is to be marked as "highlighted"
+ *  \param mark_selected set of objects that are to be marked as "selected"
+ *  \param layout structure to layout fonts
+ *  \param cr a cairo drawing context
+ */
+void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
+                                                  data_id_t mark_focused,
+                                                  data_id_t mark_highlighted,
+                                                  data_small_set_t *mark_selected,
+                                                  PangoLayout *layout,
+                                                  cairo_t *cr
+                                                );
+
+/*!
  *  \brief draws the relationships into the diagram_bounds area of the cairo drawing context
  *
  *  \param this_ pointer to own object attributes

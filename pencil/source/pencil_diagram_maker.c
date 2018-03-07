@@ -57,6 +57,15 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                                         cr
                                                       );
 
+        /* draw all contained features */
+        pencil_diagram_maker_private_draw_features ( this_,
+                                                     mark_focused,
+                                                     mark_highlighted,
+                                                     mark_selected,
+                                                     layout,
+                                                     cr
+                                                   );
+
         /* draw all contained relationships */
         pencil_diagram_maker_private_draw_relationships ( this_,
                                                           mark_focused,
@@ -126,6 +135,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
             the_feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, f_idx );
             if ( data_feature_get_classifier_id( the_feature ) == data_classifier_get_id( classifier ) )
             {
+                /*
                 geometry_rectangle_t feature_bounds;
                 feature_bounds = pencil_layouter_get_feature_bounds( &((*this_).layouter),
                                                                         data_classifier_get_id( classifier ),
@@ -133,9 +143,12 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                                         f_idx,
                                                                         linenumber
                 );
+                */
                 layout_feature_t *feature_workaround;
                 feature_workaround = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
+                /*
                 layout_feature_set_bounds( feature_workaround, &feature_bounds );
+                */
                 pencil_feature_painter_draw ( &((*this_).feature_painter),
                                                 feature_workaround,
                                                 data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, data_feature_get_id(the_feature) ),
@@ -147,11 +160,29 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                                 cr
                                             );
                 linenumber ++;
+                /*
                 geometry_rectangle_destroy( &feature_bounds );
+                */
             }
         }
 
     }
+
+    TRACE_END();
+}
+
+void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
+                                                  data_id_t mark_focused,
+                                                  data_id_t mark_highlighted,
+                                                  data_small_set_t *mark_selected,
+                                                  PangoLayout *layout,
+                                                  cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != mark_selected );
+    assert( NULL != cr );
+
+    TSLOG_WARNING( "pencil_diagram_maker_private_draw_features not yet implemented" );
 
     TRACE_END();
 }

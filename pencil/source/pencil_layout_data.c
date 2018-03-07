@@ -45,18 +45,25 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
     /* init visible classifiers */
     {
         const uint32_t data_classifier_count = pencil_input_data_get_visible_classifier_count( input_data );
-        (*this_).visible_classifier_count = data_classifier_count;
-        assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+        (*this_).visible_classifier_count = 0;
+        assert ( data_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
         for ( uint32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
         {
-            layout_visible_classifier_init( &((*this_).visible_classifier_layout[c_idx]),
-                                            pencil_input_data_get_visible_classifier_ptr( input_data, c_idx )
-                                          );
+            data_visible_classifier_t *classifier_data;
+            classifier_data = pencil_input_data_get_visible_classifier_ptr( input_data, c_idx );
+
+            if ( ( NULL != classifier_data ) && data_visible_classifier_is_valid( classifier_data ) )
+            {
+                layout_visible_classifier_init( &((*this_).visible_classifier_layout[(*this_).visible_classifier_count]),
+                                                classifier_data
+                                              );
+                (*this_).visible_classifier_count ++;
+            }
         }
 
         TRACE_INFO_INT ( "classifier   data    objects:", data_classifier_count );
-        TRACE_INFO_INT ( "classifier   ignored objects:", 0 );  /* we do not ignore classifier objects */
+        TRACE_INFO_INT ( "classifier   ignored objects:", data_classifier_count - (*this_).visible_classifier_count );
         TRACE_INFO_INT ( "classifier   layout  objects:", (*this_).visible_classifier_count );
     }
 
@@ -71,28 +78,32 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
         {
             const data_feature_t *feature_data;
             feature_data = pencil_input_data_get_feature_ptr( input_data, f_idx );
-            const int64_t parent_id = data_feature_get_classifier_id( feature_data );
             uint32_t layout_feature_count = 0;
 
-            for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
+            if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
             {
-                layout_visible_classifier_t *parent_classifier;
-                parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
+                const int64_t parent_id = data_feature_get_classifier_id( feature_data );
 
-                if ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) )
+                for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
                 {
-                    if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
+                    layout_visible_classifier_t *parent_classifier;
+                    parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
+
+                    if ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) )
                     {
-                        layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
-                                             feature_data,
-                                             parent_classifier
-                                           );
-                        (*this_).feature_count ++;
-                        layout_feature_count ++;
-                    }
-                    else
-                    {
-                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
+                        if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
+                        {
+                            layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
+                                                 feature_data,
+                                                 parent_classifier
+                                               );
+                            (*this_).feature_count ++;
+                            layout_feature_count ++;
+                        }
+                        else
+                        {
+                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
+                        }
                     }
                 }
             }
@@ -120,141 +131,144 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
         {
             const data_relationship_t *relationship_data;
             relationship_data = pencil_input_data_get_relationship_ptr( input_data, r_idx );
-            const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
-            const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
-            const int64_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
-            const int64_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
             uint32_t layout_relationship_count = 0;
-
-            if ( DATA_ID_VOID_ID == from_feature_id )  /* search source in classifiers */
+            if ( ( NULL != relationship_data ) && data_relationship_is_valid( relationship_data ) )
             {
-                for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
+                const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
+                const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
+                const int64_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
+                const int64_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
+
+                if ( DATA_ID_VOID_ID == from_feature_id )  /* search source in classifiers */
                 {
-                    layout_visible_classifier_t *probe3_classifier;
-                    probe3_classifier = &((*this_).visible_classifier_layout[c_idx3]);
-
-                    if ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) )  /* source found */
+                    for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
                     {
-                        if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination in classifiers */
-                        {
-                            for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
-                            {
-                                layout_visible_classifier_t *probe4_classifier;
-                                probe4_classifier = &((*this_).visible_classifier_layout[c_idx4]);
+                        layout_visible_classifier_t *probe3_classifier;
+                        probe3_classifier = &((*this_).visible_classifier_layout[c_idx3]);
 
-                                if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) )  /* destination found */
+                        if ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) )  /* source found */
+                        {
+                            if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination in classifiers */
+                            {
+                                for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    layout_visible_classifier_t *probe4_classifier;
+                                    probe4_classifier = &((*this_).visible_classifier_layout[c_idx4]);
+
+                                    if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) )  /* destination found */
                                     {
-                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                  pencil_input_data_get_relationship_ptr( input_data, r_idx ),
-                                                                  probe3_classifier,
-                                                                  probe4_classifier,
-                                                                  NULL,
-                                                                  NULL
-                                                                );
-                                        (*this_).relationship_count ++;
-                                        layout_relationship_count ++;
-                                    }
-                                    else
-                                    {
-                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                        {
+                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      probe3_classifier,
+                                                                      probe4_classifier,
+                                                                      NULL,
+                                                                      NULL
+                                                                    );
+                                            (*this_).relationship_count ++;
+                                            layout_relationship_count ++;
+                                        }
+                                        else
+                                        {
+                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else  /* search destination in features */
-                        {
-                            for ( uint32_t f_idx4 = 0; f_idx4 < (*this_).feature_count; f_idx4 ++ )
+                            else  /* search destination in features */
                             {
-                                layout_feature_t *probe4_feature;
-                                probe4_feature = &((*this_).feature_layout[f_idx4]);
-
-                                if ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) )  /* destination found */
+                                for ( uint32_t f_idx4 = 0; f_idx4 < (*this_).feature_count; f_idx4 ++ )
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    layout_feature_t *probe4_feature;
+                                    probe4_feature = &((*this_).feature_layout[f_idx4]);
+
+                                    if ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) )  /* destination found */
                                     {
-                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                  pencil_input_data_get_relationship_ptr( input_data, r_idx ),
-                                                                  probe3_classifier,
-                                                                  layout_feature_get_classifier_ptr( probe4_feature ),
-                                                                  NULL,
-                                                                  probe4_feature
-                                                                );
-                                        (*this_).relationship_count ++;
-                                        layout_relationship_count ++;
-                                    }
-                                    else
-                                    {
-                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                        {
+                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      probe3_classifier,
+                                                                      layout_feature_get_classifier_ptr( probe4_feature ),
+                                                                      NULL,
+                                                                      probe4_feature
+                                                                    );
+                                            (*this_).relationship_count ++;
+                                            layout_relationship_count ++;
+                                        }
+                                        else
+                                        {
+                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
-            else  /* search source in features */
-            {
-                for ( uint32_t f_idx3 = 0; f_idx3 < (*this_).feature_count; f_idx3 ++ )
+                else  /* search source in features */
                 {
-                    layout_feature_t *probe3_feature;
-                    probe3_feature = &((*this_).feature_layout[f_idx3]);
-
-                    if ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) )  /* source found */
+                    for ( uint32_t f_idx3 = 0; f_idx3 < (*this_).feature_count; f_idx3 ++ )
                     {
-                        if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination in classifiers */
-                        {
-                            for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
-                            {
-                                layout_visible_classifier_t *probe5_classifier;
-                                probe5_classifier = &((*this_).visible_classifier_layout[c_idx5]);
+                        layout_feature_t *probe3_feature;
+                        probe3_feature = &((*this_).feature_layout[f_idx3]);
 
-                                if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) )  /* destination found */
+                        if ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) )  /* source found */
+                        {
+                            if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination in classifiers */
+                            {
+                                for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    layout_visible_classifier_t *probe5_classifier;
+                                    probe5_classifier = &((*this_).visible_classifier_layout[c_idx5]);
+
+                                    if ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) )  /* destination found */
                                     {
-                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                  pencil_input_data_get_relationship_ptr( input_data, r_idx ),
-                                                                  layout_feature_get_classifier_ptr( probe3_feature ),
-                                                                  probe5_classifier,
-                                                                  probe3_feature,
-                                                                  NULL
-                                                                );
-                                        (*this_).relationship_count ++;
-                                        layout_relationship_count ++;
-                                    }
-                                    else
-                                    {
-                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                        {
+                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      layout_feature_get_classifier_ptr( probe3_feature ),
+                                                                      probe5_classifier,
+                                                                      probe3_feature,
+                                                                      NULL
+                                                                    );
+                                            (*this_).relationship_count ++;
+                                            layout_relationship_count ++;
+                                        }
+                                        else
+                                        {
+                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        }
                                     }
                                 }
                             }
-                        }
-                        else  /* search destination in features */
-                        {
-                            for ( uint32_t f_idx5 = 0; f_idx5 < (*this_).feature_count; f_idx5 ++ )
+                            else  /* search destination in features */
                             {
-                                layout_feature_t *probe5_feature;
-                                probe5_feature = &((*this_).feature_layout[f_idx5]);
-
-                                if ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) )  /* destination found */
+                                for ( uint32_t f_idx5 = 0; f_idx5 < (*this_).feature_count; f_idx5 ++ )
                                 {
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    layout_feature_t *probe5_feature;
+                                    probe5_feature = &((*this_).feature_layout[f_idx5]);
+
+                                    if ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) )  /* destination found */
                                     {
-                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                  pencil_input_data_get_relationship_ptr( input_data, r_idx ),
-                                                                  layout_feature_get_classifier_ptr( probe3_feature ),
-                                                                  layout_feature_get_classifier_ptr( probe5_feature ),
-                                                                  probe3_feature,
-                                                                  probe5_feature
-                                                                );
-                                        (*this_).relationship_count ++;
-                                        layout_relationship_count ++;
-                                    }
-                                    else
-                                    {
-                                        TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                        {
+                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      layout_feature_get_classifier_ptr( probe3_feature ),
+                                                                      layout_feature_get_classifier_ptr( probe5_feature ),
+                                                                      probe3_feature,
+                                                                      probe5_feature
+                                                                    );
+                                            (*this_).relationship_count ++;
+                                            layout_relationship_count ++;
+                                        }
+                                        else
+                                        {
+                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                        }
                                     }
                                 }
                             }
