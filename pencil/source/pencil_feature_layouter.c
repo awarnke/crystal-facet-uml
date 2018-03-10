@@ -40,7 +40,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     universal_array_index_sorter_t sorted_features;
     universal_array_index_sorter_init( &sorted_features );
 
-    /* sort the features by their classifiers */
+    /* sort the features by their diagramelements */
     uint32_t count_features;
     count_features = pencil_layout_data_get_feature_count ( (*this_).layout_data );
     for ( uint32_t f_idx = 0; f_idx < count_features; f_idx ++ )
@@ -81,7 +81,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
-        /* determine list position */
+        /* determine y position */
         int64_t current_diagramelement_id = layout_visible_classifier_get_diagramelement_id( layout_classifier );
         if ( current_diagramelement_id != last_diagramelement_id )
         {
@@ -89,30 +89,45 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             last_diagramelement_id = current_diagramelement_id;
         }
 
-        /* determine the minimum bounds of the feature */
-        geometry_rectangle_t f_min_bounds;
-        pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
-                                                    the_feature,
-                                                    (*this_).pencil_size,
-                                                    font_layout,
-                                                    &f_min_bounds
-                                                  );
+        /* lifeline */
+        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
+        {
+            /* layout feature into parent classifier */
+            geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
+            geometry_rectangle_t lifeline_bounds;
+            geometry_rectangle_init ( &lifeline_bounds,
+                                      geometry_rectangle_get_x_center( c_bounds ) - 1.0,
+                                      geometry_rectangle_get_bottom( c_bounds ),
+                                      2.0,
+                                      geometry_rectangle_get_height( c_bounds )
+                                    );
+            layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
+        }
+        else  /* not a lifeline */
+        {
+            /* determine the minimum bounds of the feature */
+            geometry_rectangle_t f_min_bounds;
+            pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
+                                                        the_feature,
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        &f_min_bounds
+                                                      );
 
-        /* layout feature into parent classifier */
-        layout_visible_classifier_t *classifier_layout;
-        classifier_layout = layout_feature_get_classifier_ptr ( feature_layout );
-        geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( classifier_layout );
-        geometry_rectangle_t f_bounds;
-        geometry_rectangle_init ( &f_bounds,
-                                  geometry_rectangle_get_left( c_space ),
-                                  geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
-                                  geometry_rectangle_get_width( c_space ),
-                                  geometry_rectangle_get_height( &f_min_bounds )
-                                );
-        layout_feature_set_bounds ( feature_layout, &f_bounds );
+            /* layout feature into parent classifier */
+            geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+            geometry_rectangle_t f_bounds;
+            geometry_rectangle_init ( &f_bounds,
+                                      geometry_rectangle_get_left( c_space ),
+                                      geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
+                                      geometry_rectangle_get_width( c_space ),
+                                      geometry_rectangle_get_height( &f_min_bounds )
+                                    );
+            layout_feature_set_bounds ( feature_layout, &f_bounds );
 
-        /* adjust y position of next feature */
-        y_position_of_next_feature += geometry_rectangle_get_height( &f_min_bounds );
+            /* adjust y position of next feature */
+            y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
+        }
     }
 
     universal_array_index_sorter_destroy( &sorted_features );
