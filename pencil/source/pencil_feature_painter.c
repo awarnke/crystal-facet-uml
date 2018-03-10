@@ -58,24 +58,53 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     {
         TRACE_INFO_INT("drawing feature id", data_feature_get_id( the_feature ) );
 
-        /* draw text */
+        /* select color */
         {
-            /* select color */
             GdkRGBA foreground_color;
+            if ( mark_highlighted )
             {
-                if ( mark_highlighted )
-                {
-                    foreground_color = pencil_size_get_highlight_color( pencil_size );
-                }
-                else if ( grey_out )
-                {
-                    foreground_color = pencil_size_get_gray_out_color( pencil_size );
-                }
-                else
-                {
-                    foreground_color = pencil_size_get_standard_color( pencil_size );
-                }
+                foreground_color = pencil_size_get_highlight_color( pencil_size );
             }
+            else if ( grey_out )
+            {
+                foreground_color = pencil_size_get_gray_out_color( pencil_size );
+            }
+            else
+            {
+                foreground_color = pencil_size_get_standard_color( pencil_size );
+            }
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        }
+
+        /* draw rectangle of ports */
+        if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
+        {
+            int border_left = left + gap;
+            int border_top = top + gap;
+            int border_width = width - 2.0 * gap;
+            int border_height = height - 2.0 * gap;
+
+            cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+            cairo_stroke (cr);
+        }
+
+        /* draw lifeline of linefines */
+        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
+        {
+            double dashes[1];
+            dashes[0] = pencil_size_get_line_dash_length( pencil_size );
+            cairo_set_dash ( cr, dashes, 1, 0.0 );
+
+            cairo_move_to ( cr, left, top );
+            cairo_line_to ( cr, left + width, top + height );
+            cairo_stroke (cr);
+
+            cairo_set_dash ( cr, NULL, 0, 0.0 );
+        }
+
+        /* draw text - except for lifelines */
+        if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (the_feature) )
+        {
 
             /* prepare text */
             char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
@@ -97,7 +126,6 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             double y_adjust = ( height - text2_height ) / 2.0;
 
             /* draw text */
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
             cairo_move_to ( cr, left, top + y_adjust );
             pango_cairo_show_layout (cr, layout);
         }

@@ -52,16 +52,18 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_set_line_width( cr, std_line_width );
 
         /* set the right drawing color */
-        GdkRGBA foreground_color;
-        if ( mark_highlighted )
         {
-            foreground_color = pencil_size_get_highlight_color( pencil_size );
+            GdkRGBA foreground_color;
+            if ( mark_highlighted )
+            {
+                foreground_color = pencil_size_get_highlight_color( pencil_size );
+            }
+            else
+            {
+                foreground_color = pencil_size_get_standard_color( pencil_size );
+            }
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
-        else
-        {
-            foreground_color = pencil_size_get_standard_color( pencil_size );
-        }
-        cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
 
         /* get points */
         double p1x = geometry_connector_get_source_end_x ( connector_shape );
@@ -578,7 +580,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
 
             /* draw text */
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+            /*cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );*/
             cairo_move_to ( cr, center_x - 0.5*text2_width, center_y - text2_height );
             pango_cairo_show_layout (cr, layout);
         }
