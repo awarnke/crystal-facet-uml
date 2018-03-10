@@ -89,7 +89,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
             geometry_rectangle_t features_bounds;
             geometry_rectangle_init_empty( &features_bounds );
             pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
-                                                                data_classifier_get_id( classifier2 ),
+                                                                layout_visible_classifier_get_diagramelement_id( classifier_layout ),
                                                                 font_layout,
                                                                 &features_bounds
                                                               );

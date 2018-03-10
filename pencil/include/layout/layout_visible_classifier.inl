@@ -48,6 +48,10 @@ static inline int64_t layout_visible_classifier_get_classifier_id ( const layout
     return data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ) );
 }
 
+static inline int64_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ )
+{
+    return data_diagramelement_get_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) );
+}
 
 /*
 Copyright 2018-2018 Andreas Warnke

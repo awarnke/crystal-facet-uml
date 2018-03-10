@@ -49,10 +49,12 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *the_feature;
         the_feature = layout_feature_get_data_ptr ( feature_layout );
+        layout_visible_classifier_t *layout_classifier;
+        layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
         int err;
-        double weight;
-        weight = (((double)data_feature_get_classifier_id( the_feature )) * UINT32_MAX) + data_feature_get_list_order( the_feature );
+        double weight;  /* assuming 52 bit fraction, accuracy is sufficient to multiply a row_id and a list_order */
+        weight = (((double)layout_visible_classifier_get_diagramelement_id( layout_classifier )) * (UINT32_MAX+1.0)) + data_feature_get_list_order( the_feature );
         err = universal_array_index_sorter_insert( &sorted_features, f_idx, weight );
         if ( 0 != err )
         {
@@ -61,7 +63,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
     }
 
     /* layout the features */
-    int64_t last_classifier_id = DATA_ID_VOID_ID;
+    int64_t last_diagramelement_id = DATA_ID_VOID_ID;
     double y_position_of_next_feature = 0.0;
     uint32_t count_sorted;
     count_sorted = universal_array_index_sorter_get_count( &sorted_features );
@@ -76,13 +78,15 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, feature_idx );
         const data_feature_t *the_feature;
         the_feature = layout_feature_get_data_ptr ( feature_layout );
+        layout_visible_classifier_t *layout_classifier;
+        layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
         /* determine list position */
-        int64_t current_classifier_id = data_feature_get_classifier_id( the_feature );
-        if ( current_classifier_id != last_classifier_id )
+        int64_t current_diagramelement_id = layout_visible_classifier_get_diagramelement_id( layout_classifier );
+        if ( current_diagramelement_id != last_diagramelement_id )
         {
             y_position_of_next_feature = 0.0;
-            last_classifier_id = current_classifier_id;
+            last_diagramelement_id = current_diagramelement_id;
         }
 
         /* determine the minimum bounds of the feature */
@@ -117,7 +121,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 }
 
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
-                                                         int64_t classifier_id,
+                                                         int64_t diagramelement_id,
                                                          PangoLayout *font_layout,
                                                          geometry_rectangle_t *out_features_bounds )
 {
@@ -139,8 +143,10 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *the_feature;
         the_feature = layout_feature_get_data_ptr ( feature_layout );
+        layout_visible_classifier_t *layout_classifier;
+        layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
-        if ( data_feature_get_classifier_id( the_feature ) == classifier_id )
+        if ( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
         {
             geometry_rectangle_t min_feature_bounds;
             geometry_rectangle_init_empty( &min_feature_bounds );
@@ -149,7 +155,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                         (*this_).pencil_size,
                                                         font_layout,
                                                         &min_feature_bounds
-                                                    );
+                                                      );
 
             double current_w = geometry_rectangle_get_width( &min_feature_bounds );
             width = ( width < current_w ) ? current_w : width;

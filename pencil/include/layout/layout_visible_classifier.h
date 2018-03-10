@@ -81,12 +81,22 @@ static inline const data_diagramelement_t *layout_visible_classifier_get_diagram
 /*!
  *  \brief gets the row id of the classifier
  *
- *  This is a shortcut for data_relationship_get_id( layout_relationship_get_data_ptr ( X ) )
+ *  This is a shortcut for data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the classifier
  */
 static inline int64_t layout_visible_classifier_get_classifier_id ( const layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the row id of the diagramelement
+ *
+ *  This is a shortcut for data_diagramelement_get_id( data_visible_classifier_get_diagramelement_const ( (*this_).data ) )
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the diagramelement
+ */
+static inline int64_t layout_visible_classifier_get_diagramelement_id ( const layout_visible_classifier_t *this_ );
 
 #include "layout_visible_classifier.inl"
 

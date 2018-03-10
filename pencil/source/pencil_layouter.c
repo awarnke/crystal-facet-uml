@@ -248,37 +248,23 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     {
         /* check the relationship shapes */
         {
-            uint32_t count_relations;
-            count_relations = pencil_layout_data_get_relationship_count ( &((*this_).layout_data) );
-            uint32_t matching_relations_found = 0;
+            result = pencil_layouter_private_get_relationship_id_at_pos( this_,
+                                                                         x,
+                                                                         y,
+                                                                         snap_distance,
+                                                                         out_selected_id
+                                                                       );
+        }
 
-            for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
-            {
-                layout_relationship_t *the_relationship;
-                the_relationship = pencil_layout_data_get_relationship_ptr( &((*this_).layout_data), rel_index );
-                geometry_connector_t *relationship_shape;
-                relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-
-                if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
-                {
-                    /* ensure that every relation at that location can be selected by small mouse movements */
-                    if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )
-                    {
-                        layout_relationship_t *current_relation;
-                        current_relation = pencil_layout_data_get_relationship_ptr ( &((*this_).layout_data), rel_index );
-                        const data_relationship_t *relation_data;
-                        relation_data = layout_relationship_get_data_ptr( current_relation );
-
-                        pencil_visible_object_id_reinit_by_table_and_id ( out_selected_id,
-                                                                          DATA_TABLE_RELATIONSHIP,
-                                                                          data_relationship_get_id( relation_data ),
-                                                                          DATA_TABLE_RELATIONSHIP,
-                                                                          data_relationship_get_id( relation_data )
-                                                                        );
-                    }
-                    matching_relations_found ++;
-                }
-            }
+        /* determine a feature at the given position */
+        if ( ! pencil_visible_object_id_is_valid( out_selected_id ) )
+        {
+            result = pencil_layouter_private_get_feature_id_at_pos( this_,
+                                                                    x,
+                                                                    y,
+                                                                    out_selected_id,
+                                                                    out_surrounding_id
+                                                                  );
         }
 
         /* determine a classifier at the given position */
@@ -332,7 +318,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
     assert( NULL != out_selected_id );
     assert( NULL != out_surrounding_id );
 
-    pencil_error_t result = PENCIL_ERROR_NONE;
+    pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     /* get draw area */
     layout_diagram_t *the_diagram;
@@ -351,14 +337,6 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
         {
             layout_visible_classifier_t *visible_classifier;
             visible_classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), index );
-            const data_visible_classifier_t *visible_classifier_data;
-            visible_classifier_data = layout_visible_classifier_get_data_ptr( visible_classifier );
-
-            const data_classifier_t *classifier;
-            const data_diagramelement_t *diagramelement;
-            classifier = data_visible_classifier_get_classifier_const( visible_classifier_data );
-            diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier_data );
-
             geometry_rectangle_t *classifier_bounds;
             geometry_rectangle_t *classifier_space;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr ( visible_classifier );
@@ -368,51 +346,16 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
             {
                 if ( geometry_rectangle_contains( classifier_space, x, y ) )
                 {
-                    /* check all contained features */
-                    uint32_t linenumber = 0;
-                    double lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
-                    + 2.0 * pencil_size_get_standard_object_border( &((*this_).pencil_size) );
-                    uint32_t f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
-                    for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
-                    {
-                        layout_feature_t *the_feature;
-                        the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
-                        const data_feature_t *the_feature_data;
-                        the_feature_data = layout_feature_get_data_ptr( the_feature );
-
-                        if ( data_feature_get_classifier_id( the_feature_data ) == data_classifier_get_id( classifier ) )
-                        {
-                            geometry_rectangle_t feature_bounds;
-                            feature_bounds = pencil_layouter_get_feature_bounds( this_,
-                                                                                    data_classifier_get_id( classifier ),
-                                                                                    index,
-                                                                                    f_idx,
-                                                                                    linenumber
-                                                                                );
-                            if ( geometry_rectangle_contains( &feature_bounds, x, y ) )
-                            {
-                                /* feature is found */
-                                pencil_visible_object_id_reinit_by_table_and_id ( out_selected_id,
-                                                                                    DATA_TABLE_FEATURE,
-                                                                                    data_feature_get_id( the_feature_data ),
-                                                                                    DATA_TABLE_FEATURE,
-                                                                                    data_feature_get_id( the_feature_data )
-                                                                                );
-                            }
-                            linenumber ++;
-                            geometry_rectangle_destroy( &feature_bounds );
-                        }
-                    }
                     /* surrounding classifier is found. select it if it is the smallest found area */
                     double current_classifier_area = geometry_rectangle_get_area( classifier_space );
                     if ( current_classifier_area < surrounding_classifier_area )
                     {
                         surrounding_classifier_area = current_classifier_area;
                         pencil_visible_object_id_reinit_by_table_and_id ( out_surrounding_id,
-                                                                        DATA_TABLE_DIAGRAMELEMENT,
-                                                                        data_diagramelement_get_id( diagramelement ),
-                                                                        DATA_TABLE_CLASSIFIER,
-                                                                        data_classifier_get_id( classifier )
+                                                                          DATA_TABLE_DIAGRAMELEMENT,
+                                                                          layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                                          DATA_TABLE_CLASSIFIER,
+                                                                          layout_visible_classifier_get_classifier_id( visible_classifier )
                                                                         );
                     }
                 }
@@ -420,13 +363,112 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
                 {
                     /* classifier is found */
                     pencil_visible_object_id_reinit_by_table_and_id ( out_selected_id,
-                                                                        DATA_TABLE_DIAGRAMELEMENT,
-                                                                        data_diagramelement_get_id( diagramelement ),
-                                                                        DATA_TABLE_CLASSIFIER,
-                                                                        data_classifier_get_id( classifier )
+                                                                      DATA_TABLE_DIAGRAMELEMENT,
+                                                                      layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                                      DATA_TABLE_CLASSIFIER,
+                                                                      layout_visible_classifier_get_classifier_id( visible_classifier )
                                                                     );
+
+                    pencil_error_t result = PENCIL_ERROR_NONE;
                 }
             }
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
+                                                               double x,
+                                                               double y,
+                                                               pencil_visible_object_id_t* out_selected_id,
+                                                               pencil_visible_object_id_t* out_surrounding_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_selected_id );
+    assert( NULL != out_surrounding_id );
+
+    pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
+
+    /* check all contained features */
+    uint32_t f_count;
+    f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+    for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
+    {
+        layout_feature_t *the_feature;
+        the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
+        geometry_rectangle_t *feature_bounds;
+        feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+
+        if ( geometry_rectangle_contains( feature_bounds, x, y ) )
+        {
+            /* feature is found */
+            pencil_visible_object_id_reinit_by_table_and_id ( out_selected_id,
+                                                              DATA_TABLE_FEATURE,
+                                                              layout_feature_get_feature_id( the_feature ),
+                                                              DATA_TABLE_FEATURE,
+                                                              layout_feature_get_feature_id( the_feature )
+                                                            );
+
+            layout_visible_classifier_t *layout_classifier;
+            layout_classifier = layout_feature_get_classifier_ptr ( the_feature );
+
+            pencil_visible_object_id_reinit_by_table_and_id ( out_surrounding_id,
+                                                              DATA_TABLE_DIAGRAMELEMENT,
+                                                              layout_visible_classifier_get_diagramelement_id( layout_classifier ),
+                                                              DATA_TABLE_CLASSIFIER,
+                                                              layout_visible_classifier_get_classifier_id( layout_classifier )
+                                                            );
+
+            pencil_error_t result = PENCIL_ERROR_NONE;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layouter_t *this_,
+                                                                    double x,
+                                                                    double y,
+                                                                    double snap_distance,
+                                                                    pencil_visible_object_id_t* out_selected_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_selected_id );
+
+    pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
+
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( &((*this_).layout_data) );
+    uint32_t matching_relations_found = 0;
+    for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+    {
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr( &((*this_).layout_data), rel_index );
+        geometry_connector_t *relationship_shape;
+        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+
+        if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
+        {
+            /* ensure that every relation at that location can be selected by small mouse movements */
+            if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )
+            {
+                layout_relationship_t *current_relation;
+                current_relation = pencil_layout_data_get_relationship_ptr ( &((*this_).layout_data), rel_index );
+                const data_relationship_t *relation_data;
+                relation_data = layout_relationship_get_data_ptr( current_relation );
+
+                pencil_visible_object_id_reinit_by_table_and_id ( out_selected_id,
+                                                                  DATA_TABLE_RELATIONSHIP,
+                                                                  data_relationship_get_id( relation_data ),
+                                                                  DATA_TABLE_RELATIONSHIP,
+                                                                  data_relationship_get_id( relation_data )
+                                                                );
+                result = PENCIL_ERROR_NONE;
+            }
+            matching_relations_found ++;
         }
     }
 

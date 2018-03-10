@@ -126,8 +126,6 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
                                         layout,
                                         cr
                                         );
-
-
     }
 
     TRACE_END();
@@ -156,7 +154,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
         layout_feature_t *the_feature;
         the_feature = pencil_layout_data_get_feature_ptr( layout_data, f_idx );
 
-        /* determine display flags of classifier */
+        /* determine display flags of diagramelement */
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = layout_feature_get_classifier_ptr ( the_feature );
         const data_diagramelement_t *diagramelement;
@@ -249,7 +247,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                                                pencil_size,
                                                layout,
                                                cr
-            );
+                                             );
         }
     }
 

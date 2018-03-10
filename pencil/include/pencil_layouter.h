@@ -148,7 +148,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no classifier is at the given position x, y.
  */
 pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
                                                                   double x,
@@ -156,6 +156,40 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
                                                                   pencil_visible_object_id_t* out_selected_id,
                                                                   pencil_visible_object_id_t* out_surrounding_id
                                                                 );
+
+/*!
+ *  \brief gets the feature-id of the feature at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no feature is at the given position x, y.
+ */
+pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
+                                                               double x,
+                                                               double y,
+                                                               pencil_visible_object_id_t* out_selected_id,
+                                                               pencil_visible_object_id_t* out_surrounding_id
+                                                             );
+
+/*!
+ *  \brief gets the relationship-id of the relationship at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param snap_distance maximum distance to the next connector line when to select the connector
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no relationship is at the given position x, y.
+ */
+pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layouter_t *this_,
+                                                                    double x,
+                                                                    double y,
+                                                                    double snap_distance,
+                                                                    pencil_visible_object_id_t* out_selected_id
+                                                                  );
 
 /*!
  *  \brief gets the order values at a given position

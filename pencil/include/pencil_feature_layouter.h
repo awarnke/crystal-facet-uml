@@ -65,15 +65,15 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ );
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief calculates feature bounds of all features for one classifier
+ *  \brief calculates feature bounds of all features for one diagramelement
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier for which to calculate the feature bounds
+ *  \param diagramelement_id id of the diagramelement for which to calculate the feature bounds
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_features_bounds memory location where the result shall be stored. Must not be NULL.
  */
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
-                                                         int64_t classifier_id,
+                                                         int64_t diagramelement_id,
                                                          PangoLayout *font_layout,
                                                          geometry_rectangle_t *out_features_bounds
                                                        );
