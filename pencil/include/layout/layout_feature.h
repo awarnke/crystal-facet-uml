@@ -10,6 +10,7 @@
  */
 
 #include "layout/layout_visible_classifier.h"
+#include "layout/layout_direction.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_feature.h"
 
@@ -18,6 +19,7 @@
  */
 struct layout_feature_struct {
     geometry_rectangle_t bounds;  /*!< bounds of a feature */
+    layout_direction_t direction;  /*!< direction, a hint for drawing a feature. Depending on the feature type, this is interpreted by the painter slightly different. */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
     layout_visible_classifier_t *classifier;  /*!< pointer to the layout of the parent visible classifier */
 };

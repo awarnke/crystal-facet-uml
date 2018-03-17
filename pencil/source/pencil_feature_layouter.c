@@ -102,6 +102,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                       geometry_rectangle_get_height( c_bounds )
                                     );
             layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
+            layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
         }
         else  /* not a lifeline */
         {

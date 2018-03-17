@@ -10,6 +10,7 @@ static inline void layout_feature_init ( layout_feature_t *this_,
     assert ( NULL != classifier );
 
     geometry_rectangle_init_empty( &((*this_).bounds) );
+    (*this_).direction = PENCIL_LAYOUT_DIRECTION_CENTER;
     (*this_).data = feature_data;
     (*this_).classifier = classifier;
 }
@@ -28,6 +29,16 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
 static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds )
 {
     geometry_rectangle_replace( &((*this_).bounds), feature_bounds );
+}
+
+static inline layout_direction_t layout_feature_get_direction ( const layout_feature_t *this_ )
+{
+    return (*this_).direction;
+}
+
+static inline void layout_feature_set_direction ( layout_feature_t *this_, layout_direction_t direction )
+{
+    (*this_).direction = direction;
 }
 
 static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ )
