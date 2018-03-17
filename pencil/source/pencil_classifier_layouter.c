@@ -813,6 +813,15 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
     diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
     diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
 
+    /* get preferred object distance */
+    double obj_dist;
+    obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    /* adapt drawing area */
+    diag_x += obj_dist;
+    diag_w -= 2.0 * obj_dist;
+    diag_h -= obj_dist;
+    
     /* store the classifier bounds into input_data_layouter_t */
     uint32_t count_clasfy;
     count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
@@ -865,6 +874,15 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
     diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
     diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
 
+    /* get preferred object distance */
+    double obj_dist;
+    obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    /* adapt drawing area */
+    diag_x += obj_dist;
+    diag_w -= 2.0 * obj_dist;
+    diag_h -= obj_dist;
+
     /* store the classifier bounds into input_data_layouter_t */
     uint32_t count_clasfy;
     count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
@@ -884,11 +902,11 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
-                                    diag_x+((index*diag_w)/count_clasfy),
-                                    diag_y,
-                                    (diag_w/count_clasfy),
-                                    diag_h/8
-                                );
+                                 diag_x+((index*diag_w)/count_clasfy),
+                                 diag_y,
+                                 (diag_w/count_clasfy),
+                                 diag_h/8
+                               );
 
         /* update inner space */
         pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
@@ -916,6 +934,15 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
     diag_y = geometry_rectangle_get_top ( (*this_).diagram_draw_area );
     diag_w = geometry_rectangle_get_width ( (*this_).diagram_draw_area );
     diag_h = geometry_rectangle_get_height ( (*this_).diagram_draw_area );
+
+    /* get preferred object distance */
+    double obj_dist;
+    obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+    /* adapt drawing area */
+    diag_x += obj_dist;
+    diag_w -= 2.0 * obj_dist;
+    diag_h -= obj_dist;
 
     /* store the classifier bounds into input_data_layouter_t */
     uint32_t count_clasfy;
