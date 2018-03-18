@@ -62,6 +62,24 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         }
     }
 
+    /* get diagram draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    data_diagram_type_t diag_type;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+        const data_diagram_t *diagram_data;
+        diagram_data = layout_diagram_get_data_ptr ( diagram_layout );
+        diag_type = data_diagram_get_diagram_type ( diagram_data );
+    }
+
+    /* get preferred object distance */
+    double obj_dist;
+    double gap;
+    obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+
     /* layout the features */
     int64_t last_diagramelement_id = DATA_ID_VOID_ID;
     double y_position_of_next_feature = 0.0;
@@ -94,15 +112,54 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         {
             /* layout feature into parent classifier */
             geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
-            geometry_rectangle_t lifeline_bounds;
-            geometry_rectangle_init ( &lifeline_bounds,
-                                      geometry_rectangle_get_x_center( c_bounds ) - 1.0,
-                                      geometry_rectangle_get_bottom( c_bounds ),
-                                      2.0,
-                                      geometry_rectangle_get_height( c_bounds )
-                                    );
-            layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
-            layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
+
+            if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+            {
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+                double c_right = geometry_rectangle_get_right( c_bounds );
+                double c_top = geometry_rectangle_get_top( c_bounds );
+                double c_height = geometry_rectangle_get_height( c_bounds );
+                double dda_right = geometry_rectangle_get_right ( diagram_draw_area );
+                geometry_rectangle_t lifeline_bounds;
+                geometry_rectangle_init ( &lifeline_bounds,
+                                          c_right,
+                                          c_top + (0.375 * c_height),
+                                          dda_right - c_right - obj_dist,
+                                          0.25 * c_height
+                                        );
+                layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
+            }
+            else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+            {
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+                double c_left = geometry_rectangle_get_left( c_bounds );
+                double c_width = geometry_rectangle_get_width( c_bounds );
+                double c_bottom = geometry_rectangle_get_bottom( c_bounds );
+                geometry_rectangle_t lifeline_bounds;
+                geometry_rectangle_init ( &lifeline_bounds,
+                                          c_left,
+                                          c_bottom,
+                                          c_width,
+                                          gap
+                                        );
+                layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
+            }
+            else
+            {
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
+                double c_bottom = geometry_rectangle_get_bottom( c_bounds );
+                double c_left = geometry_rectangle_get_left( c_bounds );
+                double c_width = geometry_rectangle_get_width( c_bounds );
+                double dda_bottom = geometry_rectangle_get_bottom ( diagram_draw_area );
+                geometry_rectangle_t lifeline_bounds;
+                geometry_rectangle_init ( &lifeline_bounds,
+                                          c_left + (0.375 * c_width),
+                                          c_bottom,
+                                          0.25 * c_width,
+                                          dda_bottom - c_bottom - obj_dist
+                                        );
+                layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
+            }
         }
         else  /* not a lifeline */
         {
@@ -125,6 +182,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                       geometry_rectangle_get_height( &f_min_bounds )
                                     );
             layout_feature_set_bounds ( feature_layout, &f_bounds );
+            layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
 
             /* adjust y position of next feature */
             y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );

@@ -91,18 +91,57 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
 
                     if ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) )
                     {
-                        if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
+                        /* filter lifelines if they are not applicable */
+                        const int64_t feature_id = data_feature_get_id( feature_data );
+                        bool filter;
+                        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (feature_data) )
                         {
-                            layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
-                                                 feature_data,
-                                                 parent_classifier
-                                               );
-                            (*this_).feature_count ++;
-                            layout_feature_count ++;
+                            const data_diagramelement_t *diag_ele;
+                            diag_ele = layout_visible_classifier_get_diagramelement_ptr( parent_classifier );
+                            if ( feature_id == data_diagramelement_get_focused_feature_id( diag_ele ) )
+                            {
+                                const data_diagram_t *the_diagram;
+                                the_diagram = layout_diagram_get_data_ptr( &((*this_).diagram_layout) );
+                                data_diagram_type_t diag_type;
+                                diag_type = data_diagram_get_diagram_type( the_diagram );
+                                if (( diag_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+                                    || ( diag_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+                                    || ( diag_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ))
+                                {
+                                    filter = false;
+                                }
+                                else
+                                {
+                                    /* wrong diagram type */
+                                    filter = true;
+                                }
+                            }
+                            else
+                            {
+                                /* lifeline of other visible_classifier */
+                                filter = true;
+                            }
                         }
                         else
                         {
-                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
+                            filter = false;
+                        }
+
+                        if ( ! filter )
+                        {
+                            if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
+                            {
+                                layout_feature_init( &((*this_).feature_layout[(*this_).feature_count]),
+                                                     feature_data,
+                                                     parent_classifier
+                                                   );
+                                (*this_).feature_count ++;
+                                layout_feature_count ++;
+                            }
+                            else
+                            {
+                                TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
+                            }
                         }
                     }
                 }

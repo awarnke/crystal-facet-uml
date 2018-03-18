@@ -62,6 +62,22 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
 static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds );
 
 /*!
+ *  \brief gets the direction of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return direction of the feature
+ */
+static inline layout_direction_t layout_feature_get_direction ( const layout_feature_t *this_ );
+
+/*!
+ *  \brief sets the direction of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param direction new direction to set
+ */
+static inline void layout_feature_set_direction ( layout_feature_t *this_, layout_direction_t direction );
+
+/*!
  *  \brief gets the data_feature_t object
  *
  *  \param this_ pointer to own object attributes
