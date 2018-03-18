@@ -91,9 +91,10 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw lifeline of linefines */
         if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
         {
-            double dashes[1];
-            dashes[0] = pencil_size_get_line_dash_length( pencil_size );
-            cairo_set_dash ( cr, dashes, 1, 0.0 );
+            double dashes[2];
+            dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
+            dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
+            cairo_set_dash ( cr, dashes, 2, 0.0 );
 
             if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
             {

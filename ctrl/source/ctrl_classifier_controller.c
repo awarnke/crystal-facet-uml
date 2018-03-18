@@ -6,6 +6,7 @@
 
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        ctrl_undo_redo_list_t *undo_redo_list,
+                                       ctrl_classifier_policy_enforcer_t *policy_enforcer,
                                        data_database_t *database,
                                        data_database_reader_t *db_reader,
                                        data_database_writer_t *db_writer )
@@ -13,6 +14,7 @@ void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
     TRACE_BEGIN();
 
     (*this_).undo_redo_list = undo_redo_list;
+    (*this_).policy_enforcer = policy_enforcer;
     (*this_).database = database;
     (*this_).db_reader = db_reader;
     (*this_).db_writer = db_writer;
@@ -27,6 +29,7 @@ void ctrl_classifier_controller_destroy ( ctrl_classifier_controller_t *this_ )
 
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     (*this_).undo_redo_list = NULL;
+    (*this_).policy_enforcer = NULL;
     (*this_).database = NULL;
     (*this_).db_reader = NULL;
     (*this_).db_writer = NULL;
@@ -518,7 +521,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 
     /* TODO: deletes a feature record and associated relationships */
 
-    if ( true )  /* TODO: The feature is not deleted if still referenced by diagramelements */
+    if ( true )
     {
         /* delete feature */
         data_feature_t old_feat;
@@ -541,6 +544,9 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
             /* store the deleted feature to the undo redo list */
             ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feat );
             ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+            /* apply policy rules */
+            result |= ctrl_classifier_policy_enforcer_post_delete_feature ( (*this_).policy_enforcer, &old_feat );
 
             data_feature_destroy( &old_feat );
         }

@@ -1,7 +1,7 @@
-/* File: ctrl_policy_enforcer.h; Copyright and License: see below */
+/* File: ctrl_diagram_policy_enforcer.h; Copyright and License: see below */
 
-#ifndef CTRL_POLICY_ENFORCER_H
-#define CTRL_POLICY_ENFORCER_H
+#ifndef CTRL_DIAGRAM_POLICY_ENFORCER_H
+#define CTRL_DIAGRAM_POLICY_ENFORCER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -24,12 +24,11 @@ struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
 /*!
- *  \brief constants of ctrl_policy_enforcer_t
+ *  \brief constants of ctrl_diagram_policy_enforcer_t
  */
-enum ctrl_policy_enforcer_const_enum {
-    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements in a diagram */
+enum ctrl_diagram_policy_enforcer_const_enum {
+    CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements in a diagram */
 };
-
 
 /*!
  *  \brief all data attributes needed for the policy enforcer
@@ -37,36 +36,36 @@ enum ctrl_policy_enforcer_const_enum {
  *  The policy enforcer works on a similar abstraction level as the gui module.
  *  Therefore it references the same ctrl and data objects as the gui module.
  */
-struct ctrl_policy_enforcer_struct {
+struct ctrl_diagram_policy_enforcer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
 
-    data_diagramelement_t private_temp_diagele_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES];
+    data_diagramelement_t private_temp_diagele_buf[CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES];
 };
 
-typedef struct ctrl_policy_enforcer_struct ctrl_policy_enforcer_t;
+typedef struct ctrl_diagram_policy_enforcer_struct ctrl_diagram_policy_enforcer_t;
 
 /*!
- *  \brief initializes the ctrl_policy_enforcer_t struct
+ *  \brief initializes the ctrl_diagram_policy_enforcer_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param clfy_ctrl pointer to classifier controller to create and delete features and to delete relationships
  *  \param diag_ctrl pointer to diagram controller to modify diagramelements
  */
-void ctrl_policy_enforcer_init ( ctrl_policy_enforcer_t *this_,
-                                 data_database_reader_t *db_reader,
-                                 struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                 struct ctrl_diagram_controller_struct *diag_ctrl
-                               );
+void ctrl_diagram_policy_enforcer_init ( ctrl_diagram_policy_enforcer_t *this_,
+                                         data_database_reader_t *db_reader,
+                                         struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                         struct ctrl_diagram_controller_struct *diag_ctrl
+                                       );
 
 /*!
- *  \brief destroys the ctrl_policy_enforcer_t struct
+ *  \brief destroys the ctrl_diagram_policy_enforcer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ );
+void ctrl_diagram_policy_enforcer_destroy ( ctrl_diagram_policy_enforcer_t *this_ );
 
 /* ================================ ENTRY POINTS ================================ */
 
@@ -77,9 +76,9 @@ void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ );
  *  \param updated_diagram data of the updated diagram.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_policy_enforcer_t *this_,
-                                                                           const data_diagram_t *updated_diagram
-                                                                         );
+static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_update_diagram_type ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagram_t *updated_diagram
+                                                                                 );
 
 /*!
  *  \brief executes policies involved in creating a diagramelement.
@@ -88,9 +87,9 @@ static inline ctrl_error_t ctrl_policy_enforcer_post_update_diagram_type ( ctrl_
  *  \param new_diagramelement data of the new diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                                             const data_diagramelement_t *new_diagramelement
-                                                                           );
+static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_create_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                     const data_diagramelement_t *new_diagramelement
+                                                                                   );
 
 /*!
  *  \brief executes policies involved in deleting a diagramelement.
@@ -99,9 +98,9 @@ static inline ctrl_error_t ctrl_policy_enforcer_post_create_diagramelement ( ctr
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-static inline ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement ( ctrl_policy_enforcer_t *this_,
-                                                                             const data_diagramelement_t *deleted_diagramelement
-                                                                           );
+static inline ctrl_error_t ctrl_diagram_policy_enforcer_post_delete_diagramelement ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                     const data_diagramelement_t *deleted_diagramelement
+                                                                                   );
 
 /* ================================ LIFELINES ================================ */
 
@@ -119,9 +118,9 @@ static inline ctrl_error_t ctrl_policy_enforcer_post_delete_diagramelement ( ctr
  *  \param updated_diagram data of the updated diagram.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforcer_t *this_,
-                                                             const data_diagram_t *updated_diagram
-                                                           );
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                     const data_diagram_t *updated_diagram
+                                                                   );
 
 /*!
  *  \brief executes policies involved in creating a diagramelement.
@@ -138,9 +137,9 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
  *  \param new_diagramelement data of the new diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *new_diagramelement
-                                                            );
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                      const data_diagramelement_t *new_diagramelement
+                                                                    );
 
 /*!
  *  \brief creates one lifeline, unconditional
@@ -149,9 +148,9 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
  *  \param the_diagramelement data of the diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enforcer_t *this_,
-                                                                const data_diagramelement_t *the_diagramelement
-                                                              );
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                        const data_diagramelement_t *the_diagramelement
+                                                                      );
 
 /*!
  *  \brief executes policies involved in deleting a diagramelement.
@@ -169,9 +168,9 @@ ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enfo
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_private_delete_a_lifeline ( ctrl_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *deleted_diagramelement
-                                                            );
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                      const data_diagramelement_t *deleted_diagramelement
+                                                                    );
 
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 
@@ -188,13 +187,13 @@ ctrl_error_t ctrl_policy_enforcer_private_delete_a_lifeline ( ctrl_policy_enforc
  *  \param deleted_diagramelement data of the deleted diagramelement.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_policy_enforcer_t *this_,
-                                                                           const data_diagramelement_t *deleted_diagramelement
-                                                                         );
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
+                                                                                   const data_diagramelement_t *deleted_diagramelement
+                                                                                 );
 
-#include "ctrl_policy_enforcer.inl"
+#include "ctrl_diagram_policy_enforcer.inl"
 
-#endif  /* CTRL_POLICY_ENFORCER_H */
+#endif  /* CTRL_DIAGRAM_POLICY_ENFORCER_H */
 
 
 /*

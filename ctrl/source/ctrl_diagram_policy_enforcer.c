@@ -1,15 +1,15 @@
-/* File: ctrl_policy_enforcer.c; Copyright and License: see below */
+/* File: ctrl_diagram_policy_enforcer.c; Copyright and License: see below */
 
-#include "ctrl_policy_enforcer.h"
+#include "ctrl_diagram_policy_enforcer.h"
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "trace.h"
 #include "tslog.h"
 
-void ctrl_policy_enforcer_init ( ctrl_policy_enforcer_t *this_,
-                                 data_database_reader_t *db_reader,
-                                 struct ctrl_classifier_controller_struct *clfy_ctrl,
-                                 struct ctrl_diagram_controller_struct *diag_ctrl )
+void ctrl_diagram_policy_enforcer_init ( ctrl_diagram_policy_enforcer_t *this_,
+                                         data_database_reader_t *db_reader,
+                                         struct ctrl_classifier_controller_struct *clfy_ctrl,
+                                         struct ctrl_diagram_controller_struct *diag_ctrl )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -23,7 +23,7 @@ void ctrl_policy_enforcer_init ( ctrl_policy_enforcer_t *this_,
     TRACE_END();
 }
 
-void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ )
+void ctrl_diagram_policy_enforcer_destroy ( ctrl_diagram_policy_enforcer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -36,7 +36,7 @@ void ctrl_policy_enforcer_destroy ( ctrl_policy_enforcer_t *this_ )
 
 /* ================================ LIFELINES ================================ */
 
-ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforcer_t *this_,
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
                                                              const data_diagram_t *updated_diagram )
 {
     TRACE_BEGIN();
@@ -59,7 +59,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
         uint32_t diagramelement_count;
         data_result = data_database_reader_get_diagramelements_by_diagram_id ( (*this_).db_reader,
                                                                                diagram_id,
-                                                                               GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGELES,
+                                                                               CTRL_DIAGRAM_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
                                                                                &((*this_).private_temp_diagele_buf),
                                                                                &diagramelement_count
                                                                              );
@@ -78,7 +78,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
                 if ( DATA_ID_VOID_ID == focused_feature )
                 {
                     /* diagramelement without focused feature found */
-                    result |= ctrl_policy_enforcer_private_create_one_lifeline ( this_, current_diagele );
+                    result |= ctrl_diagram_policy_enforcer_private_create_one_lifeline ( this_, current_diagele );
                 }
             }
         }
@@ -88,7 +88,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_lifelines ( ctrl_policy_enforce
     return result;
 }
 
-ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforcer_t *this_,
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                               const data_diagramelement_t *new_diagramelement )
 {
     TRACE_BEGIN();
@@ -110,7 +110,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
             || ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == dig_type )
             || ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == dig_type ))
         {
-            result |= ctrl_policy_enforcer_private_create_one_lifeline ( this_, new_diagramelement );
+            result |= ctrl_diagram_policy_enforcer_private_create_one_lifeline ( this_, new_diagramelement );
         }
     }
     else
@@ -122,7 +122,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_a_lifeline ( ctrl_policy_enforc
     return result;
 }
 
-ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enforcer_t *this_,
+ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                                 const data_diagramelement_t *the_diagramelement )
 {
     TRACE_BEGIN();
@@ -167,7 +167,7 @@ ctrl_error_t ctrl_policy_enforcer_private_create_one_lifeline ( ctrl_policy_enfo
     return result;
 }
 
-ctrl_error_t ctrl_policy_enforcer_private_delete_a_lifeline ( ctrl_policy_enforcer_t *this_,
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
                                                               const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
@@ -192,7 +192,7 @@ ctrl_error_t ctrl_policy_enforcer_private_delete_a_lifeline ( ctrl_policy_enforc
 
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 
-ctrl_error_t ctrl_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_policy_enforcer_t *this_,
+ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
                                                                            const data_diagramelement_t *deleted_diagramelement
                                                                          )
 {

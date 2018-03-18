@@ -1,6 +1,6 @@
-/* File: ctrl_policy_enforcer_test.c; Copyright and License: see below */
+/* File: ctrl_diagram_policy_enforcer_test.c; Copyright and License: see below */
 
-#include "ctrl_policy_enforcer_test.h"
+#include "ctrl_diagram_policy_enforcer_test.h"
 #include "ctrl_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -38,13 +38,13 @@ static data_database_writer_t db_writer;
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_policy_enforcer_test_get_list(void)
+TestRef ctrl_diagram_policy_enforcer_test_get_list(void)
 {
     EMB_UNIT_TESTFIXTURES(fixtures) {
         new_TestFixture("diagram_to_lifeline_consistency",diagram_to_lifeline_consistency),
         new_TestFixture("diagramelement_to_lifeline_consistency",diagramelement_to_lifeline_consistency),
     };
-    EMB_UNIT_TESTCALLER(result,"ctrl_policy_enforcer_test",set_up,tear_down,fixtures);
+    EMB_UNIT_TESTCALLER(result,"ctrl_diagram_policy_enforcer_test",set_up,tear_down,fixtures);
 
     return (TestRef)&result;
 }

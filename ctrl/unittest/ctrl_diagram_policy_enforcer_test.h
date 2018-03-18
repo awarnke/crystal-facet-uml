@@ -1,16 +1,16 @@
-/* File: ctrl_policy_enforcer_test.h; Copyright and License: see below */
+/* File: ctrl_diagram_policy_enforcer_test.h; Copyright and License: see below */
 
 #ifndef CTRL_POLICY_ENFORCER_TEST_H
 #define CTRL_POLICY_ENFORCER_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for ctrl_policy_enforcer
+ *  \brief MODULE TEST for ctrl_diagram_policy_enforcer
  */
 
 #include <embUnit/embUnit.h>
 
-TestRef ctrl_policy_enforcer_test_get_list(void);
+TestRef ctrl_diagram_policy_enforcer_test_get_list(void);
 
 #endif  /* CTRL_POLICY_ENFORCER_TEST_H */
 

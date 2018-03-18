@@ -13,16 +13,18 @@ void ctrl_controller_init ( ctrl_controller_t *this_, data_database_t *database 
     data_database_reader_init( &((*this_).db_reader), database );
     data_database_writer_init( &((*this_).db_writer), &((*this_).db_reader), database );
     ctrl_undo_redo_list_init ( &((*this_).undo_redo_list), &((*this_).db_reader), &((*this_).db_writer) );
+    ctrl_classifier_policy_enforcer_init ( &((*this_).classifier_policy_enforcer), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
     ctrl_classifier_controller_init ( &((*this_).classifiers),
                                       &((*this_).undo_redo_list),
+                                      &((*this_).classifier_policy_enforcer),
                                       database,
                                       &((*this_).db_reader),
                                       &((*this_).db_writer)
                                     );
-    ctrl_policy_enforcer_init ( &((*this_).policy_enforcer), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
+    ctrl_diagram_policy_enforcer_init ( &((*this_).diagram_policy_enforcer), &((*this_).db_reader), &((*this_).classifiers), &((*this_).diagrams) );
     ctrl_diagram_controller_init ( &((*this_).diagrams),
                                    &((*this_).undo_redo_list),
-                                   &((*this_).policy_enforcer),
+                                   &((*this_).diagram_policy_enforcer),
                                    database,
                                    &((*this_).db_reader),
                                    &((*this_).db_writer)
@@ -39,7 +41,8 @@ void ctrl_controller_destroy ( ctrl_controller_t *this_ )
     /* destroy member attributes */
     ctrl_consistency_checker_destroy ( &((*this_).consistency_checker) );
     ctrl_diagram_controller_destroy ( &((*this_).diagrams) );
-    ctrl_policy_enforcer_destroy ( &((*this_).policy_enforcer) );
+    ctrl_diagram_policy_enforcer_destroy ( &((*this_).diagram_policy_enforcer) );
+    ctrl_classifier_policy_enforcer_destroy ( &((*this_).classifier_policy_enforcer) );
     ctrl_classifier_controller_destroy ( &((*this_).classifiers) );
     ctrl_undo_redo_list_destroy ( &((*this_).undo_redo_list) );
     data_database_writer_destroy( &((*this_).db_writer) );

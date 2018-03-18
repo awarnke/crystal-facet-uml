@@ -11,6 +11,7 @@
 
 #include "ctrl_error.h"
 #include "ctrl_consistency_checker.h"
+#include "ctrl_classifier_policy_enforcer.h"
 #include "ctrl_undo_redo_list.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
@@ -33,6 +34,7 @@ struct ctrl_classifier_controller_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_consistency_checker_t consistency_checker;  /*!< own instance of a consistency checker */
     ctrl_undo_redo_list_t *undo_redo_list;  /*!< pointer to external ctrl_undo_redo_list_t */
+    ctrl_classifier_policy_enforcer_t *policy_enforcer;  /*!< pointer to external ctrl_classifier_policy_enforcer_t */
 };
 
 typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
@@ -48,6 +50,7 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
  */
 void ctrl_classifier_controller_init ( ctrl_classifier_controller_t *this_,
                                        ctrl_undo_redo_list_t *undo_redo_list,
+                                       ctrl_classifier_policy_enforcer_t *policy_enforcer,
                                        data_database_t *database,
                                        data_database_reader_t *db_reader,
                                        data_database_writer_t *db_writer
@@ -210,8 +213,6 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
  *  \brief deletes a feature record
  *         TODO: and associated relationships
  *         and stores all actions in the undo redo list.
- *
- *  TODO: Note: The feature is not deleted if still referenced by diagramelements.
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the feature record to be deleted.

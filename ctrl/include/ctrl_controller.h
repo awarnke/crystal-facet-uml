@@ -13,7 +13,8 @@
 #include "ctrl_classifier_controller.h"
 #include "ctrl_diagram_controller.h"
 #include "ctrl_undo_redo_list.h"
-#include "ctrl_policy_enforcer.h"
+#include "ctrl_diagram_policy_enforcer.h"
+#include "ctrl_classifier_policy_enforcer.h"
 #include "storage/data_database.h"
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
@@ -30,7 +31,8 @@ struct ctrl_controller_struct {
     data_database_reader_t db_reader;  /*!< own instance of a database reader */
     ctrl_undo_redo_list_t undo_redo_list;  /*!< own instance of a ctrl_undo_redo_list_t */
     ctrl_consistency_checker_t consistency_checker;  /* own instance of a consistency checker */
-    ctrl_policy_enforcer_t policy_enforcer;  /*!< own instance of ctrl_policy_enforcer_t */
+    ctrl_diagram_policy_enforcer_t diagram_policy_enforcer;  /*!< own instance of ctrl_diagram_policy_enforcer_t */
+    ctrl_classifier_policy_enforcer_t classifier_policy_enforcer;  /*!< own instance of ctrl_classifier_policy_enforcer_t */
 };
 
 typedef struct ctrl_controller_struct ctrl_controller_t;

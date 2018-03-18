@@ -6,7 +6,7 @@
 
 void ctrl_diagram_controller_init ( ctrl_diagram_controller_t *this_,
                                     ctrl_undo_redo_list_t *undo_redo_list,
-                                    ctrl_policy_enforcer_t *policy_enforcer,
+                                    ctrl_diagram_policy_enforcer_t *policy_enforcer,
                                     data_database_t *database,
                                     data_database_reader_t *db_reader,
                                     data_database_writer_t *db_writer )
@@ -330,7 +330,7 @@ ctrl_error_t ctrl_diagram_controller_update_diagram_type ( ctrl_diagram_controll
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policy rules */
-        result |= ctrl_policy_enforcer_post_update_diagram_type ( (*this_).policy_enforcer,
+        result |= ctrl_diagram_policy_enforcer_post_update_diagram_type ( (*this_).policy_enforcer,
                                                                   &new_diagram
                                                                 );
 
@@ -414,7 +414,7 @@ ctrl_error_t ctrl_diagram_controller_create_diagramelement ( ctrl_diagram_contro
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* apply policies */
-        result |= ctrl_policy_enforcer_post_create_diagramelement ( (*this_).policy_enforcer,
+        result |= ctrl_diagram_policy_enforcer_post_create_diagramelement ( (*this_).policy_enforcer,
                                                                     &to_be_created
                                                                   );
 
@@ -468,7 +468,7 @@ ctrl_error_t ctrl_diagram_controller_delete_diagramelement ( ctrl_diagram_contro
         ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
 
         /* try to also delete the classifier and focused lifelines */
-        result |= ctrl_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
+        result |= ctrl_diagram_policy_enforcer_post_delete_diagramelement ( (*this_).policy_enforcer,
                                                                     &old_diagramelement
                                                                   );
 
