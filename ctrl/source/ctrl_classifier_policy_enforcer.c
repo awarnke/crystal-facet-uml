@@ -36,6 +36,60 @@ void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t
 
 /* ================================ LIFELINES ================================ */
 
+ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
+                                                                       const data_feature_t *deleted_feature )
+{
+    TRACE_BEGIN();
+    assert( NULL != deleted_feature );
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+
+    if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type ( deleted_feature ) )
+    {
+        int64_t classifier_id;
+        classifier_id = data_feature_get_classifier_id ( deleted_feature );
+        int64_t deleted_feature_id;
+        deleted_feature_id = data_feature_get_id( deleted_feature );
+
+        /* search all diagramelements of the classifier */
+        uint32_t diagramelement_count;
+        data_result = data_database_reader_get_diagramelements_by_classifier_id ( (*this_).db_reader,
+                                                                                  classifier_id,
+                                                                                  CTRL_CLASSIFIER_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES,
+                                                                                  &((*this_).private_temp_diagele_buf),
+                                                                                  &diagramelement_count
+                                                                                );
+        result |= (ctrl_error_t) data_result;
+
+        if ( DATA_ERROR_NONE == data_result )
+        {
+            /* search the diagramelements */
+            for ( uint32_t index = 0; index < diagramelement_count; index ++ )
+            {
+                data_diagramelement_t *current_diagele;
+                current_diagele = &((*this_).private_temp_diagele_buf[index]);
+                int64_t focused_feature;
+                focused_feature = data_diagramelement_get_focused_feature_id( current_diagele );
+
+                if ( focused_feature == deleted_feature_id )
+                {
+                    int64_t diagele_id;
+                    diagele_id = data_diagramelement_get_id( current_diagele );
+
+                    result |= ctrl_diagram_controller_update_diagramelement_focused_feature_id ( (*this_).diag_ctrl,
+                                                                                                 diagele_id,
+                                                                                                 DATA_ID_VOID_ID,
+                                                                                                 true /* = add_to_latest_undo_set */
+                                                                                               );
+                }
+            }
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /*
 Copyright 2018-2018 Andreas Warnke

@@ -24,6 +24,13 @@ struct ctrl_classifier_controller_struct;
 struct ctrl_diagram_controller_struct;
 
 /*!
+ *  \brief constants of ctrl_classifier_policy_enforcer_t
+ */
+enum ctrl_classifier_policy_enforcer_const_enum {
+    CTRL_CLASSIFIER_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES = 128,  /*!< maximum number of diagramelements of a classifier */
+};
+
+/*!
  *  \brief all data attributes needed for the policy enforcer
  *
  *  The policy enforcer works on a similar abstraction level as the gui module.
@@ -33,6 +40,8 @@ struct ctrl_classifier_policy_enforcer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     struct ctrl_classifier_controller_struct *clfy_ctrl;  /*!< pointer to external classifier controller */
     struct ctrl_diagram_controller_struct *diag_ctrl;  /*!< pointer to external diagram controller */
+
+    data_diagramelement_t private_temp_diagele_buf[CTRL_CLASSIFIER_POLICY_ENFORCER_CONST_MAX_TEMP_DIAGELES];
 };
 
 typedef struct ctrl_classifier_policy_enforcer_struct ctrl_classifier_policy_enforcer_t;
@@ -68,10 +77,25 @@ void ctrl_classifier_policy_enforcer_destroy ( ctrl_classifier_policy_enforcer_t
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
 static inline ctrl_error_t ctrl_classifier_policy_enforcer_post_delete_feature ( ctrl_classifier_policy_enforcer_t *this_,
-                                                                              const data_feature_t *deleted_feature
-                                                                            );
+                                                                                 const data_feature_t *deleted_feature
+                                                                               );
 
 /* ================================ LIFELINES ================================ */
+
+/*!
+ *  \brief executes policies involved in deleting a feature.
+ *
+ *  Current rules are:
+ *  - when deleting a feature
+ *    all diagramelements that reference the feature shall be modified to not reference the feature anymore.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param deleted_feature data of the deleted feature.
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_classifier_policy_enforcer_t *this_,
+                                                                       const data_feature_t *deleted_feature
+                                                                     );
 
 #include "ctrl_classifier_policy_enforcer.inl"
 

@@ -4,6 +4,9 @@ static inline ctrl_error_t ctrl_classifier_policy_enforcer_post_delete_feature (
                                                                                  const data_feature_t *deleted_feature )
 {
     ctrl_error_t result_err = CTRL_ERROR_NONE;
+
+    result_err |= ctrl_classifier_policy_enforcer_private_unlink_lifeline ( this_, deleted_feature );
+
     return result_err;
 }
 
