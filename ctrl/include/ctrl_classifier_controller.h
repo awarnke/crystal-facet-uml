@@ -45,6 +45,7 @@ typedef struct ctrl_classifier_controller_struct ctrl_classifier_controller_t;
  *  \param this_ pointer to own object attributes
  *  \param undo_redo_list pointer to list of undo/redo actions
  *  \param database pointer to database object
+ *  \param policy_enforcer pointer to ctrl_classifier_policy_enforcer object
  *  \param db_reader pointer to database reader object that can be used for retrieving data
  *  \param db_writer pointer to database writer object that can be used for changing data
  */

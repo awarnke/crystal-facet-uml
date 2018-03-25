@@ -1,5 +1,7 @@
-2018-03-xx 1.3.x [       ]
-  + 
+2018-03-xx 1.3.0 [       ]
+  + lifelines are created and removed automatically for timing, sequence and communication diagrams
+  + lifelines are drawn and can be selected/edited
+  + ports are drawn
 2018-03-04 1.2.0 [78421df]
   + all relations to/from multiple classifier instances are drawn
 2018-01-23 1.1.0 [086e559]

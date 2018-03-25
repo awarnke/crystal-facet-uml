@@ -858,7 +858,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
                                                                                                     data_id_get_row_id( &focused_real ),
                                                                                                     x_order,
-                                                                                                    y_order );
+                                                                                                    y_order
+                                                                                                  );
                     }
                 }
             }
@@ -1037,7 +1038,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                                   &new_diagele_id,
                                                                                                   &new_classifier_id,
                                                                                                   &new_relationship_id
-                                );
+                                                                                                );
 
                                 if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                                 {
@@ -1045,7 +1046,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                          GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                                                          GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
                                                                                          ""
-                                    );
+                                                                                       );
                                 }
                                 else if ( CTRL_ERROR_NONE != c_result )
                                 {
@@ -1195,7 +1196,7 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
                         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                                  GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
-                        );
+                                                               );
                     }
                 }
                 else
