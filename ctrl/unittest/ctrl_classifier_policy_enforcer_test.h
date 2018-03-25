@@ -1,18 +1,18 @@
-/* File: ctrl_diagram_policy_enforcer_test.h; Copyright and License: see below */
+/* File: ctrl_classifier_policy_enforcer_test.h; Copyright and License: see below */
 
-#ifndef CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H
-#define CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H
+#ifndef CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H
+#define CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H
 
 /*!
  *  \file
- *  \brief MODULE TEST for ctrl_diagram_policy_enforcer
+ *  \brief MODULE TEST for ctrl_classifier_policy_enforcer
  */
 
 #include <embUnit/embUnit.h>
 
-TestRef ctrl_diagram_policy_enforcer_test_get_list(void);
+TestRef ctrl_classifier_policy_enforcer_test_get_list(void);
 
-#endif  /* CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H */
+#endif  /* CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H */
 
 
 /*
