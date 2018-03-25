@@ -163,7 +163,10 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         }
         else if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
         {
-            /* determine the minimum bounds of the feature */
+            double nominal_fontsize;
+            nominal_fontsize = pencil_size_get_standard_font_size( (*this_).pencil_size );
+
+            /* determine the minimum bounds of the port-feature */
             geometry_rectangle_t f_min_bounds;
             pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
                                                         the_feature,
@@ -172,13 +175,14 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                         &f_min_bounds
             );
 
-            /* layout feature into parent classifier */
-            geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+            /* layout port-feature into parent classifier */
+            geometry_rectangle_t *classifier_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+            geometry_rectangle_t *classifier_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_left( c_space ),
-                                      geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
-                                      geometry_rectangle_get_width( c_space ),
+                                      geometry_rectangle_get_left( classifier_bounds ) - 0.5 * nominal_fontsize,
+                                      geometry_rectangle_get_top( classifier_space ) + y_position_of_next_feature,
+                                      geometry_rectangle_get_width( &f_min_bounds ) + nominal_fontsize + gap,
                                       geometry_rectangle_get_height( &f_min_bounds )
             );
             layout_feature_set_bounds ( feature_layout, &f_bounds );

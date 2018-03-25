@@ -59,8 +59,8 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         TRACE_INFO_INT("drawing feature id", data_feature_get_id( the_feature ) );
 
         /* select color */
+        GdkRGBA foreground_color;
         {
-            GdkRGBA foreground_color;
             if ( mark_highlighted )
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
@@ -79,32 +79,39 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw rectangle of ports */
         if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
         {
+            double nominal_fontsize;
+            nominal_fontsize = pencil_size_get_standard_font_size( pencil_size );
+
             double box_left;
             double box_top;
             double box_height;
             double box_width;
 
-            box_top = top + gap;
-            box_height = height - 2.0 * gap;
-            box_width = box_height;
+            box_top = top + 0.5 * ( height - nominal_fontsize + gap );
+            box_height = nominal_fontsize - gap;
+            box_width = nominal_fontsize - gap;
 
             if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
             {
                 /* box to left, text to right */
                 box_left = left + gap;
 
-                left += box_width + 2.0 * gap;
-                width -= box_width + 2.0 * gap;
+                left += nominal_fontsize + gap;
+                width -= nominal_fontsize + gap;
             }
             else
             {
                 /* box to right, text to left */
-                box_left = left + width - 2.0 * gap - box_width;
+                box_left = left + width - nominal_fontsize;
 
-                width -= box_width + 2.0 * gap;
+                width -= nominal_fontsize + gap;
             }
 
             cairo_rectangle ( cr, box_left, box_top, box_width, box_height );
+
+            cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
+            cairo_fill_preserve (cr);
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
             cairo_stroke (cr);
         }
 
