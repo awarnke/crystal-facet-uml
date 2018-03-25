@@ -161,7 +161,33 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
             }
         }
-        else  /* not a lifeline */
+        else if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
+        {
+            /* determine the minimum bounds of the feature */
+            geometry_rectangle_t f_min_bounds;
+            pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
+                                                        the_feature,
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        &f_min_bounds
+            );
+
+            /* layout feature into parent classifier */
+            geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+            geometry_rectangle_t f_bounds;
+            geometry_rectangle_init ( &f_bounds,
+                                      geometry_rectangle_get_left( c_space ),
+                                      geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
+                                      geometry_rectangle_get_width( c_space ),
+                                      geometry_rectangle_get_height( &f_min_bounds )
+            );
+            layout_feature_set_bounds ( feature_layout, &f_bounds );
+            layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+
+            /* adjust y position of next feature */
+            y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
+        }
+        else  /* not a lifeline nor a port */
         {
             /* determine the minimum bounds of the feature */
             geometry_rectangle_t f_min_bounds;

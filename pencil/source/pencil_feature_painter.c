@@ -79,12 +79,32 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw rectangle of ports */
         if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
         {
-            int border_left = left + gap;
-            int border_top = top + gap;
-            int border_width = width - 2.0 * gap;
-            int border_height = height - 2.0 * gap;
+            double box_left;
+            double box_top;
+            double box_height;
+            double box_width;
 
-            cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+            box_top = top + gap;
+            box_height = height - 2.0 * gap;
+            box_width = box_height;
+
+            if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
+            {
+                /* box to left, text to right */
+                box_left = left + gap;
+
+                left += box_width + 2.0 * gap;
+                width -= box_width + 2.0 * gap;
+            }
+            else
+            {
+                /* box to right, text to left */
+                box_left = left + width - 2.0 * gap - box_width;
+
+                width -= box_width + 2.0 * gap;
+            }
+
+            cairo_rectangle ( cr, box_left, box_top, box_width, box_height );
             cairo_stroke (cr);
         }
 
