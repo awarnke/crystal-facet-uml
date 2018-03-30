@@ -233,13 +233,11 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param tool currently selected tool: depending on the tool, different objects are considered for selection
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  gui_sketch_tools_tool_t tool,
                                                                   pencil_visible_object_id_t* out_selected_id
                                                                 );
 

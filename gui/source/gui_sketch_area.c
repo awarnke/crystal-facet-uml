@@ -507,7 +507,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             else
             {
                 pencil_visible_object_id_t object_under_mouse;
-                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_EDIT, &object_under_mouse );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( pencil_visible_object_id_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
@@ -532,7 +532,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
         {
             pencil_visible_object_id_t object_under_mouse;
-            gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_CREATE_OBJECT, &object_under_mouse );
+            gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
             data_id_t  classifier_under_mouse;
             classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_under_mouse );
 
@@ -640,7 +640,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* determine the focused object */
                 pencil_visible_object_id_t focused_object;
-                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_EDIT, &focused_object );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &focused_object );
                 pencil_visible_object_id_trace( &focused_object );
                 data_id_t focused_object_visible;
                 focused_object_visible = pencil_visible_object_id_get_visible_id( &focused_object );
@@ -698,6 +698,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 }
                 else if ( inner_space_clicked )
                 {
+                    /* stop dragging */
+                    gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
+                    
                     /* create a new classifier */
                     data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
                     int64_t selected_diagram_id = data_diagram_get_id( target_diag );
@@ -968,7 +971,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is at the target location? */
                     data_id_t destination_real;
                     pencil_visible_object_id_t destination_object;
-                    gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_CREATE_OBJECT, &destination_object );
+                    gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &destination_object );
                     destination_real = pencil_visible_object_id_get_model_id( &destination_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )

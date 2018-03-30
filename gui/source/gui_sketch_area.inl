@@ -60,7 +60,6 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  gui_sketch_tools_tool_t tool,
                                                                   pencil_visible_object_id_t* out_selected_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
@@ -78,58 +77,16 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
             pencil_visible_object_id_t out_surrounding_id;
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
 
-            switch ( tool )
+            if ( ! pencil_visible_object_id_is_valid( out_selected_id ) )
             {
-                case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
-                case GUI_SKETCH_TOOLS_NAVIGATE:
-                {
-                    data_diagram_t *selected_diag;
-                    selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                    pencil_visible_object_id_reinit_by_table_and_id( out_selected_id,
-                                                                     DATA_TABLE_DIAGRAM,
-                                                                     data_diagram_get_id( selected_diag ),
-                                                                     DATA_TABLE_DIAGRAM,
-                                                                     data_diagram_get_id( selected_diag )
-                                                                   );
-                }
-                break;
-
-                case GUI_SKETCH_TOOLS_EDIT:
-                {
-                    if ( ! pencil_visible_object_id_is_valid( out_selected_id ) )
-                    {
-                        data_diagram_t *selected_diag;
-                        selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                        pencil_visible_object_id_reinit_by_table_and_id( out_selected_id,
-                                                                         DATA_TABLE_DIAGRAM,
-                                                                         data_diagram_get_id( selected_diag ),
-                                                                         DATA_TABLE_DIAGRAM,
-                                                                         data_diagram_get_id( selected_diag )
-                                                                       );
-                    }
-                }
-                break;
-
-                case GUI_SKETCH_TOOLS_CREATE_OBJECT:
-                {
-                    data_id_t selected_visible_id;
-                    selected_visible_id = pencil_visible_object_id_get_visible_id( out_selected_id );
-                    if ( ! data_id_is_valid( &selected_visible_id ) )
-                    {
-                        /* nothing to select */
-                    }
-                    else if ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &selected_visible_id ))
-                    {
-                        /**out_selected_id = out_surrounding_id;*/
-                    }
-                }
-                break;
-
-                default:
-                {
-                    TSLOG_ERROR("illegal value of gui_sketch_tools_tool_t in gui_sketch_area_private_get_object_id_at_pos");
-                }
-                break;
+                data_diagram_t *selected_diag;
+                selected_diag = gui_sketch_card_get_diagram_ptr( card );
+                pencil_visible_object_id_reinit_by_table_and_id( out_selected_id,
+                                                                    DATA_TABLE_DIAGRAM,
+                                                                    data_diagram_get_id( selected_diag ),
+                                                                    DATA_TABLE_DIAGRAM,
+                                                                    data_diagram_get_id( selected_diag )
+                                                                );
             }
         }
     }
@@ -163,10 +120,46 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
             {
                 /* nothing to select */
             }
-            else if ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &selected_visible_id ))
+            else
             {
-                *out_selected_id = out_surrounding_id;
-                *out_inner_space = true;
+                switch ( data_id_get_table( &selected_visible_id ) )
+                {
+                    case DATA_TABLE_CLASSIFIER:
+                    {
+                        /* error: a visible id of a classifier is always a DATA_TABLE_DIAGRAMELEMENT */
+                        TSLOG_ERROR("unexpected type of pencil_visible_object_id_get_visible_id: DATA_TABLE_CLASSIFIER");
+                    }
+                    break;
+                    case DATA_TABLE_FEATURE:
+                    {
+                        *out_selected_id = out_surrounding_id;
+                        *out_inner_space = false;
+
+                    }
+                    break;
+                    case DATA_TABLE_RELATIONSHIP:
+                    {
+                        /* ignore */
+                    }
+                    break;
+                    case DATA_TABLE_DIAGRAMELEMENT:
+                    {
+                        /* nothing to do: classifier selected, classifier reported */
+                    }
+                    break;
+                    case DATA_TABLE_DIAGRAM:
+                    {
+                        *out_selected_id = out_surrounding_id;
+                        *out_inner_space = true;
+                    }
+                    break;
+
+                    default:
+                    {
+                        TSLOG_ERROR("unexpected type of pencil_visible_object_id_get_visible_id: unknown");
+                    }
+                    break;
+                }
             }
         }
     }
