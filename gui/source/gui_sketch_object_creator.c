@@ -335,6 +335,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     return c_result;
 }
 
+/*
 bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id )
 {
     TRACE_BEGIN();
@@ -358,6 +359,7 @@ bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creat
 
     return result;
 }
+*/
 
 void gui_sketch_object_creator_private_propose_diagram_name( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name )
 {

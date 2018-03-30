@@ -507,8 +507,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             else
             {
                 pencil_visible_object_id_t object_under_mouse;
-                pencil_visible_object_id_t object_surrounding_mouse;
-                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_EDIT, &object_under_mouse );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( pencil_visible_object_id_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
@@ -533,14 +532,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         case GUI_SKETCH_TOOLS_CREATE_OBJECT:
         {
             pencil_visible_object_id_t object_under_mouse;
-            pencil_visible_object_id_t object_surrounding_mouse;
-            gui_sketch_area_get_object_id_at_pos ( this_, x, y, &object_under_mouse, &object_surrounding_mouse );
+            gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_CREATE_OBJECT, &object_under_mouse );
             data_id_t  classifier_under_mouse;
             classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_under_mouse );
-            if ( ! data_id_is_valid( &classifier_under_mouse ) || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &classifier_under_mouse )))
-            {
-                classifier_under_mouse = pencil_visible_object_id_get_visible_id( &object_surrounding_mouse );
-            }
 
             data_id_t object_highlighted;
             object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
@@ -646,10 +640,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* determine the focused object */
                 pencil_visible_object_id_t focused_object;
-                pencil_visible_object_id_t focus_surrounding_object;
-                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &focused_object, &focus_surrounding_object );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_EDIT, &focused_object );
                 pencil_visible_object_id_trace( &focused_object );
-                pencil_visible_object_id_trace( &focus_surrounding_object );
                 data_id_t focused_object_visible;
                 focused_object_visible = pencil_visible_object_id_get_visible_id( &focused_object );
 
@@ -694,21 +686,70 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* determine the object at click location */
                 pencil_visible_object_id_t clicked_object;
-                pencil_visible_object_id_t click_surrounding_object;
-                gui_sketch_area_get_object_id_at_pos ( this_, x, y, &clicked_object, &click_surrounding_object );
+                bool inner_space_clicked;
+                gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( this_, x, y, &clicked_object, &inner_space_clicked );
                 pencil_visible_object_id_trace( &clicked_object );
-                pencil_visible_object_id_trace( &click_surrounding_object );
-                if ( ! pencil_visible_object_id_is_valid( &clicked_object )
-                    || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( pencil_visible_object_id_get_visible_id_ptr( &clicked_object ) )))
-                {
-                    clicked_object = click_surrounding_object;
-                }
 
                 if ( NULL == target_card )
                 {
                     TRACE_INFO_INT_INT("No card at",x,y);
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
+                }
+                else if ( inner_space_clicked )
+                {
+                    /* create a new classifier */
+                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                    int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
+                    int32_t x_order = universal_int32_pair_get_first( &order );
+                    int32_t y_order = universal_int32_pair_get_second( &order );
+                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                    data_id_t focused_real;
+                    focused_real = pencil_visible_object_id_get_model_id ( &clicked_object );
+
+                    ctrl_error_t c_result;
+                    int64_t new_diagele_id;
+                    int64_t new_classifier_id;
+                    int64_t new_relationship_id;
+                    c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
+                                                                                      selected_diagram_id,
+                                                                                      data_id_get_row_id( &focused_real ),
+                                                                                      x_order,
+                                                                                      y_order,
+                                                                                      &new_diagele_id,
+                                                                                      &new_classifier_id,
+                                                                                      &new_relationship_id
+                    );
+
+                    if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                    {
+                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                             ""
+                        );
+                    }
+                    else if ( CTRL_ERROR_NONE != c_result )
+                    {
+                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
+                    }
+                    else
+                    {
+                        /* set focused object and notify listener */
+                        data_id_t focused_id;
+                        data_id_t focused_real_id;
+                        data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
+                        data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
+                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
+                        gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_marker_clear_selected_set( (*this_).marker );
+
+                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                    }
                 }
                 else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
                 {
@@ -927,13 +968,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is at the target location? */
                     data_id_t destination_real;
                     pencil_visible_object_id_t destination_object;
-                    pencil_visible_object_id_t dest_surrounding_object;
-                    gui_sketch_area_get_object_id_at_pos ( this_, x, y, &destination_object, &dest_surrounding_object );
-                    if ( ! pencil_visible_object_id_is_valid( &destination_object )
-                        || ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( pencil_visible_object_id_get_visible_id_ptr( &destination_object ) )))
-                    {
-                        destination_object = dest_surrounding_object;
-                    }
+                    gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, GUI_SKETCH_TOOLS_CREATE_OBJECT, &destination_object );
                     destination_real = pencil_visible_object_id_get_model_id( &destination_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
@@ -985,86 +1020,31 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                         {
-                            /* create a feature =xor= a contained-classifier, depending on the classifier type */
-                            if ( gui_sketch_object_creator_has_classifier_features ( &((*this_).object_creator), data_id_get_row_id( &focused_real ) ) )
+                            /* create a feature */
+                            /* propose a list_order for the feature */
+                            int32_t list_order_proposal = 0;
+                            list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
+
+                            int64_t new_feature_id;
+                            ctrl_error_t ctrl_err;
+                            ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
+                                                                                    data_id_get_row_id( &focused_real ),
+                                                                                    list_order_proposal,
+                                                                                    &new_feature_id
+                                                                                );
+
+                            if ( CTRL_ERROR_NONE != ctrl_err )
                             {
-                                /* propose a list_order for the feature */
-                                int32_t list_order_proposal = 0;
-                                list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
-
-                                int64_t new_feature_id;
-                                ctrl_error_t ctrl_err;
-                                ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
-                                                                                      data_id_get_row_id( &focused_real ),
-                                                                                      list_order_proposal,
-                                                                                      &new_feature_id
-                                                                                    );
-
-                                if ( CTRL_ERROR_NONE != ctrl_err )
-                                {
-                                    TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_feature");
-                                }
-                                else
-                                {
-                                    /* set focused object and notify listener */
-                                    data_id_t new_focused_id;
-                                    data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                                    gui_sketch_marker_set_focused( (*this_).marker, new_focused_id, new_focused_id );
-                                    gui_sketch_area_private_notify_listener( this_ );
-                                    gui_sketch_marker_clear_selected_set( (*this_).marker );
-                                }
+                                TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_feature");
                             }
                             else
                             {
-                                /* create a new classifier */
-                                data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                                int64_t selected_diagram_id = data_diagram_get_id( target_diag );
-                                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                                universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                                int32_t x_order = universal_int32_pair_get_first( &order );
-                                int32_t y_order = universal_int32_pair_get_second( &order );
-                                TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                                ctrl_error_t c_result;
-                                int64_t new_diagele_id;
-                                int64_t new_classifier_id;
-                                int64_t new_relationship_id;
-                                c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
-                                                                                                  selected_diagram_id,
-                                                                                                  data_id_get_row_id( &focused_real ),
-                                                                                                  x_order,
-                                                                                                  y_order,
-                                                                                                  &new_diagele_id,
-                                                                                                  &new_classifier_id,
-                                                                                                  &new_relationship_id
-                                                                                                );
-
-                                if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
-                                {
-                                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                         GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                         GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                                         ""
-                                                                                       );
-                                }
-                                else if ( CTRL_ERROR_NONE != c_result )
-                                {
-                                    TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
-                                }
-                                else
-                                {
-                                    /* set focused object and notify listener */
-                                    data_id_t focused_id;
-                                    data_id_t focused_real_id;
-                                    data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
-                                    data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                                    gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
-                                    gui_sketch_area_private_notify_listener( this_ );
-                                    gui_sketch_marker_clear_selected_set( (*this_).marker );
-
-                                    TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
-                                }
+                                /* set focused object and notify listener */
+                                data_id_t new_focused_id;
+                                data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
+                                gui_sketch_marker_set_focused( (*this_).marker, new_focused_id, new_focused_id );
+                                gui_sketch_area_private_notify_listener( this_ );
+                                gui_sketch_marker_clear_selected_set( (*this_).marker );
                             }
                         }
                         else

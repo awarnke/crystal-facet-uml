@@ -218,22 +218,6 @@ void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ );
 static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
 
 /*!
- *  \brief gets the object-id of the object at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
- */
-static inline void gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          pencil_visible_object_id_t* out_selected_id,
-                                                          pencil_visible_object_id_t* out_surrounding_id
-                                                        );
-
-/*!
  *  \brief gets the gui_sketch_card_t at a given position
  *
  *  \param this_ pointer to own object attributes
@@ -242,6 +226,38 @@ static inline void gui_sketch_area_get_object_id_at_pos ( gui_sketch_area_t *thi
  *  \return a sketch card pointer. The return value is NULL if there is no card at the given location!
  */
 static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y );
+
+/*!
+ *  \brief gets the object-id of the object at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param tool currently selected tool: depending on the tool, different objects are considered for selection
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ */
+static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
+                                                                  int32_t x,
+                                                                  int32_t y,
+                                                                  gui_sketch_tools_tool_t tool,
+                                                                  pencil_visible_object_id_t* out_selected_id
+                                                                );
+
+/*!
+ *  \brief gets the object-id of the surrounding object and a selected-part-info at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_inner_space true if the inner space of a classifier was selected, false if another part of the classifier or a feature was selected.
+ */
+static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( gui_sketch_area_t *this_,
+                                                                                int32_t x,
+                                                                                int32_t y,
+                                                                                pencil_visible_object_id_t* out_selected_id,
+                                                                                bool* out_inner_space
+                                                                              );
 
 #include "gui_sketch_area.inl"
 
