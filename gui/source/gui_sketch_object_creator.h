@@ -138,17 +138,6 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                                         int64_t *out_feature_id
                                                       );
 
-/* !
- *  \brief determines if the classifier type allows features
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_row_id the classifier row id
- *  \return true if the classifier may have features, false otherwise. false also if classifier_row_id is invalid.
- */
-/*
-bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id );
-*/
-
 /*!
  *  \brief proposes a default name for diagrams
  *
@@ -168,6 +157,20 @@ void gui_sketch_object_creator_private_propose_classifier_name ( gui_sketch_obje
                                                                  data_classifier_type_t c_type,
                                                                  utf8stringbuf_t out_name
                                                                );
+
+/*!
+ *  \brief proposes a default name for features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param f_type type of the feature
+ *  \param out_name a name for a feature
+ *  \param out_type a type for a feature
+ */
+void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_,
+                                                             data_feature_type_t f_type,
+                                                             utf8stringbuf_t out_name,
+                                                             utf8stringbuf_t out_type
+                                                           );
 
 #endif  /* GUI_SKETCH_OBJECT_CREATOR_H */
 

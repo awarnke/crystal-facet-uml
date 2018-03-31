@@ -310,14 +310,43 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     ctrl_classifier_controller_t *classifier_control;
     classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
+    /* get type of parent classifier */
+    data_classifier_type_t parent_class_type = DATA_CLASSIFIER_TYPE_UML_CLASS;
+    {
+        data_error_t clsfy_err;
+        clsfy_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                parent_classifier_id,
+                                                                &((*this_).private_temp_classifier) );
+        if ( DATA_ERROR_NONE == clsfy_err )
+        {
+            parent_class_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
+            data_classifier_destroy ( &((*this_).private_temp_classifier) );
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "gui_sketch_object_creator_create_feature cannot find classifier:", parent_classifier_id );
+        }
+    }
+
+    /* propose a type for the feature */
+    data_feature_type_t new_feature_type;
+    new_feature_type = data_rules_get_default_feature_type ( &((*this_).data_rules), parent_class_type );
+
+    /* find a good, unused name */
+    char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
+    utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
+    char newtype_buf[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE];
+    utf8stringbuf_t full_new_type = UTF8STRINGBUF( newtype_buf );
+    gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name, full_new_type );
+
     /* define feature */
     data_error_t data_err;
     data_err = data_feature_init ( &((*this_).private_temp_feature),
                                    DATA_ID_VOID_ID, /* feature_id */
-                                   DATA_FEATURE_TYPE_OPERATION,
+                                   new_feature_type,
                                    parent_classifier_id,
-                                   "get_state",
-                                   "uint32_t(*)(void)",
+                                   utf8stringbuf_get_string( full_new_name ),
+                                   utf8stringbuf_get_string( full_new_type ),
                                    "",
                                    list_order
                                  );
@@ -334,32 +363,6 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     TRACE_END_ERR( c_result );
     return c_result;
 }
-
-/*
-bool gui_sketch_object_creator_has_classifier_features ( gui_sketch_object_creator_t *this_, int64_t classifier_row_id )
-{
-    TRACE_BEGIN();
-
-    bool result;
-    data_error_t db_err;
-
-    db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, classifier_row_id, &((*this_).private_temp_classifier) );
-    if ( DATA_ERROR_NONE == db_err )
-    {
-        data_classifier_type_t classifier_type;
-        classifier_type = data_classifier_get_main_type( &((*this_).private_temp_classifier) );
-        result = data_rules_has_features( &((*this_).data_rules), classifier_type );
-        data_classifier_destroy( &((*this_).private_temp_classifier) );
-    }
-    else
-    {
-        result = false;
-        TSLOG_ERROR_INT( "gui_sketch_object_creator_has_classifier_features could not load classifier:", classifier_row_id );
-    }
-
-    return result;
-}
-*/
 
 void gui_sketch_object_creator_private_propose_diagram_name( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name )
 {
@@ -506,7 +509,62 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         default:
         {
             TSLOG_ERROR("data_classifier_type_t out of range in gui_sketch_object_creator_private_propose_classifier_name");
-            utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
+            utf8stringbuf_clear( out_name );
+        }
+        break;
+    }
+}
+
+void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_creator_t *this_,
+                                                             data_feature_type_t f_type,
+                                                             utf8stringbuf_t out_name,
+                                                             utf8stringbuf_t out_type )
+{
+    static int cycle_names = 0;
+    static char *(PROPERTY_NAMES[8]) = {"state","run_mode","error_code","color","name","type","size","weight"};
+    static char *(PROPERTY_TYPES[8]) = {"uint32_t","enum","struct","uint8_t[4]","char[48]","","size_t","double"};
+    static char *(OPERATION_NAMES[8]) = {"start","stop","pause","resume","get_state","handle_event","set_color","is_valid"};
+    static char *(OPERATION_TYPES[8]) = {"uint32_t()(void)","uint32_t(*)(enum)","","","enum","","uint32_t(*)(uint8_t[4])","bool"};
+    static char *(PORT_NAMES[8]) = {"in_a","in_b","in_c","out_a","out_b","out_c","out_error","in_reset"};
+    static char *(PORT_TYPES[8]) = {"","signal","uint16_t","IP-socket","signal","","","bool"};
+
+    cycle_names ++;
+
+    switch ( f_type )
+    {
+        case DATA_FEATURE_TYPE_PROPERTY:
+        {
+            utf8stringbuf_copy_str( out_name, PROPERTY_NAMES[cycle_names&0x07] );
+            utf8stringbuf_copy_str( out_type, PROPERTY_TYPES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_OPERATION:
+        {
+            utf8stringbuf_copy_str( out_name, OPERATION_NAMES[cycle_names&0x07] );
+            utf8stringbuf_copy_str( out_type, OPERATION_TYPES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PORT:
+        {
+            utf8stringbuf_copy_str( out_name, PORT_NAMES[cycle_names&0x07] );
+            utf8stringbuf_copy_str( out_type, PORT_TYPES[cycle_names&0x07] );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_LIFELINE:
+        {
+            utf8stringbuf_clear( out_name );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("data_feature_type_t out of range in gui_sketch_object_creator_private_propose_feature_name");
+            utf8stringbuf_clear( out_name );
+            utf8stringbuf_clear( out_type );
         }
         break;
     }

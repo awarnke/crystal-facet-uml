@@ -15,8 +15,8 @@
 enum data_feature_type_enum {
     DATA_FEATURE_TYPE_PROPERTY = 0,
     DATA_FEATURE_TYPE_OPERATION = 1,
-    DATA_FEATURE_TYPE_PORT = 2,  /* for components */
-    DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence diagrams and timing diagrams */
+    DATA_FEATURE_TYPE_PORT = 2,
+    DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence diagrams and timing diagrams and communication diagrams */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;

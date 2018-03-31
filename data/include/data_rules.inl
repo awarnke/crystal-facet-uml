@@ -227,6 +227,96 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
     return result;
 }
 
+static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_, data_classifier_type_t parent_classifier_type )
+{
+    data_feature_type_t result;
+
+    switch ( parent_classifier_type )
+    {
+        case DATA_CLASSIFIER_TYPE_BLOCK:
+        {
+            result = DATA_FEATURE_TYPE_PORT;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_FEATURE:  /* and */
+        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+        {
+            result = DATA_FEATURE_TYPE_PORT;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_STATE:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        {
+            result = DATA_FEATURE_TYPE_OPERATION;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        {
+            result = DATA_FEATURE_TYPE_PORT;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_CLASS:  /* and */
+        case DATA_CLASSIFIER_TYPE_UML_OBJECT:  /* and */
+        {
+            result = DATA_FEATURE_TYPE_OPERATION;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        {
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
+            result = DATA_FEATURE_TYPE_PROPERTY;
+        }
+        break;
+    }
+
+    return result;
+}
+
 static inline bool data_rules_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type )
 {
     bool result;

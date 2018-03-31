@@ -172,10 +172,10 @@
  *  \image html resources/tool_create_object.png
  *  \image latex resources/tool_create_object.pdf "" width=1cm
  *  \li To create a classifier, click at an empty space in the diagram.
- *  \li To create a child classifier, click into a classifier that can contain children (e.g. nodes, components, packages, activities).
+ *  \li To create a child classifier, click into the white space of a classifier.
  *      Alternatively, create a classifier and a containment relation.
  *  \li To create a relationship, press on the source classifier and drag it to the destination classifier.
- *  \li To create a feature, click into a classifier that can contain features (e.g. blocks, classes, objects, interfaces).
+ *  \li To create a feature, click onto a classifier (name or border).
  *
  *  \section cfu-ele_config Element Configuration
  *
