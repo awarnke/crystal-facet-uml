@@ -1,4 +1,4 @@
-2018-03-xx 1.3.0 [       ]
+2018-04-01 1.3.0 [       ]
   + lifelines are created and removed automatically for timing, sequence and communication diagrams
   + lifelines are drawn and can be selected/edited
   + ports can be created/selected/edited and are drawn

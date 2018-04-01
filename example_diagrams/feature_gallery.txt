@@ -20,6 +20,8 @@
  *  \image html D0008_Activities.png
  *  \image html D0012_System_States.png
  *  \image html D0013_Communication_Diagram.png
+ *  \image html D0020_Sequence.png
+ *  \image html D0021_Timing.png
  *
  *  \subsection cfu-feat_static UML Static Views
  *

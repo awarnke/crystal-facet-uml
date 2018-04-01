@@ -12,3 +12,17 @@ Product Quality    [C0002]
 Process Quality    [C0001]
 | Process quality can be measured by analyzing the reports and other workproducts
 | that have  been created during different phases at engineering and during operation.
+
+
+What characteristics?    [C0116]
+| Product quality is defined by
+| a set of characteristics
+| of the product to be created.
+  --> Product Quality    [R0132]
+
+
+How to create?    [C0115]
+| Process quality is defined by
+| a set of rules
+| how to create a product.
+  --> Process Quality    [R0131]

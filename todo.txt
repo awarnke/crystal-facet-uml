@@ -15,7 +15,6 @@ ideas for future versions:
   [ ] include and extends relationships shall show their stereotype
   @data
   [ ] more relationship types needed: requirements have derive and refine relations
-  [ ] support ports for blocks and components
   @ctrl
 
 
