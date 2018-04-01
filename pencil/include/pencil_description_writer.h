@@ -108,12 +108,14 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
  *  if the id is invalid, nothing is printed.
  *
  *  \param this_ pointer to own object attributes
+ *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
  *  \param table table identifier
  *  \param row_id row identifier
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
 int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
+                                                 int indent_width,
                                                  data_table_t table,
                                                  int64_t row_id,
                                                  FILE *out

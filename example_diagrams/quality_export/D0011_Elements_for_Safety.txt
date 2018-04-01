@@ -1,52 +1,52 @@
-Elements for Safety    [D0011]
+Elements for Safety                              [D0011]
 
 
-Monitoring    [C0084]
-  Function Monitoring (L2)    [F0040]
-  System Monitoring (L3)    [F0041]
-  - alive Monitoring    [F0059]
-  - control flow supervision    [F0060]
-  may support a claim --> Functional Safety    [R0093]
+Monitoring                                       [C0084]
+  Function Monitoring (L2)                       [F0040]
+  System Monitoring (L3)                         [F0041]
+  - alive Monitoring                             [F0059]
+  - control flow supervision                     [F0060]
+  may support a claim --> Functional Safety      [R0093]
 
 
-Real Time Execution    [C0085]
-  Guaranteed Calculation Time    [F0044]
-  Real Time Clock    [F0045]
-  may support a claim --> Functional Safety    [R0098]
+Real Time Execution                              [C0085]
+  Guaranteed Calculation Time                    [F0044]
+  Real Time Clock                                [F0045]
+  may support a claim --> Functional Safety      [R0098]
 
 
-Functional Safety    [C0081]
+Functional Safety                                [C0081]
 
 
-Cryptographic Signatures    [C0079]
-  asymmetric    [F0038]
-  shared key (symmetric)    [F0039]
-  may support --> Trusted Data Paths    [R0097]
+Cryptographic Signatures                         [C0079]
+  asymmetric                                     [F0038]
+  shared key (symmetric)                         [F0039]
+  may support --> Trusted Data Paths             [R0097]
 
 
-Trusted Data Paths    [C0082]
-  Dual Data Paths    [F0042]
-  End to End Protection    [F0043]
-  may support a claim --> Functional Safety    [R0094]
+Trusted Data Paths                               [C0082]
+  Dual Data Paths                                [F0042]
+  End to End Protection                          [F0043]
+  may support a claim --> Functional Safety      [R0094]
 
 
-Input Signal Validation    [C0083]
-  may support a claim --> Functional Safety    [R0095]
+Input Signal Validation                          [C0083]
+  may support a claim --> Functional Safety      [R0095]
 
 
-Partitioning    [C0075]
-  may support a claim --> Functional Safety    [R0096]
+Partitioning                                     [C0075]
+  may support a claim --> Functional Safety      [R0096]
 
 
-Network Partitioniong    [C0076]
-  Network Zones (VLANs)    [F0029]
-  Gateways/Firewalls/Proxies    [F0030]
-  implements --> Partitioning    [R0087]
+Network Partitioniong                            [C0076]
+  Network Zones (VLANs)                          [F0029]
+  Gateways/Firewalls/Proxies                     [F0030]
+  implements --> Partitioning                    [R0087]
 
 
-Inner-Node Partitions    [C0077]
-  Hypervisor Partitions    [F0031]
-  OS-Process Boundaries    [F0032]
-  Microkernel OS for Driver Partitioning    [F0033]
-  Containers (Linux,QNX-Partitions,Address-space)    [F0034]
-  implements --> Partitioning    [R0088]
+Inner-Node Partitions                            [C0077]
+  Hypervisor Partitions                          [F0031]
+  OS-Process Boundaries                          [F0032]
+  Microkernel OS for Driver Partitioning         [F0033]
+  Containers (Linux,QNX-Partitions,Address-space) [F0034]
+  implements --> Partitioning                    [R0088]

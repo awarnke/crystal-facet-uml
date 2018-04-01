@@ -151,8 +151,11 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
 
     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
     cairo_set_font_size ( cr, 12.0 );
-    cairo_move_to ( cr, x+BORDER, y+BORDER + 14 );
-    cairo_show_text ( cr, "parent diagram" );
+    if ( tree_depth > 0 )
+    {
+        cairo_move_to ( cr, x+BORDER, y+BORDER + 14 );
+        cairo_show_text ( cr, "parent diagram" );
+    }
     cairo_move_to ( cr, x+BORDER, y+(height*3)/10 +BORDER+ 14 );
     cairo_show_text ( cr, "current diagram" );
     cairo_move_to ( cr, x+BORDER, y+(height*7)/10 +BORDER+ 14 );

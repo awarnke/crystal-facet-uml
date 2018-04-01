@@ -59,6 +59,8 @@ static const char TITLE_END[] = "\n";
 static const size_t TITLE_END_LEN = 1;
 static const char SINGLE_INDENT[] = "| ";
 static const char DOUBLE_INDENT[] = "  | ";
+static const int ID_INDENT_COLUMN = 48;
+static const char ID_INDENT_SPACES[] = "                                                ";
 
 int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out )
 {
@@ -84,6 +86,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
 
     /* print id */
     result |= pencil_description_writer_private_write_id( this_,
+                                                          ID_INDENT_COLUMN - diag_name_len,
                                                           DATA_TABLE_DIAGRAM,
                                                           data_diagram_get_id(diag),
                                                           out
@@ -151,6 +154,7 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
 
             /* print id */
             result |= pencil_description_writer_private_write_id( this_,
+                                                                  ID_INDENT_COLUMN - classifier_name_len,
                                                                   DATA_TABLE_CLASSIFIER,
                                                                   data_classifier_get_id(classifier),
                                                                   out
@@ -244,7 +248,9 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
                 }
 
                 /* print id */
+                int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - feature_key_len - ((feature_value_len==0)?0:feature_value_len+COLON_SPACE_LEN);
                 result |= pencil_description_writer_private_write_id( this_,
+                                                                      id_indent_width,
                                                                       DATA_TABLE_FEATURE,
                                                                       data_feature_get_id(feature),
                                                                       out
@@ -360,7 +366,11 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                             }
 
                             /* print id */
+                            int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - relation_name_len
+                                                  - ((relation_name_len==0)?ARROW_SPACE_LEN:SPACE_ARROW_SPACE_LEN)
+                                                  - dest_classifier_name_len;
                             result |= pencil_description_writer_private_write_id( this_,
+                                                                                  id_indent_width,
                                                                                   DATA_TABLE_RELATIONSHIP,
                                                                                   data_relationship_get_id(relation),
                                                                                   out
@@ -488,6 +498,7 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
 }
 
 int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
+                                                 int indent_width,
                                                  data_table_t table,
                                                  int64_t row_id,
                                                  FILE *out )
@@ -496,6 +507,8 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
     assert( NULL != out );
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
+    assert( sizeof(ID_INDENT_SPACES) == 1+ID_INDENT_COLUMN );
+    assert( indent_width <= ID_INDENT_COLUMN );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
 
@@ -503,7 +516,18 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
     utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
     utf8stringbuf_clear( id_str );
 
-    utf8stringbuf_append_str( id_str, "    [" );
+    /* indent */
+    if ( indent_width > 0 )
+    {
+        out_count = fwrite( &ID_INDENT_SPACES, 1, indent_width, out );
+        if ( out_count != indent_width )
+        {
+            TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_width - out_count );
+            result = -1;
+        }
+    }
+
+    utf8stringbuf_append_str( id_str, " [" );
     switch ( table )
     {
         case DATA_TABLE_CLASSIFIER:

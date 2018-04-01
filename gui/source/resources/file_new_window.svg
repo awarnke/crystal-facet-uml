@@ -13,7 +13,7 @@
    height="32"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
+   inkscape:version="0.91 r13725"
    sodipodi:docname="file_new_window.svg"
    inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/file_new_window.png"
    inkscape:export-xdpi="90"
@@ -28,16 +28,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="10.66"
-     inkscape:cx="-3.2176005"
+     inkscape:cx="-9.6434917"
      inkscape:cy="15.768602"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1598"
-     inkscape:window-height="1118"
-     inkscape:window-x="1"
-     inkscape:window-y="1"
-     inkscape:window-maximized="0" />
+     inkscape:window-width="1600"
+     inkscape:window-height="1135"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -56,14 +56,14 @@
      id="layer1"
      transform="translate(0,-1020.3622)">
     <rect
-       style="fill:#d0ffbd;fill-opacity:1;stroke:#000000;stroke-width:1.25825036;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.25825036;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3844"
        width="30.986643"
        height="22.795498"
        x="0.64648825"
        y="1026.0958" />
     <rect
-       style="fill:#ff983a;fill-opacity:1;stroke:#000000;stroke-width:0.45128292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:#ffffff;fill-opacity:1;stroke:#000000;stroke-width:0.45128292;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
        id="rect3846"
        width="31.309193"
        height="2.4842844"

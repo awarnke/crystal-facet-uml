@@ -1,93 +1,93 @@
-Measures for Reliability    [D0008]
+Measures for Reliability                         [D0008]
 
 
-Mature Platform    [C0109]
-  OS provides resource limits    [F0061]
-  OS does not swap, does not overcommit    [F0062]
-  OS has mature peripheral-drivers    [F0063]
-  --> Maturity    [R0124]
+Mature Platform                                  [C0109]
+  OS provides resource limits                    [F0061]
+  OS does not swap, does not overcommit          [F0062]
+  OS has mature peripheral-drivers               [F0063]
+  --> Maturity                                   [R0124]
 
 
-Layered Architecture    [C0061]
-  improves --> Maturity    [R0039]
+Layered Architecture                             [C0061]
+  improves --> Maturity                          [R0039]
 
 
-Example Guidelines    [C0073]
-  Spark/ADA: Avionics    [F0022]
-  Power of Ten: NASA    [F0019]
-  SecureC    [F0021]
-  MISRA-C/C++: automotive    [F0020]
-  implements --> Coding Guidelines    [R0054]
+Example Guidelines                               [C0073]
+  Spark/ADA: Avionics                            [F0022]
+  Power of Ten: NASA                             [F0019]
+  SecureC                                        [F0021]
+  MISRA-C/C++: automotive                        [F0020]
+  implements --> Coding Guidelines               [R0054]
 
 
-Static Code Analysis    [C0086]
-  enhances --> Maturity    [R0099]
+Static Code Analysis                             [C0086]
+  enhances --> Maturity                          [R0099]
 
 
-Maturity    [C0035]
+Maturity                                         [C0035]
 
 
-Code Generation    [C0087]
+Code Generation                                  [C0087]
 | An understandable model and a small code generator
 | allow to generate mature software.
-  supports --> Maturity    [R0100]
+  supports --> Maturity                          [R0100]
 
 
-Coding Guidelines    [C0062]
+Coding Guidelines                                [C0062]
 | Coding guidelines define how to get reproducible behavior of software.
 | Managing system resources is a key factor.
-  static thread model    [F0010]
+  static thread model                            [F0010]
   | Execution threads shall not be started/stopped dynamically
-  no endless loops    [F0008]
+  no endless loops                               [F0008]
   | Every loop shall have a counter to ensures that 
   | after a predefined maximum value the loop is definitely quit
-  consistent error handling    [F0009]
+  consistent error handling                      [F0009]
   | Inconsistencies in error handling make 
   | bugs in error handling more likely
-  valid Memory Addresses    [F0007]
+  valid Memory Addresses                         [F0007]
   | Only valid memory addresses may be read/written.
   | E.g. Java solves this by prohibiting pointers,
   | In C/C++, check pointers and array indices before usage
-  no dynamic Memory    [F0006]
+  no dynamic Memory                              [F0006]
   | When the program is running, 
   | - it must not fail due to 
   |   - memory fragmentation (virtual addresses/physical pages)
   |   - out of memory situations
   | - it shall have a defined timing (which new/malloc cannot provide)
-  no recursion: avoid Stack overflow    [F0005]
-  lock critical sections    [F0024]
+  no recursion: avoid Stack overflow             [F0005]
+  lock critical sections                         [F0024]
   | Always lock critical sections.
   | Exceptions to locking are a nightmare.
   single point of return: simple control flow    [F0023]
   | Simple control flow is key to understandable code
-  improves --> Maturity    [R0040]
+  improves --> Maturity                          [R0040]
 
 
-Availability    [C0034]
+Availability                                     [C0034]
 
 
-Redundancy    [C0074]
-  2 of 3 voter    [F0025]
-  duo-duplex    [F0026]
-  limp home    [F0027]
-  function migration    [F0028]
-  enhances --> Availability    [R0055]
+Redundancy                                       [C0074]
+  2 of 3 voter                                   [F0025]
+  duo-duplex                                     [F0026]
+  limp home                                      [F0027]
+  function migration                             [F0028]
+  enhances --> Availability                      [R0055]
 
 
-Fault injection Tests    [C0063]
-  improves --> Fault Tolerance    [R0041]
+Fault injection Tests                            [C0063]
+  improves --> Fault Tolerance                   [R0041]
 
 
-Fault Tolerance    [C0036]
+Fault Tolerance                                  [C0036]
 
 
-Input Signal Validation    [C0083]
-  --> Fault Tolerance    [R0128]
+Input Signal Validation                          [C0083]
+  --> Fault Tolerance                            [R0128]
 
 
-Recoverability    [C0037]
+Recoverability                                   [C0037]
 
 
-Partitioning    [C0075]
-  --> Fault Tolerance    [R0129]
-  --> Recoverability    [R0130]
+Partitioning                                     [C0075]
+  --> Fault Tolerance                            [R0129]
+  --> Recoverability                             [R0130]

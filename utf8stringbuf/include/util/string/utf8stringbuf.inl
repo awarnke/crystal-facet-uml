@@ -322,7 +322,8 @@ static inline utf8error_t utf8stringbuf_append_str( utf8stringbuf_t this_, const
             memcpy( &(this_.buf[start]), appendix, appLen+1 );
         }
         else {
-            memcpy( &(this_.buf[start]), appendix, this_.size-start-1 );
+            unsigned int appPartLen = (this_.size-start)-1;
+            memcpy( &(this_.buf[start]), appendix, appPartLen );
             utf8_string_buf_private_make_null_termination( this_ );
             result = UTF8ERROR_TRUNCATED;
         }
@@ -341,7 +342,8 @@ static inline utf8error_t utf8stringbuf_append_buf( utf8stringbuf_t this_, const
         memcpy( &(this_.buf[start]), appendix.buf, appLen+1 );
     }
     else {
-        memcpy( &(this_.buf[start]), appendix.buf, this_.size-start-1 );
+        unsigned int appPartLen = (this_.size-start)-1;
+        memcpy( &(this_.buf[start]), appendix.buf, appPartLen );
         utf8_string_buf_private_make_null_termination( this_ );
         result = UTF8ERROR_TRUNCATED;
     }
