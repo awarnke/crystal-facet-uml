@@ -696,74 +696,17 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if ( inner_space_clicked )
-                {
-                    /* stop dragging */
-                    gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
-                    
-                    /* create a new classifier */
-                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                    int64_t selected_diagram_id = data_diagram_get_id( target_diag );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                    int32_t x_order = universal_int32_pair_get_first( &order );
-                    int32_t y_order = universal_int32_pair_get_second( &order );
-                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                    data_id_t focused_real;
-                    focused_real = pencil_visible_object_id_get_model_id ( &clicked_object );
-
-                    ctrl_error_t c_result;
-                    int64_t new_diagele_id;
-                    int64_t new_classifier_id;
-                    int64_t new_relationship_id;
-                    c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
-                                                                                      selected_diagram_id,
-                                                                                      data_id_get_row_id( &focused_real ),
-                                                                                      x_order,
-                                                                                      y_order,
-                                                                                      &new_diagele_id,
-                                                                                      &new_classifier_id,
-                                                                                      &new_relationship_id
-                    );
-
-                    if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
-                    {
-                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                             ""
-                        );
-                    }
-                    else if ( CTRL_ERROR_NONE != c_result )
-                    {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
-                    }
-                    else
-                    {
-                        /* set focused object and notify listener */
-                        data_id_t focused_id;
-                        data_id_t focused_real_id;
-                        data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
-                        data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
-                        gui_sketch_area_private_notify_listener( this_ );
-                        gui_sketch_marker_clear_selected_set( (*this_).marker );
-
-                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
-                    }
-                }
-                else if ( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
+                else if (( DATA_TABLE_CLASSIFIER == data_id_get_table( pencil_visible_object_id_get_model_id_ptr( &clicked_object ) ) )
+                    && ( ! inner_space_clicked ))
                 {
                     /* set focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
                                                    pencil_visible_object_id_get_visible_id( &clicked_object ),
                                                    pencil_visible_object_id_get_model_id( &clicked_object )
-                                                 );
+                    );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
-                else
+                else /* clicked either into inner space of a classifier or outside any classifier */
                 {
                     /* stop dragging */
                     gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
@@ -778,16 +721,37 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     int32_t y_order = universal_int32_pair_get_second( &order );
                     TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
+                    /* create a classifier or a child-classifier */
                     ctrl_error_t c_result;
                     int64_t new_diagele_id;
                     int64_t new_classifier_id;
-                    c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
-                                                                             selected_diagram_id,
-                                                                             x_order,
-                                                                             y_order,
-                                                                             &new_diagele_id,
-                                                                             &new_classifier_id
-                                                                           );
+                    if ( inner_space_clicked )
+                    {
+                        data_id_t focused_real;
+                        focused_real = pencil_visible_object_id_get_model_id ( &clicked_object );
+
+                        int64_t new_relationship_id;
+                        c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
+                                                                                          selected_diagram_id,
+                                                                                          data_id_get_row_id( &focused_real ),
+                                                                                          x_order,
+                                                                                          y_order,
+                                                                                          &new_diagele_id,
+                                                                                          &new_classifier_id,
+                                                                                          &new_relationship_id
+                                                                                        );
+                    }
+                    else
+                    {
+                        c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
+                                                                                 selected_diagram_id,
+                                                                                 x_order,
+                                                                                 y_order,
+                                                                                 &new_diagele_id,
+                                                                                 &new_classifier_id
+                                                                               );
+                    }
+
 
                     if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
                     {
@@ -799,7 +763,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     }
                     else if ( CTRL_ERROR_NONE != c_result )
                     {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
+                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
                     }
                     else
                     {
@@ -976,6 +940,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
                     {
+                        if ( ( DATA_TABLE_FEATURE == data_id_get_table( &focused_real ) )
+                            || ( DATA_TABLE_FEATURE == data_id_get_table( &destination_real ) ) )
+                        {
+                            TSLOG_WARNING("========== creating a relation from a feature and/or to a feature ==========");
+                            TSLOG_WARNING("========== ^^^^^^^^ ^ ^^^^^^^^ ^^^^ ^ ^^^^^^^ ^^^^^^ ^^ ^ ^^^^^^^ ==========");
+                            /* not yet implemented */
+                        }
+
                         if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
                             && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_real ) ) )
                         {
