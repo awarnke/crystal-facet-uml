@@ -1,15 +1,16 @@
-/* File: pencil_visible_object_id.h; Copyright and License: see below */
+/* File: data_id_pair.h; Copyright and License: see below */
 
-#ifndef PENCIL_VISIBLE_OBJECT_ID_H
-#define PENCIL_VISIBLE_OBJECT_ID_H
+#ifndef DATA_ID_PAIR_H
+#define DATA_ID_PAIR_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines a pair of visible object id and model object id
+ *  \brief Defines a pair of visible object id and model object id - or feature id and parent classifier id
  *
  *  e.g. data_diagramelement_t (visible) and data_classifier_t (model)
  *  or simply data_feature_t and data_feature_t if visible object and model object are identical
+ *  or data_feature_t and data_classifier_t if both are of interest
  */
 
 #include "data_id.h"
@@ -142,9 +143,9 @@ static inline bool pencil_visible_object_id_is_valid ( pencil_visible_object_id_
  */
 static inline void pencil_visible_object_id_trace ( pencil_visible_object_id_t *this_ );
 
-#include "pencil_visible_object_id.inl"
+#include "util/id/data_id_pair.inl"
 
-#endif  /* PENCIL_VISIBLE_OBJECT_ID_H */
+#endif  /* DATA_ID_PAIR_H */
 
 
 /*

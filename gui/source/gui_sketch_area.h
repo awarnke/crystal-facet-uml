@@ -16,7 +16,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
-#include "pencil_visible_object_id.h"
+#include "util/id/data_id_pair.h"
 #include "gui_sketch_card.h"
 #include "gui_sketch_tools.h"
 #include "gui_sketch_marker.h"

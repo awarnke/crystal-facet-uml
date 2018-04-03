@@ -14,7 +14,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
-#include "pencil_visible_object_id.h"
+#include "util/id/data_id_pair.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
 #include <stdbool.h>
