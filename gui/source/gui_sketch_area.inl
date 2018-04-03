@@ -60,11 +60,11 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  pencil_visible_object_id_t* out_selected_id )
+                                                                  data_id_pair_t* out_selected_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     assert( NULL != out_selected_id );
-    pencil_visible_object_id_init_void( out_selected_id );
+    data_id_pair_init_void( out_selected_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
@@ -74,14 +74,14 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
-            pencil_visible_object_id_t out_surrounding_id;
+            data_id_pair_t out_surrounding_id;
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
 
-            if ( ! pencil_visible_object_id_is_valid( out_selected_id ) )
+            if ( ! data_id_pair_is_valid( out_selected_id ) )
             {
                 data_diagram_t *selected_diag;
                 selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                pencil_visible_object_id_reinit_by_table_and_id( out_selected_id,
+                data_id_pair_reinit_by_table_and_id( out_selected_id,
                                                                     DATA_TABLE_DIAGRAM,
                                                                     data_diagram_get_id( selected_diag ),
                                                                     DATA_TABLE_DIAGRAM,
@@ -95,12 +95,12 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
 static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( gui_sketch_area_t *this_,
                                                                                 int32_t x,
                                                                                 int32_t y,
-                                                                                pencil_visible_object_id_t* out_selected_id,
+                                                                                data_id_pair_t* out_selected_id,
                                                                                 bool* out_inner_space )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     assert( NULL != out_selected_id );
-    pencil_visible_object_id_init_void( out_selected_id );
+    data_id_pair_init_void( out_selected_id );
     *out_inner_space = false;
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -111,11 +111,11 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
         card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
-            pencil_visible_object_id_t out_surrounding_id;
+            data_id_pair_t out_surrounding_id;
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
 
             data_id_t selected_visible_id;
-            selected_visible_id = pencil_visible_object_id_get_visible_id( out_selected_id );
+            selected_visible_id = data_id_pair_get_visible_id( out_selected_id );
             if ( ! data_id_is_valid( &selected_visible_id ) )
             {
                 /* nothing to select */
@@ -127,7 +127,7 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
                     case DATA_TABLE_CLASSIFIER:
                     {
                         /* error: a visible id of a classifier is always a DATA_TABLE_DIAGRAMELEMENT */
-                        TSLOG_ERROR("unexpected type of pencil_visible_object_id_get_visible_id: DATA_TABLE_CLASSIFIER");
+                        TSLOG_ERROR("unexpected type of data_id_pair_get_visible_id: DATA_TABLE_CLASSIFIER");
                     }
                     break;
                     case DATA_TABLE_FEATURE:
@@ -156,7 +156,7 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
 
                     default:
                     {
-                        TSLOG_ERROR("unexpected type of pencil_visible_object_id_get_visible_id: unknown");
+                        TSLOG_ERROR("unexpected type of data_id_pair_get_visible_id: unknown");
                     }
                     break;
                 }

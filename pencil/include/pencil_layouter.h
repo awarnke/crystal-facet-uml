@@ -136,8 +136,8 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
                                                       double snap_distance,
-                                                      pencil_visible_object_id_t* out_selected_id,
-                                                      pencil_visible_object_id_t* out_surrounding_id
+                                                      data_id_pair_t* out_selected_id,
+                                                      data_id_pair_t* out_surrounding_id
                                                     );
 
 /*!
@@ -153,8 +153,8 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
 pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
                                                                   double x,
                                                                   double y,
-                                                                  pencil_visible_object_id_t* out_selected_id,
-                                                                  pencil_visible_object_id_t* out_surrounding_id
+                                                                  data_id_pair_t* out_selected_id,
+                                                                  data_id_pair_t* out_surrounding_id
                                                                 );
 
 /*!
@@ -170,8 +170,8 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
                                                                double x,
                                                                double y,
-                                                               pencil_visible_object_id_t* out_selected_id,
-                                                               pencil_visible_object_id_t* out_surrounding_id
+                                                               data_id_pair_t* out_selected_id,
+                                                               data_id_pair_t* out_surrounding_id
                                                              );
 
 /*!
@@ -188,7 +188,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
                                                                     double x,
                                                                     double y,
                                                                     double snap_distance,
-                                                                    pencil_visible_object_id_t* out_selected_id
+                                                                    data_id_pair_t* out_selected_id
                                                                   );
 
 /*!

@@ -46,8 +46,8 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
 static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
                                                           int32_t x,
                                                           int32_t y,
-                                                          pencil_visible_object_id_t* out_selected_id,
-                                                          pencil_visible_object_id_t* out_surrounding_id )
+                                                          data_id_pair_t* out_selected_id,
+                                                          data_id_pair_t* out_surrounding_id )
 {
     pencil_error_t pen_err;
     pen_err = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),

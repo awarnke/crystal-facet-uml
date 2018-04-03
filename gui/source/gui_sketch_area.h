@@ -238,7 +238,7 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
-                                                                  pencil_visible_object_id_t* out_selected_id
+                                                                  data_id_pair_t* out_selected_id
                                                                 );
 
 /*!
@@ -253,7 +253,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
 static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( gui_sketch_area_t *this_,
                                                                                 int32_t x,
                                                                                 int32_t y,
-                                                                                pencil_visible_object_id_t* out_selected_id,
+                                                                                data_id_pair_t* out_selected_id,
                                                                                 bool* out_inner_space
                                                                               );
 
