@@ -115,7 +115,7 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
 
             data_id_t selected_visible_id;
-            selected_visible_id = data_id_pair_get_visible_id( out_selected_id );
+            selected_visible_id = data_id_pair_get_primary_id( out_selected_id );
             if ( ! data_id_is_valid( &selected_visible_id ) )
             {
                 /* nothing to select */

@@ -6,21 +6,21 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines a pair of visible object id and model object id - or feature id and parent classifier id
+ *  \brief Defines a pair of visible object id and secondary object id - or feature id and parent classifier id
  *
- *  e.g. data_diagramelement_t (visible) and data_classifier_t (model)
- *  or simply data_feature_t and data_feature_t if visible object and model object are identical
+ *  e.g. data_diagramelement_t (primary) and data_classifier_t (secondary)
+ *  or simply data_feature_t and data_feature_t if primary object and secondary object are identical
  *  or data_feature_t and data_classifier_t if both are of interest
  */
 
 #include "data_id.h"
 
 /*!
- *  \brief the pair of visible object id and model object id, e.g. diagramelement and classifier
+ *  \brief the pair of visible object id and secondary object id, e.g. diagramelement and classifier of feature and classifier
  */
 struct data_id_pair_struct {
-    data_id_t visible_id;  /*!< the visible object id */
-    data_id_t model_id;  /*!< the model object id */
+    data_id_t primary_id;  /*!< the primary object id */
+    data_id_t secondary_id;  /*!< the classifier object id */
 };
 
 typedef struct data_id_pair_struct data_id_pair_t;
@@ -43,51 +43,51 @@ static inline void data_id_pair_reinit_void ( data_id_pair_t *this_ );
  *  \brief initializes the data_id_pair_t struct.
  *
  *  \param this_ pointer to own object attributes
- *  \param visible_id visible object id
- *  \param model_id model object id
+ *  \param primary_id primary object id
+ *  \param secondary_id secondary object id
  */
-static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t visible_id, data_id_t model_id );
+static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id );
 
 /*!
  *  \brief re-initializes the data_id_pair_t struct.
  *
  *  \param this_ pointer to own object attributes
- *  \param visible_id visible object id
- *  \param model_id model object id
+ *  \param primary_id primary object id
+ *  \param secondary_id secondary object id
  */
-static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t visible_id, data_id_t model_id );
+static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id );
 
 /*!
  *  \brief initializes the data_id_pair_t struct by table and row ids.
  *
  *  \param this_ pointer to own object attributes
- *  \param visible_table visible object id (talbe)
- *  \param visible_row_id visible object id (row_id)
- *  \param model_table model object id (table)
- *  \param model_row_id model object id (row_id)
+ *  \param primary_table primary object id (talbe)
+ *  \param primary_row_id primary object id (row_id)
+ *  \param secondary_table secondary object id (table)
+ *  \param secondary_row_id secondary object id (row_id)
  */
 static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
-                                                                   data_table_t visible_table,
-                                                                   int64_t visible_row_id,
-                                                                   data_table_t model_table,
-                                                                   int64_t model_row_id
-                                                                 );
+                                                       data_table_t primary_table,
+                                                       int64_t primary_row_id,
+                                                       data_table_t secondary_table,
+                                                       int64_t secondary_row_id
+                                                     );
 
 /*!
  *  \brief re-initializes the data_id_pair_t struct by table and row ids.
  *
  *  \param this_ pointer to own object attributes
- *  \param visible_table visible object id (talbe)
- *  \param visible_row_id visible object id (row_id)
- *  \param model_table model object id (table)
- *  \param model_row_id model object id (row_id)
+ *  \param primary_table primary object id (talbe)
+ *  \param primary_row_id primary object id (row_id)
+ *  \param secondary_table secondary object id (table)
+ *  \param secondary_row_id secondary object id (row_id)
  */
 static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
-                                                                     data_table_t visible_table,
-                                                                     int64_t visible_row_id,
-                                                                     data_table_t model_table,
-                                                                     int64_t model_row_id
-                                                                   );
+                                                         data_table_t primary_table,
+                                                         int64_t primary_row_id,
+                                                         data_table_t secondary_table,
+                                                         int64_t secondary_row_id
+                                                       );
 
 /*!
  *  \brief destroys the data_id_pair_t struct
@@ -97,51 +97,51 @@ static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
 static inline void data_id_pair_destroy ( data_id_pair_t *this_ );
 
 /*!
- *  \brief gets the visible object id
+ *  \brief gets the primary object id
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the visible object
+ *  \return the id of the primary object
  */
-static inline data_id_t data_id_pair_get_visible_id ( data_id_pair_t *this_ );
+static inline data_id_t data_id_pair_get_primary_id ( const data_id_pair_t *this_ );
 
 /*!
- *  \brief gets a pointer on the visible object id
+ *  \brief gets a pointer on the primary object id
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the visible object
+ *  \return the id of the primary object
  */
-static inline data_id_t *data_id_pair_get_visible_id_ptr ( data_id_pair_t *this_ );
+static inline data_id_t *data_id_pair_get_primary_id_ptr ( data_id_pair_t *this_ );
 
 /*!
- *  \brief gets the model object id
+ *  \brief gets the secondary object id
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the model object
+ *  \return the id of the secondary object
  */
-static inline data_id_t data_id_pair_get_model_id ( data_id_pair_t *this_ );
+static inline data_id_t data_id_pair_get_secondary_id ( const data_id_pair_t *this_ );
 
 /*!
- *  \brief gets a pointer on the model object id
+ *  \brief gets a pointer on the secondary object id
  *
  *  \param this_ pointer to own object attributes
- *  \return the id of the model object
+ *  \return the id of the secondary object
  */
-static inline data_id_t *data_id_pair_get_model_id_ptr ( data_id_pair_t *this_ );
+static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *this_ );
 
 /*!
- *  \brief checks if visible id and model id are valid
+ *  \brief checks if primary id and secondary id are valid
  *
  *  \param this_ pointer to own object attributes
  *  \return true if both members are valid
  */
-static inline bool data_id_pair_is_valid ( data_id_pair_t *this_ );
+static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ );
 
 /*!
- *  \brief traces visible_id and model_id
+ *  \brief traces primary_id and secondary_id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_id_pair_trace ( data_id_pair_t *this_ );
+static inline void data_id_pair_trace ( const data_id_pair_t *this_ );
 
 #include "util/id/data_id_pair.inl"
 

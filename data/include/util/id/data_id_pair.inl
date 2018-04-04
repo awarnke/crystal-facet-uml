@@ -2,83 +2,83 @@
 
 static inline void data_id_pair_init_void ( data_id_pair_t *this_ )
 {
-    data_id_init_void( &((*this_).visible_id) );
-    data_id_init_void( &((*this_).model_id) );
+    data_id_init_void( &((*this_).primary_id) );
+    data_id_init_void( &((*this_).secondary_id) );
 }
 
 static inline void data_id_pair_reinit_void ( data_id_pair_t *this_ )
 {
-    data_id_reinit_void( &((*this_).visible_id) );
-    data_id_reinit_void( &((*this_).model_id) );
+    data_id_reinit_void( &((*this_).primary_id) );
+    data_id_reinit_void( &((*this_).secondary_id) );
 }
 
-static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t visible_id, data_id_t model_id )
+static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id )
 {
-    (*this_).visible_id = visible_id;
-    (*this_).model_id = model_id;
+    (*this_).primary_id = primary_id;
+    (*this_).secondary_id = secondary_id;
 }
 
-static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t visible_id, data_id_t model_id )
+static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id )
 {
-    (*this_).visible_id = visible_id;
-    (*this_).model_id = model_id;
+    (*this_).primary_id = primary_id;
+    (*this_).secondary_id = secondary_id;
 }
 
 static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
-                                                                   data_table_t visible_table,
-                                                                   int64_t visible_row_id,
-                                                                   data_table_t model_table,
-                                                                   int64_t model_row_id )
+                                                       data_table_t primary_table,
+                                                       int64_t primary_row_id,
+                                                       data_table_t secondary_table,
+                                                       int64_t secondary_row_id )
 {
-    data_id_init ( &((*this_).visible_id), visible_table, visible_row_id );
-    data_id_init ( &((*this_).model_id), model_table, model_row_id );
+    data_id_init ( &((*this_).primary_id), primary_table, primary_row_id );
+    data_id_init ( &((*this_).secondary_id), secondary_table, secondary_row_id );
 }
 
 static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
-                                                                     data_table_t visible_table,
-                                                                     int64_t visible_row_id,
-                                                                     data_table_t model_table,
-                                                                     int64_t model_row_id )
+                                                         data_table_t primary_table,
+                                                         int64_t primary_row_id,
+                                                         data_table_t secondary_table,
+                                                         int64_t secondary_row_id )
 {
-    data_id_reinit ( &((*this_).visible_id), visible_table, visible_row_id );
-    data_id_reinit ( &((*this_).model_id), model_table, model_row_id );
+    data_id_reinit ( &((*this_).primary_id), primary_table, primary_row_id );
+    data_id_reinit ( &((*this_).secondary_id), secondary_table, secondary_row_id );
 }
 
 static inline void data_id_pair_destroy ( data_id_pair_t *this_ )
 {
-    data_id_destroy( &((*this_).visible_id) );
-    data_id_destroy( &((*this_).model_id) );
+    data_id_destroy( &((*this_).primary_id) );
+    data_id_destroy( &((*this_).secondary_id) );
 }
 
-static inline data_id_t data_id_pair_get_visible_id ( data_id_pair_t *this_ )
+static inline data_id_t data_id_pair_get_primary_id ( const data_id_pair_t *this_ )
 {
-    return (*this_).visible_id;
+    return (*this_).primary_id;
 }
 
-static inline data_id_t *data_id_pair_get_visible_id_ptr ( data_id_pair_t *this_ )
+static inline data_id_t *data_id_pair_get_primary_id_ptr ( data_id_pair_t *this_ )
 {
-    return &((*this_).visible_id);
+    return &((*this_).primary_id);
 }
 
-static inline data_id_t data_id_pair_get_model_id ( data_id_pair_t *this_ )
+static inline data_id_t data_id_pair_get_secondary_id ( const data_id_pair_t *this_ )
 {
-    return (*this_).model_id;
+    return (*this_).secondary_id;
 }
 
-static inline data_id_t *data_id_pair_get_model_id_ptr ( data_id_pair_t *this_ )
+static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *this_ )
 {
-    return &((*this_).model_id);
+    return &((*this_).secondary_id);
 }
 
-static inline bool data_id_pair_is_valid ( data_id_pair_t *this_ )
+static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ )
 {
-    return ( data_id_is_valid( &((*this_).visible_id) ) && data_id_is_valid( &((*this_).model_id) ) );
+    return ( data_id_is_valid( &((*this_).primary_id) ) && data_id_is_valid( &((*this_).secondary_id) ) );
 }
 
-static inline void data_id_pair_trace ( data_id_pair_t *this_ )
+static inline void data_id_pair_trace ( const data_id_pair_t *this_ )
 {
-    data_id_trace( &((*this_).visible_id) );
-    data_id_trace( &((*this_).model_id) );
+    data_id_trace( &((*this_).primary_id) );
+    data_id_trace( &((*this_).secondary_id) );
 }
 
 

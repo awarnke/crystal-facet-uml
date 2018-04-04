@@ -510,11 +510,11 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
                 data_id_t object_highlighted;
                 object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
-                if ( ! data_id_equals( data_id_pair_get_visible_id_ptr( &object_under_mouse ), &object_highlighted ) )
+                if ( ! data_id_equals( data_id_pair_get_primary_id_ptr( &object_under_mouse ), &object_highlighted ) )
                 {
                     if ( data_id_pair_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                     {
-                        gui_sketch_marker_set_highlighted( (*this_).marker, data_id_pair_get_visible_id ( &object_under_mouse ) );
+                        gui_sketch_marker_set_highlighted( (*this_).marker, data_id_pair_get_primary_id ( &object_under_mouse ) );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -534,7 +534,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             data_id_pair_t object_under_mouse;
             gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
             data_id_t  classifier_under_mouse;
-            classifier_under_mouse = data_id_pair_get_visible_id( &object_under_mouse );
+            classifier_under_mouse = data_id_pair_get_primary_id( &object_under_mouse );
 
             data_id_t object_highlighted;
             object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
@@ -643,7 +643,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &focused_object );
                 data_id_pair_trace( &focused_object );
                 data_id_t focused_object_visible;
-                focused_object_visible = data_id_pair_get_visible_id( &focused_object );
+                focused_object_visible = data_id_pair_get_primary_id( &focused_object );
 
                 /* which object is currently focused? */
                 data_id_t focused_visible_before;
@@ -661,7 +661,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* store focused object and notify listener */
                     gui_sketch_marker_set_focused ( (*this_).marker,
                                                     focused_object_visible,
-                                                    data_id_pair_get_model_id( &focused_object )
+                                                    data_id_pair_get_secondary_id( &focused_object )
                                                   );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
@@ -696,13 +696,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if (( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_model_id_ptr( &clicked_object ) ) )
+                else if (( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_secondary_id_ptr( &clicked_object ) ) )
                     && ( ! inner_space_clicked ))
                 {
                     /* set focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
-                                                   data_id_pair_get_visible_id( &clicked_object ),
-                                                   data_id_pair_get_model_id( &clicked_object )
+                                                   data_id_pair_get_primary_id( &clicked_object ),
+                                                   data_id_pair_get_secondary_id( &clicked_object )
                     );
                     gui_sketch_area_private_notify_listener( this_ );
                 }
@@ -728,7 +728,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     if ( inner_space_clicked )
                     {
                         data_id_t focused_real;
-                        focused_real = data_id_pair_get_model_id ( &clicked_object );
+                        focused_real = data_id_pair_get_secondary_id ( &clicked_object );
 
                         int64_t new_relationship_id;
                         c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
@@ -936,7 +936,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_t destination_real;
                     data_id_pair_t destination_object;
                     gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &destination_object );
-                    destination_real = data_id_pair_get_model_id( &destination_object );
+                    destination_real = data_id_pair_get_secondary_id( &destination_object );
 
                     if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
                     {
