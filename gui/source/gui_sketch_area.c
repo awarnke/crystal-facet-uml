@@ -594,10 +594,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             TSLOG_ERROR("drag state indicates dragging - but button was not pressed before!");
         }
 
-        /* update drag state */
+        /* update drag coordinates */
         gui_sketch_drag_state_set_from ( &((*this_).drag_state), x, y );
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
-        gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state) );
 
         /* do action */
         gui_sketch_tools_tool_t selected_tool;
@@ -616,6 +615,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 /* load diagram */
                 if ( data_id_is_valid( &clicked_diagram_id ) )
                 {
+                    /* update drag state */
+                    data_id_pair_t dragged_object;
+                    data_id_pair_init ( &dragged_object, clicked_diagram_id, clicked_diagram_id );
+                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+
                     /* load/reload data to be drawn */
                     gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
 
@@ -644,6 +648,10 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 data_id_pair_trace( &focused_object );
                 data_id_t focused_object_visible;
                 focused_object_visible = data_id_pair_get_primary_id( &focused_object );
+
+                /* update drag state */
+                data_id_pair_t dragged_object;
+                gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
 
                 /* which object is currently focused? */
                 data_id_t focused_visible_before;
@@ -674,6 +682,21 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
             {
                 TRACE_INFO( "GUI_SKETCH_TOOLS_CREATE_DIAGRAM" );
+
+                /* determine active diagram */
+                int64_t selected_diagram_id;
+                selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
+                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                /* update drag state */
+                data_id_pair_t dragged_object;
+                data_id_pair_init_by_table_and_id ( &dragged_object,
+                                                    DATA_TABLE_DIAGRAM,
+                                                    selected_diagram_id,
+                                                    DATA_TABLE_DIAGRAM,
+                                                    selected_diagram_id
+                                                  );
+                gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
             break;
 
@@ -693,12 +716,16 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 if ( NULL == target_card )
                 {
                     TRACE_INFO_INT_INT("No card at",x,y);
+
                     /* if this happens, we should invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
                 else if (( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_secondary_id_ptr( &clicked_object ) ) )
                     && ( ! inner_space_clicked ))
                 {
+                    /* update drag state */
+                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
+
                     /* set focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
                                                    data_id_pair_get_primary_id( &clicked_object ),
@@ -709,7 +736,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 else /* clicked either into inner space of a classifier or outside any classifier */
                 {
                     /* stop dragging */
-                    gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
+                    gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
 
                     /* create a new classifier */
                     data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
@@ -1047,7 +1074,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
 
         /* stop dragging */
-        gui_sketch_drag_state_set_dragging ( &((*this_).drag_state), false );
+        gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
 
         /* mark dirty rect */
         gtk_widget_queue_draw( widget );

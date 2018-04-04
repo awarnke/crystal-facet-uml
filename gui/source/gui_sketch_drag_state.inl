@@ -8,39 +8,43 @@ static inline void gui_sketch_drag_state_init ( gui_sketch_drag_state_t *this_ )
     (*this_).to_x = 0;
     (*this_).to_y = 0;
     (*this_).start_dragging_when_move = false;
+    data_id_pair_init_void ( &((*this_).dragged_object) );
 }
 
 static inline void gui_sketch_drag_state_destroy ( gui_sketch_drag_state_t *this_ )
 {
+    data_id_pair_destroy ( &((*this_).dragged_object) );
 }
 
-static inline bool gui_sketch_drag_state_is_dragging ( gui_sketch_drag_state_t *this_ )
+static inline bool gui_sketch_drag_state_is_dragging ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).dragging );
 }
 
-static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t *this_, bool dragging )
+static inline void gui_sketch_drag_state_stop_dragging ( gui_sketch_drag_state_t *this_ )
 {
-    (*this_).dragging = dragging;
+    (*this_).dragging = false;
     (*this_).start_dragging_when_move = false;
 }
 
-static inline bool gui_sketch_drag_state_is_waiting_for_move ( gui_sketch_drag_state_t *this_ )
+static inline bool gui_sketch_drag_state_is_waiting_for_move ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).start_dragging_when_move );
 }
 
-static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_ )
+static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_,
+                                                                    data_id_pair_t dragged_object )
 {
+    (*this_).dragged_object = dragged_object;
     (*this_).start_dragging_when_move = true;
 }
 
-static inline int32_t gui_sketch_drag_state_get_from_x ( gui_sketch_drag_state_t *this_ )
+static inline int32_t gui_sketch_drag_state_get_from_x ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).from_x );
 }
 
-static inline int32_t gui_sketch_drag_state_get_from_y ( gui_sketch_drag_state_t *this_ )
+static inline int32_t gui_sketch_drag_state_get_from_y ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).from_y );
 }
@@ -51,12 +55,12 @@ static inline void gui_sketch_drag_state_set_from ( gui_sketch_drag_state_t *thi
     (*this_).from_y = from_y;
 }
 
-static inline int32_t gui_sketch_drag_state_get_to_x ( gui_sketch_drag_state_t *this_ )
+static inline int32_t gui_sketch_drag_state_get_to_x ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).to_x );
 }
 
-static inline int32_t gui_sketch_drag_state_get_to_y ( gui_sketch_drag_state_t *this_ )
+static inline int32_t gui_sketch_drag_state_get_to_y ( const gui_sketch_drag_state_t *this_ )
 {
     return ( (*this_).to_y );
 }

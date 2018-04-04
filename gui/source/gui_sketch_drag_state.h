@@ -8,6 +8,7 @@
  *  \brief keeps track of the dragging state: dragging is started by button-press and mouse-movement.
  */
 
+#include "util/id/data_id_pair.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -21,6 +22,7 @@ struct gui_sketch_drag_state_struct {
     int32_t to_x;  /*!< x coordingate of the destination */
     int32_t to_y;  /*!< y coordingate of the destination */
     bool start_dragging_when_move;  /*!< true if dragging shall start when moving */
+    data_id_pair_t dragged_object;  /* primary_id is the dragged object or diagramemelent, secondary_id is the classifier */
 };
 
 typedef struct gui_sketch_drag_state_struct gui_sketch_drag_state_t;
@@ -45,7 +47,7 @@ static inline void gui_sketch_drag_state_destroy ( gui_sketch_drag_state_t *this
  *  \param this_ pointer to own object attributes
  *  \return true if an object is currently being dragged
  */
-static inline bool gui_sketch_drag_state_is_dragging ( gui_sketch_drag_state_t *this_ );
+static inline bool gui_sketch_drag_state_is_dragging ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief sets the dragging attribute
@@ -53,7 +55,7 @@ static inline bool gui_sketch_drag_state_is_dragging ( gui_sketch_drag_state_t *
  *  \param this_ pointer to own object attributes
  *  \param dragging true if an object is currently being dragged
  */
-static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t *this_, bool dragging );
+static inline void gui_sketch_drag_state_stop_dragging ( gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief checks if the start_dragging_when_move attribute is set.
@@ -61,14 +63,17 @@ static inline void gui_sketch_drag_state_set_dragging ( gui_sketch_drag_state_t 
  *  \param this_ pointer to own object attributes
  *  \return true the mouse button was pressed and the pending drag is not yet cancelled
  */
-static inline bool gui_sketch_drag_state_is_waiting_for_move ( gui_sketch_drag_state_t *this_ );
+static inline bool gui_sketch_drag_state_is_waiting_for_move ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief sets the dragging attribute to true as soon as the to position has moved a small distance
  *
  *  \param this_ pointer to own object attributes
+ *  \param dragged_object primary_id is the dragged object or diagramemelent, secondary_id is the classifier
  */
-static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_ );
+static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_drag_state_t *this_,
+                                                                    data_id_pair_t dragged_object
+                                                                  );
 
 /*!
  *  \brief gets the from_x attribute
@@ -76,7 +81,7 @@ static inline void gui_sketch_drag_state_start_dragging_when_move ( gui_sketch_d
  *  \param this_ pointer to own object attributes
  *  \return x coordinate of the dragging origin
  */
-static inline int32_t gui_sketch_drag_state_get_from_x ( gui_sketch_drag_state_t *this_ );
+static inline int32_t gui_sketch_drag_state_get_from_x ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief gets the from_y attribute
@@ -84,7 +89,7 @@ static inline int32_t gui_sketch_drag_state_get_from_x ( gui_sketch_drag_state_t
  *  \param this_ pointer to own object attributes
  *  \return y coordinate of the dragging origin
  */
-static inline int32_t gui_sketch_drag_state_get_from_y ( gui_sketch_drag_state_t *this_ );
+static inline int32_t gui_sketch_drag_state_get_from_y ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief sets the from_x and from_y attributes
@@ -101,7 +106,7 @@ static inline void gui_sketch_drag_state_set_from ( gui_sketch_drag_state_t *thi
  *  \param this_ pointer to own object attributes
  *  \return x coordinate of the dragging destination
  */
-static inline int32_t gui_sketch_drag_state_get_to_x ( gui_sketch_drag_state_t *this_ );
+static inline int32_t gui_sketch_drag_state_get_to_x ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief gets the to_y attribute
@@ -109,7 +114,7 @@ static inline int32_t gui_sketch_drag_state_get_to_x ( gui_sketch_drag_state_t *
  *  \param this_ pointer to own object attributes
  *  \return y coordinate of the dragging destination
  */
-static inline int32_t gui_sketch_drag_state_get_to_y ( gui_sketch_drag_state_t *this_ );
+static inline int32_t gui_sketch_drag_state_get_to_y ( const gui_sketch_drag_state_t *this_ );
 
 /*!
  *  \brief sets the to_x and to_y attributes
