@@ -1,7 +1,7 @@
 /* File: data_small_set_test.c; Copyright and License: see below */
 
 #include "data_small_set_test.h"
-#include "data_small_set.h"
+#include "util/id/data_small_set.h"
 
 static void set_up(void);
 static void tear_down(void);

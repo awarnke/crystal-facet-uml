@@ -8,7 +8,7 @@
  *  \brief References objects that are marked (displayed as selected/focused/highlighted)
  */
 
-#include "data_small_set.h"
+#include "util/id/data_small_set.h"
 #include <stdbool.h>
 #include <stdint.h>
 

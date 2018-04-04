@@ -18,7 +18,7 @@
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
 #include "data_diagram.h"
-#include "data_small_set.h"
+#include "util/id/data_small_set.h"
 #include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>
