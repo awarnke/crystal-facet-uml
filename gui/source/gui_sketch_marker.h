@@ -17,7 +17,6 @@
  */
 struct gui_sketch_marker_struct {
     data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
-    data_id_t focused_real_object;  /*!<  references the one focused and dereferenced object, e.g. a data_diagram_t or a data_classifier_t (yellow corners) */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
     int64_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
@@ -46,16 +45,6 @@ static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ );
  *  \return id of the focused object. This is the visible object, e.g. a data_diagram_t or a data_diagramelement_t
  */
 static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ );
-
-/*--!
- *  \brief gets the focused real object id
- *
- *  \param this_ pointer to own object attributes
- *  \return id of the focused object. This is the real, dereferenced object, e.g. a data_diagram_t or a data_classifier_t
- */
-/*
-static inline data_id_t gui_sketch_marker_get_focused_real_object ( gui_sketch_marker_t *this_ );
-*/
 
 /*!
  *  \brief gets the focused_diagram id
@@ -100,9 +89,8 @@ static inline void gui_sketch_marker_clear_selected_set ( gui_sketch_marker_t *t
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id of the visible object to set as focused
- *  \param real_obj_id the id of the real, dereferenced object to set as focused
  */
-static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t obj_id, data_id_t real_obj_id );
+static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t obj_id );
 
 /*!
  *  \brief sets the focused_diagram id

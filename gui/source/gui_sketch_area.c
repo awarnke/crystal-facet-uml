@@ -628,7 +628,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
 
                     /* notify listener */
-                    gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id, clicked_diagram_id );
+                    gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id );
                     gui_sketch_area_private_notify_listener( this_, clicked_diagram_id );
                     gui_sketch_marker_clear_selected_set( (*this_).marker );
 
@@ -670,8 +670,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 {
                     /* store focused object and notify listener */
                     gui_sketch_marker_set_focused ( (*this_).marker,
-                                                    focused_object_visible,
-                                                    data_id_pair_get_secondary_id( &focused_object )
+                                                    focused_object_visible
                                                   );
                     gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &focused_object ) );
                 }
@@ -730,8 +729,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                     /* set focused object and notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker,
-                                                   data_id_pair_get_primary_id( &clicked_object ),
-                                                   data_id_pair_get_secondary_id( &clicked_object )
+                                                   data_id_pair_get_primary_id( &clicked_object )
                                                  );
                     gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                 }
@@ -801,7 +799,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         data_id_t focused_real_id;
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
                         data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
+                        gui_sketch_marker_set_focused( (*this_).marker, focused_id );
                         gui_sketch_area_private_notify_listener( this_, focused_real_id );
                         gui_sketch_marker_clear_selected_set( (*this_).marker );
 
@@ -938,7 +936,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         /* notify listener */
                         data_id_t focused_id;
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                        gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                        gui_sketch_marker_set_focused( (*this_).marker, focused_id );
                         gui_sketch_area_private_notify_listener( this_, focused_id );
                         gui_sketch_marker_clear_selected_set( (*this_).marker );
 
@@ -960,7 +958,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t focused_real;
                     focused_real = data_id_pair_get_secondary_id( dragged_object );
-
 
                     /* which object is at the target location? */
                     data_id_t destination_real;
@@ -1007,7 +1004,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 /* set focused object and notify listener */
                                 data_id_t focused_id;
                                 data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-                                gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
+                                gui_sketch_marker_set_focused( (*this_).marker, focused_id );
                                 gui_sketch_area_private_notify_listener( this_, focused_id );
                                 gui_sketch_marker_clear_selected_set( (*this_).marker );
                             }
@@ -1050,7 +1047,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 /* set focused object and notify listener */
                                 data_id_t new_focused_id;
                                 data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                                gui_sketch_marker_set_focused( (*this_).marker, new_focused_id, new_focused_id );
+                                gui_sketch_marker_set_focused( (*this_).marker, new_focused_id );
                                 gui_sketch_area_private_notify_listener( this_, new_focused_id );
                                 gui_sketch_marker_clear_selected_set( (*this_).marker );
                             }
