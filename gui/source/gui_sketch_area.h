@@ -204,8 +204,9 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
  *  Sends the currently focused object id.
  *
  *  \param this_ pointer to own object attributes
+ *  \param modified_real_object_id id of the real object that was modified (the classifier, not the diagramelement)
  */
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ );
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_id_t modified_real_object_id );
 
 /*!
  *  \brief gets the diagram-id of the diagram at a given position

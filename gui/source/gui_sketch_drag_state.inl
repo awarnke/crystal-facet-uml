@@ -81,6 +81,11 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
     }
 }
 
+static inline data_id_pair_t *gui_sketch_drag_state_get_dragged_object_ptr ( gui_sketch_drag_state_t *this_ )
+{
+    return ( &((*this_).dragged_object) );
+}
+
 
 /*
 Copyright 2016-2018 Andreas Warnke

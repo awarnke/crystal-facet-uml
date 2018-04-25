@@ -47,13 +47,15 @@ static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ );
  */
 static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ );
 
-/*!
+/*--!
  *  \brief gets the focused real object id
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the focused object. This is the real, dereferenced object, e.g. a data_diagram_t or a data_classifier_t
  */
+/*
 static inline data_id_t gui_sketch_marker_get_focused_real_object ( gui_sketch_marker_t *this_ );
+*/
 
 /*!
  *  \brief gets the focused_diagram id

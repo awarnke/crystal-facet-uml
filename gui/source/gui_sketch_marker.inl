@@ -23,10 +23,12 @@ static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *thi
     return ( (*this_).focused );
 }
 
+/*
 static inline data_id_t gui_sketch_marker_get_focused_real_object ( gui_sketch_marker_t *this_ )
 {
     return ( (*this_).focused_real_object );
 }
+*/
 
 static inline int64_t gui_sketch_marker_get_focused_diagram ( gui_sketch_marker_t *this_ )
 {

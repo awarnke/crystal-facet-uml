@@ -436,8 +436,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     x = (int32_t) (*evt).x;
     y = (int32_t) (*evt).y;
     state = (GdkModifierType) (*evt).state;
-
     TRACE_INFO_INT_INT( "x/y", x, y );
+
+    /* update drag coordinates */
     gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
     if ( (state & GDK_BUTTON1_MASK) != 0 )
@@ -474,11 +475,14 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* what is dragged? */
+                data_id_pair_t *dragged_object;
+                dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                 data_id_t focused_real;
-                focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                focused_real = data_id_pair_get_secondary_id( dragged_object );
+
                 /* mark again - in case the marker was lost */
                 data_id_t focused;
-                focused = gui_sketch_marker_get_focused ( (*this_).marker );
+                focused = data_id_pair_get_primary_id( dragged_object );
                 gui_sketch_marker_set_highlighted( (*this_).marker, focused );
 
                 /* what is the target location? */
@@ -625,7 +629,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                     /* notify listener */
                     gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id, clicked_diagram_id );
-                    gui_sketch_area_private_notify_listener( this_ );
+                    gui_sketch_area_private_notify_listener( this_, clicked_diagram_id );
                     gui_sketch_marker_clear_selected_set( (*this_).marker );
 
                     /* mark dirty rect */
@@ -655,9 +659,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* which object is currently focused? */
                 data_id_t focused_visible_before;
-                data_id_t focused_real_before;
                 focused_visible_before = gui_sketch_marker_get_focused ( (*this_).marker );
-                focused_real_before = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
 
                 if ( data_id_equals ( &focused_object_visible, &focused_visible_before ) )
                 {
@@ -671,7 +673,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                     focused_object_visible,
                                                     data_id_pair_get_secondary_id( &focused_object )
                                                   );
-                    gui_sketch_area_private_notify_listener( this_ );
+                    gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &focused_object ) );
                 }
 
                 /* mark dirty rect */
@@ -730,8 +732,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_marker_set_focused( (*this_).marker,
                                                    data_id_pair_get_primary_id( &clicked_object ),
                                                    data_id_pair_get_secondary_id( &clicked_object )
-                    );
-                    gui_sketch_area_private_notify_listener( this_ );
+                                                 );
+                    gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                 }
                 else /* clicked either into inner space of a classifier or outside any classifier */
                 {
@@ -800,7 +802,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
                         data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
                         gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_real_id );
-                        gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_area_private_notify_listener( this_, focused_real_id );
                         gui_sketch_marker_clear_selected_set( (*this_).marker );
 
                         TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
@@ -862,12 +864,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* which object is selected? */
-                    data_id_t focused_visible;
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t focused_real;
-                    focused_visible = gui_sketch_marker_get_focused ( (*this_).marker );
-                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
-                    data_id_trace( &focused_visible );
-                    data_id_trace( &focused_real );
+                    focused_real = data_id_pair_get_secondary_id( dragged_object );
 
                     /* what is the target location? */
                     gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -939,7 +939,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         data_id_t focused_id;
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
                         gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                        gui_sketch_area_private_notify_listener( this_ );
+                        gui_sketch_area_private_notify_listener( this_, focused_id );
                         gui_sketch_marker_clear_selected_set( (*this_).marker );
 
                         /* change the selected tool */
@@ -956,8 +956,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* which object is selected? */
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t focused_real;
-                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    focused_real = data_id_pair_get_secondary_id( dragged_object );
+
 
                     /* which object is at the target location? */
                     data_id_t destination_real;
@@ -1005,7 +1008,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 data_id_t focused_id;
                                 data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
                                 gui_sketch_marker_set_focused( (*this_).marker, focused_id, focused_id );
-                                gui_sketch_area_private_notify_listener( this_ );
+                                gui_sketch_area_private_notify_listener( this_, focused_id );
                                 gui_sketch_marker_clear_selected_set( (*this_).marker );
                             }
                         }
@@ -1014,8 +1017,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
                 {
                     /* click on classifier without drag */
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t focused_real;
-                    focused_real = gui_sketch_marker_get_focused_real_object ( (*this_).marker );
+                    focused_real = data_id_pair_get_secondary_id( dragged_object );
+
                     gui_sketch_card_t *target_card;
                     target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
                     if ( data_id_is_valid( &focused_real ) && ( NULL != target_card ) )
@@ -1045,7 +1051,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 data_id_t new_focused_id;
                                 data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
                                 gui_sketch_marker_set_focused( (*this_).marker, new_focused_id, new_focused_id );
-                                gui_sketch_area_private_notify_listener( this_ );
+                                gui_sketch_area_private_notify_listener( this_, new_focused_id );
                                 gui_sketch_marker_clear_selected_set( (*this_).marker );
                             }
                         }
@@ -1264,19 +1270,16 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     TRACE_END();
 }
 
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_ )
+void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_id_t modified_real_object_id )
 {
     TRACE_BEGIN();
-
-    data_id_t full_id;
-    full_id = gui_sketch_marker_get_focused_real_object( (*this_).marker );
 
     for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
     {
         if ( (*this_).listener != NULL )
         {
             TRACE_INFO_INT( "g_signal_emit to listener", index );
-            g_signal_emit( (*this_).listener[index], gui_sketch_area_glib_signal_id, 0, &full_id );
+            g_signal_emit( (*this_).listener[index], gui_sketch_area_glib_signal_id, 0, &modified_real_object_id );
         }
     }
 
