@@ -32,6 +32,13 @@
  *      - features.main_type (not checked, repairable via GUI),
  *      - diagrams.diagram_type (not checked, repairable via GUI),
  *      - diagramelements.display_flags (not checked).
+ *
+ *  @todo new consistency checks needed for new features after version 1.0
+ *  - References shall be DATA_ID_VOID_ID or otherwise reference valid rows:
+ *      - relationships.from_feature_id
+ *      - relationships.to_feature_id
+ *      - diagramelements.focused_feature_id
+ *
  */
 
 #include "ctrl_error.h"

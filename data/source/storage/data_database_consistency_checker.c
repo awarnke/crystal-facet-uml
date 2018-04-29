@@ -103,6 +103,42 @@ static const int RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN = 3;
  */
 static const int RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN = 4;
 
+/*! @todo SELECT_FOCUSED_FEATURES unused!*/
+
+/*!
+ *  \brief search statement to find diagramelements with illegal focused features
+ */
+static const char SELECT_FOCUSED_FEATURES[] =
+    "SELECT diagramelements.id,diagramelements.classifier_id,diagramelements.focused_feature_id,"
+    "features.id,features.classifier_id "
+    "FROM diagramelements "
+    "LEFT JOIN features ON diagramelements.focused_feature_id=features.id;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.id
+ */
+static const int RESULT_FOCUSED_FEATURES_DIAGELE_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.classifier_id
+ */
+static const int RESULT_FOCUSED_FEATURES_DIAGELE_CLASSIFIER_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagramelements.focused_feature_id
+ */
+static const int RESULT_FOCUSED_FEATURES_DIAGELE_FEATURE_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: features.id
+ */
+static const int RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: features.classifier_id
+ */
+static const int RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN = 4;
+
 /*!
  *  \brief search statement to find classifiers that are not referenced
  */
@@ -182,6 +218,63 @@ static const int RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN = 3;
  *  \brief the column id of the result where this parameter is stored: dest.id
  */
 static const int RESULT_RELATIONSHIPS_DEST_ID_COLUMN = 4;
+
+/*! @todo FEATURE_RELATIONSHIPS unused!*/
+
+/*!
+ *  \brief search statement to find relationships that contain invalid references
+ */
+static const char SELECT_FEATURE_RELATIONSHIPS[] =
+    "SELECT relationships.id,relationships.from_classifier_id,relationships.to_classifier_id,"
+    "relationships.from_feature_id,relationships.to_feature_id,source.id,source.classifier_id,dest.id,dest.classifier_id "
+    "FROM relationships "
+    "LEFT JOIN features AS source ON relationships.from_feature_id=source.id "
+    "LEFT JOIN features AS dest ON relationships.to_feature_id=dest.id;";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.from_classifier_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_CLASSIFIER_ID_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.to_classifier_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_CLASIFIER_ID_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.from_feature_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_FEATURE_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: relationships.to_feature_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: source.id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: source.classifier_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_CLASSIFIER_ID_COLUMN = 6;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: dest.id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: dest.classifier_id
+ */
+static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN = 8;
 
 data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_,
                                                                             uint32_t *out_total_count,
