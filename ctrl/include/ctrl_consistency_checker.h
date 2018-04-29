@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Performs consistency checks in the database
+ *  \brief Performs consistency checks in the database and can repair the database
  *
  *  - There shall be 1 root diagram
  *      - diagrams.parent_id == DATA_ID_VOID_ID.

@@ -103,8 +103,6 @@ static const int RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN = 3;
  */
 static const int RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN = 4;
 
-/*! @todo SELECT_FOCUSED_FEATURES unused!*/
-
 /*!
  *  \brief search statement to find diagramelements with illegal focused features
  */
@@ -464,6 +462,109 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
     return result;
 }
 
+data_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        sqlite3 *native_db;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FOCUSED_FEATURES );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_FOCUSED_FEATURES,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+        );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+                    /*
+                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_ID_COLUMN = 0;
+                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_CLASSIFIER_ID_COLUMN = 1;
+                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_FEATURE_ID_COLUMN = 2;
+                    static const int RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN = 3;
+                    static const int RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN = 4;
+
+
+                    int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_ID_COLUMN );
+                    int64_t diagele_diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_DIAGRAM_ID_COLUMN );
+                    int64_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_CLASSIFIER_ID_COLUMN );
+                    bool diagram_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN ) );
+                    bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN ) );
+                    if (( ! diagram_exists ) && ( ! classifier_exists ))
+                    {
+                        TSLOG_ERROR_INT( "referenced diagram and classifier not existing, diagramelement:", diagele_id );
+                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
+                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                    }
+                    else if ( ! diagram_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced diagram not existing, diagramelement:", diagele_id );
+                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                    }
+                    else if ( ! classifier_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced classifier not existing, diagramelement:", diagele_id );
+                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT( "ok:", diagele_id );
+                    }
+                    */
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
@@ -699,6 +800,114 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
                     {
                         TRACE_INFO_INT( "ok:", relation_id );
                     }
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_invalid_feature_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        sqlite3 *native_db;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_FEATURE_RELATIONSHIPS );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_FEATURE_RELATIONSHIPS,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+        );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+                    /*
+                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_ID_COLUMN = 0;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_CLASSIFIER_ID_COLUMN = 1;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_CLASIFIER_ID_COLUMN = 2;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_FEATURE_ID_COLUMN = 3;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN = 4;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN = 5;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_CLASSIFIER_ID_COLUMN = 6;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN = 7;
+                    static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN = 8;
+
+
+
+                    int64_t relation_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN );
+                    int64_t relation_from_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN );
+                    int64_t relation_to_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN );
+                    bool source_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN ) );
+                    bool dest_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN ) );
+                    if (( ! source_exists ) && ( ! dest_exists ))
+                    {
+                        TSLOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else if ( ! source_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else if ( ! dest_exists )
+                    {
+                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
+                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
+                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT( "ok:", relation_id );
+                    }
+                    */
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {

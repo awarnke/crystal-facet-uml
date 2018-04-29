@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief checks and repairs a database
+ *  \brief checks a database and provides utility functinos to repair a database
  */
 
 #include "storage/data_database.h"
@@ -71,6 +71,16 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
 data_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 /*!
+ *  \brief reads the set of diagramelements where the focused_feature_id points to invalid features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of diagramelements where the focused_feature_id is not NULL but points to invalid feature.
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
  *  \brief reads the set of unreferenced classifiers from the database
  *
  *  \param this_ pointer to own object attributes
@@ -99,6 +109,16 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+
+/*!
+ *  \brief reads the set of relationships and features, reports relationships where the to/from feature ids are not NULL but invalid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param io_set the set of invalid feature relationships, where to/from_feature_id is not existing or not in line with to/from_classifier_id.
+ *                io_set must not be NULL. io_set shall be initialized already.
+ *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ */
+data_error_t data_database_consistency_checker_find_invalid_feature_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 /*!
  *  \brief deletes a classifier record even if it is still referenced
