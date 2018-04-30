@@ -17,6 +17,10 @@
  *      - features.classifier_id,
  *      - relationships.from_classifier_id,
  *      - relationships.to_classifier_id.
+ *  - References shall be valid or NULL:
+ *      - relationships.from_feature_id (and consistent classifier_id between relationship and feature)
+ *      - relationships.to_feature_id (and consistent classifier_id between relationship and feature)
+ *      - diagramelements.focused_feature_id (and consistent classifier_id between diagramelement and feature)
  *  - Objects shall be visible:
  *      - classifiers shall be referenced by diagrams,
  *      - relationships shall be visible in at least one diagram (not yet checked).
@@ -32,12 +36,6 @@
  *      - features.main_type (not checked, repairable via GUI),
  *      - diagrams.diagram_type (not checked, repairable via GUI),
  *      - diagramelements.display_flags (not checked).
- *
- *  @todo new consistency checks needed for new features after version 1.0
- *  - References shall be DATA_ID_VOID_ID or otherwise reference valid rows (and consistent classifier_id):
- *      - relationships.from_feature_id
- *      - relationships.to_feature_id
- *      - diagramelements.focused_feature_id
  *
  */
 

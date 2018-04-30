@@ -838,7 +838,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
     return result;
 }
 
-data_error_t data_database_consistency_checker_find_invalid_feature_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+data_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
     assert( NULL != io_set );

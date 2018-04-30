@@ -118,7 +118,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
  *                io_set must not be NULL. io_set shall be initialized already.
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
-data_error_t data_database_consistency_checker_find_invalid_feature_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
+data_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
 /*!
  *  \brief deletes a classifier record even if it is still referenced
