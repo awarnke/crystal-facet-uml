@@ -486,7 +486,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                                            AUTO_DETECT_SQL_LENGTH,
                                            &prepared_statement,
                                            NO_SQL_DEBUG_INFORMATION
-        );
+                                         );
 
         if ( 0 != sqlite_err )
         {
@@ -507,43 +507,60 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    /*
-                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_ID_COLUMN = 0;
-                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_CLASSIFIER_ID_COLUMN = 1;
-                    static const int RESULT_FOCUSED_FEATURES_DIAGELE_FEATURE_ID_COLUMN = 2;
-                    static const int RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN = 3;
-                    static const int RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN = 4;
+                    int64_t diagele_id;
+                    int64_t diagele_classifier_id;
+                    bool diagele_has_focused_feature;
+                    int64_t diagele_focused_feature_id;
+                    bool feature_exists;
+                    int64_t feature_id;
+                    int64_t feature_classifier_id;
 
-
-                    int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_ID_COLUMN );
-                    int64_t diagele_diagram_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_DIAGRAM_ID_COLUMN );
-                    int64_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGELE_CLASSIFIER_ID_COLUMN );
-                    bool diagram_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_DIAGRAM_ID_COLUMN ) );
-                    bool classifier_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMELEMENTS_CLASSIFIER_ID_COLUMN ) );
-                    if (( ! diagram_exists ) && ( ! classifier_exists ))
+                    /* fetch data record */
+                    diagele_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_DIAGELE_ID_COLUMN );
+                    diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_DIAGELE_CLASSIFIER_ID_COLUMN );
+                    diagele_has_focused_feature = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FOCUSED_FEATURES_DIAGELE_FEATURE_ID_COLUMN ) );
+                    if ( diagele_has_focused_feature )
                     {
-                        TSLOG_ERROR_INT( "referenced diagram and classifier not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
-                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
-                    }
-                    else if ( ! diagram_exists )
-                    {
-                        TSLOG_ERROR_INT( "referenced diagram not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced diagram not existing: diagramelement, diagram:", diagele_id, diagele_diagram_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
-                    }
-                    else if ( ! classifier_exists )
-                    {
-                        TSLOG_ERROR_INT( "referenced classifier not existing, diagramelement:", diagele_id );
-                        TRACE_INFO_INT_INT( "referenced classifier not existing: diagramelement, classifier:", diagele_id, diagele_classifier_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        diagele_focused_feature_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_DIAGELE_FEATURE_ID_COLUMN );
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", diagele_id );
+                        diagele_focused_feature_id = DATA_ID_VOID_ID;
                     }
-                    */
+                    feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN ) );
+                    if ( feature_exists )
+                    {
+                        feature_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN );
+                        feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
+                    }
+                    else
+                    {
+                        feature_id = DATA_ID_VOID_ID;
+                        feature_classifier_id = DATA_ID_VOID_ID;
+                    }
+
+                    /* evaluate the data record */
+                    if ( ! diagele_has_focused_feature )
+                    {
+                        TRACE_INFO_INT( "ok (no focused feature):", diagele_id );
+                    }
+                    else
+                    {
+                        if ( ! feature_exists )
+                        {
+                            TSLOG_ERROR_INT( "focused feature not existing, diagramelement:", diagele_id );
+                            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        }
+                        else if ( diagele_classifier_id != feature_classifier_id )
+                        {
+                            TSLOG_ERROR_INT( "referenced classifier of diagramelement and focused_feature differ, diagramelement:", diagele_id );
+                            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
+                        }
+                        else
+                        {
+                            TRACE_INFO_INT( "ok (valid focused feature):", diagele_id );
+                        }
+                    }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
@@ -845,7 +862,7 @@ data_error_t data_database_consistency_checker_find_invalid_feature_relationship
                                            AUTO_DETECT_SQL_LENGTH,
                                            &prepared_statement,
                                            NO_SQL_DEBUG_INFORMATION
-        );
+                                         );
 
         if ( 0 != sqlite_err )
         {
@@ -866,48 +883,137 @@ data_error_t data_database_consistency_checker_find_invalid_feature_relationship
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    /*
-                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_ID_COLUMN = 0;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_CLASSIFIER_ID_COLUMN = 1;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_CLASIFIER_ID_COLUMN = 2;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_FEATURE_ID_COLUMN = 3;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN = 4;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN = 5;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_CLASSIFIER_ID_COLUMN = 6;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN = 7;
-                    static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN = 8;
+                    int64_t relation_id;
+                    int64_t relation_from_classifier_id;
+                    int64_t relation_to_classifier_id;
+                    bool relation_has_from_feature;
+                    int64_t relation_from_feature_id;
+                    bool relation_has_to_feature;
+                    int64_t relation_to_feature_id;
+                    bool source_feature_exists;
+                    int64_t source_feature_id;
+                    int64_t source_feature_classifier_id;
+                    bool dest_feature_exists;
+                    int64_t dest_feature_id;
+                    int64_t dest_feature_classifier_id;
 
-
-
-                    int64_t relation_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_ID_COLUMN );
-                    int64_t relation_from_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_FROM_ID_COLUMN );
-                    int64_t relation_to_id = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIPS_RELATIONSHIP_TO_ID_COLUMN );
-                    bool source_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN ) );
-                    bool dest_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIPS_DEST_ID_COLUMN ) );
-                    if (( ! source_exists ) && ( ! dest_exists ))
+                    /* fetch data record */
+                    relation_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_ID_COLUMN );
+                    relation_from_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_CLASSIFIER_ID_COLUMN );
+                    relation_to_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_CLASIFIER_ID_COLUMN );
+                    relation_has_from_feature = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_FEATURE_ID_COLUMN ) );
+                    if ( relation_has_from_feature )
                     {
-                        TSLOG_ERROR_INT( "relationship referencing non-existing source and destiation, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
-                        TRACE_INFO_INT_INT( "relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
-                    }
-                    else if ( ! source_exists )
-                    {
-                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing source, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing source: relation_id, classifier:", relation_id, relation_from_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
-                    }
-                    else if ( ! dest_exists )
-                    {
-                        TSLOG_ERROR_INT( "referenced relationship referencing non-existing destination, relationship:", relation_id );
-                        TRACE_INFO_INT_INT( "referenced relationship referencing non-existing destination: relation_id, classifier:", relation_id, relation_to_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                        relation_from_feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_FROM_FEATURE_ID_COLUMN );
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", relation_id );
+                        relation_from_feature_id = DATA_ID_VOID_ID;
                     }
-                    */
+                    relation_has_to_feature = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN ) );
+                    if ( relation_has_to_feature )
+                    {
+                        relation_to_feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_RELATION_TO_FEATURE_ID_COLUMN );
+                    }
+                    else
+                    {
+                        relation_to_feature_id = DATA_ID_VOID_ID;
+                    }
+                    source_feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN ) );
+                    if ( source_feature_exists )
+                    {
+                        source_feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_ID_COLUMN );
+                        source_feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_SOURCE_FEATURE_CLASSIFIER_ID_COLUMN );
+                    }
+                    else
+                    {
+                        source_feature_id = DATA_ID_VOID_ID;
+                        source_feature_classifier_id = DATA_ID_VOID_ID;
+                    }
+                    dest_feature_exists = ( SQLITE_NULL != sqlite3_column_type( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN ) );
+                    if ( dest_feature_exists )
+                    {
+                        dest_feature_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN );
+                        dest_feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN );
+                    }
+                    else
+                    {
+                        dest_feature_id = DATA_ID_VOID_ID;
+                        dest_feature_classifier_id = DATA_ID_VOID_ID;
+                    }
+
+                    /* evaluate the data record */
+                    if ( ! relation_has_from_feature )
+                    {
+                        if ( ! relation_has_to_feature )
+                        {
+                            TRACE_INFO_INT( "ok (no feature relation):", relation_id );
+                        }
+                        else
+                        {
+                            if ( ! dest_feature_exists )
+                            {
+                                TSLOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else if ( relation_to_classifier_id != dest_feature_classifier_id )
+                            {
+                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else
+                            {
+                                TRACE_INFO_INT( "ok (valid destination feature, no source feature):", relation_id );
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if ( ! relation_has_to_feature )
+                        {
+                            if ( ! source_feature_exists )
+                            {
+                                TSLOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else if ( relation_from_classifier_id != source_feature_classifier_id )
+                            {
+                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else
+                            {
+                                TRACE_INFO_INT( "ok (valid source feature, no destination feature):", relation_id );
+                            }
+                        }
+                        else
+                        {
+                            if ( ! source_feature_exists )
+                            {
+                                TSLOG_ERROR_INT( "relation source feature not existing, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else if ( ! dest_feature_exists )
+                            {
+                                TSLOG_ERROR_INT( "relation destination feature not existing, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else if ( relation_from_classifier_id != source_feature_classifier_id )
+                            {
+                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else if ( relation_to_classifier_id != dest_feature_classifier_id )
+                            {
+                                TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
+                            }
+                            else
+                            {
+                                TRACE_INFO_INT( "ok (valid source and destination features):", relation_id );
+                            }
+                        }
+                    }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
                 {
