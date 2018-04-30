@@ -338,6 +338,15 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
     return err_result;
 }
 
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
+                                                                              bool modify_db,
+                                                                              uint32_t *io_err,
+                                                                              uint32_t *io_fix,
+                                                                              utf8stringbuf_t out_report )
+{
+
+}
+
 ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ctrl_consistency_checker_t *this_,
                                                                               bool modify_db,
                                                                               uint32_t *io_err,
@@ -622,6 +631,15 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
 
     TRACE_END_ERR( err_result );
     return err_result;
+}
+
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
+                                                                                   bool modify_db,
+                                                                                   uint32_t *io_err,
+                                                                                   uint32_t *io_fix,
+                                                                                   utf8stringbuf_t out_report )
+{
+
 }
 
 

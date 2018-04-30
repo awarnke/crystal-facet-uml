@@ -34,7 +34,7 @@
  *      - diagramelements.display_flags (not checked).
  *
  *  @todo new consistency checks needed for new features after version 1.0
- *  - References shall be DATA_ID_VOID_ID or otherwise reference valid rows:
+ *  - References shall be DATA_ID_VOID_ID or otherwise reference valid rows (and consistent classifier_id):
  *      - relationships.from_feature_id
  *      - relationships.to_feature_id
  *      - diagramelements.focused_feature_id
@@ -169,6 +169,25 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagramelements ( ctr
                                                                            );
 
 /*!
+ *  \brief checks and repairs the database with regards to diagramelements having NULL or valid references to focused features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagele_features ( ctrl_consistency_checker_t *this_,
+                                                                              bool modify_db,
+                                                                              uint32_t *io_err,
+                                                                              uint32_t *io_fix,
+                                                                              utf8stringbuf_t out_report
+                                                                            );
+
+/*!
  *  \brief checks and repairs the database with regards to classifiers being referenced by diagramelements
  *
  *  \param this_ pointer to own object attributes
@@ -258,6 +277,25 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_classifi
                                                                                       uint32_t *io_fix,
                                                                                       utf8stringbuf_t out_report
                                                                                     );
+
+/*!
+ *  \brief checks and repairs the database with regards to relationships referencing NULL or valid to and from features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param modify_db true if the database shall be repaired and modified
+ *  \param io_err number of errors detected (not NULL)
+ *  \param io_fix number of errors fixed (not NULL)
+ *  \param out_report english text stating what was checked and the results and what was reparied and the results
+ *  \return CTRL_ERROR_NONE in case of success,
+ *          CTRL_ERROR_NO_DB if database not open/loaded,
+ *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
+ */
+ctrl_error_t ctrl_consistency_checker_private_ensure_valid_relationship_features ( ctrl_consistency_checker_t *this_,
+                                                                                   bool modify_db,
+                                                                                   uint32_t *io_err,
+                                                                                   uint32_t *io_fix,
+                                                                                   utf8stringbuf_t out_report
+                                                                                 );
 
 /*
  *  \brief checks and repairs the database with regards to relationships are visible in at least one diagram
