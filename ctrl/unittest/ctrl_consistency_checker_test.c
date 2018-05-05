@@ -14,10 +14,12 @@ static void diagram_two_roots_consistency(void);
 static void diagram_missing_parent_consistency(void);
 static void diagram_circular_referenced_diagrams_consistency(void);
 static void diagram_nonreferencing_diagramelements_consistency(void);
+static void diagram_illreferencing_diagramelements_consistency(void);
 static void repair_unreferenced_classifiers(void);
 static void repair_unreferenced_classifiers_2(void);
 static void repair_invalid_feature_parent(void);
 static void repair_invalid_relationship(void);
+static void repair_ill_feature_relationship(void);
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -61,10 +63,12 @@ TestRef ctrl_consistency_checker_test_get_list(void)
         new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
         new_TestFixture("diagram_circular_referenced_diagrams_consistency",diagram_circular_referenced_diagrams_consistency),
         new_TestFixture("diagram_nonreferencing_diagramelements_consistency",diagram_nonreferencing_diagramelements_consistency),
+        new_TestFixture("diagram_illreferencing_diagramelements_consistency",diagram_illreferencing_diagramelements_consistency),
         new_TestFixture("repair_unreferenced_classifiers",repair_unreferenced_classifiers),
         new_TestFixture("repair_unreferenced_classifiers_2",repair_unreferenced_classifiers_2),
         new_TestFixture("repair_invalid_feature_parent",repair_invalid_feature_parent),
         new_TestFixture("repair_invalid_relationship",repair_invalid_relationship),
+        new_TestFixture("repair_ill_feature_relationship",repair_ill_feature_relationship),
     };
     EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
 
@@ -80,6 +84,25 @@ static void set_up(void)
     data_database_writer_init( &db_writer, &db_reader, &database );
 
     ctrl_controller_init( &controller, &database );
+
+    /* create a root diagram */
+    {
+        data_error_t data_err;
+        data_diagram_t current_diagram;
+
+        data_err = data_diagram_init ( &current_diagram,
+                                       6 /*=diagram_id*/,
+                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name-6",
+                                       "diagram_description-6",
+                                       10444 /*=list_order*/
+        );
+        assert( DATA_ERROR_NONE == data_err );
+
+        data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err );
+    }
 }
 
 static void tear_down(void)
@@ -104,7 +127,9 @@ static void diagram_two_roots_consistency(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create first root diagrams */
+    /* the root diagram (id=6) is created by set_up() */
+
+    /* create second root diagram */
     data_diagram_t current_diagram;
     data_err = data_diagram_init ( &current_diagram,
                                    2 /*=diagram_id*/,
@@ -113,20 +138,6 @@ static void diagram_two_roots_consistency(void)
                                    "diagram_name",
                                    "diagram_description",
                                    10222 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create second root diagrams */
-    data_err = data_diagram_init ( &current_diagram,
-                                   4 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name_2",
-                                   "diagram_description_2",
-                                   10333 /*=list_order*/
     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -167,6 +178,8 @@ static void diagram_missing_parent_consistency(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
+    /* the root diagram (id=6) is created by set_up() */
+
     /* create 1 diagram */
     data_diagram_t current_diagram;
     data_err = data_diagram_init ( &current_diagram,
@@ -190,20 +203,6 @@ static void diagram_missing_parent_consistency(void)
                                    "diagram_name-4",
                                    "diagram_description-4",
                                    10333 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create a root diagram */
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
                                  );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -244,6 +243,8 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     uint32_t found_errors;
     uint32_t fixed_errors;
 
+    /* the root diagram (id=6) is created by set_up() */
+
     /* create 1 diagram */
     data_diagram_t current_diagram;
     data_err = data_diagram_init ( &current_diagram,
@@ -267,20 +268,6 @@ static void diagram_circular_referenced_diagrams_consistency( void )
                                    "diagram_name-4",
                                    "diagram_description-4",
                                    10333 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create a root diagram */
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -321,20 +308,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create a root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* the root diagram (id=6) is created by set_up() */
 
     /* create 1 classifier */
     data_classifier_t current_classifier;
@@ -426,6 +400,19 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
+static void diagram_illreferencing_diagramelements_consistency(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[1024] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+    
+    /* the root diagram (id=6) is created by set_up() */
+
+}
+
 static void repair_unreferenced_classifiers(void)
 {
     ctrl_error_t ctrl_err;
@@ -435,20 +422,7 @@ static void repair_unreferenced_classifiers(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create a root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* the root diagram (id=6) is created by set_up() */
 
     /* create 1 unreferenced classifier */
     data_classifier_t current_classifier;
@@ -500,20 +474,7 @@ static void repair_unreferenced_classifiers_2(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create a root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* the root diagram (id=6) is created by set_up() */
 
     /* create 1 unreferenced classifier */
     data_classifier_t current_classifier;
@@ -599,20 +560,7 @@ static void repair_invalid_feature_parent(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create a valid root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* the root diagram (id=6) is created by set_up() */
 
     /* create a valid classifier */
     data_classifier_t current_classifier;
@@ -707,20 +655,7 @@ static void repair_invalid_relationship(void)
     uint32_t found_errors;
     uint32_t fixed_errors;
 
-    /* create a valid root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   6 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-6",
-                                   "diagram_description-6",
-                                   10444 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* the root diagram (id=6) is created by set_up() */
 
     /* create a valid classifier */
     data_classifier_t current_classifier;
@@ -847,6 +782,19 @@ static void repair_invalid_relationship(void)
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+}
+
+static void repair_ill_feature_relationship(void)
+{
+    ctrl_error_t ctrl_err;
+    data_error_t data_err;
+    char out_report_buf[1024] = "";
+    utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
+    uint32_t found_errors;
+    uint32_t fixed_errors;
+
+    /* the root diagram (id=6) is created by set_up() */
+
 }
 
 
