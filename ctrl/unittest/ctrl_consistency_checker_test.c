@@ -85,6 +85,8 @@ static void set_up(void)
 
     ctrl_controller_init( &controller, &database );
 
+    /* crete three basic elements that neary every tests needs: a consistent, minimal database */
+
     /* create a root diagram */
     {
         data_error_t data_err;
@@ -97,10 +99,47 @@ static void set_up(void)
                                        "diagram_name-6",
                                        "diagram_description-6",
                                        10444 /*=list_order*/
-        );
+                                     );
         assert( DATA_ERROR_NONE == data_err );
 
         data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err );
+    }
+
+    /* create a valid classifier */
+    {
+        data_error_t data_err;
+        data_classifier_t current_classifier;
+
+        data_err = data_classifier_init ( &current_classifier,
+                                          12 /*=classifier id*/,
+                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          "stereotype-12",
+                                          "name-12",
+                                          "description-12",
+                                          -34000 /*=x_order*/,
+                                          -16000 /*=y_order*/
+                                        );
+        assert( DATA_ERROR_NONE == data_err );
+
+        data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err );
+    }
+
+    /* create valid diagramelement */
+    {
+        data_error_t data_err;
+        data_diagramelement_t current_diagramelement;
+
+        data_diagramelement_init ( &current_diagramelement,
+                                   13 /*=id*/,
+                                   6 /*=diagram_id*/,
+                                   12 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   DATA_ID_VOID_ID
+                                 );
+
+        data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
         assert( DATA_ERROR_NONE == data_err );
     }
 }
@@ -128,6 +167,8 @@ static void diagram_two_roots_consistency(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up(), but not needed for this test case */
+    /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create second root diagram */
     data_diagram_t current_diagram;
@@ -179,6 +220,8 @@ static void diagram_missing_parent_consistency(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up(), but not needed for this test case */
+    /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 diagram */
     data_diagram_t current_diagram;
@@ -244,6 +287,8 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up(), but not needed for this test case */
+    /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 diagram */
     data_diagram_t current_diagram;
@@ -309,37 +354,11 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
-
-    /* create 1 classifier */
-    data_classifier_t current_classifier;
-    data_err = data_classifier_init ( &current_classifier,
-                                      12 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-12",
-                                      "name-12",
-                                      "description-12",
-                                      -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
-                                    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create valid diagramelement */
-    data_diagramelement_t current_diagramelement;
-    data_diagramelement_init ( &current_diagramelement,
-                               13 /*=id*/,
-                               6 /*=diagram_id*/,
-                               12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-                             );
-
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* a classifier (id=12) is created by set_up() */
+    /* a diagramelement (id=13) is created by set_up() */
 
     /* create diagramelement without classifier */
+    data_diagramelement_t current_diagramelement;
     data_diagramelement_init ( &current_diagramelement,
                                15 /*=id*/,
                                6 /*=diagram_id*/,
@@ -408,8 +427,10 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     utf8stringbuf_t out_report = UTF8STRINGBUF( out_report_buf );
     uint32_t found_errors;
     uint32_t fixed_errors;
-    
+
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up() */
+    /* a diagramelement (id=13) is created by set_up() */
 
 }
 
@@ -423,17 +444,19 @@ static void repair_unreferenced_classifiers(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up(), but not needed for this test case */
+    /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 unreferenced classifier */
     data_classifier_t current_classifier;
     data_err = data_classifier_init ( &current_classifier,
-                                      12 /*=classifier id*/,
+                                      13 /*=classifier id*/,
                                       DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-12",
-                                      "name-12",
-                                      "description-12",
-                                      -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
+                                      "stereotype-13",
+                                      "name-13",
+                                      "description-13",
+                                      -35050 /*=x_order*/,
+                                      -17070 /*=y_order*/
                                     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -445,7 +468,7 @@ static void repair_unreferenced_classifiers(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
@@ -453,7 +476,7 @@ static void repair_unreferenced_classifiers(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-13 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 1, fixed_errors );
 
     /* check the database */
@@ -475,17 +498,19 @@ static void repair_unreferenced_classifiers_2(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up(), but not needed for this test case */
+    /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 unreferenced classifier */
     data_classifier_t current_classifier;
     data_err = data_classifier_init ( &current_classifier,
-                                      12 /*=classifier id*/,
+                                      6 /*=classifier id*/,
                                       DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-12",
-                                      "name-12",
-                                      "description-12",
-                                      -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
+                                      "stereotype-c6",
+                                      "name-c6",
+                                      "description-c6",
+                                      -4200 /*=x_order*/,
+                                      -6200 /*=y_order*/
                                     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -497,7 +522,7 @@ static void repair_unreferenced_classifiers_2(void)
     data_err = data_feature_init ( &v_feature,
                                    17, /* feature_id */
                                    DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                   12, /* classifier_id */
+                                   6, /* classifier_id */
                                    "startup_time", /* feature_key */
                                    "uint64_t", /* feature_value */
                                    "time in nano seconds to start", /* feature_description */
@@ -513,8 +538,8 @@ static void repair_unreferenced_classifiers_2(void)
     data_err = data_relationship_init ( &v_relation,
                                         34, /* relationship_id */
                                         DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        12, /* from_classifier_id */
-                                        12, /* to_classifier_id */
+                                        6, /* from_classifier_id */
+                                        6, /* to_classifier_id */
                                         "the composition is more", /* relationship_name */
                                         "than the sum of its parts", /* relationship_description */
                                         -66000, /* list_order */
@@ -531,7 +556,7 @@ static void repair_unreferenced_classifiers_2(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-12 is unreferenced */
+    TEST_ASSERT_EQUAL_INT( 1, found_errors );  /* id-6 is unreferenced */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the database */
@@ -539,7 +564,7 @@ static void repair_unreferenced_classifiers_2(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-12 is unreferenced, after deleting the relatoinshif and the feature are unreferenced. */
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-6 is unreferenced, after deleting, also the relationship and the feature are unreferenced. */
     TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
 
     /* check the database */
@@ -561,35 +586,8 @@ static void repair_invalid_feature_parent(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
-
-    /* create a valid classifier */
-    data_classifier_t current_classifier;
-    data_err = data_classifier_init ( &current_classifier,
-                                      12 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-12",
-                                      "name-12",
-                                      "description-12",
-                                      -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create a valid diagramelement */
-    data_diagramelement_t current_diagramelement;
-    data_diagramelement_init ( &current_diagramelement,
-                               13 /*=id*/,
-                               6 /*=diagram_id*/,
-                               12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-    );
-
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* a classifier (id=12) is created by set_up() */
+    /* a diagramelement (id=13) is created by set_up() */
 
     /* create a valid feature */
     data_feature_t v_feature;
@@ -656,35 +654,8 @@ static void repair_invalid_relationship(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
-
-    /* create a valid classifier */
-    data_classifier_t current_classifier;
-    data_err = data_classifier_init ( &current_classifier,
-                                      12 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-12",
-                                      "name-12",
-                                      "description-12",
-                                      -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
-    /* create a valid diagramelement */
-    data_diagramelement_t current_diagramelement;
-    data_diagramelement_init ( &current_diagramelement,
-                               13 /*=id*/,
-                               6 /*=diagram_id*/,
-                               12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-                             );
-
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* a classifier (id=12) is created by set_up() */
+    /* a diagramelement (id=13) is created by set_up() */
 
     /* define a valid relationship */
     data_relationship_t v_relation;
@@ -794,6 +765,8 @@ static void repair_ill_feature_relationship(void)
     uint32_t fixed_errors;
 
     /* the root diagram (id=6) is created by set_up() */
+    /* a classifier (id=12) is created by set_up() */
+    /* a diagramelement (id=13) is created by set_up() */
 
 }
 
