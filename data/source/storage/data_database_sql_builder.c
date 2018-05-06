@@ -886,7 +886,14 @@ data_error_t data_database_sql_builder_build_update_diagramelement_focused_featu
     strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_PREFIX );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_COL_FOCUSED_FEATURE_ID );
 
-    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_focused_feature_id );
+    if ( DATA_ID_VOID_ID == new_focused_feature_id )
+    {
+        strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_NULL_VALUE );
+    }
+    else
+    {
+        strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_focused_feature_id );
+    }
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_DIAGRAMELEMENT_INFIX );
 

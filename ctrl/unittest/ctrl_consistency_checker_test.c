@@ -89,46 +89,46 @@ static void set_up(void)
 
     /* create a root diagram */
     {
-        data_error_t data_err;
+        data_error_t data_err_d;
         data_diagram_t current_diagram;
 
-        data_err = data_diagram_init ( &current_diagram,
-                                       6 /*=diagram_id*/,
-                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                       "diagram_name-6",
-                                       "diagram_description-6",
-                                       10444 /*=list_order*/
-                                     );
-        assert( DATA_ERROR_NONE == data_err );
+        data_err_d = data_diagram_init ( &current_diagram,
+                                         6 /*=diagram_id*/,
+                                         DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                         DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                         "diagram_name-6",
+                                         "diagram_description-6",
+                                         10444 /*=list_order*/
+                                       );
+        assert( DATA_ERROR_NONE == data_err_d );
 
-        data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err );
+        data_err_d = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err_d );
     }
 
     /* create a valid classifier */
     {
-        data_error_t data_err;
+        data_error_t data_err_c;
         data_classifier_t current_classifier;
 
-        data_err = data_classifier_init ( &current_classifier,
-                                          12 /*=classifier id*/,
-                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                          "stereotype-12",
-                                          "name-12",
-                                          "description-12",
-                                          -34000 /*=x_order*/,
-                                          -16000 /*=y_order*/
-                                        );
-        assert( DATA_ERROR_NONE == data_err );
+        data_err_c = data_classifier_init ( &current_classifier,
+                                            12 /*=classifier id*/,
+                                            DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                            "stereotype-12",
+                                            "name-12",
+                                            "description-12",
+                                            -34000 /*=x_order*/,
+                                            -16000 /*=y_order*/
+                                          );
+        assert( DATA_ERROR_NONE == data_err_c );
 
-        data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err );
+        data_err_c = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err_c );
     }
 
     /* create valid diagramelement */
     {
-        data_error_t data_err;
+        data_error_t data_err_de;
         data_diagramelement_t current_diagramelement;
 
         data_diagramelement_init ( &current_diagramelement,
@@ -139,8 +139,8 @@ static void set_up(void)
                                    DATA_ID_VOID_ID
                                  );
 
-        data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err );
+        data_err_de = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
+        assert( DATA_ERROR_NONE == data_err_de );
     }
 }
 
@@ -171,19 +171,21 @@ static void diagram_two_roots_consistency(void)
     /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create second root diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   2 /*=diagram_id*/,
-                                   DATA_ID_VOID_ID /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name",
-                                   "diagram_description",
-                                   10222 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_diagram_t current_diagram;
+        data_err = data_diagram_init ( &current_diagram,
+                                       2 /*=diagram_id*/,
+                                       DATA_ID_VOID_ID /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name",
+                                       "diagram_description",
+                                       10222 /*=list_order*/
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
@@ -224,33 +226,38 @@ static void diagram_missing_parent_consistency(void)
     /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   2 /*=diagram_id*/,
-                                   0 /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name",
-                                   "diagram_description",
-                                   10222 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_diagram_t second_diagram;
+        data_err = data_diagram_init ( &second_diagram,
+                                       2 /*=diagram_id*/,
+                                       0 /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name",
+                                       "diagram_description",
+                                       10222 /*=list_order*/
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagram ( &db_writer, &second_diagram, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create another diagram */
-    data_err = data_diagram_init ( &current_diagram,
-                                   4 /*=diagram_id*/,
-                                   17 /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-4",
-                                   "diagram_description-4",
-                                   10333 /*=list_order*/
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_diagram_t third_diagram;
+        data_err = data_diagram_init ( &third_diagram,
+                                       4 /*=diagram_id*/,
+                                       17 /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name-4",
+                                       "diagram_description-4",
+                                       10333 /*=list_order*/
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagram ( &db_writer, &third_diagram, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
@@ -290,34 +297,39 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     /* a classifier (id=12) is created by set_up(), but not needed for this test case */
     /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
-    /* create 1 diagram */
-    data_diagram_t current_diagram;
-    data_err = data_diagram_init ( &current_diagram,
-                                   2 /*=diagram_id*/,
-                                   4 /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-2",
-                                   "diagram_description-2",
-                                   10222 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    /* create 2nd diagram */
+    {
+        data_diagram_t second_diagram;
+        data_err = data_diagram_init ( &second_diagram,
+                                       2 /*=diagram_id*/,
+                                       4 /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name-2",
+                                       "diagram_description-2",
+                                       10222 /*=list_order*/
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagram ( &db_writer, &second_diagram, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create another diagram */
-    data_err = data_diagram_init ( &current_diagram,
-                                   4 /*=diagram_id*/,
-                                   2 /*=parent_diagram_id*/,
-                                   DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
-                                   "diagram_name-4",
-                                   "diagram_description-4",
-                                   10333 /*=list_order*/
-    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_diagram_t third_diagram;
+        data_err = data_diagram_init ( &third_diagram,
+                                       4 /*=diagram_id*/,
+                                       2 /*=parent_diagram_id*/,
+                                       DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM,
+                                       "diagram_name-4",
+                                       "diagram_description-4",
+                                       10333 /*=list_order*/
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagram ( &db_writer, &third_diagram, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
@@ -358,48 +370,56 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     /* a diagramelement (id=13) is created by set_up() */
 
     /* create diagramelement without classifier */
-    data_diagramelement_t current_diagramelement;
-    data_diagramelement_init ( &current_diagramelement,
-                               15 /*=id*/,
-                               6 /*=diagram_id*/,
-                               18 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-                             );
+    {
+        data_diagramelement_t second_diagramelement;
+        data_diagramelement_init ( &second_diagramelement,
+                                   15 /*=id*/,
+                                   6 /*=diagram_id*/,
+                                   18 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   DATA_ID_VOID_ID
+                                 );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create diagramelement without diagram */
-    data_diagramelement_init ( &current_diagramelement,
-                               17 /*=id*/,
-                               2 /*=diagram_id*/,
-                               12 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-                             );
+    {
+        data_diagramelement_t third_diagramelement;
+        data_diagramelement_init ( &third_diagramelement,
+                                   17 /*=id*/,
+                                   2 /*=diagram_id*/,
+                                   12 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   DATA_ID_VOID_ID
+                                 );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create diagramelement without diagram and without classifier */
-    data_diagramelement_init ( &current_diagramelement,
-                               19 /*=id*/,
-                               2 /*=diagram_id*/,
-                               18 /*=classifier_id*/,
-                               DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
-                               DATA_ID_VOID_ID
-                             );
+    {
+        data_diagramelement_t fourth_diagramelement;
+        data_diagramelement_init ( &fourth_diagramelement,
+                                   19 /*=id*/,
+                                   2 /*=diagram_id*/,
+                                   18 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   DATA_ID_VOID_ID
+                                 );
 
-    data_err = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_diagramelement( &db_writer, &fourth_diagramelement, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 
     /* fix the diagrams */
@@ -407,7 +427,7 @@ static void diagram_nonreferencing_diagramelements_consistency(void)
     ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19*/
+    TEST_ASSERT_EQUAL_INT( 3, found_errors );  /* id-15,17,19 */
     TEST_ASSERT_EQUAL_INT( 3, fixed_errors );
 
     /* check the diagrams */
@@ -432,6 +452,95 @@ static void diagram_illreferencing_diagramelements_consistency(void)
     /* a classifier (id=12) is created by set_up() */
     /* a diagramelement (id=13) is created by set_up() */
 
+    /* create a valid feature for classifier-12 */
+    {
+        data_feature_t v_feature;
+        data_err = data_feature_init ( &v_feature,
+                                       17, /* feature_id */
+                                       DATA_FEATURE_TYPE_LIFELINE, /* feature_main_type */
+                                       12, /* classifier_id */
+                                       "startup_time", /* feature_key */
+                                       "uint64_t", /* feature_value */
+                                       "time in nano seconds to start", /* feature_description */
+                                       5000000 /* list order */
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* create 2nd diagramelement with non-existing focused feature */
+    {
+        data_diagramelement_t second_diagramelement;
+        data_diagramelement_init ( &second_diagramelement,
+                                   14 /*=id*/,
+                                   6 /*=diagram_id*/,
+                                   12 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   18 /*=focused_feature_id*/
+                                 );
+
+        data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* create a second valid classifier */
+    {
+        data_classifier_t current_classifier;
+        data_err = data_classifier_init ( &current_classifier,
+                                          11 /*=classifier id*/,
+                                          DATA_CLASSIFIER_TYPE_UML_CLASS,
+                                          "stereotype-11",
+                                          "name-11",
+                                          "description-11",
+                                          -340 /*=x_order*/,
+                                          -160 /*=y_order*/
+                                        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* create 3rd diagramelement with existing focused feature but wrong, inconsistent classifier */
+    {
+        data_diagramelement_t third_diagramelement;
+        data_diagramelement_init ( &third_diagramelement,
+                                   15 /*=id*/,
+                                   6 /*=diagram_id*/,
+                                   11 /*=classifier_id*/,
+                                   DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,
+                                   17 /*=focused_feature_id*/
+                                 );
+
+        data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* check the diagramelements */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the diagramelements */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* 2nd and 3rd diagramelements have non-healthy references */
+    TEST_ASSERT_EQUAL_INT( 2, fixed_errors );
+
+    /* check the diagramelements */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 static void repair_unreferenced_classifiers(void)
@@ -448,20 +557,22 @@ static void repair_unreferenced_classifiers(void)
     /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 unreferenced classifier */
-    data_classifier_t current_classifier;
-    data_err = data_classifier_init ( &current_classifier,
-                                      13 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-13",
-                                      "name-13",
-                                      "description-13",
-                                      -35050 /*=x_order*/,
-                                      -17070 /*=y_order*/
-                                    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_classifier_t current_classifier;
+        data_err = data_classifier_init ( &current_classifier,
+                                          13 /*=classifier id*/,
+                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          "stereotype-13",
+                                          "name-13",
+                                          "description-13",
+                                          -35050 /*=x_order*/,
+                                          -17070 /*=y_order*/
+                                        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the database */
     utf8stringbuf_clear( out_report );
@@ -502,54 +613,60 @@ static void repair_unreferenced_classifiers_2(void)
     /* a diagramelement (id=13) is created by set_up(), but not needed for this test case */
 
     /* create 1 unreferenced classifier */
-    data_classifier_t current_classifier;
-    data_err = data_classifier_init ( &current_classifier,
-                                      6 /*=classifier id*/,
-                                      DATA_CLASSIFIER_TYPE_UML_INTERFACE,
-                                      "stereotype-c6",
-                                      "name-c6",
-                                      "description-c6",
-                                      -4200 /*=x_order*/,
-                                      -6200 /*=y_order*/
-                                    );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_classifier_t second_classifier;
+        data_err = data_classifier_init ( &second_classifier,
+                                          6 /*=classifier id*/,
+                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          "stereotype-c6",
+                                          "name-c6",
+                                          "description-c6",
+                                          -4200 /*=x_order*/,
+                                          -6200 /*=y_order*/
+                                        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create a valid feature */
-    data_feature_t v_feature;
-    data_err = data_feature_init ( &v_feature,
-                                   17, /* feature_id */
-                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                   6, /* classifier_id */
-                                   "startup_time", /* feature_key */
-                                   "uint64_t", /* feature_value */
-                                   "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */
-                                 );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_feature_t v_feature;
+        data_err = data_feature_init ( &v_feature,
+                                       17, /* feature_id */
+                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                       6, /* classifier_id */
+                                       "startup_time", /* feature_key */
+                                       "uint64_t", /* feature_value */
+                                       "time in nano seconds to start", /* feature_description */
+                                       5000000 /* list order */
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* define a valid relationship */
-    data_relationship_t v_relation;
-    data_err = data_relationship_init ( &v_relation,
-                                        34, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        6, /* from_classifier_id */
-                                        6, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
-                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_relationship_t v_relation;
+        data_err = data_relationship_init ( &v_relation,
+                                            34, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            6, /* from_classifier_id */
+                                            6, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+                                          );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the database */
     utf8stringbuf_clear( out_report );
@@ -590,34 +707,40 @@ static void repair_invalid_feature_parent(void)
     /* a diagramelement (id=13) is created by set_up() */
 
     /* create a valid feature */
-    data_feature_t v_feature;
-    data_err = data_feature_init ( &v_feature,
-                                   17, /* feature_id */
-                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                   12, /* classifier_id */
-                                   "startup_time", /* feature_key */
-                                   "uint64_t", /* feature_value */
-                                   "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_feature_t v_feature;
+        data_err = data_feature_init ( &v_feature,
+                                       17, /* feature_id */
+                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                       12, /* classifier_id */
+                                       "startup_time", /* feature_key */
+                                       "uint64_t", /* feature_value */
+                                       "time in nano seconds to start", /* feature_description */
+                                       5000000 /* list order */
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* create an invalid feature */
-    data_feature_t i_feature;
-    data_err = data_feature_init ( &i_feature,
-                                   19, /* feature_id */
-                                   DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
-                                   12121212, /* classifier_id */
-                                   "startup_time", /* feature_key */
-                                   "uint64_t", /* feature_value */
-                                   "time in nano seconds to start", /* feature_description */
-                                   5000000 /* list order */ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_feature_t i_feature;
+        data_err = data_feature_init ( &i_feature,
+                                       19, /* feature_id */
+                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                       12121212, /* classifier_id */
+                                       "startup_time", /* feature_key */
+                                       "uint64_t", /* feature_value */
+                                       "time in nano seconds to start", /* feature_description */
+                                       5000000 /* list order */
+                                     );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_feature ( &db_writer, &i_feature, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_feature ( &db_writer, &i_feature, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the database */
     utf8stringbuf_clear( out_report );
@@ -658,77 +781,84 @@ static void repair_invalid_relationship(void)
     /* a diagramelement (id=13) is created by set_up() */
 
     /* define a valid relationship */
-    data_relationship_t v_relation;
-    data_err = data_relationship_init ( &v_relation,
-                                        34, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        12, /* from_classifier_id */
-                                        12, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
-                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_relationship_t v_relation;
+        data_err = data_relationship_init ( &v_relation,
+                                            34, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            12, /* from_classifier_id */
+                                            12, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+                                          );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* define first invalid relationship */
-    data_relationship_t i1_relation;
-    data_err = data_relationship_init ( &i1_relation,
-                                        35, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        12, /* from_classifier_id */
-                                        12121212, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
-                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_relationship_t i1_relation;
+        data_err = data_relationship_init ( &i1_relation,
+                                            35, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            12, /* from_classifier_id */
+                                            12121212, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+                                          );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &i1_relation, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_relationship ( &db_writer, &i1_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* define second invalid relationship */
-    data_relationship_t i2_relation;
-    data_err = data_relationship_init ( &i2_relation,
-                                        36, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        12121212, /* from_classifier_id */
-                                        12, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
-                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_relationship_t i2_relation;
+        data_err = data_relationship_init ( &i2_relation,
+                                            36, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            12121212, /* from_classifier_id */
+                                            12, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+                                          );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &i2_relation, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+        data_err = data_database_writer_create_relationship ( &db_writer, &i2_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* define third invalid relationship */
-    data_relationship_t i3_relation;
-    data_err = data_relationship_init ( &i3_relation,
-                                        37, /* relationship_id */
-                                        DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
-                                        12121212, /* from_classifier_id */
-                                        12121212, /* to_classifier_id */
-                                        "the composition is more", /* relationship_name */
-                                        "than the sum of its parts", /* relationship_description */
-                                        -66000, /* list_order */
-                                        DATA_ID_VOID_ID, /* from_feature_id */
-                                        DATA_ID_VOID_ID /* to_feature_id */
-                                      );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    {
+        data_relationship_t i3_relation;
+        data_err = data_relationship_init ( &i3_relation,
+                                            37, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            12121212, /* from_classifier_id */
+                                            12121212, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+                                          );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
-    data_err = data_database_writer_create_relationship ( &db_writer, &i3_relation, NULL /*=out_new_id*/ );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
-
+        data_err = data_database_writer_create_relationship ( &db_writer, &i3_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
 
     /* check the database */
     utf8stringbuf_clear( out_report );
@@ -768,6 +898,87 @@ static void repair_ill_feature_relationship(void)
     /* a classifier (id=12) is created by set_up() */
     /* a diagramelement (id=13) is created by set_up() */
 
+#if 0
+    /* create 1 unreferenced classifier */
+    {
+        data_classifier_t second_classifier;
+        data_err = data_classifier_init ( &second_classifier,
+                                          6 /*=classifier id*/,
+                                          DATA_CLASSIFIER_TYPE_UML_INTERFACE,
+                                          "stereotype-c6",
+                                          "name-c6",
+                                          "description-c6",
+                                          -4200 /*=x_order*/,
+                                          -6200 /*=y_order*/
+        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* create a valid feature */
+    {
+        data_feature_t v_feature;
+        data_err = data_feature_init ( &v_feature,
+                                       17, /* feature_id */
+                                       DATA_FEATURE_TYPE_PROPERTY, /* feature_main_type */
+                                       6, /* classifier_id */
+                                       "startup_time", /* feature_key */
+                                       "uint64_t", /* feature_value */
+                                       "time in nano seconds to start", /* feature_description */
+                                       5000000 /* list order */
+        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+
+    /* define a valid relationship */
+    {
+        data_relationship_t v_relation;
+        data_err = data_relationship_init ( &v_relation,
+                                            34, /* relationship_id */
+                                            DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, /* relationship_main_type */
+                                            6, /* from_classifier_id */
+                                            6, /* to_classifier_id */
+                                            "the composition is more", /* relationship_name */
+                                            "than the sum of its parts", /* relationship_description */
+                                            -66000, /* list_order */
+                                            DATA_ID_VOID_ID, /* from_feature_id */
+                                            DATA_ID_VOID_ID /* to_feature_id */
+        );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+
+        data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
+        TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    }
+#endif
+
+    /* check the relationships */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );  /*! @todo */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* fix the relationships */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, FIX_ERRORS, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );  /*! @todo */
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
+
+    /* check the relationships */
+    utf8stringbuf_clear( out_report );
+    ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
+    TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
+    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
 
