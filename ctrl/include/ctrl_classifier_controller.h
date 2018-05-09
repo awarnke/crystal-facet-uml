@@ -212,7 +212,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
 
 /*!
  *  \brief deletes a feature record
- *         TODO: and associated relationships
+ *         and associated relationships
  *         and stores all actions in the undo redo list.
  *
  *  \param this_ pointer to own object attributes

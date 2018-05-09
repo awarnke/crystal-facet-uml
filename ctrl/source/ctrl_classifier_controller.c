@@ -219,9 +219,9 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
         {
             data_classifier_t old_classifier;
             data_result = data_database_writer_delete_classifier( (*this_).db_writer,
-                                                                    obj_id,
-                                                                    &old_classifier
-            );
+                                                                  obj_id,
+                                                                  &old_classifier
+                                                                );
 
             if ( DATA_ERROR_NONE == data_result )
             {
@@ -518,40 +518,79 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
 {
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    
+    /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
+    if ( add_to_latest_undo_set )
+    {
+        ctrl_error_t internal_err;
+        internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
+        if ( CTRL_ERROR_NONE != internal_err )
+        {
+            TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
+        }
+    }
 
-    /* TODO: deletes a feature record and associated relationships */
+    /* delete all relationships to and/or from this feature */
+    {
+        bool no_more_relationships = false;
+        static const uint32_t MAX_RELATIONSHIPS_PER_CLASSIFIER = 10000;
+        for ( uint32_t relationship_count = 0; ( relationship_count < MAX_RELATIONSHIPS_PER_CLASSIFIER ) && ( no_more_relationships == false ); relationship_count ++ )
+        {
+            data_relationship_t out_relationship[1];
+            uint32_t out_relationship_count;
+            data_result = data_database_reader_get_relationships_by_feature_id ( (*this_).db_reader,
+                                                                                 obj_id,
+                                                                                 1,
+                                                                                 &out_relationship,
+                                                                                 &out_relationship_count
+                                                                               );
 
-    if ( true )
+            if (( DATA_ERROR_ARRAY_BUFFER_EXCEEDED == data_result ) || ( out_relationship_count == 1 ))
+            {
+                data_result = data_database_writer_delete_relationship( (*this_).db_writer, data_relationship_get_id( &(out_relationship[0]) ), NULL );
+
+                result |= (ctrl_error_t) data_result;
+
+                if ( DATA_ERROR_NONE == data_result )
+                {
+                    /* store the deleted relationship to the undo redo list */
+                    ctrl_undo_redo_list_add_delete_relationship( (*this_).undo_redo_list, &(out_relationship[0]) );
+                }
+                data_relationship_destroy( &(out_relationship[0]) );
+            }
+            else
+            {
+                result |= (ctrl_error_t) data_result;
+                no_more_relationships = true;
+            }
+        }
+    }
+
+    /* delete the feature */
+    data_feature_t old_feature;
+    data_error_t feature_result;
     {
         /* delete feature */
-        data_feature_t old_feat;
-        data_error_t current_result4;
-        current_result4 = data_database_writer_delete_feature( (*this_).db_writer, obj_id, &old_feat );
+        feature_result = data_database_writer_delete_feature( (*this_).db_writer, obj_id, &old_feature );
 
-        if ( DATA_ERROR_NONE == current_result4 )
+        if ( DATA_ERROR_NONE == feature_result )
         {
-            /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
-            if ( add_to_latest_undo_set )
-            {
-                ctrl_error_t internal_err;
-                internal_err = ctrl_undo_redo_list_remove_boundary_from_end( (*this_).undo_redo_list );
-                if ( CTRL_ERROR_NONE != internal_err )
-                {
-                    TSLOG_ERROR_HEX( "unexpected internal error", internal_err );
-                }
-            }
-
             /* store the deleted feature to the undo redo list */
-            ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feat );
-            ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
-
-            /* apply policy rules */
-            result |= ctrl_classifier_policy_enforcer_post_delete_feature ( (*this_).policy_enforcer, &old_feat );
-
-            data_feature_destroy( &old_feat );
+            ctrl_undo_redo_list_add_delete_feature( (*this_).undo_redo_list, &old_feature );
         }
 
-        result |= (ctrl_error_t) current_result4;
+        result |= (ctrl_error_t) feature_result;
+    }
+
+    /* add boundary to undo-redo-list */
+    ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+    /* apply policy rules */
+    if ( DATA_ERROR_NONE == feature_result )
+    {
+        result |= ctrl_classifier_policy_enforcer_post_delete_feature ( (*this_).policy_enforcer, &old_feature );
+        data_feature_destroy( &old_feature );
     }
 
     TRACE_END_ERR( result );

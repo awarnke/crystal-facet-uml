@@ -37,7 +37,7 @@ void ctrl_diagram_policy_enforcer_destroy ( ctrl_diagram_policy_enforcer_t *this
 /* ================================ LIFELINES ================================ */
 
 ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagram_policy_enforcer_t *this_,
-                                                             const data_diagram_t *updated_diagram )
+                                                                     const data_diagram_t *updated_diagram )
 {
     TRACE_BEGIN();
     assert( NULL != updated_diagram );
@@ -89,7 +89,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_lifelines ( ctrl_diagra
 }
 
 ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *new_diagramelement )
+                                                                      const data_diagramelement_t *new_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != new_diagramelement );
@@ -123,7 +123,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_a_lifeline ( ctrl_diagr
 }
 
 ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                const data_diagramelement_t *the_diagramelement )
+                                                                        const data_diagramelement_t *the_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != the_diagramelement );
@@ -168,7 +168,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_create_one_lifeline ( ctrl_dia
 }
 
 ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagram_policy_enforcer_t *this_,
-                                                              const data_diagramelement_t *deleted_diagramelement )
+                                                                      const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
@@ -193,8 +193,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
 /* ================================ NO ABANDONED CLASSIFIERS ================================ */
 
 ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier ( ctrl_diagram_policy_enforcer_t *this_,
-                                                                           const data_diagramelement_t *deleted_diagramelement
-                                                                         )
+                                                                                   const data_diagramelement_t *deleted_diagramelement )
 {
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );

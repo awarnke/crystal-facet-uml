@@ -1299,6 +1299,15 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID[] =
     "WHERE from_classifier_id=? OR to_classifier_id=?;";
 
 /*!
+ *  \brief predefined search statement to find relationships by feature-id
+ */
+static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID[] =
+    "SELECT id,main_type,from_classifier_id,to_classifier_id,name,description,list_order,"
+    "from_feature_id,to_feature_id "
+    "FROM relationships "
+    "WHERE from_feature_id=? OR to_feature_id=?;";
+
+/*!
  *  \brief the column id of the result where this parameter is stored: id
  */
 static const int RESULT_RELATIONSHIP_ID_COLUMN = 0;
@@ -1469,6 +1478,89 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
                                                   sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
                                                 );
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
+                if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) )
+                {
+                    data_relationship_set_to_feature_id ( current_relation, DATA_ID_VOID_ID );
+                }
+
+                data_relationship_trace( current_relation );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_array_size))
+            {
+                TSLOG_ANOMALY_INT( "out_relationship[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    result |= data_database_reader_private_unlock( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_reader_get_relationships_by_feature_id ( data_database_reader_t *this_,
+                                                                    int64_t feature_id,
+                                                                    uint32_t max_out_array_size,
+                                                                    data_relationship_t (*out_relationship)[],
+                                                                    uint32_t *out_relationship_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_relationship_count );
+    assert( NULL != out_relationship );
+    data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+
+    result |= data_database_reader_private_lock( this_ );
+
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_relationships_by_feature_id;
+
+        result |= data_database_reader_private_bind_two_ids_to_statement( this_, prepared_statement, feature_id, feature_id );
+
+        *out_relationship_count = 0;
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_array_size); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_array_size))
+            {
+                *out_relationship_count = row_index+1;
+                data_relationship_t *current_relation;
+                current_relation = &((*out_relationship)[row_index]);
+
+                result |= data_relationship_init( current_relation,
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
+                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_DESCRIPTION_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_LIST_ORDER_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ),
+                                                  sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN )
+                );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) )
                 {
                     data_relationship_set_from_feature_id ( current_relation, DATA_ID_VOID_ID );
@@ -1702,6 +1794,12 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         );
 
         result |= data_database_reader_private_prepare_statement ( this_,
+                                                                   DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
+                                                                   sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID ),
+                                                                   &((*this_).private_prepared_query_relationships_by_feature_id)
+        );
+
+        result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_diagram_id)
@@ -1763,6 +1861,8 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_by_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_classifier_id );
+
+        result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_feature_id );
 
         result |= data_database_reader_private_finalize_statement( this_, (*this_).private_prepared_query_relationships_by_diagram_id );
 
