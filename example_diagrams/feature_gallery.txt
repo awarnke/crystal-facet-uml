@@ -1,5 +1,5 @@
 /*!
- *  \page cfu-feature-galley-page crystal facet uml feature gallery
+ *  \page cfu-feature-galley-page crystal_facet_uml feature gallery
  *
  *  \section cfu-feat_lists Feature List
  *

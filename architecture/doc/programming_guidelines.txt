@@ -1,5 +1,5 @@
 /*!
- *  \page cfu-programming-guidelines-page crystal facet uml programming guidelines
+ *  \page cfu-programming-guidelines-page crystal_facet_uml programming guidelines
  *
  *  \image html crystal_facet_uml.png
  *  \image latex crystal_facet_uml.pdf "" width=3cm

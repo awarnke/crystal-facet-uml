@@ -217,8 +217,6 @@ static const int RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN = 3;
  */
 static const int RESULT_RELATIONSHIPS_DEST_ID_COLUMN = 4;
 
-/*! @todo FEATURE_RELATIONSHIPS unused!*/
-
 /*!
  *  \brief search statement to find relationships that contain invalid references
  */

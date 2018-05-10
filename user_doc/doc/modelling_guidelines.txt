@@ -9,7 +9,7 @@
  *  As all tools, this program has its strengths and weaknesses.
  *  This page helps in making use of the strenghts.
  *
- *  \section cfu-modelling-tool-hints crystal_facet_uml general hints
+ *  \section cfu-modelling-tool-hints crystal_facet_uml hints
  *
  *  \li Diagrams are organized as a tree: Start the root of the tree showing the major use cases/features of your software.
  *  \li At the second level of the tree, list the main areas to be modelled, e.g. context (problem space) of development,
@@ -19,9 +19,17 @@
  *  \li Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
  *      to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
  *
- *  \section cfu-modelling-hints general hints on documentation
+ *  \section cfu-modelling-hints general hints on architecture documentation
  *
- *  ...
+ *  \li Names of things are crucial: If the reader gets a wrong understanding by the name of an element, a hundred correct sentences
+ *      of describing text cannot set this straight again.
+ *  \li Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
+ *      Names alone cannot explain a system part.
+ *  \li Things that are similar but not the same shall be different entities when modelling.
+ *      E.g. The process in which an example application runs may
+ *      be different from the storage location and may be different from the software-component.
+ *      Then these are three things:
+ *      Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
  *
  *  \section cfu-modelling-info Further Information
  *

@@ -130,15 +130,12 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         }
 
         /* determine simpleness by distance between source and destination */
-        layout_visible_classifier_t *source_layout;
-        layout_visible_classifier_t *dest_layout;
-        source_layout = layout_relationship_get_from_classifier_ptr( current_relation );
-        dest_layout = layout_relationship_get_to_classifier_ptr( current_relation );
         {
-            geometry_rectangle_t *source_rect;
-            geometry_rectangle_t *dest_rect;
-            source_rect = layout_visible_classifier_get_bounds_ptr( source_layout );
-            dest_rect = layout_visible_classifier_get_bounds_ptr( dest_layout );
+            const geometry_rectangle_t *source_rect;
+            const geometry_rectangle_t *dest_rect;
+            source_rect = layout_relationship_get_from_bounds_const ( current_relation );
+            dest_rect = layout_relationship_get_to_bounds_const ( current_relation );
+
             simpleness -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
 
@@ -178,15 +175,11 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
     /* propose connections between source and destination */
-    layout_visible_classifier_t *source_layout;
-    layout_visible_classifier_t *dest_layout;
-    source_layout = layout_relationship_get_from_classifier_ptr( current_relation );
-    dest_layout = layout_relationship_get_to_classifier_ptr( current_relation );
     {
-        geometry_rectangle_t *source_rect;
-        geometry_rectangle_t *dest_rect;
-        source_rect = layout_visible_classifier_get_bounds_ptr( source_layout );
-        dest_rect = layout_visible_classifier_get_bounds_ptr( dest_layout );
+        const geometry_rectangle_t *source_rect;
+        const geometry_rectangle_t *dest_rect;
+        source_rect = layout_relationship_get_from_bounds_const ( current_relation );
+        dest_rect = layout_relationship_get_to_bounds_const ( current_relation );
 
         uint32_t solutions_by_ZN;
         uint32_t solutions_by_L7;

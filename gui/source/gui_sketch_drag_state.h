@@ -53,7 +53,6 @@ static inline bool gui_sketch_drag_state_is_dragging ( const gui_sketch_drag_sta
  *  \brief sets the dragging attribute
  *
  *  \param this_ pointer to own object attributes
- *  \param dragging true if an object is currently being dragged
  */
 static inline void gui_sketch_drag_state_stop_dragging ( gui_sketch_drag_state_t *this_ );
 

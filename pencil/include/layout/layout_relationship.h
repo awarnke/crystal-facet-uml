@@ -129,6 +129,23 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( layout_
  */
 static inline int64_t layout_relationship_get_relationship_id ( const layout_relationship_t *this_ );
 
+/*!
+ *  \brief gets the bounding box of the source object, the feature or the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to const geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_relationship_get_from_bounds_const ( const layout_relationship_t *this_ );
+
+/*!
+ *  \brief gets the bounding box of the destination object, the feature or the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to const geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_relationship_get_to_bounds_const ( const layout_relationship_t *this_ );
+
+
 #include "layout_relationship.inl"
 
 #endif  /* LAYOUT_RELATIONSHIP_H */
