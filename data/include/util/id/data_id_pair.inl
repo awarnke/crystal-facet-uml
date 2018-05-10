@@ -108,7 +108,7 @@ static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *thi
 
 static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ )
 {
-    return ( data_id_is_valid( &((*this_).primary_id) ) && data_id_is_valid( &((*this_).secondary_id) ) );
+    return data_id_is_valid( &((*this_).primary_id) );
 }
 
 static inline void data_id_pair_trace ( const data_id_pair_t *this_ )

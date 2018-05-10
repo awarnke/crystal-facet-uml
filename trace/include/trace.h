@@ -13,7 +13,7 @@
 #include <time.h>
 
 #define TRACE_OUT_STREAM stdout
-#define TRACE_INDENT_MAX (16)
+#define TRACE_INDENT_MAX (24)
 extern __thread int trace_indent_depth;
 extern const char trace_indent_pattern_begin[2*(TRACE_INDENT_MAX-1)+1];
 extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];

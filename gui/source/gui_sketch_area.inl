@@ -120,9 +120,7 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
                     break;
                     case DATA_TABLE_FEATURE:
                     {
-                        *out_selected_id = out_surrounding_id;
-                        *out_inner_space = false;
-
+                        /* nothing to do: a feature has already its parent classifier in the data_id_pair_t */
                     }
                     break;
                     case DATA_TABLE_RELATIONSHIP:

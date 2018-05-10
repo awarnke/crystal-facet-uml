@@ -671,7 +671,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_marker_set_focused ( (*this_).marker,
                                                     focused_object_visible
                                                   );
-                    
+
                     data_id_t real_object = focused_object_visible;
                     if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
                     {
@@ -961,6 +961,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is selected? */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    data_id_pair_trace( dragged_object );
                     data_id_t dragged_element;
                     dragged_element = data_id_pair_get_primary_id( dragged_object );
                     data_id_t dragged_classifier;
@@ -969,6 +970,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is at the target location? */
                     data_id_pair_t destination_object;
                     gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &destination_object );
+                    data_id_pair_trace( &destination_object );
                     data_id_t destination_element;
                     destination_element = data_id_pair_get_primary_id( &destination_object );
                     data_id_t destination_classifier;
