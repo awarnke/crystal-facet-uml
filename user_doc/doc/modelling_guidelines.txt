@@ -11,13 +11,16 @@
  *
  *  \section cfu-modelling-tool-hints crystal_facet_uml hints
  *
- *  \li Diagrams are organized as a tree: Start the root of the tree showing the major use cases/features of your software.
- *  \li At the second level of the tree, list the main areas to be modelled, e.g. context (problem space) of development,
+ *  - Diagrams are organized as a tree:
+ *    - Start the root of the tree showing the major use cases/features of your software.
+ *    - At the second level of the tree, list the main areas to be modelled, e.g. context (problem space) of development,
  *      tools and dataflows of development (solution space), context (problem space) of operating environment,
  *      system in operating environment (solution space), design decisions.
- *  \li Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
- *  \li Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
- *      to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
+ *    .
+ *  - Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
+ *  - Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
+ *    to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
+ *  .
  *
  *  \section cfu-modelling-hints general hints on architecture documentation
  *
@@ -33,7 +36,7 @@
  *  - Things that are similar but not the same shall be different entities when modelling.
  *    E.g. The process in which an example application runs may
  *    be different from the storage location and may be different from the software-component.
- *    Then these are three things:
+ *    These are three things:
  *    Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
  *  .
  *

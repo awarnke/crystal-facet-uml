@@ -1,5 +1,7 @@
 /* File: data_id_pair.inl; Copyright and License: see below */
 
+#include <assert.h>
+
 static inline void data_id_pair_init_void ( data_id_pair_t *this_ )
 {
     data_id_init_void( &((*this_).primary_id) );
