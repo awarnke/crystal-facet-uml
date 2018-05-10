@@ -1,4 +1,5 @@
 2018-05-xx 1.4.0 [xxxxxxx]
+  + relationships can connect to ports
   + the repair-database function can detect and repair broken focused_feature keys in diagramelements
   + the repair-database function can detect and repair broken from/to_feature keys in relationships
 2018-04-01 1.3.0 [7bc9dff]

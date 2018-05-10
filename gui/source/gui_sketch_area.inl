@@ -74,22 +74,23 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
-            data_id_pair_t out_surrounding_id;
+            data_id_pair_t out_surrounding_id;  /* dummy */
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
         }
     }
 }
 
-static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( gui_sketch_area_t *this_,
-                                                                                int32_t x,
-                                                                                int32_t y,
-                                                                                data_id_pair_t* out_selected_id,
-                                                                                bool* out_inner_space )
+static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
+                                                                   int32_t x,
+                                                                   int32_t y,
+                                                                   data_id_pair_t* out_selected_id,
+                                                                   data_id_pair_t* out_surrounding_id )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
     assert( NULL != out_selected_id );
+    assert( NULL != out_surrounding_id );
     data_id_pair_init_void( out_selected_id );
-    *out_inner_space = false;
+    data_id_pair_init_void( out_surrounding_id );
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
@@ -99,54 +100,7 @@ static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( 
         card_bounds = gui_sketch_card_get_bounds( card );
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
-            data_id_pair_t out_surrounding_id;
-            gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
-
-            data_id_t selected_visible_id;
-            selected_visible_id = data_id_pair_get_primary_id( out_selected_id );
-            if ( ! data_id_is_valid( &selected_visible_id ) )
-            {
-                /* nothing to select */
-            }
-            else
-            {
-                switch ( data_id_get_table( &selected_visible_id ) )
-                {
-                    case DATA_TABLE_CLASSIFIER:
-                    {
-                        /* error: a visible id of a classifier is always a DATA_TABLE_DIAGRAMELEMENT */
-                        TSLOG_ERROR("unexpected type of data_id_pair_get_visible_id: DATA_TABLE_CLASSIFIER");
-                    }
-                    break;
-                    case DATA_TABLE_FEATURE:
-                    {
-                        /* nothing to do: a feature has already its parent classifier in the data_id_pair_t */
-                    }
-                    break;
-                    case DATA_TABLE_RELATIONSHIP:
-                    {
-                        /* ignore */
-                    }
-                    break;
-                    case DATA_TABLE_DIAGRAMELEMENT:
-                    {
-                        /* nothing to do: classifier selected, classifier reported */
-                    }
-                    break;
-                    case DATA_TABLE_DIAGRAM:
-                    {
-                        *out_selected_id = out_surrounding_id;
-                        *out_inner_space = true;
-                    }
-                    break;
-
-                    default:
-                    {
-                        TSLOG_ERROR("unexpected type of data_id_pair_get_visible_id: unknown");
-                    }
-                    break;
-                }
-            }
+            gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, out_surrounding_id );
         }
     }
 }

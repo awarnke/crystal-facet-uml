@@ -249,14 +249,14 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
  *  \param x x-position
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_inner_space true if the inner space of a classifier was selected, false if another part of the classifier or a feature was selected.
+ *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  */
-static inline void gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( gui_sketch_area_t *this_,
-                                                                                int32_t x,
-                                                                                int32_t y,
-                                                                                data_id_pair_t* out_selected_id,
-                                                                                bool* out_inner_space
-                                                                              );
+static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
+                                                                   int32_t x,
+                                                                   int32_t y,
+                                                                   data_id_pair_t* out_selected_id,
+                                                                   data_id_pair_t* out_surrounding_id
+                                                                 );
 
 #include "gui_sketch_area.inl"
 

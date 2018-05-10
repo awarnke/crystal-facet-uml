@@ -129,7 +129,7 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
  *  \param x x-position
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
- *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  */
 static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
                                                           int32_t x,

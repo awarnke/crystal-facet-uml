@@ -43,6 +43,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
     TRACE_BEGIN();
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
+    assert ( DATA_ID_VOID_ID != diagram_id );
 
     ctrl_error_t c_result;
 
@@ -162,6 +163,8 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
     assert ( NULL != out_classifier_id );
     assert ( NULL != out_diagramelement_id );
     assert ( NULL != out_relationship_id );
+    assert ( DATA_ID_VOID_ID != parent_classifier_id );
+    assert ( DATA_ID_VOID_ID != diagram_id );
 
     ctrl_error_t c_result;
 
@@ -212,6 +215,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
 {
     TRACE_BEGIN();
     assert ( NULL != out_diagram_id );
+    assert ( DATA_ID_VOID_ID != parent_diagram_id );
 
     ctrl_error_t c_result;
 
@@ -243,6 +247,8 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 {
     TRACE_BEGIN();
     assert ( NULL != out_relationship_id );
+    assert ( DATA_ID_VOID_ID != from_classifier_id );
+    assert ( DATA_ID_VOID_ID != to_classifier_id );
 
     ctrl_error_t c_result;
 
@@ -305,6 +311,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 {
     TRACE_BEGIN();
     assert ( NULL != out_feature_id );
+    assert ( DATA_ID_VOID_ID != parent_classifier_id );
 
     ctrl_error_t c_result;
 

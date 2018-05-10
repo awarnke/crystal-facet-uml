@@ -21,15 +21,21 @@
  *
  *  \section cfu-modelling-hints general hints on architecture documentation
  *
- *  \li Names of things are crucial: If the reader gets a wrong understanding by the name of an element, a hundred correct sentences
- *      of describing text cannot set this straight again.
- *  \li Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
- *      Names alone cannot explain a system part.
- *  \li Things that are similar but not the same shall be different entities when modelling.
- *      E.g. The process in which an example application runs may
- *      be different from the storage location and may be different from the software-component.
- *      Then these are three things:
- *      Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
+ *  - Distinguish things that are
+ *    - given constraints (problem space),
+ *    - decisions, chosen and rejected alternatives and
+ *    - the designed solution
+ *    .
+ *  - Names of things are crucial: If the reader gets a wrong understanding by the name of an element, a hundred correct sentences
+ *    of describing text cannot set this straight again.
+ *  - Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
+ *    Names alone cannot explain a system part.
+ *  - Things that are similar but not the same shall be different entities when modelling.
+ *    E.g. The process in which an example application runs may
+ *    be different from the storage location and may be different from the software-component.
+ *    Then these are three things:
+ *    Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
+ *  .
  *
  *  \section cfu-modelling-info Further Information
  *

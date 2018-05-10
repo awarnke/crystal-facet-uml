@@ -713,102 +713,105 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
 
-                /* determine the object at click location */
-                data_id_pair_t clicked_object;
-                bool inner_space_clicked;
-                gui_sketch_area_private_get_surrounding_id_and_part_at_pos ( this_, x, y, &clicked_object, &inner_space_clicked );
-                data_id_pair_trace( &clicked_object );
-
                 if ( NULL == target_card )
                 {
                     TRACE_INFO_INT_INT("No card at",x,y);
 
-                    /* if this happens, we should invalidate the marked object. */
+                    /* if this happens, invalidate the marked object. */
                     gui_sketch_marker_clear_focused( (*this_).marker );
                 }
-                else if (( DATA_TABLE_CLASSIFIER == data_id_get_table( data_id_pair_get_secondary_id_ptr( &clicked_object ) ) )
-                    && ( ! inner_space_clicked ))
+                else
                 {
-                    /* update drag state */
-                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
+                    /* determine the object at click location */
+                    data_id_pair_t clicked_object;
+                    data_id_pair_t surrounding_object;
+                    gui_sketch_area_private_get_object_ids_at_pos ( this_, x, y, &clicked_object, &surrounding_object );
+                    data_id_pair_trace( &clicked_object );
+                    data_id_pair_trace( &surrounding_object );
+                    data_id_t *clicked_classifier;
+                    data_id_t *surrounding_classifier;
+                    clicked_classifier = data_id_pair_get_secondary_id_ptr( &clicked_object );
+                    surrounding_classifier = data_id_pair_get_secondary_id_ptr( &surrounding_object );
 
-                    /* set focused object and notify listener */
-                    gui_sketch_marker_set_focused( (*this_).marker,
-                                                   data_id_pair_get_primary_id( &clicked_object )
-                                                 );
-                    gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
-                }
-                else /* clicked either into inner space of a classifier or outside any classifier */
-                {
-                    /* stop dragging */
-                    gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
-
-                    /* create a new classifier */
-                    data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
-                    int64_t selected_diagram_id = data_diagram_get_id( target_diag );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                    int32_t x_order = universal_int32_pair_get_first( &order );
-                    int32_t y_order = universal_int32_pair_get_second( &order );
-                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
-
-                    /* create a classifier or a child-classifier */
-                    ctrl_error_t c_result;
-                    int64_t new_diagele_id;
-                    int64_t new_classifier_id;
-                    if ( inner_space_clicked )
+                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( clicked_classifier ) )
                     {
-                        data_id_t focused_real;
-                        focused_real = data_id_pair_get_secondary_id ( &clicked_object );
+                        /* update drag state */
+                        gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
 
-                        int64_t new_relationship_id;
-                        c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
-                                                                                          selected_diagram_id,
-                                                                                          data_id_get_row_id( &focused_real ),
-                                                                                          x_order,
-                                                                                          y_order,
-                                                                                          &new_diagele_id,
-                                                                                          &new_classifier_id,
-                                                                                          &new_relationship_id
-                                                                                        );
+                        /* set focused object (either a diagramelement or a feature) and notify listener */
+                        gui_sketch_marker_set_focused( (*this_).marker,
+                                                       data_id_pair_get_primary_id( &clicked_object )
+                                                     );
+                        gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                     }
-                    else
+                    else /* clicked either into inner space of a classifier or outside any classifier */
                     {
-                        c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
-                                                                                 selected_diagram_id,
-                                                                                 x_order,
-                                                                                 y_order,
-                                                                                 &new_diagele_id,
-                                                                                 &new_classifier_id
+                        /* stop dragging */
+                        gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
+
+                        /* create a new classifier */
+                        data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                        int64_t selected_diagram_id = data_diagram_get_id( target_diag );
+                        TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+
+                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
+                        int32_t x_order = universal_int32_pair_get_first( &order );
+                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                        /* create a classifier or a child-classifier */
+                        ctrl_error_t c_result;
+                        int64_t new_diagele_id;
+                        int64_t new_classifier_id;
+                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( surrounding_classifier ) )
+                        {
+                            int64_t new_relationship_id;
+                            c_result = gui_sketch_object_creator_create_classifier_as_child ( &((*this_).object_creator),
+                                                                                              selected_diagram_id,
+                                                                                              data_id_get_row_id( surrounding_classifier ),
+                                                                                              x_order,
+                                                                                              y_order,
+                                                                                              &new_diagele_id,
+                                                                                              &new_classifier_id,
+                                                                                              &new_relationship_id
+                                                                                            );
+                        }
+                        else
+                        {
+                            c_result = gui_sketch_object_creator_create_classifier ( &((*this_).object_creator),
+                                                                                     selected_diagram_id,
+                                                                                     x_order,
+                                                                                     y_order,
+                                                                                     &new_diagele_id,
+                                                                                     &new_classifier_id
+                                                                                   );
+                        }
+
+                        if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
+                        {
+                            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                                 GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
+                                                                                 ""
                                                                                );
-                    }
+                        }
+                        else if ( CTRL_ERROR_NONE != c_result )
+                        {
+                            TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
+                        }
+                        else
+                        {
+                            /* set focused object and notify listener */
+                            data_id_t focused_id;
+                            data_id_t focused_real_id;
+                            data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
+                            data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
+                            gui_sketch_marker_set_focused( (*this_).marker, focused_id );
+                            gui_sketch_area_private_notify_listener( this_, focused_real_id );
+                            gui_sketch_marker_clear_selected_set( (*this_).marker );
 
-
-                    if ( CTRL_ERROR_DUPLICATE_NAME == c_result )
-                    {
-                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                             ""
-                                                                           );
-                    }
-                    else if ( CTRL_ERROR_NONE != c_result )
-                    {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier/_as_child");
-                    }
-                    else
-                    {
-                        /* set focused object and notify listener */
-                        data_id_t focused_id;
-                        data_id_t focused_real_id;
-                        data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
-                        data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                        gui_sketch_marker_set_focused( (*this_).marker, focused_id );
-                        gui_sketch_area_private_notify_listener( this_, focused_real_id );
-                        gui_sketch_marker_clear_selected_set( (*this_).marker );
-
-                        TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                            TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
+                        }
                     }
                 }
             }
