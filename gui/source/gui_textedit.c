@@ -774,7 +774,27 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
-        );
+                                               );
+    }
+    else
+    {
+#ifndef NDEBUG
+        /* in debug mode, also check consistency of database */
+        char repair_log_buffer[2000] = "";
+        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+        uint32_t found_errors;
+        uint32_t fixed_errors;
+        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, repair_log );
+        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
+        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
+        {
+            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                                 "ctrl_controller_repair_database() reported inconsistent db!"
+                                                               );
+        }
+#endif
     }
 
     TRACE_TIMESTAMP();
