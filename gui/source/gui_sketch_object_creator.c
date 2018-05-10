@@ -237,6 +237,8 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                              int64_t from_classifier_id,
                                                              int64_t to_classifier_id,
                                                              int32_t list_order,
+                                                             int64_t from_feature_id,
+                                                             int64_t to_feature_id,
                                                              int64_t *out_relationship_id )
 {
     TRACE_BEGIN();
@@ -280,8 +282,8 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                      "", /* =relationship_name */
                                      "", /* =relationship_description */
                                      list_order,
-                                     DATA_ID_VOID_ID,
-                                     DATA_ID_VOID_ID
+                                     from_feature_id,
+                                     to_feature_id
                                    );
 
     /* create relationship */
@@ -332,7 +334,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     data_feature_type_t new_feature_type;
     new_feature_type = data_rules_get_default_feature_type ( &((*this_).data_rules), parent_class_type );
 
-    /* find a good, unused name */
+    /* find a good default name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
     char newtype_buf[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE];

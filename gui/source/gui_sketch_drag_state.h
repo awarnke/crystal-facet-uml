@@ -22,7 +22,7 @@ struct gui_sketch_drag_state_struct {
     int32_t to_x;  /*!< x coordingate of the destination */
     int32_t to_y;  /*!< y coordingate of the destination */
     bool start_dragging_when_move;  /*!< true if dragging shall start when moving */
-    data_id_pair_t dragged_object;  /* primary_id is the dragged object or diagramemelent, secondary_id is the classifier */
+    data_id_pair_t dragged_object;  /* primary_id is the dragged object or diagramelement, secondary_id is the classifier */
 };
 
 typedef struct gui_sketch_drag_state_struct gui_sketch_drag_state_t;

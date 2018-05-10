@@ -477,13 +477,13 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 /* what is dragged? */
                 data_id_pair_t *dragged_object;
                 dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                data_id_t focused_real;
-                focused_real = data_id_pair_get_secondary_id( dragged_object );
+                data_id_t dragged_classifier;
+                dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                 /* mark again - in case the marker was lost */
-                data_id_t focused;
-                focused = data_id_pair_get_primary_id( dragged_object );
-                gui_sketch_marker_set_highlighted( (*this_).marker, focused );
+                data_id_t dragged_element;
+                dragged_element = data_id_pair_get_primary_id( dragged_object );
+                gui_sketch_marker_set_highlighted( (*this_).marker, dragged_element );
 
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -495,9 +495,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                     /* move the object in the display-cache accordingly */
-                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                     {
-                        gui_sketch_card_move_classifier_to_order( target_card, data_id_get_row_id( &focused_real ), x_order, y_order );
+                        gui_sketch_card_move_classifier_to_order( target_card, data_id_get_row_id( &dragged_classifier ), x_order, y_order );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -621,7 +621,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 {
                     /* update drag state */
                     data_id_pair_t dragged_object;
-                    data_id_pair_init ( &dragged_object, clicked_diagram_id, clicked_diagram_id );
+                    data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
 
                     /* load/reload data to be drawn */
@@ -654,7 +654,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 focused_object_visible = data_id_pair_get_primary_id( &focused_object );
 
                 /* update drag state */
-                data_id_pair_t dragged_object;
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), focused_object );
 
                 /* which object is currently focused? */
@@ -672,7 +671,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_marker_set_focused ( (*this_).marker,
                                                     focused_object_visible
                                                   );
-                    gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &focused_object ) );
+                    
+                    data_id_t real_object = focused_object_visible;
+                    if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
+                    {
+                        real_object = data_id_pair_get_secondary_id( &focused_object );
+                    }
+                    gui_sketch_area_private_notify_listener( this_, real_object );
                 }
 
                 /* mark dirty rect */
@@ -694,8 +699,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 data_id_pair_init_by_table_and_id ( &dragged_object,
                                                     DATA_TABLE_DIAGRAM,
                                                     selected_diagram_id,
-                                                    DATA_TABLE_DIAGRAM,
-                                                    selected_diagram_id
+                                                    DATA_TABLE_VOID,
+                                                    DATA_ID_VOID_ID
                                                   );
                 gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
@@ -864,8 +869,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is selected? */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t focused_real;
-                    focused_real = data_id_pair_get_secondary_id( dragged_object );
+                    data_id_t dragged_classifier;
+                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                     /* what is the target location? */
                     gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -873,7 +878,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
                     }
-                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &focused_real ) )
+                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &dragged_classifier ) )
                     {
                         TRACE_INFO("Dragged object is no classifier");
                     }
@@ -889,7 +894,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
                         ctrl_error_t mov_result;
                         mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
-                                                                                                    data_id_get_row_id( &focused_real ),
+                                                                                                    data_id_get_row_id( &dragged_classifier ),
                                                                                                     x_order,
                                                                                                     y_order
                                                                                                   );
@@ -956,28 +961,50 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is selected? */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t focused_real;
-                    focused_real = data_id_pair_get_secondary_id( dragged_object );
+                    data_id_t dragged_element;
+                    dragged_element = data_id_pair_get_primary_id( dragged_object );
+                    data_id_t dragged_classifier;
+                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                     /* which object is at the target location? */
-                    data_id_t destination_real;
                     data_id_pair_t destination_object;
                     gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &destination_object );
-                    destination_real = data_id_pair_get_secondary_id( &destination_object );
+                    data_id_t destination_element;
+                    destination_element = data_id_pair_get_primary_id( &destination_object );
+                    data_id_t destination_classifier;
+                    destination_classifier = data_id_pair_get_secondary_id( &destination_object );
 
-                    if ( data_id_is_valid( &focused_real ) && data_id_is_valid( &destination_real ) )
+                    if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) )
                     {
-                        if ( ( DATA_TABLE_FEATURE == data_id_get_table( &focused_real ) )
-                            || ( DATA_TABLE_FEATURE == data_id_get_table( &destination_real ) ) )
+                        if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
+                            && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_classifier ) ) )
                         {
-                            TSLOG_WARNING("========== creating a relation from a feature and/or to a feature ==========");
-                            TSLOG_WARNING("========== ^^^^^^^^ ^ ^^^^^^^^ ^^^^ ^ ^^^^^^^ ^^^^^^ ^^ ^ ^^^^^^^ ==========");
-                            /* not yet implemented */
-                        }
+                            /* determine source and destionation */
+                            int64_t new_from_classifier_id;
+                            int64_t new_to_classifier_id;
+                            int64_t new_from_feature_id;
+                            int64_t new_to_feature_id;
+                            {
+                                new_from_classifier_id = data_id_get_row_id( &dragged_classifier );
+                                if ( DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ) )
+                                {
+                                    new_from_feature_id = data_id_get_row_id( &dragged_element );
+                                }
+                                else
+                                {
+                                    new_from_feature_id = DATA_ID_VOID_ID;
+                                }
+                                new_to_classifier_id = data_id_get_row_id( &destination_classifier );
+                                if ( DATA_TABLE_FEATURE == data_id_get_table( &destination_element ) )
+                                {
+                                    new_to_feature_id = data_id_get_row_id( &destination_element );
+                                }
+                                else
+                                {
+                                    new_to_feature_id = DATA_ID_VOID_ID;
+                                }
+                            }
 
-                        if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
-                            && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_real ) ) )
-                        {
                             /* propose a list_order for the relationship */
                             int32_t list_order_proposal = 0;
                             gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -989,9 +1016,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             int64_t new_relationship_id;
                             ctrl_error_t c_result;
                             c_result = gui_sketch_object_creator_create_relationship ( &((*this_).object_creator),
-                                                                                       data_id_get_row_id( &focused_real ),
-                                                                                       data_id_get_row_id( &destination_real ),
+                                                                                       new_from_classifier_id,
+                                                                                       new_to_classifier_id,
                                                                                        list_order_proposal,
+                                                                                       new_from_feature_id,
+                                                                                       new_to_feature_id,
                                                                                        &new_relationship_id
                                                                                      );
 
@@ -1016,14 +1045,14 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* click on classifier without drag */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
-                    data_id_t focused_real;
-                    focused_real = data_id_pair_get_secondary_id( dragged_object );
+                    data_id_t dragged_classifier;
+                    dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                     gui_sketch_card_t *target_card;
                     target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                    if ( data_id_is_valid( &focused_real ) && ( NULL != target_card ) )
+                    if ( data_id_is_valid( &dragged_classifier ) && ( NULL != target_card ) )
                     {
-                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &focused_real ) )
+                        if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                         {
                             /* create a feature */
                             /* propose a list_order for the feature */
@@ -1033,9 +1062,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             int64_t new_feature_id;
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
-                                                                                    data_id_get_row_id( &focused_real ),
-                                                                                    list_order_proposal,
-                                                                                    &new_feature_id
+                                                                                  data_id_get_row_id( &dragged_classifier ),
+                                                                                  list_order_proposal,
+                                                                                  &new_feature_id
                                                                                 );
 
                             if ( CTRL_ERROR_NONE != ctrl_err )

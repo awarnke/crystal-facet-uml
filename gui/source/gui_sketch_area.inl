@@ -76,18 +76,6 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         {
             data_id_pair_t out_surrounding_id;
             gui_sketch_card_get_object_id_at_pos ( card, x, y, out_selected_id, &out_surrounding_id );
-
-            if ( ! data_id_pair_is_valid( out_selected_id ) )
-            {
-                data_diagram_t *selected_diag;
-                selected_diag = gui_sketch_card_get_diagram_ptr( card );
-                data_id_pair_reinit_by_table_and_id( out_selected_id,
-                                                                    DATA_TABLE_DIAGRAM,
-                                                                    data_diagram_get_id( selected_diag ),
-                                                                    DATA_TABLE_DIAGRAM,
-                                                                    data_diagram_get_id( selected_diag )
-                                                                );
-            }
         }
     }
 }

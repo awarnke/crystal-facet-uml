@@ -96,7 +96,8 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_
                                                diagram_data,
                                                &((*this_).pencil_size),
                                                &diagram_bounds,
-                                               diagram_draw_area );
+                                               diagram_draw_area
+                                             );
 
     /* calculate the axis scales */
     double draw_left = geometry_rectangle_get_left ( diagram_draw_area );
@@ -282,20 +283,20 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
         if ( ! data_id_pair_is_valid( out_selected_id ) )
         {
             data_id_pair_reinit_by_table_and_id ( out_selected_id,
-                                                              DATA_TABLE_DIAGRAM,
-                                                              data_diagram_get_id(diagram_data),
-                                                              DATA_TABLE_DIAGRAM,
-                                                              data_diagram_get_id(diagram_data)
-                                                            );
+                                                  DATA_TABLE_DIAGRAM,
+                                                  data_diagram_get_id(diagram_data),
+                                                  DATA_TABLE_VOID,
+                                                  DATA_ID_VOID_ID
+                                                );
         }
         if ( ! data_id_pair_is_valid( out_surrounding_id ) )
         {
             data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
-                                                              DATA_TABLE_DIAGRAM,
-                                                              data_diagram_get_id(diagram_data),
-                                                              DATA_TABLE_DIAGRAM,
-                                                              data_diagram_get_id(diagram_data)
-                                                            );
+                                                  DATA_TABLE_DIAGRAM,
+                                                  data_diagram_get_id(diagram_data),
+                                                  DATA_TABLE_VOID,
+                                                  DATA_ID_VOID_ID
+                                                );
         }
     }
     else
@@ -352,22 +353,22 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
                     {
                         surrounding_classifier_area = current_classifier_area;
                         data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
-                                                                          DATA_TABLE_DIAGRAMELEMENT,
-                                                                          layout_visible_classifier_get_diagramelement_id( visible_classifier ),
-                                                                          DATA_TABLE_CLASSIFIER,
-                                                                          layout_visible_classifier_get_classifier_id( visible_classifier )
-                                                                        );
+                                                              DATA_TABLE_DIAGRAMELEMENT,
+                                                              layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                              DATA_TABLE_CLASSIFIER,
+                                                              layout_visible_classifier_get_classifier_id( visible_classifier )
+                                                            );
                     }
                 }
                 else
                 {
                     /* classifier is found */
                     data_id_pair_reinit_by_table_and_id ( out_selected_id,
-                                                                      DATA_TABLE_DIAGRAMELEMENT,
-                                                                      layout_visible_classifier_get_diagramelement_id( visible_classifier ),
-                                                                      DATA_TABLE_CLASSIFIER,
-                                                                      layout_visible_classifier_get_classifier_id( visible_classifier )
-                                                                    );
+                                                          DATA_TABLE_DIAGRAMELEMENT,
+                                                          layout_visible_classifier_get_diagramelement_id( visible_classifier ),
+                                                          DATA_TABLE_CLASSIFIER,
+                                                          layout_visible_classifier_get_classifier_id( visible_classifier )
+                                                        );
 
                     pencil_error_t result = PENCIL_ERROR_NONE;
                 }
@@ -404,22 +405,24 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
         if ( geometry_rectangle_contains( feature_bounds, x, y ) )
         {
             /* feature is found */
+            const data_feature_t *data_feature;
+            data_feature = layout_feature_get_data_ptr ( the_feature );
             data_id_pair_reinit_by_table_and_id ( out_selected_id,
-                                                              DATA_TABLE_FEATURE,
-                                                              layout_feature_get_feature_id( the_feature ),
-                                                              DATA_TABLE_FEATURE,
-                                                              layout_feature_get_feature_id( the_feature )
-                                                            );
+                                                  DATA_TABLE_FEATURE,
+                                                  layout_feature_get_feature_id( the_feature ),
+                                                  DATA_TABLE_CLASSIFIER,
+                                                  data_feature_get_classifier_id( data_feature )
+                                                );
 
             layout_visible_classifier_t *layout_classifier;
             layout_classifier = layout_feature_get_classifier_ptr ( the_feature );
 
             data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
-                                                              DATA_TABLE_DIAGRAMELEMENT,
-                                                              layout_visible_classifier_get_diagramelement_id( layout_classifier ),
-                                                              DATA_TABLE_CLASSIFIER,
-                                                              layout_visible_classifier_get_classifier_id( layout_classifier )
-                                                            );
+                                                  DATA_TABLE_DIAGRAMELEMENT,
+                                                  layout_visible_classifier_get_diagramelement_id( layout_classifier ),
+                                                  DATA_TABLE_CLASSIFIER,
+                                                  layout_visible_classifier_get_classifier_id( layout_classifier )
+                                                );
 
             pencil_error_t result = PENCIL_ERROR_NONE;
         }
@@ -461,11 +464,11 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
                 relation_data = layout_relationship_get_data_ptr( current_relation );
 
                 data_id_pair_reinit_by_table_and_id ( out_selected_id,
-                                                                  DATA_TABLE_RELATIONSHIP,
-                                                                  data_relationship_get_id( relation_data ),
-                                                                  DATA_TABLE_RELATIONSHIP,
-                                                                  data_relationship_get_id( relation_data )
-                                                                );
+                                                      DATA_TABLE_RELATIONSHIP,
+                                                      data_relationship_get_id( relation_data ),
+                                                      DATA_TABLE_VOID,
+                                                      DATA_ID_VOID_ID
+                                                    );
                 result = PENCIL_ERROR_NONE;
             }
             matching_relations_found ++;

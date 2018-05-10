@@ -14,14 +14,40 @@ static inline void data_id_pair_reinit_void ( data_id_pair_t *this_ )
 
 static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id )
 {
+    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &primary_id ) );
+    assert ( ( DATA_TABLE_VOID == data_id_get_table( &secondary_id ) )
+             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( &secondary_id ) )
+           );
+
     (*this_).primary_id = primary_id;
     (*this_).secondary_id = secondary_id;
 }
 
 static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id )
 {
+    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &primary_id ) );
+    assert ( ( DATA_TABLE_VOID == data_id_get_table( &secondary_id ) )
+             || ( DATA_TABLE_CLASSIFIER == data_id_get_table( &secondary_id ) )
+           );
+
     (*this_).primary_id = primary_id;
     (*this_).secondary_id = secondary_id;
+}
+
+static inline void data_id_pair_init_solo ( data_id_pair_t *this_, data_id_t primary_id )
+{
+    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &primary_id ) );
+
+    (*this_).primary_id = primary_id;
+    data_id_init_void( &((*this_).secondary_id) );
+}
+
+static inline void data_id_pair_reinit_solo ( data_id_pair_t *this_, data_id_t primary_id )
+{
+    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &primary_id ) );
+
+    (*this_).primary_id = primary_id;
+    data_id_reinit_void( &((*this_).secondary_id) );
 }
 
 static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
@@ -30,6 +56,11 @@ static inline void data_id_pair_init_by_table_and_id ( data_id_pair_t *this_,
                                                        data_table_t secondary_table,
                                                        int64_t secondary_row_id )
 {
+    assert ( DATA_TABLE_CLASSIFIER != primary_table );
+    assert ( ( DATA_TABLE_VOID == secondary_table )
+             || ( DATA_TABLE_CLASSIFIER == secondary_table )
+           );
+
     data_id_init ( &((*this_).primary_id), primary_table, primary_row_id );
     data_id_init ( &((*this_).secondary_id), secondary_table, secondary_row_id );
 }
@@ -40,6 +71,11 @@ static inline void data_id_pair_reinit_by_table_and_id ( data_id_pair_t *this_,
                                                          data_table_t secondary_table,
                                                          int64_t secondary_row_id )
 {
+    assert ( DATA_TABLE_CLASSIFIER != primary_table );
+    assert ( ( DATA_TABLE_VOID == secondary_table )
+             || ( DATA_TABLE_CLASSIFIER == secondary_table )
+           );
+
     data_id_reinit ( &((*this_).primary_id), primary_table, primary_row_id );
     data_id_reinit ( &((*this_).secondary_id), secondary_table, secondary_row_id );
 }

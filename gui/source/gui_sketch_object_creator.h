@@ -113,6 +113,8 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  *  \param from_classifier_id id of the classifier where the new relationship shall start from
  *  \param to_classifier_id id of the classifier where the new relationship shall end at
  *  \param list_order order where the new relationship shall be located
+ *  \param from_feature_id optional id of the feature where the new relationship shall start from; alternatively DATA_ID_VOID_ID
+ *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ID_VOID_ID
  *  \param out_relationship_id row_id of the newly created relationship
  *  \return CTRL_ERROR_NONE in case of success
  */
@@ -120,6 +122,8 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                                              int64_t from_classifier_id,
                                                              int64_t to_classifier_id,
                                                              int32_t list_order,
+                                                             int64_t from_feature_id,
+                                                             int64_t to_feature_id,
                                                              int64_t *out_relationship_id
                                                            );
 

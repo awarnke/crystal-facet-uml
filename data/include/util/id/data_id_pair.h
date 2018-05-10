@@ -8,9 +8,14 @@
  *  \file
  *  \brief Defines a pair of visible object id and secondary object id - or feature id and parent classifier id
  *
- *  e.g. data_diagramelement_t (primary) and data_classifier_t (secondary)
- *  or simply data_feature_t and data_feature_t if primary object and secondary object are identical
- *  or data_feature_t and data_classifier_t if both are of interest
+ *  The following type combinations are allowed:
+ *  DATA_TABLE_VOID (primary) and DATA_TABLE_VOID (secondary);
+ *  DATA_TABLE_DIAGRAMELEMENT (primary) and DATA_TABLE_CLASSIFIER (secondary);
+ *  DATA_TABLE_FEATURE (primary) and DATA_TABLE_CLASSIFIER (secondary);
+ *  DATA_TABLE_RELATIONSHIP (primary) and DATA_TABLE_VOID (secondary);
+ *  DATA_TABLE_DIAGRAM (primary) and DATA_TABLE_VOID (secondary);
+ *
+ *  The primary_id is never of type DATA_TABLE_CLASSIFIER.
  */
 
 #include "data_id.h"
@@ -56,6 +61,22 @@ static inline void data_id_pair_init ( data_id_pair_t *this_, data_id_t primary_
  *  \param secondary_id secondary object id
  */
 static inline void data_id_pair_reinit ( data_id_pair_t *this_, data_id_t primary_id, data_id_t secondary_id );
+
+/*!
+ *  \brief initializes the data_id_pair_t struct, the secondary_id is initialized to VOID.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param primary_id primary object id
+ */
+static inline void data_id_pair_init_solo ( data_id_pair_t *this_, data_id_t primary_id );
+
+/*!
+ *  \brief re-initializes the data_id_pair_t struct, the secondary_id is re-initialized to VOID.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param primary_id primary object id
+ */
+static inline void data_id_pair_reinit_solo ( data_id_pair_t *this_, data_id_t primary_id );
 
 /*!
  *  \brief initializes the data_id_pair_t struct by table and row ids.
