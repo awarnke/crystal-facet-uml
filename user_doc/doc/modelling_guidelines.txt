@@ -13,9 +13,13 @@
  *
  *  - Diagrams are organized as a tree:
  *    - Start the root of the tree showing the major use cases/features of your software.
- *    - At the second level of the tree, list the main areas to be modelled, e.g. context (problem space) of development,
- *      tools and dataflows of development (solution space), context (problem space) of operating environment,
- *      system in operating environment (solution space), design decisions.
+ *    - At the second level of the tree, list the main areas to be modelled, e.g.:
+ *      - context (problem space) of development,
+ *      - context (problem space) of operating environment, system boundary,
+ *      - design decisions, alternatives, rationales
+ *      - tools and dataflows of development (solution space),
+ *      - system in operating environment (solution space).
+ *      .
  *    .
  *  - Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
  *  - Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
