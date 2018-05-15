@@ -12,13 +12,22 @@
  *  \section cfu-modelling-tool-hints crystal_facet_uml hints
  *
  *  - Diagrams are organized as a tree:
- *    - Start the root of the tree showing the major use cases/features of your software.
- *    - At the second level of the tree, list the main areas to be modelled, e.g.:
- *      - context (problem space) of development,
- *      - context (problem space) of operating environment, system boundary,
- *      - design decisions, alternatives, rationales
- *      - tools and dataflows of development (solution space),
- *      - system in operating environment (solution space).
+ *    - Start the root of the tree explaining the document scope and structure,
+ *    - At the second level of the tree, list the main areas to be shown,
+ *      for example based on the arc42 template https://arc42.org/overview/ :
+ *      - Introduction and Goals
+ *      - Constraints
+ *      - Context and Scope (important: System boundary)
+ *      - Solution Strategy
+ *      - Building Block View,
+ *      - Runtime View,
+ *      - Deployment View,
+ *      - Crosscutting Concepts,
+ *      - Architectural Decisions (important: Show alternatives, explain rationale),
+ *      - Runtime View,
+ *      - Crosscutting Concepts,
+ *      - Risks and Technical Debt
+ *      - Glossary (table showing Context, Term and Description)
  *      .
  *    .
  *  - Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
