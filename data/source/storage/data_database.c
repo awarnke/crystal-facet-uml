@@ -24,7 +24,8 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
         "name TEXT UNIQUE, "
         "description TEXT, "
         "x_order INTEGER, "
-        "y_order INTEGER "
+        "y_order INTEGER, "
+        "list_order INTEGER "
     ");";
 
 /*!
@@ -35,6 +36,16 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
         "y_order ASC, "
         "x_order ASC "
     ");";
+
+/*!
+ *  \brief string constant to update an sql database table
+ *
+ *  This command extends classifiers by list_order field.
+ *  \see http://sqlite.org/lang_altertable.html
+ */
+static const char *DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 =
+    "ALTER TABLE classifiers "
+    "ADD COLUMN list_order INTEGER;";
 
 /*!
  *  \brief string constant to create an sql database table
@@ -410,6 +421,27 @@ data_error_t data_database_private_update_tables( sqlite3 *db )
         TSLOG_ERROR_STR( "sqlite3_exec() failed:", DATA_DATABASE_UPDATE_DIAGRAM_ROOT_PARENT );
         TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
         result |= DATA_ERROR_AT_DB;
+    }
+    if ( error_msg != NULL )
+    {
+        TRACE_INFO_STR( "sqlite3_exec() failed:", error_msg );
+        sqlite3_free( error_msg );
+        error_msg = NULL;
+    }
+
+    /* update table classifiers from version 1.4.0 to later versions */
+
+    TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
+    sqlite_err = sqlite3_exec( db, DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1, NULL, NULL, &error_msg );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        /* this command will fail whenever the database already has a suitable format */
+        TRACE_INFO_STR( "sqlite3_exec() failed:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
+        TRACE_INFO_INT( "sqlite3_exec() failed:", sqlite_err );
+    }
+    else
+    {
+        TSLOG_WARNING_STR( "sqlite3_exec() altered a table:", DATA_DATABASE_ALTER_CLASSIFIERINSTANCE_TABLE_1 );
     }
     if ( error_msg != NULL )
     {

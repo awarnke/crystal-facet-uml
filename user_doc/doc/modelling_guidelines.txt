@@ -17,15 +17,14 @@
  *      for example based on the arc42 template https://arc42.org/overview/ :
  *      - Introduction and Goals
  *      - Constraints
- *      - Context and Scope (important: System boundary)
+ *      - Context and Scope (show the system boundary, what is outside, what use-cases exist)
  *      - Solution Strategy
  *      - Building Block View,
  *      - Runtime View,
  *      - Deployment View,
  *      - Crosscutting Concepts,
- *      - Architectural Decisions (important: Show alternatives, explain rationale),
- *      - Runtime View,
- *      - Crosscutting Concepts,
+ *      - Architectural Decisions (show alternatives, give a rationale),
+ *      - Quality Requirements
  *      - Risks and Technical Debt
  *      - Glossary (table showing Context, Term and Description)
  *      .
