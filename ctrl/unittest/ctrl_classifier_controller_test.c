@@ -97,7 +97,8 @@ static void classifier_create_read_modify_read(void)
                                               "my_component",
                                               "",  /* description */
                                               45,
-                                              4500
+                                              4500,
+                                              450000
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
@@ -153,6 +154,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( &read_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 45, data_classifier_get_x_order( &read_classifier ) );
         TEST_ASSERT_EQUAL_INT( 4500, data_classifier_get_y_order( &read_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 450000, data_classifier_get_list_order( &read_classifier ) );
     }
 
     /* modify this record */
@@ -181,7 +183,7 @@ static void classifier_create_read_modify_read(void)
         data_visible_classifier_init_empty( &(read_vis_classifiers[0]) );
         data_visible_classifier_init_empty( &(read_vis_classifiers[1]) );
         first_classifier = data_visible_classifier_get_classifier_ptr( &(read_vis_classifiers[0]) );
-        data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "stereo", "my_name", "descr", 1000, 400 );
+        data_classifier_reinit ( first_classifier, 0x1234, DATA_CLASSIFIER_TYPE_UML_COMPONENT, "stereo", "my_name", "descr", 1000, 400, 398 );
 
         data_err = data_database_reader_get_classifiers_by_diagram_id ( &db_reader, diagram_id, 0, &read_vis_classifiers, &read_vis_classifiers_count );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_ARRAY_BUFFER_EXCEEDED, data_err );
@@ -194,6 +196,7 @@ static void classifier_create_read_modify_read(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "descr", data_classifier_get_description_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 1000, data_classifier_get_x_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 400, data_classifier_get_y_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 398, data_classifier_get_list_order( first_classifier ) );
     }
 
     /* search several records, result array sufficient */

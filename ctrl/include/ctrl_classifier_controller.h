@@ -192,6 +192,19 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
                                                                             int32_t new_classifier_y_order
                                                                           );
 
+/*!
+ *  \brief updates the classifier attribute: list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_list_order new list_order of the classifier
+ *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
+ */
+ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       int32_t new_classifier_list_order
+                                                                     );
+
 /* ================================ FEATURE ================================ */
 
 /*!

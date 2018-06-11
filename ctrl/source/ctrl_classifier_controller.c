@@ -460,6 +460,35 @@ ctrl_error_t ctrl_classifier_controller_update_classifier_x_order_y_order ( ctrl
     return result;
 }
 
+ctrl_error_t ctrl_classifier_controller_update_classifier_list_order ( ctrl_classifier_controller_t *this_,
+                                                                       int64_t classifier_id,
+                                                                       int32_t new_classifier_list_order )
+{
+    TRACE_BEGIN();
+    ctrl_error_t result = CTRL_ERROR_NONE;
+    data_error_t data_result;
+    data_classifier_t old_classifier;
+
+    data_result = data_database_writer_update_classifier_list_order( (*this_).db_writer, classifier_id, new_classifier_list_order, &old_classifier );
+    if ( DATA_ERROR_NONE == data_result )
+    {
+        /* prepare the new classifier */
+        data_classifier_t new_classifier;
+        data_classifier_copy( &new_classifier, &old_classifier );
+        data_classifier_set_list_order( &new_classifier, new_classifier_list_order );
+        /* store the change of the classifier to the undo redo list */
+        ctrl_undo_redo_list_add_update_classifier( (*this_).undo_redo_list, &old_classifier, &new_classifier );
+        ctrl_undo_redo_list_add_boundary( (*this_).undo_redo_list );
+
+        data_classifier_destroy( &new_classifier );
+        data_classifier_destroy( &old_classifier );
+    }
+    result = (ctrl_error_t) data_result;
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ FEATURE ================================ */
 
 ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_controller_t *this_,
@@ -519,7 +548,7 @@ ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_control
     TRACE_BEGIN();
     ctrl_error_t result = CTRL_ERROR_NONE;
     data_error_t data_result;
-    
+
     /* if this action shall be stored to the latest set of actions in the undo redo list, remove the boundary: */
     if ( add_to_latest_undo_set )
     {

@@ -118,7 +118,8 @@ static void set_up(void)
                                             "name-12",
                                             "description-12",
                                             -34000 /*=x_order*/,
-                                            -16000 /*=y_order*/
+                                            -16000 /*=y_order*/,
+                                            -7000 /*=list_order*/
                                           );
         assert( DATA_ERROR_NONE == data_err_c );
 
@@ -495,7 +496,8 @@ static void diagram_illreferencing_diagramelements_consistency(void)
                                           "name-11",
                                           "description-11",
                                           -340 /*=x_order*/,
-                                          -160 /*=y_order*/
+                                          -160 /*=y_order*/,
+                                          -7000 /*=list_order*/
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -566,7 +568,8 @@ static void repair_unreferenced_classifiers(void)
                                           "name-13",
                                           "description-13",
                                           -35050 /*=x_order*/,
-                                          -17070 /*=y_order*/
+                                          -17070 /*=y_order*/,
+                                          -7000 /*=list_order*/
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -622,7 +625,8 @@ static void repair_unreferenced_classifiers_2(void)
                                           "name-c6",
                                           "description-c6",
                                           -4200 /*=x_order*/,
-                                          -6200 /*=y_order*/
+                                          -6200 /*=y_order*/,
+                                          -7000 /*=list_order*/
                                         );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -908,8 +912,9 @@ static void repair_ill_feature_relationship(void)
                                           "name-11",
                                           "description-11",
                                           -4200 /*=x_order*/,
-                                          -6200 /*=y_order*/
-        );
+                                          -6200 /*=y_order*/,
+                                          -7000 /*=list_order*/
+                                        );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );

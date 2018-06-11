@@ -237,6 +237,17 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
  */
 data_error_t data_database_writer_update_classifier_y_order ( data_database_writer_t *this_, int64_t classifier_id, int32_t new_classifier_y_order, data_classifier_t *out_old_classifier );
 
+/*!
+ *  \brief updates the classifier attribute: list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id id of the classifier to be updated
+ *  \param new_classifier_list_order new list_order of the classifier
+ *  \param out_old_classifier storage, where the contents of the old, unmodified record is stored. NULL if old data shall not be returned.
+ *  \return error id in case of an error, DATA_ERROR_NONE otherwise
+ */
+data_error_t data_database_writer_update_classifier_list_order ( data_database_writer_t *this_, int64_t classifier_id, int32_t new_classifier_list_order, data_classifier_t *out_old_classifier );
+
 /* ================================ DIAGRAMELEMENT ================================ */
 
 /*!

@@ -462,20 +462,20 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *  \brief predefined search statement to find a classifier by id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE id=?;";
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order FROM classifiers WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find a classifier by name
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order FROM classifiers WHERE name=?;";
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order FROM classifiers WHERE name=?;";
 
 /*!
  *  \brief predefined search statement to find classifier by diagram-id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "SELECT classifiers.id,classifiers.main_type,classifiers.stereotype,"
-    "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,"
+    "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,classifiers.list_order,"
     "diagramelements.id,diagramelements.display_flags,diagramelements.focused_feature_id "
     "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
     "WHERE diagramelements.diagram_id=? ORDER BY classifiers.y_order ASC,classifiers.x_order ASC;";
@@ -516,19 +516,24 @@ static const int RESULT_CLASSIFIER_X_ORDER_COLUMN = 5;
 static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
 
 /*!
+ *  \brief the column id of the result where this parameter is stored: list_order
+ */
+static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
+
+/*!
  *  \brief the column id of the result where this parameter is stored: diagramelements.id
  */
-static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 7;
+static const int RESULT_CLASSIFIER_DIAGRAMELEMENT_ID_COLUMN = 8;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: diagramelements.display_flags
  */
-static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 8;
+static const int RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN = 9;
 
 /*!
  *  \brief the column id of the result where this parameter is stored: diagramelements.focused_feature_id
  */
-static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 9;
+static const int RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN = 10;
 
 data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t *this_, int64_t id, data_classifier_t *out_classifier )
 {
@@ -563,8 +568,9 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
                                             sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
-            );
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
+                                          );
 
             data_classifier_trace( out_classifier );
         }
@@ -622,8 +628,9 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
                                             sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
-            );
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
+                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
+                                          );
 
             data_classifier_trace( out_classifier );
         }
@@ -696,8 +703,9 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
                                                   (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
                                                   sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
-                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN )
-                );
+                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
+                                                  sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
+                                                );
 
                 data_diagramelement_t *current_diag_element;
                 current_diag_element = data_visible_classifier_get_diagramelement_ptr( current_vis_classifier );
@@ -707,7 +715,7 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
                                              classifier_id,
                                              sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DISPLAY_FLAGS_COLUMN ),
                                              sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN )
-                );
+                                           );
                 if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIER_FOCUSED_FEATURE_ID_COLUMN ) )
                 {
                     data_diagramelement_set_focused_feature_id ( current_diag_element, DATA_ID_VOID_ID );

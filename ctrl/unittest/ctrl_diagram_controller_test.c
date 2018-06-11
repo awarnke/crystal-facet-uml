@@ -198,7 +198,8 @@ static void create_diagramelements_and_delete(void)
                                               "my_if",
                                               "",  /* description */
                                               88,
-                                              8800
+                                              8800,
+                                              880000
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,

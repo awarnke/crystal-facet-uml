@@ -143,7 +143,8 @@ static void diagram_to_lifeline_consistency(void)
                                               "my_class",
                                               "",  /* description */
                                               45,
-                                              4500
+                                              4500,
+                                              450000
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
@@ -320,8 +321,9 @@ static void diagramelement_to_lifeline_consistency(void)
                                               "my_class",
                                               "",  /* description */
                                               45,
-                                              4500
-        );
+                                              4500,
+                                              450000
+                                            );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 
         classifier_id = DATA_ID_VOID_ID;
@@ -344,14 +346,14 @@ static void diagramelement_to_lifeline_consistency(void)
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
                                        DATA_ID_VOID_ID
-        );
+                                     );
 
         first_diag_element_id = DATA_ID_VOID_ID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele,
                                                                    true,  /* add_to_latest_undo_set */
                                                                    &first_diag_element_id
-        );
+                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele );
         TEST_ASSERT( DATA_ID_VOID_ID != first_diag_element_id );
@@ -366,14 +368,14 @@ static void diagramelement_to_lifeline_consistency(void)
                                        classifier_id,
                                        DATA_DIAGRAMELEMENT_FLAG_NONE,
                                        DATA_ID_VOID_ID
-        );
+                                     );
 
         second_diag_element_id = DATA_ID_VOID_ID;
         ctrl_err = ctrl_diagram_controller_create_diagramelement ( diagram_ctrl,
                                                                    &new_diagele2,
                                                                    true,  /* add_to_latest_undo_set */
                                                                    &second_diag_element_id
-        );
+                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         data_diagramelement_destroy ( &new_diagele2 );
         TEST_ASSERT( DATA_ID_VOID_ID != second_diag_element_id );
@@ -389,7 +391,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                         max_featues_size,
                                                                         &features,
                                                                         &feature_count
-        );
+                                                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 2, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );
@@ -401,7 +403,7 @@ static void diagramelement_to_lifeline_consistency(void)
         ctrl_err = ctrl_diagram_controller_delete_diagramelement ( diagram_ctrl,
                                                                    first_diag_element_id,
                                                                    false /* add_to_latest_undo_set */
-        );
+                                                                 );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     }
 
@@ -412,7 +414,7 @@ static void diagramelement_to_lifeline_consistency(void)
                                                                         max_featues_size,
                                                                         &features,
                                                                         &feature_count
-        );
+                                                                      );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( 1, feature_count );
         TEST_ASSERT_EQUAL_INT( DATA_FEATURE_TYPE_LIFELINE, data_feature_get_main_type( &(features[0]) ) );

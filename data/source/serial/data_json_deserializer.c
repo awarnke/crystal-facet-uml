@@ -261,6 +261,12 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
                             result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
                             data_classifier_set_y_order ( out_object, parsed_integer );
                         }
+                        else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_LIST_ORDER ) )
+                        {
+                            int64_t parsed_integer;
+                            result = data_json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_classifier_set_list_order ( out_object, parsed_integer );
+                        }
                         else if ( utf8stringbuf_equals_str( member_name, DATA_JSON_CONSTANTS_KEY_CLASSIFIER_STEREOTYPE ) )
                         {
                             utf8stringbuf_t parsed_strbuf = data_classifier_get_stereotype_buf_ptr ( out_object );

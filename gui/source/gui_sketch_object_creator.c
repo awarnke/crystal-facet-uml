@@ -116,7 +116,8 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                        utf8stringbuf_get_string( full_new_name ),
                                        "",  /* description */
                                        x_order,
-                                       y_order
+                                       y_order,
+                                       y_order  /* y_order used also as list_order */
                                      );
 
     c_result = ctrl_classifier_controller_create_classifier ( classifier_control,

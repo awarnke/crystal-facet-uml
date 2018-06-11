@@ -116,7 +116,8 @@ static void lifeline_to_diagramelement_consistency(void)
                                               "my_class",
                                               "",  /* description */
                                               45,
-                                              4500
+                                              4500,
+                                              450000
                                             );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
 

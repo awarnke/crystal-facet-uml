@@ -99,7 +99,8 @@ static void undo_redo_classifier(void)
                                           "my_node",
                                           "",  /* description */
                                           17,
-                                          1700
+                                          1700,
+                                          170000
                                         );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
     ctrl_err = ctrl_classifier_controller_create_classifier ( classifier_ctrl,
@@ -197,6 +198,7 @@ static void undo_redo_classifier(void)
         TEST_ASSERT_EQUAL_INT( 0, strcmp( "", data_classifier_get_description_ptr( first_classifier ) ) );
         TEST_ASSERT_EQUAL_INT( 17, data_classifier_get_x_order( first_classifier ) );
         TEST_ASSERT_EQUAL_INT( 1700, data_classifier_get_y_order( first_classifier ) );
+        TEST_ASSERT_EQUAL_INT( 170000, data_classifier_get_list_order( first_classifier ) );
 
         data_diagramelement_t *first_diagele;
         first_diagele = data_visible_classifier_get_diagramelement_ptr( &(read_vis_classifiers[0]) );

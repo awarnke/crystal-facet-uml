@@ -11,7 +11,8 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                       const char* name,
                                                       const char* description,
                                                       int32_t x_order,
-                                                      int32_t y_order )
+                                                      int32_t y_order,
+                                                      int32_t list_order )
 {
     assert( NULL != stereotype );
     assert( NULL != name );
@@ -48,6 +49,7 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
 
     (*this_).x_order = x_order;
     (*this_).y_order = y_order;
+    (*this_).list_order = list_order;
 
     return result;
 }
@@ -66,6 +68,7 @@ static inline void data_classifier_init_empty ( data_classifier_t *this_ )
 
     (*this_).x_order = 0;
     (*this_).y_order = 0;
+    (*this_).list_order = 0;
 }
 
 static inline void data_classifier_reinit_empty ( data_classifier_t *this_ )
@@ -81,7 +84,8 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   const char* name,
                                                   const char* description,
                                                   int32_t x_order,
-                                                  int32_t y_order )
+                                                  int32_t y_order,
+                                                  int32_t list_order )
 {
     assert( NULL != stereotype );
     assert( NULL != name );
@@ -118,6 +122,7 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
 
     (*this_).x_order = x_order;
     (*this_).y_order = y_order;
+    (*this_).list_order = list_order;
 
     return result;
 }
@@ -129,9 +134,10 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
                                                     const char* name,
                                                     const char* description,
                                                     int32_t x_order,
-                                                    int32_t y_order )
+                                                    int32_t y_order,
+                                                    int32_t list_order )
 {
-    return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order );
+    return data_classifier_init( this_, id, main_type, stereotype, name, description, x_order, y_order, list_order );
 }
 
 static inline void data_classifier_copy ( data_classifier_t *this_, const data_classifier_t *original )
@@ -171,6 +177,7 @@ static inline void data_classifier_trace ( const data_classifier_t *this_ )
     TRACE_INFO_STR( "- description:", utf8stringbuf_get_string((*this_).description) );
     TRACE_INFO_INT( "- x_order:", (*this_).x_order );
     TRACE_INFO_INT( "- y_order:", (*this_).y_order );
+    TRACE_INFO_INT( "- list_order:", (*this_).list_order );
 }
 
 static inline int64_t data_classifier_get_id ( const data_classifier_t *this_ )
@@ -291,6 +298,16 @@ static inline int32_t data_classifier_get_y_order ( const data_classifier_t *thi
 static inline void data_classifier_set_y_order ( data_classifier_t *this_, int32_t y_order )
 {
     (*this_).y_order = y_order;
+}
+
+static inline int32_t data_classifier_get_list_order ( const data_classifier_t *this_ )
+{
+    return (*this_).list_order;
+}
+
+static inline void data_classifier_set_list_order ( data_classifier_t *this_, int32_t list_order )
+{
+    (*this_).list_order = list_order;
 }
 
 static inline bool data_classifier_is_valid ( const data_classifier_t *this_ )

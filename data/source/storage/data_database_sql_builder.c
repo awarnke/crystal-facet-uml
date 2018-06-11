@@ -374,13 +374,13 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
  *  \brief prefix string constant to insert a classifier
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_PREFIX =
-    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order) VALUES (";
+    "INSERT INTO classifiers (main_type,stereotype,name,description,x_order,y_order,list_order) VALUES (";
 
 /*!
  *  \brief prefix string constant to insert a classifier with predefined id
  */
 static const char *DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_WITH_ID_PREFIX =
-    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order) VALUES (";
+    "INSERT INTO classifiers (id,main_type,stereotype,name,description,x_order,y_order,list_order) VALUES (";
 
 /*!
  *  \brief postfix string constant to insert a classifier
@@ -432,6 +432,11 @@ static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_X_ORDER = "x_
  *  \brief field name string constant to be used for updating a classifier
  */
 static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER = "y_order=";
+
+/*!
+ *  \brief field name string constant to be used for updating a classifier
+ */
+static const char *DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_LIST_ORDER = "list_order=";
 
 /*!
  *  \brief infix string constant to update a classifier
@@ -500,6 +505,8 @@ data_error_t data_database_sql_builder_build_create_classifier_command ( data_da
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).x_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).y_order );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_VALUE_SEPARATOR );
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, (*classifier).list_order );
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_INSERT_CLASSIFIER_POSTFIX );
 
     if ( strerr != UTF8ERROR_SUCCESS )
@@ -713,6 +720,32 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_Y_ORDER );
 
     strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_y_order );
+
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, classifier_id );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_POSTFIX );
+
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_ERROR_HEX( "utf8stringbuf_xxx() failed:", strerr );
+        result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
+    }
+
+    TRACE_END_ERR( result );
+    return( result );
+}
+
+data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_list_order )
+{
+    TRACE_BEGIN();
+    utf8error_t strerr = UTF8ERROR_SUCCESS;
+    data_error_t result = DATA_ERROR_NONE;
+
+    strerr |= utf8stringbuf_copy_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_PREFIX );
+    strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_COL_LIST_ORDER );
+
+    strerr |= utf8stringbuf_append_int( (*this_).sql_stringbuf, new_classifier_list_order );
 
     strerr |= utf8stringbuf_append_str( (*this_).sql_stringbuf, DATA_DATABASE_SQL_BUILDER_UPDATE_CLASSIFIER_INFIX );
 

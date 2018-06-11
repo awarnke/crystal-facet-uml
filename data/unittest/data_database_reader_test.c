@@ -102,7 +102,8 @@ static void set_up(void)
                                       "name-12",
                                       "description-12",
                                       -34000 /*=x_order*/,
-                                      -16000 /*=y_order*/
+                                      -16000 /*=y_order*/,
+                                      -7000 /*=list_order*/
                                     );
     assert( DATA_ERROR_NONE == data_err );
 
@@ -117,7 +118,8 @@ static void set_up(void)
                                       "name-13",
                                       "description-13",
                                       -34000 /*=x_order*/,
-                                      -48000 /*=y_order*/
+                                      -48000 /*=y_order*/,
+                                      -58000 /*=list_order*/
                                     );
     assert( DATA_ERROR_NONE == data_err );
 

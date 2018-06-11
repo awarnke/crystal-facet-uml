@@ -44,6 +44,7 @@ struct data_classifier_struct {
     char private_description_buffer[DATA_CLASSIFIER_MAX_DESCRIPTION_SIZE];
     int32_t x_order;
     int32_t y_order;
+    int32_t list_order;
 };
 
 typedef struct data_classifier_struct data_classifier_t;
@@ -56,8 +57,9 @@ typedef struct data_classifier_struct data_classifier_t;
  *  \param stereotype name of the classifier. classifier_name must not be NULL.
  *  \param name name of the classifier. classifier_name must not be NULL.
  *  \param description description of the classifier. classifier_description must not be NULL.
- *  \param x_order sequence oder of objects in x-direction
- *  \param y_order sequence oder of objects in y direction
+ *  \param x_order sequence order of objects in x-direction
+ *  \param y_order sequence order of objects in y direction
+ *  \param list_order sequence order of objects in lists
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
@@ -66,7 +68,8 @@ static inline data_error_t data_classifier_init_new ( data_classifier_t *this_,
                                                       const char* name,
                                                       const char* description,
                                                       int32_t x_order,
-                                                      int32_t y_order
+                                                      int32_t y_order,
+                                                      int32_t list_order
                                                     );
 
 /*!
@@ -92,8 +95,9 @@ static inline void data_classifier_reinit_empty ( data_classifier_t *this_ );
  *  \param stereotype name of the classifier. classifier_name must not be NULL.
  *  \param name name of the classifier. classifier_name must not be NULL.
  *  \param description description of the classifier. classifier_description must not be NULL.
- *  \param x_order sequence oder of objects in x-direction
- *  \param y_order sequence oder of objects in y direction
+ *  \param x_order sequence order of objects in x-direction
+ *  \param y_order sequence order of objects in y direction
+ *  \param list_order sequence order of objects in lists
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_init ( data_classifier_t *this_,
@@ -103,7 +107,8 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
                                                   const char* name,
                                                   const char* description,
                                                   int32_t x_order,
-                                                  int32_t y_order
+                                                  int32_t y_order,
+                                                  int32_t list_order
                                                 );
 
 /*!
@@ -115,8 +120,9 @@ static inline data_error_t data_classifier_init ( data_classifier_t *this_,
  *  \param stereotype name of the classifier. classifier_name must not be NULL.
  *  \param name name of the classifier. classifier_name must not be NULL.
  *  \param description description of the classifier. classifier_description must not be NULL.
- *  \param x_order sequence oder of objects in x-direction
- *  \param y_order sequence oder of objects in y direction
+ *  \param x_order sequence order of objects in x-direction
+ *  \param y_order sequence order of objects in y direction
+ *  \param list_order sequence order of objects in lists
  *  \return DATA_ERROR_STRING_BUFFER_EXCEEDED if string parameters too long, DATA_ERROR_NONE otherwise.
  */
 static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
@@ -126,7 +132,8 @@ static inline data_error_t data_classifier_reinit ( data_classifier_t *this_,
                                                     const char* name,
                                                     const char* description,
                                                     int32_t x_order,
-                                                    int32_t y_order
+                                                    int32_t y_order,
+                                                    int32_t list_order
                                                   );
 
 /*!
@@ -305,6 +312,22 @@ static inline int32_t data_classifier_get_y_order ( const data_classifier_t *thi
  *  \param y_order new y_order of this object
  */
 static inline void data_classifier_set_y_order ( data_classifier_t *this_, int32_t y_order );
+
+/*!
+ *  \brief gets the attribute list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline int32_t data_classifier_get_list_order ( const data_classifier_t *this_ );
+
+/*!
+ *  \brief sets the attribute list_order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param list_order new list_order of this object
+ */
+static inline void data_classifier_set_list_order ( data_classifier_t *this_, int32_t list_order );
 
 /*!
  *  \brief checks if attribute id is not DATA_ID_VOID_ID
