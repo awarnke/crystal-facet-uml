@@ -76,6 +76,11 @@ static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sket
     return result;
 }
 
+static inline layout_order_t gui_sketch_card_get_list_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
+{
+
+}
+
 static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
     universal_bool_list_t result;
@@ -103,6 +108,11 @@ static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t 
 
         (*this_).dirty_elements_layout = true;
     }
+}
+
+static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t order )
+{
+
 }
 
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )

@@ -15,6 +15,7 @@
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
 #include "util/id/data_id_pair.h"
+#include "layout/layout_order.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
 #include <stdbool.h>
@@ -149,6 +150,18 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
 static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y );
 
 /*!
+ *  \brief gets the list order value at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id object id for which to determine the list order.
+ *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
+ *  \param x x-position
+ *  \param y y-position
+ *  \return the list order value at the given location
+ */
+static inline layout_order_t gui_sketch_card_get_list_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y );
+
+/*!
  *  \brief determines if the given position is on a grid line
  *
  *  \param this_ pointer to own object attributes
@@ -167,6 +180,16 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_
  *  \param y_order y-order
  */
 static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int32_t row_id, int32_t x_order, int32_t y_order );
+
+/*!
+ *  \brief moves an object to an order (without modifying the database)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id object id which to move (modify the x-/y- or list order).
+ *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
+ *  \param order layout_order_t, where to move the object to
+ */
+static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t order );
 
 /*!
  *  \brief lays out the diagram
