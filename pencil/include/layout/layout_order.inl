@@ -2,17 +2,19 @@
 
 #include "trace.h"
 
-static inline void layout_order_init ( layout_order_t *this_, int32_t first, int32_t second )
+static inline void layout_order_init ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
 {
     (*this_).first = first;
     (*this_).second = second;
+    (*this_).order_type = order_type;
 }
 
 
-static inline void layout_order_reinit ( layout_order_t *this_, int32_t first, int32_t second )
+static inline void layout_order_reinit ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
 {
     (*this_).first = first;
     (*this_).second = second;
+    (*this_).order_type = order_type;
 }
 
 static inline void layout_order_copy ( layout_order_t *this_, const layout_order_t *original )
@@ -29,16 +31,23 @@ static inline void layout_order_init_empty ( layout_order_t *this_ )
 {
     (*this_).first = 0;
     (*this_).second = 0;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_NONE;
 }
 
 static inline void layout_order_reinit_empty ( layout_order_t *this_ )
 {
     (*this_).first = 0;
     (*this_).second = 0;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_NONE;
 }
 
 static inline void layout_order_destroy ( layout_order_t *this_ )
 {
+}
+
+static inline layout_order_type_t layout_order_get_order_type ( const layout_order_t *this_ )
+{
+    return (*this_).order_type;
 }
 
 static inline int32_t layout_order_get_first ( const layout_order_t *this_ )
@@ -54,6 +63,38 @@ static inline int32_t layout_order_get_second ( const layout_order_t *this_ )
 static inline void layout_order_trace ( const layout_order_t *this_ )
 {
     TRACE_INFO( "layout_order_t" );
+    switch ( (*this_).order_type )
+    {
+        case PENCIL_LAYOUT_ORDER_TYPE_NONE:
+        {
+            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_NONE" );
+        }
+        break;
+
+        case PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE:
+        {
+            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE" );
+        }
+        break;
+
+        case PENCIL_LAYOUT_ORDER_TYPE_X_Y:
+        {
+            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_X_Y" );
+        }
+        break;
+
+        case PENCIL_LAYOUT_ORDER_TYPE_LIST:
+        {
+            TRACE_INFO( "- order_type: PENCIL_LAYOUT_ORDER_TYPE_LIST" );
+        }
+        break;
+
+        default:
+        {
+            TRACE_INFO( "- order_type: <error>" );
+        }
+        break;
+    }
     TRACE_INFO_INT( "- first:", (*this_).first );
     TRACE_INFO_INT( "- second:", (*this_).second );
 }

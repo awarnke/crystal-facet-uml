@@ -7,7 +7,6 @@
 #include "data_id.h"
 #include "trace.h"
 #include "tslog.h"
-#include "universal_int32_pair.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdint.h>
@@ -489,15 +488,13 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
                 if ( NULL != target_card )
                 {
-                    universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                    int32_t x_order = universal_int32_pair_get_first( &order );
-                    int32_t y_order = universal_int32_pair_get_second( &order );
-                    TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+                    layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
+                    layout_order_trace( &layout_order );
 
                     /* move the object in the display-cache accordingly */
                     if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                     {
-                        gui_sketch_card_move_classifier_to_order( target_card, data_id_get_row_id( &dragged_classifier ), x_order, y_order );
+                        gui_sketch_card_move_object_to_order( target_card, dragged_classifier, &layout_order );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -754,9 +751,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         int64_t selected_diagram_id = data_diagram_get_id( target_diag );
                         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                        int32_t x_order = universal_int32_pair_get_first( &order );
-                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        data_id_t dummy_classifier;
+                        data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ID_VOID_ID );
+                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
+                        int32_t x_order = layout_order_get_first( &layout_order );
+                        int32_t y_order = layout_order_get_second( &layout_order );
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* create a classifier or a child-classifier */
@@ -887,9 +886,11 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     }
                     else
                     {
-                        universal_int32_pair_t order = gui_sketch_card_get_order_at_pos( target_card, x, y );
-                        int32_t x_order = universal_int32_pair_get_first( &order );
-                        int32_t y_order = universal_int32_pair_get_second( &order );
+                        data_id_t dummy_classifier;
+                        data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ID_VOID_ID );
+                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
+                        int32_t x_order = layout_order_get_first( &layout_order );
+                        int32_t y_order = layout_order_get_second( &layout_order );
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
 
                         /* update db */

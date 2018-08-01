@@ -58,9 +58,9 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
                                                        );
 }
 
-static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, int32_t x, int32_t y )
+static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
 {
-    universal_int32_pair_t result;
+    layout_order_t result;
     int32_t x_order;
     int32_t y_order;
 
@@ -70,15 +70,10 @@ static inline universal_int32_pair_t gui_sketch_card_get_order_at_pos ( gui_sket
                                                  (double) y,
                                                  &x_order,
                                                  &y_order
-                                               );
+    );
 
-    universal_int32_pair_init( &result, x_order, y_order );
+    layout_order_init( &result, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
     return result;
-}
-
-static inline layout_order_t gui_sketch_card_get_list_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
-{
-
 }
 
 static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y )
@@ -93,26 +88,76 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_
     return result;
 }
 
-static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int32_t row_id, int32_t x_order, int32_t y_order )
+static inline void gui_sketch_card_move_classifier_to_order ( gui_sketch_card_t *this_, int64_t row_id, int32_t x_order, int32_t y_order )
 {
     data_classifier_t *move_me;
     move_me = pencil_input_data_get_classifier_ptr( &((*this_).painter_input_data), row_id );
     if ( move_me == NULL )
     {
-        TSLOG_WARNING_INT( "pencil input data does not contain the CLASSIFIER to be moved", row_id );
     }
     else
     {
         data_classifier_set_x_order( move_me, x_order );
         data_classifier_set_y_order( move_me, y_order );
-
-        (*this_).dirty_elements_layout = true;
     }
 }
 
-static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t order )
+static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t *order )
 {
+    layout_order_type_t order_type = layout_order_get_order_type( order );
+    if (( PENCIL_LAYOUT_ORDER_TYPE_NONE != order_type )
+        && ( PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE != order_type ))
+    {
+        data_table_t table = data_id_get_table ( &obj_id );
+        int64_t row_id = data_id_get_row_id ( &obj_id );
+        switch ( table )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+                int32_t x_order = layout_order_get_first( order );
+                int32_t y_order = layout_order_get_second( order );
+                gui_sketch_card_move_classifier_to_order( this_, row_id, x_order, y_order );
+            }
+            break;
 
+            case DATA_TABLE_FEATURE:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+
+            }
+            break;
+
+            default:
+            {
+
+            }
+            break;
+        }
+
+        (*this_).dirty_elements_layout = true;
+    }
+    else
+    {
+        TSLOG_WARNING( "pencil input data does not contain the object to be moved, or out of range" );
+        data_id_trace( &obj_id );
+    }
 }
 
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )

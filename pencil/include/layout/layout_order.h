@@ -12,9 +12,22 @@
 #include <stdint.h>
 
 /*!
+ *  \brief enumeration of pencil internal order types
+ */
+enum layout_order_type_enum {
+    PENCIL_LAYOUT_ORDER_TYPE_NONE = 0,  /*!< there is no order for this type of object in this type of diagram */
+    PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE = 1,  /*!< there is no order, the position is out of range */
+    PENCIL_LAYOUT_ORDER_TYPE_X_Y = 2,  /*!< the order is an x/y order pair */
+    PENCIL_LAYOUT_ORDER_TYPE_LIST = 3,  /*!< the order is a list order */
+};
+
+typedef enum layout_order_type_enum layout_order_type_t;
+
+/*!
  *  \brief attributes of the layout_order
  */
 struct layout_order_struct {
+    layout_order_type_t order_type;
     int32_t first;
     int32_t second;
 };
@@ -25,19 +38,21 @@ typedef struct layout_order_struct layout_order_t;
  *  \brief initializes the layout_order_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param order_type order_type, defines the interpretation of first and second parameter
  *  \param first first value of the pair
  *  \param second second value of the pair
  */
-static inline void layout_order_init ( layout_order_t *this_, int32_t first, int32_t second );
+static inline void layout_order_init ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second );
 
 /*!
  *  \brief re-initializes the layout_order_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param order_type order_type, defines the interpretation of first and second parameter
  *  \param first first value of the pair
  *  \param second second value of the pair
  */
-static inline void layout_order_reinit ( layout_order_t *this_, int32_t first, int32_t second );
+static inline void layout_order_reinit ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second );
 
 /*!
  *  \brief copies original to this uninitialized layout_order_t struct
@@ -77,10 +92,18 @@ static inline void layout_order_reinit_empty ( layout_order_t *this_ );
 static inline void layout_order_destroy ( layout_order_t *this_ );
 
 /*!
+ *  \brief gets the order type of layout_order_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return order type value of the layout order
+ */
+static inline layout_order_type_t layout_order_get_order_type ( const layout_order_t *this_ );
+
+/*!
  *  \brief gets the first value of layout_order_t
  *
  *  \param this_ pointer to own object attributes
- *  \return first value of the pair
+ *  \return first value of the layout order pair
  */
 static inline int32_t layout_order_get_first ( const layout_order_t *this_ );
 
@@ -88,7 +111,7 @@ static inline int32_t layout_order_get_first ( const layout_order_t *this_ );
  *  \brief gets the second value of layout_order_t
  *
  *  \param this_ pointer to own object attributes
- *  \return second value of the pair
+ *  \return second value of the layout order pair
  */
 static inline int32_t layout_order_get_second ( const layout_order_t *this_ );
 
