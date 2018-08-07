@@ -80,24 +80,10 @@ static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diag
     int32_t y_order;
 
     pencil_error_t err;
-    err = pencil_diagram_maker_get_order_at_pos2( this_,
-                                                 x,
-                                                 y,
-                                                 &x_order,
-                                                 &y_order
-                                               );
+    err = pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y, 3.15, &x_order, &y_order );
 
     layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
     return err;
-}
-
-static inline pencil_error_t pencil_diagram_maker_get_order_at_pos2 ( pencil_diagram_maker_t *this_,
-                                                                     double x,
-                                                                     double y,
-                                                                     int32_t *out_order_x,
-                                                                     int32_t *out_order_y )
-{
-    return pencil_layouter_get_order_at_pos ( &((*this_).layouter), x, y, 3.15, out_order_x, out_order_y );
 }
 
 static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
@@ -107,6 +93,81 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t 
                                                          bool *out_y_on_grid )
 {
     pencil_layouter_is_pos_on_grid ( &((*this_).layouter), x, y, 3.13, out_x_on_grid, out_y_on_grid );
+}
+
+static inline pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
+                                                                         data_id_t obj_id,
+                                                                         layout_order_t *order )
+{
+    pencil_error_t result = PENCIL_ERROR_NONE;
+
+    layout_order_type_t order_type = layout_order_get_order_type( order );
+    if (( PENCIL_LAYOUT_ORDER_TYPE_NONE != order_type )
+        && ( PENCIL_LAYOUT_ORDER_TYPE_OUT_OF_RANGE != order_type ))
+    {
+        data_table_t table = data_id_get_table ( &obj_id );
+        int64_t row_id = data_id_get_row_id ( &obj_id );
+        switch ( table )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+                int32_t x_order = layout_order_get_first( order );
+                int32_t y_order = layout_order_get_second( order );
+
+                data_classifier_t *move_me;
+                move_me = pencil_input_data_get_classifier_ptr( (*this_).input_data, row_id );
+                if ( move_me == NULL )
+                {
+                }
+                else
+                {
+                    data_classifier_set_x_order( move_me, x_order );
+                    data_classifier_set_y_order( move_me, y_order );
+                }
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            {
+
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                /* pencil cannot move diagrams */
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+            break;
+
+            default:
+            {
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+            break;
+        }
+
+    }
+    else
+    {
+        TSLOG_WARNING( "pencil input data does not contain the object to be moved, or out of range" );
+        data_id_trace( &obj_id );
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
+
+    return result;
 }
 
 

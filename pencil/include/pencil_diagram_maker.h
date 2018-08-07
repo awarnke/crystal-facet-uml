@@ -186,23 +186,6 @@ static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diag
                                                                    );
 
 /*!
- *  \brief gets the order values at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param x x-position
- *  \param y y-position
- *  \param out_order_x x-order value at given x-position
- *  \param out_order_y y-order value at given y-position
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
- */
-static inline pencil_error_t pencil_diagram_maker_get_order_at_pos2 ( pencil_diagram_maker_t *this_,
-                                                                   double x,
-                                                                   double y,
-                                                                   int32_t *out_order_x,
-                                                                   int32_t *out_order_y
-                                                                 );
-
-/*!
  *  \brief determines if the given position is on a grid line
  *
  *  \param this_ pointer to own object attributes
@@ -217,6 +200,20 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t 
                                                          bool *out_x_on_grid,
                                                          bool *out_y_on_grid
                                                        );
+
+/*!
+ *  \brief moves an object in the input_data cache. Does not persist the new order.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id object which to move to layout order temporary
+ *  \param order order where to move the object to
+ *  \return PENCIL_ERROR_UNKNOWN_OBJECT if the object does not exist in input_data,
+ *          PENCIL_ERROR_OUT_OF_BOUNDS if the order is not valid
+ */
+static inline pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
+                                                                         data_id_t obj_id,
+                                                                         layout_order_t *order
+                                                                       );
 
 #include "pencil_diagram_maker.inl"
 
