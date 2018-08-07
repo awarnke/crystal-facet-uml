@@ -56,23 +56,58 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
                                                          out_selected_id,
                                                          out_surrounding_id
                                                        );
+
+    switch ( pen_err )
+    {
+        case PENCIL_ERROR_NONE:
+        {
+            /* success */
+        }
+        break;
+        case PENCIL_ERROR_OUT_OF_BOUNDS:
+        {
+            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_object_id_at_pos" );
+        }
+        break;
+        case PENCIL_ERROR_UNKNOWN_OBJECT:
+        {
+            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_object_id_at_pos" );
+        }
+        break;
+    }
 }
 
 static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
 {
     layout_order_t result;
-    int32_t x_order;
-    int32_t y_order;
+    pencil_error_t pen_err;
 
-    pencil_error_t err;
-    err = pencil_diagram_maker_get_order_at_pos( &((*this_).painter),
-                                                 (double) x,
-                                                 (double) y,
-                                                 &x_order,
-                                                 &y_order
-    );
+    pen_err = pencil_diagram_maker_get_order_at_pos ( &((*this_).painter),
+                                                      obj_id,
+                                                      (double) x,
+                                                      (double) y,
+                                                      &result
+                                                    );
 
-    layout_order_init( &result, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
+    switch ( pen_err )
+    {
+        case PENCIL_ERROR_NONE:
+        {
+            /* success */
+        }
+        break;
+        case PENCIL_ERROR_OUT_OF_BOUNDS:
+        {
+            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_order_at_pos" );
+        }
+        break;
+        case PENCIL_ERROR_UNKNOWN_OBJECT:
+        {
+            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_order_at_pos" );
+        }
+        break;
+    }
+
     return result;
 }
 
@@ -176,9 +211,9 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     geometry_rectangle_t destination;
     geometry_rectangle_init( &destination, left, top, width, height );
     pencil_diagram_maker_layout_grid ( &((*this_).painter),
-                                         &((*this_).painter_input_data),
-                                         destination
-                                       );
+                                       &((*this_).painter_input_data),
+                                       destination
+                                     );
     pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
     (*this_).dirty_elements_layout = false;
 

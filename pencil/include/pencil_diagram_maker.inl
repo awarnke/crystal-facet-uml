@@ -71,6 +71,27 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
 }
 
 static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                                     data_id_t obj_id,
+                                                                     double x,
+                                                                     double y,
+                                                                     layout_order_t* out_layout_order )
+{
+    int32_t x_order;
+    int32_t y_order;
+
+    pencil_error_t err;
+    err = pencil_diagram_maker_get_order_at_pos2( this_,
+                                                 x,
+                                                 y,
+                                                 &x_order,
+                                                 &y_order
+                                               );
+
+    layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
+    return err;
+}
+
+static inline pencil_error_t pencil_diagram_maker_get_order_at_pos2 ( pencil_diagram_maker_t *this_,
                                                                      double x,
                                                                      double y,
                                                                      int32_t *out_order_x,

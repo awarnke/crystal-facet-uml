@@ -15,6 +15,7 @@
 enum pencil_error_enum {
     PENCIL_ERROR_NONE = 0,  /*!< 0: success */
     PENCIL_ERROR_OUT_OF_BOUNDS = 1,  /*!< 1: input parameters are out of bounds */
+    PENCIL_ERROR_UNKNOWN_OBJECT = 2,  /*!< 2: referenced object is not in current diagram */
 };
 
 typedef enum pencil_error_enum pencil_error_t;

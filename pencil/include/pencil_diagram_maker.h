@@ -17,6 +17,7 @@
 #include "pencil_relationship_painter.h"
 #include "pencil_size.h"
 #include "pencil_error.h"
+#include "layout/layout_order.h"
 #include "util/id/data_id_pair.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -167,6 +168,24 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
                                                                        );
 
 /*!
+ *  \brief gets the layout order at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id object for which to determine the layout order
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_layout_order order at given position
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
+ *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
+ */
+static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                                     data_id_t obj_id,
+                                                                     double x,
+                                                                     double y,
+                                                                     layout_order_t* out_layout_order
+                                                                   );
+
+/*!
  *  \brief gets the order values at a given position
  *
  *  \param this_ pointer to own object attributes
@@ -176,7 +195,7 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
  *  \param out_order_y y-order value at given y-position
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
-static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+static inline pencil_error_t pencil_diagram_maker_get_order_at_pos2 ( pencil_diagram_maker_t *this_,
                                                                    double x,
                                                                    double y,
                                                                    int32_t *out_order_x,
