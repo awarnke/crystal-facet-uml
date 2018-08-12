@@ -205,15 +205,15 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t 
  *  \brief moves an object in the input_data cache. Does not persist the new order.
  *
  *  \param this_ pointer to own object attributes
- *  \param obj_id object which to move to layout order temporary
+ *  \param obj_id object which to move to layout_order temporarily: classifiers, features and realtionships are supported.
  *  \param order order where to move the object to
  *  \return PENCIL_ERROR_UNKNOWN_OBJECT if the object does not exist in input_data,
  *          PENCIL_ERROR_OUT_OF_BOUNDS if the order is not valid
  */
-static inline pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
-                                                                         data_id_t obj_id,
-                                                                         layout_order_t *order
-                                                                       );
+pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
+                                                           data_id_t obj_id,
+                                                           layout_order_t *order
+                                                         );
 
 #include "pencil_diagram_maker.inl"
 

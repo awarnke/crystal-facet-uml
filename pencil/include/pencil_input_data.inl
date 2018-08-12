@@ -77,18 +77,48 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     return result;
 }
 
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int64_t row_id )
+static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id )
+{
+    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    data_visible_classifier_t *result = NULL;
+
+    /* iterate over all visible classifiers */
+    uint32_t count;
+    for ( uint32_t index = 0; index < (*this_).visible_classifier_count; index ++ )
+    {
+        data_visible_classifier_t *visible_classifier;
+        visible_classifier = &((*this_).visible_classifiers[index]);
+        assert ( data_visible_classifier_is_valid( visible_classifier ) );
+
+        data_diagramelement_t *diagramelement;
+        diagramelement = data_visible_classifier_get_diagramelement_ptr( visible_classifier );
+        if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
+        {
+            result = visible_classifier;
+            break;
+        }
+    }
+
+    return result;
+}
+
+static inline data_classifier_t *pencil_input_data_get_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     data_classifier_t *result = NULL;
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
+        data_visible_classifier_t *visible_classifier;
+        visible_classifier = &((*this_).visible_classifiers[index]);
+        assert ( data_visible_classifier_is_valid( visible_classifier ) );
+
         data_classifier_t *probe;
-        probe = data_visible_classifier_get_classifier_ptr( &((*this_).visible_classifiers[index]) );
+        probe = data_visible_classifier_get_classifier_ptr( visible_classifier );
         if ( row_id == data_classifier_get_id( probe ) )
         {
             result = probe;
+            break;
         }
     }
 
@@ -107,6 +137,7 @@ static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data
         if ( row_id == data_classifier_get_id( probe ) )
         {
             result = index;
+            break;
         }
     }
 
@@ -130,7 +161,7 @@ static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t
 
 static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
 
     data_feature_t *result;
     if ( index < (*this_).feature_count )
@@ -146,9 +177,28 @@ static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_d
     return result;
 }
 
+static inline data_feature_t *pencil_input_data_get_feature_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
+{
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    data_feature_t *result = NULL;
+
+    for ( int index = 0; index < (*this_).feature_count; index ++ )
+    {
+        data_feature_t *probe;
+        probe = &((*this_).features[index]);
+        if ( row_id == data_feature_get_id( probe ) )
+        {
+            result = probe;
+            break;
+        }
+    }
+
+    return result;
+}
+
 static inline data_feature_t *pencil_input_data_get_feature_list_ptr ( pencil_input_data_t *this_ )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
     return (*this_).features;
 }
 
@@ -159,7 +209,7 @@ static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_d
 
 static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
     data_relationship_t *result;
     if ( index < (*this_).relationship_count )
@@ -170,6 +220,25 @@ static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( penc
     {
         result = NULL;
         TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
+    }
+
+    return result;
+}
+
+static inline data_relationship_t *pencil_input_data_get_relationship_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
+{
+    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    data_relationship_t *result = NULL;
+
+    for ( int index = 0; index < (*this_).relationship_count; index ++ )
+    {
+        data_relationship_t *probe;
+        probe = &((*this_).relationships[index]);
+        if ( row_id == data_relationship_get_id( probe ) )
+        {
+            result = probe;
+            break;
+        }
     }
 
     return result;

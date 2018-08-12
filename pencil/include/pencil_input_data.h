@@ -99,10 +99,10 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
  *  \brief gets a visible classifier within the painter input data
  *
  *  \param this_ pointer to own object attributes
- *  \param diagramelement_id id of the diagramelement fpr which to retrieve the visible classifier
+ *  \param diagramelement_id id of the diagramelement for which to retrieve the visible classifier
  *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
  */
-data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id );
+static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id );
 
 /*!
  *  \brief gets the classifier within the painter input data
@@ -111,7 +111,7 @@ data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( 
  *  \param row_id id of the classifier to retrieve
  *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
  */
-static inline data_classifier_t *pencil_input_data_get_classifier_ptr ( pencil_input_data_t *this_, int64_t row_id );
+static inline data_classifier_t *pencil_input_data_get_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets the classifier index within the painter input data
@@ -152,6 +152,15 @@ static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t
 static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index );
 
 /*!
+ *  \brief gets a feature within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the feature to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
+ */
+static inline data_feature_t *pencil_input_data_get_feature_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id );
+
+/*!
  *  \brief gets the list of features within the painter input data
  *
  *  \param this_ pointer to own object attributes
@@ -176,6 +185,15 @@ static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_d
  *  \return NULL if index >= pencil_input_data_get_relationship_count(); pointer to data_relationship_t otherwise.
  */
 static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets a relationship within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the relationship to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
+ */
+static inline data_relationship_t *pencil_input_data_get_relationship_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id );
 
 /*!
  *  \brief determines if ancestor is an ancestor of descendant
