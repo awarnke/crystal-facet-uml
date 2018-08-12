@@ -369,12 +369,14 @@ ctrl_error_t ctrl_undo_redo_list_private_do_action ( ctrl_undo_redo_list_t *this
             const char* classfy_description = data_classifier_get_description_ptr ( classfy );
             int32_t classfy_x_order = data_classifier_get_x_order ( classfy );
             int32_t classfy_y_order = data_classifier_get_y_order ( classfy );
+            int32_t classfy_list_order = data_classifier_get_list_order ( classfy );
             result |= (ctrl_error_t) data_database_writer_update_classifier_main_type ( (*this_).db_writer, classfy_id, classfy_main_type, NULL );
             result |= (ctrl_error_t) data_database_writer_update_classifier_stereotype ( (*this_).db_writer, classfy_id, classfy_stereotype, NULL );
             result |= (ctrl_error_t) data_database_writer_update_classifier_name ( (*this_).db_writer, classfy_id, classfy_name, NULL );
             result |= (ctrl_error_t) data_database_writer_update_classifier_description ( (*this_).db_writer, classfy_id, classfy_description, NULL );
             result |= (ctrl_error_t) data_database_writer_update_classifier_x_order ( (*this_).db_writer, classfy_id, classfy_x_order, NULL );
             result |= (ctrl_error_t) data_database_writer_update_classifier_y_order ( (*this_).db_writer, classfy_id, classfy_y_order, NULL );
+            result |= (ctrl_error_t) data_database_writer_update_classifier_list_order ( (*this_).db_writer, classfy_id, classfy_list_order, NULL );
         }
         break;
 
