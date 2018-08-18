@@ -478,7 +478,7 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,classifiers.list_order,"
     "diagramelements.id,diagramelements.display_flags,diagramelements.focused_feature_id "
     "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY classifiers.y_order ASC,classifiers.x_order ASC;";
+    "WHERE diagramelements.diagram_id=? ORDER BY classifiers.list_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id

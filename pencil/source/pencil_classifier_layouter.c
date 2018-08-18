@@ -802,6 +802,34 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
 void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+
+    /* sort the classifiers according to their list_order */
+    /*
+    universal_array_index_sorter_t sorted_classifiers;
+    universal_array_index_sorter_init( &sorted_classifiers );
+    uint32_t count_clasfy;
+    count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    for ( uint32_t c_idx = 0; c_idx < count_clasfy; c_idx ++ )
+    {
+        layout_visible_classifier_t *visible_classifier_probe;
+        visible_classifier_probe = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, c_idx );
+
+        const data_classifier_t *classifier_probe;
+        classifier_probe = layout_visible_classifier_get_classifier_ptr( visible_classifier_probe );
+
+        int err;
+        double weight;
+        weight = data_classifier_get_list_order( classifier_probe );
+        err = universal_array_index_sorter_insert( &sorted_classifiers, c_idx, weight );
+        if ( 0 != err )
+        {
+            TSLOG_ERROR ( "universal_array_index_sorter_t list is full." );
+        }
+    }
+    universal_array_index_sorter_destroy( &sorted_classifiers );
+    */
+    /* assume, classifiers are already ordered by their list order */
 
     /* get the diagram coordinates */
     double diag_x;
@@ -821,7 +849,7 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
     diag_x += obj_dist;
     diag_w -= 2.0 * obj_dist;
     diag_h -= obj_dist;
-    
+
     /* store the classifier bounds into input_data_layouter_t */
     uint32_t count_clasfy;
     count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
@@ -841,10 +869,10 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
-                                    diag_x,
-                                    diag_y+((index*diag_h)/count_clasfy),
-                                    diag_w,
-                                    (diag_h/count_clasfy)
+                                 diag_x,
+                                 diag_y+((index*diag_h)/count_clasfy),
+                                 diag_w,
+                                 (diag_h/count_clasfy)
                                 );
 
         /* update inner space */
@@ -863,6 +891,15 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
 void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+
+    /* sort the classifiers according to their list_order */
+    /*
+    universal_array_index_sorter_t sorted_classifiers;
+    universal_array_index_sorter_init( &sorted_classifiers );
+    universal_array_index_sorter_destroy( &sorted_classifiers );
+    */
+    /* assume, classifiers are already ordered by their list order */
 
     /* get the diagram coordinates */
     double diag_x;
@@ -924,6 +961,15 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
+    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+
+    /* sort the classifiers according to their list_order */
+    /*
+    universal_array_index_sorter_t sorted_classifiers;
+    universal_array_index_sorter_init( &sorted_classifiers );
+    universal_array_index_sorter_destroy( &sorted_classifiers );
+    */
+    /* assume, classifiers are already ordered by their list order */
 
     /* get the diagram coordinates */
     double diag_x;
@@ -963,11 +1009,11 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
-                                    diag_x,
-                                    diag_y+((index*diag_h)/count_clasfy),
-                                    diag_w/4,
-                                    (diag_h/count_clasfy)
-        );
+                                 diag_x,
+                                 diag_y+((index*diag_h)/count_clasfy),
+                                 diag_w/4,
+                                 (diag_h/count_clasfy)
+                               );
 
         /* update inner space */
         pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),

@@ -479,6 +479,39 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
     return result;
 }
 
+pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
+                                                  data_id_t obj_id,
+                                                  double x,
+                                                  double y,
+                                                  double snap_distance,
+                                                  layout_order_t* out_layout_order )
+{
+    assert ( NULL != out_layout_order );
+
+    int32_t x_order;
+    int32_t y_order;
+
+    pencil_error_t err = PENCIL_ERROR_NONE;
+
+    x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+    y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+
+    /* get bounding box */
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+
+    if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
+    {
+        err = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
+
+    layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
+
+    return err;
+}
+
 
 /*
 Copyright 2017-2018 Andreas Warnke

@@ -19,6 +19,7 @@
 #include "pencil_relationship_layouter.h"
 #include "pencil_classifier_layouter.h"
 #include "pencil_error.h"
+#include "layout/layout_order.h"
 #include "util/id/data_id_pair.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_non_linear_scale.h"
@@ -192,23 +193,24 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
                                                                   );
 
 /*!
- *  \brief gets the order values at a given position
+ *  \brief gets the layout order at a given position
  *
  *  \param this_ pointer to own object attributes
+ *  \param obj_id object for which to determine the layout order
  *  \param x x-position
  *  \param y y-position
  *  \param snap_distance maximum distance to the next grid line when to snap to a grid position
- *  \param out_order_x x-order value at given x-position
- *  \param out_order_y y-order value at given y-position
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
+ *  \param out_layout_order order at given position
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
+ *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
  */
-static inline pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                                double x,
-                                                                double y,
-                                                                double snap_distance,
-                                                                int32_t *out_order_x,
-                                                                int32_t *out_order_y
-                                                              );
+pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
+                                                  data_id_t obj_id,
+                                                  double x,
+                                                  double y,
+                                                  double snap_distance,
+                                                  layout_order_t* out_layout_order
+                                                );
 
 /*!
  *  \brief determines if the given position is on a grid line

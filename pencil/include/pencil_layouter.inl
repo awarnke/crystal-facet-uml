@@ -40,34 +40,6 @@ static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_l
     return result;
 }
 
-static inline pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                                double x,
-                                                                double y,
-                                                                double snap_distance,
-                                                                int32_t *out_order_x,
-                                                                int32_t *out_order_y )
-{
-    assert ( NULL != out_order_x );
-    assert ( NULL != out_order_y );
-    pencil_error_t result = PENCIL_ERROR_NONE;
-
-    *out_order_x = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-    *out_order_y = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
-
-    /* get bounding box */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
-
-    if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
-    {
-        result = PENCIL_ERROR_OUT_OF_BOUNDS;
-    }
-
-    return result;
-}
-
 static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
                                                     double x,
                                                     double y,
