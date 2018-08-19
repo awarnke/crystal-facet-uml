@@ -180,6 +180,46 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
                                                                 double *out_coordinate
                                                               );
 
+/*!
+ *  \brief hides all relationships.
+ *
+ *  Relationships are not visible in simple list and box diagrams.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *this_ );
+
+/*!
+ *  \brief defines the shapes of relationships in sequence diagrams
+ *
+ *  Shows only relationships that are associated to a lifeline because a sequence diagram
+ *  shows only an example sequence of messages, not all dependencies.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layouter_t *this_ );
+
+/*!
+ *  \brief defines the shapes of relationships in timing diagrams
+ *
+ *  Shows only relationships that are associated to a lifeline because a timing diagram
+ *  shows only an example timing-sequence of messages, not all dependencies.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layouter_t *this_ );
+
+/*!
+ *  \brief defines the shapes of relationships in communication diagrams.
+ *
+ *  Shows only relationships that are associated to a lifeline because a communication diagram
+ *  shows only an example sequence of messages, not all dependencies.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_layout_for_communication( pencil_relationship_layouter_t *this_ );
+
+
 #endif  /* PENCIL_RELATIONSHIP_LAYOUTER_H */
 
 

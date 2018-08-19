@@ -147,22 +147,37 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* store the classifier bounds into input_data_layouter_t */
         if ( DATA_DIAGRAM_TYPE_LIST == diag_type )
         {
+            /* calculate the classifier shapes */
             pencil_classifier_layouter_layout_for_list( &((*this_).pencil_classifier_layouter), font_layout );
+
+            /* calculate the feature shapes */
+            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+
+            /* hide relationships in simple list and box diagrams */
+            pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
         }
         else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
         {
+            /* calculate the classifier shapes */
             pencil_classifier_layouter_layout_for_sequence( &((*this_).pencil_classifier_layouter), font_layout );
+
+            /* calculate the feature shapes */
+            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+
+            /* calculate the relationship shapes for a sequence diagram */
+            pencil_relationship_layouter_layout_for_sequence( &((*this_).pencil_relationship_layouter) );
         }
-        else /* ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type ) */
+        else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
         {
+            /* calculate the classifier shapes */
             pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
+
+            /* calculate the feature shapes */
+            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+
+            /* calculate the relationship shapes for a timing diagram */
+            pencil_relationship_layouter_layout_for_timing( &((*this_).pencil_relationship_layouter) );
         }
-
-        /* calculate the feature shapes */
-        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
-
-        /* calculate the relationship shapes */
-        pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
     }
     else
     {
@@ -178,8 +193,21 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
-        /* calculate the relationship shapes */
-        pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+        if ( DATA_DIAGRAM_TYPE_BOX_DIAGRAM == diag_type )
+        {
+            /* hide relationships in simple list and box diagrams */
+            pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
+        }
+        else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+        {
+            /* calculate the relationship shapes for a communication diagram */
+            pencil_relationship_layouter_layout_for_communication( &((*this_).pencil_relationship_layouter) );
+        }
+        else
+        {
+            /* calculate the relationship shapes */
+            pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+        }
 
         /* hide containment relationships if children are embraced */
         pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
@@ -486,15 +514,13 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
                                                   double snap_distance,
                                                   layout_order_t* out_layout_order )
 {
+    TRACE_BEGIN();
     assert ( NULL != out_layout_order );
 
     int32_t x_order;
     int32_t y_order;
 
-    pencil_error_t err = PENCIL_ERROR_NONE;
-
-    x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-    y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+    pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get bounding box */
     layout_diagram_t *the_diagram;
@@ -504,12 +530,70 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
-        err = PENCIL_ERROR_OUT_OF_BOUNDS;
+        layout_order_init_empty( out_layout_order );
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
+    else
+    {
+        data_table_t table = data_id_get_table ( &obj_id );
+        int64_t row_id = data_id_get_row_id ( &obj_id );
+
+        switch ( table )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            {
+
+                x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+                y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+
+                layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            {
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_OUT_OF_BOUNDS;
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_OUT_OF_BOUNDS;
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            {
+                TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                /* pencil cannot move diagrams */
+                TSLOG_WARNING( "object to be re-positioned has unexpected type: diagram" );
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+            break;
+
+            default:
+            {
+                TSLOG_WARNING( "object to be re-positioned has illegal type" );
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+            break;
+        }
+
     }
 
-    layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
-
-    return err;
+    TRACE_END_ERR( result );
+    return result;
 }
 
 

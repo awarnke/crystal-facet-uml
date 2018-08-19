@@ -871,6 +871,91 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
     TRACE_END();
 }
 
+void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* layout the relationships */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+
+        geometry_connector_t *relationship_shape;
+        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+        /*
+        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
+        */
+    }
+
+    TRACE_END();
+}
+
+void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* layout the relationships */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+
+        geometry_connector_t *relationship_shape;
+        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+        /*
+         *        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
+         */
+    }
+
+    TRACE_END();
+}
+
+void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* layout the relationships */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+
+        geometry_connector_t *relationship_shape;
+        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+        /*
+         *        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
+         */
+    }
+
+    TRACE_END();
+}
+
+void pencil_relationship_layouter_layout_for_communication( pencil_relationship_layouter_t *this_ )
+{
+    TRACE_BEGIN();
+
+    /* hide some relationships */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+    }
+
+    /* layout the visible relationships */
+    pencil_relationship_layouter_do_layout ( this_ );
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2017-2018 Andreas Warnke

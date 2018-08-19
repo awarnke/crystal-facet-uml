@@ -202,7 +202,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
  *  \param snap_distance maximum distance to the next grid line when to snap to a grid position
  *  \param out_layout_order order at given position
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
- *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
+ *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
 pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
                                                   data_id_t obj_id,
