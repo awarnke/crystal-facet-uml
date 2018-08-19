@@ -476,29 +476,34 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 /* what is dragged? */
                 data_id_pair_t *dragged_object;
                 dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                data_id_t dragged_element;
+                dragged_element = data_id_pair_get_primary_id( dragged_object );
                 data_id_t dragged_classifier;
                 dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                 /* mark again - in case the marker was lost */
-                data_id_t dragged_element;
-                dragged_element = data_id_pair_get_primary_id( dragged_object );
                 gui_sketch_marker_set_highlighted( (*this_).marker, dragged_element );
 
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
                 if ( NULL != target_card )
                 {
-                    layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
-                    layout_order_trace( &layout_order );
-
-                    /* move the object in the display-cache accordingly */
-                    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
+                    layout_order_t layout_order;
+                    if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element ) )
                     {
+                        layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
+                        layout_order_trace( &layout_order );
                         gui_sketch_card_move_object_to_order( target_card, dragged_classifier, &layout_order );
-
-                        /* mark dirty rect */
-                        gtk_widget_queue_draw( widget );
                     }
+                    else
+                    {
+                        layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
+                        layout_order_trace( &layout_order );
+                        gui_sketch_card_move_object_to_order( target_card, dragged_element, &layout_order );
+                    }
+
+                    /* mark dirty rect */
+                    gtk_widget_queue_draw( widget );
                 }
                 else
                 {
@@ -871,6 +876,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     /* which object is selected? */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    data_id_t dragged_element;
+                    dragged_element = data_id_pair_get_primary_id( dragged_object );
                     data_id_t dragged_classifier;
                     dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
@@ -880,15 +887,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         TRACE_INFO_INT_INT("No card at",x,y);
                     }
-                    else if ( DATA_TABLE_CLASSIFIER != data_id_get_table( &dragged_classifier ) )
+                    else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element ) )
                     {
-                        TRACE_INFO("Dragged object is no classifier");
-                    }
-                    else
-                    {
-                        data_id_t dummy_classifier;
-                        data_id_init( &dummy_classifier, DATA_TABLE_CLASSIFIER, DATA_ID_VOID_ID );
-                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dummy_classifier, x, y );
+                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
                         int32_t x_order = layout_order_get_first( &layout_order );
                         int32_t y_order = layout_order_get_second( &layout_order );
                         TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
@@ -902,6 +903,25 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                                     x_order,
                                                                                                     y_order
                                                                                                   );
+                    }
+                    else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &dragged_element ) )
+                    {
+                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
+                        int32_t list_order = layout_order_get_first( &layout_order );
+                        TRACE_INFO_INT( "list_order", list_order );
+
+                        /* update db */
+                        ctrl_classifier_controller_t *classifier_control;
+                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                        ctrl_error_t mov_result;
+                        mov_result = ctrl_classifier_controller_update_relationship_list_order ( classifier_control,
+                                                                                                 data_id_get_row_id( &dragged_element ),
+                                                                                                 list_order
+                                                                                               );
+                    }
+                    else
+                    {
+                        TRACE_INFO("Dragged object is neither relationship nor classifier");
                     }
                 }
             }

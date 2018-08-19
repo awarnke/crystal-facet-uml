@@ -140,44 +140,39 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     /* adjust the default classifier rectangle */
     pencil_layouter_private_propose_default_classifier_size( this_ );
 
-    if (( DATA_DIAGRAM_TYPE_LIST == diag_type )
-        ||( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
-        ||( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type ))
+    /* store the classifier bounds into input_data_layouter_t */
+    if ( DATA_DIAGRAM_TYPE_LIST == diag_type )
     {
-        /* store the classifier bounds into input_data_layouter_t */
-        if ( DATA_DIAGRAM_TYPE_LIST == diag_type )
-        {
-            /* calculate the classifier shapes */
-            pencil_classifier_layouter_layout_for_list( &((*this_).pencil_classifier_layouter), font_layout );
+        /* calculate the classifier shapes */
+        pencil_classifier_layouter_layout_for_list( &((*this_).pencil_classifier_layouter), font_layout );
 
-            /* calculate the feature shapes */
-            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+        /* calculate the feature shapes */
+        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
-            /* hide relationships in simple list and box diagrams */
-            pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
-        }
-        else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
-        {
-            /* calculate the classifier shapes */
-            pencil_classifier_layouter_layout_for_sequence( &((*this_).pencil_classifier_layouter), font_layout );
+        /* hide relationships in simple list and box diagrams */
+        pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
+    }
+    else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+    {
+        /* calculate the classifier shapes */
+        pencil_classifier_layouter_layout_for_sequence( &((*this_).pencil_classifier_layouter), font_layout );
 
-            /* calculate the feature shapes */
-            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+        /* calculate the feature shapes */
+        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
-            /* calculate the relationship shapes for a sequence diagram */
-            pencil_relationship_layouter_layout_for_sequence( &((*this_).pencil_relationship_layouter) );
-        }
-        else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
-        {
-            /* calculate the classifier shapes */
-            pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
+        /* calculate the relationship shapes for a sequence diagram */
+        pencil_relationship_layouter_layout_for_sequence( &((*this_).pencil_relationship_layouter) );
+    }
+    else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+    {
+        /* calculate the classifier shapes */
+        pencil_classifier_layouter_layout_for_timing( &((*this_).pencil_classifier_layouter), font_layout );
 
-            /* calculate the feature shapes */
-            pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
+        /* calculate the feature shapes */
+        pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
-            /* calculate the relationship shapes for a timing diagram */
-            pencil_relationship_layouter_layout_for_timing( &((*this_).pencil_relationship_layouter) );
-        }
+        /* calculate the relationship shapes for a timing diagram */
+        pencil_relationship_layouter_layout_for_timing( &((*this_).pencil_relationship_layouter) );
     }
     else
     {
@@ -522,11 +517,17 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
 
     pencil_error_t result = PENCIL_ERROR_NONE;
 
-    /* get bounding box */
+    /* get the bounding box of the diagram */
     layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     geometry_rectangle_t *diagram_bounds;
     diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+
+    /* get the diagram type */
+    const data_diagram_t *diagram_data;
+    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    data_diagram_type_t diag_type;
+    diag_type = data_diagram_get_diagram_type ( diagram_data );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -546,21 +547,53 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
                 x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
                 y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
 
-                layout_order_init( out_layout_order, PENCIL_LAYOUT_ORDER_TYPE_X_Y, x_order, y_order );
+                layout_order_init_x_y( out_layout_order, x_order, y_order );
             }
             break;
 
             case DATA_TABLE_FEATURE:
             {
                 layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_OUT_OF_BOUNDS;
             }
             break;
 
             case DATA_TABLE_RELATIONSHIP:
             {
-                layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_OUT_OF_BOUNDS;
+                if (( DATA_DIAGRAM_TYPE_BOX_DIAGRAM == diag_type )
+                    || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
+                {
+                    /* relationships are hidden in lists and box-diagrams */
+                    layout_order_init_empty( out_layout_order );
+                    result = PENCIL_ERROR_OUT_OF_BOUNDS;
+                }
+                else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+                {
+                    /* TODO */
+                    layout_order_init_empty( out_layout_order );
+                }
+                else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+                {
+                    double src_top = geometry_rectangle_get_top(diagram_bounds);
+                    double src_bottom = geometry_rectangle_get_bottom(diagram_bounds);
+                    int32_t list_order;
+                    list_order = ( y - src_top ) / ( src_bottom - src_top ) * UINT32_MAX;
+                    list_order += INT32_MIN;
+                    layout_order_init_list( out_layout_order, list_order );
+                }
+                else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+                {
+                    double src_left = geometry_rectangle_get_left(diagram_bounds);
+                    double src_right = geometry_rectangle_get_right(diagram_bounds);
+                    int32_t list_order;
+                    list_order = ( x - src_left ) / ( src_right - src_left ) * UINT32_MAX;
+                    list_order += INT32_MIN;
+                    layout_order_init_list( out_layout_order, list_order );
+                }
+                else
+                {
+                    /* all other diagram types do not care about lit_orders of relationships */
+                    layout_order_init_empty( out_layout_order );
+                }
             }
             break;
 

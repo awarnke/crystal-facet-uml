@@ -875,19 +875,12 @@ void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *t
 {
     TRACE_BEGIN();
 
-    /* layout the relationships */
+    /* hide all relationships */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-
-        geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-        /*
-        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
-        */
+        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
     }
 
     TRACE_END();
@@ -900,16 +893,51 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
     /* layout the relationships */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    TRACE_INFO_INT ( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
+        /* get the relationship to layout */
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
+        /* get source and destination rectangles */
+        const geometry_rectangle_t *source_rect;
+        const geometry_rectangle_t *dest_rect;
+        source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
+        dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
+
+        /* calculate coordinates */
+        double src_left = geometry_rectangle_get_left(source_rect);
+        double src_x_center = geometry_rectangle_get_x_center(source_rect);
+        double src_right = geometry_rectangle_get_right(source_rect);
+        double src_top = geometry_rectangle_get_top(source_rect);
+        double src_y_center = geometry_rectangle_get_y_center(source_rect);
+        double src_bottom = geometry_rectangle_get_bottom(source_rect);
+
+        double dst_left = geometry_rectangle_get_left(dest_rect);
+        double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+        double dst_right = geometry_rectangle_get_right(dest_rect);
+        double dst_top = geometry_rectangle_get_top(dest_rect);
+        double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+        double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+
+        double min_y_value = ( src_top < dst_top ) ? src_top : dst_top;
+        double max_y_value = ( src_bottom > dst_bottom ) ? src_bottom : dst_bottom;
+        const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
+        double y_value_rel = data_relationship_get_list_order ( the_relationdata )/(((double)INT32_MAX)+1.0);
+        double y_value = ( (max_y_value - min_y_value) * (y_value_rel + 1.0) / 2.0 ) + min_y_value;
+
+        /* define relation */
         geometry_connector_t *relationship_shape;
         relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-        /*
-         *        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
-         */
+        geometry_connector_init_horizontal ( relationship_shape,
+                                             src_x_center,
+                                             y_value,
+                                             dst_x_center,
+                                             y_value,
+                                             y_value
+                                           );
+        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
     }
 
     TRACE_END();

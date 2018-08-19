@@ -2,7 +2,7 @@
 
 #include "trace.h"
 
-static inline void layout_order_init ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
+static inline void layout_order_private_init ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
 {
     (*this_).first = first;
     (*this_).second = second;
@@ -10,11 +10,39 @@ static inline void layout_order_init ( layout_order_t *this_, layout_order_type_
 }
 
 
-static inline void layout_order_reinit ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
+static inline void layout_order_private_reinit ( layout_order_t *this_, layout_order_type_t order_type, int32_t first, int32_t second )
 {
     (*this_).first = first;
     (*this_).second = second;
     (*this_).order_type = order_type;
+}
+
+static inline void layout_order_init_x_y ( layout_order_t *this_, int32_t x_order, int32_t y_order )
+{
+    (*this_).first = x_order;
+    (*this_).second = y_order;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_X_Y;
+}
+
+static inline void layout_order_reinit_x_y ( layout_order_t *this_, int32_t x_order, int32_t y_order )
+{
+    (*this_).first = x_order;
+    (*this_).second = y_order;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_X_Y;
+}
+
+static inline void layout_order_init_list ( layout_order_t *this_, int32_t list_order )
+{
+    (*this_).first = list_order;
+    (*this_).second = 0;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_LIST;
+}
+
+static inline void layout_order_reinit_list ( layout_order_t *this_, int32_t list_order )
+{
+    (*this_).first = list_order;
+    (*this_).second = 0;
+    (*this_).order_type = PENCIL_LAYOUT_ORDER_TYPE_LIST;
 }
 
 static inline void layout_order_copy ( layout_order_t *this_, const layout_order_t *original )
