@@ -1,6 +1,7 @@
 2018-0x-xx 1.5.0 [xxxxxxx]
-  + ...
-  + Box and List diagrams hide all relationships
+  + Sequence and timing diagrams show messages/transitions
+  + In sequence and timing diagrams, messages/transitions can be moved
+  + Box and list diagrams hide all relationships
   . Database format changed (list_oder field for classifiers), up- and downwards compatible.
 2018-05-11 1.4.0 [66861a9]
   + relationships can connect to ports

@@ -62,13 +62,13 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "UML_STATE_MACHINE_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "UML_SEQUENCE_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "UML_SEQUENCE_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "UML_COMMUNICATION_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "UML_INTERACTION_OVERVIEW_DIAGRAM (not yet implemented)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "UML_TIMING_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "UML_TIMING_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "UML_DEPLOYMENT_DIAGRAM", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);

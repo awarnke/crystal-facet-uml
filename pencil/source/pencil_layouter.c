@@ -522,6 +522,8 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     geometry_rectangle_t *diagram_bounds;
     diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+    geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
 
     /* get the diagram type */
     const data_diagram_t *diagram_data;
@@ -573,20 +575,42 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
                 }
                 else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
                 {
-                    double src_top = geometry_rectangle_get_top(diagram_bounds);
-                    double src_bottom = geometry_rectangle_get_bottom(diagram_bounds);
+                    double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+                    double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
                     int32_t list_order;
-                    list_order = ( y - src_top ) / ( src_bottom - src_top ) * UINT32_MAX;
-                    list_order += INT32_MIN;
+                    if ( y <= draw_top )
+                    {
+                        list_order = INT32_MIN;
+                    }
+                    else if ( y >= draw_bottom )
+                    {
+                        list_order = INT32_MAX;
+                    }
+                    else
+                    {
+                        list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
+                        list_order += INT32_MIN;
+                    }
                     layout_order_init_list( out_layout_order, list_order );
                 }
                 else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
                 {
-                    double src_left = geometry_rectangle_get_left(diagram_bounds);
-                    double src_right = geometry_rectangle_get_right(diagram_bounds);
+                    double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+                    double draw_right = geometry_rectangle_get_right(diagram_draw_area);
                     int32_t list_order;
-                    list_order = ( x - src_left ) / ( src_right - src_left ) * UINT32_MAX;
-                    list_order += INT32_MIN;
+                    if ( x <= draw_left )
+                    {
+                        list_order = INT32_MIN;
+                    }
+                    else if ( x >= draw_right )
+                    {
+                        list_order = INT32_MAX;
+                    }
+                    else
+                    {
+                        list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
+                        list_order += INT32_MIN;
+                    }
                     layout_order_init_list( out_layout_order, list_order );
                 }
                 else

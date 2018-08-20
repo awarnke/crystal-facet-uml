@@ -890,6 +890,14 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
 {
     TRACE_BEGIN();
 
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
+
     /* layout the relationships */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
@@ -900,44 +908,52 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
-        /* get source and destination rectangles */
-        const geometry_rectangle_t *source_rect;
-        const geometry_rectangle_t *dest_rect;
-        source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
-        dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
+        if ( true )  /* is visible ? -- TODO */
+        {
+            /* determine y-coordinate */
+            const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
+            int32_t list_order = data_relationship_get_list_order ( the_relationdata );
+            double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            double y_value = ( (draw_bottom - draw_top) * y_value_rel ) + draw_top;
 
-        /* calculate coordinates */
-        double src_left = geometry_rectangle_get_left(source_rect);
-        double src_x_center = geometry_rectangle_get_x_center(source_rect);
-        double src_right = geometry_rectangle_get_right(source_rect);
-        double src_top = geometry_rectangle_get_top(source_rect);
-        double src_y_center = geometry_rectangle_get_y_center(source_rect);
-        double src_bottom = geometry_rectangle_get_bottom(source_rect);
+            /* get source and destination rectangles */
+            const geometry_rectangle_t *source_rect;
+            const geometry_rectangle_t *dest_rect;
+            source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
+            dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
 
-        double dst_left = geometry_rectangle_get_left(dest_rect);
-        double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
-        double dst_right = geometry_rectangle_get_right(dest_rect);
-        double dst_top = geometry_rectangle_get_top(dest_rect);
-        double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
-        double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
+            /* calculate coordinates */
+            /*double src_left = geometry_rectangle_get_left(source_rect);*/
+            double src_x_center = geometry_rectangle_get_x_center(source_rect);
+            /*double src_right = geometry_rectangle_get_right(source_rect);*/
+            double src_top = geometry_rectangle_get_top(source_rect);
+            /*double src_y_center = geometry_rectangle_get_y_center(source_rect);*/
+            double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
-        double min_y_value = ( src_top < dst_top ) ? src_top : dst_top;
-        double max_y_value = ( src_bottom > dst_bottom ) ? src_bottom : dst_bottom;
-        const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
-        double y_value_rel = data_relationship_get_list_order ( the_relationdata )/(((double)INT32_MAX)+1.0);
-        double y_value = ( (max_y_value - min_y_value) * (y_value_rel + 1.0) / 2.0 ) + min_y_value;
+            /*double dst_left = geometry_rectangle_get_left(dest_rect);*/
+            double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+            /*double dst_right = geometry_rectangle_get_right(dest_rect);*/
+            double dst_top = geometry_rectangle_get_top(dest_rect);
+            /*double dst_y_center = geometry_rectangle_get_y_center(dest_rect);*/
+            double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
-        /* define relation */
-        geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-        geometry_connector_init_horizontal ( relationship_shape,
-                                             src_x_center,
-                                             y_value,
-                                             dst_x_center,
-                                             y_value,
-                                             y_value
-                                           );
-        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+            double src_y_value = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
+            double dst_y_value = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
+
+            /* define relation */
+            geometry_connector_t *relationship_shape;
+            relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+            geometry_connector_init_horizontal ( relationship_shape,
+                                                 src_x_center,
+                                                 src_y_value,
+                                                 dst_x_center,
+                                                 dst_y_value,
+                                                 y_value
+                                               );
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+        }
     }
 
     TRACE_END();
@@ -947,19 +963,70 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
 {
     TRACE_BEGIN();
 
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
+
     /* layout the relationships */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    TRACE_INFO_INT ( "count_relations:", count_relations );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
+        /* get the relationship to layout */
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
-        geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-        /*
-         *        geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
-         */
+        if ( true )  /* is visible ? -- TODO */
+        {
+            /* determine x-coordinate */
+            const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
+            int32_t list_order = data_relationship_get_list_order ( the_relationdata );
+            double x_value_rel = (list_order/((double)UINT32_MAX))+0.5;
+            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            double x_value = ( (draw_right - draw_left) * x_value_rel ) + draw_left;
+
+            /* get source and destination rectangles */
+            const geometry_rectangle_t *source_rect;
+            const geometry_rectangle_t *dest_rect;
+            source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
+            dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
+
+            /* calculate coordinates */
+            double src_left = geometry_rectangle_get_left(source_rect);
+            /*double src_x_center = geometry_rectangle_get_x_center(source_rect);*/
+            double src_right = geometry_rectangle_get_right(source_rect);
+            /*double src_top = geometry_rectangle_get_top(source_rect);*/
+            double src_y_center = geometry_rectangle_get_y_center(source_rect);
+            /*double src_bottom = geometry_rectangle_get_bottom(source_rect);*/
+
+            double dst_left = geometry_rectangle_get_left(dest_rect);
+            /*double dst_x_center = geometry_rectangle_get_x_center(dest_rect);*/
+            double dst_right = geometry_rectangle_get_right(dest_rect);
+            /*double dst_top = geometry_rectangle_get_top(dest_rect);*/
+            double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+            /*double dst_bottom = geometry_rectangle_get_bottom(dest_rect);*/
+
+            double src_x_value = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
+            double dst_x_value = ( x_value < dst_left ) ? dst_left : ( x_value > dst_right ) ? dst_right : x_value;
+
+            /* define relation */
+            geometry_connector_t *relationship_shape;
+            relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+            geometry_connector_init_vertical ( relationship_shape,
+                                               src_x_value,
+                                               src_y_center,
+                                               dst_x_value,
+                                               dst_y_center,
+                                               x_value
+                                             );
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+        }
     }
 
     TRACE_END();
