@@ -1036,7 +1036,19 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
                             if ( NULL != target_card )
                             {
-                                list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
+                                /* propose a list order */
+                                layout_order_t layout_order;
+                                data_id_t new_relationship;
+                                data_id_init ( &new_relationship, DATA_TABLE_RELATIONSHIP, DATA_ID_VOID_ID );
+                                layout_order = gui_sketch_card_get_order_at_pos( target_card, new_relationship, x, y );
+                                if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                                {
+                                    list_order_proposal = layout_order_get_first( &layout_order );
+                                }
+                                else
+                                {
+                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
+                                }
                             }
 
                             int64_t new_relationship_id;
