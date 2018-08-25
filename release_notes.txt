@@ -1,4 +1,6 @@
-2018-08-25 1.5.0 [xxxxxxx]
+xxxx-xx-xx 1.x.x [xxxxxxx]
+  + ...
+2018-08-25 1.5.0 [b1fe3ca]
   + Sequence and timing diagrams show messages/transitions
   + In sequence and timing diagrams, messages/transitions can be moved
   + Box and list diagrams hide all relationships
