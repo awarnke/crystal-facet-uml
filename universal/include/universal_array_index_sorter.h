@@ -38,6 +38,13 @@ typedef struct universal_array_index_sorter_struct universal_array_index_sorter_
 static inline void universal_array_index_sorter_init( universal_array_index_sorter_t *this_ );
 
 /*!
+ *  \brief re-initializes the universal_array_index_sorter_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void universal_array_index_sorter_reinit( universal_array_index_sorter_t *this_ );
+
+/*!
  *  \brief destroys the universal_array_index_sorter_t
  *
  *  \param this_ pointer to own object attributes

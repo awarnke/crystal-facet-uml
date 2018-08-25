@@ -890,34 +890,54 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     else if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &dragged_element ) )
                     {
                         layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_classifier, x, y );
-                        int32_t x_order = layout_order_get_first( &layout_order );
-                        int32_t y_order = layout_order_get_second( &layout_order );
-                        TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+                        if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                        {
+                            int32_t list_order = layout_order_get_first( &layout_order );
+                            TRACE_INFO_INT( "list_order", list_order );
 
-                        /* update db */
-                        ctrl_classifier_controller_t *classifier_control;
-                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                        ctrl_error_t mov_result;
-                        mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
-                                                                                                    data_id_get_row_id( &dragged_classifier ),
-                                                                                                    x_order,
-                                                                                                    y_order
-                                                                                                  );
+                            /* update db */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            ctrl_error_t mov_result;
+                            mov_result = ctrl_classifier_controller_update_classifier_list_order ( classifier_control,
+                                                                                                   data_id_get_row_id( &dragged_classifier ),
+                                                                                                   list_order
+                                                                                                 );
+                        }
+                        else if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
+                        {
+                            int32_t x_order = layout_order_get_first( &layout_order );
+                            int32_t y_order = layout_order_get_second( &layout_order );
+                            TRACE_INFO_INT_INT( "x-order/y-order", x_order, y_order );
+
+                            /* update db */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            ctrl_error_t mov_result;
+                            mov_result = ctrl_classifier_controller_update_classifier_x_order_y_order ( classifier_control,
+                                                                                                        data_id_get_row_id( &dragged_classifier ),
+                                                                                                        x_order,
+                                                                                                        y_order
+                                                                                                    );
+                        }
                     }
                     else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &dragged_element ) )
                     {
                         layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
-                        int32_t list_order = layout_order_get_first( &layout_order );
-                        TRACE_INFO_INT( "list_order", list_order );
+                        if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
+                        {
+                            int32_t list_order = layout_order_get_first( &layout_order );
+                            TRACE_INFO_INT( "list_order", list_order );
 
-                        /* update db */
-                        ctrl_classifier_controller_t *classifier_control;
-                        classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-                        ctrl_error_t mov_result;
-                        mov_result = ctrl_classifier_controller_update_relationship_list_order ( classifier_control,
-                                                                                                 data_id_get_row_id( &dragged_element ),
-                                                                                                 list_order
-                                                                                               );
+                            /* update db */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            ctrl_error_t mov_result;
+                            mov_result = ctrl_classifier_controller_update_relationship_list_order ( classifier_control,
+                                                                                                    data_id_get_row_id( &dragged_element ),
+                                                                                                    list_order
+                                                                                                );
+                        }
                     }
                     else
                     {

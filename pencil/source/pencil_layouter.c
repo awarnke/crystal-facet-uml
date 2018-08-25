@@ -545,11 +545,56 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
         {
             case DATA_TABLE_CLASSIFIER:
             {
-
-                x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-                y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
-
-                layout_order_init_x_y( out_layout_order, x_order, y_order );
+                if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+                {
+                    /* classifiers are a horizontal list */
+                    double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+                    double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+                    int32_t list_order;
+                    if ( x <= draw_left )
+                    {
+                        list_order = INT32_MIN;
+                    }
+                    else if ( x >= draw_right )
+                    {
+                        list_order = INT32_MAX;
+                    }
+                    else
+                    {
+                        list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
+                        list_order += INT32_MIN;
+                    }
+                    layout_order_init_list( out_layout_order, list_order );
+                }
+                else if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+                    || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
+                {
+                    /* classifiers are a vertical list */
+                    double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+                    double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+                    int32_t list_order;
+                    if ( y <= draw_top )
+                    {
+                        list_order = INT32_MIN;
+                    }
+                    else if ( y >= draw_bottom )
+                    {
+                        list_order = INT32_MAX;
+                    }
+                    else
+                    {
+                        list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
+                        list_order += INT32_MIN;
+                    }
+                    layout_order_init_list( out_layout_order, list_order );
+                }
+                else
+                {
+                    /* classifiers are x/y arranged */
+                    x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+                    y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+                    layout_order_init_x_y( out_layout_order, x_order, y_order );
+                }
             }
             break;
 

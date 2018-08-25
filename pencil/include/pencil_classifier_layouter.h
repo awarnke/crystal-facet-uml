@@ -164,6 +164,8 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
                                                           uint32_t *out_index_of_best
                                                         );
 
+universal_array_index_sorter_t sorted_classifiers;
+
 /*!
  *  \brief defines classifier bounds for list diagrams
  *
@@ -188,6 +190,17 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
  */
 void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
 
+/*!
+ *  \brief sorts the classifiers by list order
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_sorted_classifiers an array sorter object
+ */
+static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_layouter_t *this_,
+                                                                                      universal_array_index_sorter_t *out_sorted_classifiers
+                                                                                    );
+
+#include "pencil_classifier_layouter.inl"
 
 #endif  /* PENCIL_CLASSIFIER_LAYOUTER_H */
 

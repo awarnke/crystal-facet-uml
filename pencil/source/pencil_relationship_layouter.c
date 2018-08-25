@@ -875,12 +875,18 @@ void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *t
 {
     TRACE_BEGIN();
 
+    /* layout the relationships (needed for PENCIL_VISIBILITY_IMPLICIT) */
+    pencil_relationship_layouter_do_layout ( this_ );
+
     /* hide all relationships */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
     {
+        /*
         pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_HIDE );
+        */
+        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
     }
 
     TRACE_END();
@@ -1043,6 +1049,7 @@ void pencil_relationship_layouter_layout_for_communication( pencil_relationship_
     {
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        /* TODO */
     }
 
     /* layout the visible relationships */

@@ -8,6 +8,11 @@ static inline void universal_array_index_sorter_init( universal_array_index_sort
     (*this_).entries_count = 0;
 }
 
+static inline void universal_array_index_sorter_reinit( universal_array_index_sorter_t *this_ )
+{
+    (*this_).entries_count = 0;
+}
+
 static inline void universal_array_index_sorter_destroy( universal_array_index_sorter_t *this_ )
 {
 }
