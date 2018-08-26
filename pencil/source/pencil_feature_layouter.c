@@ -131,16 +131,17 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             }
             else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
             {
-                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
                 double c_left = geometry_rectangle_get_left( c_bounds );
+                double c_top = geometry_rectangle_get_top( c_bounds );
                 double c_width = geometry_rectangle_get_width( c_bounds );
-                double c_bottom = geometry_rectangle_get_bottom( c_bounds );
+                double c_height = geometry_rectangle_get_height( c_bounds );
                 geometry_rectangle_t lifeline_bounds;
                 geometry_rectangle_init ( &lifeline_bounds,
-                                          c_left,
-                                          c_bottom,
-                                          c_width,
-                                          gap
+                                          c_left + gap,
+                                          c_top + gap,
+                                          c_width - gap - gap,
+                                          c_height - gap - gap
                                         );
                 layout_feature_set_bounds ( feature_layout, &lifeline_bounds );
             }

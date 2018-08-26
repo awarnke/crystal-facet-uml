@@ -1,5 +1,5 @@
-xxxx-xx-xx 1.x.x [xxxxxxx]
-  + ...
+xxxx-xx-xx 1.6.x [xxxxxxx]
+  . no automatic database upgrades anymore, use -f parameter
 2018-08-25 1.5.0 [b1fe3ca]
   + Sequence and timing diagrams show messages/transitions
   + In sequence and timing diagrams, messages/transitions can be moved

@@ -115,7 +115,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             cairo_stroke (cr);
         }
 
-        /* draw lifeline of linefines */
+        /* draw dotted line of lifelines */
         if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
         {
             double dashes[2];
@@ -125,18 +125,31 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
             if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
             {
+                /* lineline in timing diagrams */
                 double y_center = geometry_rectangle_get_y_center ( feature_bounds );
 
                 cairo_move_to ( cr, left, y_center );
                 cairo_line_to ( cr, left + width, y_center );
                 cairo_stroke (cr);
             }
-            else
+            else if ( PENCIL_LAYOUT_DIRECTION_DOWN == layout_feature_get_direction( layouted_feature ) )
             {
+                /* lifeline in sequence diagrams */
                 double x_center = geometry_rectangle_get_x_center ( feature_bounds );
 
                 cairo_move_to ( cr, x_center, top );
                 cairo_line_to ( cr, x_center, top + height );
+                cairo_stroke (cr);
+            }
+            else
+            {
+                /* lifeline in communication diagrams */
+                double x_center = geometry_rectangle_get_x_center ( feature_bounds );
+
+                cairo_move_to ( cr, left, top );
+                cairo_line_to ( cr, left, top + height );
+                cairo_line_to ( cr, left + width, top + height );
+                cairo_line_to ( cr, left + width, top );
                 cairo_stroke (cr);
             }
 

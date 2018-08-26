@@ -115,24 +115,24 @@ static inline data_change_notifier_t *data_database_get_notifier_ptr ( data_data
 
 /*!
  *  \brief initializes the tables in the database if not yet existant
- *  \param db an sqlite3 database
+ *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */
-data_error_t data_database_private_initialize_tables( sqlite3 *db );
+data_error_t data_database_private_initialize_tables( data_database_t *this_ );
 
 /*!
  *  \brief initializes the indexes in the database if not yet existant
- *  \param db an sqlite3 database
+ *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_AT_DB in case of an error
  */
-data_error_t data_database_private_initialize_indexes( sqlite3 *db );
+data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
 /*!
- *  \brief updates old tables from version 1.0.0 and earlier to current database scheme
+ *  \brief upgrades old tables from oder versions to current database scheme
  *  \param db an sqlite3 database
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */
-data_error_t data_database_private_update_tables( sqlite3 *db );
+data_error_t data_database_upgrade_tables( data_database_t *this_ );
 
 /*!
  *  \brief adds a db-file changed listener to the database

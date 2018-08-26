@@ -28,6 +28,7 @@ int main (int argc, char *argv[]) {
     bool do_not_start = false;
     bool do_repair = false;
     bool do_check = false;
+    bool do_upgrade = false;
 
     /* handle options */
     if ( argc == 2 )
@@ -36,9 +37,16 @@ int main (int argc, char *argv[]) {
         {
             fprintf( stdout, "\nUsage:\n" );
             fprintf( stdout, "    %s -h for help\n", argv[0] );
+            fprintf( stdout, "    %s -v for version\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
+            fprintf( stdout, "    %s -f <database_file> to convert a database file to format " META_INFO_VERSION_STR "\n", argv[0] );
             fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
+            do_not_start = true;
+        }
+        if ( utf8string_equals_str( argv[1], "-v" ) )
+        {
+            fprintf( stdout, "\n%s\n", META_INFO_VERSION_STR );
             do_not_start = true;
         }
     }
@@ -59,6 +67,12 @@ int main (int argc, char *argv[]) {
         if ( utf8string_equals_str( argv[1], "-u" ) )
         {
             database_file = argv[2];
+        }
+        if ( utf8string_equals_str( argv[1], "-f" ) )
+        {
+            database_file = argv[2];
+            /* do_not_start = true; */
+            do_upgrade = true;
         }
     }
 
@@ -87,6 +101,22 @@ int main (int argc, char *argv[]) {
         data_database_destroy( &database );
 
         fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
+    }
+
+    if ( do_upgrade )
+    {
+        TRACE_INFO("starting DB...");
+        data_database_init( &database );
+        data_database_open( &database, database_file );
+
+        TRACE_INFO("upgrading DB...");
+        data_error_t up_err;
+        up_err = data_database_upgrade_tables( &database );
+        TRACE_INFO( ( DATA_ERROR_NONE == up_err ) ? "success" : "failure" );
+
+        TRACE_INFO("stopping DB...");
+        data_database_close( &database );
+        data_database_destroy( &database );
     }
 
     /* run program */
