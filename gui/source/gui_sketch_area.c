@@ -924,7 +924,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &dragged_element ) )
                     {
                         layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
-                        if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
+                        if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                         {
                             int32_t list_order = layout_order_get_first( &layout_order );
                             TRACE_INFO_INT( "list_order", list_order );
