@@ -1,36 +1,36 @@
-External Libraries    [D0003]
+External Libraries                               [D0003]
 | This diagram shows the base libraries.
 
 
-sqlite3    [C0007]
-| SQL database
-
-
-gtk3    [C0005]
+gtk3                                             [C0005]
 | Toolkit which provides
 | - Windows and Widgets
 | - User Input handling
-  depends on --> gdk    [R0001]
+  depends on --> gdk                             [R0001]
 
 
-utf8stringbuf    [C0006]
+utf8stringbuf                                    [C0006]
 | String library
 
 
-gdk    [C0027]
+sqlite3                                          [C0007]
+| SQL database
+
+
+glib                                             [C0026]
+| Platform abstraction layer
+
+
+gdk                                              [C0027]
 | Drawing library
-  uses --> cairo    [R0002]
-  uses --> pango    [R0003]
-  depends on --> glib    [R0004]
+  uses --> cairo                                 [R0002]
+  uses --> pango                                 [R0003]
+  depends on --> glib                            [R0004]
 
 
-pango    [C0029]
-| - font rendering engine
-
-
-cairo    [C0028]
+cairo                                            [C0028]
 | Library providing drawing primitives
 
 
-glib    [C0026]
-| Platform abstraction layer
+pango                                            [C0029]
+| - font rendering engine

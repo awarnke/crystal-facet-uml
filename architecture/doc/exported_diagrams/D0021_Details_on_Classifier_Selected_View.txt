@@ -1,4 +1,4 @@
-Details on Classifier Selected View    [D0021]
+Details on Classifier Selected View              [D0021]
 | The simple solution is to not implement special mechanisms
 | for scenario-based diagrams
 | but to require that all shown classifiers in a 
@@ -6,26 +6,7 @@ Details on Classifier Selected View    [D0021]
 | of the model-class.
 
 
-diagrams    [C0084]
-  id: int64_t    [F0015]
-  diagram_type: enum    [F0028]
-  name    [F0029]
-  description    [F0030]
-  parent --> diagrams    [R0099]
-
-
-relationships    [C0081]
-  id: int64_t    [F0014]
-  main_type: enum    [F0021]
-  name    [F0022]
-  description    [F0023]
-  from --> classifiers    [R0096]
-  to --> classifiers    [R0097]
-  from --> features    [R0205]
-  to --> features    [R0206]
-
-
-Classifier selection defines view    [C0090]
+Classifier selection defines view                [C0090]
 | Diagramelements define which classifiers are visible in which diagram.
 | All features of a visible classifier are shown.
 | All relationships are shown that have visible classifiers at both ends.
@@ -34,28 +15,47 @@ Classifier selection defines view    [C0090]
 |          This solution assumes that the model is invariant for all diagrams,
 |         therefore all diagrams showing examples/scenarios have to show own instances of classes,
 |         not generic classes that are used in other diagrams.
-  --> diagramelements_simple    [R0209]
+  --> diagramelements_simple                     [R0209]
 
 
-diagramelements_simple    [C0152]
-  id: int64_t    [F0034]
-  display_flags    [F0035]
-  --> diagrams    [R0207]
-  --> classifiers    [R0208]
+diagrams                                         [C0084]
+  id: int64_t                                    [F0015]
+  diagram_type: enum                             [F0028]
+  name                                           [F0029]
+  description                                    [F0030]
+  parent --> diagrams                            [R0099]
 
 
-classifiers    [C0080]
-  id: int64_t    [F0012]
-  main_type: enum    [F0017]
-  stereotype    [F0018]
-  name    [F0019]
-  description    [F0020]
-  --> features    [R0210]
+relationships                                    [C0081]
+  id: int64_t                                    [F0014]
+  main_type: enum                                [F0021]
+  name                                           [F0022]
+  description                                    [F0023]
+  from --> classifiers                           [R0096]
+  to --> classifiers                             [R0097]
+  from --> features                              [R0205]
+  to --> features                                [R0206]
 
 
-features    [C0083]
-  id: int64_t    [F0013]
-  main_type: enum    [F0024]
-  key (name)    [F0025]
-  value (type)    [F0026]
-  description    [F0027]
+classifiers                                      [C0080]
+  id: int64_t                                    [F0012]
+  main_type: enum                                [F0017]
+  stereotype                                     [F0018]
+  name                                           [F0019]
+  description                                    [F0020]
+  --> features                                   [R0210]
+
+
+features                                         [C0083]
+  id: int64_t                                    [F0013]
+  main_type: enum                                [F0024]
+  key (name)                                     [F0025]
+  value (type)                                   [F0026]
+  description                                    [F0027]
+
+
+diagramelements_simple                           [C0152]
+  id: int64_t                                    [F0034]
+  display_flags                                  [F0035]
+  --> diagrams                                   [R0207]
+  --> classifiers                                [R0208]

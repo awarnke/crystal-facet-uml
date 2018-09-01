@@ -1,32 +1,32 @@
-data    [D0009]
+data                                             [D0009]
 | This diagram shows the main classes in the data package.
 
 
-data_database_writer    [C0039]
-| - writes changes to the database
-| - ensures low-level consistency of the database, e.g. all foreign keys point to existing rows (referential integrity)
-| - retrieves the old, changed values for the undo/redo list
-  uses --> data_database_reader    [R0027]
-  has --> data_database    [R0029]
-
-
-data_database_reader    [C0038]
-| - reads data from the database
-  has --> data_database    [R0028]
-
-
-data    [C0004]
-| - provides read access to ctrl, pencil and gui components
-| - provides write acccess to only the ctrl component
-| - ensures low-level consistency of database: all referenced objects exist.
-| - sends notifications on changes
-  --> data_database_writer    [R0040]
-  --> data_database_reader    [R0041]
-  --> data_database    [R0042]
-
-
-data_database    [C0037]
+data_database                                    [C0037]
 | - wraps the sqlite database
 | - knows the current status and filename
 | - opens and closes the database
 | - manages the list of listeners and notifies changes
+
+
+data_database_reader                             [C0038]
+| - reads data from the database
+  has --> data_database                          [R0028]
+
+
+data_database_writer                             [C0039]
+| - writes changes to the database
+| - ensures low-level consistency of the database, e.g. all foreign keys point to existing rows (referential integrity)
+| - retrieves the old, changed values for the undo/redo list
+  uses --> data_database_reader                  [R0027]
+  has --> data_database                          [R0029]
+
+
+data                                             [C0004]
+| - provides read access to ctrl, pencil and gui components
+| - provides write acccess to only the ctrl component
+| - ensures low-level consistency of database: all referenced objects exist.
+| - sends notifications on changes
+  --> data_database_writer                       [R0040]
+  --> data_database_reader                       [R0041]
+  --> data_database                              [R0042]

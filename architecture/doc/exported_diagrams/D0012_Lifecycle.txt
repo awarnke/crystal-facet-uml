@@ -1,24 +1,24 @@
-Lifecycle    [D0012]
+Lifecycle                                        [D0012]
 
 
-start    [C0064]
-  start repair via command line --> run test/repair via CLI    [R0080]
+start                                            [C0064]
+  start repair via command line --> run test/repair via CLI [R0080]
   start GUI --> show GUI, no DB file selected    [R0081]
 
 
-run test/repair via CLI    [C0066]
-  report and finish --> end    [R0085]
+show GUI, no DB file selected                    [C0065]
+  select DB file --> show GUI, show+alter DB     [R0082]
 
 
-show GUI, no DB file selected    [C0065]
-  select DB file --> show GUI, show+alter DB    [R0082]
+run test/repair via CLI                          [C0066]
+  report and finish --> end                      [R0085]
 
 
-end    [C0067]
+end                                              [C0067]
 
 
-show GUI, show+alter DB    [C0068]
-  switch DB file --> show GUI, show+alter DB    [R0083]
-  quit --> end    [R0084]
-  select non-DB file --> show GUI, no DB file selected    [R0102]
+show GUI, show+alter DB                          [C0068]
+  switch DB file --> show GUI, show+alter DB     [R0083]
+  quit --> end                                   [R0084]
+  select non-DB file --> show GUI, no DB file selected [R0102]
   | Try to open a non-sqlite 3 DB file.

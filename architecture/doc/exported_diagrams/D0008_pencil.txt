@@ -1,39 +1,41 @@
-pencil    [D0008]
+pencil                                           [D0008]
 | This diagram shows the main classes in the pencil package.
 
 
-pencil_diagram_maker    [C0032]
+pencil_diagram_maker                             [C0032]
 | - coordinates layouting and drawing of a diagram
-  uses --> pencil_xxx_layouter    [R0023]
-  uses --> pencil_xxx_painter    [R0024]
+| - implements kind of front controller pattern: all requests from gui to pencil are addressed to the pencil_diagram_maker
+  uses --> pencil_xxx_layouter                   [R0023]
+  uses --> pencil_xxx_painter                    [R0024]
 
 
-pencil    [C0002]
-| - renders diagrams to cairo drawing contexts
-| - highlights uml-elements as requested by the gui module
-  --> pencil_diagram_maker    [R0049]
-  --> pencil_xxx_painter    [R0051]
-  --> pencil_input_data    [R0052]
-  --> pencil_layout_data    [R0053]
-  --> pencil_xxx_layouter    [R0056]
-
-
-pencil_xxx_layouter    [C0033]
+pencil_xxx_layouter                              [C0033]
 | - layouts multiple elements within the bounds of a diagram
-  modifies --> pencil_layout_data    [R0022]
-  asks for sizes --> pencil_xxx_painter    [R0034]
+| - can convert abstract order-values to x/y coordinates and vice versa
+  modifies --> pencil_layout_data                [R0022]
+  asks for sizes --> pencil_xxx_painter          [R0034]
 
 
-pencil_xxx_painter    [C0034]
+pencil_xxx_painter                               [C0034]
 | - knows the bounding boxes of single elements
 | - draws single graphical elements
-  requires --> pencil_layout_data    [R0025]
+  requires --> pencil_layout_data                [R0025]
 
 
-pencil_layout_data    [C0036]
-| - stores locations of layouted elements (in the current diagram)
-  references --> pencil_input_data    [R0021]
-
-
-pencil_input_data    [C0035]
+pencil_input_data                                [C0035]
 | - caches data from the database needed to draw a diagram
+
+
+pencil_layout_data                               [C0036]
+| - stores locations of layouted elements (in the current diagram)
+  references --> pencil_input_data               [R0021]
+
+
+pencil                                           [C0002]
+| - renders diagrams to cairo drawing contexts
+| - highlights uml-elements as requested by the gui module
+  --> pencil_diagram_maker                       [R0049]
+  --> pencil_xxx_painter                         [R0051]
+  --> pencil_input_data                          [R0052]
+  --> pencil_layout_data                         [R0053]
+  --> pencil_xxx_layouter                        [R0056]

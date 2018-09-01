@@ -1,46 +1,46 @@
-UML Classifier Behavioral Descendants    [D0032]
+UML Classifier Behavioral Descendants            [D0032]
 
 
-UML::RedefinableElement    [C0126]
+UML::Activity                                    [C0145]
+  --> UML::Behavior                              [R0196]
+
+
+UML::Behavior                                    [C0144]
+  --> UML::Class                                 [R0197]
+
+
+UML::Class                                       [C0140]
+  --> UML::EncapsulatedClassifier                [R0191]
+  --> UML::BehavioredClassifier                  [R0192]
+
+
+UML::BehavioredClassifier                        [C0141]
+  --> UML::Classifier                            [R0193]
+
+
+UML::StructuredClassifier                        [C0138]
+  --> UML::Classifier                            [R0189]
+
+
+UML::EncapsulatedClassifier                      [C0139]
+  --> UML::StructuredClassifier                  [R0190]
+
+
+UML::Classifier                                  [C0125]
+  --> UML::RedefinableElement                    [R0168]
+
+
+UML::Actor                                       [C0147]
+  --> UML::BehavioredClassifier                  [R0199]
+
+
+UML::State                                       [C0143]
+  --> UML::RedefinableElement                    [R0195]
+
+
+UML::RedefinableElement                          [C0126]
 | description: see http://www.omg.org/spec/UML/2.5
 
 
-UML::Classifier    [C0125]
-  --> UML::RedefinableElement    [R0168]
-
-
-UML::StructuredClassifier    [C0138]
-  --> UML::Classifier    [R0189]
-
-
-UML::BehavioredClassifier    [C0141]
-  --> UML::Classifier    [R0193]
-
-
-UML::EncapsulatedClassifier    [C0139]
-  --> UML::StructuredClassifier    [R0190]
-
-
-UML::UseCase    [C0146]
-  --> UML::BehavioredClassifier    [R0198]
-
-
-UML::Actor    [C0147]
-  --> UML::BehavioredClassifier    [R0199]
-
-
-UML::State    [C0143]
-  --> UML::RedefinableElement    [R0195]
-
-
-UML::Class    [C0140]
-  --> UML::EncapsulatedClassifier    [R0191]
-  --> UML::BehavioredClassifier    [R0192]
-
-
-UML::Behavior    [C0144]
-  --> UML::Class    [R0197]
-
-
-UML::Activity    [C0145]
-  --> UML::Behavior    [R0196]
+UML::UseCase                                     [C0146]
+  --> UML::BehavioredClassifier                  [R0198]

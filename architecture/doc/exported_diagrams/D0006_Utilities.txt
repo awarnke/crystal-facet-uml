@@ -1,73 +1,73 @@
-Utilities    [D0006]
+Utilities                                        [D0006]
 | This diagram shows small utility modules.
 
 
-main    [C0021]
-| - starts the software
-| - evaluates command line parameters
-  --> main.c    [R0090]
+tslog                                            [C0019]
+| - provides macros for event-logging and error-logging
+| - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters
+  --> Error                                      [R0064]
+  --> Anomaly                                    [R0066]
+  --> Event                                      [R0067]
+  --> Warning                                    [R0065]
 
 
-trace    [C0020]
+trace                                            [C0020]
 | - provides trace macros
 | - traces allow to reconstruct/follow the program flow
-  --> Info    [R0088]
-  --> Timestamp    [R0089]
-  --> End (function)    [R0087]
-  --> Begin (function)    [R0086]
+  --> Info                                       [R0088]
+  --> Timestamp                                  [R0089]
+  --> End (function)                             [R0087]
+  --> Begin (function)                           [R0086]
 
 
-Begin (function)    [C0069]
+main                                             [C0021]
+| - starts the software
+| - evaluates command line parameters
+  --> main.c                                     [R0090]
 
 
-Info    [C0071]
-
-
-main.c    [C0073]
-
-
-End (function)    [C0070]
-
-
-Timestamp    [C0072]
-
-
-universal    [C0030]
+universal                                        [C0030]
 | provides small, generic utility classes that are independant of the project
-  --> Bool List    [R0069]
-  --> Array Index Sorter    [R0070]
-  --> Int Pair    [R0068]
+  --> Bool List                                  [R0069]
+  --> Array Index Sorter                         [R0070]
+  --> Int Pair                                   [R0068]
 
 
-Array Index Sorter    [C0058]
-
-
-Error    [C0052]
+Error                                            [C0052]
 | An error is a condition that leads to an observalbe malfunction.
 
 
-Event    [C0055]
-|  An event is a signal that is send to or received from external software parts.
-
-
-Int Pair    [C0056]
-
-
-Bool List    [C0057]
-
-
-Warning    [C0053]
+Warning                                          [C0053]
 | A warning is issued when a condition may possibly lead to a malfunction.
 
 
-Anomaly    [C0054]
+Anomaly                                          [C0054]
 | An anomaly is a condition that is expected to not cause a malfunction but that should be logged to easier analyze issues.
 
 
-tslog    [C0019]
-| - provides macros for event-logging and error-logging
-| - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters
-  --> Error    [R0064]
-  --> Anomaly    [R0066]
-  --> Event    [R0067]
-  --> Warning    [R0065]
+Event                                            [C0055]
+|  An event is a signal that is send to or received from external software parts.
+
+
+Int Pair                                         [C0056]
+
+
+Bool List                                        [C0057]
+
+
+Array Index Sorter                               [C0058]
+
+
+Begin (function)                                 [C0069]
+
+
+End (function)                                   [C0070]
+
+
+Info                                             [C0071]
+
+
+Timestamp                                        [C0072]
+
+
+main.c                                           [C0073]

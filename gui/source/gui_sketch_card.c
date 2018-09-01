@@ -6,7 +6,6 @@
 #include "trace.h"
 #include "tslog.h"
 #include <gdk/gdk.h>
-#include <stdint.h>
 
 void gui_sketch_card_init( gui_sketch_card_t *this_ )
 {

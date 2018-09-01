@@ -1,34 +1,34 @@
-This diagram shows the base classes of the UML     [D0027]
+This diagram shows the base classes of the UML   [D0027]
 
 
-UML::Element    [C0118]
-  --> UML::Comment    [R0160]
-  ownedElement --> UML::Element    [R0161]
+UML::Element                                     [C0118]
+  --> UML::Comment                               [R0160]
+  ownedElement --> UML::Element                  [R0161]
 
 
-UML::Relationship    [C0120]
-  --> UML::Element    [R0163]
+UML::Comment                                     [C0119]
+  --> UML::Element                               [R0162]
 
 
-UML::Comment    [C0119]
-  --> UML::Element    [R0162]
+UML::Relationship                                [C0120]
+  --> UML::Element                               [R0163]
 
 
-UML::DirectedRelationship    [C0121]
-  --> UML::Relationship    [R0164]
+UML::DirectedRelationship                        [C0121]
+  --> UML::Relationship                          [R0164]
 
 
-UML::Classifier    [C0125]
+UML::Classifier                                  [C0125]
 
 
-UML::Feature    [C0129]
-  featuringClassifier --> UML::Classifier    [R0176]
+UML::Feature                                     [C0129]
+  featuringClassifier --> UML::Classifier        [R0176]
 
 
-UML (M2)    [C0112]
-  --> UML::Comment    [R0157]
-  --> UML::Relationship    [R0158]
-  --> UML::DirectedRelationship    [R0159]
-  --> UML::Element    [R0156]
-  --> UML::Classifier    [R0177]
-  --> UML::Feature    [R0178]
+UML (M2)                                         [C0112]
+  --> UML::Comment                               [R0157]
+  --> UML::Relationship                          [R0158]
+  --> UML::DirectedRelationship                  [R0159]
+  --> UML::Element                               [R0156]
+  --> UML::Classifier                            [R0177]
+  --> UML::Feature                               [R0178]

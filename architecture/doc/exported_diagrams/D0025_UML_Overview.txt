@@ -1,19 +1,19 @@
-UML Overview    [D0025]
+UML Overview                                     [D0025]
 | This diagram shows an overview on UML
 | and aims to explain what parts are available in crystal_facet_uml
 | and how this is mapped to the crystal_facet_uml database.
 
 
-MOF (M3)    [C0111]
+MOF (M3)                                         [C0111]
 
 
-UML (M2)    [C0112]
-  --> MOF (M3)    [R0152]
+User Model (M1)                                  [C0113]
+  --> UML (M2)                                   [R0151]
 
 
-User Model (M1)    [C0113]
-  --> UML (M2)    [R0151]
+Objects of Reality (M0)                          [C0114]
+  --> User Model (M1)                            [R0150]
 
 
-Objects of Reality (M0)    [C0114]
-  --> User Model (M1)    [R0150]
+UML (M2)                                         [C0112]
+  --> MOF (M3)                                   [R0152]

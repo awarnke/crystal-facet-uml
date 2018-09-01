@@ -1,32 +1,32 @@
-UML Feature Descendants    [D0030]
+UML Feature Descendants                          [D0030]
 
 
-UML::NamedElement    [C0127]
+UML::Feature                                     [C0129]
+
+
+UML::StructuralFeature                           [C0130]
+  --> UML::Feature                               [R0179]
+
+
+UML::BehavioralFeature                           [C0131]
+  --> UML::Feature                               [R0180]
+
+
+UML::Property                                    [C0132]
+  --> UML::StructuralFeature                     [R0182]
+
+
+UML::Operation                                   [C0133]
+  --> UML::BehavioralFeature                     [R0181]
+
+
+UML::NamedElement                                [C0127]
 | description: see http://www.omg.org/spec/UML/2.5
 
 
-UML::LifeLine    [C0134]
-  --> UML::NamedElement    [R0183]
+UML::LifeLine                                    [C0134]
+  --> UML::NamedElement                          [R0183]
 
 
-UML::Feature    [C0129]
-
-
-UML::StructuralFeature    [C0130]
-  --> UML::Feature    [R0179]
-
-
-UML::BehavioralFeature    [C0131]
-  --> UML::Feature    [R0180]
-
-
-UML::Port    [C0135]
-  --> UML::Property    [R0184]
-
-
-UML::Property    [C0132]
-  --> UML::StructuralFeature    [R0182]
-
-
-UML::Operation    [C0133]
-  --> UML::BehavioralFeature    [R0181]
+UML::Port                                        [C0135]
+  --> UML::Property                              [R0184]

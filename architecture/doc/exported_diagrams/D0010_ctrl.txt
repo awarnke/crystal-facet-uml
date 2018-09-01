@@ -1,51 +1,51 @@
-ctrl    [D0010]
+ctrl                                             [D0010]
 | This diagram shows the main classes in the ctrl package.
 
 
-ctrl_controller    [C0040]
+ctrl_controller                                  [C0040]
 | - changes the database contents
 | - maintains the undo redo list
-  has --> ctrl_consistency_checker    [R0030]
-  has --> ctrl_undo_redo_list    [R0213]
-  has --> ctrl_classifier_controller    [R0216]
-  has --> ctrl_diagram_controller    [R0218]
+  has --> ctrl_consistency_checker               [R0030]
+  has --> ctrl_undo_redo_list                    [R0213]
+  has --> ctrl_classifier_controller             [R0216]
+  has --> ctrl_diagram_controller                [R0218]
 
 
-ctrl_diagram_controller    [C0156]
-| performs changes on diagram and diagramelement tables
-  calls --> ctrl_diagram_policy_enforcer    [R0219]
+ctrl_consistency_checker                         [C0041]
+| - checks and repairs a database
 
 
-ctrl_diagram_policy_enforcer    [C0154]
-| ensures that application level policies on the model are adhered whenever diagrams are modified.
-  calls --> ctrl_classifier_controller    [R0220]
-
-
-ctrl_classifier_policy_enforcer    [C0157]
-| ensures that application level policies on the model are adhered whenever classifiers are modified.
-  calls --> ctrl_diagram_controller    [R0223]
-
-
-ctrl_classifier_controller    [C0155]
-| performs changes on classifier, feature and relationship tables
-  calls --> ctrl_classifier_policy_enforcer    [R0222]
-
-
-ctrl    [C0003]
+ctrl                                             [C0003]
 | - provides write access to the database
 | - ensures consistency of the uml-model, e.g. no circular contains-relations, no lifelines if no corresponding diagramelement exists
-  --> ctrl_controller    [R0043]
-  --> ctrl_consistency_checker    [R0044]
-  --> ctrl_classifier_policy_enforcer    [R0221]
-  --> ctrl_diagram_controller    [R0217]
-  --> ctrl_classifier_controller    [R0215]
-  --> ctrl_undo_redo_list    [R0211]
-  --> ctrl_diagram_policy_enforcer    [R0212]
+  --> ctrl_controller                            [R0043]
+  --> ctrl_consistency_checker                   [R0044]
+  --> ctrl_classifier_policy_enforcer            [R0221]
+  --> ctrl_diagram_controller                    [R0217]
+  --> ctrl_classifier_controller                 [R0215]
+  --> ctrl_undo_redo_list                        [R0211]
+  --> ctrl_diagram_policy_enforcer               [R0212]
 
 
-ctrl_undo_redo_list    [C0153]
+ctrl_undo_redo_list                              [C0153]
 | manages a list of actions to be undone or/and redone.
 
 
-ctrl_consistency_checker    [C0041]
-| - checks and repairs a database
+ctrl_diagram_policy_enforcer                     [C0154]
+| ensures that application level policies on the model are adhered whenever diagrams are modified.
+  calls --> ctrl_classifier_controller           [R0220]
+
+
+ctrl_classifier_controller                       [C0155]
+| performs changes on classifier, feature and relationship tables
+  calls --> ctrl_classifier_policy_enforcer      [R0222]
+
+
+ctrl_diagram_controller                          [C0156]
+| performs changes on diagram and diagramelement tables
+  calls --> ctrl_diagram_policy_enforcer         [R0219]
+
+
+ctrl_classifier_policy_enforcer                  [C0157]
+| ensures that application level policies on the model are adhered whenever classifiers are modified.
+  calls --> ctrl_diagram_controller              [R0223]

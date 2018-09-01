@@ -1,40 +1,40 @@
-Details on simple data structure    [D0020]
+Details on simple data structure                 [D0020]
 | This diagram shows the data structure of the "Simple data structure" alternative.
 
 
-Simple data structure    [C0088]
+relationships                                    [C0081]
+  id: int64_t                                    [F0014]
+  main_type: enum                                [F0021]
+  name                                           [F0022]
+  description                                    [F0023]
+  from --> classifiers                           [R0096]
+  to --> classifiers                             [R0097]
+  from --> features                              [R0205]
+  to --> features                                [R0206]
+
+
+classifiers                                      [C0080]
+  id: int64_t                                    [F0012]
+  main_type: enum                                [F0017]
+  stereotype                                     [F0018]
+  name                                           [F0019]
+  description                                    [F0020]
+  --> features                                   [R0210]
+
+
+features                                         [C0083]
+  id: int64_t                                    [F0013]
+  main_type: enum                                [F0024]
+  key (name)                                     [F0025]
+  value (type)                                   [F0026]
+  description                                    [F0027]
+
+
+Simple data structure                            [C0088]
 | The data is structured with focus on simplicity.
 |     pro: Simple data structure.
 |          There are similarities to UML (M2 Meta-Model) and MOF (M3 Meta-Model).
 |     con: takes into account that some things of UML cannot be represented
-  --> relationships    [R0106]
-  --> classifiers    [R0107]
-  --> features    [R0108]
-
-
-relationships    [C0081]
-  id: int64_t    [F0014]
-  main_type: enum    [F0021]
-  name    [F0022]
-  description    [F0023]
-  from --> classifiers    [R0096]
-  to --> classifiers    [R0097]
-  from --> features    [R0205]
-  to --> features    [R0206]
-
-
-classifiers    [C0080]
-  id: int64_t    [F0012]
-  main_type: enum    [F0017]
-  stereotype    [F0018]
-  name    [F0019]
-  description    [F0020]
-  --> features    [R0210]
-
-
-features    [C0083]
-  id: int64_t    [F0013]
-  main_type: enum    [F0024]
-  key (name)    [F0025]
-  value (type)    [F0026]
-  description    [F0027]
+  --> relationships                              [R0106]
+  --> classifiers                                [R0107]
+  --> features                                   [R0108]
