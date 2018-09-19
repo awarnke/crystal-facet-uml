@@ -25,7 +25,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_sketch_marker_t *marker, cairo_t *cr )
+void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marker_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
 

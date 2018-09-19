@@ -25,7 +25,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
 }
 
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
-                              gui_sketch_tools_tool_t selected_tool,
+                              gui_tools_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
                               cairo_t *cr )

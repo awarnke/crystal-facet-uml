@@ -1,21 +1,21 @@
-/* File: gui_sketch_tools.inl; Copyright and License: see below */
+/* File: gui_tools.inl; Copyright and License: see below */
 
-static inline gui_sketch_tools_tool_t gui_sketch_tools_get_selected_tool ( gui_sketch_tools_t *this_ )
+static inline gui_tools_tool_t gui_tools_get_selected_tool ( gui_tools_t *this_ )
 {
     return (*this_).selected_tool;
 }
 
-static inline void gui_sketch_tools_set_listener ( gui_sketch_tools_t *this_, GObject *listener )
+static inline void gui_tools_set_listener ( gui_tools_t *this_, GObject *listener )
 {
     (*this_).listener = listener;
 }
 
-static inline void gui_sketch_tools_remove_listener ( gui_sketch_tools_t *this_ )
+static inline void gui_tools_remove_listener ( gui_tools_t *this_ )
 {
     (*this_).listener = NULL;
 }
 
-static inline gui_sketch_tools_tool_t gui_sketch_tools_set_selected_tool ( gui_sketch_tools_t *this_, gui_sketch_tools_tool_t tool )
+static inline gui_tools_tool_t gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool )
 {
     switch ( tool )
     {

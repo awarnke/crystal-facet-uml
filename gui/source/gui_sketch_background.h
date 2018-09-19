@@ -17,7 +17,7 @@
  *  \brief attributes of the sketch background
  */
 struct gui_sketch_background_struct {
-    gui_resources_t *res;  /*!< pointer to external resources */
+    gui_resources_t *resources;  /*!< pointer to external resources */
 };
 
 typedef struct gui_sketch_background_struct gui_sketch_background_t;
@@ -26,9 +26,9 @@ typedef struct gui_sketch_background_struct gui_sketch_background_t;
  *  \brief initializes the sketch background
  *
  *  \param this_ pointer to own object attributes
- *  \param res pointer to a resource provider
+ *  \param resources pointer to a resource provider
  */
-void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *res );
+void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *resources );
 
 /*!
  *  \brief destroys the sketch background

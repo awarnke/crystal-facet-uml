@@ -6,11 +6,11 @@
 #include <gtk/gtk.h>
 #include <assert.h>
 
-void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *res )
+void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t *resources )
 {
     TRACE_BEGIN();
 
-    (*this_).res = res;
+    (*this_).resources = resources;
 
     TRACE_END();
 }
@@ -19,7 +19,7 @@ void gui_sketch_background_destroy( gui_sketch_background_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).res = NULL;
+    (*this_).resources = NULL;
 
     TRACE_END();
 }
@@ -79,7 +79,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     cairo_fill (cr);
 
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_crystal_facet_uml( (*this_).res ),
+                                                         gui_resources_get_crystal_facet_uml( (*this_).resources ),
                                                          "Welcome to",
                                                          META_INFO_PROGRAM_NAME_STR,
                                                          text_area_start+BORDER,
@@ -88,7 +88,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                        );
 
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_file_use_db( (*this_).res ),
+                                                         gui_resources_get_file_use_db( (*this_).resources ),
                                                          "To begin, please",
                                                          "create or open a database file first.",
                                                          text_area_start+BORDER,
@@ -97,7 +97,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                        );
 
     gui_sketch_background_private_draw_icon_and_message( this_,
-                                                         gui_resources_get_message_user_doc( (*this_).res ),
+                                                         gui_resources_get_message_user_doc( (*this_).resources ),
                                                          "The user manual crystal_facet_uml_user_documentation.pdf is available.",
                                                          "see http://www.andreaswarnke.de/crystal_facet_uml/html/index.html",
                                                          text_area_start+BORDER,
@@ -166,7 +166,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
         /* this is a new, empty database */
         /* print some guidance */
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_message_user_doc( (*this_).res ),
+                                                             gui_resources_get_message_user_doc( (*this_).resources ),
                                                              "Quick",
                                                              "Intro:",
                                                              x+24+BORDER,
@@ -174,7 +174,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_create_diagram( (*this_).res ),
+                                                             gui_resources_get_tool_create_diagram( (*this_).resources ),
                                                              "Click to create a",
                                                              "diagram below the current.",
                                                              x+120+BORDER,
@@ -182,7 +182,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_navigate( (*this_).res ),
+                                                             gui_resources_get_tool_navigate( (*this_).resources ),
                                                              "Click to navigate to",
                                                              "parent/child diagrams.",
                                                              x+120+BORDER,
@@ -190,7 +190,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_edit( (*this_).res ),
+                                                             gui_resources_get_tool_edit( (*this_).resources ),
                                                              "Single click to focus,",
                                                              "second click to mark items.",
                                                              x+320+BORDER,
@@ -198,7 +198,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_create_object( (*this_).res ),
+                                                             gui_resources_get_tool_create_object( (*this_).resources ),
                                                              "Click to create items.",
                                                              "Drag to create arrows.",
                                                              x+320+BORDER,
@@ -206,7 +206,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_edit_commit( (*this_).res ),
+                                                             gui_resources_get_edit_commit( (*this_).resources ),
                                                              "Changes are stored automatically.",
                                                              "Explicit safe action is optional.",
                                                              x+520+BORDER,
@@ -214,7 +214,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
         );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_file_export( (*this_).res ),
+                                                             gui_resources_get_file_export( (*this_).resources ),
                                                              "Select the output folder",
                                                              "to export all diagrams.",
                                                              x+520+BORDER,

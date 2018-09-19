@@ -18,8 +18,10 @@
 #include "pencil_input_data.h"
 #include "util/id/data_id_pair.h"
 #include "gui_sketch_card.h"
-#include "gui_sketch_tools.h"
-#include "gui_sketch_marker.h"
+#include "gui_sketch_nav_tree.h"
+#include "gui_sketch_result_list.h"
+#include "gui_tools.h"
+#include "gui_marker.h"
 #include "gui_sketch_drag_state.h"
 #include "gui_sketch_object_creator.h"
 #include "gui_sketch_overlay.h"
@@ -45,22 +47,29 @@ enum gui_sketch_area_const_enum {
  *  \brief attributes of the sketch area widget
  */
 struct gui_sketch_area_struct {
+    /* external references */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_resources_t *res;  /*!< pointer to external resources */
+    gui_resources_t *resources;  /*!< pointer to external resources */
+    gui_tools_t *tools;  /*!< pointer to external tools */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+    gui_marker_t *marker;  /*!< pointer to external marker */
+
+    /* helper objects */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
-    gui_sketch_marker_t *marker;  /*!< pointer to external sketch marker */
+    gui_sketch_object_creator_t object_creator;  /*!< own instance of an object creator */
+
+    /* sub widgets, things that can draw provided input-data */
     gui_sketch_overlay_t overlay;  /*!< own instance of sketch overlay */
     gui_sketch_background_t background;  /*!< own instance of sketch background */
-    gui_sketch_tools_t *tools;  /*!< pointer to external sketch tools */
-    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
-
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
     int32_t card_num;
-    data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
+    gui_sketch_nav_tree_t nav_tree;  /*!< own instance of a navigation tree sub-widget */
+    gui_sketch_result_list_t result_list;  /*!< own instance of a search result list sub-widget */
 
+    /* internal data structures */
+    data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
-    gui_sketch_object_creator_t object_creator;  /*!< own instance of an object creator */
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
@@ -76,13 +85,13 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
- *  \param res pointer to a resource provider
+ *  \param resources pointer to a resource provider
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
-                            gui_sketch_marker_t *marker,
-                            gui_sketch_tools_t *tools,
+                            gui_marker_t *marker,
+                            gui_tools_t *tools,
                             gui_simple_message_to_user_t *message_to_user,
-                            gui_resources_t *res,
+                            gui_resources_t *resources,
                             ctrl_controller_t *controller,
                             data_database_reader_t *db_reader
                           );
@@ -95,19 +104,19 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_,
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 
 /*!
- *  \brief loads the cards to be shown
+ *  \brief loads the cards, nav_tree and result_list data to be shown
  *
  *  \param this_ pointer to own object attributes
  *  \param main_diagram_id id of the main diagram to be shown or DATA_ID_VOID_ID for root diagram
  */
-void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id );
+void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_diagram_id );
 
 /*!
- *  \brief re-loads the cards to be shown
+ *  \brief re-loads the cards, nav_tree and result_list data to be shown
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ );
+void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief layouts the cards in the sketch area widget
@@ -179,7 +188,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 /*!
  *  \brief callback that informs that the chosen tool changed
  */
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data );
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t tool, gpointer data );
 
 /*!
  *  \brief sets a listener in the listener array

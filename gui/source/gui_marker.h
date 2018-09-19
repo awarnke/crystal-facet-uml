@@ -1,7 +1,7 @@
-/* File: gui_sketch_marker.h; Copyright and License: see below */
+/* File: gui_marker.h; Copyright and License: see below */
 
-#ifndef GUI_SKETCH_MARKER_H
-#define GUI_SKETCH_MARKER_H
+#ifndef GUI_MARKER_H
+#define GUI_MARKER_H
 
 /* public file for the doxygen documentation: */
 /*! \file
@@ -15,28 +15,28 @@
 /*!
  *  \brief attributes of the sketch marker
  */
-struct gui_sketch_marker_struct {
+struct gui_marker_struct {
     data_id_t focused;  /*!<  references the one focused visible object, e.g. a data_diagram_t or a data_diagramelement_t (yellow corners) */
     data_id_t highlighted;  /*!<  references the one highlighted/mouse over object */
     data_small_set_t selected_set;  /*!<  references all selected objects (pink corners) */
     int64_t focused_diagram;  /*!< the focused diagram, the place where to e.g. insert pasted objects */
 };
 
-typedef struct gui_sketch_marker_struct gui_sketch_marker_t;
+typedef struct gui_marker_struct gui_marker_t;
 
 /*!
- *  \brief initializes the gui_sketch_marker_t struct
+ *  \brief initializes the gui_marker_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_sketch_marker_init ( gui_sketch_marker_t *this_ );
+static inline void gui_marker_init ( gui_marker_t *this_ );
 
 /*!
- *  \brief destroys the gui_sketch_marker_t struct
+ *  \brief destroys the gui_marker_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ );
+static inline void gui_marker_destroy ( gui_marker_t *this_ );
 
 /*!
  *  \brief gets the focused object id
@@ -44,21 +44,21 @@ static inline void gui_sketch_marker_destroy ( gui_sketch_marker_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return id of the focused object. This is the visible object, e.g. a data_diagram_t or a data_diagramelement_t
  */
-static inline data_id_t gui_sketch_marker_get_focused ( gui_sketch_marker_t *this_ );
+static inline data_id_t gui_marker_get_focused ( gui_marker_t *this_ );
 
 /*!
  *  \brief gets the focused_diagram id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int64_t gui_sketch_marker_get_focused_diagram ( gui_sketch_marker_t *this_ );
+static inline int64_t gui_marker_get_focused_diagram ( gui_marker_t *this_ );
 
 /*!
  *  \brief gets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_id_t gui_sketch_marker_get_highlighted ( gui_sketch_marker_t *this_ );
+static inline data_id_t gui_marker_get_highlighted ( gui_marker_t *this_ );
 
 /*!
  *  \brief gets the selected object ids.
@@ -67,7 +67,7 @@ static inline data_id_t gui_sketch_marker_get_highlighted ( gui_sketch_marker_t 
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_small_set_t *gui_sketch_marker_get_selected_set_ptr ( gui_sketch_marker_t *this_ );
+static inline data_small_set_t *gui_marker_get_selected_set_ptr ( gui_marker_t *this_ );
 
 /*!
  *  \brief adds or removes the object id from the selected set.
@@ -75,14 +75,14 @@ static inline data_small_set_t *gui_sketch_marker_get_selected_set_ptr ( gui_ske
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id to toggle in the selected set
  */
-static inline void gui_sketch_marker_toggle_selected_obj ( gui_sketch_marker_t *this_, data_id_t obj_id );
+static inline void gui_marker_toggle_selected_obj ( gui_marker_t *this_, data_id_t obj_id );
 
 /*!
  *  \brief clears the selected set.
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_sketch_marker_clear_selected_set ( gui_sketch_marker_t *this_ );
+static inline void gui_marker_clear_selected_set ( gui_marker_t *this_ );
 
 /*!
  *  \brief sets the focused object id
@@ -90,7 +90,7 @@ static inline void gui_sketch_marker_clear_selected_set ( gui_sketch_marker_t *t
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id of the visible object to set as focused
  */
-static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, data_id_t obj_id );
+static inline void gui_marker_set_focused ( gui_marker_t *this_, data_id_t obj_id );
 
 /*!
  *  \brief sets the focused_diagram id
@@ -98,7 +98,7 @@ static inline void gui_sketch_marker_set_focused ( gui_sketch_marker_t *this_, d
  *  \param this_ pointer to own object attributes
  *  \param diag_id the id of the focused diagram
  */
-static inline void gui_sketch_marker_set_focused_diagram ( gui_sketch_marker_t *this_, int64_t diag_id );
+static inline void gui_marker_set_focused_diagram ( gui_marker_t *this_, int64_t diag_id );
 
 /*!
  *  \brief sets the highlighted object id
@@ -106,25 +106,25 @@ static inline void gui_sketch_marker_set_focused_diagram ( gui_sketch_marker_t *
  *  \param this_ pointer to own object attributes
  *  \param obj_id the id to set as highlighted
  */
-static inline void gui_sketch_marker_set_highlighted ( gui_sketch_marker_t *this_, data_id_t obj_id );
+static inline void gui_marker_set_highlighted ( gui_marker_t *this_, data_id_t obj_id );
 
 /*!
  *  \brief un-sets the focused object id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_sketch_marker_clear_focused ( gui_sketch_marker_t *this_ );
+static inline void gui_marker_clear_focused ( gui_marker_t *this_ );
 
 /*!
  *  \brief un-sets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_sketch_marker_clear_highlighted ( gui_sketch_marker_t *this_ );
+static inline void gui_marker_clear_highlighted ( gui_marker_t *this_ );
 
-#include "gui_sketch_marker.inl"
+#include "gui_marker.inl"
 
-#endif  /* GUI_SKETCH_MARKER_H */
+#endif  /* GUI_MARKER_H */
 
 
 /*

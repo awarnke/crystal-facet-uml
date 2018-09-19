@@ -8,7 +8,7 @@
  *  \brief Draws a list showing search results
  */
 
-#include "gui_sketch_marker.h"
+#include "gui_marker.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -103,7 +103,7 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
  *  \param marker set of all objects to be marked
  *  \param cr cairo drawing context
  */
-void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_sketch_marker_t *marker, cairo_t *cr );
+void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marker_t *marker, cairo_t *cr );
 
 /*!
  * \brief gets the address of the diagram within the painter input data of gui_sketch_result_list_t

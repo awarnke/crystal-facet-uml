@@ -8,7 +8,7 @@
  *  \brief Serializes and deserializes a set of objects to/from the clipboard
  */
 
-#include "gui_sketch_marker.h"
+#include "gui_marker.h"
 #include "gui_simple_message_to_user.h"
 #include "ctrl_controller.h"
 #include "util/string/utf8stringbuf.h"

@@ -1,6 +1,6 @@
-/* File: gui_sketch_tools.c; Copyright and License: see below */
+/* File: gui_tools.c; Copyright and License: see below */
 
-#include "gui_sketch_tools.h"
+#include "gui_tools.h"
 #include "trace.h"
 #include "serial/data_json_serializer.h"
 #include "serial/data_json_deserializer.h"
@@ -10,17 +10,17 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-static bool gui_sketch_tools_glib_signal_initialized = false;
-static guint gui_sketch_tools_glib_signal_id = 0;
+static bool gui_tools_glib_signal_initialized = false;
+static guint gui_tools_glib_signal_id = 0;
 const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
-void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
+void gui_tools_init ( gui_tools_t *this_,
                              GtkToolItem *tool_navigate,
                              GtkToolItem *tool_edit,
                              GtkToolItem *tool_new_obj,
                              GtkToolItem *tool_new_view,
                              GtkClipboard *clipboard,
-                             gui_sketch_marker_t *marker,
+                             gui_marker_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              data_database_reader_t *db_reader,
                              ctrl_controller_t *controller )
@@ -55,9 +55,9 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
                                      );
 
     /* define a new signal */
-    if ( ! gui_sketch_tools_glib_signal_initialized )
+    if ( ! gui_tools_glib_signal_initialized )
     {
-        gui_sketch_tools_glib_signal_id = g_signal_new (
+        gui_tools_glib_signal_id = g_signal_new (
             GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME,
             G_TYPE_OBJECT,
             G_SIGNAL_RUN_FIRST,
@@ -67,16 +67,16 @@ void gui_sketch_tools_init ( gui_sketch_tools_t *this_,
             g_cclosure_marshal_VOID__INT,
             G_TYPE_NONE,
             1,
-            G_TYPE_INT /* gui_sketch_tools_tool_t */
+            G_TYPE_INT /* gui_tools_tool_t */
         );
-        gui_sketch_tools_glib_signal_initialized = true;
-        TRACE_INFO_INT( "g_signal_new(\"cfu_tool_changed\") returned new signal id", gui_sketch_tools_glib_signal_id );
+        gui_tools_glib_signal_initialized = true;
+        TRACE_INFO_INT( "g_signal_new(\"cfu_tool_changed\") returned new signal id", gui_tools_glib_signal_id );
     }
 
     TRACE_END();
 }
 
-void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
+void gui_tools_destroy ( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -95,116 +95,116 @@ void gui_sketch_tools_destroy ( gui_sketch_tools_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
 
-    gui_sketch_tools_private_notify_listener( this_ );
+    gui_tools_private_notify_listener( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_edit_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_edit_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_EDIT;
 
-    gui_sketch_tools_private_notify_listener( this_ );
+    gui_tools_private_notify_listener( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_create_object_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_create_object_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_OBJECT;
 
-    gui_sketch_tools_private_notify_listener( this_ );
+    gui_tools_private_notify_listener( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_DIAGRAM;
 
-    gui_sketch_tools_private_notify_listener( this_ );
+    gui_tools_private_notify_listener( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_cut_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_cut_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
-    gui_sketch_tools_cut( this_ );
+    gui_tools_cut( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_cut( gui_sketch_tools_t *this_ )
+void gui_tools_cut( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
     data_small_set_t *set_to_be_cut;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_cut = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_cut = gui_marker_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_serializer_deserializer_copy_set_to_clipboard will do this */
 
     gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_cut );
 
-    gui_sketch_tools_private_delete_set( this_, set_to_be_cut );
+    gui_tools_private_delete_set( this_, set_to_be_cut );
 
-    gui_sketch_marker_clear_selected_set( (*this_).marker );
+    gui_marker_clear_selected_set( (*this_).marker );
 
     TRACE_END();
 }
 
-void gui_sketch_tools_copy_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_copy_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
-    gui_sketch_tools_copy( this_ );
+    gui_tools_copy( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_copy( gui_sketch_tools_t *this_ )
+void gui_tools_copy( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
     data_small_set_t *set_to_be_copied;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_copied = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_copied = gui_marker_get_selected_set_ptr( (*this_).marker );
 
     if ( data_small_set_is_empty( set_to_be_copied ) )
     {
@@ -220,40 +220,40 @@ void gui_sketch_tools_copy( gui_sketch_tools_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_tools_paste_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_paste_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
-    gui_sketch_tools_paste( this_ );
+    gui_tools_paste( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_paste( gui_sketch_tools_t *this_ )
+void gui_tools_paste( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    int64_t destination_diagram_id = gui_sketch_marker_get_focused_diagram( (*this_).marker );
+    int64_t destination_diagram_id = gui_marker_get_focused_diagram( (*this_).marker );
     gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes), destination_diagram_id );
 
     TRACE_END();
 }
 
-void gui_sketch_tools_delete_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_delete_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
-    gui_sketch_tools_delete( this_ );
+    gui_tools_delete( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_delete( gui_sketch_tools_t *this_ )
+void gui_tools_delete( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -261,18 +261,18 @@ void gui_sketch_tools_delete( gui_sketch_tools_t *this_ )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_deleted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_deleted = gui_marker_get_selected_set_ptr( (*this_).marker );
 
-    /* do not check if set is empty; gui_sketch_tools_private_delete_set will do this */
+    /* do not check if set is empty; gui_tools_private_delete_set will do this */
 
-    gui_sketch_tools_private_delete_set( this_, set_to_be_deleted );
+    gui_tools_private_delete_set( this_, set_to_be_deleted );
 
-    gui_sketch_marker_clear_selected_set( (*this_).marker );
+    gui_marker_clear_selected_set( (*this_).marker );
 
     TRACE_END();
 }
 
-void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_deleted )
+void gui_tools_private_delete_set( gui_tools_t *this_, data_small_set_t *set_to_be_deleted )
 {
     TRACE_BEGIN();
     ctrl_error_t ctrl_err;
@@ -300,63 +300,63 @@ void gui_sketch_tools_private_delete_set( gui_sketch_tools_t *this_, data_small_
     TRACE_END();
 }
 
-void gui_sketch_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
     data_small_set_t *set_to_be_highlighted;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_highlighted = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_highlighted = gui_marker_get_selected_set_ptr( (*this_).marker );
 
-    /* do not check if set is empty; gui_sketch_tools_private_toggle_display_flag_in_set will do this */
+    /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
-    gui_sketch_tools_private_toggle_display_flag_in_set( this_, set_to_be_highlighted, DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GREY_OUT );
+    gui_tools_private_toggle_display_flag_in_set( this_, set_to_be_highlighted, DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GREY_OUT );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
     data_small_set_t *set_to_be_instantiated;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_instantiated = gui_sketch_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_instantiated = gui_marker_get_selected_set_ptr( (*this_).marker );
 
-    /* do not check if set is empty; gui_sketch_tools_private_toggle_display_flag_in_set will do this */
+    /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
-    gui_sketch_tools_private_toggle_display_flag_in_set( this_, set_to_be_instantiated, DATA_DIAGRAMELEMENT_FLAG_INSTANCE );
+    gui_tools_private_toggle_display_flag_in_set( this_, set_to_be_instantiated, DATA_DIAGRAMELEMENT_FLAG_INSTANCE );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_reset_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_reset_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    gui_sketch_marker_clear_selected_set( (*this_).marker );
+    gui_marker_clear_selected_set( (*this_).marker );
 
     /* trigger redraw */
-    gui_sketch_tools_private_notify_listener( this_ );
+    gui_tools_private_notify_listener( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
+void gui_tools_private_toggle_display_flag_in_set( gui_tools_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
 {
     TRACE_BEGIN();
     ctrl_error_t error = CTRL_ERROR_NONE;
@@ -373,7 +373,7 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
             case DATA_TABLE_CLASSIFIER:
             {
                 /* program internal error */
-                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                TSLOG_WARNING( "gui_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
                 error |= CTRL_ERROR_INVALID_REQUEST;
             }
             break;
@@ -381,7 +381,7 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
             case DATA_TABLE_FEATURE:
             {
                 /* program internal error */
-                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                TSLOG_WARNING( "gui_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
                 error |= CTRL_ERROR_INVALID_REQUEST;
             }
             break;
@@ -389,7 +389,7 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
             case DATA_TABLE_RELATIONSHIP:
             {
                 /* program internal error */
-                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                TSLOG_WARNING( "gui_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
                 error |= CTRL_ERROR_INVALID_REQUEST;
             }
             break;
@@ -451,7 +451,7 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
             case DATA_TABLE_DIAGRAM:
             {
                 /* program internal error */
-                TSLOG_WARNING( "gui_sketch_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
+                TSLOG_WARNING( "gui_tools_private_toggle_display_flag_in_set cannot toggle display flags in non-diagramelements." );
                 error |= CTRL_ERROR_INVALID_REQUEST;
             }
             break;
@@ -459,7 +459,7 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
             default:
             {
                 /* program internal error */
-                TSLOG_ERROR( "gui_sketch_tools_private_toggle_display_flag_in_set fould illegal data_table_t enum value." );
+                TSLOG_ERROR( "gui_tools_private_toggle_display_flag_in_set fould illegal data_table_t enum value." );
             }
             break;
         }
@@ -485,10 +485,10 @@ void gui_sketch_tools_private_toggle_display_flag_in_set( gui_sketch_tools_t *th
     TRACE_END();
 }
 
-void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_undo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -517,10 +517,10 @@ void gui_sketch_tools_undo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data )
+void gui_tools_redo_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    gui_sketch_tools_t *this_ = data;
+    gui_tools_t *this_ = data;
     ctrl_error_t ctrl_err;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -542,14 +542,14 @@ void gui_sketch_tools_redo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_sketch_tools_private_notify_listener( gui_sketch_tools_t *this_ )
+void gui_tools_private_notify_listener( gui_tools_t *this_ )
 {
     TRACE_BEGIN();
 
     if ( (*this_).listener != NULL )
     {
         TRACE_INFO( "g_signal_emit to listener" );
-        g_signal_emit( (*this_).listener, gui_sketch_tools_glib_signal_id, 0, (*this_).selected_tool );
+        g_signal_emit( (*this_).listener, gui_tools_glib_signal_id, 0, (*this_).selected_tool );
     }
 
     TRACE_END();

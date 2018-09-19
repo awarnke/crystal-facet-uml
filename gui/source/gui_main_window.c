@@ -176,18 +176,18 @@ void gui_main_window_init ( gui_main_window_t *this_,
         current_clipboard = gtk_clipboard_get_for_display ( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
     }
 
-    gui_sketch_marker_init( &((*this_).sketchmarker_data) );
-    gui_sketch_tools_init( &((*this_).sketchtools_data),
-                           (*this_).tool_navigate,
-                           (*this_).tool_edit,
-                           (*this_).tool_new_obj,
-                           (*this_).tool_new_view,
-                           current_clipboard,
-                           &((*this_).sketchmarker_data),
-                           &((*this_).message_to_user),
-                           db_reader,
-                           controller
-    );
+    gui_marker_init( &((*this_).marker_data) );
+    gui_tools_init( &((*this_).tools_data),
+                    (*this_).tool_navigate,
+                    (*this_).tool_edit,
+                    (*this_).tool_new_obj,
+                    (*this_).tool_new_view,
+                    current_clipboard,
+                    &((*this_).marker_data),
+                    &((*this_).message_to_user),
+                    db_reader,
+                    controller
+                  );
 
     /* init sketch area */
 
@@ -199,8 +199,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
     /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
     gui_sketch_area_init( &((*this_).sketcharea_data),
-                          &((*this_).sketchmarker_data),
-                          &((*this_).sketchtools_data),
+                          &((*this_).marker_data),
+                          &((*this_).tools_data),
                           &((*this_).message_to_user),
                           res,
                           controller,
@@ -321,19 +321,19 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_sketch_tools_navigate_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_sketch_tools_edit_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_sketch_tools_create_object_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_sketch_tools_create_diagram_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_sketch_tools_cut_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_sketch_tools_copy_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_sketch_tools_paste_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_sketch_tools_delete_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_sketch_tools_instantiate_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_sketch_tools_highlight_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_sketch_tools_reset_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_sketch_tools_undo_btn_callback), &((*this_).sketchtools_data) );
-    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_sketch_tools_redo_btn_callback), &((*this_).sketchtools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_tools_navigate_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_tools_edit_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_tools_create_object_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_tools_create_diagram_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_tools_cut_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_tools_copy_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_tools_paste_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_delete), "clicked", G_CALLBACK(gui_tools_delete_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_instantiate), "clicked", G_CALLBACK(gui_tools_instantiate_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_highlight), "clicked", G_CALLBACK(gui_tools_highlight_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_tools_reset_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_tools_undo_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_tools_redo_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_textedit_description_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
@@ -360,7 +360,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    gui_sketch_tools_set_listener( &((*this_).sketchtools_data), G_OBJECT((*this_).sketcharea) );
+    gui_tools_set_listener( &((*this_).tools_data), G_OBJECT((*this_).sketcharea) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 0, G_OBJECT((*this_).name_entry) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 1, G_OBJECT((*this_).description_text_view) );
     gui_sketch_area_set_listener( &((*this_).sketcharea_data), 2, G_OBJECT((*this_).stereotype_entry) );
@@ -389,7 +389,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 3 );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    gui_sketch_tools_remove_listener( &((*this_).sketchtools_data) );
+    gui_tools_remove_listener( &((*this_).tools_data) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
@@ -403,8 +403,8 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
-    gui_sketch_tools_destroy( &((*this_).sketchtools_data) );
-    gui_sketch_marker_destroy( &((*this_).sketchmarker_data) );
+    gui_tools_destroy( &((*this_).tools_data) );
+    gui_marker_destroy( &((*this_).marker_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_file_manager_destroy( &((*this_).file_manager) );
     gui_file_exporter_destroy( &((*this_).file_exporter) );

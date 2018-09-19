@@ -10,7 +10,7 @@
  */
 
 #include "gui_sketch_drag_state.h"
-#include "gui_sketch_tools.h"
+#include "gui_tools.h"
 #include "gui_sketch_card.h"
 #include <gtk/gtk.h>
 
@@ -50,7 +50,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
-                              gui_sketch_tools_tool_t selected_tool,
+                              gui_tools_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
                               cairo_t *cr

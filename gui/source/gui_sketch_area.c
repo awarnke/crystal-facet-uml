@@ -17,32 +17,35 @@ static guint gui_sketch_area_glib_signal_id = 0;
 const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
 void gui_sketch_area_init( gui_sketch_area_t *this_,
-                           gui_sketch_marker_t *marker,
-                           gui_sketch_tools_t *tools,
+                           gui_marker_t *marker,
+                           gui_tools_t *tools,
                            gui_simple_message_to_user_t *message_to_user,
-                           gui_resources_t *res,
+                           gui_resources_t *resources,
                            ctrl_controller_t *controller,
                            data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
 
-    gui_sketch_drag_state_init ( &((*this_).drag_state) );
+    /* init pointers to external objects */
     (*this_).tools = tools;
     (*this_).message_to_user = message_to_user;
-    (*this_).res = res;
+    (*this_).resources = resources;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+
+    /* init instances of own objects */
     (*this_).card_num = 0;
+    gui_sketch_nav_tree_init( &((*this_).nav_tree) );
+    gui_sketch_result_list_init( &((*this_).result_list) );
+    gui_sketch_drag_state_init ( &((*this_).drag_state) );
     for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
     {
         (*this_).listener[index] = NULL;
     }
     (*this_).marker = marker;
     gui_sketch_overlay_init( &((*this_).overlay) );
-    gui_sketch_background_init( &((*this_).background), res );
+    gui_sketch_background_init( &((*this_).background), resources );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader );
-
-    gui_sketch_area_private_load_cards( this_, DATA_ID_VOID_ID );
 
     /* define a new signal */
     if ( ! gui_sketch_area_glib_signal_initialized )
@@ -63,12 +66,19 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
         TRACE_INFO_INT( "g_signal_new(\"cfu_object_selected\") returned new signal id", gui_sketch_area_glib_signal_id );
     }
 
+    /* fetch initial data from the database */
+    gui_sketch_area_private_load_data( this_, DATA_ID_VOID_ID );
+
     TRACE_END();
 }
 
 void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
+
+    /* destroy instances of own objects */
+    gui_sketch_result_list_destroy( &((*this_).result_list) );
+    gui_sketch_nav_tree_destroy( &((*this_).nav_tree) );
 
     /* destroy all cards */
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
@@ -83,16 +93,19 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
         (*this_).listener[index] = NULL;
     }
 
+    /* destroy instances of own objects */
     gui_sketch_object_creator_destroy ( &((*this_).object_creator) );
     gui_sketch_overlay_destroy( &((*this_).overlay) );
     gui_sketch_background_destroy( &((*this_).background) );
+    gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
+
+    /* unset pointers to external objects */
     (*this_).marker = NULL;
     (*this_).tools = NULL;
     (*this_).message_to_user = NULL;
-    (*this_).res = NULL;
+    (*this_).resources = NULL;
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
-    gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
 
     TRACE_END();
 }
@@ -128,7 +141,7 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
     return FALSE;
 }
 
-void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main_diagram_id )
+void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_diagram_id )
 {
     TRACE_BEGIN();
     data_error_t db_err;
@@ -187,10 +200,10 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]) );
     gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
-    gui_sketch_marker_set_focused_diagram( (*this_).marker, main_diagram_id );
+    gui_marker_set_focused_diagram( (*this_).marker, main_diagram_id );
 
-    gui_sketch_tools_tool_t selected_tool;
-    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    gui_tools_tool_t selected_tool;
+    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
     if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
     {
         /* determine ids */
@@ -242,7 +255,7 @@ void gui_sketch_area_private_load_cards ( gui_sketch_area_t *this_, int64_t main
     TRACE_END();
 }
 
-void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ )
+void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -252,7 +265,7 @@ void gui_sketch_area_private_reload_cards ( gui_sketch_area_t *this_ )
     TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
 
     /* reload diagram data */
-    gui_sketch_area_private_load_cards( this_, selected_diagram_id );
+    gui_sketch_area_private_load_data( this_, selected_diagram_id );
 
     TRACE_END();
 }
@@ -272,8 +285,8 @@ void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_
 {
     TRACE_BEGIN();
 
-    gui_sketch_tools_tool_t selected_tool;
-    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    gui_tools_tool_t selected_tool;
+    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
 
     /* pre-calculate numbers needed in case of GUI_SKETCH_TOOLS_NAVIGATE and GUI_SKETCH_TOOLS_CREATE_DIAGRAM */
     uint32_t width = shape_int_rectangle_get_width( &area_bounds );
@@ -365,8 +378,8 @@ void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_re
     int32_t width = shape_int_rectangle_get_width( &area_bounds );
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
 
-    gui_sketch_tools_tool_t selected_tool;
-    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    gui_tools_tool_t selected_tool;
+    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
 
     /* draw background */
     if (( GUI_SKETCH_TOOLS_NAVIGATE == selected_tool ) || ( GUI_SKETCH_TOOLS_CREATE_DIAGRAM == selected_tool ))
@@ -412,7 +425,7 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
 
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
 
-        gui_sketch_marker_clear_highlighted( (*this_).marker );
+        gui_marker_clear_highlighted( (*this_).marker );
         /* mark dirty rect */
         gtk_widget_queue_draw( widget );
 
@@ -446,8 +459,8 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     /* do highlight */
-    gui_sketch_tools_tool_t selected_tool;
-    selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+    gui_tools_tool_t selected_tool;
+    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
     switch ( selected_tool )
     {
         case GUI_SKETCH_TOOLS_NAVIGATE:
@@ -455,12 +468,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             data_id_t object_under_mouse;
             object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
             data_id_t object_highlighted;
-            object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+            object_highlighted = gui_marker_get_highlighted( (*this_).marker );
             if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
             {
                 if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                 {
-                    gui_sketch_marker_set_highlighted( (*this_).marker, object_under_mouse );
+                    gui_marker_set_highlighted( (*this_).marker, object_under_mouse );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -482,7 +495,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 dragged_classifier = data_id_pair_get_secondary_id( dragged_object );
 
                 /* mark again - in case the marker was lost */
-                gui_sketch_marker_set_highlighted( (*this_).marker, dragged_element );
+                gui_marker_set_highlighted( (*this_).marker, dragged_element );
 
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -515,12 +528,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                 data_id_pair_t object_under_mouse;
                 gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
                 data_id_t object_highlighted;
-                object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+                object_highlighted = gui_marker_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( data_id_pair_get_primary_id_ptr( &object_under_mouse ), &object_highlighted ) )
                 {
                     if ( data_id_pair_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                     {
-                        gui_sketch_marker_set_highlighted( (*this_).marker, data_id_pair_get_primary_id ( &object_under_mouse ) );
+                        gui_marker_set_highlighted( (*this_).marker, data_id_pair_get_primary_id ( &object_under_mouse ) );
 
                         /* mark dirty rect */
                         gtk_widget_queue_draw( widget );
@@ -543,12 +556,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             classifier_under_mouse = data_id_pair_get_primary_id( &object_under_mouse );
 
             data_id_t object_highlighted;
-            object_highlighted = gui_sketch_marker_get_highlighted( (*this_).marker );
+            object_highlighted = gui_marker_get_highlighted( (*this_).marker );
             if ( ! data_id_equals( &classifier_under_mouse, &object_highlighted ) )
             {
                 if ( data_id_is_valid( &classifier_under_mouse ) || data_id_is_valid( &object_highlighted ) )
                 {
-                    gui_sketch_marker_set_highlighted( (*this_).marker, classifier_under_mouse );
+                    gui_marker_set_highlighted( (*this_).marker, classifier_under_mouse );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -605,8 +618,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
         /* do action */
-        gui_sketch_tools_tool_t selected_tool;
-        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+        gui_tools_tool_t selected_tool;
+        selected_tool = gui_tools_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
@@ -627,12 +640,12 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
 
                     /* load/reload data to be drawn */
-                    gui_sketch_area_private_load_cards( this_, data_id_get_row_id( &clicked_diagram_id ) );
+                    gui_sketch_area_private_load_data( this_, data_id_get_row_id( &clicked_diagram_id ) );
 
                     /* notify listener */
-                    gui_sketch_marker_set_focused( (*this_).marker, clicked_diagram_id );
+                    gui_marker_set_focused( (*this_).marker, clicked_diagram_id );
                     gui_sketch_area_private_notify_listener( this_, clicked_diagram_id );
-                    gui_sketch_marker_clear_selected_set( (*this_).marker );
+                    gui_marker_clear_selected_set( (*this_).marker );
 
                     /* mark dirty rect */
                     gtk_widget_queue_draw( widget );
@@ -660,17 +673,17 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* which object is currently focused? */
                 data_id_t focused_visible_before;
-                focused_visible_before = gui_sketch_marker_get_focused ( (*this_).marker );
+                focused_visible_before = gui_marker_get_focused ( (*this_).marker );
 
                 if ( data_id_equals ( &focused_object_visible, &focused_visible_before ) )
                 {
                     /* the clicked object is already focused */
-                    gui_sketch_marker_toggle_selected_obj( (*this_).marker, focused_object_visible );
+                    gui_marker_toggle_selected_obj( (*this_).marker, focused_object_visible );
                 }
                 else
                 {
                     /* store focused object and notify listener */
-                    gui_sketch_marker_set_focused ( (*this_).marker,
+                    gui_marker_set_focused ( (*this_).marker,
                                                     focused_object_visible
                                                   );
 
@@ -720,7 +733,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     TRACE_INFO_INT_INT("No card at",x,y);
 
                     /* if this happens, invalidate the marked object. */
-                    gui_sketch_marker_clear_focused( (*this_).marker );
+                    gui_marker_clear_focused( (*this_).marker );
                 }
                 else
                 {
@@ -741,7 +754,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), clicked_object );
 
                         /* set focused object (either a diagramelement or a feature) and notify listener */
-                        gui_sketch_marker_set_focused( (*this_).marker,
+                        gui_marker_set_focused( (*this_).marker,
                                                        data_id_pair_get_primary_id( &clicked_object )
                                                      );
                         gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
@@ -810,9 +823,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                             data_id_t focused_real_id;
                             data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
                             data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
-                            gui_sketch_marker_set_focused( (*this_).marker, focused_id );
+                            gui_marker_set_focused( (*this_).marker, focused_id );
                             gui_sketch_area_private_notify_listener( this_, focused_real_id );
-                            gui_sketch_marker_clear_selected_set( (*this_).marker );
+                            gui_marker_clear_selected_set( (*this_).marker );
 
                             TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
                         }
@@ -857,8 +870,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
 
         /* do action */
-        gui_sketch_tools_tool_t selected_tool;
-        selected_tool = gui_sketch_tools_get_selected_tool( (*this_).tools );
+        gui_tools_tool_t selected_tool;
+        selected_tool = gui_tools_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
             case GUI_SKETCH_TOOLS_NAVIGATE:
@@ -980,17 +993,17 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     else
                     {
                         /* load/reload data to be drawn */
-                        gui_sketch_area_private_load_cards( this_, new_diag_id );
+                        gui_sketch_area_private_load_data( this_, new_diag_id );
 
                         /* notify listener */
                         data_id_t focused_id;
                         data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                        gui_sketch_marker_set_focused( (*this_).marker, focused_id );
+                        gui_marker_set_focused( (*this_).marker, focused_id );
                         gui_sketch_area_private_notify_listener( this_, focused_id );
-                        gui_sketch_marker_clear_selected_set( (*this_).marker );
+                        gui_marker_clear_selected_set( (*this_).marker );
 
                         /* change the selected tool */
-                        gui_sketch_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
+                        gui_tools_set_selected_tool( (*this_).tools, GUI_SKETCH_TOOLS_NAVIGATE );
                     }
                 }
             }
@@ -1091,9 +1104,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 /* set focused object and notify listener */
                                 data_id_t focused_id;
                                 data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
-                                gui_sketch_marker_set_focused( (*this_).marker, focused_id );
+                                gui_marker_set_focused( (*this_).marker, focused_id );
                                 gui_sketch_area_private_notify_listener( this_, focused_id );
-                                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                                gui_marker_clear_selected_set( (*this_).marker );
                             }
                         }
                     }
@@ -1134,9 +1147,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 /* set focused object and notify listener */
                                 data_id_t new_focused_id;
                                 data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
-                                gui_sketch_marker_set_focused( (*this_).marker, new_focused_id );
+                                gui_marker_set_focused( (*this_).marker, new_focused_id );
                                 gui_sketch_area_private_notify_listener( this_, new_focused_id );
-                                gui_sketch_marker_clear_selected_set( (*this_).marker );
+                                gui_marker_clear_selected_set( (*this_).marker );
                             }
                         }
                         else
@@ -1186,19 +1199,19 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
         if ( (*evt).keyval == GDK_KEY_x )
         {
             TRACE_INFO ( "key pressed: Ctrl-X" );
-            gui_sketch_tools_cut( (*this_).tools );
+            gui_tools_cut( (*this_).tools );
             result_event_handled = true;
         }
         else if ( (*evt).keyval == GDK_KEY_c )
         {
             TRACE_INFO ( "key pressed: Ctrl-C" );
-            gui_sketch_tools_copy( (*this_).tools );
+            gui_tools_copy( (*this_).tools );
             result_event_handled = true;
         }
         else if ( (*evt).keyval == GDK_KEY_v )
         {
             TRACE_INFO ( "key pressed: Ctrl-V" );
-            gui_sketch_tools_paste( (*this_).tools );
+            gui_tools_paste( (*this_).tools );
             result_event_handled = true;
         }
         /* other keys are out of scope */
@@ -1208,13 +1221,13 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
         if ( (*evt).keyval == GDK_KEY_Delete )
         {
             TRACE_INFO ( "key pressed: DEL" );
-            gui_sketch_tools_delete( (*this_).tools );
+            gui_tools_delete( (*this_).tools );
             result_event_handled = true;
         }
         else if ( (*evt).keyval == GDK_KEY_F7 )
         {
             TRACE_INFO ( "key pressed: F7" );
-            if ( GUI_SKETCH_TOOLS_NAVIGATE == gui_sketch_tools_get_selected_tool( (*this_).tools ) )
+            if ( GUI_SKETCH_TOOLS_NAVIGATE == gui_tools_get_selected_tool( (*this_).tools ) )
             {
                 TRACE_INFO ( "entry point for shift-node-up" );
                 /* todo */
@@ -1299,7 +1312,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     gui_sketch_area_t *this_ = data;
 
     /* load/reload data to be drawn */
-    gui_sketch_area_private_reload_cards( this_ );
+    gui_sketch_area_private_reload_data( this_ );
 
     /* mark dirty rect */
     gtk_widget_queue_draw( widget );
@@ -1307,7 +1320,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     TRACE_END();
 }
 
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_tool_t tool, gpointer data )
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t tool, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
@@ -1346,7 +1359,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_sketch_tools_
     }
 
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
-    gui_sketch_area_private_reload_cards( this_ );
+    gui_sketch_area_private_reload_data( this_ );
 
     /* mark dirty rect */
     gtk_widget_queue_draw( widget );
