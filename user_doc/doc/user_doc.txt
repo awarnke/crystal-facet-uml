@@ -51,8 +51,8 @@
  *
  *  \subsection cfu-tools-new_diag New Diagram
  *
- *  \image html resources/tool_create_diagram.png
- *  \image latex resources/tool_create_diagram.pdf "" width=1cm
+ *  \image html resources/tool_search.png
+ *  \image latex resources/tool_search.pdf "" width=1cm
  *  \li Create a new diagram
  *
  *  \subsection cfu-tools-nav Navigate
@@ -69,8 +69,8 @@
  *
  *  \subsection cfu-tools-new_obj New Object
  *
- *  \image html resources/tool_create_object.png
- *  \image latex resources/tool_create_object.pdf "" width=1cm
+ *  \image html resources/tool_create.png
+ *  \image latex resources/tool_create.pdf "" width=1cm
  *  \li Create elements in the diagram
  *
  *  \subsection cfu-tools-cut Cut
@@ -147,8 +147,8 @@
  *
  *  \subsection cfu-sketch-new_diag New Diagram
  *
- *  \image html resources/tool_create_diagram.png
- *  \image latex resources/tool_create_diagram.pdf "" width=1cm
+ *  \image html resources/tool_search.png
+ *  \image latex resources/tool_search.pdf "" width=1cm
  *  \li To create a child-diagram, click into the children-area of the current view.
  *
  *  \subsection cfu-sketch-nav Navigate
@@ -169,8 +169,8 @@
  *
  *  \subsection cfu-sketch-new_obj New Object
  *
- *  \image html resources/tool_create_object.png
- *  \image latex resources/tool_create_object.pdf "" width=1cm
+ *  \image html resources/tool_create.png
+ *  \image latex resources/tool_create.pdf "" width=1cm
  *  \li To create a classifier, click at an empty space in the diagram.
  *  \li To create a child classifier, click into the white space of a classifier.
  *      Alternatively, create a classifier and a containment relation.

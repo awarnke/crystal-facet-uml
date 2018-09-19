@@ -21,7 +21,7 @@
 #include "gui_sketch_nav_tree.h"
 #include "gui_sketch_result_list.h"
 #include "gui_tools.h"
-#include "gui_marker.h"
+#include "gui_marked_set.h"
 #include "gui_sketch_drag_state.h"
 #include "gui_sketch_object_creator.h"
 #include "gui_sketch_overlay.h"
@@ -53,7 +53,7 @@ struct gui_sketch_area_struct {
     gui_resources_t *resources;  /*!< pointer to external resources */
     gui_tools_t *tools;  /*!< pointer to external tools */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
-    gui_marker_t *marker;  /*!< pointer to external marker */
+    gui_marked_set_t *marker;  /*!< pointer to external marker */
 
     /* helper objects */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
@@ -88,7 +88,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param resources pointer to a resource provider
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
-                            gui_marker_t *marker,
+                            gui_marked_set_t *marker,
                             gui_tools_t *tools,
                             gui_simple_message_to_user_t *message_to_user,
                             gui_resources_t *resources,
@@ -119,22 +119,22 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
 void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ );
 
 /*!
- *  \brief layouts the cards in the sketch area widget
+ *  \brief layouts the cards, nav_tree and result_list in the sketch area widget
  *
  *  \param this_ pointer to own object attributes
  *  \param area_bounds bounding box within which the cards are layouted
  *  \param cr cairo drawing context, needed the determine the font metrics in the given drawing context
  */
-void gui_sketch_area_private_layout_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
+void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
- *  \brief draws all diagrams
+ *  \brief draws all cards, nav_tree and result_list
  *
  *  \param this_ pointer to own object attributes
  *  \param area_bounds bounding box within which the cards are drawn
  *  \param cr cairo drawing context
  */
-void gui_sketch_area_private_draw_cards ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
+void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
  *  \brief gets the currently selected diagram

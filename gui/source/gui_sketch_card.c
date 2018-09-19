@@ -31,7 +31,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marker_t *marker, cairo_t *cr )
+void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
 
@@ -60,9 +60,9 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marker_t *marker, cair
         cairo_fill (cr);
 
         /* draw the current diagram */
-        data_id_t mark_focused = gui_marker_get_focused( marker );
-        data_id_t mark_highlighted = gui_marker_get_highlighted( marker );
-        data_small_set_t *mark_selected_set = gui_marker_get_selected_set_ptr( marker );
+        data_id_t mark_focused = gui_marked_set_get_focused( marker );
+        data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
+        data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_ptr( marker );
         pencil_diagram_maker_draw ( &((*this_).painter),
                                       mark_focused,
                                       mark_highlighted,

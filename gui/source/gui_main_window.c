@@ -83,14 +83,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_edit));
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_edit), "Edit" );
 
-    (*this_).tool_new_obj_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_object( res ));
+    (*this_).tool_new_obj_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create( res ));
     (*this_).tool_new_obj = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_obj), "New Object");
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_obj), (*this_).tool_new_obj_icon);
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_new_obj));
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_obj), "New Object" );
 
-    (*this_).tool_new_view_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create_diagram( res ));
+    (*this_).tool_new_view_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
     (*this_).tool_new_view = gtk_radio_tool_button_new( group );
     gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
     gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), (*this_).tool_new_view_icon);
@@ -176,7 +176,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
         current_clipboard = gtk_clipboard_get_for_display ( current_display, GDK_NONE ); /* GDK_SELECTION_PRIMARY does not work */
     }
 
-    gui_marker_init( &((*this_).marker_data) );
+    gui_marked_set_init( &((*this_).marker_data) );
     gui_tools_init( &((*this_).tools_data),
                     (*this_).tool_navigate,
                     (*this_).tool_edit,
@@ -316,7 +316,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_TOOLS_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
@@ -404,7 +404,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_tools_destroy( &((*this_).tools_data) );
-    gui_marker_destroy( &((*this_).marker_data) );
+    gui_marked_set_destroy( &((*this_).marker_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
     gui_file_manager_destroy( &((*this_).file_manager) );
     gui_file_exporter_destroy( &((*this_).file_exporter) );

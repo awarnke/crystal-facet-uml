@@ -30,7 +30,7 @@ struct gui_main_window_struct {
     GtkWidget *sketcharea;
     gui_sketch_area_t sketcharea_data;  /*!< own instance of gui_sketch_area_t */
     gui_tools_t tools_data;  /*!< own instance of gui_tools_t */
-    gui_marker_t marker_data;  /*!< own instance of a marker */
+    gui_marked_set_t marker_data;  /*!< own instance of a marker */
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
     gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */

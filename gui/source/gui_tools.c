@@ -12,7 +12,7 @@
 
 static bool gui_tools_glib_signal_initialized = false;
 static guint gui_tools_glib_signal_id = 0;
-const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
+const char *GUI_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
 void gui_tools_init ( gui_tools_t *this_,
                              GtkToolItem *tool_navigate,
@@ -20,7 +20,7 @@ void gui_tools_init ( gui_tools_t *this_,
                              GtkToolItem *tool_new_obj,
                              GtkToolItem *tool_new_view,
                              GtkClipboard *clipboard,
-                             gui_marker_t *marker,
+                             gui_marked_set_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              data_database_reader_t *db_reader,
                              ctrl_controller_t *controller )
@@ -36,7 +36,7 @@ void gui_tools_init ( gui_tools_t *this_,
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
+    (*this_).selected_tool = GUI_TOOLS_NAVIGATE;
     (*this_).listener = NULL;
     (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
@@ -58,7 +58,7 @@ void gui_tools_init ( gui_tools_t *this_,
     if ( ! gui_tools_glib_signal_initialized )
     {
         gui_tools_glib_signal_id = g_signal_new (
-            GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME,
+            GUI_TOOLS_GLIB_SIGNAL_NAME,
             G_TYPE_OBJECT,
             G_SIGNAL_RUN_FIRST,
             0,
@@ -102,7 +102,7 @@ void gui_tools_navigate_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_SKETCH_TOOLS_NAVIGATE;
+    (*this_).selected_tool = GUI_TOOLS_NAVIGATE;
 
     gui_tools_private_notify_listener( this_ );
 
@@ -117,7 +117,7 @@ void gui_tools_edit_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_SKETCH_TOOLS_EDIT;
+    (*this_).selected_tool = GUI_TOOLS_EDIT;
 
     gui_tools_private_notify_listener( this_ );
 
@@ -132,7 +132,7 @@ void gui_tools_create_object_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_OBJECT;
+    (*this_).selected_tool = GUI_TOOLS_CREATE;
 
     gui_tools_private_notify_listener( this_ );
 
@@ -147,7 +147,7 @@ void gui_tools_create_diagram_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    (*this_).selected_tool = GUI_SKETCH_TOOLS_CREATE_DIAGRAM;
+    (*this_).selected_tool = GUI_TOOLS_SEARCH;
 
     gui_tools_private_notify_listener( this_ );
 
@@ -173,7 +173,7 @@ void gui_tools_cut( gui_tools_t *this_ )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_cut = gui_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_serializer_deserializer_copy_set_to_clipboard will do this */
 
@@ -181,7 +181,7 @@ void gui_tools_cut( gui_tools_t *this_ )
 
     gui_tools_private_delete_set( this_, set_to_be_cut );
 
-    gui_marker_clear_selected_set( (*this_).marker );
+    gui_marked_set_clear_selected_set( (*this_).marker );
 
     TRACE_END();
 }
@@ -204,7 +204,7 @@ void gui_tools_copy( gui_tools_t *this_ )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_copied = gui_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_copied = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     if ( data_small_set_is_empty( set_to_be_copied ) )
     {
@@ -236,7 +236,7 @@ void gui_tools_paste( gui_tools_t *this_ )
     TRACE_BEGIN();
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    int64_t destination_diagram_id = gui_marker_get_focused_diagram( (*this_).marker );
+    int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes), destination_diagram_id );
 
     TRACE_END();
@@ -261,13 +261,13 @@ void gui_tools_delete( gui_tools_t *this_ )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_deleted = gui_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_deleted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_tools_private_delete_set will do this */
 
     gui_tools_private_delete_set( this_, set_to_be_deleted );
 
-    gui_marker_clear_selected_set( (*this_).marker );
+    gui_marked_set_clear_selected_set( (*this_).marker );
 
     TRACE_END();
 }
@@ -310,7 +310,7 @@ void gui_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_highlighted = gui_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_highlighted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
@@ -330,7 +330,7 @@ void gui_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_instantiated = gui_marker_get_selected_set_ptr( (*this_).marker );
+    set_to_be_instantiated = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
@@ -347,7 +347,7 @@ void gui_tools_reset_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    gui_marker_clear_selected_set( (*this_).marker );
+    gui_marked_set_clear_selected_set( (*this_).marker );
 
     /* trigger redraw */
     gui_tools_private_notify_listener( this_ );

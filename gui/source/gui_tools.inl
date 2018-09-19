@@ -19,25 +19,25 @@ static inline gui_tools_tool_t gui_tools_set_selected_tool ( gui_tools_t *this_,
 {
     switch ( tool )
     {
-        case GUI_SKETCH_TOOLS_NAVIGATE:
+        case GUI_TOOLS_NAVIGATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
         }
         break;
 
-        case GUI_SKETCH_TOOLS_EDIT:
+        case GUI_TOOLS_EDIT:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
         }
         break;
 
-        case GUI_SKETCH_TOOLS_CREATE_DIAGRAM:
+        case GUI_TOOLS_SEARCH:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_view ), true );
         }
         break;
 
-        case GUI_SKETCH_TOOLS_CREATE_OBJECT:
+        case GUI_TOOLS_CREATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_obj ), true );
         }

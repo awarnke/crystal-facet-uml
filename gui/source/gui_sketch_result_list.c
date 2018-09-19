@@ -25,7 +25,7 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marker_t *marker, cairo_t *cr )
+void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
 

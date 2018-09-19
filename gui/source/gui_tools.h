@@ -8,7 +8,7 @@
  *  \brief Informs the listener on the currently selected tool
  */
 
-#include "gui_marker.h"
+#include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
 #include "gui_serializer_deserializer.h"
 #include "ctrl_controller.h"
@@ -19,10 +19,10 @@
  *  \brief enumeration on tools
  */
 enum gui_tools_tool_enum {
-    GUI_SKETCH_TOOLS_NAVIGATE,
-    GUI_SKETCH_TOOLS_EDIT,
-    GUI_SKETCH_TOOLS_CREATE_OBJECT,
-    GUI_SKETCH_TOOLS_CREATE_DIAGRAM,
+    GUI_TOOLS_NAVIGATE,
+    GUI_TOOLS_EDIT,
+    GUI_TOOLS_CREATE,
+    GUI_TOOLS_SEARCH,
 };
 
 typedef enum gui_tools_tool_enum gui_tools_tool_t;
@@ -35,7 +35,7 @@ struct gui_tools_struct {
     GObject *listener;
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
-    gui_marker_t *marker;  /*!< pointer to external sketch marker */
+    gui_marked_set_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_serializer_deserializer_t serdes;  /*!< own instance of a serializer deserializer object */
 
@@ -47,7 +47,7 @@ struct gui_tools_struct {
 
 typedef struct gui_tools_struct gui_tools_t;
 
-extern const char *GUI_SKETCH_TOOLS_GLIB_SIGNAL_NAME;
+extern const char *GUI_TOOLS_GLIB_SIGNAL_NAME;
 
 /*!
  *  \brief initializes the gui_tools_t struct
@@ -69,7 +69,7 @@ void gui_tools_init ( gui_tools_t *this_,
                              GtkToolItem *tool_new_obj,
                              GtkToolItem *tool_new_view,
                              GtkClipboard *clipboard,
-                             gui_marker_t *marker,
+                             gui_marked_set_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
                              data_database_reader_t *db_reader,
                              ctrl_controller_t *controller

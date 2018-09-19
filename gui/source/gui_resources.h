@@ -34,9 +34,9 @@ struct gui_resources_struct {
     GdkPixbuf *message_info;
     GdkPixbuf *message_warn;
     GdkPixbuf *message_user_doc;
-    GdkPixbuf *tool_create_diagram;
+    GdkPixbuf *tool_search;
     GdkPixbuf *tool_navigate;
-    GdkPixbuf *tool_create_object;
+    GdkPixbuf *tool_create;
     GdkPixbuf *tool_edit;
 };
 
@@ -183,11 +183,11 @@ static inline GdkPixbuf *gui_resources_get_message_warn ( gui_resources_t *this_
 static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_create_diagram
+ *  \brief gets the tool_search
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_tool_search ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_navigate
@@ -197,11 +197,11 @@ static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t
 static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the tool_create_object
+ *  \brief gets the tool_create
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t *this_ );
+static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the tool_edit

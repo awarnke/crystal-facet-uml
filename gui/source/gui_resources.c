@@ -24,9 +24,9 @@
 #include "resources/message_info.c"
 #include "resources/message_warn.c"
 #include "resources/message_user_doc.c"
-#include "resources/tool_create_diagram.c"
+#include "resources/tool_search.c"
 #include "resources/tool_navigate.c"
-#include "resources/tool_create_object.c"
+#include "resources/tool_create.c"
 #include "resources/tool_edit.c"
 
 void gui_resources_init ( gui_resources_t *this_ )
@@ -249,14 +249,14 @@ void gui_resources_init ( gui_resources_t *this_ )
         NULL
     );
 
-    (*this_).tool_create_diagram = gdk_pixbuf_new_from_data(
-        &(tool_create_diagram.pixel_data[0]),
+    (*this_).tool_search = gdk_pixbuf_new_from_data(
+        &(tool_search.pixel_data[0]),
         GDK_COLORSPACE_RGB,
         true /* alpha */,
         8,
-        tool_create_diagram.width,
-        tool_create_diagram.height,
-        tool_create_diagram.width * tool_create_diagram.bytes_per_pixel,
+        tool_search.width,
+        tool_search.height,
+        tool_search.width * tool_search.bytes_per_pixel,
         NULL,
         NULL
     );
@@ -273,14 +273,14 @@ void gui_resources_init ( gui_resources_t *this_ )
         NULL
     );
 
-    (*this_).tool_create_object = gdk_pixbuf_new_from_data(
-        &(tool_create_object.pixel_data[0]),
+    (*this_).tool_create = gdk_pixbuf_new_from_data(
+        &(tool_create.pixel_data[0]),
         GDK_COLORSPACE_RGB,
         true /* alpha */,
         8,
-        tool_create_object.width,
-        tool_create_object.height,
-        tool_create_object.width * tool_create_object.bytes_per_pixel,
+        tool_create.width,
+        tool_create.height,
+        tool_create.width * tool_create.bytes_per_pixel,
         NULL,
         NULL
     );

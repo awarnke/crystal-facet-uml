@@ -1,6 +1,6 @@
-/* File: gui_marker.inl; Copyright and License: see below */
+/* File: gui_marked_set.inl; Copyright and License: see below */
 
-static inline void gui_marker_init ( gui_marker_t *this_ )
+static inline void gui_marked_set_init ( gui_marked_set_t *this_ )
 {
     data_id_init_void( &((*this_).focused) );
     data_id_init_void( &((*this_).highlighted) );
@@ -8,7 +8,7 @@ static inline void gui_marker_init ( gui_marker_t *this_ )
     (*this_).focused_diagram = DATA_ID_VOID_ID;
 }
 
-static inline void gui_marker_destroy ( gui_marker_t *this_ )
+static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
 {
     data_id_destroy( &((*this_).focused) );
     data_id_destroy( &((*this_).highlighted) );
@@ -16,59 +16,59 @@ static inline void gui_marker_destroy ( gui_marker_t *this_ )
     (*this_).focused_diagram = DATA_ID_VOID_ID;
 }
 
-static inline data_id_t gui_marker_get_focused ( gui_marker_t *this_ )
+static inline data_id_t gui_marked_set_get_focused ( gui_marked_set_t *this_ )
 {
     return ( (*this_).focused );
 }
 
-static inline int64_t gui_marker_get_focused_diagram ( gui_marker_t *this_ )
+static inline int64_t gui_marked_set_get_focused_diagram ( gui_marked_set_t *this_ )
 {
     return( (*this_).focused_diagram );
 }
 
-static inline data_id_t gui_marker_get_highlighted ( gui_marker_t *this_ )
+static inline data_id_t gui_marked_set_get_highlighted ( gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted );
 }
 
-static inline data_small_set_t *gui_marker_get_selected_set_ptr ( gui_marker_t *this_ )
+static inline data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ )
 {
     return ( &((*this_).selected_set) );
 }
 
-static inline void gui_marker_toggle_selected_obj ( gui_marker_t *this_, data_id_t obj_id )
+static inline void gui_marked_set_toggle_selected_obj ( gui_marked_set_t *this_, data_id_t obj_id )
 {
     data_small_set_toggle_obj( &((*this_).selected_set), obj_id );
 }
 
-static inline void gui_marker_clear_selected_set ( gui_marker_t *this_ )
+static inline void gui_marked_set_clear_selected_set ( gui_marked_set_t *this_ )
 {
     data_small_set_clear( &((*this_).selected_set) );
 }
 
-static inline void gui_marker_set_focused ( gui_marker_t *this_, data_id_t obj_id )
+static inline void gui_marked_set_set_focused ( gui_marked_set_t *this_, data_id_t obj_id )
 {
     data_id_destroy( &((*this_).focused) );
     (*this_).focused = obj_id;
 }
 
-static inline void gui_marker_set_focused_diagram ( gui_marker_t *this_, int64_t diag_id )
+static inline void gui_marked_set_set_focused_diagram ( gui_marked_set_t *this_, int64_t diag_id )
 {
     (*this_).focused_diagram = diag_id;
 }
 
-static inline void gui_marker_set_highlighted ( gui_marker_t *this_, data_id_t obj_id )
+static inline void gui_marked_set_set_highlighted ( gui_marked_set_t *this_, data_id_t obj_id )
 {
     data_id_destroy( &((*this_).highlighted) );
     (*this_).highlighted = obj_id;
 }
 
-static inline void gui_marker_clear_focused ( gui_marker_t *this_ )
+static inline void gui_marked_set_clear_focused ( gui_marked_set_t *this_ )
 {
     data_id_reinit_void( &((*this_).focused) );
 }
 
-static inline void gui_marker_clear_highlighted ( gui_marker_t *this_ )
+static inline void gui_marked_set_clear_highlighted ( gui_marked_set_t *this_ )
 {
     data_id_reinit_void( &((*this_).highlighted) );
 }

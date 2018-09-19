@@ -174,7 +174,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_create_diagram( (*this_).resources ),
+                                                             gui_resources_get_tool_search( (*this_).resources ),
                                                              "Click to create a",
                                                              "diagram below the current.",
                                                              x+120+BORDER,
@@ -198,7 +198,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_create_object( (*this_).resources ),
+                                                             gui_resources_get_tool_create( (*this_).resources ),
                                                              "Click to create items.",
                                                              "Drag to create arrows.",
                                                              x+320+BORDER,

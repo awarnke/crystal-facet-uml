@@ -90,9 +90,9 @@ static inline GdkPixbuf *gui_resources_get_message_user_doc ( gui_resources_t *t
     return (*this_).message_user_doc;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_create_diagram ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_tool_search ( gui_resources_t *this_ )
 {
-    return (*this_).tool_create_diagram;
+    return (*this_).tool_search;
 }
 
 static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this_ )
@@ -100,9 +100,9 @@ static inline GdkPixbuf *gui_resources_get_tool_navigate ( gui_resources_t *this
     return (*this_).tool_navigate;
 }
 
-static inline GdkPixbuf *gui_resources_get_tool_create_object ( gui_resources_t *this_ )
+static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ )
 {
-    return (*this_).tool_create_object;
+    return (*this_).tool_create;
 }
 
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
