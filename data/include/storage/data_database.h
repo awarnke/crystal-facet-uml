@@ -129,7 +129,8 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
 /*!
  *  \brief upgrades old tables from oder versions to current database scheme
- *  \param db an sqlite3 database
+ * 
+ *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */
 data_error_t data_database_upgrade_tables( data_database_t *this_ );
