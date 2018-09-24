@@ -61,7 +61,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param tree_depth depth of the current diagram in the tree. 0 represents the root node or no valid diagram.
  *  \param num_children number of children at the current diagram.
- *  \param create_mode true if the user creates items, false if navigation mode.
+ *  \param search_mode true if the user searhes items, false if navigation mode.
  *  \param x coordinate of the drawing area
  *  \param y coordinate of the drawing area
  *  \param width size of the drawing area
@@ -71,7 +71,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int tree_depth,
                                             unsigned int num_children,
-                                            bool create_mode,
+                                            bool search_mode,
                                             int x,
                                             int y,
                                             unsigned int width,

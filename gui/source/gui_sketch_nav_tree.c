@@ -25,9 +25,17 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
     TRACE_END();
 }
 
+static const double BLACK_R = 0.0;
+static const double BLACK_G = 0.0;
+static const double BLACK_B = 0.0;
+static const double BLACK_A = 1.0;
+static const double TITLE_FONT_SIZE = 12.0;
+
 void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != marker );
+    assert( NULL != cr );
 
     if ( (*this_).visible )
     {
@@ -41,6 +49,16 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         width = shape_int_rectangle_get_width( &((*this_).bounds) );
         height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
+        cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
+        cairo_rectangle ( cr, left+10, top+10, width-20, height-20 );
+        cairo_fill (cr);
+
+        cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+        cairo_set_font_size ( cr, TITLE_FONT_SIZE );
+        cairo_move_to ( cr, 10, 10+14 );
+        cairo_show_text ( cr, "gui_sketch_nav_tree_t" );
+        cairo_move_to ( cr, 10, 10+2*14 );
+        cairo_show_text ( cr, "gui_sketch_nav_tree_t" );
     }
 
     TRACE_END();

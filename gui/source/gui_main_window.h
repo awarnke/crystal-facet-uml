@@ -81,9 +81,13 @@ struct gui_main_window_struct {
 
     GtkAccelGroup *keyboard_shortcut_group;
 
+    GtkWidget *name_label;
     GtkWidget *name_entry;
+    GtkWidget *description_label;
     GtkWidget *description_text_view;
+    GtkWidget *type_label;
     GtkWidget *type_combo_box;
+    GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
     GtkWidget *edit_commit_icon;
     GtkWidget *edit_commit_button;

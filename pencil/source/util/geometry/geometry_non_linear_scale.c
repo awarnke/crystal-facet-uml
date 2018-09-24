@@ -11,7 +11,7 @@
 void geometry_non_linear_scale_init ( geometry_non_linear_scale_t *this_, double lower_bound, double upper_bound )
 {
     TRACE_BEGIN();
-    assert( lower_bound < upper_bound );
+    assert( lower_bound <= upper_bound );
 
     (*this_).num_points = 2;
     (*this_).location[0] = lower_bound;

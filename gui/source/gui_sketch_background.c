@@ -58,6 +58,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                               cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     int text_area_start;
 
@@ -111,7 +112,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int tree_depth,
                                             unsigned int num_children,
-                                            bool create_mode,
+                                            bool search_mode,
                                             int x,
                                             int y,
                                             unsigned int width,
@@ -119,6 +120,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     int block_top = y;
     if ( 0 == tree_depth )
@@ -138,7 +140,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     cairo_fill (cr);
     block_top += (height*4)/10;
 
-    if ( create_mode )
+    if ( search_mode )
     {
         cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
     }
@@ -153,12 +155,12 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     cairo_set_font_size ( cr, 12.0 );
     if ( tree_depth > 0 )
     {
-        cairo_move_to ( cr, x+BORDER, y+BORDER + 14 );
+        cairo_move_to ( cr, x+193+BORDER, y+BORDER + 14 );
         cairo_show_text ( cr, "parent diagram" );
     }
-    cairo_move_to ( cr, x+BORDER, y+(height*3)/10 +BORDER+ 14 );
+    cairo_move_to ( cr, x+193+BORDER, y+(height*3)/10 +BORDER+ 14 );
     cairo_show_text ( cr, "current diagram" );
-    cairo_move_to ( cr, x+BORDER, y+(height*7)/10 +BORDER+ 14 );
+    cairo_move_to ( cr, x+193+BORDER, y+(height*7)/10 +BORDER+ 14 );
     cairo_show_text ( cr, "children diagrams" );
 
     if ( ( 0 == tree_depth )&&( 0 == num_children ))
@@ -235,6 +237,7 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
                                       cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     if ( create_mode )
     {
@@ -259,6 +262,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
                                                           cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
     assert( NULL != icon_1 );
     assert( NULL != text_1 );
     assert( NULL != text_2 );

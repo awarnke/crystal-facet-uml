@@ -31,6 +31,8 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != drag_state );
+    assert( NULL != cr );
 
     switch ( selected_tool )
     {
@@ -179,7 +181,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         {
         }
         break;
-        
+
         default:
         {
             TSLOG_ERROR("selected_tool is out of range");

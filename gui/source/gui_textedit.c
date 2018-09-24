@@ -44,43 +44,43 @@ void gui_textedit_init ( gui_textedit_t *this_,
         GtkTreeIter iter;
         (*this_).diagram_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "LIST", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "BOX_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "SYSML_BLOCK_DEFINITION_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "Block Definition Diagram (SysML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM, 1, "SYSML_INTERNAL_BLOCK_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM, 1, "Internal Block Diagram (SysML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, 1, "SYSML_PARAMETRIC_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, 1, "Parametric Diagram (SysML) (todo)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, 1, "SYSML_REQUIREMENTS_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, 1, "Requirements Diagram (SysML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, 1, "UML_USE_CASE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, 1, "Use Case Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, 1, "UML_ACTIVITY_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, 1, "Activity Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "UML_STATE_MACHINE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "State Machine Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "UML_SEQUENCE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "Sequence Diagram (UML, Scenario)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "UML_COMMUNICATION_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "Communication Diagram (UML, Scenario)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "UML_INTERACTION_OVERVIEW_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "Interaction Overview Diagram (UML) (todo)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "UML_TIMING_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "Timing Diagram (UML, Scenario)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "UML_DEPLOYMENT_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "Deployment Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 1, "UML_COMPONENT_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 1, "Component Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, 1, "UML_COMPOSITE_STRUCTURE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, 1, "Composite Structure Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, 1, "UML_PACKAGE_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, 1, "Package Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "UML_CLASS_DIAGRAM", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "Class Diagram (UML)", -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "UML_PROFILE_DIAGRAM (not yet implemented)", -1 );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "Profile Diagram (UML) (todo)", -1 );
     }
 
     {
@@ -131,18 +131,18 @@ void gui_textedit_init ( gui_textedit_t *this_,
         GtkTreeIter iter;
         (*this_).feature_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "PROPERTY", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "Property", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "OPERATION", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "Operation", -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "PORT", -1 );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "Port", -1 );
     }
 
     {
         GtkTreeIter iter;
         (*this_).feature_lifeline_type = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
         gtk_list_store_append( (*this_).feature_lifeline_type, &iter);
-        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "LIFELINE", -1 );
+        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "Lifeline", -1 );
     }
 
     {

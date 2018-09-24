@@ -209,6 +209,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init text edit widgets */
 
+    (*this_).name_label = gtk_label_new ( "Name:" );
+    gtk_label_set_justify ( GTK_LABEL( (*this_).name_label ), GTK_JUSTIFY_LEFT );
+    (*this_).description_label = gtk_label_new ( "Specification:" );
+    gtk_label_set_justify ( GTK_LABEL( (*this_).description_label ), GTK_JUSTIFY_LEFT );
+    (*this_).stereotype_label = gtk_label_new ( "Stereotype:" );
+    gtk_label_set_justify ( GTK_LABEL( (*this_).stereotype_label ), GTK_JUSTIFY_LEFT );
+    (*this_).type_label = gtk_label_new ( "Type:" );
+    gtk_label_set_justify ( GTK_LABEL( (*this_).type_label ), GTK_JUSTIFY_LEFT );
     (*this_).name_entry = gtk_entry_new();
     (*this_).description_text_view = gtk_text_view_new ();
     (*this_).stereotype_entry = gtk_entry_new();
@@ -291,7 +299,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_undo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_redo,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
+
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
+    /*
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 0, 2, 1, 1 );
@@ -301,6 +311,32 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 4, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 4, 3, 1 );
+    */
+    gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );
+    gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 3, 9 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 1, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 2, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 3, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 4, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 5, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 6, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 7, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 3, 8, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_text_view ), true );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 9, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 10, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 10, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");

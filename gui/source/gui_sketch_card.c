@@ -34,7 +34,8 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
 void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
     TRACE_BEGIN();
-
+    assert( NULL != cr );
+    
     if ( (*this_).visible )
     {
         int32_t left;

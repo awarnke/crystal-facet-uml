@@ -25,6 +25,12 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                            data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
+    assert( NULL != marker );
+    assert( NULL != tools );
+    assert( NULL != message_to_user );
+    assert( NULL != resources );
+    assert( NULL != controller );
+    assert( NULL != db_reader );
 
     /* init pointers to external objects */
     (*this_).tools = tools;
@@ -113,10 +119,13 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
 gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
+
     guint width;
     guint height;
     GdkRGBA color;
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     width = gtk_widget_get_allocated_width (widget);
     height = gtk_widget_get_allocated_height (widget);
@@ -282,10 +291,13 @@ static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 static const gint BORDER = 10;
 static const gint HALF_BORDER = 5;
+static const uint32_t NAV_TREE_WIDTH = 180;
+static const uint32_t RESULT_LIST_WIDTH = 140;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     gui_tools_tool_t selected_tool;
     selected_tool = gui_tools_get_selected_tool( (*this_).tools );
@@ -370,8 +382,21 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         }
     }
 
-    gui_sketch_result_list_set_visible( &((*this_).result_list), ( GUI_TOOLS_SEARCH == selected_tool ) );
-    gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), ( GUI_TOOLS_NAVIGATE == selected_tool ) );
+    /* layout result list */
+    {
+        shape_int_rectangle_t result_list_bounds;
+        shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
+        gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
+        gui_sketch_result_list_set_visible( &((*this_).result_list), ( GUI_TOOLS_SEARCH == selected_tool ) );
+    }
+
+    /* layout nav tree */
+    {
+        shape_int_rectangle_t nav_tree_bounds;
+        shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
+        gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
+        gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), ( GUI_TOOLS_NAVIGATE == selected_tool ) );
+    }
 
     TRACE_END();
 }
@@ -379,6 +404,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
 void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
     TRACE_BEGIN();
+    assert( NULL != cr );
 
     int32_t width = shape_int_rectangle_get_width( &area_bounds );
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
@@ -404,9 +430,15 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                                          0, 0, width, height, cr );
     }
 
-    /* draw result list and nav tree */
-    gui_sketch_result_list_draw( &((*this_).result_list), (*this_).marker, cr );
-    gui_sketch_nav_tree_draw( &((*this_).nav_tree), (*this_).marker, cr );
+    /* draw result list */
+    {
+        gui_sketch_result_list_draw( &((*this_).result_list), (*this_).marker, cr );
+    }
+
+    /* draw nav tree */
+    {
+        gui_sketch_nav_tree_draw( &((*this_).nav_tree), (*this_).marker, cr );
+    }
 
     /* draw all cards */
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
@@ -430,7 +462,9 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
 gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCrossing* evt, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     if (( (*evt).type == GDK_LEAVE_NOTIFY )&&( (*evt).mode == GDK_CROSSING_NORMAL )) {
 
@@ -448,7 +482,9 @@ gboolean gui_sketch_area_leave_notify_callback( GtkWidget* widget, GdkEventCross
 gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotion* evt, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     int32_t x;
     int32_t y;
@@ -598,7 +634,9 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
 gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     /* in general, hide the last message */
     gui_simple_message_to_user_hide( (*this_).message_to_user );
@@ -859,7 +897,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventButton* evt, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     if ( (*evt).button == 1 ) {
         TRACE_INFO("release");
@@ -1200,7 +1240,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != evt );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
     gboolean result_event_handled = false;
 
     if ( (*evt).state == GDK_CONTROL_MASK )
@@ -1318,7 +1360,9 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
 void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer data )
 {
     TRACE_BEGIN();
+    assert( NULL != msg );
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     /* load/reload data to be drawn */
     gui_sketch_area_private_reload_data( this_ );
@@ -1333,6 +1377,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t 
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
+    assert( NULL != this_ );
 
     switch ( tool )
     {
