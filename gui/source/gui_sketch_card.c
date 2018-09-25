@@ -35,7 +35,7 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    
+
     if ( (*this_).visible )
     {
         int32_t left;
@@ -65,11 +65,11 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
         data_id_t mark_highlighted = gui_marked_set_get_highlighted( marker );
         data_small_set_t *mark_selected_set = gui_marked_set_get_selected_set_ptr( marker );
         pencil_diagram_maker_draw ( &((*this_).painter),
-                                      mark_focused,
-                                      mark_highlighted,
-                                      mark_selected_set,
-                                      cr
-                                    );
+                                    mark_focused,
+                                    mark_highlighted,
+                                    mark_selected_set,
+                                    cr
+                                  );
     }
 
     TRACE_END();

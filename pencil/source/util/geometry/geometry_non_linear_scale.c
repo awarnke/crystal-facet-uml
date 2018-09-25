@@ -98,7 +98,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
     for ( uint32_t pos2 = 1; pos2 < (*this_).num_points; pos2 ++ )
     {
         assert( (*this_).order[pos2-1] < (*this_).order[pos2] );
-        assert( (*this_).location[pos2-1]+0.000000001 < (*this_).location[pos2] );
+        assert( (*this_).location[pos2-1]-0.000000001 < (*this_).location[pos2] );  /* equal locations are possible if lower_bound == upper_bound */
     }
 #endif
 

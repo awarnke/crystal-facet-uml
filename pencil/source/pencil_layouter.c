@@ -83,6 +83,7 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_
     diagram_data = layout_diagram_get_data_ptr ( the_diagram );
 
     /* update the bounding rectangle */
+    geometry_rectangle_trace ( &diagram_bounds );
     layout_diagram_set_bounds( the_diagram, &diagram_bounds );
 
     /* calculate the pencil-sizes and the drawing rectangle */
@@ -100,6 +101,7 @@ void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_
                                              );
 
     /* calculate the axis scales */
+    geometry_rectangle_trace ( diagram_draw_area );
     double draw_left = geometry_rectangle_get_left ( diagram_draw_area );
     double draw_top = geometry_rectangle_get_top ( diagram_draw_area );
     double draw_right = geometry_rectangle_get_right ( diagram_draw_area );

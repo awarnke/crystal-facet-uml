@@ -307,6 +307,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     uint32_t height = shape_int_rectangle_get_height( &area_bounds );
     int32_t left = shape_int_rectangle_get_left( &area_bounds );
     int32_t top = shape_int_rectangle_get_top( &area_bounds );
+    TRACE_INFO_INT_INT( "width, height", width, height );
     gui_sketch_area_layout_t layout_type;
     layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
     int32_t children_top;
@@ -359,6 +360,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
                 shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
             }
 
+            shape_int_rectangle_trace( &card_bounds );
             gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
             gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
@@ -371,6 +373,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
                 card_bounds = area_bounds;
                 shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
                 shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
+                shape_int_rectangle_trace( &card_bounds );
                 gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
                 gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
                 gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );

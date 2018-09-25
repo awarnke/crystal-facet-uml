@@ -481,9 +481,10 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
         {
             double default_classifier_area = geometry_rectangle_get_area( (*this_).default_classifier_size );
             double classifier_area = geometry_rectangle_get_area( classifier_bounds );
-            assert( default_classifier_area > 0.000000001 );
-            assert( classifier_area > 0.000000001 );
-            simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
+            if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
+            {
+                simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
+            }
         }
 
         int insert_error;
