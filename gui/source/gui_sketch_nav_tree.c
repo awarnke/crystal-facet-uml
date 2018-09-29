@@ -51,7 +51,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
         }
         else
         {
-            id_to_load = data_diagram_get_id( &((*this_).ancestor_diagrams[anc_index-1]) );
+            id_to_load = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[anc_index-1]) );
         }
 
         if ( id_to_load != DATA_ID_VOID_ID )
@@ -77,7 +77,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
     if ( db_err == DATA_ERROR_NONE )
     {
         int64_t parent_id;
-        parent_id = data_diagram_get_id( &((*this_).ancestor_diagrams[0]) );
+        parent_id = data_diagram_get_parent_id( &((*this_).ancestor_diagrams[0]) );
         db_err = data_database_reader_get_diagrams_by_parent_id ( db_reader,
                                                                   parent_id,
                                                                   GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS,
@@ -167,7 +167,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         cairo_move_to ( cr, 10, 10+2*14 );
         cairo_show_text ( cr, "gui_sketch_nav_tree_t" );
 
-        uint32_t cursor_y = 10+2*14;
+        uint32_t cursor_y = 10+4*14;
         for ( int anc_index = 0; anc_index < (*this_).ancestors_count; anc_index ++ )
         {
             cairo_move_to ( cr, 10, cursor_y );
@@ -175,6 +175,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             cursor_y += 14;
         }
 
+        cursor_y += 14;
         for ( int sib_index = 0; sib_index < (*this_).siblings_count; sib_index ++ )
         {
             cairo_move_to ( cr, 10, cursor_y );
@@ -182,13 +183,13 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             cursor_y += 14;
         }
 
+        cursor_y += 14;
         for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
         {
             cairo_move_to ( cr, 10, cursor_y );
             cairo_show_text ( cr, data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ) );
             cursor_y += 14;
         }
-
 
     }
 
