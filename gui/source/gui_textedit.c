@@ -894,12 +894,15 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         {
             /* prevent that a user accitentially enters text to a non-existing object */
             gtk_widget_hide ( GTK_WIDGET ( widget ) );
+            /*gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );*/
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
             gtk_widget_show( GTK_WIDGET ( widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), true );
 
             const char* text;
             text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
@@ -910,6 +913,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         case DATA_TABLE_FEATURE:
         {
             gtk_widget_show( GTK_WIDGET ( widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), true );
 
             const char* text;
             text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
@@ -919,19 +923,28 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            gtk_widget_show( GTK_WIDGET ( widget ) );
+            gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
+
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
             gtk_widget_hide( GTK_WIDGET ( widget ) );
+            /*gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );*/
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_hide( GTK_WIDGET ( widget ) );
+            /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            gtk_widget_show( GTK_WIDGET ( widget ) );
+            gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
+            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
         }
         break;
 

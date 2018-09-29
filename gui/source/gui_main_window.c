@@ -148,7 +148,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_z,
                                  GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
+                                 GTK_ACCEL_VISIBLE
+                               );
 
     (*this_).edit_redo_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_redo( res ));
     (*this_).edit_redo = gtk_tool_button_new( (*this_).edit_redo_icon, "Redo" );
@@ -158,7 +159,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_y,
                                  GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
+                                 GTK_ACCEL_VISIBLE
+                               );
 
     (*this_).tool_about_icon = gtk_image_new_from_pixbuf( gui_resources_get_crystal_facet_uml( res ));
     (*this_).tool_about = gtk_tool_button_new( (*this_).tool_about_icon, "About" );
@@ -210,15 +212,24 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init text edit widgets */
 
     (*this_).name_label = gtk_label_new ( "Name:" );
-    gtk_label_set_justify ( GTK_LABEL( (*this_).name_label ), GTK_JUSTIFY_LEFT );
     (*this_).description_label = gtk_label_new ( "Specification:" );
-    gtk_label_set_justify ( GTK_LABEL( (*this_).description_label ), GTK_JUSTIFY_LEFT );
-    (*this_).stereotype_label = gtk_label_new ( "Stereotype:" );
-    gtk_label_set_justify ( GTK_LABEL( (*this_).stereotype_label ), GTK_JUSTIFY_LEFT );
+    (*this_).stereotype_label = gtk_label_new ( "Stereotype/Valuetype:" );
     (*this_).type_label = gtk_label_new ( "Type:" );
-    gtk_label_set_justify ( GTK_LABEL( (*this_).type_label ), GTK_JUSTIFY_LEFT );
     (*this_).name_entry = gtk_entry_new();
+#if (( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))
+    gtk_label_set_xalign (GTK_LABEL( (*this_).name_label ), 0.0 );
+    gtk_label_set_xalign (GTK_LABEL( (*this_).description_label ), 0.0 );
+    gtk_label_set_xalign (GTK_LABEL( (*this_).stereotype_label ), 0.0 );
+    gtk_label_set_xalign (GTK_LABEL( (*this_).type_label ), 0.0 );
+#else
+    gtk_misc_set_alignment (GTK_MISC( (*this_).name_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment (GTK_MISC( (*this_).description_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment (GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
+    gtk_misc_set_alignment (GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
+#endif
     (*this_).description_text_view = gtk_text_view_new ();
+    gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW( (*this_).description_text_view ),
+                                  GTK_WRAP_WORD_CHAR );
     (*this_).stereotype_entry = gtk_entry_new();
     (*this_).edit_commit_button = gtk_button_new();
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
@@ -230,7 +241,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  (*this_).keyboard_shortcut_group,
                                  GDK_KEY_s,
                                  GDK_CONTROL_MASK,
-                                 GTK_ACCEL_VISIBLE );
+                                 GTK_ACCEL_VISIBLE
+                               );
     gui_textedit_init( &((*this_).text_editor),
                        GTK_ENTRY( (*this_).name_entry ),
                        GTK_TEXT_VIEW( (*this_).description_text_view ),
@@ -257,7 +269,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  "Create/Use DB-File",
                                                                  GTK_RESPONSE_ACCEPT,
                                                                  NULL
-    );
+                                                               );
     gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
     gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
 
@@ -277,7 +289,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                                                  "ps Files",
                                                                  GUI_FILE_EXPORTER_CONST_EXPORT_PS,
                                                                  NULL
-    );
+                                                               );
     gui_file_exporter_init( &((*this_).file_exporter), db_reader, &((*this_).message_to_user) );
 
     TRACE_INFO("GTK+ Widgets are created.");
@@ -317,14 +329,14 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 3, 9 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 1, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 2, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 3, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 4, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 2, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 3, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 4, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 5, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 6, 1, 1 );
