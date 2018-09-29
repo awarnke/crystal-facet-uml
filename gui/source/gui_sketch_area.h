@@ -63,7 +63,7 @@ struct gui_sketch_area_struct {
     gui_sketch_overlay_t overlay;  /*!< own instance of sketch overlay */
     gui_sketch_background_t background;  /*!< own instance of sketch background */
     gui_sketch_card_t cards[GUI_SKETCH_AREA_CONST_MAX_CARDS];  /*!< own instance of card objects that draw diagrams */
-    int32_t card_num;
+    uint32_t card_num;
     gui_sketch_nav_tree_t nav_tree;  /*!< own instance of a navigation tree sub-widget */
     gui_sketch_result_list_t result_list;  /*!< own instance of a search result list sub-widget */
 

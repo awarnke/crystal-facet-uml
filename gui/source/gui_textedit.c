@@ -924,6 +924,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         case DATA_TABLE_RELATIONSHIP:
         {
             /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( widget ) );
             gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
             gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
@@ -942,6 +943,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         case DATA_TABLE_DIAGRAM:
         {
             /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            /* -- do not hide - otherwise the user interface looks inhomogenous -- */
             gtk_widget_show( GTK_WIDGET ( widget ) );
             gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
             gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );

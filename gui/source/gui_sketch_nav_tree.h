@@ -18,11 +18,27 @@
 #include <stdint.h>
 
 /*!
+ *  \brief constants of gui_sketch_nav_tree_t
+ */
+enum gui_sketch_nav_tree_const_enum {
+    GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS = 12,  /*!< maximum number of parents/grand-partents/grand-grand-parents */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS = 128,  /*!< maximum number of sisters/brothers */
+    GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN = 128,  /*!< maximum number of daughters/sons */
+};
+
+/*!
  *  \brief attributes of the nav tree
  */
 struct gui_sketch_nav_tree_struct {
     bool visible;  /*!< is the nav tree visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the nav tree */
+
+    uint32_t ancestors_count;
+    data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];
+    uint32_t siblings_count;
+    data_diagram_t sibling_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS];
+    uint32_t children_count;
+    data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 };
 
 typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
@@ -48,7 +64,14 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
  *  \param diagram_id id of the diagram to load
  *  \param db_reader pointer to a database reader object
  */
-static inline void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
+void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
+
+/*!
+ *  \brief marks the diagram data as invalid
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the bounds rectangle

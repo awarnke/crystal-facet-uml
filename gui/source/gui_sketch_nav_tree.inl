@@ -2,14 +2,6 @@
 
 #include "tslog.h"
 
-static inline void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
-{
-}
-
-static inline void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
-{
-}
-
 static inline bool gui_sketch_nav_tree_is_valid( gui_sketch_nav_tree_t *this_ )
 {
 }
