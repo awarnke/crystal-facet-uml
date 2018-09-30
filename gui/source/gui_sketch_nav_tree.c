@@ -29,12 +29,16 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_ )
     pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
     pango_font_description_set_size ( (*this_).standard_font_description, STANDARD_FONT_SIZE * PANGO_SCALE );
 
+    gui_sketch_marker_init( &((*this_).sketch_marker) );
+
     TRACE_END();
 }
 
 void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 {
     TRACE_BEGIN();
+
+    gui_sketch_marker_destroy( &((*this_).sketch_marker) );
 
     /* destroy the pango font renering engine stuff: */
     pango_font_description_free ( (*this_).standard_font_description );
@@ -185,17 +189,18 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
         width = shape_int_rectangle_get_width( &((*this_).bounds) );
         height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-        cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
-        cairo_rectangle ( cr, left, top, width, height );
-        cairo_fill (cr);
+        /* draw the background */
+        {
+            cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
+            cairo_rectangle ( cr, left, top, width, height );
+            cairo_fill (cr);
+        }
 
-        /* do the fonts stuff */
+        /* draw the elements */
         {
             PangoLayout *layout;
             layout = pango_cairo_create_layout (cr);
             pango_layout_set_font_description ( layout, (*this_).standard_font_description );
-
-            cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
 
             /* EXAMPLE: precalculate text dimensions to vertically center the text */
             /*
@@ -214,6 +219,14 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 {
                     destination_rect = gui_sketch_nav_tree_private_get_ancestor_bounds( this_, anc_index );
 
+                    gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                                    DATA_TABLE_DIAGRAM,
+                                                    data_diagram_get_id( &((*this_).ancestor_diagrams[anc_index]) ),
+                                                    marker,
+                                                    destination_rect,
+                                                    cr
+                                                  );
+
                     cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
                     pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).ancestor_diagrams[anc_index]) ), -1 );
                     pango_cairo_show_layout ( cr, layout );
@@ -224,16 +237,13 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             {
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, sib_index );
 
-                if ( sib_index == (*this_).siblings_self_index )
-                {
-                    cairo_rectangle ( cr,
-                                      shape_int_rectangle_get_left( &destination_rect ),
-                                      shape_int_rectangle_get_top( &destination_rect ),
-                                      shape_int_rectangle_get_width( &destination_rect ),
-                                      shape_int_rectangle_get_height( &destination_rect )
-                                    );
-                    cairo_stroke (cr);
-                }
+                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                                DATA_TABLE_DIAGRAM,
+                                                data_diagram_get_id( &((*this_).sibling_diagrams[sib_index]) ),
+                                                marker,
+                                                destination_rect,
+                                                cr
+                                              );
 
                 cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
                 pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ), -1 );
@@ -241,6 +251,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             }
             {
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
+                cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
                 cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
                 pango_layout_set_text ( layout, "[+]", -1 );
                 pango_cairo_show_layout ( cr, layout );
@@ -250,12 +261,21 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, chi_index );
 
+                gui_sketch_marker_prepare_draw( &((*this_).sketch_marker),
+                                                DATA_TABLE_DIAGRAM,
+                                                data_diagram_get_id( &((*this_).child_diagrams[chi_index]) ),
+                                                marker,
+                                                destination_rect,
+                                                cr
+                                              );
+
                 cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
                 pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ), -1 );
                 pango_cairo_show_layout ( cr, layout );
             }
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
+                cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
                 cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
                 pango_layout_set_text ( layout, "(+)", -1 );
                 pango_cairo_show_layout ( cr, layout );

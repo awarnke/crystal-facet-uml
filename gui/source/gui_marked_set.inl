@@ -16,17 +16,17 @@ static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ )
     (*this_).focused_diagram = DATA_ID_VOID_ID;
 }
 
-static inline data_id_t gui_marked_set_get_focused ( gui_marked_set_t *this_ )
+static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ )
 {
     return ( (*this_).focused );
 }
 
-static inline int64_t gui_marked_set_get_focused_diagram ( gui_marked_set_t *this_ )
+static inline int64_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ )
 {
     return( (*this_).focused_diagram );
 }
 
-static inline data_id_t gui_marked_set_get_highlighted ( gui_marked_set_t *this_ )
+static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ )
 {
     return( (*this_).highlighted );
 }

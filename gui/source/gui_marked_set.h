@@ -44,21 +44,21 @@ static inline void gui_marked_set_destroy ( gui_marked_set_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return id of the focused object. This is the visible object, e.g. a data_diagram_t or a data_diagramelement_t
  */
-static inline data_id_t gui_marked_set_get_focused ( gui_marked_set_t *this_ );
+static inline data_id_t gui_marked_set_get_focused ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the focused_diagram id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int64_t gui_marked_set_get_focused_diagram ( gui_marked_set_t *this_ );
+static inline int64_t gui_marked_set_get_focused_diagram ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the highlighted object id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_id_t gui_marked_set_get_highlighted ( gui_marked_set_t *this_ );
+static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t *this_ );
 
 /*!
  *  \brief gets the selected object ids.

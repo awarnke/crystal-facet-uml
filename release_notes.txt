@@ -1,5 +1,6 @@
 2018-09-xx 1.6.0 [xxxxxxx]
   + element configuration moved from bottom area to the right of the window
+  + tree view shows current diagram in hierarchy
 2018-08-26 1.5.1 [81c92e6]
   . no automatic database upgrades anymore, use -f parameter
   + fix for persisting moved relationships in sequence and timing diagrams

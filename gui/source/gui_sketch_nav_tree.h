@@ -9,6 +9,7 @@
  */
 
 #include "gui_marked_set.h"
+#include "gui_sketch_marker.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -44,6 +45,7 @@ struct gui_sketch_nav_tree_struct {
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
+    gui_sketch_marker_t sketch_marker;
 };
 
 typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
