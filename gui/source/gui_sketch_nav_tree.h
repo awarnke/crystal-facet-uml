@@ -13,6 +13,8 @@
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
+#include <pango/pangocairo.h>
+#include <cairo.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -37,8 +39,11 @@ struct gui_sketch_nav_tree_struct {
     data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];
     uint32_t siblings_count;
     data_diagram_t sibling_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS];
+    int32_t siblings_self_index;  /* index of current diagram in list of siblings, -1 in case of error */
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
+
+    PangoFontDescription *standard_font_description;  /*!< text description of standard text */
 };
 
 typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
@@ -115,7 +120,7 @@ static inline void gui_sketch_nav_tree_set_visible( gui_sketch_nav_tree_t *this_
 void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
- * \brief gets the address of the diagram within the painter input data of gui_sketch_nav_tree_t
+ *  \brief gets the address of the diagram data of gui_sketch_nav_tree_t
  *
  *  \param this_ pointer to own object attributes
  *  \return pointer to diagram
@@ -134,10 +139,43 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          data_id_t* out_selected_id
-                                                        );
+                                                              int32_t x,
+                                                              int32_t y,
+                                                              data_id_t* out_selected_id
+                                                            );
+
+/*!
+ *  \brief gets the bounding box of a diagram name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ancestor_index index of the ancestor
+ *  \return bounding box of the diagram name
+ */
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bounds ( gui_sketch_nav_tree_t *this_,
+                                                                                      uint32_t ancestor_index
+                                                                                    );
+
+/*!
+ *  \brief gets the bounding box of a diagram name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param sibling_index index of the sibling. siblings_count if the position after the last sibling shall be returned (for e.g. a "new" button).
+ *  \return bounding box of the diagram name
+ */
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_bounds ( gui_sketch_nav_tree_t *this_,
+                                                                                     uint32_t sibling_index
+                                                                                   );
+
+/*!
+ *  \brief gets the bounding box of a diagram name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param child_index index of the child. children_count if the position after the last child shall be returned (for e.g. a "new" button).
+ *  \return bounding box of the diagram name
+ */
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( gui_sketch_nav_tree_t *this_,
+                                                                                   uint32_t child_index
+                                                                                 );
 
 /*!
  *  \brief gets the order value at a given position

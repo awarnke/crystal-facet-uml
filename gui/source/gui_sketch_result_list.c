@@ -56,7 +56,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
         cairo_move_to ( cr, 10, 10+14 );
         cairo_show_text ( cr, "gui_sketch_result_list_t" );
         cairo_move_to ( cr, 10, 10+2*14 );
-        cairo_show_text ( cr, "gui_sketch_result_list_t" );
+        cairo_show_text ( cr, "not yet implemented" );
     }
 
     TRACE_END();
