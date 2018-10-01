@@ -184,11 +184,8 @@
  *
  *  Edit the properties of the yellow-cornered object.
  *
- *  \image html main_window_sketch_3_zoom.png
- *  \image latex main_window_sketch_3_zoom.pdf "" width=5cm
- *
- *  \li 0.: stereotype of the focused object (deactivated depending on object-type)
- *  \li 1.: name of the focused object
+ *  \li 0.: name of the focused object
+ *  \li 1.: stereotype/valuetype of the focused object (deactivated depending on object-type)
  *  \li 2.: type of the focused object
  *  \li 3.: description of the focused object
  *

@@ -13,8 +13,11 @@
    height="144"
    id="svg2"
    version="1.1"
-   inkscape:version="0.48.5 r10040"
-   sodipodi:docname="main_window_sketch_3.svg">
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="main_window_sketch_3.svg"
+   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/user_doc/doc/main_window_sketch_3.png"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <inkscape:perspective
@@ -33,15 +36,15 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="2.990248"
-     inkscape:cx="-35.442292"
+     inkscape:cx="39.649125"
      inkscape:cy="66.050643"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
      inkscape:window-width="1600"
-     inkscape:window-height="1145"
-     inkscape:window-x="-2"
-     inkscape:window-y="-3"
+     inkscape:window-height="1135"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
      inkscape:window-maximized="1" />
   <metadata
      id="metadata7">
@@ -61,36 +64,36 @@
      id="layer1"
      transform="translate(0,-908.36218)">
     <rect
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:none;fill-opacity:1;stroke:#000000;stroke-width:1.00127268;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3775"
-       width="138.41492"
-       height="18.893469"
-       x="2.8841023"
-       y="913.74658"
-       ry="2.2121723" />
+       width="137.99873"
+       height="18.998728"
+       x="3.5006366"
+       y="912.86279"
+       ry="3.5696168" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0"
+       style="fill:none;stroke:#000000;stroke-width:0.99922436;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;fill-opacity:1"
        id="rect3775-4"
-       width="138.41492"
-       height="70.789658"
-       x="2.8841023"
-       y="935.07251"
-       ry="2.6033759" />
+       width="83.000778"
+       height="89.13118"
+       x="3.4996121"
+       y="938.73132"
+       ry="3.2779076" />
     <rect
-       style="fill:#00ffcc;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:none;stroke-dashoffset:0;fill-opacity:1"
+       style="fill:#00ffcc;stroke:#000000;stroke-width:0.99986738;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;fill-opacity:1"
        id="rect3775-1"
-       width="138.41492"
-       height="25.081337"
-       x="2.8841023"
-       y="1008.2947"
-       ry="2.6022685" />
+       width="49.000134"
+       height="89.013336"
+       x="92.499931"
+       y="938.87494"
+       ry="3.0637112" />
     <rect
-       style="fill:none;stroke:#000000;stroke-width:1;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-opacity:1;stroke-dasharray:2,2;stroke-dashoffset:0"
+       style="fill:none;stroke:#000000;stroke-width:1.06164336;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:2.12328685, 2.12328685;stroke-dashoffset:0;stroke-opacity:1"
        id="rect3775-8"
-       width="138.41492"
-       height="13.208321"
-       x="2.8841023"
-       y="1035.8085"
-       ry="2.5498052" />
+       width="137.93835"
+       height="14.938357"
+       x="3.5308218"
+       y="1033.8929"
+       ry="3.6402264" />
   </g>
 </svg>

@@ -19,7 +19,7 @@
  *  \brief constants for values of pencil_size_t
  */
 enum pencil_size_const_enum {
-    PENCIL_SIZE_CONST_ASCENT_PERCENT = 75,  /*!< percent of ascent above the baseline realtive to total font-size */
+    PENCIL_SIZE_CONST_ASCENT_PERCENT = 75,  /*!< percent of ascent above the baseline relative to total font-size */
 };
 
 /*!

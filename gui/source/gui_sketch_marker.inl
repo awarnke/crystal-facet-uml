@@ -15,6 +15,11 @@ static inline void gui_sketch_marker_destroy( gui_sketch_marker_t *this_ )
     pencil_marker_destroy( &((*this_).pencil_marker) );
 }
 
+static const double GUI_SKETCH_MARKER_BLACK_R = 0.0;
+static const double GUI_SKETCH_MARKER_BLACK_G = 0.0;
+static const double GUI_SKETCH_MARKER_BLACK_B = 0.0;
+static const double GUI_SKETCH_MARKER_BLACK_A = 1.0;
+
 static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *this_,
                                                     data_table_t table,
                                                     int64_t row_id,
@@ -37,6 +42,12 @@ static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *t
         /* mark focused diagram */
         if ( row_id == focused_diagram_id )
         {
+            cairo_set_source_rgba( cr,
+                                   GUI_SKETCH_MARKER_BLACK_R,
+                                   GUI_SKETCH_MARKER_BLACK_G,
+                                   GUI_SKETCH_MARKER_BLACK_B,
+                                   GUI_SKETCH_MARKER_BLACK_A
+                                 );
             cairo_rectangle ( cr,
                               shape_int_rectangle_get_left( &rect ),
                               shape_int_rectangle_get_top( &rect ),
@@ -72,14 +83,20 @@ static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *t
             pencil_marker_mark_selected_rectangle( &((*this_).pencil_marker), pencil_rect, cr );
         }
 
-        /* mark highlighted */
+        /* set color to mark highlighted */
         if ( row_id == data_id_get_row_id( &highlighted_id ) )
         {
-            cairo_set_source_rgba( cr, 0.0, 0.9, 0.5, 1.0 );
+            /* use same color as in pencil_size.inl */
+            cairo_set_source_rgba( cr, 0.0, 0.8, 0.6, 1.0 );
         }
         else
         {
-            cairo_set_source_rgba( cr, 0.0, 0.0, 0.0, 1.0 );
+            cairo_set_source_rgba( cr,
+                                   GUI_SKETCH_MARKER_BLACK_R,
+                                   GUI_SKETCH_MARKER_BLACK_G,
+                                   GUI_SKETCH_MARKER_BLACK_B,
+                                   GUI_SKETCH_MARKER_BLACK_A
+                                 );
         }
     }
     else

@@ -17,6 +17,8 @@ static inline void pencil_size_destroy( pencil_size_t *this_ )
     (*this_).larger_font_description = NULL;
 }
 
+static const char *PENCIL_SIZE_FONT_FAMILY = "Sans";
+
 static inline void pencil_size_init_empty( pencil_size_t *this_ )
 {
     (*this_).standard_color.red = 0.0;
@@ -52,14 +54,14 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     /* guess some default values: */
     (*this_).standard_font_size = 12.0;
     (*this_).standard_font_description = pango_font_description_new ();
-    pango_font_description_set_family_static ( (*this_).standard_font_description, "Sans" );
+    pango_font_description_set_family_static ( (*this_).standard_font_description, PENCIL_SIZE_FONT_FAMILY );
     pango_font_description_set_style ( (*this_).standard_font_description, PANGO_STYLE_NORMAL );
     pango_font_description_set_weight ( (*this_).standard_font_description, PANGO_WEIGHT_MEDIUM );
     pango_font_description_set_stretch ( (*this_).standard_font_description, PANGO_STRETCH_NORMAL );
     pango_font_description_set_size ( (*this_).standard_font_description, 12 * PANGO_SCALE );
     (*this_).larger_font_size = 14.0;
     (*this_).larger_font_description = pango_font_description_new ();
-    pango_font_description_set_family_static ( (*this_).larger_font_description, "Sans" );
+    pango_font_description_set_family_static ( (*this_).larger_font_description, PENCIL_SIZE_FONT_FAMILY );
     pango_font_description_set_style ( (*this_).larger_font_description, PANGO_STYLE_NORMAL );
     pango_font_description_set_weight ( (*this_).larger_font_description, PANGO_WEIGHT_BOLD );
     pango_font_description_set_stretch ( (*this_).larger_font_description, PANGO_STRETCH_NORMAL );
