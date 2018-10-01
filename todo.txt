@@ -3,7 +3,6 @@ ideas for future versions:
   [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
   [ ] in overview mode, allow to shift diagrams vertically
   [ ] in overview mode, allow to move diagrams horizontally
-  [ ] the type-dropdown box shall appear over the window - without scrolling
   [ ] paste: Allow to paste relationships
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
@@ -11,7 +10,8 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
-  [ ] Support Diagram-Types: List, Sequence, Timing, Profile, Parametric, Interaction-Overview
+  [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
+  [ ] Improve support for Diagram-Types: Sequence, Timing, Communication
   [ ] include and extends relationships shall show their stereotype
   @data
   [ ] more relationship types needed: requirements have derive and refine relations
