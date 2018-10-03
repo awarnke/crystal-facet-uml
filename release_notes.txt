@@ -1,4 +1,4 @@
-2018-10-01 1.6.0 [xxxxxxx]
+2018-10-01 1.6.0 [4151f80]
   + element configuration moved from bottom area to the right of the window
   + tree view shows current diagram in hierarchy
 2018-08-26 1.5.1 [81c92e6]

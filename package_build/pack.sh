@@ -1,6 +1,5 @@
 #!/bin/sh
-echo "clean up previous build"
-rm crystal_facet_uml.zip
+echo "clean up possibly broken previous build"
 rm -fr crystal_facet_uml
 
 echo "pack archive"
