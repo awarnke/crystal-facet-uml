@@ -10,6 +10,7 @@
  */
 
 #include "gui_resources.h"
+#include "util/shape/shape_int_rectangle.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
@@ -17,6 +18,7 @@
  *  \brief attributes of the sketch background
  */
 struct gui_sketch_background_struct {
+    shape_int_rectangle_t bounds;  /*!< bounding box of the background */
     gui_resources_t *resources;  /*!< pointer to external resources */
 };
 
@@ -38,20 +40,28 @@ void gui_sketch_background_init( gui_sketch_background_t *this_, gui_resources_t
 void gui_sketch_background_destroy( gui_sketch_background_t *this_ );
 
 /*!
+ *  \brief gets the bounds rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return returns the bounding box of this sketch card
+ */
+static inline shape_int_rectangle_t gui_sketch_background_get_bounds( gui_sketch_background_t *this_ );
+
+/*!
+ *  \brief sets the bounds rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding box of this sketch card
+ */
+static inline void gui_sketch_background_set_bounds( gui_sketch_background_t *this_, shape_int_rectangle_t bounds );
+
+/*!
  *  \brief draws background graphics to the cairo context, including the introduction
  *
  *  \param this_ pointer to own object attributes
- *  \param x coordinate of the drawing area
- *  \param y coordinate of the drawing area
- *  \param width size of the drawing area
- *  \param height size of the drawing area
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
-                                              int x,
-                                              int y,
-                                              unsigned int width,
-                                              unsigned int height,
                                               cairo_t *cr
                                             );
 
@@ -62,20 +72,12 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
  *  \param tree_depth depth of the current diagram in the tree. 0 represents the root node or no valid diagram.
  *  \param num_children number of children at the current diagram.
  *  \param search_mode true if the user searhes items, false if navigation mode.
- *  \param x coordinate of the drawing area
- *  \param y coordinate of the drawing area
- *  \param width size of the drawing area
- *  \param height size of the drawing area
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int tree_depth,
                                             unsigned int num_children,
                                             bool search_mode,
-                                            int x,
-                                            int y,
-                                            unsigned int width,
-                                            unsigned int height,
                                             cairo_t *cr
                                           );
 
@@ -84,18 +86,10 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param create_mode true if the user creates items, false if edit mode.
- *  \param x coordinate of the drawing area
- *  \param y coordinate of the drawing area
- *  \param width size of the drawing area
- *  \param height size of the drawing area
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
                                       bool create_mode,
-                                      int x,
-                                      int y,
-                                      unsigned int width,
-                                      unsigned int height,
                                       cairo_t *cr
                                     );
 
@@ -119,6 +113,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
                                                           cairo_t *cr
                                                         );
 
+#include "gui_sketch_background.inl"
 
 #endif  /* GUI_SKETCH_BACKGROUND_H */
 

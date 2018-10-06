@@ -302,7 +302,6 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
 
         /* check if there is an 'e', 'E' or '.' in the number */
         bool finished = false;
-        uint32_t num_pos;
         for ( uint32_t num_pos = *io_read_pos; ( ! finished ) && ( num_pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); num_pos ++ )
         {
             char probe = in_data[num_pos];

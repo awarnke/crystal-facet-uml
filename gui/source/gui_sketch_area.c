@@ -132,7 +132,10 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 
     if ( ! data_database_reader_is_open( (*this_).db_reader ) )
     {
-        gui_sketch_background_draw_introduction( &((*this_).background), 0, 0, width, height, cr );
+        shape_int_rectangle_t bounds;
+        shape_int_rectangle_init( &bounds, 0, 0, width, height );
+        gui_sketch_background_set_bounds( &((*this_).background), bounds );
+        gui_sketch_background_draw_introduction( &((*this_).background), cr );
     }
     else
     {
@@ -401,6 +404,27 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), ( GUI_TOOLS_NAVIGATE == selected_tool ) );
     }
 
+    /* layout background */
+    {
+        shape_int_rectangle_t background_bounds;
+        if ( GUI_TOOLS_SEARCH == selected_tool )
+        {
+            uint32_t ground_width = ( RESULT_LIST_WIDTH < width ) ? ( width - RESULT_LIST_WIDTH ) : 0;
+            shape_int_rectangle_init( &background_bounds, left + RESULT_LIST_WIDTH, top, ground_width, height );        
+        }
+        else if ( GUI_TOOLS_NAVIGATE == selected_tool )
+        {
+            uint32_t ground_width = ( NAV_TREE_WIDTH < width ) ? ( width - NAV_TREE_WIDTH ) : 0;
+            shape_int_rectangle_init( &background_bounds, left + NAV_TREE_WIDTH, top, ground_width, height );        
+        }
+        else
+        {
+            shape_int_rectangle_init( &background_bounds, left, top, width, height );        
+        }
+        
+        gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
+    }
+    
     TRACE_END();
 }
 
@@ -424,13 +448,15 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
         children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
         gui_sketch_background_draw_navigation( &((*this_).background),
                                                depth, children, (GUI_TOOLS_SEARCH == selected_tool),
-                                               0, 0, width, height, cr );
+                                               cr 
+                                             );
     }
     else
     {
         gui_sketch_background_draw_edit( &((*this_).background),
                                          (GUI_TOOLS_CREATE == selected_tool),
-                                         0, 0, width, height, cr );
+                                         cr
+                                       );
     }
 
     /* draw result list */
