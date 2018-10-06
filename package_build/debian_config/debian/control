@@ -1,15 +1,16 @@
 Source: crystal-facet-uml
-Section: unknown
+Section: devel
 Priority: optional
-Maintainer: Andi <andi@unknown>
-Build-Depends: debhelper (>= 10)
+Maintainer: Andreas Warnke <cfu@andreaswarnke.de>
+Build-Depends: debhelper (>= 10), gcc, cmake, libgtk-3-0
 Standards-Version: 4.1.2
-Homepage: <insert the upstream URL, if relevant>
-#Vcs-Git: https://anonscm.debian.org/git/collab-maint/crystal-facet-uml.git
-#Vcs-Browser: https://anonscm.debian.org/cgit/collab-maint/crystal-facet-uml.git
+Homepage: http://andreaswarnke.de/crystal_facet_uml/html/index.html
+Vcs-Git: https://github.com/awarnke/crystal_facet_uml.git
+Vcs-Browser: https://github.com/awarnke/crystal_facet_uml
 
 Package: crystal-facet-uml
-Architecture: all
-Depends: ${misc:Depends}
-Description: <insert up to 60 chars description>
- <insert long description, indented with spaces>
+Architecture: any
+Depends: gtk3
+Description: crystal_facet_uml draws UML diagrams.
+ crystal_facet_uml is a uml diagram drawing tool
+ that creates a set of consistent uml diagrams.

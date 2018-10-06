@@ -1,5 +1,5 @@
-crystal-facet-uml (1.6.0-1) unstable; urgency=medium
+crystal-facet-uml (1.6.1-1) stable; urgency=medium
 
-  * Initial release (Closes: #nnnn)  <nnnn is the bug number of your ITP>
+  * Move deb packet generation from CPACK to dh_make tool.
 
- -- Andi <andi@unknown>  Wed, 03 Oct 2018 17:21:49 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 06 Oct 2018 17:23:00 +0200

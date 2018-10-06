@@ -1,6 +1,6 @@
 Document: crystal-facet-uml
 Title: Debian crystal-facet-uml Manual
-Author: <insert document author here>
+Author: Andreas Warnke <cfu@andreaswarnke.de>
 Abstract: This manual describes what crystal-facet-uml is
  and how it can be used to
  manage online manuals on Debian systems.

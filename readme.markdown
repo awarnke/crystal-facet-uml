@@ -16,6 +16,8 @@ How to build
 >
 > sudo apt-get install libgtk-3-dev
 >
+> sudo apt-get install devscripts
+>
 > cd cmake_build
 >
 > cmake .
