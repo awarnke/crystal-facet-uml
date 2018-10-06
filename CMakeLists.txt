@@ -1,7 +1,7 @@
 PROJECT(crystal_facet_uml)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
 
 INCLUDE_DIRECTORIES(gui/source)
 INCLUDE_DIRECTORIES(gui/include)
@@ -69,6 +69,9 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_fac
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/man/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
 MESSAGE("Note: run 'cd installation_files/man && ./make.sh' before running 'make install' or 'make package'")
+
+# now the test cases. be less restrictive with errors.
+SET(CMAKE_C_FLAGS "-std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
 
 INCLUDE_DIRECTORIES(embunit)
 INCLUDE_DIRECTORIES(data/unittest)

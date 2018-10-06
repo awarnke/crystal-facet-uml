@@ -333,7 +333,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
     data_error_t result_err = DATA_ERROR_NONE;
-    utf8error_t str_err;
+    utf8error_t str_err = UTF8ERROR_SUCCESS;
 
     /* skip whitespace */
     data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );

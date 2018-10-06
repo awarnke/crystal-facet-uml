@@ -1359,6 +1359,7 @@ static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 7;
  *  \brief the column id of the result where this parameter is stored: to_feature_id
  */
 static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 8;
+
 /*!
  *  \brief the column id of the result where this parameter is stored: source diagramelements.id
  */

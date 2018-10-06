@@ -15,6 +15,8 @@ static inline data_error_t data_database_writer_private_lock ( data_database_wri
         TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
+    
+    return result;
 }
 
 static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ )
@@ -28,6 +30,8 @@ static inline data_error_t data_database_writer_private_unlock ( data_database_w
         TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
         result = DATA_ERROR_AT_MUTEX;
     }
+    
+    return result;
 }
 
 

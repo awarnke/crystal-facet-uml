@@ -86,7 +86,7 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a timestamp
  */
-#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT_INFO,tp.tv_sec,(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
+#define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT_INFO,(int)(tp.tv_sec),(int)(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
 
 #else  /* SWITCH */
 
