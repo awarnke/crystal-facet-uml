@@ -29,7 +29,7 @@ crystal_facet_uml draws UML diagrams.
 %setup -q -n %{name}/cmake_build
 
 %build
-cmake -DCMAKE_BUILD_TYPE=Release .
+cmake -DCMAKE_BUILD_TYPE=Release ..
 make %{?_smp_mflags}
 
 %install
