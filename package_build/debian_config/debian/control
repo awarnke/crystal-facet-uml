@@ -2,7 +2,7 @@ Source: crystal-facet-uml
 Section: devel
 Priority: optional
 Maintainer: Andreas Warnke <cfu@andreaswarnke.de>
-Build-Depends: debhelper (>= 10), gcc, cmake, libgtk-3-0
+Build-Depends: debhelper (>= 10), ${shlibs:Depends}, ${misc:Depends}, gcc, cmake, libgtk-3-0
 Standards-Version: 4.1.2
 Homepage: http://andreaswarnke.de/crystal_facet_uml/html/index.html
 Vcs-Git: https://github.com/awarnke/crystal_facet_uml.git

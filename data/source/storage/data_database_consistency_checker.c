@@ -529,7 +529,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                     if ( feature_exists )
                     {
                         feature_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_ID_COLUMN );
-                        feature_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
+                        feature_classifier_id = sqlite3_column_int64( prepared_statement,                                       RESULT_FOCUSED_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN );
                     }
                     else
                     {

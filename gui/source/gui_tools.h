@@ -95,7 +95,7 @@ static inline gui_tools_tool_t gui_tools_get_selected_tool ( gui_tools_t *this_ 
  *  \param this_ pointer to own object attributes
  *  \param tool tool to be selected
  */
-static inline gui_tools_tool_t gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool );
+static inline void gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool );
 
 /*!
  *  \brief callback that informs that the tool button was pressed

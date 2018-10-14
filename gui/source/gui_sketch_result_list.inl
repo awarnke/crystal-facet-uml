@@ -10,10 +10,6 @@ static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_lis
 {
 }
 
-static inline bool gui_sketch_result_list_is_valid( gui_sketch_result_list_t *this_ )
-{
-}
-
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ )
 {
     return (*this_).bounds;

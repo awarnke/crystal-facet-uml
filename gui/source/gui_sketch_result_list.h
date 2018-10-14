@@ -58,13 +58,6 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ );
 
 /*!
- *  \brief gets the valid info from the diagram
- *
- *  \param this_ pointer to own object attributes
- */
-static inline bool gui_sketch_result_list_is_valid( gui_sketch_result_list_t *this_ );
-
-/*!
  *  \brief gets the bounds rectangle
  *
  *  \param this_ pointer to own object attributes

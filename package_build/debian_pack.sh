@@ -11,5 +11,5 @@ tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 cp -r debian_config/debian crystal-facet-uml-$VERSIONSTR/
 # note _ is not allowed in debian package names
 cd crystal-facet-uml-$VERSIONSTR
-debuild
+debuild -i -us -uc -b
 cd ..

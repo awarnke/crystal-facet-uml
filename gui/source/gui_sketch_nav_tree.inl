@@ -2,10 +2,6 @@
 
 #include "tslog.h"
 
-static inline bool gui_sketch_nav_tree_is_valid( gui_sketch_nav_tree_t *this_ )
-{
-}
-
 static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds( gui_sketch_nav_tree_t *this_ )
 {
     return (*this_).bounds;

@@ -15,7 +15,7 @@ static inline void gui_tools_remove_listener ( gui_tools_t *this_ )
     (*this_).listener = NULL;
 }
 
-static inline gui_tools_tool_t gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool )
+static inline void gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool )
 {
     switch ( tool )
     {
