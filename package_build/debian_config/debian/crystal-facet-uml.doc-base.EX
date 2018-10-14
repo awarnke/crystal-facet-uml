@@ -4,7 +4,7 @@ Author: Andreas Warnke <cfu@andreaswarnke.de>
 Abstract: This manual describes what crystal-facet-uml is
  and how it can be used to
  manage online manuals on Debian systems.
-Section: unknown
+Section: devel
 
 Format: debiandoc-sgml
 Files: /usr/share/doc/crystal-facet-uml/crystal-facet-uml.sgml.gz

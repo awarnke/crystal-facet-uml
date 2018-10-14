@@ -43,10 +43,18 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_resu
 
 static inline layout_order_t gui_sketch_result_list_get_order_at_pos ( gui_sketch_result_list_t *this_, data_id_t obj_id, int32_t x, int32_t y )
 {
+    layout_order_t result;
+    layout_order_init_empty( &result );
+    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_get_order_at_pos");
+    return result;
 }
 
 static inline void gui_sketch_result_list_move_object_to_order ( gui_sketch_result_list_t *this_, data_id_t obj_id, layout_order_t *order )
 {
+    layout_order_t result;
+    layout_order_init_empty( &result );
+    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_move_object_to_order");
+    return result;
 }
 
 

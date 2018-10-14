@@ -3,8 +3,8 @@ VERSIONSTR=1.6.1
 echo "Buidling Version $VERSIONSTR"
 
 echo "clean up possibly broken previous build"
-rm -fr crystal-facet-uml-$VERSIONSTR
-rm crystal-facet-uml_$VERIONSTR.orig.tar.gz
+test -d crystal-facet-uml-$VERSIONSTR && rm -fr crystal-facet-uml-$VERSIONSTR
+test -e crystal-facet-uml_$VERIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERIONSTR.orig.tar.gz
 
 echo "pack archive"
 cd ..

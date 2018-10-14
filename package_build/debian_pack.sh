@@ -1,8 +1,8 @@
 #!/bin/sh
 VERSIONSTR=1.6.1
 echo "clean old files and directories"
-rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
-rm -r crystal-facet-uml-$VERSIONSTR
+test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
+test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR
 echo "pack src archive"
 cd ..
 git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=package_build/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
