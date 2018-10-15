@@ -1,4 +1,4 @@
-crystal-facet-uml (1.6.1-1) experimental; urgency=medium
+crystal-facet-uml (1.6.1-1) unstable; urgency=medium
 
   * Restructure deb packet generation from CPACK to dh_make tool.
 
