@@ -32,6 +32,8 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
 
 static inline data_diagram_t *gui_sketch_result_list_get_diagram_ptr ( gui_sketch_result_list_t *this_ )
 {
+    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_get_diagram_ptr");
+    return NULL;
 }
 
 static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
