@@ -1,4 +1,4 @@
-2018-10-xx 1.6.1 [xxx]
+2018-10-15 1.6.1 [69e947d]
   + debian archives are now build by dh_make and debuild
   + fix for only partly visible background text
 2018-10-01 1.6.0 [4151f80]
