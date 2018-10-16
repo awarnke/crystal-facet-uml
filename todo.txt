@@ -11,7 +11,7 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
-  [ ] Improve support for Diagram-Types: Sequence, Timing, Communication
+  [ ] Improve support for Diagram-Types: Sequence, Timing, Communication (e.g. relation visibility)
   [ ] include and extends relationships shall show their stereotype
   @data
   [ ] more relationship types needed: requirements have derive and refine relations

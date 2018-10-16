@@ -62,7 +62,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release .." )
 MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug .." )
-MESSAGE( "Note: to build with all 4 cores, run make -j5 afterwards" )
+MESSAGE( "Note: to build with all 4 cores, run make -j4 afterwards" )
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")

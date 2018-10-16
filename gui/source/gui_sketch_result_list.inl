@@ -53,10 +53,8 @@ static inline layout_order_t gui_sketch_result_list_get_order_at_pos ( gui_sketc
 
 static inline void gui_sketch_result_list_move_object_to_order ( gui_sketch_result_list_t *this_, data_id_t obj_id, layout_order_t *order )
 {
-    layout_order_t result;
-    layout_order_init_empty( &result );
+    assert( NULL != order );
     TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_move_object_to_order");
-    return result;
 }
 
 

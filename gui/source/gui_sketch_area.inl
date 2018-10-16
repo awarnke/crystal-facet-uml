@@ -41,6 +41,11 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
     data_id_t result;
     data_id_init_void( &result );
 
+    if ( gui_sketch_nav_tree_is_visible( &((*this_).nav_tree) ) )
+    {
+        gui_sketch_nav_tree_get_object_id_at_pos( &((*this_).nav_tree), x, y, &result );
+    }
+    
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
         gui_sketch_card_t *card;

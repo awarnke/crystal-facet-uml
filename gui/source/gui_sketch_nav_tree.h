@@ -37,10 +37,10 @@ struct gui_sketch_nav_tree_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the nav tree */
 
     uint32_t ancestors_count;
-    data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];
+    data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];  /*!< current diagram is at index 0 */
     uint32_t siblings_count;
     data_diagram_t sibling_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS];
-    int32_t siblings_self_index;  /* index of current diagram in list of siblings, -1 in case of error */
+    int32_t siblings_self_index;  /*!< index of current diagram in list of siblings, -1 in case of error */
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 

@@ -27,17 +27,45 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
     return &((*this_).ancestor_diagrams[0]);
 }
 
-static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          data_id_t* out_selected_id )
-{
-    assert ( NULL != out_selected_id );
-}
-
 static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
 static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 4;
 static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 12;
+
+static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                              int32_t x,
+                                                              int32_t y,
+                                                              data_id_t* out_selected_id )
+{
+    assert ( NULL != out_selected_id );
+
+    int32_t top;
+    top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        
+        /* is this the ancester region ? */
+        if ( (*this_).ancestors_count > 1 )
+        {
+            if ( y - top < ( GUI_SKETCH_NAV_TREE_LINE_HEIGHT * ( (*this_).ancestors_count-1 ) ) )
+            {
+                uint32_t ancester_idx = (*this_).ancestors_count-1-((y-top)/GUI_SKETCH_NAV_TREE_LINE_HEIGHT);
+                data_id_reinit( out_selected_id, 
+                                DATA_TABLE_DIAGRAM, 
+                                data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) ) 
+                              );
+            }
+        }
+        else
+        {
+            data_id_reinit_void( out_selected_id );
+        }
+    }
+    else
+    {
+        data_id_reinit_void( out_selected_id );
+    }
+}
 
 static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bounds ( gui_sketch_nav_tree_t *this_,
                                                                                       uint32_t ancestor_index
