@@ -97,7 +97,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
  *  \brief creates a new diagram
  *
  *  \param this_ pointer to own object attributes
- *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear
+ *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ID_VOID_ID if a root diagram shall be created.
  *  \param out_diagram_id row_id of the newly created diagram
  *  \return CTRL_ERROR_NONE in case of success
  */

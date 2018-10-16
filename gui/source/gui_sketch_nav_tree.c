@@ -249,7 +249,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ), -1 );
                 pango_cairo_show_layout ( cr, layout );
             }
-            if ( false )
+            if ( (*this_).ancestors_count != 1 )  /* create sibling if not root diagram */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
                 cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
@@ -274,7 +274,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                 pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ), -1 );
                 pango_cairo_show_layout ( cr, layout );
             }
-            if ( false )
+            if ( (*this_).ancestors_count != 0 )  /* create children if parent exists */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
                 cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );

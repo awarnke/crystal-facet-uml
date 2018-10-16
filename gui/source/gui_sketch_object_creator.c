@@ -216,7 +216,6 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
 {
     TRACE_BEGIN();
     assert ( NULL != out_diagram_id );
-    assert ( DATA_ID_VOID_ID != parent_diagram_id );
 
     ctrl_error_t c_result;
 

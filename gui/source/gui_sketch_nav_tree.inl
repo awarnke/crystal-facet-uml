@@ -28,8 +28,8 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
 }
 
 static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
-static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 4;
-static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 12;
+static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 8;
+static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 8;
 
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                                                               int32_t x,
@@ -38,27 +38,65 @@ static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tre
 {
     assert ( NULL != out_selected_id );
 
-    int32_t top;
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
     {
-        
+        /* determine index of line, top linie has index 0 */
+        int32_t top;
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        uint32_t line_index;
+        line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+
         /* is this the ancester region ? */
-        if ( (*this_).ancestors_count > 1 )
+        uint32_t real_ancestors = ( (*this_).ancestors_count > 0 ) ? ( (*this_).ancestors_count - 1 ) : 0;
+        if ( line_index < real_ancestors )
         {
-            if ( y - top < ( GUI_SKETCH_NAV_TREE_LINE_HEIGHT * ( (*this_).ancestors_count-1 ) ) )
-            {
-                uint32_t ancester_idx = (*this_).ancestors_count-1-((y-top)/GUI_SKETCH_NAV_TREE_LINE_HEIGHT);
-                data_id_reinit( out_selected_id, 
-                                DATA_TABLE_DIAGRAM, 
-                                data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) ) 
-                              );
-            }
+            uint32_t ancester_idx = real_ancestors - line_index;
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                          );
         }
         else
         {
-            data_id_reinit_void( out_selected_id );
+            uint32_t siblings_line = line_index - real_ancestors;
+            if ( siblings_line <= (*this_).siblings_self_index )
+            {
+                data_id_reinit( out_selected_id,
+                                DATA_TABLE_DIAGRAM,
+                                data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line]) )
+                              );
+            }
+            else
+            {
+                uint32_t child_line = siblings_line - (*this_).siblings_self_index - 1;
+                if ( child_line < (*this_).children_count )
+                {
+                    data_id_reinit( out_selected_id,
+                                    DATA_TABLE_DIAGRAM,
+                                    data_diagram_get_id( &((*this_).child_diagrams[child_line]) )
+                                  );
+                }
+                else
+                {
+                    siblings_line -= (*this_).children_count;
+                    if ( siblings_line == (*this_).siblings_self_index + 1 )
+                    {
+                        /* reserved for new child sign */
+                        data_id_reinit_void( out_selected_id );
+                    }
+                    else if ( siblings_line <= (*this_).siblings_count )
+                    {
+                        data_id_reinit( out_selected_id,
+                                        DATA_TABLE_DIAGRAM,
+                                        data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line-1]) )
+                                      );
+                    }
+                    else
+                    {
+                        data_id_reinit_void( out_selected_id );
+                    }
+                }
+            }
         }
     }
     else
