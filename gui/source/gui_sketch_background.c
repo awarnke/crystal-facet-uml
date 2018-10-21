@@ -47,10 +47,6 @@ static const double ORANGE_R = 1.0;
 static const double ORANGE_G = 0.8;
 static const double ORANGE_B = 0.5;
 static const double ORANGE_A = 1.0;
-static const double SKYBLUE_R = 0.6;
-static const double SKYBLUE_G = 0.8;
-static const double SKYBLUE_B = 1.0;
-static const double SKYBLUE_A = 1.0;
 static const double BORDER = 8;  /* border between text/icons and ground rectangle */
 
 void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
@@ -139,14 +135,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
     int block_top = top;
-    if ( 0 == tree_depth )
-    {
-        cairo_set_source_rgba( cr, SKYBLUE_R, SKYBLUE_G, SKYBLUE_B, SKYBLUE_A );
-    }
-    else
-    {
-        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
-    }
+    cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
     cairo_rectangle ( cr, left, block_top, width, (height*3)/10 );
     cairo_fill (cr);
     block_top += (height*3)/10;
@@ -166,18 +155,6 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     }
     cairo_rectangle ( cr, left, block_top, width, height-block_top );
     cairo_fill (cr);
-
-    cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-    cairo_set_font_size ( cr, 12.0 );
-    if ( tree_depth > 0 )
-    {
-        cairo_move_to ( cr, left+14+BORDER, top+BORDER + 14 );
-        cairo_show_text ( cr, "parent diagram" );
-    }
-    cairo_move_to ( cr, left+14+BORDER, top+(height*3)/10 +BORDER+ 14 );
-    cairo_show_text ( cr, "current diagram" );
-    cairo_move_to ( cr, left+14+BORDER, top+(height*7)/10 +BORDER+ 14 );
-    cairo_show_text ( cr, "children diagrams" );
 
     if ( ( 0 == tree_depth )&&( 0 == num_children ))
     {
@@ -296,6 +273,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
     cairo_fill (cr);
 
     cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
+    cairo_set_font_size ( cr, 12.0 );
     cairo_move_to ( cr, x+icon_width+BORDER, y + 14 );
     cairo_show_text ( cr, text_1 );
     cairo_move_to ( cr, x+icon_width+BORDER, y + 2*14 );

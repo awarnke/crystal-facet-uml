@@ -31,6 +31,18 @@ static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
 static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 8;
 static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 8;
 
+static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                           int32_t x,
+                                                           int32_t y,
+                                                           gui_sketch_action_t* out_action_id )
+{
+    assert ( NULL != out_action_id );
+
+    TSLOG_ERROR("Not yet implemented: gui_sketch_nav_tree_get_button_at_pos");
+
+    *out_action_id = GUI_SKETCH_ACTION_NONE;
+}
+
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                                                               int32_t x,
                                                               int32_t y,
@@ -117,12 +129,12 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bou
     int32_t left;
     int32_t top;
     uint32_t width;
-    uint32_t height;
+    /*uint32_t height;*/
 
     left = shape_int_rectangle_get_left( &((*this_).bounds) );
     top = shape_int_rectangle_get_top( &((*this_).bounds) );
     width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    /*height = shape_int_rectangle_get_height( &((*this_).bounds) );*/
 
     uint32_t descendant_count;
     descendant_count = ( (*this_).ancestors_count - ancestor_index - 1 );
@@ -147,12 +159,12 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
     int32_t left;
     int32_t top;
     uint32_t width;
-    uint32_t height;
+    /*uint32_t height;*/
 
     left = shape_int_rectangle_get_left( &((*this_).bounds) );
     top = shape_int_rectangle_get_top( &((*this_).bounds) );
     width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    /*height = shape_int_rectangle_get_height( &((*this_).bounds) );*/
 
     uint32_t y_offset;
     if (( (*this_).siblings_self_index < 0 )||( (*this_).ancestors_count == 0 ))
@@ -187,12 +199,12 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds
     int32_t left;
     int32_t top;
     uint32_t width;
-    uint32_t height;
+    /*uint32_t height;*/
 
     left = shape_int_rectangle_get_left( &((*this_).bounds) );
     top = shape_int_rectangle_get_top( &((*this_).bounds) );
     width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+    /*height = shape_int_rectangle_get_height( &((*this_).bounds) );*/
 
     uint32_t y_offset;
     if (( (*this_).siblings_self_index < 0 )||( (*this_).ancestors_count == 0 ))
@@ -223,10 +235,7 @@ static inline layout_order_t gui_sketch_nav_tree_get_order_at_pos ( gui_sketch_n
 
 static inline void gui_sketch_nav_tree_move_object_to_order ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, layout_order_t *order )
 {
-    layout_order_t result;
-    layout_order_init_empty( &result );
     TSLOG_ERROR("Not yet implemented: gui_sketch_nav_tree_move_object_to_order");
-    return result;
 }
 
 

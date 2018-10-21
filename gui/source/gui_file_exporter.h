@@ -88,6 +88,18 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                                                 );
 
 /*!
+ *  \brief creates one cairo surface to render a diagram into a file
+ *  \param this_ pointer to own object attributes
+ *  \param export_type image file format
+ *  \param target_filename path name of the file to store the cairo surface
+ *  \result 0 in case of success, -1 otherwise
+ */
+int gui_file_exporter_private_render_surface_to_file( gui_file_exporter_t *this_,
+                                                      gui_file_export_format_t export_type,
+                                                      const char* target_filename
+                                                    );
+
+/*!
  *  \brief appends all characters that are valid within a filename to filename
  *  \param this_ pointer to own object attributes
  *  \param name name of the object, after wjich the file shall be named

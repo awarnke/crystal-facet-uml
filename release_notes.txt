@@ -1,5 +1,5 @@
 2018-10-xx 1.7.0 []
-  . 
+  + tree view allows to navigate interactively
 2018-10-15 1.6.1 [3d25d8a]
   + debian archives are now build by dh_make and debuild
   + fix for only partly visible background text

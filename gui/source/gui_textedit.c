@@ -647,7 +647,7 @@ void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_dat
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
 
-    data_diagram_type_t obj_type;
+    int obj_type;
     int index;
     index = gtk_combo_box_get_active ( GTK_COMBO_BOX( widget ) );
     obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, index );

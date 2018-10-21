@@ -83,7 +83,6 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     data_visible_classifier_t *result = NULL;
 
     /* iterate over all visible classifiers */
-    uint32_t count;
     for ( uint32_t index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
         data_visible_classifier_t *visible_classifier;

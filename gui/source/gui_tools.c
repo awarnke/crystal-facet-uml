@@ -304,7 +304,6 @@ void gui_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_tools_t *this_ = data;
-    ctrl_error_t ctrl_err;
 
     data_small_set_t *set_to_be_highlighted;
 
@@ -324,7 +323,6 @@ void gui_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_tools_t *this_ = data;
-    ctrl_error_t ctrl_err;
 
     data_small_set_t *set_to_be_instantiated;
 
@@ -361,7 +359,7 @@ void gui_tools_private_toggle_display_flag_in_set( gui_tools_t *this_, data_smal
     TRACE_BEGIN();
     ctrl_error_t error = CTRL_ERROR_NONE;
     bool new_pattern_initialized = false;
-    data_diagramelement_flag_t new_pattern;
+    data_diagramelement_flag_t new_pattern = DATA_DIAGRAMELEMENT_FLAG_NONE;
     bool is_first = true;
 
     for ( int index = 0; index < data_small_set_get_count( set_to_be_toggled ); index ++ )
@@ -412,7 +410,7 @@ void gui_tools_private_toggle_display_flag_in_set( gui_tools_t *this_, data_smal
                 {
                     /* select zero or one bit to set. alg: select the next highest bit */
                     bool last_was_set = true;
-                    new_pattern = 0;
+                    new_pattern = DATA_DIAGRAMELEMENT_FLAG_NONE;
                     for ( int bit = 0; bit < 8*sizeof(data_diagramelement_flag_t); bit ++ )
                     {
                         data_diagramelement_flag_t probe = (1 << bit);
@@ -421,7 +419,7 @@ void gui_tools_private_toggle_display_flag_in_set( gui_tools_t *this_, data_smal
                             /* this is a relevant bit */
                             if ( 0 != ( probe & current_flags ) )
                             {
-                                new_pattern = 0;
+                                new_pattern = DATA_DIAGRAMELEMENT_FLAG_NONE;
                                 last_was_set = true;
                             }
                             else
@@ -437,7 +435,7 @@ void gui_tools_private_toggle_display_flag_in_set( gui_tools_t *this_, data_smal
                     new_pattern_initialized = true;
                 }
 
-                current_flags = current_flags & (~flag_bits_to_toggle) | new_pattern;
+                current_flags = (current_flags & (~flag_bits_to_toggle)) | new_pattern;
 
                 error |= ctrl_diagram_controller_update_diagramelement_display_flags( diag_ctrl,
                                                                                       diag_elem_id,

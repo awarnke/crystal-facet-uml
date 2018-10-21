@@ -6,7 +6,7 @@
 static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_order( const pencil_classifier_layouter_t *this_,
                                                                                       universal_array_index_sorter_t *out_sorted_classifiers )
 {
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert ( ((uint32_t)UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE) >= ((uint32_t)PENCIL_INPUT_DATA_MAX_CLASSIFIERS) );
 
     universal_array_index_sorter_reinit( out_sorted_classifiers );
     uint32_t count_clasfy;

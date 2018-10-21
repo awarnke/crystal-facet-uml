@@ -38,6 +38,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
 
     if ( (*this_).visible )
     {
+        /*
         int32_t left;
         int32_t top;
         uint32_t width;
@@ -47,6 +48,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
         top = shape_int_rectangle_get_top( &((*this_).bounds) );
         width = shape_int_rectangle_get_width( &((*this_).bounds) );
         height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        */
 
         /*
         cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );

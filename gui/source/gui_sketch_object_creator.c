@@ -119,6 +119,10 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                        y_order,
                                        y_order  /* y_order used also as list_order */
                                      );
+    if ( d_err != DATA_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX("data_classifier_init_new failed in gui_sketch_object_creator_create_classifier:",d_err);
+    }
 
     c_result = ctrl_classifier_controller_create_classifier ( classifier_control,
                                                               &((*this_).private_temp_classifier),
@@ -196,6 +200,10 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
                                          DATA_ID_VOID_ID,
                                          DATA_ID_VOID_ID
                                        );
+        if ( d_err != DATA_ERROR_NONE )
+        {
+            TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_classifier_as_child:",d_err);
+        }
 
         /* create relationship */
         c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
@@ -226,7 +234,6 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     utf8stringbuf_t new_name = UTF8STRINGBUF( newname_buf );
     gui_sketch_object_creator_private_propose_diagram_name( this_, new_name );
 
-    int64_t new_diag_id;
     c_result = ctrl_diagram_controller_create_child_diagram ( diag_control,
                                                               parent_diagram_id,
                                                               DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
@@ -291,6 +298,10 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
                                      from_feature_id,
                                      to_feature_id
                                    );
+    if ( d_err != DATA_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_relationship:",d_err);
+    }
 
     /* create relationship */
     c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
@@ -359,9 +370,12 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
                                    "",
                                    list_order
                                  );
+    if ( data_err != DATA_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX("data_feature_init failed in gui_sketch_object_creator_create_feature:",data_err);
+    }
 
     /* create feature */
-    int64_t new_feature_id;
     c_result = ctrl_classifier_controller_create_feature ( classifier_control,
                                                            &((*this_).private_temp_feature),
                                                            false, /*=add_to_latest_undo_set*/

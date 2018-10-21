@@ -17,6 +17,8 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_ )
     (*this_).siblings_count = 0;
     (*this_).children_count = 0;
     (*this_).siblings_self_index = -1;
+    (*this_).new_child_button_index = -1;
+    (*this_).new_sibling_button_index = -1;
 
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
@@ -94,6 +96,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
         TSLOG_ANOMALY_INT( "gui_sketch_nav_tree_load_data cannot load diagram", diagram_id );
     }
 
+    /* get siblings */
     if ( db_err == DATA_ERROR_NONE )
     {
         int64_t parent_id;
@@ -119,6 +122,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
         }
     }
 
+    /* get children */
     if ( db_err == DATA_ERROR_NONE )
     {
 
@@ -130,6 +134,27 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
                                                                 );
     }
 
+    /* calculate the "new" button positions */
+    if ( (*this_).ancestors_count == 0 )
+    {
+        /* cannot create a child without a parent */
+        (*this_).new_child_button_index = -1;
+        /* show only a new sibling button */
+        (*this_).new_sibling_button_index = 0;
+    }
+    else
+    {
+        (*this_).new_child_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count + 1;
+        if ( (*this_).ancestors_count == 1 )
+        {
+            /* cannot create a sibling to the root */
+            (*this_).new_sibling_button_index = -1;
+        }
+        else
+        {
+            (*this_).new_sibling_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_count + (*this_).children_count + 1 + 1;
+        }
+    }
 
     TRACE_END();
 }
@@ -153,6 +178,8 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     }
     (*this_).siblings_count = 0;
     (*this_).siblings_self_index = -1;
+    (*this_).new_child_button_index = -1;
+    (*this_).new_sibling_button_index = -1;
 
     for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
     {

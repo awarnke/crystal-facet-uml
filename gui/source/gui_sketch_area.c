@@ -123,7 +123,6 @@ gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer
 
     guint width;
     guint height;
-    GdkRGBA color;
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
 
@@ -284,12 +283,6 @@ void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
-enum gui_sketch_area_layout_enum {
-    GUI_SKETCH_AREA_LAYOUT_VERTICAL = 0,
-    GUI_SKETCH_AREA_LAYOUT_HORIZONTAL = 1,
-};
-typedef enum gui_sketch_area_layout_enum gui_sketch_area_layout_t;
-
 static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 static const gint BORDER = 10;
@@ -311,8 +304,6 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     int32_t left = shape_int_rectangle_get_left( &area_bounds );
     int32_t top = shape_int_rectangle_get_top( &area_bounds );
     TRACE_INFO_INT_INT( "width, height", width, height );
-    gui_sketch_area_layout_t layout_type;
-    layout_type = ( width > height ) ? GUI_SKETCH_AREA_LAYOUT_HORIZONTAL : GUI_SKETCH_AREA_LAYOUT_VERTICAL;
     int32_t children_top;
     uint32_t children_height;
     uint32_t parent_width;
@@ -410,21 +401,21 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         if ( GUI_TOOLS_SEARCH == selected_tool )
         {
             uint32_t ground_width = ( RESULT_LIST_WIDTH < width ) ? ( width - RESULT_LIST_WIDTH ) : 0;
-            shape_int_rectangle_init( &background_bounds, left + RESULT_LIST_WIDTH, top, ground_width, height );        
+            shape_int_rectangle_init( &background_bounds, left + RESULT_LIST_WIDTH, top, ground_width, height );
         }
         else if ( GUI_TOOLS_NAVIGATE == selected_tool )
         {
             uint32_t ground_width = ( NAV_TREE_WIDTH < width ) ? ( width - NAV_TREE_WIDTH ) : 0;
-            shape_int_rectangle_init( &background_bounds, left + NAV_TREE_WIDTH, top, ground_width, height );        
+            shape_int_rectangle_init( &background_bounds, left + NAV_TREE_WIDTH, top, ground_width, height );
         }
         else
         {
-            shape_int_rectangle_init( &background_bounds, left, top, width, height );        
+            shape_int_rectangle_init( &background_bounds, left, top, width, height );
         }
-        
+
         gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
     }
-    
+
     TRACE_END();
 }
 
@@ -433,8 +424,10 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     TRACE_BEGIN();
     assert( NULL != cr );
 
+    /*
     int32_t width = shape_int_rectangle_get_width( &area_bounds );
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
+    */
 
     gui_tools_tool_t selected_tool;
     selected_tool = gui_tools_get_selected_tool( (*this_).tools );
@@ -448,7 +441,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
         children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
         gui_sketch_background_draw_navigation( &((*this_).background),
                                                depth, children, (GUI_TOOLS_SEARCH == selected_tool),
-                                               cr 
+                                               cr
                                              );
     }
     else
@@ -729,6 +722,15 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 else
                 {
                     TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
+
+                    /* maybe we could evaluate here if the [+] or (+) button was pressed ... */
+
+                    gui_sketch_action_t action_button_id;
+                    gui_sketch_nav_tree_get_button_at_pos ( &((*this_).nav_tree), x, y, &action_button_id );
+                    if ( GUI_SKETCH_ACTION_NONE != action_button_id )
+                    {
+                        TSLOG_WARNING_INT("Button Pressed, but reaction not yet implemented. gui_sketch_action_t:",action_button_id);
+                    }
                 }
             }
             break;
@@ -994,6 +996,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                                    data_id_get_row_id( &dragged_classifier ),
                                                                                                    list_order
                                                                                                  );
+                            if ( CTRL_ERROR_NONE != mov_result )
+                            {
+                                TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_list_order" );
+                            }
                         }
                         else if ( PENCIL_LAYOUT_ORDER_TYPE_X_Y == layout_order_get_order_type( &layout_order ) )
                         {
@@ -1010,6 +1016,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                                         x_order,
                                                                                                         y_order
                                                                                                     );
+                            if ( CTRL_ERROR_NONE != mov_result )
+                            {
+                                TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_classifier_x_order_y_order" );
+                            }
                         }
                     }
                     else if ( DATA_TABLE_RELATIONSHIP == data_id_get_table( &dragged_element ) )
@@ -1028,6 +1038,10 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                                                                     data_id_get_row_id( &dragged_element ),
                                                                                                     list_order
                                                                                                 );
+                            if ( CTRL_ERROR_NONE != mov_result )
+                            {
+                                TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
+                            }
                         }
                     }
                     else

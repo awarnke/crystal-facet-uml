@@ -10,6 +10,7 @@
 
 #include "gui_marked_set.h"
 #include "gui_sketch_marker.h"
+#include "gui_sketch_action.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -43,6 +44,8 @@ struct gui_sketch_nav_tree_struct {
     int32_t siblings_self_index;  /*!< index of current diagram in list of siblings, -1 in case of error */
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
+    int32_t new_child_button_index;  /*!< index of the "new child" button, -1 if this button does not exist */
+    int32_t new_sibling_button_index;  /*!< index of the "new sibling" button, -1 if this button does not exist */
 
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
     gui_sketch_marker_t sketch_marker;
@@ -128,6 +131,20 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
  *  \return pointer to diagram
  */
 static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_nav_tree_t *this_ );
+
+/*!
+ *  \brief gets the action-id of the button at a given position.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_action_id the action id ofthe button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
+ */
+static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                           int32_t x,
+                                                           int32_t y,
+                                                           gui_sketch_action_t* out_action_id
+                                                         );
 
 /*!
  *  \brief gets the object-id of the object at a given position.
