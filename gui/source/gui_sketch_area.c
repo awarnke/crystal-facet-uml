@@ -723,13 +723,77 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 {
                     TRACE_INFO("invalid clicked object at gui_sketch_area_button_press_callback");
 
-                    /* maybe we could evaluate here if the [+] or (+) button was pressed ... */
-
                     gui_sketch_action_t action_button_id;
                     gui_sketch_nav_tree_get_button_at_pos ( &((*this_).nav_tree), x, y, &action_button_id );
-                    if ( GUI_SKETCH_ACTION_NONE != action_button_id )
+                    if ( action_button_id != GUI_SKETCH_ACTION_NONE )
                     {
-                        TSLOG_WARNING_INT("Button Pressed, but reaction not yet implemented. gui_sketch_action_t:",action_button_id);
+                        ctrl_error_t c_result;
+                        int64_t new_diag_id;
+                        
+                        {
+                            data_diagram_t *selected_diag;
+                            selected_diag = gui_sketch_nav_tree_get_diagram_ptr ( &((*this_).nav_tree) );
+                            switch ( action_button_id )
+                            {
+                                case GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM:
+                                {
+                                    assert( data_diagram_is_valid( selected_diag ) );
+                                    int64_t parent_diagram_id;
+                                    parent_diagram_id = data_diagram_get_parent_id( selected_diag );
+                                    c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
+                                                                                          parent_diagram_id,
+                                                                                          &new_diag_id
+                                                                                        );
+                                }
+                                break;
+
+                                case GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM:
+                                {
+                                    assert( data_diagram_is_valid( selected_diag ) );
+                                    int64_t selected_diagram_id;
+                                    selected_diagram_id = data_diagram_get_id( selected_diag );
+                                    c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
+                                                                                          selected_diagram_id,
+                                                                                          &new_diag_id
+                                                                                        );
+                                }
+                                break;
+
+                                case GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM:
+                                {
+                                    c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
+                                                                                          DATA_ID_VOID_ID,
+                                                                                          &new_diag_id
+                                                                                        );
+                                }
+                                break;
+
+                                case GUI_SKETCH_ACTION_NONE:  /* and */
+                                default:
+                                {
+                                    TSLOG_ERROR_INT("illegal action value in gui_sketch_action_t:",action_button_id);
+                                    assert(false);
+                                }
+                                break;
+                            }
+                        }
+
+                        if ( CTRL_ERROR_NONE != c_result )
+                        {
+                            TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_diagram");
+                        }
+                        else
+                        {
+                            /* load/reload data to be drawn */
+                            gui_sketch_area_private_load_data( this_, new_diag_id );
+
+                            /* notify listener */
+                            data_id_t focused_id;
+                            data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
+                            gui_marked_set_set_focused( (*this_).marker, focused_id );
+                            gui_sketch_area_private_notify_listener( this_, focused_id );
+                            gui_marked_set_clear_selected_set( (*this_).marker );
+                        }
                     }
                 }
             }

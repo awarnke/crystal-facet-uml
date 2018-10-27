@@ -44,8 +44,8 @@ struct gui_sketch_nav_tree_struct {
     int32_t siblings_self_index;  /*!< index of current diagram in list of siblings, -1 in case of error */
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
-    int32_t new_child_button_index;  /*!< index of the "new child" button, -1 if this button does not exist */
-    int32_t new_sibling_button_index;  /*!< index of the "new sibling" button, -1 if this button does not exist */
+    int32_t new_child_button_index;  /*!< index/line of the "new child" button, -1 if this button does not exist */
+    int32_t new_sibling_button_index;  /*!< index/line of the "new sibling" button, -1 if this button does not exist */
 
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
     gui_sketch_marker_t sketch_marker;

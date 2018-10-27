@@ -38,9 +38,46 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
 {
     assert ( NULL != out_action_id );
 
-    TSLOG_ERROR("Not yet implemented: gui_sketch_nav_tree_get_button_at_pos");
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        /* determine index of line, top linie has index 0 */
+        int32_t top;
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        uint32_t line_index;
+        line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
 
-    *out_action_id = GUI_SKETCH_ACTION_NONE;
+        if ( (*this_).ancestors_count == 0 )
+        {
+            if ( line_index == 0 )
+            {
+                *out_action_id = GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM;
+            }
+            else
+            {
+                *out_action_id = GUI_SKETCH_ACTION_NONE;
+            }
+        }
+        else
+        {
+            if ( line_index == (*this_).new_child_button_index )
+            {
+                *out_action_id = GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM;
+            }
+            else if ( line_index == (*this_).new_sibling_button_index )
+            {
+                *out_action_id = GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM;
+            }
+            else
+            {
+                *out_action_id = GUI_SKETCH_ACTION_NONE;
+            }
+        }
+    }
+    else
+    {
+        /* position out of bounding box */
+        *out_action_id = GUI_SKETCH_ACTION_NONE;
+    }
 }
 
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,

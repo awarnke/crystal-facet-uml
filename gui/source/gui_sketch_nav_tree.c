@@ -144,7 +144,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
     }
     else
     {
-        (*this_).new_child_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count + 1;
+        (*this_).new_child_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count;
         if ( (*this_).ancestors_count == 1 )
         {
             /* cannot create a sibling to the root */
@@ -152,7 +152,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
         }
         else
         {
-            (*this_).new_sibling_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_count + (*this_).children_count + 1 + 1;
+            (*this_).new_sibling_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_count + (*this_).children_count + 1;
         }
     }
 
@@ -177,6 +177,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
         data_diagram_destroy( &((*this_).sibling_diagrams[sib_index]) );
     }
     (*this_).siblings_count = 0;
+
     (*this_).siblings_self_index = -1;
     (*this_).new_child_button_index = -1;
     (*this_).new_sibling_button_index = -1;
