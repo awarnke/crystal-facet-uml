@@ -93,37 +93,37 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a string
  */
-#define TRACE_INFO(x) { [[maybe_unused]] const char *string_test = x; }
+#define TRACE_INFO(x) { const char *string_test __attribute__((unused)) = x; }
 
 /*!
  *  \brief traces a string and an integer
  */
-#define TRACE_INFO_INT(x,i) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const int int_test = i; }
+#define TRACE_INFO_INT(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test __attribute__((unused)) = i; }
 
 /*!
  *  \brief traces a string and two integers
  */
-#define TRACE_INFO_INT_INT(x,i,j) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const int int_test = i; [[maybe_unused]] const int int_test2 = j; }
+#define TRACE_INFO_INT_INT(x,i,j) { const char *string_test __attribute__((unused)) = x; const int int_test __attribute__((unused)) = i; const int int_test2 __attribute__((unused)) = j; }
 
 /*!
  *  \brief traces a string and a hexadecimal integer
  */
-#define TRACE_INFO_HEX(x,i) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const int int_test = i; }
+#define TRACE_INFO_HEX(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test __attribute__((unused)) = i; }
 
 /*!
  *  \brief traces a string and a pointer
  */
-#define TRACE_INFO_PTR(x,p) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const void *ptr_test = p; }
+#define TRACE_INFO_PTR(x,p) { const char *string_test __attribute__((unused)) = x; const void *ptr_test __attribute__((unused)) = p; }
 
 /*!
  *  \brief traces a string and and an information string
  */
-#define TRACE_INFO_STR(x,s) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const char *string2_test = s; }
+#define TRACE_INFO_STR(x,s) { const char *string_test __attribute__((unused)) = x; const char *string2_test __attribute__((unused)) = s; }
 
 /*!
  *  \brief traces a string and a double
  */
-#define TRACE_INFO_FLT(x,r) { [[maybe_unused]] const char *string_test = x; [[maybe_unused]] const double real_test = r; }
+#define TRACE_INFO_FLT(x,r) { const char *string_test __attribute__((unused)) = x; const double real_test __attribute__((unused)) = r; }
 
 /*!
  *  \brief traces a function start
@@ -140,7 +140,7 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 /*!
  *  \brief traces a function return and an error code if the error does not equal 0
  */
-#define TRACE_END_ERR(e) { [[maybe_unused]] const int int_test = e; }
+#define TRACE_END_ERR(e) { const int int_test __attribute__((unused)) = e; }
 
 /*!
  *  \brief ensures to flush all data.
