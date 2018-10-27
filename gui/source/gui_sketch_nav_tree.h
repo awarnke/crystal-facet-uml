@@ -11,6 +11,7 @@
 #include "gui_marked_set.h"
 #include "gui_sketch_marker.h"
 #include "gui_sketch_action.h"
+#include "gui_resources.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -49,6 +50,7 @@ struct gui_sketch_nav_tree_struct {
 
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
     gui_sketch_marker_t sketch_marker;
+    gui_resources_t *resources;  /*!< pointer to external resources */
 };
 
 typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
@@ -57,8 +59,9 @@ typedef struct gui_sketch_nav_tree_struct gui_sketch_nav_tree_t;
  *  \brief initializes the gui_sketch_nav_tree_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param resources pointer to a graphics resource provider
  */
-void gui_sketch_nav_tree_init ( gui_sketch_nav_tree_t *this_ );
+void gui_sketch_nav_tree_init ( gui_sketch_nav_tree_t *this_, gui_resources_t *resources );
 
 /*!
  *  \brief destroys the gui_sketch_nav_tree_t struct
@@ -217,6 +220,26 @@ static inline layout_order_t gui_sketch_nav_tree_get_order_at_pos ( gui_sketch_n
  *  \param order layout_order_t, where to move the object to
  */
 static inline void gui_sketch_nav_tree_move_object_to_order ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, layout_order_t *order );
+
+/*!
+ *  \brief draws an icon and a label
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param icon_1 the icon to draw
+ *  \param label_1 the label to draw - using the pango library for i18n suppoprt
+ *  \param x abscissae
+ *  \param y ordinate
+ *  \param layout the pango font rendering object for i18n suppoprt
+ *  \param cr the cairo drawing engine
+ */
+void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
+                                                      GdkPixbuf *icon_1,
+                                                      const char *label_1,
+                                                      int x,
+                                                      int y,
+                                                      PangoLayout *layout,
+                                                      cairo_t *cr
+                                                    );
 
 #include "gui_sketch_nav_tree.inl"
 

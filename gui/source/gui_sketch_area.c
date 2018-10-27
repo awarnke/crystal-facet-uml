@@ -41,7 +41,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 
     /* init instances of own objects */
     (*this_).card_num = 0;
-    gui_sketch_nav_tree_init( &((*this_).nav_tree) );
+    gui_sketch_nav_tree_init( &((*this_).nav_tree), resources );
     gui_sketch_result_list_init( &((*this_).result_list) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
     for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )

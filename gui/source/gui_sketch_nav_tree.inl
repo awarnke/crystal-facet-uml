@@ -28,8 +28,8 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
 }
 
 static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
-static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 8;
-static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 8;
+static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 12;
+static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 12;
 
 static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
@@ -204,21 +204,23 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
     /*height = shape_int_rectangle_get_height( &((*this_).bounds) );*/
 
     uint32_t y_offset;
+    uint32_t x_offset;
     if (( (*this_).siblings_self_index < 0 )||( (*this_).ancestors_count == 0 ))
     {
         /* error case */
         y_offset = sibling_index * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        x_offset = 0;
     }
     else if ( sibling_index > (*this_).siblings_self_index )
     {
         y_offset = ( (*this_).ancestors_count - 1 + (*this_).children_count + 1 + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
     }
     else
     {
         y_offset = ( (*this_).ancestors_count - 1 + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
     }
-    uint32_t x_offset;
-    x_offset = (*this_).ancestors_count * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
 
@@ -244,18 +246,19 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds
     /*height = shape_int_rectangle_get_height( &((*this_).bounds) );*/
 
     uint32_t y_offset;
+    uint32_t x_offset;
     if (( (*this_).siblings_self_index < 0 )||( (*this_).ancestors_count == 0 ))
     {
         /* error case */
         /* if self is not a sibling, simply add children to the end */
         y_offset = ( (*this_).ancestors_count + (*this_).siblings_count + child_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        x_offset = 0;
     }
     else
     {
         y_offset = ( (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + child_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        x_offset = ( (*this_).ancestors_count - 1 )  * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT + GUI_SKETCH_NAV_TREE_CHILD_INDENT;
     }
-    uint32_t x_offset;
-    x_offset = (*this_).ancestors_count * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT + GUI_SKETCH_NAV_TREE_CHILD_INDENT;
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
 

@@ -9,7 +9,7 @@
 static const int STANDARD_FONT_SIZE = 12;
 static const char *STANDARD_FONT_FAMILY = "Sans";
 
-void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_ )
+void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
     TRACE_BEGIN();
 
@@ -32,6 +32,7 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_ )
     pango_font_description_set_size ( (*this_).standard_font_description, STANDARD_FONT_SIZE * PANGO_SCALE );
 
     gui_sketch_marker_init( &((*this_).sketch_marker) );
+    (*this_).resources = resources;
 
     TRACE_END();
 }
@@ -40,6 +41,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
 
     /* destroy the pango font renering engine stuff: */
@@ -255,9 +257,23 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                     cr
                                                   );
 
-                    cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
-                    pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).ancestor_diagrams[anc_index]) ), -1 );
-                    pango_cairo_show_layout ( cr, layout );
+                    GdkPixbuf *ancestors_folder_icon;
+                    if ( anc_index == 1 )
+                    {
+                        ancestors_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
+                    }
+                    else
+                    {
+                        ancestors_folder_icon = gui_resources_get_navigate_breadcrumb_folder( (*this_).resources );
+                    }
+                    gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                                                                     ancestors_folder_icon,
+                                                                     data_diagram_get_name_ptr( &((*this_).ancestor_diagrams[anc_index]) ),
+                                                                     shape_int_rectangle_get_left( &destination_rect ),
+                                                                     shape_int_rectangle_get_top( &destination_rect ),
+                                                                     layout,
+                                                                     cr
+                                                                   );
                 }
             }
 
@@ -273,17 +289,36 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                 cr
                                               );
 
-                cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
-                pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ), -1 );
-                pango_cairo_show_layout ( cr, layout );
+                GdkPixbuf *siblings_folder_icon;
+                if ( sib_index == (*this_).siblings_self_index )
+                {
+                    siblings_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
+                }
+                else
+                {
+                    siblings_folder_icon = gui_resources_get_navigate_closed_folder( (*this_).resources );
+                }
+                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                                                                 siblings_folder_icon,
+                                                                 data_diagram_get_name_ptr( &((*this_).sibling_diagrams[sib_index]) ),
+                                                                 shape_int_rectangle_get_left( &destination_rect ),
+                                                                 shape_int_rectangle_get_top( &destination_rect ),
+                                                                 layout,
+                                                                 cr
+                                                               );
             }
             if ( (*this_).ancestors_count != 1 )  /* create sibling if not root diagram */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_sibling_bounds( this_, (*this_).siblings_count );
                 cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-                cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
-                pango_layout_set_text ( layout, "[+]", -1 );
-                pango_cairo_show_layout ( cr, layout );
+                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                                                                 gui_resources_get_navigate_create_sibling( (*this_).resources ),
+                                                                 "",
+                                                                 shape_int_rectangle_get_left( &destination_rect ),
+                                                                 shape_int_rectangle_get_top( &destination_rect ),
+                                                                 layout,
+                                                                 cr
+                                                               );
             }
 
             for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
@@ -298,20 +333,61 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                 cr
                                               );
 
-                cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
-                pango_layout_set_text ( layout, data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ), -1 );
-                pango_cairo_show_layout ( cr, layout );
+                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                                                                 gui_resources_get_navigate_closed_folder( (*this_).resources ),
+                                                                 data_diagram_get_name_ptr( &((*this_).child_diagrams[chi_index]) ),
+                                                                 shape_int_rectangle_get_left( &destination_rect ),
+                                                                 shape_int_rectangle_get_top( &destination_rect ),
+                                                                 layout,
+                                                                 cr
+                                                               );
             }
             if ( (*this_).ancestors_count != 0 )  /* create children if parent exists */
             {
                 destination_rect = gui_sketch_nav_tree_private_get_child_bounds( this_, (*this_).children_count );
                 cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
-                cairo_move_to ( cr, shape_int_rectangle_get_left( &destination_rect ), shape_int_rectangle_get_top( &destination_rect ) );
-                pango_layout_set_text ( layout, "(+)", -1 );
-                pango_cairo_show_layout ( cr, layout );
+                gui_sketch_nav_tree_private_draw_icon_and_label( this_,
+                                                                 gui_resources_get_navigate_create_child( (*this_).resources ),
+                                                                 "",
+                                                                 shape_int_rectangle_get_left( &destination_rect ),
+                                                                 shape_int_rectangle_get_top( &destination_rect ),
+                                                                 layout,
+                                                                 cr
+                                                               );
             }
         }
     }
+
+    TRACE_END();
+}
+
+void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
+                                                      GdkPixbuf *icon_1,
+                                                      const char *label_1,
+                                                      int x,
+                                                      int y,
+                                                      PangoLayout *layout,
+                                                      cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    assert( NULL != layout );
+    assert( NULL != icon_1 );
+    assert( NULL != label_1 );
+
+    /* determine coodinates */
+    double icon_width = gdk_pixbuf_get_width ( icon_1 );
+    double icon_height = gdk_pixbuf_get_height ( icon_1 );
+
+    /* draw text first, use the pre-set color and font */
+    cairo_move_to ( cr, x+icon_width, y );
+    pango_layout_set_text ( layout, label_1, -1 );
+    pango_cairo_show_layout ( cr, layout );
+
+    /* draw the icon */
+    gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
+    cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
+    cairo_fill (cr);
 
     TRACE_END();
 }

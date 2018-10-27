@@ -22,9 +22,9 @@ How to build
 >
 > cd cmake_build
 >
-> cmake .
+> cmake ..
 >
-> make -j5    # j5 starts 5 jobs in parallel to efficiently use 4 cores
+> make -j4
 
 How to run
 -----------
