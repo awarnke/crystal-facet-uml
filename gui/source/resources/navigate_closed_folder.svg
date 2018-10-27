@@ -15,7 +15,7 @@
    version="1.1"
    inkscape:version="0.91 r13725"
    sodipodi:docname="navigate_closed_folder.svg"
-   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/navigate_open_folder.png"
+   inkscape:export-filename="/home/andi/Code/crystal-facet-uml-code/gui/source/resources/navigate_closed_folder.png"
    inkscape:export-xdpi="90"
    inkscape:export-ydpi="90">
   <defs
@@ -28,7 +28,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="15.06878"
-     inkscape:cx="12.556964"
+     inkscape:cx="-5.2613332"
      inkscape:cy="23.118502"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>

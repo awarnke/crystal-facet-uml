@@ -54,10 +54,10 @@ struct gui_main_window_struct {
     GtkToolItem *tool_navigate;
     GtkWidget *tool_edit_icon;
     GtkToolItem *tool_edit;
-    GtkWidget *tool_new_obj_icon;
-    GtkToolItem *tool_new_obj;
-    GtkWidget *tool_new_view_icon;
-    GtkToolItem *tool_new_view;
+    GtkWidget *tool_create_icon;
+    GtkToolItem *tool_create;
+    GtkWidget *tool_search_icon;
+    GtkToolItem *tool_search;
     GtkWidget *edit_cut_icon;
     GtkToolItem *edit_cut;
     GtkWidget *edit_copy_icon;

@@ -29,7 +29,6 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,  /*!< object not created or name not changed */
     GUI_SIMPLE_MESSAGE_CONTENT_EXPORT_FINISHED,  /*!< files exported successfully */
     GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE,  /*!< operation cannot be performed on some elements in the set */
-    GUI_SIMPLE_MESSAGE_CONTENT_CLICK_IN_CHILDREN_AREA,  /*!< click in the children area to create a child */
     GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR,  /*!< database could not write to file */
     GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE,  /*!< root diagram cannot move to other tree location */
 

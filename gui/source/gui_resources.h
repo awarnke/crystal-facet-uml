@@ -38,6 +38,11 @@ struct gui_resources_struct {
     GdkPixbuf *tool_navigate;
     GdkPixbuf *tool_create;
     GdkPixbuf *tool_edit;
+    GdkPixbuf *navigate_breadcrumb_folder;
+    GdkPixbuf *navigate_closed_folder;
+    GdkPixbuf *navigate_create_child;
+    GdkPixbuf *navigate_create_sibling;
+    GdkPixbuf *navigate_open_folder;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -209,6 +214,41 @@ static inline GdkPixbuf *gui_resources_get_tool_create ( gui_resources_t *this_ 
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_breadcrumb_folder
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_breadcrumb_folder ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_closed_folder
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_closed_folder ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_open_folder
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_open_folder ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_create_child
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_create_child ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the navigate_create_sibling
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

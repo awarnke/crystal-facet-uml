@@ -28,6 +28,11 @@
 #include "resources/tool_navigate.c"
 #include "resources/tool_create.c"
 #include "resources/tool_edit.c"
+#include "resources/navigate_breadcrumb_folder.c"
+#include "resources/navigate_closed_folder.c"
+#include "resources/navigate_create_child.c"
+#include "resources/navigate_create_sibling.c"
+#include "resources/navigate_open_folder.c"
 
 void gui_resources_init ( gui_resources_t *this_ )
 {
@@ -293,6 +298,66 @@ void gui_resources_init ( gui_resources_t *this_ )
         tool_edit.width,
         tool_edit.height,
         tool_edit.width * tool_edit.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).navigate_breadcrumb_folder = gdk_pixbuf_new_from_data(
+        &(navigate_breadcrumb_folder.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        navigate_breadcrumb_folder.width,
+        navigate_breadcrumb_folder.height,
+        navigate_breadcrumb_folder.width * navigate_breadcrumb_folder.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).navigate_closed_folder = gdk_pixbuf_new_from_data(
+        &(navigate_closed_folder.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        navigate_closed_folder.width,
+        navigate_closed_folder.height,
+        navigate_closed_folder.width * navigate_closed_folder.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).navigate_create_child = gdk_pixbuf_new_from_data(
+        &(navigate_create_child.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        navigate_create_child.width,
+        navigate_create_child.height,
+        navigate_create_child.width * navigate_create_child.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).navigate_create_sibling = gdk_pixbuf_new_from_data(
+        &(navigate_create_sibling.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        navigate_create_sibling.width,
+        navigate_create_sibling.height,
+        navigate_create_sibling.width * navigate_create_sibling.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).navigate_open_folder = gdk_pixbuf_new_from_data(
+        &(navigate_open_folder.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        navigate_open_folder.width,
+        navigate_open_folder.height,
+        navigate_open_folder.width * navigate_open_folder.bytes_per_pixel,
         NULL,
         NULL
     );

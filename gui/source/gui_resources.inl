@@ -110,6 +110,31 @@ static inline GdkPixbuf *gui_resources_get_tool_edit ( gui_resources_t *this_ )
     return (*this_).tool_edit;
 }
 
+static inline GdkPixbuf *gui_resources_get_navigate_breadcrumb_folder ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_breadcrumb_folder;
+}
+
+static inline GdkPixbuf *gui_resources_get_navigate_closed_folder ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_closed_folder;
+}
+
+static inline GdkPixbuf *gui_resources_get_navigate_open_folder ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_open_folder;
+}
+
+static inline GdkPixbuf *gui_resources_get_navigate_create_child ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_create_child;
+}
+
+static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ )
+{
+    return (*this_).navigate_create_sibling;
+}
+
 
 /*
 Copyright 2016-2018 Andreas Warnke

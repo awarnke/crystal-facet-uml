@@ -83,18 +83,18 @@ void gui_main_window_init ( gui_main_window_t *this_,
     group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_edit));
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_edit), "Edit" );
 
-    (*this_).tool_new_obj_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create( res ));
-    (*this_).tool_new_obj = gtk_radio_tool_button_new( group );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_obj), "New Object");
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_obj), (*this_).tool_new_obj_icon);
-    group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_new_obj));
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_obj), "New Object" );
+    (*this_).tool_create_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_create( res ));
+    (*this_).tool_create = gtk_radio_tool_button_new( group );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_create), "Create");
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_create), (*this_).tool_create_icon);
+    group = gtk_radio_tool_button_get_group (GTK_RADIO_TOOL_BUTTON ((*this_).tool_create));
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_create), "Create" );
 
-    (*this_).tool_new_view_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
-    (*this_).tool_new_view = gtk_radio_tool_button_new( group );
-    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_new_view), "New Diagram");
-    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_new_view), (*this_).tool_new_view_icon);
-    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_new_view), "New Diagram" );
+    (*this_).tool_search_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
+    (*this_).tool_search = gtk_radio_tool_button_new( group );
+    gtk_tool_button_set_label ( GTK_TOOL_BUTTON((*this_).tool_search), "Search");
+    gtk_tool_button_set_icon_widget( GTK_TOOL_BUTTON((*this_).tool_search), (*this_).tool_search_icon);
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_search), "Search" );
 
     (*this_).edit_cut_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_cut( res ));
     (*this_).edit_cut = gtk_tool_button_new( (*this_).edit_cut_icon, "Cut" );
@@ -182,8 +182,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gui_tools_init( &((*this_).tools_data),
                     (*this_).tool_navigate,
                     (*this_).tool_edit,
-                    (*this_).tool_new_obj,
-                    (*this_).tool_new_view,
+                    (*this_).tool_create,
+                    (*this_).tool_search,
                     current_clipboard,
                     &((*this_).marker_data),
                     &((*this_).message_to_user),
@@ -297,10 +297,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_use_db,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_export,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_new_window,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_view,-1);
+    /*
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_search,-1);
+    */
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
-    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_new_obj,-1);
+    gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_create,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_cut,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_copy,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).edit_paste,-1);
@@ -371,8 +373,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_tools_navigate_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_tools_edit_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_new_obj), "clicked", G_CALLBACK(gui_tools_create_object_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_new_view), "clicked", G_CALLBACK(gui_tools_create_diagram_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_create), "clicked", G_CALLBACK(gui_tools_create_object_btn_callback), &((*this_).tools_data) );
+    /*
+    g_signal_connect( G_OBJECT((*this_).tool_search), "clicked", G_CALLBACK(gui_tools_create_diagram_btn_callback), &((*this_).tools_data) );
+    */
     g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_tools_cut_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_tools_copy_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_tools_paste_btn_callback), &((*this_).tools_data) );

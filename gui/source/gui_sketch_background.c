@@ -145,14 +145,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     cairo_fill (cr);
     block_top += (height*4)/10;
 
-    if ( search_mode )
-    {
-        cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
-    }
-    else
-    {
-        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
-    }
+    cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
     cairo_rectangle ( cr, left, block_top, width, height-block_top );
     cairo_fill (cr);
 

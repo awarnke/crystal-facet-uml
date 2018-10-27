@@ -729,7 +729,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     {
                         ctrl_error_t c_result;
                         int64_t new_diag_id;
-                        
+
                         {
                             data_diagram_t *selected_diag;
                             selected_diag = gui_sketch_nav_tree_get_diagram_ptr ( &((*this_).nav_tree) );
@@ -845,21 +845,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             case GUI_TOOLS_SEARCH:
             {
                 TRACE_INFO( "GUI_TOOLS_SEARCH" );
-
-                /* determine active diagram */
-                int64_t selected_diagram_id;
-                selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-                TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                /* update drag state */
-                data_id_pair_t dragged_object;
-                data_id_pair_init_by_table_and_id ( &dragged_object,
-                                                    DATA_TABLE_DIAGRAM,
-                                                    selected_diagram_id,
-                                                    DATA_TABLE_VOID,
-                                                    DATA_ID_VOID_ID
-                                                  );
-                gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
             }
             break;
 
@@ -1119,49 +1104,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_TOOLS_SEARCH:
             {
                 TRACE_INFO("GUI_TOOLS_SEARCH");
-
-                guint height;
-                height = gtk_widget_get_allocated_height (widget);
-                if ( y*10 < height*7 )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_INFO,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_CLICK_IN_CHILDREN_AREA
-                                                           );
-                }
-                else
-                {
-                    int64_t selected_diagram_id;
-                    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-                    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
-
-                    ctrl_error_t c_result;
-                    int64_t new_diag_id;
-                    c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
-                                                                          selected_diagram_id,
-                                                                          &new_diag_id
-                                                                        );
-
-                    if ( CTRL_ERROR_NONE != c_result )
-                    {
-                        TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_classifier");
-                    }
-                    else
-                    {
-                        /* load/reload data to be drawn */
-                        gui_sketch_area_private_load_data( this_, new_diag_id );
-
-                        /* notify listener */
-                        data_id_t focused_id;
-                        data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
-                        gui_marked_set_set_focused( (*this_).marker, focused_id );
-                        gui_sketch_area_private_notify_listener( this_, focused_id );
-                        gui_marked_set_clear_selected_set( (*this_).marker );
-
-                        /* change the selected tool */
-                        gui_tools_set_selected_tool( (*this_).tools, GUI_TOOLS_NAVIGATE );
-                    }
-                }
             }
             break;
 

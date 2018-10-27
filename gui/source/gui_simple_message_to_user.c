@@ -225,12 +225,6 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_CLICK_IN_CHILDREN_AREA:
-            {
-                utf8stringbuf_append_str( (*this_).content, "Click in the children area to create a diagram." );
-            }
-            break;
-
             case GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR:
             {
                 utf8stringbuf_append_str( (*this_).content, "Database could not be written to the database file." );
