@@ -2,6 +2,7 @@
   + tree view allows to navigate interactively
   + new sibling and new child diagrams can be created in tree view
   + when deleting a diagram, unfocused windows show parent diagram
+  + only scenario/local relationships are shown i timing, sequence and comunication diagrams
 2018-10-15 1.6.1 [3d25d8a]
   + debian archives are now build by dh_make and debuild
   + fix for only partly visible background text

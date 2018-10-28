@@ -32,7 +32,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
     TRACE_END();
 }
 
-void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ )
+void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
     assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
@@ -109,7 +109,7 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
     }
 
-    /* sort the relationships by their shaping-needs */
+    /* sort the relationships by their shaping-needs: the less simple, the earlier it shall be processed */
     uint32_t count_relations;
     count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_relations; index ++ )
@@ -120,13 +120,23 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         int64_t simpleness = 0;
 
         /* determine simpleness by relationship type */
-        data_relationship_type_t reltype;
-        reltype = data_relationship_get_main_type( layout_relationship_get_data_ptr ( current_relation ));
-        if (( DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY == reltype )
-            ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
         {
-            /* containment may be solved by embracing, mere dependencies are unimportant */
-            simpleness += geometry_rectangle_get_width ( diagram_draw_area );
+            data_relationship_type_t reltype;
+            reltype = data_relationship_get_main_type( layout_relationship_get_data_ptr ( current_relation ));
+            if (( DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY == reltype )
+                ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
+            {
+                /* containment may be solved by embracing, mere dependencies are unimportant */
+                simpleness += geometry_rectangle_get_width ( diagram_draw_area );
+            }
+        }
+
+        /* whatever is not visible is simple */
+        {
+            if ( PENCIL_VISIBILITY_SHOW != layout_relationship_get_visibility ( current_relation ) )
+            {
+                simpleness += 2 * geometry_rectangle_get_width ( diagram_draw_area );
+            }
         }
 
         /* determine simpleness by distance between source and destination */
@@ -138,15 +148,16 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
 
             simpleness -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
+        }
 
+        /* insert relation to sorted array, the simpler the more to the back */
+        {
             int insert_error;
             insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
             if ( 0 != insert_error )
             {
                 TSLOG_WARNING( "not all relationships are shaped" );
             }
-
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
         }
     }
 
@@ -871,12 +882,26 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
     TRACE_END();
 }
 
-void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *this_ )
+void pencil_relationship_layouter_layout_standard( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
-    /* layout the relationships (needed for PENCIL_VISIBILITY_IMPLICIT) */
-    pencil_relationship_layouter_do_layout ( this_ );
+    /* determine visibility */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+    }
+
+    pencil_relationship_layouter_private_do_layout ( this_ );
+
+    TRACE_END();
+}
+
+void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *this_ )
+{
+    TRACE_BEGIN();
 
     /* hide all relationships */
     uint32_t count_relations;
@@ -888,6 +913,9 @@ void pencil_relationship_layouter_layout_void( pencil_relationship_layouter_t *t
         */
         pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
     }
+
+    /* layout the relationships (needed for PENCIL_VISIBILITY_IMPLICIT) */
+    pencil_relationship_layouter_private_do_layout ( this_ );
 
     TRACE_END();
 }
@@ -914,7 +942,19 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
-        if ( true )  /* is visible ? -- TODO */
+        /* determine visibility */
+        if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
+            && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
+        {
+            /* this is a globally visible relation, not local/scenario-based */
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+        }
+        else
+        {
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+        }
+
+        /* calculate layout */
         {
             /* determine y-coordinate */
             const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
@@ -958,7 +998,6 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
                                                  dst_y_value,
                                                  y_value
                                                );
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
         }
     }
 
@@ -987,7 +1026,19 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
 
-        if ( true )  /* is visible ? -- TODO */
+        /* determine visibility */
+        if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
+            && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
+        {
+            /* this is a globally visible relation, not local/scenario-based */
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+        }
+        else
+        {
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+        }
+
+        /* calculate layout */
         {
             /* determine x-coordinate */
             const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
@@ -1031,7 +1082,6 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
                                                dst_y_center,
                                                x_value
                                              );
-            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
         }
     }
 
@@ -1049,11 +1099,22 @@ void pencil_relationship_layouter_layout_for_communication( pencil_relationship_
     {
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-        /* TODO */
+
+        /* determine visibility */
+        if ( ( NULL == layout_relationship_get_from_feature_ptr ( the_relationship ) )
+            && ( NULL == layout_relationship_get_to_feature_ptr ( the_relationship ) ) )
+        {
+            /* this is a globally visible relation, not local/scenario-based */
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_IMPLICIT );
+        }
+        else
+        {
+            pencil_layout_data_set_relationship_visibility ( (*this_).layout_data, index, PENCIL_VISIBILITY_SHOW );
+        }
     }
 
     /* layout the visible relationships */
-    pencil_relationship_layouter_do_layout ( this_ );
+    pencil_relationship_layouter_private_do_layout ( this_ );
 
     TRACE_END();
 }

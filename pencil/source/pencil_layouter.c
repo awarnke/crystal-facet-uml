@@ -203,7 +203,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         else
         {
             /* calculate the relationship shapes */
-            pencil_relationship_layouter_do_layout( &((*this_).pencil_relationship_layouter) );
+            pencil_relationship_layouter_layout_standard( &((*this_).pencil_relationship_layouter) );
         }
 
         /* hide containment relationships if children are embraced */

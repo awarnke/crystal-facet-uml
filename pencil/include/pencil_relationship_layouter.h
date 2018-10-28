@@ -181,6 +181,17 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
                                                               );
 
 /*!
+ *  \brief layouts all relationships.
+ *
+ *  This functoin performs a standard layouting of relationships
+ *  suitable for most diagram types.
+ *  Exceptions are LIST, BOX, SEQUENCE, TIMING, COMMUNICATION
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_layout_standard( pencil_relationship_layouter_t *this_ );
+
+/*!
  *  \brief hides all relationships.
  *
  *  Relationships are not visible in simple list and box diagrams.
