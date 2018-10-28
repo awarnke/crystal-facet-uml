@@ -114,9 +114,12 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
 /*!
  *  \brief re-loads the cards, nav_tree and result_list data to be shown
  *
+ *  If the currently visible diagram is not available anymore, this
+ *  function moves the current focus to another diagram.
+ *
  *  \param this_ pointer to own object attributes
  */
-void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ );
+void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief layouts the cards, nav_tree and result_list in the sketch area widget

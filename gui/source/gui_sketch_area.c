@@ -268,17 +268,37 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     TRACE_END();
 }
 
-void gui_sketch_area_private_reload_data ( gui_sketch_area_t *this_ )
+void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ )
 {
     TRACE_BEGIN();
 
-    /* determine currently selected id */
-    int64_t selected_diagram_id;
-    selected_diagram_id = gui_sketch_area_get_selected_diagram_id( this_ );
-    TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
+    /* determine currently selected diagram id and parent id for emergency-fallback */
+    int64_t former_diagram_id;
+    int64_t former_parent_diagram_id;
+    {
+        data_diagram_t *former_diagram;
+        former_diagram = gui_sketch_area_get_selected_diagram_ptr ( this_ );
+        former_diagram_id = data_diagram_get_id( former_diagram );
+        former_parent_diagram_id = data_diagram_get_parent_id( former_diagram );
+        TRACE_INFO_INT_INT( "former_diagram_id, former_parent_diagram_id:", former_diagram_id, former_parent_diagram_id );
+    }
 
     /* reload diagram data */
-    gui_sketch_area_private_load_data( this_, selected_diagram_id );
+    gui_sketch_area_private_load_data( this_, former_diagram_id );
+
+    if (( DATA_ID_VOID_ID != former_diagram_id )
+        &&( DATA_ID_VOID_ID == gui_sketch_area_get_selected_diagram_id( this_ ) ))
+    {
+        /* the requested diagram was not loaded, try the parent: */
+        gui_sketch_area_private_load_data( this_, former_parent_diagram_id );
+
+        if (( DATA_ID_VOID_ID != former_parent_diagram_id )
+            &&( DATA_ID_VOID_ID == gui_sketch_area_get_selected_diagram_id( this_ ) ))
+        {
+            /* the requested diagram was not loaded, go back to root diagram: */
+            gui_sketch_area_private_load_data( this_, DATA_ID_VOID_ID );
+        }
+    }
 
     TRACE_END();
 }
@@ -727,6 +747,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     gui_sketch_nav_tree_get_button_at_pos ( &((*this_).nav_tree), x, y, &action_button_id );
                     if ( action_button_id != GUI_SKETCH_ACTION_NONE )
                     {
+                        /* create a new diagram */
                         ctrl_error_t c_result;
                         int64_t new_diag_id;
 
@@ -1414,7 +1435,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     assert( NULL != this_ );
 
     /* load/reload data to be drawn */
-    gui_sketch_area_private_reload_data( this_ );
+    gui_sketch_area_private_refocus_and_reload_data( this_ );
 
     /* mark dirty rect */
     gtk_widget_queue_draw( widget );
@@ -1462,7 +1483,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t 
     }
 
     /* load/reload data to be drawn - depending on the tool, other data may be needed */
-    gui_sketch_area_private_reload_data( this_ );
+    gui_sketch_area_private_refocus_and_reload_data( this_ );
 
     /* mark dirty rect */
     gtk_widget_queue_draw( widget );
