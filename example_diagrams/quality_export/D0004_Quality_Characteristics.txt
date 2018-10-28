@@ -2,84 +2,27 @@ Quality Characteristics                          [D0004]
 | according to ISO 25010
 
 
+Maintainability                                  [C0012]
+  --> Testability                                [R0077]
+  --> Modifyability                              [R0078]
+  --> Analyzability                              [R0079]
+  --> Reusability                                [R0080]
+  --> Modularity                                 [R0081]
+
+
+Appropriateness                                  [C0013]
+
+
+Correctness                                      [C0014]
+
+
 Functional Suitability                           [C0015]
   --> Completeness                               [R0056]
   --> Correctness                                [R0057]
   --> Appropriateness                            [R0058]
 
 
-Security                                         [C0018]
-  --> Authenticity                               [R0082]
-  --> Non-Repudiation                            [R0083]
-  --> Accountability                             [R0084]
-  --> Integrity                                  [R0085]
-  --> Confidentiality                            [R0086]
-
-
-Reliability                                      [C0021]
-  --> Maturity                                   [R0062]
-  --> Availability                               [R0063]
-  --> Fault Tolerance                            [R0064]
-  --> Recoverability                             [R0065]
-
-
-Portability                                      [C0020]
-  --> Adaptability                               [R0068]
-  --> Installability                             [R0069]
-  --> Replaceability                             [R0070]
-
-
 Completeness                                     [C0016]
-
-
-Non-Repudiation                                  [C0038]
-
-
-Maturity                                         [C0035]
-
-
-Adaptability                                     [C0048]
-
-
-Correctness                                      [C0014]
-
-
-Confidentiality                                  [C0039]
-
-
-Availability                                     [C0034]
-
-
-Replaceability                                   [C0050]
-
-
-Appropriateness                                  [C0013]
-
-
-Authenticity                                     [C0042]
-
-
-Fault Tolerance                                  [C0036]
-
-
-Installability                                   [C0049]
-
-
-Integrity                                        [C0040]
-
-
-Recoverability                                   [C0037]
-
-
-Compatibility                                    [C0022]
-  --> Co-existence                               [R0066]
-  --> Interoperability                           [R0067]
-
-
-Accountability                                   [C0041]
-
-
-Interoperability                                 [C0028]
 
 
 Usability                                        [C0017]
@@ -91,24 +34,33 @@ Usability                                        [C0017]
   --> Accessibility                              [R0076]
 
 
-Co-existence                                     [C0027]
+Security                                         [C0018]
+  --> Authenticity                               [R0082]
+  --> Non-Repudiation                            [R0083]
+  --> Accountability                             [R0084]
+  --> Integrity                                  [R0085]
+  --> Confidentiality                            [R0086]
 
 
-Maintainability                                  [C0012]
-  --> Testability                                [R0077]
-  --> Modifyability                              [R0078]
-  --> Analyzability                              [R0079]
-  --> Reusability                                [R0080]
-  --> Modularity                                 [R0081]
+Resource Utilization                             [C0019]
 
 
-Accessibility                                    [C0029]
+Portability                                      [C0020]
+  --> Adaptability                               [R0068]
+  --> Installability                             [R0069]
+  --> Replaceability                             [R0070]
 
 
-Reusability                                      [C0044]
+Reliability                                      [C0021]
+  --> Maturity                                   [R0062]
+  --> Availability                               [R0063]
+  --> Fault Tolerance                            [R0064]
+  --> Recoverability                             [R0065]
 
 
-Recognizability                                  [C0030]
+Compatibility                                    [C0022]
+  --> Co-existence                               [R0066]
+  --> Interoperability                           [R0067]
 
 
 Performance Efficiency                           [C0023]
@@ -117,34 +69,82 @@ Performance Efficiency                           [C0023]
   --> Capacity                                   [R0061]
 
 
-Analyzability                                    [C0045]
-
-
 Operability                                      [C0024]
 
 
 Time Behaviour                                   [C0025]
 
 
-Modifyability                                    [C0046]
-
-
-Learnability                                     [C0032]
-
-
 Capacity                                         [C0026]
 
 
-Testability                                      [C0047]
+Co-existence                                     [C0027]
+
+
+Interoperability                                 [C0028]
+
+
+Accessibility                                    [C0029]
+
+
+Recognizability                                  [C0030]
 
 
 Aesthetics                                       [C0031]
 
 
-Resource Utilization                             [C0019]
+Learnability                                     [C0032]
+
+
+User Error Protection                            [C0033]
+
+
+Availability                                     [C0034]
+
+
+Maturity                                         [C0035]
+
+
+Fault Tolerance                                  [C0036]
+
+
+Recoverability                                   [C0037]
+
+
+Non-Repudiation                                  [C0038]
+
+
+Confidentiality                                  [C0039]
+
+
+Integrity                                        [C0040]
+
+
+Accountability                                   [C0041]
+
+
+Authenticity                                     [C0042]
 
 
 Modularity                                       [C0043]
 
 
-User Error Protection                            [C0033]
+Reusability                                      [C0044]
+
+
+Analyzability                                    [C0045]
+
+
+Modifyability                                    [C0046]
+
+
+Testability                                      [C0047]
+
+
+Adaptability                                     [C0048]
+
+
+Installability                                   [C0049]
+
+
+Replaceability                                   [C0050]

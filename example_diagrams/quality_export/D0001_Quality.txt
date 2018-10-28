@@ -3,22 +3,15 @@ Quality                                          [D0001]
 | These characteritics can be measured.
 
 
-Product Quality                                  [C0002]
-| Product quality refers to characteristics that can be measured
-| by analyzing the product that was created and that is in use.
-  ISO/IEC 25010:2011                             [F0004]
-
-
 Process Quality                                  [C0001]
 | Process quality can be measured by analyzing the reports and other workproducts
 | that have  been created during different phases at engineering and during operation.
 
 
-What characteristics?                            [C0116]
-| Product quality is defined by
-| a set of characteristics
-| of the product to be created.
-  --> Product Quality                            [R0132]
+Product Quality                                  [C0002]
+| Product quality refers to characteristics that can be measured
+| by analyzing the product that was created and that is in use.
+  ISO/IEC 25010:2011                             [F0004]
 
 
 How to create?                                   [C0115]
@@ -26,3 +19,10 @@ How to create?                                   [C0115]
 | a set of rules
 | how to create a product.
   --> Process Quality                            [R0131]
+
+
+What characteristics?                            [C0116]
+| Product quality is defined by
+| a set of characteristics
+| of the product to be created.
+  --> Product Quality                            [R0132]

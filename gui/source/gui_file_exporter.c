@@ -342,7 +342,11 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
                 }
             }
         }
+    }
 
+    /* recursion to children */
+    if ( NULL != target_folder )
+    {
         /* recursive calls of children */
         if (( result == 0 )&&( max_recursion > 0 ))
         {
@@ -374,14 +378,7 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
     }
     else
     {
-        if ( DATA_ID_VOID_ID != diagram_id )
-        {
-            TSLOG_WARNING("gui_file_exporter_private_export_image_files called with diagram_id==DATA_ID_VOID_ID");
-        }
-        if ( NULL != target_folder )
-        {
-            TSLOG_WARNING("gui_file_exporter_private_export_image_files called with target_folder==NULL");
-        }
+        TSLOG_WARNING("gui_file_exporter_private_export_image_files called with target_folder==NULL");
         result = -1;
     }
 

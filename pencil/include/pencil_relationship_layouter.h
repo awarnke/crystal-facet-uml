@@ -60,7 +60,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_relationship_layouter_do_layout ( pencil_relationship_layouter_t *this_ );
+void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layouter_t *this_ );
 
 /*!
  *  \brief determine order by which to shape relationships

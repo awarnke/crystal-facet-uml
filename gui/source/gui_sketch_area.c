@@ -307,8 +307,8 @@ static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 static const gint BORDER = 10;
 static const gint HALF_BORDER = 5;
-static const uint32_t NAV_TREE_WIDTH = 180;
-static const uint32_t RESULT_LIST_WIDTH = 140;
+static const uint32_t NAV_TREE_WIDTH = 192;
+static const uint32_t RESULT_LIST_WIDTH = 160;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
@@ -326,6 +326,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     TRACE_INFO_INT_INT( "width, height", width, height );
     int32_t children_top;
     uint32_t children_height;
+    uint32_t parent_left;
     uint32_t parent_width;
     uint32_t parent_height;
     uint32_t self_width;
@@ -335,6 +336,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     {
         children_height = ( height * 3 ) / 10;
         children_top = height - children_height;
+        parent_left = left;
         parent_width = width;
         parent_height = ( height * 3 ) / 10;
         self_width = width;
@@ -343,6 +345,41 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         self_height = height - children_height - parent_height;
     }
 
+    /* layout result list */
+    {
+        shape_int_rectangle_t result_list_bounds;
+        shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
+        gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
+        bool result_list_visible;
+        result_list_visible = ( GUI_TOOLS_SEARCH == selected_tool );
+        gui_sketch_result_list_set_visible( &((*this_).result_list), result_list_visible );
+        if ( result_list_visible )
+        {
+            self_left = left + RESULT_LIST_WIDTH;
+            self_width = ( self_width < RESULT_LIST_WIDTH ) ? 0 : self_width - RESULT_LIST_WIDTH;
+            parent_left = self_left;
+            parent_width = self_width;
+        }
+    }
+
+    /* layout nav tree */
+    {
+        shape_int_rectangle_t nav_tree_bounds;
+        shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
+        gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
+        bool nav_tree_visible;
+        nav_tree_visible = ( GUI_TOOLS_NAVIGATE == selected_tool );
+        gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), nav_tree_visible );
+        if ( nav_tree_visible )
+        {
+            self_left = left + NAV_TREE_WIDTH;
+            self_width = ( self_width < NAV_TREE_WIDTH ) ? 0 : self_width - NAV_TREE_WIDTH;
+            parent_left = self_left;
+            parent_width = self_width;
+        }
+    }
+
+    /* layout all cards */
     for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
     {
         if ( ! gui_sketch_card_is_valid( &((*this_).cards[card_idx]) ))
@@ -357,13 +394,13 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
             {
                 shape_int_rectangle_init( &card_bounds, self_left, self_top, self_width, self_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_LEFT, SHAPE_V_ALIGN_CENTER );
             }
             else if ( card_idx == 1 )  /* parent */
             {
-                shape_int_rectangle_init( &card_bounds, left, top, parent_width, parent_height );
+                shape_int_rectangle_init( &card_bounds, parent_left, top, parent_width, parent_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_LEFT, SHAPE_V_ALIGN_CENTER );
             }
             else
             {
@@ -397,22 +434,6 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
                 gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
             }
         }
-    }
-
-    /* layout result list */
-    {
-        shape_int_rectangle_t result_list_bounds;
-        shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
-        gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
-        gui_sketch_result_list_set_visible( &((*this_).result_list), ( GUI_TOOLS_SEARCH == selected_tool ) );
-    }
-
-    /* layout nav tree */
-    {
-        shape_int_rectangle_t nav_tree_bounds;
-        shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
-        gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
-        gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), ( GUI_TOOLS_NAVIGATE == selected_tool ) );
     }
 
     /* layout background */

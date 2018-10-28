@@ -1,36 +1,20 @@
 Measures for Reliability                         [D0008]
 
 
-Mature Platform                                  [C0109]
-  OS provides resource limits                    [F0061]
-  OS does not swap, does not overcommit          [F0062]
-  OS has mature peripheral-drivers               [F0063]
-  --> Maturity                                   [R0124]
+Recoverability                                   [C0037]
 
 
-Layered Architecture                             [C0061]
-  improves --> Maturity                          [R0039]
+Fault Tolerance                                  [C0036]
 
 
-Example Guidelines                               [C0073]
-  Spark/ADA: Avionics                            [F0022]
-  Power of Ten: NASA                             [F0019]
-  SecureC                                        [F0021]
-  MISRA-C/C++: automotive                        [F0020]
-  implements --> Coding Guidelines               [R0054]
-
-
-Static Code Analysis                             [C0086]
-  enhances --> Maturity                          [R0099]
+Availability                                     [C0034]
 
 
 Maturity                                         [C0035]
 
 
-Code Generation                                  [C0087]
-| An understandable model and a small code generator
-| allow to generate mature software.
-  supports --> Maturity                          [R0100]
+Layered Architecture                             [C0061]
+  improves --> Maturity                          [R0039]
 
 
 Coding Guidelines                                [C0062]
@@ -63,7 +47,16 @@ Coding Guidelines                                [C0062]
   improves --> Maturity                          [R0040]
 
 
-Availability                                     [C0034]
+Fault injection Tests                            [C0063]
+  improves --> Fault Tolerance                   [R0041]
+
+
+Example Guidelines                               [C0073]
+  Spark/ADA: Avionics                            [F0022]
+  Power of Ten: NASA                             [F0019]
+  SecureC                                        [F0021]
+  MISRA-C/C++: automotive                        [F0020]
+  implements --> Coding Guidelines               [R0054]
 
 
 Redundancy                                       [C0074]
@@ -74,18 +67,25 @@ Redundancy                                       [C0074]
   enhances --> Availability                      [R0055]
 
 
-Fault injection Tests                            [C0063]
-  improves --> Fault Tolerance                   [R0041]
+Static Code Analysis                             [C0086]
+  enhances --> Maturity                          [R0099]
 
 
-Fault Tolerance                                  [C0036]
+Code Generation                                  [C0087]
+| An understandable model and a small code generator
+| allow to generate mature software.
+  supports --> Maturity                          [R0100]
+
+
+Mature Platform                                  [C0109]
+  OS provides resource limits                    [F0061]
+  OS does not swap, does not overcommit          [F0062]
+  OS has mature peripheral-drivers               [F0063]
+  --> Maturity                                   [R0124]
 
 
 Input Signal Validation                          [C0083]
   --> Fault Tolerance                            [R0128]
-
-
-Recoverability                                   [C0037]
 
 
 Partitioning                                     [C0075]

@@ -6,26 +6,14 @@ Requirements Realization                         [C0064]
   defines --> System Test                        [R0050]
 
 
-System Test                                      [C0072]
-
-
 System Architecture                              [C0065]
   is basis for --> Requirements Refinement       [R0043]
   defines --> System Integration                 [R0051]
 
 
-System Integration                               [C0071]
-  System Integration Test                        [F0018]
-  feeds --> System Test                          [R0049]
-
-
 Requirements Refinement                          [C0066]
   is basis for --> Software Architecture         [R0044]
   defines --> Software Test                      [R0052]
-
-
-Software Test                                    [C0070]
-  feeds --> System Integration                   [R0048]
 
 
 Software Architecture                            [C0067]
@@ -37,14 +25,29 @@ Software Architecture                            [C0067]
   | needed to create the system parts.
 
 
+Construction                                     [C0068]
+  Detailed Design                                [F0015]
+  Source Code + User Doc                         [F0016]
+  Implementation                                 [F0014]
+  --> Unit Test                                  [R0133]
+
+
 Software Integration                             [C0069]
   Software Integration Test                      [F0017]
   feeds --> Software Test                        [R0047]
 
 
-Construction                                     [C0068]
-  Detailed Design                                [F0015]
-  Source Code + User Doc                         [F0016]
-  Implementation                                 [F0014]
-  Unit-test                                      [F0013]
-  feeds --> Software Integration                 [R0046]
+Software Test                                    [C0070]
+  feeds --> System Integration                   [R0048]
+
+
+System Integration                               [C0071]
+  System Integration Test                        [F0018]
+  feeds --> System Test                          [R0049]
+
+
+System Test                                      [C0072]
+
+
+Unit Test                                        [C0117]
+  feeds --> Software Integration                 [R0134]

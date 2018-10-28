@@ -1,6 +1,5 @@
 ideas for future versions:
   @gui
-  [ ] in overview mode, add brothers and sister diagrams (and maybe aunts and uncles)
   [ ] in overview mode, allow to shift diagrams vertically
   [ ] in overview mode, allow to move diagrams horizontally
   [ ] paste: Allow to paste relationships
@@ -11,7 +10,6 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
-  [ ] Improve support for Diagram-Types: Sequence, Timing, Communication (e.g. relation visibility)
   [ ] include and extends relationships shall show their stereotype
   @data
   [ ] more relationship types needed: requirements have derive and refine relations
