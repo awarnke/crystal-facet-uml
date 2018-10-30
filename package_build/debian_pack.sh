@@ -14,4 +14,4 @@ cd crystal-facet-uml-$VERSIONSTR
 debuild -i -us -uc -b
 cd ..
 echo Test the created archive by installing it:
-echo sudo dpkg -i  crystal-facet-uml_$VERSIONSTR-1_amd64.deb
+echo sudo dpkg -i crystal-facet-uml_$VERSIONSTR-1_amd64.deb
