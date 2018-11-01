@@ -47,6 +47,10 @@ static const double ORANGE_R = 1.0;
 static const double ORANGE_G = 0.8;
 static const double ORANGE_B = 0.5;
 static const double ORANGE_A = 1.0;
+static const double LIGHT_R = 0.8;
+static const double LIGHT_G = 0.8;
+static const double LIGHT_B = 0.8;
+static const double LIGHT_A = 1.0;
 static const double BORDER = 8;  /* border between text/icons and ground rectangle */
 
 void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
@@ -135,7 +139,14 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
     int block_top = top;
-    cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
+    if ( 0 == tree_depth )
+    {
+        cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
+    }
+    else
+    {
+        cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
+    }
     cairo_rectangle ( cr, left, block_top, width, (height*3)/10 );
     cairo_fill (cr);
     block_top += (height*3)/10;

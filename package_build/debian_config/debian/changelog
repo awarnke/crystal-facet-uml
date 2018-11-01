@@ -6,7 +6,7 @@ crystal-facet-uml (1.7.0-1) UNRELEASED; urgency=medium
   * only local-scenario relationships are shown in timing, sequence 
     and communication diagrams
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 30 Oct 2018 05:42:20 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 Nov 2018 15:42:20 +0100
  
 crystal-facet-uml (1.6.1-1) UNRELEASED; urgency=medium
 
