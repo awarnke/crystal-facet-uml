@@ -49,17 +49,12 @@
  *  \image latex resources/file_new_window.pdf "" width=1cm
  *  \li Opens another window on the same database.
  *
- *  \subsection cfu-tools-new_diag New Diagram
- *
- *  \image html resources/tool_search.png
- *  \image latex resources/tool_search.pdf "" width=1cm
- *  \li Create a new diagram
- *
  *  \subsection cfu-tools-nav Navigate
  *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=1cm
  *  \li Navigate to parent or child diagrams
+ *  \li Create a new diagram
  *
  *  \subsection cfu-tools-edit Edit
  *
@@ -67,7 +62,7 @@
  *  \image latex resources/tool_edit.pdf "" width=1cm
  *  \li Modify elements in the diagram
  *
- *  \subsection cfu-tools-new_obj New Object
+ *  \subsection cfu-tools-new_obj Create
  *
  *  \image html resources/tool_create.png
  *  \image latex resources/tool_create.pdf "" width=1cm
@@ -145,19 +140,13 @@
  *  In many cases, splitting the diagram into two or more diagrams solves the layouting issues and
  *  at the same time improves understandability by focusing on one aspect/topic per diagram.
  *
- *  \subsection cfu-sketch-new_diag Search
- *
- *  \image html resources/tool_search.png
- *  \image latex resources/tool_search.pdf "" width=1cm
- *  \li Not yet implemented.
- *
  *  \subsection cfu-sketch-nav Navigate
  *
  *  \image html resources/tool_navigate.png
  *  \image latex resources/tool_navigate.pdf "" width=1cm
  *  \li To navigate to the parent diagram, click on the parent diagram.
  *  \li To navigate to a child diagram, click on the child diagram.
- *  \li To create a child-diagram, click on the + sign.
+ *  \li To create a diagram, click on the + sign.
  *  \li To restructure the diagram tree by shifting a child diagram up and the parent down, click on the child diagram and press F7.
  *
  *  \subsection cfu-sketch-edit Edit
