@@ -152,61 +152,70 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     if ( ( 0 == tree_depth )&&( 0 == num_children ))
     {
         /* this is a new, empty database */
+        
         /* print some guidance */
+        const int TAB_COL0_X = 14;
+        const int TAB_COL1_X = 112;
+        const int TAB_COL2_X = 320;
+        const int TAB_ROW0_Y = 0;
+        const int TAB_ROW1_Y = 48;
+        const int TAB_ROW2_Y = 96;
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_message_user_doc( (*this_).resources ),
                                                              "Quick",
                                                              "Intro:",
-                                                             left+14+BORDER,
-                                                             top+BORDER+48,
+                                                             left+TAB_COL0_X+BORDER,
+                                                             top+BORDER+TAB_ROW1_Y,
                                                              cr
                                                            );
+        /*
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_tool_search( (*this_).resources ),
                                                              "Click to create a",
                                                              "diagram below the current.",
-                                                             left+112+BORDER,
-                                                             top+BORDER+0,
+                                                             left+TAB_COL2_X+BORDER,
+                                                             top+BORDER+TAB_ROW0_Y,
                                                              cr
                                                            );
+        */
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_tool_navigate( (*this_).resources ),
-                                                             "Click to navigate to",
-                                                             "parent/child diagrams.",
-                                                             left+112+BORDER,
-                                                             top+BORDER+48,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_file_export( (*this_).resources ),
-                                                             "Select the output folder",
-                                                             "to export all diagrams.",
-                                                             left+112+BORDER,
-                                                             top+BORDER+96,
+                                                             "Click on a diagram to navigate,",
+                                                             "on '+' to create a new diagram.",
+                                                             left+TAB_COL1_X+BORDER,
+                                                             top+BORDER+TAB_ROW0_Y,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_tool_edit( (*this_).resources ),
                                                              "Single click to focus,",
                                                              "second click to mark items.",
-                                                             left+320+BORDER,
-                                                             top+BORDER+0,
+                                                             left+TAB_COL1_X+BORDER,
+                                                             top+BORDER+TAB_ROW1_Y,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_tool_create( (*this_).resources ),
                                                              "Click to create items.",
                                                              "Drag to create arrows.",
-                                                             left+320+BORDER,
-                                                             top+BORDER+48,
+                                                             left+TAB_COL1_X+BORDER,
+                                                             top+BORDER+TAB_ROW2_Y,
+                                                             cr
+                                                           );
+        gui_sketch_background_private_draw_icon_and_message( this_,
+                                                             gui_resources_get_file_export( (*this_).resources ),
+                                                             "Select the output folder",
+                                                             "to export all(!) diagrams.",
+                                                             left+TAB_COL2_X+BORDER,
+                                                             top+BORDER+TAB_ROW1_Y,
                                                              cr
                                                            );
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_edit_commit( (*this_).resources ),
                                                              "Changes are stored automatically.",
                                                              "Explicit safe action is optional.",
-                                                             left+320+BORDER,
-                                                             top+BORDER+96,
+                                                             left+TAB_COL2_X+BORDER,
+                                                             top+BORDER+TAB_ROW2_Y,
                                                              cr
                                                            );
     }
