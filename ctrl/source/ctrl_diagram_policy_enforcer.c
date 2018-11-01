@@ -173,7 +173,6 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_a_lifeline ( ctrl_diagr
     TRACE_BEGIN();
     assert( NULL != deleted_diagramelement );
     ctrl_error_t result = CTRL_ERROR_NONE;
-    data_error_t data_result;
 
     /* delete the lifeline of the already deleted data_diagramelement_t */
     int64_t focused_feature_id;

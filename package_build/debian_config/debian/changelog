@@ -3,7 +3,8 @@ crystal-facet-uml (1.7.0-1) UNRELEASED; urgency=medium
   * tree view allows to navigate interactively
   * new sibling and new child diagrams can be created in tree view
   * when deleting a diagram, unfocused windows show parent diagram
-  * only local-scenario relationships are shown in timing, sequence and communication diagrams
+  * only local-scenario relationships are shown in timing, sequence 
+    and communication diagrams
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 30 Oct 2018 05:42:20 +0100
  
@@ -11,4 +12,4 @@ crystal-facet-uml (1.6.1-1) UNRELEASED; urgency=medium
 
   * Restructure deb packet generation from CPACK to dh_make tool.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 08 Oct 2018 21:00:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 15 Oct 2018 21:00:00 +0200

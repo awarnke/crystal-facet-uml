@@ -547,11 +547,15 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
                         if ( ! feature_exists )
                         {
                             TSLOG_ERROR_INT( "focused feature not existing, diagramelement:", diagele_id );
+                            TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
+                            TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
                             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else if ( diagele_classifier_id != feature_classifier_id )
                         {
                             TSLOG_ERROR_INT( "referenced classifier of diagramelement and focused_feature differ, diagramelement:", diagele_id );
+                            TRACE_INFO_INT_INT( "referenced classifier, classifier of feature:", diagele_classifier_id, feature_classifier_id );
+                            TRACE_INFO_INT_INT( "referenced feature, feature:", diagele_focused_feature_id, feature_id );
                             data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAMELEMENT, diagele_id );
                         }
                         else
@@ -626,8 +630,10 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
                 else if ( SQLITE_ROW == sqlite_err )
                 {
                     int64_t classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_CLASSIFIER_ID_COLUMN );
-                    /*int64_t diagele_classifier_parent_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN );*/
-                    /*int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN );*/
+                    /*
+                    int64_t diagele_classifier_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN );
+                    */
+                    int64_t diagele_id = sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_ID_COLUMN );
                     bool diagele_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_CLASSIFIERS_DIAGELE_CLASSIFIER_ID_COLUMN ) );
                     if ( ! diagele_exists )
                     {
@@ -637,7 +643,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", classifier_id );
+                        TRACE_INFO_INT_INT( "ok (classifier_id,diagele_id):", classifier_id, diagele_id );
                     }
                 }
                 else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
@@ -957,6 +963,8 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
                                 TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
+                                TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
@@ -977,6 +985,8 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
                                 TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
+                                TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else
@@ -999,11 +1009,15 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
                             else if ( relation_from_classifier_id != source_feature_classifier_id )
                             {
                                 TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                TRACE_INFO_INT_INT( "referenced from classifier, src feature classifier:", relation_from_classifier_id, source_feature_classifier_id );
+                                TRACE_INFO_INT_INT( "referenced from feature, src feature:", relation_from_feature_id, source_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else if ( relation_to_classifier_id != dest_feature_classifier_id )
                             {
                                 TSLOG_ERROR_INT( "referenced classifier of relationship and feature differ, relationship:", relation_id );
+                                TRACE_INFO_INT_INT( "referenced to classifier, dest feature classifier:", relation_to_classifier_id, dest_feature_classifier_id );
+                                TRACE_INFO_INT_INT( "referenced to feature, dest feature:", relation_to_feature_id, dest_feature_id );
                                 data_small_set_add_row_id( io_set, DATA_TABLE_RELATIONSHIP, relation_id );
                             }
                             else

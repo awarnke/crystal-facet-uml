@@ -44,7 +44,6 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
 {
     TRACE_BEGIN();
     ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
     uint32_t error_count = 0;
     uint32_t fix_count = 0;
     uint32_t total_diagrams;
@@ -491,7 +490,6 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
     TRACE_BEGIN();
     assert ( NULL != io_err );
     ctrl_error_t err_result = CTRL_ERROR_NONE;
-    data_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that no circular references of diagram parents exist\n" );

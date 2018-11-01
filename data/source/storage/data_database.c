@@ -31,11 +31,13 @@ static const char *DATA_DATABASE_CREATE_CLASSIFIERINSTANCE_TABLE =
 /*!
  *  \brief string constant to create an sql database index
  */
+/*
 static const char *DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS classifier_ordering ON classifiers ( "
         "y_order ASC, "
         "x_order ASC "
     ");";
+*/
 
 /*!
  *  \brief string constant to update an sql database table
@@ -73,10 +75,12 @@ static const char *DATA_DATABASE_CREATE_RELATIONSHIPINSTANCE_TABLE =
 /*!
  *  \brief string constant to create an sql database index
  */
+/*
 static const char *DATA_DATABASE_CREATE_RELATIONSHIPORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS relationship_ordering ON relationships ( "
         "list_order ASC "
     ");";
+*/
 
 /*!
  *  \brief string constant to update an sql database table
@@ -123,10 +127,12 @@ static const char *DATA_DATABASE_CREATE_FEATUREINSTANCE_TABLE =
 /*!
  *  \brief string constant to create an sql database index
  */
+/*
 static const char *DATA_DATABASE_CREATE_FEATUREORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS feature_ordering ON features ( "
         "list_order ASC "
     ");";
+*/
 
 /*!
  *  \brief string constant to create an sql database table
@@ -145,10 +151,12 @@ static const char *DATA_DATABASE_CREATE_DIAGRAM_TABLE =
 /*!
  *  \brief string constant to create an sql database index
  */
+/*
 static const char *DATA_DATABASE_CREATE_DIAGRAMORDERING_INDEX =
     "CREATE INDEX IF NOT EXISTS diagram_ordering ON diagrams ( "
         "list_order ASC "
     ");";
+*/
 
 /*!
  *  \brief string constant to update an sql database table
@@ -277,12 +285,12 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_error_t result = DATA_ERROR_NONE;
+    /*
     int sqlite_err;
     char *error_msg = NULL;
-    data_error_t result = DATA_ERROR_NONE;
     sqlite3 *db = (*this_).db;
 
-    /*
     TSLOG_EVENT_STR( "sqlite3_exec:", DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX );
     sqlite_err = sqlite3_exec( db, DATA_DATABASE_CREATE_CLASSIFIERORDERING_INDEX, NULL, NULL, &error_msg );
     if ( SQLITE_OK != sqlite_err )
