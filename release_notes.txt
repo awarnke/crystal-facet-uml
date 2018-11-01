@@ -1,4 +1,4 @@
-2018-11-01 1.7.0 [xxxxxxx]
+2018-11-01 1.7.0 [15274aa]
   + tree view allows to navigate interactively
   + new sibling and new child diagrams can be created in tree view
   + when deleting a diagram, unfocused windows show parent diagram
