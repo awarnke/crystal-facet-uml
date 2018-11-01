@@ -144,12 +144,11 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             else
             {
                 /* lifeline in communication diagrams */
-                double x_center = geometry_rectangle_get_x_center ( feature_bounds );
-
                 cairo_move_to ( cr, left, top );
                 cairo_line_to ( cr, left, top + height );
                 cairo_line_to ( cr, left + width, top + height );
                 cairo_line_to ( cr, left + width, top );
+                cairo_line_to ( cr, left, top );
                 cairo_stroke (cr);
             }
 
@@ -218,8 +217,6 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
     double top = 0.0;
     double width = 0.0;
     double height = 0.0;
-
-    double gap = pencil_size_get_standard_object_border( pencil_size );
 
     if ( data_feature_is_valid( the_feature ) )
     {

@@ -395,7 +395,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
                                                           layout_visible_classifier_get_classifier_id( visible_classifier )
                                                         );
 
-                    pencil_error_t result = PENCIL_ERROR_NONE;
+                    result = PENCIL_ERROR_NONE;
                 }
             }
         }
@@ -449,7 +449,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
                                                   layout_visible_classifier_get_classifier_id( layout_classifier )
                                                 );
 
-            pencil_error_t result = PENCIL_ERROR_NONE;
+            result = PENCIL_ERROR_NONE;
         }
     }
 
@@ -541,8 +541,10 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
     else
     {
         data_table_t table = data_id_get_table ( &obj_id );
+        /*
         int64_t row_id = data_id_get_row_id ( &obj_id );
-
+        */
+        
         switch ( table )
         {
             case DATA_TABLE_CLASSIFIER:

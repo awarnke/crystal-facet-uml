@@ -30,6 +30,8 @@ static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_
         default:
         {
             TSLOG_ERROR("unknown geometry_h_align_t in geometry_h_align_get_left()");
+            assert(0);
+            left = 0.0;
         }
         break;
     }

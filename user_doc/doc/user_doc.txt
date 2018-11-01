@@ -145,11 +145,11 @@
  *  In many cases, splitting the diagram into two or more diagrams solves the layouting issues and
  *  at the same time improves understandability by focusing on one aspect/topic per diagram.
  *
- *  \subsection cfu-sketch-new_diag New Diagram
+ *  \subsection cfu-sketch-new_diag Search
  *
  *  \image html resources/tool_search.png
  *  \image latex resources/tool_search.pdf "" width=1cm
- *  \li To create a child-diagram, click into the children-area of the current view.
+ *  \li Not yet implemented.
  *
  *  \subsection cfu-sketch-nav Navigate
  *
@@ -157,6 +157,7 @@
  *  \image latex resources/tool_navigate.pdf "" width=1cm
  *  \li To navigate to the parent diagram, click on the parent diagram.
  *  \li To navigate to a child diagram, click on the child diagram.
+ *  \li To create a child-diagram, click on the + sign.
  *  \li To restructure the diagram tree by shifting a child diagram up and the parent down, click on the child diagram and press F7.
  *
  *  \subsection cfu-sketch-edit Edit
@@ -167,7 +168,7 @@
  *  \li To select the diagram or a classifier or a feature or a relationship with yellow corners, click on this object.
  *  \li To mark diagram and/or classifiers and/or features and/or relationships with pink corners, click on these objects twice.
  *
- *  \subsection cfu-sketch-new_obj New Object
+ *  \subsection cfu-sketch-new_obj Create
  *
  *  \image html resources/tool_create.png
  *  \image latex resources/tool_create.pdf "" width=1cm

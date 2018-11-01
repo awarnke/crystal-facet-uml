@@ -71,7 +71,7 @@ static inline void gui_sketch_drag_state_set_to ( gui_sketch_drag_state_t *this_
     (*this_).to_y = to_y;
     if ( (*this_).start_dragging_when_move )
     {
-        static const int32_t ACTIVATION_BORDER = 2;
+        static const uint32_t ACTIVATION_BORDER = 2;
         int32_t activation_border_left = (*this_).from_x - ACTIVATION_BORDER;
         int32_t activation_border_right = (*this_).from_x + ACTIVATION_BORDER;
         int32_t activation_border_top = (*this_).from_y - ACTIVATION_BORDER;

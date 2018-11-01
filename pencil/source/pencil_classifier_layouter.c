@@ -838,9 +838,11 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
+        /*
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-
+        */
+        
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
@@ -909,9 +911,11 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
+        /*
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-
+        */
+        
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
@@ -980,9 +984,11 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
+        /*
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-
+        */
+        
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );

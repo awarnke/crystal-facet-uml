@@ -30,6 +30,8 @@ static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_,
         default:
         {
             TSLOG_ERROR("unknown geometry_v_align_t in geometry_v_align_get_top()");
+            assert(0);
+            top = 0.0;
         }
         break;
     }

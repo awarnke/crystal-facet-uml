@@ -102,6 +102,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     {
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = pencil_layout_data_get_classifier_ptr( layout_data, index );
+        /*
         const data_visible_classifier_t *visible_classifier;
         visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
 
@@ -112,9 +113,8 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
-
-        geometry_rectangle_t *classifier_bounds;
-        classifier_bounds = layout_visible_classifier_get_bounds_ptr ( classifier_layout );
+        */
+        
         pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
         pencil_classifier_painter_draw( &((*this_).classifier_painter),

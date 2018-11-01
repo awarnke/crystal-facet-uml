@@ -437,7 +437,6 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
     double text_width;
 
     const data_classifier_t *classifier;
-    data_diagramelement_t *diagramelement;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
 
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
@@ -580,6 +579,8 @@ void pencil_classifier_painter_private_draw_component_icon ( const pencil_classi
         default:
         {
             TSLOG_ERROR("unknown geometry_h_align_t in pencil_classifier_painter_private_draw_component_icon()");
+            assert(0);
+            comp_left = x;
         }
         break;
     }
@@ -608,6 +609,8 @@ void pencil_classifier_painter_private_draw_component_icon ( const pencil_classi
         default:
         {
             TSLOG_ERROR("unknown geometry_v_align_t in pencil_classifier_painter_private_draw_component_icon()");
+            assert(0);
+            comp_top = y;
         }
         break;
     }
@@ -697,6 +700,8 @@ void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classif
         default:
         {
             TSLOG_ERROR("unknown geometry_h_align_t in pencil_classifier_painter_private_draw_component_icon()");
+            assert(0);
+            art_left = x;
         }
         break;
     }
@@ -725,6 +730,8 @@ void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classif
         default:
         {
             TSLOG_ERROR("unknown geometry_v_align_t in pencil_classifier_painter_private_draw_component_icon()");
+            assert(0);
+            art_top = y;
         }
         break;
     }

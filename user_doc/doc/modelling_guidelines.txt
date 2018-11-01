@@ -45,6 +45,8 @@
  *    of describing text cannot set this straight again.
  *  - Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
  *    Names alone cannot explain a system part.
+ *  - Be precise: Write in active form, e.g. The persistence component shall store and retrieve 
+ *    binary data records indentified by string-based keys.
  *  - Things that are similar but not the same shall be different entities when modelling.
  *    E.g. The process in which an example application runs may
  *    be different from the storage location and may be different from the software-component.
