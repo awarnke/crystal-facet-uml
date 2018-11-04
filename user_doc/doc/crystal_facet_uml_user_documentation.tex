@@ -2,6 +2,10 @@
 \usepackage{graphicx}
 %\usepackage{underscore}
 %\usepackage[T1]{fontenc}  % http://ctan.org/pkg/fontenc - to support underscores in filenames
+%\usepackage{version}  %to be able to use \begin{latexonly}
+%\usepackage{html}
+%\usepackage{alltt}
+\usepackage{ifpdf}
 
 %  ¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥
 %
@@ -45,6 +49,27 @@
 {\programname{} - User Manual}
 \newcommand{\manualdate}[0]
 {2018-11-03}
+
+
+\ifpdf
+  \DeclareGraphicsExtensions{.pdf,.png}
+\else
+  \DeclareGraphicsExtensions{.png}
+\fi
+
+%\newcommand{\includegraphicshtml}[2][\width]
+%{{
+%\begin{htmlonly}
+%\includegraphics[width=#1]{#2}
+%\end{htmlonly}
+%}}
+
+%\newcommand{\includegraphicspdf}[2][\width]
+%{{
+%\begin{latexonly}
+%\includegraphics[width=#1]{#2}
+%\end{latexonly}
+%}}
 
 %  ¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥¥
 %

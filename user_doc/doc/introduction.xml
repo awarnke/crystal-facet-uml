@@ -1,0 +1,36 @@
+<!DOCTYPE section>
+<section><title>Introduction</title>
+
+<section><title>Overview</title>
+    <para>
+The following environment is required:
+
+<mediaobject><imageobject><imagedata fileref="screenshot_1.png" width="10cm"/></imageobject></mediaobject>
+
+
+
+<mediaobject><imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject></mediaobject>
+
+crystal_facet_uml is a uml diagram drawing tool
+that creates a set of consistent uml diagrams.
+
+If started in graphical mode, it shows a window with
+<itemizedlist>
+<listitem><para>toolbar on top,</para></listitem>
+<listitem><para>drawing area in the center,</para></listitem>
+<listitem><para>element configuration widgets below and</para></listitem>
+<listitem><para>an optional notification bar at the bottom.</para></listitem>
+</itemizedlist>
+
+
+Additionally, crystal_facet_uml can be started from command line
+to check and repair database files.
+Run
+<programlisting>
+./crystal_facet_uml -h
+</programlisting>
+to get a list of supported parameters.
+
+    </para>
+</section>
+</section>
