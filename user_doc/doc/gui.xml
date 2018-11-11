@@ -5,12 +5,7 @@
     <title>Overview</title>
     <para>
 
-        The following environment is required:
-
-        <mediaobject><imageobject><imagedata fileref="screenshot_1.png" width="10cm"/></imageobject></mediaobject>
-
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject></mediaobject>
-
+        <mediaobject><imageobject><imagedata fileref="screenshot_1.png"/></imageobject></mediaobject>
 
         crystal_facet_uml is a uml diagram drawing tool
         that creates a set of consistent uml diagrams.
@@ -23,7 +18,9 @@
         <listitem><para>an optional notification bar at the bottom.</para></listitem>
         </itemizedlist>
 
-        <mediaobject><imageobject><imagedata fileref="screenshot_1.png" width="10cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
+        </mediaobject>
 
         Additionally, crystal_facet_uml can be started from command line
         to check and repair database files.
@@ -38,15 +35,20 @@
 <section>
     <title>Tool Bar</title>
     <para>
-
-        <mediaobject><imageobject><imagedata fileref="main_window_sketch_1.png" width="4cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="main_window_sketch_1.pdf" width="4cm"/></imageobject>
+            <imageobject><imagedata fileref="main_window_sketch_1.png"/></imageobject>
+        </mediaobject>
     </para>
 
 <section>
     <title>Create/Use DB</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/file_use_db.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_use_db.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Opens an existing database file or creates a new database file</para></listitem>
         </itemizedlist>
@@ -57,7 +59,10 @@
     <title>Export</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/file_export.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_export.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_export.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Exports all diagrams to the selected folder (supported formats are txt, png, pdf, ps and svg)</para></listitem>
         </itemizedlist>
@@ -68,7 +73,10 @@
     <title>New Window</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/file_new_window.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/file_new_window.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Opens another window on the same database.</para></listitem>
         </itemizedlist>
@@ -79,7 +87,10 @@
     <title>Navigate</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Navigate to parent or child diagrams</para></listitem>
         <listitem><para>Create a new diagram</para></listitem>
@@ -91,7 +102,10 @@
     <title>Edit</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Modify elements in the diagram</para></listitem>
         </itemizedlist>
@@ -102,7 +116,10 @@
     <title>Create</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Create elements in the diagram</para></listitem>
         </itemizedlist>
@@ -113,7 +130,10 @@
     <title>Cut</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_cut.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Cut all pink-cornered elements to the clipboard (features of classifiers are cut independantly of their corner-colors)</para></listitem>
         </itemizedlist>
@@ -124,7 +144,10 @@
     <title>Copy</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_copy.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Copy all pink-cornered elements to the clipboard (features of classifiers are copied independantly of their corner-colors)</para></listitem>
         </itemizedlist>
@@ -135,7 +158,10 @@
     <title>Paste</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_paste.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Pastes diagrams and classifiers from the clipboard to the uml model. (Relationships are not pasted)
             If id and name are identical to an existing element, an instance of the existing element is pasted to the diagram.
@@ -148,7 +174,10 @@
     <title>Delete</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_delete.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_delete.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Deletes all pink-cornered elements. This operation may fail if marked elements have unmarked children.</para></listitem>
         </itemizedlist>
@@ -159,7 +188,10 @@
     <title>Instantiate</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Toggles the pink-cornered classifiers between classes and instances. (Does not work for relationships and features)</para></listitem>
         </itemizedlist>
@@ -170,7 +202,10 @@
     <title>Highlight</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_highlight.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Toggles the pink-cornered classifiers between yellow-marked, greyed-out and normal. (Does not work for relationships and features)</para></listitem>
         </itemizedlist>
@@ -181,7 +216,10 @@
     <title>Reset Selection</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_reset.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_reset.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Resets the pink-cornered selection</para></listitem>
         </itemizedlist>
@@ -192,7 +230,10 @@
     <title>Undo</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_undo.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_undo.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Un-does the last operation (Opening a database and exporting files cannot be undone)</para></listitem>
         </itemizedlist>
@@ -203,7 +244,10 @@
     <title>Redo</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_redo.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_redo.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Re-does the last un-done operation</para></listitem>
         </itemizedlist>
@@ -214,7 +258,10 @@
     <title>About</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Shows version, license and copyrights</para></listitem>
         </itemizedlist>
@@ -226,7 +273,10 @@
     <title>Drawing Area</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="main_window_sketch_2.png" width="4cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="main_window_sketch_2.pdf" width="4cm"/></imageobject>
+            <imageobject><imagedata fileref="main_window_sketch_2.png"/></imageobject>
+        </mediaobject>
 
         Diagrams are layouted automatically. You can influence the locations of classifiers only.
         When adding too many classifiers or relations, auto layouting may not achieve the expected results.
@@ -238,7 +288,10 @@
     <title>Navigate</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>To navigate to the parent diagram, click on the parent diagram.</para></listitem>
         <listitem><para>To navigate to a child diagram, click on the child diagram.</para></listitem>
@@ -252,7 +305,10 @@
     <title>Edit</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>To move classifiers within the diagram, press, drag and release the mouse button.</para></listitem>
         <listitem><para>To select the diagram or a classifier or a feature or a relationship with yellow corners, click on this object.</para></listitem>
@@ -265,7 +321,10 @@
     <title>Create</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>To create a classifier, click at an empty space in the diagram.</para></listitem>
         <listitem><para>To create a child classifier, click into the white space of a classifier.
@@ -281,7 +340,10 @@
     <title>Element Configuration</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="main_window_sketch_3.png" width="4cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="main_window_sketch_3.pdf" width="4cm"/></imageobject>
+            <imageobject><imagedata fileref="main_window_sketch_3.png"/></imageobject>
+        </mediaobject>
 
         Edit the properties of the yellow-cornered object.
 
@@ -334,7 +396,10 @@
     <title>Commit</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/edit_commit.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_commit.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/edit_commit.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Stores the latest changes to the database immediately. This feature is optional, it is not necessary to explicitly save the file.</para></listitem>
         </itemizedlist>
@@ -346,13 +411,19 @@
     <title>Notification Bar</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="main_window_sketch_4.png" width="4cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="main_window_sketch_4.pdf" width="4cm"/></imageobject>
+            <imageobject><imagedata fileref="main_window_sketch_4.png"/></imageobject>
+        </mediaobject>
     </para>
 
 <section><title>Information</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/message_info.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_info.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_info.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Informs on success of an operation, e.g. an export</para></listitem>
         </itemizedlist>
@@ -363,7 +434,10 @@
     <title>Warning</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/message_warn.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_warn.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Informs on a possible problem</para></listitem>
         </itemizedlist>
@@ -374,7 +448,10 @@
     <title>Error</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/message_error.pdf" width="1cm"/></imageobject></mediaobject>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_error.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/message_error.png"/></imageobject>
+        </mediaobject>
         <itemizedlist>
         <listitem><para>Informs on an error</para></listitem>
         </itemizedlist>
