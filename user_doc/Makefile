@@ -7,7 +7,6 @@ crystal_facet_uml_user_documentation.pdf: doc/*.xml
 	mv doc/crystal_facet_uml_user_documentation.pdf .
 
 html: doc/*.xml
-	mkdir -p html &&\
 	xmlto -o html/ xhtml doc/crystal_facet_uml_user_documentation.xml &&\
 	echo relocate image files &&\
 	cd doc &&\
@@ -16,10 +15,29 @@ html: doc/*.xml
 	find html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g'
 
 # daps exists only on opensuse, not on ubuntu
-# pandoc drops the images (at least when i tried to use it)
+# pandoc is not fit with xinclude and drops the images (at least when i tried to use it in 2018)
 
-does-not-work:
-	pandoc --output=../crystal_facet_uml_user_documentation/index.html --extract-media=../crystal_facet_uml_user_documentation --self-contained --to=html5 --from=docbook crystal_facet_uml_user_documentation.xml
+MAN_STYLESHEET_0="//usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"
+MAN_STYLESHEET_1="/usr/share/xml/docbook/stylesheet/suse/manpages/docbook.xsl"
+MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
+MANPAGE_FILE="crystal-facet-uml.1"
+
+man: doc/manpage.xml
+	if [ -e ${MAN_STYLESHEET_0} ] ; then\
+	  xsltproc --nonet --output ${MANPAGE_FILE} ${MAN_STYLESHEET_0} doc/manpage.xml &&\
+	  mv "crystal-facet-uml.SECTION" ${MANPAGE_FILE} &&\
+	  gzip ${MANPAGE_FILE} ;\
+	elif [ -e ${MAN_STYLESHEET_1} ] ; then\
+	  xsltproc --nonet --output ${MANPAGE_FILE} ${MAN_STYLESHEET_1} doc/manpage.xml &&\
+	  gzip ${MANPAGE_FILE} ;\
+	elif [ -e ${MAN_STYLESHEET_2} ] ; then\
+	  xsltproc --nonet --output ${MANPAGE_FILE} ${MAN_STYLESHEET_2} doc/manpage.xml &&\
+	  gzip ${MANPAGE_FILE} ;\
+	else \
+	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
+	fi ;
+
+# use groff -X / or / -a crystal-facet-uml.1 to view the output
 
 clean:
 	rm -f crystal_facet_uml_user_documentation.pdf &&\
