@@ -1,4 +1,4 @@
-all: crystal_facet_uml_user_documentation.pdf html
+all: crystal_facet_uml_user_documentation.pdf html crystal-facet-uml.1.gz
 
 crystal_facet_uml_user_documentation.pdf: doc/*.xml
 	cd doc &&\
@@ -22,7 +22,7 @@ MAN_STYLESHEET_1="/usr/share/xml/docbook/stylesheet/suse/manpages/docbook.xsl"
 MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
 MANPAGE_FILE="crystal-facet-uml.1"
 
-man: doc/manpage.xml
+crystal-facet-uml.1.gz: doc/manpage.xml
 	if [ -e ${MAN_STYLESHEET_0} ] ; then\
 	  xsltproc --nonet --output ${MANPAGE_FILE} ${MAN_STYLESHEET_0} doc/manpage.xml &&\
 	  mv "crystal-facet-uml.SECTION" ${MANPAGE_FILE} &&\
@@ -37,9 +37,10 @@ man: doc/manpage.xml
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
 	fi ;
 
-# use groff -X / or / -a crystal-facet-uml.1 to view the output
+# to view the output, gunzip and man --local-file crystal-facet-uml.1 
 
 clean:
 	rm -f crystal_facet_uml_user_documentation.pdf &&\
-	rm -fr html
+	rm -fr html &&\
+	rm -f crystal-facet-uml.1.gz
 

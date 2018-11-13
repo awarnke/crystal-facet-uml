@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.1.2//EN"
-"http://www.oasis-open.org/docbook/xml/4.0/docbookx.dtd">
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.5//EN"
+"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd">
 <article lang="en">
     <title>crystal_facet_uml user documentation</title>
     <articleinfo>
@@ -12,6 +12,7 @@
     </articleinfo>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
+<!--    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="manpage.xml" /> -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gui.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modelling_guidelines.xml" />
 
