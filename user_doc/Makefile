@@ -12,7 +12,8 @@ html: doc/*.xml
 	cd doc &&\
 	cat *.xml | grep -e 'fileref.*png' | sed -e 's/^[^"]*"\([^"]*\)".*/\1/' | xargs cp --target-directory=../html &&\
 	cd .. &&\
-	find html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g'
+	find html -name '*.html' | xargs sed -i -e 's/\.\.\/\.\.\/gui\/source\/resources\///g' &&\
+	find html -name '*.html' | xargs sed -i -e 's/feature_gallery_export\///g'
 
 # daps exists only on opensuse, not on ubuntu
 # pandoc is not fit with xinclude and drops the images (at least when i tried to use it in 2018)
@@ -23,6 +24,7 @@ MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook
 MANPAGE_FILE="crystal_facet_uml.1"
 
 crystal-facet-uml.1.gz: doc/manpage.xml doc/non_tech_intro_para.xml
+	rm -f ${MANPAGE_FILE}.gz ${MAPGAPE_FILE}i &&\
 	if [ -e ${MAN_STYLESHEET_0} ] ; then\
 	  xsltproc --nonet --param man.charmap.use.subset "0" --xinclude ${MAN_STYLESHEET_0} doc/manpage.xml &&\
 	  gzip --quiet ${MANPAGE_FILE} ;\

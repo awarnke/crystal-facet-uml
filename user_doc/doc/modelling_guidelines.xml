@@ -1,8 +1,6 @@
 <!DOCTYPE section>
-<section><title>modelling guidelines</title>
+<section><title>Modelling Guidelines</title>
 
-<section>
-    <title>Modelling Introduction</title>
     <para>
 
         This page lists remarks on creating a software architecture and design document in general
@@ -113,7 +111,6 @@
         Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
     </para>
 
-</section>
 </section>
 </section>
 </section>

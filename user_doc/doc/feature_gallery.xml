@@ -1,0 +1,104 @@
+<!DOCTYPE section>
+<section><title>Feature Gallery</title>
+
+    <section>
+        <title>Feature List</title>
+        <para>
+            This section lists what kind of elements crystal_facet_uml can draw in diagrams.
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0003_Classifiers.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0003_Classifiers.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0005_Diagrams.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0005_Diagrams.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0006_Classifier_instances.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0006_Classifier_instances.png"/></imageobject>
+            </mediaobject>
+        </para>
+    </section>
+
+    <section>
+        <title>UML Behavioral Views</title>
+        <para>
+            This section lists what kind of elements crystal_facet_uml can draw in diagrams.
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0007_Examples.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0007_Examples.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0008_Activities.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0008_Activities.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0012_System_States.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0012_System_States.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0013_Communication_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0013_Communication_Diagram.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0020_Sequence.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0020_Sequence.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0021_Timing.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0021_Timing.png"/></imageobject>
+            </mediaobject>
+        </para>
+    </section>
+
+    <section>
+        <title>UML Static Views</title>
+        <para>
+            This section lists what kind of elements crystal_facet_uml can draw in diagrams.
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0014_Deployment_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0014_Deployment_Diagram.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0015_Component_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0015_Component_Diagram.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0016_Package_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0016_Package_Diagram.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0017_Class_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0017_Class_Diagram.png"/></imageobject>
+            </mediaobject>
+        </para>
+    </section>
+
+    <section>
+        <title>SysML Views</title>
+        <para>
+            This section lists what kind of elements crystal_facet_uml can draw in diagrams.
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0018_Requirements.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0018_Requirements.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0019_Block_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0019_Block_Diagram.png"/></imageobject>
+            </mediaobject>
+        </para>
+    </section>
+
+    <section>
+        <title>Other Examples</title>
+        <para>See
+            <ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/example_diagrams/quality.pdf" />
+            to get another view on how to use crystal_facet_uml.
+        </para>
+    </section>
+
+</section>
