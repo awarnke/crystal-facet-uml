@@ -1,0 +1,24 @@
+/*!
+ *  \mainpage crystal_facet_uml source code doc
+ *
+ *  \image html crystal_facet_uml_80x80.png
+ *  \image latex crystal_facet_uml.pdf "" width=3cm
+ *
+ *  \section cfu-intro Introduction
+ *
+ *  crystal_facet_uml is a uml diagram drawing tool
+ *  that creates a set of consistent uml diagrams.
+ *
+ *  \image html screenshot_1.png
+ *  \image latex screenshot_1.png "" width=15cm
+ *
+ *  \section cfu-info Further Information
+ *
+ *  \subsection cfu-license License
+ *  License of crystal_facet_uml is Apache-2.0.
+ *  crystal_facet_uml contains sqlite which is Public Domain.
+ *  Unit tests are based on embunit (MIT/X Consortium License).
+ *
+ *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ */
+

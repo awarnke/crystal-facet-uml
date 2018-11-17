@@ -1,19 +1,20 @@
 <!DOCTYPE section>
-<section><title>Introduction</title>
+<section>
+    <title>Introduction</title>
+    <para>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
+        </mediaobject>
+    </para>
 
     <section>
         <title>Goal</title>
         <para>
-            <mediaobject>
-                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
-                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
-            </mediaobject>
-        </para>
-        <para>
             crystal_facet_uml creates a set of uml diagrams.
         </para>
         <para>
-            It keeps the diagrams consistent concerning element names and relations between these uml elements.
+            It ensures consistency of relationships and uml element names between different diagrams.
         </para>
         <para>
             crystal_facet_uml exports diagrams in various vector and pixel-based image formats.
@@ -28,20 +29,18 @@
     <section>
         <title>Usage Overview</title>
         <para>
-            If started in graphical mode, it shows a window with
+            crystal_facet_uml can be started in graphical mode to
             <itemizedlist>
-                <listitem><para>toolbar on top,</para></listitem>
-                <listitem><para>drawing area in the center,</para></listitem>
-                <listitem><para>element configuration widgets below and</para></listitem>
-                <listitem><para>an optional notification bar at the bottom.</para></listitem>
+                <listitem><para>manage a diagram structure</para></listitem>
+                <listitem><para>create, modify and delete diagrams</para></listitem>
+                <listitem><para>create, modify and delete uml elements in diagrams</para></listitem>
+                <listitem><para>create, modify and delete relationships and features of uml elements</para></listitem>
+                <listitem><para>export the uml diagrams to image file formats</para></listitem>
             </itemizedlist>
 
-            <mediaobject>
-                <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
-            </mediaobject>
-
-            Additionally, crystal_facet_uml can be started from command line
+            crystal_facet_uml can also be started from command line
             to check and repair database files.
+
             Run
 <programlisting>
 ./crystal_facet_uml -h

@@ -38,7 +38,7 @@ PROJECT_NAME           = crystal_facet_uml
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.7.0
+PROJECT_NUMBER         = 1.7.1
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -762,9 +762,7 @@ INPUT                  = ../gui \
                          ../utf8stringbuf \
                          ../pencil \
                          ../universal \
-                         ../user_doc/doc/user_doc.txt \
-                         ../example_diagrams/feature_gallery.txt \
-                         ../user_doc/doc/modelling_guidelines.txt \
+                         ./source_code_doc.txt \
                          ../architecture/doc/architecture.txt \
                          ../architecture/doc/programming_guidelines.txt
 
@@ -855,7 +853,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             = ../user_doc/doc ../architecture/doc ../gui/source ../example_diagrams/feature_gallery_export
+IMAGE_PATH             = ../user_doc/doc ../architecture/doc ../gui/source
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program

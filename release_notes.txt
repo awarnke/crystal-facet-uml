@@ -1,3 +1,5 @@
+2018-xx-xx
+  . user-doc and manpages are generated from docbook now
 2018-11-01 1.7.0 [15274aa]
   + tree view allows to navigate interactively
   + new sibling and new child diagrams can be created in tree view

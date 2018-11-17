@@ -12,8 +12,9 @@
     </articleinfo>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
-<!--    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="manpage.xml" /> -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gui.xml" />
+    <!-- todo: ../example_diagrams/feature_gallery.txt  -->
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modelling_guidelines.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix.xml" />
 
 </article>

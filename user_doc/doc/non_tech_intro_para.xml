@@ -1,0 +1,51 @@
+<!DOCTYPE para>
+<para>
+
+crystal_facet_uml provides a graphical user interface to
+
+<itemizedlist>
+    <listitem><para>create diagrams</para>
+        <para>(use-case, deployment, component, composite-structure, package, class, activity, state, timing, communication, sequence)</para></listitem>
+    <listitem><para>manage diagrams in a tree-hierarchy</para></listitem>
+    <listitem><para>create uml elements</para>
+        <para>(actor, system-boundary, use-case, node, component, part, interface, package, class, activity, state, object, artifact, comment, requirement)</para></listitem>
+    <listitem><para>move, modify and delete uml elements</para></listitem>
+    <listitem><para>create, modify and delete relationships</para>
+        <para>(dependency, association, aggregation, composition, generalization, realization, contains, sync-call, return-call, async-message, communication-path, control-flow, object-flow, deployment, manifest, include, extend)</para></listitem>
+    <listitem><para>create, modify and delete features </para>
+        <para>(port, field, operation)</para></listitem>
+    <listitem><para>cut, copy, paste of uml elements between diagrams</para></listitem>
+    <listitem><para>undo and redo are supported</para></listitem>
+    <listitem><para>multiple windows can show different or same parts of the uml model</para></listitem>
+</itemizedlist>
+
+Diagrams are layouted part-automatically:
+<itemizedlist>
+    <listitem><para>The user chooses the relative location of uml elements towards others</para></listitem>
+    <listitem><para>crystal_facet_uml selects the exact locations of uml elements</para></listitem>
+    <listitem><para>The user controls the positions of messages/transisions in sequence and timing diagrams</para></listitem>
+    <listitem><para>crystal_facet_uml auto-layouts relationships in other diagrams</para></listitem>
+</itemizedlist>
+
+crystal_facet_uml manages a meta model (this uml-model is stored in an sqlite database):
+
+<itemizedlist>
+    <listitem><para>Diagrams are organized as a tree, similar to a book's table-of-contents</para></listitem>
+    <listitem><para>Uml elements exist only once even if shown in many diagrams</para></listitem>
+    <listitem><para>Relationships and features are consistent between all diagrams</para></listitem>
+    <listitem><para>Diagram-local messages/transitions are supported in scenario based diagrams</para>
+        <para>(sequence, communication, timing)</para></listitem>
+</itemizedlist>
+
+crystal_facet_uml exports diagrams as
+
+<itemizedlist>
+    <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
+    <listitem><para>pixel graphics</para><para>(png)</para></listitem>
+    <listitem><para>textual representation</para><para>(utf8)</para></listitem>
+</itemizedlist>
+
+crystal_facet_uml can also be started from command line
+to check and repair database files.
+
+</para>

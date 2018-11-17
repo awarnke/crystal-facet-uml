@@ -33,7 +33,7 @@ cmake -DCMAKE_BUILD_TYPE=Release .
 make %{?_smp_mflags}
 
 %install
-mkdir -p %{buildroot}/usr/bin 
+mkdir -p %{buildroot}/usr/bin
 cp crystal_facet_uml %{buildroot}/usr/bin
 mkdir -p %{buildroot}/usr/share/applications
 cp ./installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/applications
@@ -48,7 +48,7 @@ cp ./installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/
 mkdir -p %{buildroot}/usr/share/pixmaps
 cp ./gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
 mkdir -p %{buildroot}/usr/share/man/man1
-cp ./installation_linux/man/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
+cp ./user_doc/crystal-facet-uml.1.gz %{buildroot}/usr/share/man/man1
 
 %check
 ./unittest_crystal_facet_uml -a
@@ -59,7 +59,7 @@ cp ./installation_linux/man/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/ma
 /usr/bin/crystal_facet_uml
 /usr/share/pixmaps/crystal_facet_uml.png
 /usr/share/applications/crystal_facet_uml.desktop
-/usr/share/man/man1/crystal_facet_uml.1.gz
+/usr/share/man/man1/crystal-facet-uml.1.gz
 
 %changelog
 

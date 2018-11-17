@@ -5,30 +5,17 @@
     <title>Overview</title>
     <para>
 
-        <mediaobject><imageobject><imagedata fileref="screenshot_1.png"/></imageobject></mediaobject>
-
-        crystal_facet_uml is a uml diagram drawing tool
-        that creates a set of consistent uml diagrams.
-
-        If started in graphical mode, it shows a window with
+        If started in graphical mode, crystal_facet_uml shows a window with
         <itemizedlist>
         <listitem><para>toolbar on top,</para></listitem>
         <listitem><para>drawing area in the center,</para></listitem>
-        <listitem><para>element configuration widgets below and</para></listitem>
+        <listitem><para>element configuration widgets to the right and</para></listitem>
         <listitem><para>an optional notification bar at the bottom.</para></listitem>
         </itemizedlist>
 
         <mediaobject>
             <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
         </mediaobject>
-
-        Additionally, crystal_facet_uml can be started from command line
-        to check and repair database files.
-        Run
-        code{.sh}
-        ./crystal_facet_uml -h
-        endcode
-        to get a list of supported parameters.
 
     </para>
 
@@ -455,42 +442,6 @@
         <itemizedlist>
         <listitem><para>Informs on an error</para></listitem>
         </itemizedlist>
-    </para>
-
-</section>
-</section>
-<section>
-    <title>Further Information</title>
-    <para>
-    </para>
-<section>
-    <title>Download</title>
-    <para>
-
-        Find the latest version at:
-        <itemizedlist>
-        <listitem><para>https://sourceforge.net/projects/crystal-facet-uml/</para></listitem>
-        <listitem><para>https://github.com/awarnke/crystal_facet_uml</para></listitem>
-        <listitem><para>https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml</para></listitem>
-        </itemizedlist>
-
-        User documentation is available here:
-        <itemizedlist>
-        <listitem><para>http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf</para></listitem>
-        <listitem><para>https://github.com/awarnke/crystal_facet_uml/blob/master/doxygen_build/crystal_facet_uml_user_documentation.pdf</para></listitem>
-        </itemizedlist>
-    </para>
-</section>
-
-<section>
-    <title>License</title>
-    <para>
-
-        License of crystal_facet_uml is Apache-2.0.
-        crystal_facet_uml contains sqlite which is Public Domain.
-        Unit tests are based on embunit (MIT/X Consortium License).
-
-        (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
     </para>
 
 </section>

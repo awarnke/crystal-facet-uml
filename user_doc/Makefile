@@ -20,7 +20,7 @@ html: doc/*.xml
 MAN_STYLESHEET_0="/usr/share/xml/docbook/stylesheet/nwalsh/1.78.1/manpages/docbook.xsl"
 MAN_STYLESHEET_1="/usr/share/xml/docbook/stylesheet/suse/manpages/docbook.xsl"
 MAN_STYLESHEET_2="/usr/share/xml/docbook/stylesheet/docbook-xsl/manpages/docbook.xsl"
-MANPAGE_FILE="crystal-facet-uml.1"
+MANPAGE_FILE="crystal_facet_uml.1"
 
 crystal-facet-uml.1.gz: doc/manpage.xml doc/non_tech_intro_para.xml
 	if [ -e ${MAN_STYLESHEET_0} ] ; then\
@@ -40,5 +40,5 @@ crystal-facet-uml.1.gz: doc/manpage.xml doc/non_tech_intro_para.xml
 clean:
 	rm -f crystal_facet_uml_user_documentation.pdf &&\
 	rm -fr html &&\
-	rm -f crystal-facet-uml.1.gz
+	rm -f ${MANPAGE_FILE}.gz
 

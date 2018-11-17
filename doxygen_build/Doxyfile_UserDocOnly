@@ -1,8 +1,0 @@
-@INCLUDE = Doxyfile
-
-# Overwrite the output directory:
-OUTPUT_DIRECTORY       = userdoc
-
-# Overwrite the input files:
-INPUT                  = ../user_doc/doc/user_doc.txt \
-                         ../user_doc/doc/modelling_guidelines.txt

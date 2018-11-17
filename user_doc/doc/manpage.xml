@@ -44,21 +44,16 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
 
 -->
 
-  <!-- Fill in your name for FIRSTNAME and SURNAME. -->
   <!ENTITY dhfirstname "Andreas">
   <!ENTITY dhsurname   "Warnke">
-  <!-- dhusername could also be set to "&dhfirstname; &dhsurname;". -->
   <!ENTITY dhusername  "Andreas Warnke">
   <!ENTITY dhemail     "cfu@andreaswarnke.de">
-  <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
-       allowed: see man(7), man(1) and
-       http://www.tldp.org/HOWTO/Man-Page/q2.html. -->
   <!ENTITY dhsection   "1">
   <!-- TITLE should be something like "User commands" or similar (see
        http://www.tldp.org/HOWTO/Man-Page/q2.html). -->
-  <!ENTITY dhtitle     "crystal-facet-uml User Manual">
+  <!ENTITY dhtitle     "crystal_facet_uml Command Line Usage">
   <!ENTITY dhucpackage "Crystal-facet-uml">
-  <!ENTITY dhpackage   "crystal-facet-uml">
+  <!ENTITY dhpackage   "crystal_facet_uml">
 ]>
 
 <refentry>
@@ -69,7 +64,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
       <author>
        <firstname>&dhfirstname;</firstname>
         <surname>&dhsurname;</surname>
-        <contrib>Wrote this manpage for Unix and Linux systems.</contrib>
+        <contrib>wrote this manpage for Unix and Linux systems.</contrib>
         <address>
           <email>&dhemail;</email>
         </address>
@@ -93,104 +88,71 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
     <refname>&dhpackage;</refname>
     <refpurpose>
         creates a set of uml diagrams.
-        &dhpackage; keeps the diagrams consistent concerning element names and relations between these uml elements.
+        &dhpackage; ensures consistency of relationships and uml element names between different diagrams.
         &dhpackage; exports diagrams in various vector and pixel-based image formats.
     </refpurpose>
   </refnamediv>
   <refsynopsisdiv>
     <cmdsynopsis>
       <command>&dhpackage;</command>
-      <!-- These are several examples, how syntaxes could look -->
-      <arg choice="plain"><option>-e <replaceable>this</replaceable></option></arg>
-      <arg choice="opt"><option>--example=<parameter>that</parameter></option></arg>
       <arg choice="opt">
-        <group choice="req">
-          <arg choice="plain"><option>-e</option></arg>
-          <arg choice="plain"><option>--example</option></arg>
-        </group>
-        <replaceable class="option">this</replaceable>
-      </arg>
-      <arg choice="opt">
-        <group choice="req">
-          <arg choice="plain"><option>-e</option></arg>
-          <arg choice="plain"><option>--example</option></arg>
-        </group>
-        <group choice="req">
-          <arg choice="plain"><replaceable>this</replaceable></arg>
-          <arg choice="plain"><replaceable>that</replaceable></arg>
-        </group>
+          <option>-u <replaceable class="option">databasefile</replaceable>
+          </option>
       </arg>
     </cmdsynopsis>
     <cmdsynopsis>
+        <command>&dhpackage;</command>
+        <arg choice="plain">
+            <group choice="req">
+                <arg choice="plain"><option>-t</option></arg>
+                <arg choice="plain"><option>-r</option></arg>
+            </group>
+            <replaceable class="option">databasefile</replaceable>
+        </arg>
+    </cmdsynopsis>
+    <cmdsynopsis>
       <command>&dhpackage;</command>
-      <!-- Normally the help and version options make the programs stop
-           right after outputting the requested information. -->
-      <group choice="opt">
-        <arg choice="plain">
-          <group choice="req">
-            <arg choice="plain"><option>-h</option></arg>
-            <arg choice="plain"><option>--help</option></arg>
-          </group>
-        </arg>
-        <arg choice="plain">
-          <group choice="req">
-            <arg choice="plain"><option>-v</option></arg>
-            <arg choice="plain"><option>--version</option></arg>
-          </group>
-        </arg>
-      </group>
+      <arg choice="plain"><option>-h</option></arg>
     </cmdsynopsis>
   </refsynopsisdiv>
   <refsect1 id="description">
     <title>DESCRIPTION</title>
-    <para>This manual page documents briefly the
-      <command>&dhpackage;</command> and <command>bar</command>
-      commands.</para>
-    <para>This manual page was written for the Debian distribution
-      because the original program does not have a manual page.
-      Instead, it has documentation in the GNU <citerefentry>
-        <refentrytitle>info</refentrytitle>
-        <manvolnum>1</manvolnum>
-      </citerefentry> format; see below.</para>
-    <para><command>&dhpackage;</command> is a program that...</para>
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
   </refsect1>
   <refsect1 id="options">
     <title>OPTIONS</title>
-    <para>The program follows the usual GNU command line syntax,
-      with long options starting with two dashes (`-').  A summary of
-      options is included below.  For a complete description, see the
-      <citerefentry>
-        <refentrytitle>info</refentrytitle>
-        <manvolnum>1</manvolnum>
-      </citerefentry> files.</para>
+    <para>
+       Without options, the program starts in graphical mode.
+       See crystal_facet_uml_user_documentation.pdf for graphical mode usage.
+    </para>
     <variablelist>
-      <!-- Use the variablelist.term.separator and the
-           variablelist.term.break.after parameters to
-           control the term elements. -->
       <varlistentry>
-        <term><option>-e <replaceable>this</replaceable></option></term>
-        <term><option>--example=<replaceable>that</replaceable></option></term>
+        <term><option>-u <replaceable>databasefile</replaceable></option></term>
         <listitem>
-          <para>Does this and that.</para>
+          <para>Starts in graphical mode and opens the databasefile immediately.</para>
         </listitem>
       </varlistentry>
       <varlistentry>
+        <term><option>-t <replaceable>databasefile</replaceable></option></term>
+        <listitem>
+          <para>Tests the consistency of a databasefile.</para>
+        </listitem>
+      </varlistentry>
+      <varlistentry>
+          <term><option>-r <replaceable>databasefile</replaceable></option></term>
+          <listitem>
+              <para>Tests the consistency of a databasefile and repairs found issues.</para>
+          </listitem>
+      </varlistentry>
+      <varlistentry>
         <term><option>-h</option></term>
-        <term><option>--help</option></term>
         <listitem>
           <para>Show summary of options.</para>
         </listitem>
       </varlistentry>
-      <varlistentry>
-        <term><option>-v</option></term>
-        <term><option>--version</option></term>
-        <listitem>
-          <para>Show version of program.</para>
-        </listitem>
-      </varlistentry>
     </variablelist>
   </refsect1>
+  <!--
   <refsect1 id="files">
     <title>FILES</title>
     <variablelist>
@@ -218,6 +180,8 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
       </varlistentry>
     </variablelist>
   </refsect1>
+  -->
+  <!--
   <refsect1 id="environment">
     <title>ENVIRONMENT</title>
     <variablelist>
@@ -230,22 +194,44 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
       </varlistentry>
     </variablelist>
   </refsect1>
+  -->
   <refsect1 id="diagnostics">
     <title>DIAGNOSTICS</title>
     <para>The following diagnostics may be issued
-      on <filename class="devicefile">stderr</filename>:</para>
+      on <filename class="devicefile">syslog</filename>:</para>
     <variablelist>
       <varlistentry>
-        <term><errortext>Bad configuration file. Exiting.</errortext></term>
+        <term><errortext>EVT : ...</errortext></term>
         <listitem>
-          <para>The configuration file seems to contain a broken configuration
-            line. Use the <option>--verbose</option> option, to get more info.
+          <para>An event occurred.
           </para>
         </listitem>
       </varlistentry>
+      <varlistentry>
+          <term><errortext>ANOM: ...</errortext></term>
+          <listitem>
+              <para>Something unexpected happened that was handled.
+              </para>
+          </listitem>
+      </varlistentry>
+      <varlistentry>
+          <term><errortext>WARN: ...</errortext></term>
+          <listitem>
+              <para>Something unexpected happened that may cause a failure.
+              </para>
+          </listitem>
+      </varlistentry>
+      <varlistentry>
+          <term><errortext>ERR : ...</errortext></term>
+          <listitem>
+              <para>Something unexpected happened that has caused a failure.
+              </para>
+          </listitem>
+      </varlistentry>
     </variablelist>
-    <para><command>&dhpackage;</command> provides some return codes, that can
-      be used in scripts:</para>
+    <para><command>journalctl -f</command> allows to
+      read the syslog.</para>
+    <!--
     <segmentedlist>
       <segtitle>Code</segtitle>
       <segtitle>Diagnostic</segtitle>
@@ -258,20 +244,18 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
         <seg>The configuration file seems to be broken.</seg>
       </seglistitem>
     </segmentedlist>
+    -->
   </refsect1>
   <refsect1 id="bugs">
-    <!-- Or use this section to tell about upstream BTS. -->
     <title>BUGS</title>
-    <para>The program is currently limited to only work
-      with the <package>foobar</package> library.</para>
     <para>The upstreams <acronym>BTS</acronym> can be found
-      at <ulink url="http://bugzilla.foo.tld"/>.</para>
+        at <ulink url="https://github.com/awarnke/crystal_facet_uml/issues"/>.</para>
   </refsect1>
+  <!--
   <refsect1 id="see_also">
     <title>SEE ALSO</title>
-    <!-- In alpabetical order. -->
     <para><citerefentry>
-        <refentrytitle>bar</refentrytitle>
+        <refentrytitle>sqlite</refentrytitle>
         <manvolnum>1</manvolnum>
       </citerefentry>, <citerefentry>
         <refentrytitle>baz</refentrytitle>
@@ -286,5 +270,6 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
         <manvolnum>1</manvolnum>
       </citerefentry> system.</para>
   </refsect1>
+  -->
 </refentry>
 
