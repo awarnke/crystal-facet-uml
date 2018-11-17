@@ -45,15 +45,15 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
 -->
 
   <!-- Fill in your name for FIRSTNAME and SURNAME. -->
-  <!ENTITY dhfirstname "FIRSTNAME">
-  <!ENTITY dhsurname   "SURNAME">
+  <!ENTITY dhfirstname "Andreas">
+  <!ENTITY dhsurname   "Warnke">
   <!-- dhusername could also be set to "&dhfirstname; &dhsurname;". -->
-  <!ENTITY dhusername  "Andi">
-  <!ENTITY dhemail     "andi@unknown">
+  <!ENTITY dhusername  "Andreas Warnke">
+  <!ENTITY dhemail     "cfu@andreaswarnke.de">
   <!-- SECTION should be 1-8, maybe w/ subsection other parameters are
        allowed: see man(7), man(1) and
        http://www.tldp.org/HOWTO/Man-Page/q2.html. -->
-  <!ENTITY dhsection   "SECTION">
+  <!ENTITY dhsection   "1">
   <!-- TITLE should be something like "User commands" or similar (see
        http://www.tldp.org/HOWTO/Man-Page/q2.html). -->
   <!ENTITY dhtitle     "crystal-facet-uml User Manual">
@@ -69,26 +69,20 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
       <author>
        <firstname>&dhfirstname;</firstname>
         <surname>&dhsurname;</surname>
-        <contrib>Wrote this manpage for the Debian system.</contrib>
+        <contrib>Wrote this manpage for Unix and Linux systems.</contrib>
         <address>
           <email>&dhemail;</email>
         </address>
       </author>
     </authorgroup>
     <copyright>
-      <year>2007</year>
+      <year>2018</year>
       <holder>&dhusername;</holder>
     </copyright>
     <legalnotice>
-      <para>This manual page was written for the Debian system
-        (and may be used by others).</para>
+      <para>This manual page was written for Unix and Linux systems.</para>
       <para>Permission is granted to copy, distribute and/or modify this
-        document under the terms of the GNU General Public License,
-        Version 2 or (at your option) any later version published by
-        the Free Software Foundation.</para>
-      <para>On Debian systems, the complete text of the GNU General Public
-        License can be found in
-        <filename>/usr/share/common-licenses/GPL</filename>.</para>
+        document under the terms of the Apache-2.0 License.</para>
     </legalnotice>
   </refentryinfo>
   <refmeta>
@@ -97,7 +91,11 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
   </refmeta>
   <refnamediv>
     <refname>&dhpackage;</refname>
-    <refpurpose>program to do something</refpurpose>
+    <refpurpose>
+        creates a set of uml diagrams.
+        &dhpackage; keeps the diagrams consistent concerning element names and relations between these uml elements.
+        &dhpackage; exports diagrams in various vector and pixel-based image formats.
+    </refpurpose>
   </refnamediv>
   <refsynopsisdiv>
     <cmdsynopsis>
@@ -155,6 +153,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
         <manvolnum>1</manvolnum>
       </citerefentry> format; see below.</para>
     <para><command>&dhpackage;</command> is a program that...</para>
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
   </refsect1>
   <refsect1 id="options">
     <title>OPTIONS</title>

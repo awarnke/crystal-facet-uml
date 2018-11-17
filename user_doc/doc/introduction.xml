@@ -1,37 +1,52 @@
 <!DOCTYPE section>
 <section><title>Introduction</title>
 
-<section><title>Overview</title>
-    <para>
+    <section>
+        <title>Goal</title>
+        <para>
+            <mediaobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
+            </mediaobject>
+        </para>
+        <para>
+            crystal_facet_uml creates a set of uml diagrams.
+        </para>
+        <para>
+            It keeps the diagrams consistent concerning element names and relations between these uml elements.
+        </para>
+        <para>
+            crystal_facet_uml exports diagrams in various vector and pixel-based image formats.
+        </para>
+    </section>
+    <section>
+        <title>Features</title>
 
-<mediaobject>
-    <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
-    <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
-</mediaobject>
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
 
-crystal_facet_uml is a uml diagram drawing tool
-that creates a set of consistent uml diagrams.
+    </section>
+    <section>
+        <title>Usage Overview</title>
+        <para>
+            If started in graphical mode, it shows a window with
+            <itemizedlist>
+                <listitem><para>toolbar on top,</para></listitem>
+                <listitem><para>drawing area in the center,</para></listitem>
+                <listitem><para>element configuration widgets below and</para></listitem>
+                <listitem><para>an optional notification bar at the bottom.</para></listitem>
+            </itemizedlist>
 
-If started in graphical mode, it shows a window with
-<itemizedlist>
-<listitem><para>toolbar on top,</para></listitem>
-<listitem><para>drawing area in the center,</para></listitem>
-<listitem><para>element configuration widgets below and</para></listitem>
-<listitem><para>an optional notification bar at the bottom.</para></listitem>
-</itemizedlist>
+            <mediaobject>
+                <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
+            </mediaobject>
 
-<mediaobject>
-    <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
-</mediaobject>
-
-Additionally, crystal_facet_uml can be started from command line
-to check and repair database files.
-Run
+            Additionally, crystal_facet_uml can be started from command line
+            to check and repair database files.
+            Run
 <programlisting>
 ./crystal_facet_uml -h
 </programlisting>
-to get a list of supported parameters.
-
-    </para>
-</section>
+            to get a list of supported parameters.
+        </para>
+    </section>
 </section>
