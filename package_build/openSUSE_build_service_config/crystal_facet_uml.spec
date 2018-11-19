@@ -3,7 +3,7 @@
 #
 
 Name:           crystal_facet_uml
-Version:        1.7.0
+Version:        1.7.1
 Release:        1
 License:        Apache-2.0
 Summary:        Draws UML Diagrams
@@ -48,7 +48,9 @@ cp ./installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/
 mkdir -p %{buildroot}/usr/share/pixmaps
 cp ./gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
 mkdir -p %{buildroot}/usr/share/man/man1
-cp ./user_doc/crystal-facet-uml.1.gz %{buildroot}/usr/share/man/man1
+cp ./user_doc/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
+mkdir -p %{buildroot}/usr/share/doc/crystal-facet-uml
+cp ./user_doc/crystal_facet_uml_user_documentation.pdf %{buildroot}/usr/share/doc/crystal-facet-uml
 
 %check
 ./unittest_crystal_facet_uml -a

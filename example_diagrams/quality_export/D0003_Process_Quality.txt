@@ -10,7 +10,7 @@ Process                                          [C0005]
 
 With What                                        [C0006]
   Tools                                          [F0050]
-  Templates                                      [F0051]
+  Resources                                      [F0051]
   enables --> Process                            [R0003]
 
 
@@ -24,7 +24,7 @@ Output                                           [C0007]
 How                                              [C0008]
 | Guidelines, Checklists,
 | Templates
-  Guidelines                                     [F0052]
+  Guidelines/Templates                           [F0052]
   Tutorials                                      [F0065]
   enables --> Process                            [R0005]
 
