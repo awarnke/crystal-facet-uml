@@ -2,7 +2,7 @@
 <section><title>GUI</title>
 
 <section>
-    <title>Overview</title>
+    <title>Window Area Overview</title>
     <para>
 
         If started in graphical mode, crystal_facet_uml shows a window with
@@ -81,7 +81,7 @@
         </inlinemediaobject>
         <itemizedlist>
         <listitem><para>Navigate to parent or child diagrams</para></listitem>
-        <listitem><para>Create a new diagram</para></listitem>
+        <listitem><para>Create a new diagram (see <xref linkend="draw_navigate"/>)</para></listitem>
         </itemizedlist>
     </para>
 
@@ -95,7 +95,7 @@
             <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
         </inlinemediaobject>
         <itemizedlist>
-        <listitem><para>Modify elements in the diagram</para></listitem>
+        <listitem><para>Modify elements in the diagram (see <xref linkend="draw_edit"/>)</para></listitem>
         </itemizedlist>
     </para>
 
@@ -109,7 +109,7 @@
             <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
         </inlinemediaobject>
         <itemizedlist>
-        <listitem><para>Create elements in the diagram</para></listitem>
+            <listitem><para>Create elements in the diagram (see <xref linkend="draw_create"/>)</para></listitem>
         </itemizedlist>
     </para>
 
@@ -272,7 +272,7 @@
         at the same time improves understandability by focusing on one aspect/topic per diagram.
     </para>
 
-<section>
+<section id="draw_navigate">
     <title>Navigate</title>
     <para>
 
@@ -289,7 +289,7 @@
     </para>
 
 </section>
-<section>
+<section id="draw_edit">
     <title>Edit</title>
     <para>
 
@@ -305,7 +305,7 @@
     </para>
 
 </section>
-<section>
+<section id="draw_create">
     <title>Create</title>
     <para>
 
@@ -325,7 +325,7 @@
 </section>
 </section>
 <section>
-    <title>Element Configuration</title>
+    <title>Element Configuration Area</title>
     <para>
 
         <mediaobject>
@@ -336,10 +336,10 @@
         Edit the properties of the yellow-cornered object.
 
         <itemizedlist>
-        <listitem><para>0.: name of the focused object</para></listitem>
-        <listitem><para>1.: stereotype/valuetype of the focused object (deactivated depending on object-type)</para></listitem>
-        <listitem><para>2.: type of the focused object</para></listitem>
-        <listitem><para>3.: description of the focused object</para></listitem>
+        <listitem><para>name of the focused object</para></listitem>
+        <listitem><para>stereotype/valuetype of the focused object (deactivated depending on object-type)</para></listitem>
+        <listitem><para>type of the focused object</para></listitem>
+        <listitem><para>description of the focused object</para></listitem>
         </itemizedlist>
     </para>
 

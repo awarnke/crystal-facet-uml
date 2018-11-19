@@ -6,11 +6,16 @@
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
         </mediaobject>
+        crystal_facet_uml is an application for software architects.
     </para>
 
     <section>
         <title>Goal</title>
         <para>
+            <mediaobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+            </mediaobject>
             crystal_facet_uml creates a set of uml diagrams.
         </para>
         <para>
@@ -22,6 +27,12 @@
     </section>
     <section>
         <title>Features</title>
+        <para>
+            <mediaobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+            </mediaobject>
+        </para>
 
         <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
 
@@ -29,6 +40,10 @@
     <section>
         <title>Usage Overview</title>
         <para>
+            <mediaobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
+                <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+            </mediaobject>
             crystal_facet_uml can be started in graphical mode to
             <itemizedlist>
                 <listitem><para>manage a diagram structure</para></listitem>

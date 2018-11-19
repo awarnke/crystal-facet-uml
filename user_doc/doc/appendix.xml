@@ -1,23 +1,23 @@
 <!DOCTYPE appendix>
 <appendix>
-    <title>Further Information</title>
+    <title>Download Information</title>
     <para>
     </para>
 <section>
-    <title>Download</title>
+    <title>Download Links</title>
     <para>
 
         Find the latest version at:
         <itemizedlist>
-        <listitem><para>https://sourceforge.net/projects/crystal-facet-uml/</para></listitem>
-        <listitem><para>https://github.com/awarnke/crystal_facet_uml</para></listitem>
-        <listitem><para>https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml</para></listitem>
+        <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
+        <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
+        <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
         </itemizedlist>
 
         User documentation is available here:
         <itemizedlist>
-        <listitem><para>http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf</para></listitem>
-        <listitem><para>https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf</para></listitem>
+        <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
+        <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
         </itemizedlist>
     </para>
 </section>

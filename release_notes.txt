@@ -1,5 +1,6 @@
-2018-xx-xx
+2018-xx-xx 1.7.1 []
   . user-doc and manpages are generated from docbook now
+  + doubleclick on .cfu1 files starts crystal_facet_uml
 2018-11-01 1.7.0 [15274aa]
   + tree view allows to navigate interactively
   + new sibling and new child diagrams can be created in tree view

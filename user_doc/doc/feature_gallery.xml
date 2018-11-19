@@ -1,6 +1,6 @@
 <!DOCTYPE section>
-<section><title>Feature Gallery</title>
-
+<section><title>Example Diagrams</title>
+    <para>This sections presents the features of crystal_facet_uml.</para>
     <section>
         <title>Feature List</title>
         <para>
@@ -25,7 +25,7 @@
     </section>
 
     <section>
-        <title>UML Behavioral Views</title>
+        <title>Example UML Behavioral Views</title>
         <para>
             This section lists what kind of elements crystal_facet_uml can draw in diagrams.
             <mediaobject>
@@ -56,7 +56,7 @@
     </section>
 
     <section>
-        <title>UML Static Views</title>
+        <title>Example UML Static Views</title>
         <para>
             This section lists what kind of elements crystal_facet_uml can draw in diagrams.
             <mediaobject>
@@ -79,7 +79,7 @@
     </section>
 
     <section>
-        <title>SysML Views</title>
+        <title>Example SysML Views</title>
         <para>
             This section lists what kind of elements crystal_facet_uml can draw in diagrams.
             <mediaobject>
