@@ -237,6 +237,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE:
+            {
+                utf8stringbuf_append_str( (*this_).content, "This software was compiled in DEBUG mode. It may be slower than the RELEASE version." );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");

@@ -5,7 +5,7 @@ export DH_VERBOSE = 1
 
 
 # see FEATURE AREAS in dpkg-buildflags(1)
-#export DEB_BUILD_MAINT_OPTIONS = hardening=+all
+export DEB_BUILD_MAINT_OPTIONS = hardening=+all
 
 # see ENVIRONMENT in dpkg-buildflags(1)
 # package maintainers to append CFLAGS
@@ -24,6 +24,7 @@ override_dh_auto_configure:
 	#dh_auto_configure -- #	-DCMAKE_LIBRARY_PATH=$(DEB_HOST_MULTIARCH)
 	cmake -G 'Unix Makefiles' \
 	    -DCMAKE_INSTALL_PREFIX=/usr \
-	    -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE
+	    -DCMAKE_VERBOSE_MAKEFILE:BOOL=TRUE \
+	    -DCMAKE_BUILD_TYPE=Release
 	make
 	#DEB_BUILD_HARDENING=1 make VERBOSE=1

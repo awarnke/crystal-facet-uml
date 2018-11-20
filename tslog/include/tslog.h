@@ -14,10 +14,10 @@
  *  E.g. removing the device on which the database is stored.
  *
  *  A warning is issued when a condition may possibly lead to a malfunction.
- *  E.g. database file is closed.
+ *  E.g. Opening a read-only database file.
  *
- *  An anomaly is a condition that is expected to not cause a malfunction but
- *  that should be logged to easier analyze issues.
+ *  An anomaly is a non-standard condition that is expected to not cause a malfunction.
+ *  This should be logged to easier analyze issues. E.g. paste an empty clipboard.
  *
  *  An event is a signal that is send to or received from external software parts.
  */
@@ -132,7 +132,7 @@
 /*!
  *  \brief starts to log
  */
-#define TSLOG_INIT(program_id) { openlog( /* ident: */ program_id, /* options: */ 0, /* facility: */ LOG_USER  ); fprintf(TSLOG_OUT_STREAM,"\nhint: use journalctl -f to read the log.\n"); }
+#define TSLOG_INIT(program_id) { openlog( /* ident: */ program_id, /* options: */ 0, /* facility: */ LOG_USER  ); }
 
 /*!
  *  \brief stops logging
@@ -202,22 +202,22 @@
 /*!
  *  \brief logs an event string
  */
-#define TSLOG_EVENT(x) { const char *string_test = x; syslog(LOG_INFO,"EVT : %s",string_test); }
+#define TSLOG_EVENT(x) { const char *string_test __attribute__((unused)) = x; /*syslog(LOG_INFO,"EVT : %s",string_test);*/ }
 
 /*!
  *  \brief logs an event string and an integer
  */
-#define TSLOG_EVENT_INT(x,i) { const char *string_test = x; const int int_test = i; syslog(LOG_INFO,"EVT : %s %i",string_test,int_test); }
+#define TSLOG_EVENT_INT(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test__attribute__((unused))  = i; /*syslog(LOG_INFO,"EVT : %s %i",string_test,int_test);*/ }
 
 /*!
  *  \brief logs an event string and a hexadecimal integer
  */
-#define TSLOG_EVENT_HEX(x,i) { const char *string_test = x; const unsigned int int_test = i; syslog(LOG_INFO,"EVT : %s 0x%x",string_test,int_test); }
+#define TSLOG_EVENT_HEX(x,i) { const char *string_test __attribute__((unused)) = x; const unsigned int int_test __attribute__((unused)) = i; /*syslog(LOG_INFO,"EVT : %s 0x%x",string_test,int_test);*/ }
 
 /*!
  *  \brief logs an event string and an information string
  */
-#define TSLOG_EVENT_STR(x,s) { const char *string_test = x; const char *string2_test = s; syslog(LOG_INFO,"EVT : %s %s",string_test,string2_test); }
+#define TSLOG_EVENT_STR(x,s) { const char *string_test __attribute__((unused)) = x; const char *string2_test __attribute__((unused)) = s; /*syslog(LOG_INFO,"EVT : %s %s",string_test,string2_test);*/ }
 
 #endif  /* SWITCH */
 

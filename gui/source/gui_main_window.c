@@ -425,7 +425,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
+#ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
+#else
+    gui_simple_message_to_user_show_message ( &((*this_).message_to_user), GUI_SIMPLE_MESSAGE_TYPE_INFO, GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE );
+#endif
 
     TRACE_INFO("GTK+ Widgets are shown.");
     TRACE_END();
