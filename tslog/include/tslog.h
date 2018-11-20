@@ -207,7 +207,7 @@
 /*!
  *  \brief logs an event string and an integer
  */
-#define TSLOG_EVENT_INT(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test__attribute__((unused))  = i; /*syslog(LOG_INFO,"EVT : %s %i",string_test,int_test);*/ }
+#define TSLOG_EVENT_INT(x,i) { const char *string_test __attribute__((unused)) = x; const int int_test __attribute__((unused))  = i; /*syslog(LOG_INFO,"EVT : %s %i",string_test,int_test);*/ }
 
 /*!
  *  \brief logs an event string and a hexadecimal integer
