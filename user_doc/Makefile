@@ -38,7 +38,7 @@ crystal_facet_uml.1.gz: doc/manpage.xml doc/non_tech_intro_para.xml
 	else \
 	  echo "ERROR: find an appropriate xsl file for the manapge at /usr/share/xml/docbook/stylesheet" ;\
 	fi &&\
-        echo "to view the output, gunzip ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
+        echo "to view the output, gunzip --keep ${MANPAGE_FILE}.gz && man --local-file ${MANPAGE_FILE}"
 
 clean:
 	rm -f crystal_facet_uml_user_documentation.pdf &&\

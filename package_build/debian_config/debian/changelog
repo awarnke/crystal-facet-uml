@@ -2,7 +2,7 @@ crystal-facet-uml (1.7.1-1) UNRELEASED; urgency=medium
 
   * User documentation is generated from docbook.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 19 Nov 2018 21:00:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 21 Nov 2018 21:00:00 +0100
  
 crystal-facet-uml (1.7.0-1) UNRELEASED; urgency=medium
 
