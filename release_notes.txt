@@ -1,4 +1,4 @@
-2018-11-21 1.7.1 [xxxxxxx]
+2018-11-21 1.7.1 [8ebf36a]
   . user-doc and manpages are generated from docbook now
   + doubleclick on .cfu1 files starts crystal_facet_uml
 2018-11-01 1.7.0 [15274aa]

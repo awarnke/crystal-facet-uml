@@ -61,7 +61,7 @@ cp ./user_doc/crystal_facet_uml_user_documentation.pdf %{buildroot}/usr/share/do
 /usr/bin/crystal_facet_uml
 /usr/share/pixmaps/crystal_facet_uml.png
 /usr/share/applications/crystal_facet_uml.desktop
-/usr/share/man/man1/crystal-facet-uml.1.gz
+/usr/share/man/man1/crystal_facet_uml.1.gz
 /usr/share/doc/crystal-facet-uml/crystal_facet_uml_user_documentation.pdf
 
 %changelog
