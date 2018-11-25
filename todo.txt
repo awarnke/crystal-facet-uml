@@ -20,4 +20,5 @@ ideas for future versions:
   [ ] import XMI format
   @utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for long strings
-  
+  @main
+  [ ] remove the -f option again - db formats shall be converted automatically
