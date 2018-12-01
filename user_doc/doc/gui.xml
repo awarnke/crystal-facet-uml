@@ -313,13 +313,18 @@
             <imageobject><imagedata fileref="../../gui/source/resources/tool_create.pdf" width="1cm"/></imageobject>
             <imageobject><imagedata fileref="../../gui/source/resources/tool_create.png"/></imageobject>
         </inlinemediaobject>
-        <itemizedlist>
-        <listitem><para>To create a classifier, click at an empty space in the diagram.</para></listitem>
-        <listitem><para>To create a child classifier, click into the white space of a classifier.
-                Alternatively, create a classifier and a containment relation.</para></listitem>
-        <listitem><para>To create a relationship, press on the source classifier and drag it to the destination classifier.</para></listitem>
-        <listitem><para>To create a feature, click onto a classifier (name or border).</para></listitem>
-        </itemizedlist>
+        <inlinemediaobject>
+            <imageobject><imagedata fileref="main_window_sketch_2_create.pdf" width="3cm"/></imageobject>
+            <imageobject><imagedata fileref="main_window_sketch_2_create.png"/></imageobject>
+        </inlinemediaobject>
+
+        <orderedlist>
+            <listitem><para>To create a classifier, click at an empty space in the diagram.</para></listitem>
+            <listitem><para>To create a child classifier, click into the white space of a classifier.
+                    (Alternatively, create a classifier and a containment relationship.)</para></listitem>
+            <listitem><para>To create a feature, click onto a classifier (name or border).</para></listitem>
+            <listitem><para>To create a relationship, press on the source classifier and drag it to the destination classifier.</para></listitem>
+        </orderedlist>
     </para>
 
 </section>
