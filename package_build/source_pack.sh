@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.7.1
+VERSIONSTR=1.8.0
 echo "Buidling Version $VERSIONSTR"
 
 echo "clean up possibly broken previous build"

@@ -114,7 +114,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
         */
-        
+
         pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
         pencil_classifier_painter_draw( &((*this_).classifier_painter),
@@ -252,6 +252,101 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
     }
 
     TRACE_END();
+}
+
+static const double snap_to_grid_distance_for_dropping = 3.15;  /* plus/minus three pixels shall snap to grid */
+                                                                /* this is the expected accuracy for mouse input devices */
+                                                                /* this value is bigger than snap_to_grid_distance_for_drag_marker */
+                                                                /* to ensure object really snaps when marked so */
+
+pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                       data_id_t obj_id,
+                                                       double x,
+                                                       double y,
+                                                       layout_order_t* out_layout_order )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_layout_order );
+
+    pencil_error_t result = PENCIL_ERROR_NONE;
+
+    data_table_t table = data_id_get_table ( &obj_id );
+    switch ( table )
+    {
+        case DATA_TABLE_CLASSIFIER:
+        {
+            result = pencil_layouter_get_classifier_order_at_pos ( &((*this_).layouter),
+                                                                   x,
+                                                                   y,
+                                                                   snap_to_grid_distance_for_dropping,
+                                                                   out_layout_order
+                                                                 );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            int64_t feature_id = data_id_get_row_id ( &obj_id );
+            data_feature_t *the_feature;
+            the_feature = pencil_input_data_get_feature_by_id_ptr ( (*this_).input_data, feature_id );
+            if( NULL != the_feature )
+            {
+                result = pencil_layouter_get_feature_order_at_pos ( &((*this_).layouter),
+                                                                    the_feature,
+                                                                    x,
+                                                                    y,
+                                                                    out_layout_order
+                                                                  );
+            }
+            else
+            {
+                TSLOG_ANOMALY( "feature to move does not exist in input_data or has no classifier in input_data." );
+                layout_order_init_empty( out_layout_order );
+                result = PENCIL_ERROR_UNKNOWN_OBJECT;
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            int64_t relationship_id = data_id_get_row_id ( &obj_id );
+            result = pencil_layouter_get_relationship_order_at_pos ( &((*this_).layouter),
+                                                                     relationship_id,
+                                                                     x,
+                                                                     y,
+                                                                     out_layout_order
+                                                                   );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
+            layout_order_init_empty( out_layout_order );
+            result = PENCIL_ERROR_UNKNOWN_OBJECT;
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            /* pencil cannot move diagrams */
+            TSLOG_WARNING( "object to be re-positioned has unexpected type: diagram" );
+            layout_order_init_empty( out_layout_order );
+            result = PENCIL_ERROR_UNKNOWN_OBJECT;
+        }
+        break;
+
+        default:
+        {
+            TSLOG_WARNING( "object to be re-positioned has illegal type" );
+            layout_order_init_empty( out_layout_order );
+            result = PENCIL_ERROR_UNKNOWN_OBJECT;
+        }
+        break;
+    }
+
+    TRACE_END_ERR(result);
+    return result;
 }
 
 pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,

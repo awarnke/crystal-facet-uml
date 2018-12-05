@@ -3,7 +3,7 @@
 #
 
 Name:           crystal_facet_uml
-Version:        1.7.1
+Version:        1.8.0
 Release:        1
 License:        Apache-2.0
 Summary:        Draws UML Diagrams

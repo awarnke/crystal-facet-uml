@@ -9,7 +9,7 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_INFO_VERSION_STR "1.7.1"
+#define META_INFO_VERSION_STR "1.8.0"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_LICENSE_STR "Apache-2.0"
@@ -18,9 +18,14 @@
 #define META_INFO_UNITTEST_LIB_LICENSES_STR "embunit 1.0.1 (by yusuke sasaki[arms22], MIT/X Consortium License)"
 
 /* Note: when changing META_INFO_VERSION_STR, */
-/*       change also CPACK_PACKAGE_VERSION_MINOR in CMakeLists.txt and */
-/*       PROJECT_NUMBER in Doxyfile */
-/*       check the release_notes.txt */
+/*       change also */
+/*       release_notes.txt : new entry */
+/*       doxygen_build/Doxyfile : PROJECT_NUMBER */
+/*       use_doc/doc/crystal_facet_user_documentation.xml */
+/*       package/build/source_pack.sh : VERSIONSTR */
+/*       package/build/debian_pack.sh : VERSIONSTR */
+/*       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version */
+/*       package_build/debian_config/debian/changelog : new entry */
 
 #endif  /* META_INFO_H */
 

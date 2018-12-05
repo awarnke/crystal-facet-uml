@@ -206,6 +206,16 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
 static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
+ *  \brief determines the chess-distance of a given coordinate to this geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x coordinate
+ *  \param y y coordinate
+ *  \return chess-distance from x/y to the rectangle; 0.0 if x/y is contained.
+ */
+static inline double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y );
+
+/*!
  *  \brief moves the geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes

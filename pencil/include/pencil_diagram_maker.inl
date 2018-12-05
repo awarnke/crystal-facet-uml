@@ -70,24 +70,6 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
                                                 );
 }
 
-static const double snap_to_grid_distance_for_dropping = 3.15;  /* plus/minus three pixels shall snap to grid */
-                                                                /* this is the expected accuracy for mouse input devices */
-
-static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                     data_id_t obj_id,
-                                                                     double x,
-                                                                     double y,
-                                                                     layout_order_t* out_layout_order )
-{
-    return pencil_layouter_get_order_at_pos ( &((*this_).layouter),
-                                              obj_id,
-                                              x,
-                                              y,
-                                              snap_to_grid_distance_for_dropping,
-                                              out_layout_order
-                                            );
-}
-
 static const double snap_to_grid_distance_for_drag_marker = 3.13;  /* smaller than snap_to_grid_distance_for_dropping */
                                                                    /* to ensure object really snaps when marked so */
 

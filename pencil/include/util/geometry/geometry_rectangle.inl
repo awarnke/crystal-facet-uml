@@ -228,6 +228,28 @@ static inline bool geometry_rectangle_contains ( const geometry_rectangle_t *thi
     return (( (*this_).left <= x )&&( x < (*this_).left + (*this_).width )&&( (*this_).top <= y )&&( y < (*this_).top + (*this_).height ));
 }
 
+static inline double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y )
+{
+    double result = 0.0;
+    if ( x < (*this_).left )
+    {
+        result += ( (*this_).left - x );
+    }
+    else if ( x > (*this_).left + (*this_).width )
+    {
+        result += ( x - ((*this_).left + (*this_).width) );
+    }
+    if ( y < (*this_).top )
+    {
+        result += ( (*this_).top - y );
+    }
+    else if ( y > (*this_).top + (*this_).height )
+    {
+        result += ( y - ((*this_).top + (*this_).height) );
+    }
+    return result;
+}
+
 static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *this_ )
 {
     return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );

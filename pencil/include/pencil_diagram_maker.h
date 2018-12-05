@@ -168,24 +168,6 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
                                                                        );
 
 /*!
- *  \brief gets the layout order at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object for which to determine the layout order
- *  \param x x-position
- *  \param y y-position
- *  \param out_layout_order order at given position
- *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
- *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
- */
-static inline pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                                     data_id_t obj_id,
-                                                                     double x,
-                                                                     double y,
-                                                                     layout_order_t* out_layout_order
-                                                                   );
-
-/*!
  *  \brief determines if the given position is on a grid line
  *
  *  \param this_ pointer to own object attributes
@@ -200,6 +182,24 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t 
                                                          bool *out_x_on_grid,
                                                          bool *out_y_on_grid
                                                        );
+
+/*!
+ *  \brief gets the layout order at a given position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param obj_id object for which to determine the layout order
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_layout_order order at given position
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
+ *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
+ */
+pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                       data_id_t obj_id,
+                                                       double x,
+                                                       double y,
+                                                       layout_order_t* out_layout_order
+                                                     );
 
 /*!
  *  \brief moves an object in the input_data cache. Does not persist the new order.

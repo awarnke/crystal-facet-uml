@@ -504,18 +504,14 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
     return result;
 }
 
-pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
-                                                  data_id_t obj_id,
-                                                  double x,
-                                                  double y,
-                                                  double snap_distance,
-                                                  layout_order_t* out_layout_order )
+pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *this_,
+                                                             double x,
+                                                             double y,
+                                                             double snap_distance,
+                                                             layout_order_t* out_layout_order )
 {
     TRACE_BEGIN();
     assert ( NULL != out_layout_order );
-
-    int32_t x_order;
-    int32_t y_order;
 
     pencil_error_t result = PENCIL_ERROR_NONE;
 
@@ -540,162 +536,248 @@ pencil_error_t pencil_layouter_get_order_at_pos ( pencil_layouter_t *this_,
     }
     else
     {
-        data_table_t table = data_id_get_table ( &obj_id );
-        /*
-        int64_t row_id = data_id_get_row_id ( &obj_id );
-        */
-        
-        switch ( table )
+        if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
         {
-            case DATA_TABLE_CLASSIFIER:
+            /* classifiers are a horizontal list */
+            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            int32_t list_order;
+            if ( x <= draw_left )
             {
-                if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+                list_order = INT32_MIN;
+            }
+            else if ( x >= draw_right )
+            {
+                list_order = INT32_MAX;
+            }
+            else
+            {
+                list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
+                list_order += INT32_MIN;
+            }
+            layout_order_init_list( out_layout_order, list_order );
+        }
+        else if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+            || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
+        {
+            /* classifiers are a vertical list */
+            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            int32_t list_order;
+            if ( y <= draw_top )
+            {
+                list_order = INT32_MIN;
+            }
+            else if ( y >= draw_bottom )
+            {
+                list_order = INT32_MAX;
+            }
+            else
+            {
+                list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
+                list_order += INT32_MIN;
+            }
+            layout_order_init_list( out_layout_order, list_order );
+        }
+        else
+        {
+            /* classifiers are x/y arranged */
+            int32_t x_order;
+            int32_t y_order;
+            x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
+            y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
+            layout_order_init_x_y( out_layout_order, x_order, y_order );
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *this_,
+                                                          data_feature_t *feature_ptr,
+                                                          double x,
+                                                          double y,
+                                                          layout_order_t* out_layout_order )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_layout_order );
+    assert ( NULL != feature_ptr );
+
+    pencil_error_t result = PENCIL_ERROR_NONE;
+
+    /* get data of feature */
+    int64_t parent_classifier_id;
+    data_feature_type_t feature_type;
+    feature_type = data_feature_get_main_type ( feature_ptr );
+    parent_classifier_id = data_feature_get_classifier_id ( feature_ptr );
+
+    /* get the bounding box of the diagram */
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+    geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+
+    if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
+    {
+        layout_order_init_empty( out_layout_order );
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
+    else if ( DATA_ID_VOID_ID == parent_classifier_id ) {
+        TSLOG_WARNING( "feature to move has no parent classifier!" );
+        layout_order_init_empty( out_layout_order );
+        result = PENCIL_ERROR_UNKNOWN_OBJECT;
+    }
+    else
+    {
+        /* iterate over all classifiers, search the closest_parent_instance */
+        layout_visible_classifier_t *closest_parent_instance = NULL;
+        uint32_t classfy_count;
+        classfy_count = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
+        for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
+        {
+            layout_visible_classifier_t *visible_classfy;
+            visible_classfy = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), classfy_index );
+            int64_t classfy_id;
+            classfy_id = layout_visible_classifier_get_classifier_id ( visible_classfy );
+            if ( parent_classifier_id == classfy_id )
+            {
+                if ( NULL == closest_parent_instance )
                 {
-                    /* classifiers are a horizontal list */
-                    double draw_left = geometry_rectangle_get_left(diagram_draw_area);
-                    double draw_right = geometry_rectangle_get_right(diagram_draw_area);
-                    int32_t list_order;
-                    if ( x <= draw_left )
-                    {
-                        list_order = INT32_MIN;
-                    }
-                    else if ( x >= draw_right )
-                    {
-                        list_order = INT32_MAX;
-                    }
-                    else
-                    {
-                        list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
-                        list_order += INT32_MIN;
-                    }
-                    layout_order_init_list( out_layout_order, list_order );
-                }
-                else if (( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
-                    || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
-                {
-                    /* classifiers are a vertical list */
-                    double draw_top = geometry_rectangle_get_top(diagram_draw_area);
-                    double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
-                    int32_t list_order;
-                    if ( y <= draw_top )
-                    {
-                        list_order = INT32_MIN;
-                    }
-                    else if ( y >= draw_bottom )
-                    {
-                        list_order = INT32_MAX;
-                    }
-                    else
-                    {
-                        list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
-                        list_order += INT32_MIN;
-                    }
-                    layout_order_init_list( out_layout_order, list_order );
+                    closest_parent_instance = visible_classfy;
                 }
                 else
                 {
-                    /* classifiers are x/y arranged */
-                    x_order = geometry_non_linear_scale_get_order( &((*this_).x_scale), x, snap_distance );
-                    y_order = geometry_non_linear_scale_get_order( &((*this_).y_scale), y, snap_distance );
-                    layout_order_init_x_y( out_layout_order, x_order, y_order );
+                    geometry_rectangle_t *classfy_bounds;
+                    geometry_rectangle_t *closest_parent_bounds;
+                    classfy_bounds = layout_visible_classifier_get_bounds_ptr ( visible_classfy );
+                    closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );
+                    double classfy_distance = geometry_rectangle_calc_chess_distance( classfy_bounds, x, y );
+                    double closest_parent_distance = geometry_rectangle_calc_chess_distance( closest_parent_bounds, x, y );
+                    if ( classfy_distance < closest_parent_distance )
+                    {
+                        closest_parent_instance = visible_classfy;
+                    }
                 }
             }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                layout_order_init_empty( out_layout_order );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                if (( DATA_DIAGRAM_TYPE_BOX_DIAGRAM == diag_type )
-                    || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
-                {
-                    /* relationships are hidden in lists and box-diagrams */
-                    layout_order_init_empty( out_layout_order );
-                    result = PENCIL_ERROR_OUT_OF_BOUNDS;
-                }
-                else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
-                {
-                    /* TODO */
-                    layout_order_init_empty( out_layout_order );
-                }
-                else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
-                {
-                    double draw_top = geometry_rectangle_get_top(diagram_draw_area);
-                    double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
-                    int32_t list_order;
-                    if ( y <= draw_top )
-                    {
-                        list_order = INT32_MIN;
-                    }
-                    else if ( y >= draw_bottom )
-                    {
-                        list_order = INT32_MAX;
-                    }
-                    else
-                    {
-                        list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
-                        list_order += INT32_MIN;
-                    }
-                    layout_order_init_list( out_layout_order, list_order );
-                }
-                else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
-                {
-                    double draw_left = geometry_rectangle_get_left(diagram_draw_area);
-                    double draw_right = geometry_rectangle_get_right(diagram_draw_area);
-                    int32_t list_order;
-                    if ( x <= draw_left )
-                    {
-                        list_order = INT32_MIN;
-                    }
-                    else if ( x >= draw_right )
-                    {
-                        list_order = INT32_MAX;
-                    }
-                    else
-                    {
-                        list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
-                        list_order += INT32_MIN;
-                    }
-                    layout_order_init_list( out_layout_order, list_order );
-                }
-                else
-                {
-                    /* all other diagram types do not care about lit_orders of relationships */
-                    layout_order_init_empty( out_layout_order );
-                }
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                TSLOG_WARNING( "not implemented to move diagramelements. use the classifier instead." );
-                layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_UNKNOWN_OBJECT;
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                /* pencil cannot move diagrams */
-                TSLOG_WARNING( "object to be re-positioned has unexpected type: diagram" );
-                layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_UNKNOWN_OBJECT;
-            }
-            break;
-
-            default:
-            {
-                TSLOG_WARNING( "object to be re-positioned has illegal type" );
-                layout_order_init_empty( out_layout_order );
-                result = PENCIL_ERROR_UNKNOWN_OBJECT;
-            }
-            break;
         }
 
+        if ( NULL != closest_parent_instance )
+        {
+            /* iterate over all contained features */
+            uint32_t f_count;
+            f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+            for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
+            {
+                layout_feature_t *the_feature;
+                the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
+                geometry_rectangle_t *feature_bounds;
+                feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+            }
+        }
+        else
+        {
+            TSLOG_WARNING( "parent classifier of feature is not visible; possibly array size too small?" );
+        }
+
+        layout_order_init_empty( out_layout_order );
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t *this_,
+                                                               int64_t relationship_id,
+                                                               double x,
+                                                               double y,
+                                                               layout_order_t* out_layout_order )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_layout_order );
+
+    pencil_error_t result = PENCIL_ERROR_NONE;
+
+    /* get the bounding box of the diagram */
+    layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+    geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+
+    /* get the diagram type */
+    const data_diagram_t *diagram_data;
+    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    data_diagram_type_t diag_type;
+    diag_type = data_diagram_get_diagram_type ( diagram_data );
+
+    if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
+    {
+        layout_order_init_empty( out_layout_order );
+        result = PENCIL_ERROR_OUT_OF_BOUNDS;
+    }
+    else
+    {
+        if (( DATA_DIAGRAM_TYPE_BOX_DIAGRAM == diag_type )
+            || ( DATA_DIAGRAM_TYPE_LIST == diag_type ))
+        {
+            /* relationships are hidden in lists and box-diagrams */
+            layout_order_init_empty( out_layout_order );
+            result = PENCIL_ERROR_OUT_OF_BOUNDS;
+        }
+        else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
+        {
+            /* TODO */
+            layout_order_init_empty( out_layout_order );
+        }
+        else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
+        {
+            double draw_top = geometry_rectangle_get_top(diagram_draw_area);
+            double draw_bottom = geometry_rectangle_get_bottom(diagram_draw_area);
+            int32_t list_order;
+            if ( y <= draw_top )
+            {
+                list_order = INT32_MIN;
+            }
+            else if ( y >= draw_bottom )
+            {
+                list_order = INT32_MAX;
+            }
+            else
+            {
+                list_order = ((uint32_t)(( y - draw_top ) / ( draw_bottom - draw_top ) * UINT32_MAX));
+                list_order += INT32_MIN;
+            }
+            layout_order_init_list( out_layout_order, list_order );
+        }
+        else if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diag_type )
+        {
+            double draw_left = geometry_rectangle_get_left(diagram_draw_area);
+            double draw_right = geometry_rectangle_get_right(diagram_draw_area);
+            int32_t list_order;
+            if ( x <= draw_left )
+            {
+                list_order = INT32_MIN;
+            }
+            else if ( x >= draw_right )
+            {
+                list_order = INT32_MAX;
+            }
+            else
+            {
+                list_order = ((uint32_t)(( x - draw_left ) / ( draw_right - draw_left ) * UINT32_MAX));
+                list_order += INT32_MIN;
+            }
+            layout_order_init_list( out_layout_order, list_order );
+        }
+        else
+        {
+            /* all other diagram types do not care about lit_orders of relationships */
+            layout_order_init_empty( out_layout_order );
+        }
     }
 
     TRACE_END_ERR( result );
