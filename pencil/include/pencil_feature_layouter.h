@@ -65,7 +65,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ );
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief calculates feature bounds of all features for one diagramelement
+ *  \brief calculates feature bounding rectangle of _all_ features for one diagramelement
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement for which to calculate the feature bounds

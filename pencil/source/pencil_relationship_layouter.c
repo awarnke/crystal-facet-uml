@@ -35,7 +35,7 @@ void pencil_relationship_layouter_destroy( pencil_relationship_layouter_t *this_
 void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -99,7 +99,7 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
     /* get draw area */
     geometry_rectangle_t *diagram_draw_area;

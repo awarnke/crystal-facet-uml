@@ -106,23 +106,6 @@ static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil
 static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layouter_t *this_ );
 
 /*!
- *  \brief returns the newly calculated feature bounds object
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_id pointer to own object attributes
- *  \param c_index index of the classifier in the classifier array at layout_data; 0 <= c_index < pencil_layout_data_get_classifier_count ( (*this_).layout_data )
- *  \param f_index index of the feature in the feature array at layout_data; 0 <= f_index < pencil_layout_data_get_feature_count ( (*this_).layout_data )
- *  \param line_index line number of the feature at the selected classifier. first line has index 0.
- *  \return rectangle of feature bounds
- */
-static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_layouter_t *this_,
-                                                                        int64_t classifier_id,
-                                                                        uint32_t c_index,
-                                                                        uint32_t f_index,
-                                                                        uint32_t line_index
-                                                                      );
-
-/*!
  *  \brief gets the object-id of the object at a given position
  *
  *  \param this_ pointer to own object attributes
@@ -203,11 +186,11 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram
  */
 pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *this_,
-                                                  double x,
-                                                  double y,
-                                                  double snap_distance,
-                                                  layout_order_t* out_layout_order
-                                                );
+                                                             double x,
+                                                             double y,
+                                                             double snap_distance,
+                                                             layout_order_t* out_layout_order
+                                                           );
 
 /*!
  *  \brief gets the layout order for a feature at a given position (relative to a classifier)
@@ -269,7 +252,6 @@ static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
  *  \param this_ pointer to own object attributes
  */
 void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t *this_ );
-
 
 #include "pencil_layouter.inl"
 

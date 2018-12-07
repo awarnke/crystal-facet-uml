@@ -144,7 +144,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 void pencil_classifier_layouter_embrace_children( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
 
     universal_array_index_sorter_t sorted_relationships;
     universal_array_index_sorter_init( &sorted_relationships );
@@ -356,7 +356,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
 void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -427,7 +427,7 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
-    assert ( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
     uint32_t count_clasfy;
@@ -525,7 +525,7 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
     assert ( NULL != out_solution_move_dy );
     assert ( NULL != out_solutions_count );
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
-    assert ( PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
+    assert ( (unsigned int) PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX <= solutions_max );  /* current implementation requires at least 5 options */
 
     /* get classifier to move */
     uint32_t index;
@@ -842,7 +842,7 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
         */
-        
+
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
@@ -915,7 +915,7 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
         */
-        
+
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
@@ -988,7 +988,7 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         const data_classifier_t *classifier2;
         classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
         */
-        
+
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );

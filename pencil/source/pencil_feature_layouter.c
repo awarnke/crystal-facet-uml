@@ -35,7 +35,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
-    assert( UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
 
     universal_array_index_sorter_t sorted_features;
     universal_array_index_sorter_init( &sorted_features );
@@ -174,7 +174,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                         (*this_).pencil_size,
                                                         font_layout,
                                                         &f_min_bounds
-            );
+                                                      );
 
             /* layout port-feature into parent classifier */
             geometry_rectangle_t *classifier_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
@@ -185,12 +185,28 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                       geometry_rectangle_get_top( classifier_space ) + y_position_of_next_feature,
                                       geometry_rectangle_get_width( &f_min_bounds ) + nominal_fontsize + gap,
                                       geometry_rectangle_get_height( &f_min_bounds )
-            );
+                                    );
             layout_feature_set_bounds ( feature_layout, &f_bounds );
             layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
 
             /* adjust y position of next feature */
             y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
+
+            /* new version, just a first try */
+            int32_t list_order;
+            list_order = data_feature_get_list_order( the_feature );
+            if ( list_order < 0 )
+            {
+                geometry_rectangle_init ( &f_bounds,
+                                          geometry_rectangle_get_right( classifier_bounds ) - 0.5 * nominal_fontsize - geometry_rectangle_get_width( &f_min_bounds ),
+                                          geometry_rectangle_get_top( classifier_space ) + y_position_of_next_feature,
+                                          geometry_rectangle_get_width( &f_min_bounds ) + nominal_fontsize + gap,
+                                          geometry_rectangle_get_height( &f_min_bounds )
+                                        );
+                layout_feature_set_bounds ( feature_layout, &f_bounds );
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
+            }
+
         }
         else  /* not a lifeline nor a port */
         {

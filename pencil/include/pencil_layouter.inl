@@ -13,33 +13,6 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
     return &((*this_).pencil_size);
 }
 
-static inline geometry_rectangle_t pencil_layouter_get_feature_bounds ( pencil_layouter_t *this_,
-                                                                        int64_t classifier_id,
-                                                                        uint32_t c_index,
-                                                                        uint32_t f_index,
-                                                                        uint32_t line_index )
-{
-    geometry_rectangle_t result;
-
-    layout_visible_classifier_t *classifier;
-    classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), c_index );
-    geometry_rectangle_t *classifier_space;
-    classifier_space = layout_visible_classifier_get_space_ptr ( classifier );
-
-    double lineheight;
-    lineheight = pencil_size_get_standard_font_size( &((*this_).pencil_size) )
-                 + pencil_size_get_font_line_gap( &((*this_).pencil_size) );
-
-    geometry_rectangle_init ( &result,
-                              geometry_rectangle_get_left( classifier_space ),
-                              geometry_rectangle_get_top( classifier_space ) + line_index * lineheight,
-                              geometry_rectangle_get_width( classifier_space ),
-                              lineheight
-    );
-
-    return result;
-}
-
 static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
                                                     double x,
                                                     double y,
