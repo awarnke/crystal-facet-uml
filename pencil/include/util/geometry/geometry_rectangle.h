@@ -206,7 +206,7 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
 static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
- *  \brief determines the chess-distance of a given coordinate to this geometry_rectangle_t
+ *  \brief determines the chess-distance/manhattan-distance of a given coordinate to this geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  *  \param x x coordinate

@@ -617,8 +617,6 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     geometry_rectangle_t *diagram_bounds;
     diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
-    geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -666,23 +664,137 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
 
         if ( NULL != closest_parent_instance )
         {
-            /* iterate over all contained features */
-            uint32_t f_count;
-            f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
-            for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
+            switch (feature_type)
             {
-                layout_feature_t *the_feature;
-                the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
-                geometry_rectangle_t *feature_bounds;
-                feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+                case DATA_FEATURE_TYPE_PROPERTY:  /* or */
+                case DATA_FEATURE_TYPE_OPERATION:
+                {
+                    int32_t max_order_above = INT32_MIN;
+                    int32_t min_order_below = INT32_MAX;
+                    /* iterate over all contained features */
+                    uint32_t f_count;
+                    f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+                    for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
+                    {
+                        /* check if feature belongs to same parent classifier */
+                        layout_feature_t *the_feature;
+                        the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
+                        layout_visible_classifier_t *vis_classfy;
+                        vis_classfy = layout_feature_get_classifier_ptr ( the_feature );
+                        if ( closest_parent_instance == vis_classfy )
+                        {
+                            /* check if feature is not the moved one */
+                            const data_feature_t *data_feature;
+                            data_feature = layout_feature_get_data_ptr ( the_feature );
+                            if ( data_feature_get_id ( feature_ptr ) != data_feature_get_id ( data_feature ) )
+                            {
+                                int32_t list_order;
+                                list_order = data_feature_get_list_order( data_feature );
+                                geometry_rectangle_t *feature_bounds;
+                                feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+                                if ( y < geometry_rectangle_get_top( feature_bounds ) )
+                                {
+                                    if ( list_order < min_order_below ) { min_order_below = list_order; }
+                                }
+                                else
+                                {
+                                    if ( list_order > max_order_above ) { max_order_above = list_order; }
+                                }
+                            }
+                        }
+                    }
+
+                    if ( max_order_above == INT32_MIN )
+                    {
+                        if ( min_order_below == INT32_MAX )
+                        {
+                            /* nothing above, nothing below */
+                            layout_order_init_list( out_layout_order, 0 );
+                        }
+                        else
+                        {
+                            /* nothing above */
+                            layout_order_init_list( out_layout_order, min_order_below - 32768 );
+                        }
+                    }
+                    else
+                    {
+                        if ( min_order_below == INT32_MAX )
+                        {
+                            /* nothing below */
+                            layout_order_init_list( out_layout_order, max_order_above + 32768 );
+                        }
+                        else
+                        {
+                            /* regular interval */
+                            layout_order_init_list( out_layout_order, (max_order_above + min_order_below)/2 );
+                        }
+                    }
+                }
+                break;
+
+                case DATA_FEATURE_TYPE_PORT:
+                {
+                    geometry_rectangle_t *closest_parent_bounds;
+                    closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );
+                    double center_x;
+                    double center_y;
+                    center_x = geometry_rectangle_get_x_center( closest_parent_bounds );
+                    center_y = geometry_rectangle_get_y_center( closest_parent_bounds );
+                    double delta_x;
+                    double delta_y;
+                    delta_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
+                    delta_y = ( y < center_y ) ? (center_y - y) : (y - center_y);
+                    int32_t order;
+                    if ( delta_x > delta_y )
+                    {
+                        if ( x < center_x )
+                        {
+                            order = INT32_MAX*(((y-center_y)/(delta_x+0.1))*0.25+0.25);
+                        }
+                        else
+                        {
+                            order = INT32_MIN*(((y-center_y)/(delta_x+0.1))*0.25+0.75);
+                        }
+                    }
+                    else
+                    {
+                        if ( y < center_y )
+                        {
+                            order = INT32_MIN*(((x-center_x)/(delta_y+0.1))*0.25+0.25);
+                        }
+                        else
+                        {
+                            order = INT32_MAX*(((x-center_x)/(delta_y+0.1))*0.25+0.75);
+                        }
+                    }
+                    layout_order_init_list( out_layout_order, order );
+                }
+                break;
+
+                case DATA_FEATURE_TYPE_LIFELINE:
+                {
+                    TRACE_INFO( "feature to move is a lifeline and therefore cannot move." );
+                    layout_order_init_empty( out_layout_order );
+                    result = PENCIL_ERROR_UNKNOWN_OBJECT;
+                }
+                break;
+
+                default:
+                {
+                    TSLOG_WARNING( "feature to move has illegal/unknown type!" );
+                    layout_order_init_empty( out_layout_order );
+                    result = PENCIL_ERROR_UNKNOWN_OBJECT;
+                }
+                break;
             }
         }
         else
         {
             TSLOG_WARNING( "parent classifier of feature is not visible; possibly array size too small?" );
+            layout_order_init_empty( out_layout_order );
+            result = PENCIL_ERROR_UNKNOWN_OBJECT;
         }
-
-        layout_order_init_empty( out_layout_order );
     }
 
     TRACE_END_ERR( result );

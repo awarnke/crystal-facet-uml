@@ -300,7 +300,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
             }
             else
             {
-                TSLOG_ANOMALY( "feature to move does not exist in input_data or has no classifier in input_data." );
+                TSLOG_ANOMALY( "feature to move does not exist in input_data." );
                 layout_order_init_empty( out_layout_order );
                 result = PENCIL_ERROR_UNKNOWN_OBJECT;
             }

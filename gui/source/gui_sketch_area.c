@@ -1126,18 +1126,40 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
                             ctrl_error_t mov_result;
                             mov_result = ctrl_classifier_controller_update_relationship_list_order ( classifier_control,
-                                                                                                    data_id_get_row_id( &dragged_element ),
-                                                                                                    list_order
-                                                                                                );
+                                                                                                     data_id_get_row_id( &dragged_element ),
+                                                                                                     list_order
+                                                                                                   );
                             if ( CTRL_ERROR_NONE != mov_result )
                             {
                                 TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_relationship_list_order" );
                             }
                         }
                     }
+                    else if ( DATA_TABLE_FEATURE == data_id_get_table( &dragged_element ) )
+                    {
+                        layout_order_t layout_order = gui_sketch_card_get_order_at_pos( target_card, dragged_element, x, y );
+                        if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
+                        {
+                            int32_t list_order = layout_order_get_first( &layout_order );
+                            TRACE_INFO_INT( "list_order", list_order );
+
+                            /* update db */
+                            ctrl_classifier_controller_t *classifier_control;
+                            classifier_control = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+                            ctrl_error_t mov_result;
+                            mov_result = ctrl_classifier_controller_update_feature_list_order ( classifier_control,
+                                                                                                data_id_get_row_id( &dragged_element ),
+                                                                                                list_order
+                                                                                              );
+                            if ( CTRL_ERROR_NONE != mov_result )
+                            {
+                                TSLOG_ERROR( "changing order failed: ctrl_classifier_controller_update_feature_list_order" );
+                            }
+                        }
+                    }
                     else
                     {
-                        TRACE_INFO("Dragged object is neither relationship nor classifier");
+                        TRACE_INFO("Dragged object is neither relationship nor classifier nor feature");
                     }
                 }
             }

@@ -6,7 +6,7 @@
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="2cm"/></imageobject>
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
         </mediaobject>
-        crystal_facet_uml is an application for software architects.
+        crystal_facet_uml is an application to support software architects.
     </para>
 
     <section>
@@ -19,7 +19,7 @@
             crystal_facet_uml creates a set of uml diagrams.
         </para>
         <para>
-            It ensures consistency of uml element names and relationships between different diagrams.
+            It ensures consistency of uml elements: Their names and their relationships are in sync in all diagrams.
         </para>
         <para>
             crystal_facet_uml exports diagrams in various vector and pixel-based image formats.

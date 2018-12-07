@@ -281,18 +281,18 @@
             <imageobject><imagedata fileref="../../gui/source/resources/tool_navigate.png"/></imageobject>
         </inlinemediaobject>
         <itemizedlist>
-        <listitem><para>To navigate to parent, sibling or children diagrams, click on the show diagram.</para></listitem>
+        <listitem><para>To navigate to parent, sibling or children diagrams, click on the diagram.</para></listitem>
         <listitem><para>To create a new diagram, click on the
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.pdf" width="0.7cm"/></imageobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_sibling.png"/></imageobject>
                 </inlinemediaobject>
-                icon, or
+                icon, or the smaller
                 <inlinemediaobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.pdf" width="0.7cm"/></imageobject>
                     <imageobject><imagedata fileref="../../gui/source/resources/navigate_create_child.png"/></imageobject>
                 </inlinemediaobject>
-                for a new child-diagram.
+                icon for a new child-diagram.
                 </para></listitem>
         <listitem><para>To restructure the diagram tree by shifting the current diagram up and the parent down, press F7.</para></listitem>
         </itemizedlist>
