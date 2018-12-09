@@ -79,32 +79,34 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         /* draw rectangle of ports */
         if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
         {
-            double nominal_fontsize;
-            nominal_fontsize = pencil_size_get_standard_font_size( pencil_size );
+            double port_icon_size;
+            port_icon_size = pencil_size_get_standard_font_size( pencil_size );
+            double port_icon_gap;
+            port_icon_gap = 0.5 * gap;
 
             double box_left;
             double box_top;
             double box_height;
             double box_width;
 
-            box_top = top + 0.5 * ( height - nominal_fontsize + gap );
-            box_height = nominal_fontsize - gap;
-            box_width = nominal_fontsize - gap;
+            box_top = top + port_icon_gap + 0.5 * ( height - port_icon_size );
+            box_height = port_icon_size - 2.0 * port_icon_gap;
+            box_width = port_icon_size - 2.0 * port_icon_gap;
 
             if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
             {
                 /* box to left, text to right */
-                box_left = left + gap;
+                box_left = left + port_icon_gap;
 
-                left += nominal_fontsize + gap;
-                width -= nominal_fontsize + gap;
+                left += port_icon_size + gap;
+                width -= port_icon_size + gap;
             }
             else
             {
                 /* box to right, text to left */
-                box_left = left + width - nominal_fontsize;
+                box_left = left + width - port_icon_size + port_icon_gap;
 
-                width -= nominal_fontsize + gap;
+                width -= port_icon_size + gap;
             }
 
             cairo_rectangle ( cr, box_left, box_top, box_width, box_height );

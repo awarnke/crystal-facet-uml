@@ -78,6 +78,38 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                          geometry_rectangle_t *out_features_bounds
                                                        );
 
+/*!
+ *  \brief determines the bounding box of a lifeline
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_space drawing space of the diagram
+ *  \param diagram_type diagram type of the diagram
+ *  \param classifier_bounds bounding box of the classifier
+ *  \param out_feature_layout output parameter: feature layout coordinates
+ */
+void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
+                                                       const geometry_rectangle_t *diagram_space,
+                                                       data_diagram_type_t diagram_type,
+                                                       const geometry_rectangle_t *classifier_bounds,
+                                                       layout_feature_t *out_feature_layout
+                                                     );
+
+/*!
+ *  \brief determines the bounding box of a port
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_bounds bounding box of the classifier
+ *  \param the_feature bounding box of the classifier
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param out_feature_layout output parameter: feature layout coordinates
+ */
+void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
+                                                   const geometry_rectangle_t *classifier_bounds,
+                                                   const data_feature_t *the_feature,
+                                                   PangoLayout *font_layout,
+                                                   layout_feature_t *out_feature_layout
+                                                 );
+
 #endif  /* PENCIL_FEATURE_LAYOUTER_H */
 
 

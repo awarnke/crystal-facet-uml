@@ -692,7 +692,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                                 list_order = data_feature_get_list_order( data_feature );
                                 geometry_rectangle_t *feature_bounds;
                                 feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
-                                if ( y < geometry_rectangle_get_top( feature_bounds ) )
+                                if ( y < geometry_rectangle_get_y_center( feature_bounds ) )
                                 {
                                     if ( list_order < min_order_below ) { min_order_below = list_order; }
                                 }
