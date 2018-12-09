@@ -512,10 +512,6 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
 
-    char id_buf[24];
-    utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-    utf8stringbuf_clear( id_str );
-
     /* indent */
     if ( indent_width > 0 )
     {
@@ -527,83 +523,24 @@ int pencil_description_writer_private_write_id ( pencil_description_writer_t *th
         }
     }
 
-    utf8stringbuf_append_str( id_str, " [" );
-    switch ( table )
+    /* print id */
     {
-        case DATA_TABLE_CLASSIFIER:
-        {
-            utf8stringbuf_append_str( id_str, "C" );
-        }
-        break;
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+2];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_clear( id_str );
+        utf8stringbuf_append_str( id_str, " [" );
+        data_id_t the_id;
+        data_id_init( &the_id, table, row_id );
+        data_id_to_utf8stringbuf( &the_id, id_str );
+        utf8stringbuf_append_str( id_str, "]" );
 
-        case DATA_TABLE_FEATURE:
+        unsigned int len = utf8stringbuf_get_length(id_str);
+        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, out );
+        if ( out_count != len )
         {
-            utf8stringbuf_append_str( id_str, "F" );
+            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
+            result = -1;
         }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            utf8stringbuf_append_str( id_str, "R" );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            utf8stringbuf_append_str( id_str, "E" );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            utf8stringbuf_append_str( id_str, "D" );
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "pencil_description_writer_private_write_id has incomplete switch on data_table_t" );
-        }
-        break;
-    }
-    if ( 100 > row_id )
-    {
-        if ( 10 > row_id )
-        {
-            if ( 0 <= row_id )
-            {
-                utf8stringbuf_append_str( id_str, "000" );
-            }
-            else
-            {
-                /* row_id is negative */
-            }
-        }
-        else
-        {
-            utf8stringbuf_append_str( id_str, "00" );
-        }
-    }
-    else
-    {
-        if ( 1000 > row_id )
-        {
-            utf8stringbuf_append_str( id_str, "0" );
-        }
-        else
-        {
-            /* row_id is greater than 1000 */
-        }
-    }
-    utf8stringbuf_append_int( id_str, row_id );
-    utf8stringbuf_append_str( id_str, "]" );
-
-    unsigned int len = utf8stringbuf_get_length(id_str);
-    out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, out );
-    if ( out_count != len )
-    {
-        TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
-        result = -1;
     }
 
     TRACE_END_ERR( result );

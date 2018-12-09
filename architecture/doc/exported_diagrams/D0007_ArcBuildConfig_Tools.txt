@@ -4,7 +4,7 @@ Arc+Build+Config Tools                           [D0007]
 
 git                                              [C0022]
 | version control system
-  manages --> c + doxygen                        [R0054]
+  manages --> c + doxygen + docbook              [R0054]
 
 
 cmake                                            [C0023]
@@ -17,11 +17,11 @@ cmake                                            [C0023]
   | uint32_t get_state() is ...
 
 
-c + doxygen                                      [C0024]
+c + doxygen + docbook                            [C0024]
 | c code and doxygen are the source code and documentation formats
   feeds --> cmake                                [R0007]
 
 
 crystal facet uml                                [C0025]
 | - drafts the software design (using this crystal facet uml tool which is under construction)
-  defines --> c + doxygen                        [R0006]
+  defines --> c + doxygen + docbook              [R0006]

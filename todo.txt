@@ -2,7 +2,6 @@ ideas for future versions:
   @gui
   [ ] in overview mode, allow to shift diagrams vertically
   [ ] in overview mode, allow to move diagrams horizontally
-  [ ] in edit mode, allow to re-order features
   [ ] paste: Allow to paste relationships
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.

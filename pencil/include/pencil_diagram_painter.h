@@ -52,7 +52,7 @@ void pencil_diagram_painter_destroy( pencil_diagram_painter_t *this_ );
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
  *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param layout structure to layout fonts
+ *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
@@ -61,7 +61,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    const pencil_size_t *pencil_size,
-                                   PangoLayout *layout,
+                                   PangoLayout *font_layout,
                                    cairo_t *cr
                                  );
 

@@ -45,6 +45,7 @@ static inline int64_t data_id_get_row_id ( const data_id_t *this_ )
 
 static inline void data_id_trace ( const data_id_t *this_ )
 {
+#if 0
     TRACE_INFO( "data_id_t" );
     switch ( (*this_).table )
     {
@@ -71,6 +72,13 @@ static inline void data_id_trace ( const data_id_t *this_ )
             break;
     }
     TRACE_INFO_INT( "- row_id:", (*this_).row_id );
+#endif
+    const char prefix[] = "data_id_t: ";
+    char id_buf[sizeof(prefix)+DATA_ID_MAX_UTF8STRING_LENGTH];
+    utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+    utf8stringbuf_copy_str( id_str, prefix );
+    data_id_to_utf8stringbuf( this_, id_str );
+    TRACE_INFO( utf8stringbuf_get_string( id_str ) );
 }
 
 static inline bool data_id_equals ( const data_id_t *this_, const data_id_t *that )
@@ -88,6 +96,91 @@ static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t tabl
 {
     return ( ( DATA_ID_VOID_ID != (*this_).row_id )&&( DATA_TABLE_VOID != (*this_).table )
     &&( (*this_).row_id == row_id )&&( (*this_).table == table ) );
+}
+
+static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str )
+{
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    switch ( (*this_).table )
+    {
+        case DATA_TABLE_VOID:
+        {
+            result |= utf8stringbuf_append_str( out_str, "void" );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            result |= utf8stringbuf_append_str( out_str, "C" );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            result |= utf8stringbuf_append_str( out_str, "F" );
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            result |= utf8stringbuf_append_str( out_str, "R" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            result |= utf8stringbuf_append_str( out_str, "E" );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            result |= utf8stringbuf_append_str( out_str, "D" );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "data_id_to_utf8stringbuf has incomplete switch on data_table_t" );
+        }
+        break;
+    }
+
+    if ( (*this_).table != DATA_TABLE_VOID )
+    {
+        if ( 100 > (*this_).row_id )
+        {
+            if ( 10 > (*this_).row_id )
+            {
+                if ( 0 <= (*this_).row_id )
+                {
+                    result |= utf8stringbuf_append_str( out_str, "000" );
+                }
+                else
+                {
+                    /* row_id is negative */
+                }
+            }
+            else
+            {
+                result |= utf8stringbuf_append_str( out_str, "00" );
+            }
+        }
+        else
+        {
+            if ( 1000 > (*this_).row_id )
+            {
+                result |= utf8stringbuf_append_str( out_str, "0" );
+            }
+            else
+            {
+                /* row_id is greater than 1000 */
+            }
+        }
+        result |= utf8stringbuf_append_int( out_str, (*this_).row_id );
+    }
+
+    return result;
 }
 
 

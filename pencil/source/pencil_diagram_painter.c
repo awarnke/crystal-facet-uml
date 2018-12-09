@@ -31,13 +31,13 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
                                    bool mark_highlighted,
                                    bool mark_selected,
                                    const pencil_size_t *pencil_size,
-                                   PangoLayout *layout,
+                                   PangoLayout *font_layout,
                                    cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != layouted_diagram );
-    assert( NULL != layout );
+    assert( NULL != font_layout );
     assert( NULL != cr );
 
     const data_diagram_t *the_diagram = layout_diagram_get_data_ptr( layouted_diagram );
@@ -84,11 +84,11 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             /* draw title corner */
             int text_width;
             int text_height;
-            pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (layout, data_diagram_get_name_ptr( the_diagram ), -1);
-            pango_layout_get_pixel_size (layout, &text_width, &text_height);
+            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, data_diagram_get_name_ptr( the_diagram ), -1);
+            pango_layout_get_pixel_size (font_layout, &text_width, &text_height);
             cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
-            pango_cairo_show_layout (cr, layout);
+            pango_cairo_show_layout (cr, font_layout);
 
             static const double EDGE_45 = 4.0;
             double title_corner_width = text_width + gap + 2.0*f_tab_size + EDGE_45;
@@ -114,6 +114,30 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             cairo_line_to ( cr, right, top );
             cairo_stroke (cr);
         }
+    }
+
+    /* draw id */
+    {
+        /* prepare text */
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_clear( id_str );
+        data_id_t the_id;
+        data_id_init( &the_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(the_diagram) );
+        data_id_to_utf8stringbuf( &the_id, id_str );
+
+        int text4_width;
+        int text4_height;
+        pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
+        pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
+        pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
+
+        /* draw text */
+        GdkRGBA grey_color;
+        grey_color = pencil_size_get_gray_out_color( pencil_size );
+        cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
+        cairo_move_to ( cr, left + width - text4_width - gap - gap, top + gap );
+        pango_cairo_show_layout (cr, font_layout);
     }
 
     /* mark focused and highlighted */

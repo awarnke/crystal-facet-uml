@@ -45,8 +45,14 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    const data_visible_classifier_t *visible_classifier = layout_visible_classifier_get_data_ptr( layouted_classifier );
-    const geometry_rectangle_t *classifier_bounds = layout_visible_classifier_get_bounds_ptr( layouted_classifier );
+    const data_visible_classifier_t *visible_classifier;
+    visible_classifier = layout_visible_classifier_get_data_ptr( layouted_classifier );
+    const geometry_rectangle_t *classifier_bounds;
+    classifier_bounds = layout_visible_classifier_get_bounds_ptr( layouted_classifier );
+    const data_classifier_t *classifier;
+    const data_diagramelement_t *diagramelement;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
 
     double left, top;
     double width, height;
@@ -59,11 +65,33 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     double gap = pencil_size_get_standard_object_border( pencil_size );
     double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
+    /* draw id */
     {
-        const data_classifier_t *classifier;
-        const data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+        /* prepare text */
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_clear( id_str );
+        data_id_t the_id;
+        data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+        data_id_to_utf8stringbuf( &the_id, id_str );
+
+        int text4_width;
+        int text4_height;
+        pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
+        pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
+        pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
+
+        /* draw text */
+        GdkRGBA grey_color;
+        grey_color = pencil_size_get_gray_out_color( pencil_size );
+        cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
+        //cairo_move_to ( cr, left + width - text4_width - gap, top - text4_height );
+        cairo_move_to ( cr, left + width - text4_width - gap - gap, top + height - text4_height - gap - gap );
+        pango_cairo_show_layout (cr, font_layout);
+    }
+
+    /* draw the classifier */
+    {
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
 
@@ -121,7 +149,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_stroke (cr);
 
                 /* draw icon */
-                double icon_height = pencil_size_get_larger_font_size( pencil_size );
+                double icon_height = pencil_size_get_title_font_size( pencil_size );
                 double icon_width;
                 pencil_classifier_painter_private_draw_component_icon ( this_,
                                                                         border_left + border_width - gap,  /* x */
@@ -143,7 +171,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_stroke (cr);
 
                 /* draw icon */
-                double icon_height = pencil_size_get_larger_font_size( pencil_size );
+                double icon_height = pencil_size_get_title_font_size( pencil_size );
                 double icon_width;
                 pencil_classifier_painter_private_draw_artifact_icon ( this_,
                                                                        border_left + border_width - gap,  /* x */
@@ -233,7 +261,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             {
-                double actor_height = 2.5 * pencil_size_get_larger_font_size( pencil_size );
+                double actor_height = 2.5 * pencil_size_get_title_font_size( pencil_size );
                 double half_width = 0.5 * border_width;
                 double actor_width;
                 pencil_classifier_painter_private_draw_actor_icon ( this_,
@@ -355,7 +383,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
 
             int text2_width;
-            pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 

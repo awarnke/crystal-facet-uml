@@ -52,7 +52,7 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
         {
             /* the actor icon height is part of the shape border  */
-            double actor_icon_height = 2.5 * pencil_size_get_larger_font_size( pencil_size );
+            double actor_icon_height = 2.5 * pencil_size_get_title_font_size( pencil_size );
 
             *out_top_border = double_gap + actor_icon_height;
             *out_left_border = gap;
@@ -168,7 +168,7 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
             utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
 
             /* determine text width and height */
-            pango_layout_set_font_description (font_layout, pencil_size_get_larger_font_description(pencil_size) );
+            pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
             pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 

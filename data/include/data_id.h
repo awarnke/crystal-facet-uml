@@ -10,6 +10,8 @@
  */
 
 #include "data_table.h"
+#include <util/string/utf8stringbuf.h>
+#include <util/string/utf8error.h>
 #include <stdint.h>
 #include <stdbool.h>
 
@@ -18,6 +20,14 @@
  */
 enum data_id_void_enum {
     DATA_ID_VOID_ID = -1,  /*!< invalid id */
+};
+
+/*!
+ *  \brief constants to define maximum length of textual representation
+ */
+enum data_id_max_enum {
+    DATA_ID_MAX_UTF8STRING_LENGTH = 21,  /*!< maximum ID length is strlen("X-9223372036854775807") which is 21 */
+    DATA_ID_MAX_UTF8STRING_SIZE = 22,  /*!< maximum ID size is sizeof("X-9223372036854775807") which is 22 */
 };
 
 /*!
@@ -115,6 +125,17 @@ static inline bool data_id_is_valid ( const data_id_t *this_ );
  *  \return true if both object-ids are valid and equal; false if at least one is invalid or they are unequal.
  */
 static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, int64_t row_id );
+
+/*!
+ *  \brief prints a textual representation of this id to a utf8stringbuf
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_str string to which to append the id
+ *  \return UTF8ERROR_SUCCESS in case of success: All bytes have been copied.
+ *          UTF8ERROR_TRUNCATED if the character could not be appended.
+ *          (this may happen if the stringbuf is smaller than DATA_ID_MAX_UTF8STRING_LENGTH)
+ */
+static inline utf8error_t data_id_to_utf8stringbuf ( const data_id_t *this_, utf8stringbuf_t out_str );
 
 #include "data_id.inl"
 

@@ -26,10 +26,12 @@ enum pencil_size_const_enum {
  *  \brief attributes of the pencil_input_data_t
  */
 struct pencil_size_struct {
+    double footnote_font_size;  /*!< text size of footnote text */
+    PangoFontDescription *footnote_font_description;  /*!< text description of footnote text */
     double standard_font_size;  /*!< text size of standard text */
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
-    double larger_font_size;  /*!< text size of larger text */
-    PangoFontDescription *larger_font_description;  /*!< text description of larger text */
+    double title_font_size;  /*!< text size of title text */
+    PangoFontDescription *title_font_description;  /*!< text description of title text */
     double standard_line_width;  /*!< line width of standard lines */
     double bold_line_width;  /*!< line width of bold lines */
     double line_dash_length;  /*!< dash length of a dashed line */
@@ -80,6 +82,20 @@ static inline void pencil_size_destroy( pencil_size_t *this_ );
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height  );
 
 /*!
+ *  \brief gets the attribute of pencil_size_t: footnote_font_size
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_footnote_font_size( const pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the PangoFontDescription for the footnote font
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline PangoFontDescription *pencil_size_get_footnote_font_description( const pencil_size_t *this_ );
+
+/*!
  *  \brief gets the attribute of pencil_size_t: standard_font_size
  *
  *  \param this_ pointer to own object attributes
@@ -94,18 +110,18 @@ static inline double pencil_size_get_standard_font_size( const pencil_size_t *th
 static inline PangoFontDescription *pencil_size_get_standard_font_description( const pencil_size_t *this_ );
 
 /*!
- *  \brief gets the attribute of pencil_size_t: larger_font_size
+ *  \brief gets the attribute of pencil_size_t: title_font_size
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double pencil_size_get_larger_font_size( const pencil_size_t *this_ );
+static inline double pencil_size_get_title_font_size( const pencil_size_t *this_ );
 
 /*!
- *  \brief determines PangoFontDescription for the larger font
+ *  \brief determines PangoFontDescription for the title font
  *
  *  \param this_ pointer to own object attributes
  */
-static inline PangoFontDescription *pencil_size_get_larger_font_description( const pencil_size_t *this_ );
+static inline PangoFontDescription *pencil_size_get_title_font_description( const pencil_size_t *this_ );
 
 /*!
  *  \brief proposes a tab size

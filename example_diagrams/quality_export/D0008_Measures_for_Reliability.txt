@@ -1,4 +1,5 @@
 Measures for Reliability                         [D0008]
+| This diagram shows examples - not aiming for completeness.
 
 
 Recoverability                                   [C0037]

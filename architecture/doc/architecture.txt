@@ -137,9 +137,9 @@
  *
  *  \subsubsection cfu-uml-umlclasses A selection of UML 2.5 Classes
  *
- *  \image html D0027_This_diagram_shows_the_base_classes_of_the_UML_.png
- *  \image latex D0027_This_diagram_shows_the_base_classes_of_the_UML_.pdf "" width=15cm
- *  \verbinclude exported_diagrams/D0027_This_diagram_shows_the_base_classes_of_the_UML_.txt
+ *  \image html D0027_Base_classes_of_the_UML_.png
+ *  \image latex D0027_Base_classes_of_the_UML_.pdf "" width=15cm
+ *  \verbinclude exported_diagrams/D0027_Base_classes_of_the_UML_.txt
  *
  *  \image html D0028_UML_Classifier_Ancestors.png
  *  \image latex D0028_UML_Classifier_Ancestors.pdf "" width=15cm

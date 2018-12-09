@@ -69,8 +69,8 @@ Secure Boot                                      [C0108]
 
 
 Groups                                           [C0113]
-| Grouping Clients/Actors helps
-| Grouping Services 
+| Grouping Clients/Actors/Users and
+| grouping Services 
 | helps in administration of access rights
   support --> Accountability                     [R0125]
 

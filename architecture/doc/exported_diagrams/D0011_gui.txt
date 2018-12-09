@@ -5,6 +5,8 @@ gui                                              [D0011]
 gui_main_window                                  [C0042]
 | - represents an application window
   has --> gui_sketch_area                        [R0031]
+  has --> gui_tools                              [R0226]
+  has --> gui_textedit                           [R0228]
 
 
 gui_sketch_area                                  [C0043]
@@ -27,7 +29,15 @@ gui                                              [C0001]
 |     - to select the database
 |     - to export diagrams
 |     - to modify the uml-model
+  --> gui_tools                                  [R0225]
+  --> gui_textedit                               [R0227]
   --> gui_window_manager                         [R0045]
   --> gui_main_window                            [R0046]
   --> gui_sketch_card                            [R0047]
   --> gui_sketch_area                            [R0048]
+
+
+gui_tools                                        [C0159]
+
+
+gui_textedit                                     [C0160]
