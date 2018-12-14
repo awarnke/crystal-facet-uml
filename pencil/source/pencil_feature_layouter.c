@@ -352,8 +352,13 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         the_feature = layout_feature_get_data_ptr ( feature_layout );
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
+        bool property_or_operation;
+        property_or_operation 
+            = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
+            || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) );
 
-        if ( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
+        if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
+            && property_or_operation )
         {
             geometry_rectangle_t min_feature_bounds;
             geometry_rectangle_init_empty( &min_feature_bounds );

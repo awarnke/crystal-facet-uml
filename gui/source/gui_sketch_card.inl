@@ -111,6 +111,45 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_
     return result;
 }
 
+static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card_t *this_,
+                                                                 data_feature_t *feature_ptr,
+                                                                 int32_t x,
+                                                                 int32_t y )
+{
+    assert ( NULL != feature_ptr );
+
+    layout_order_t result;
+    pencil_error_t pen_err;
+
+    pen_err = pencil_diagram_maker_get_feature_order_at_pos ( &((*this_).painter),
+                                                              feature_ptr,
+                                                              (double) x,
+                                                              (double) y,
+                                                              &result
+                                                            );
+
+    switch ( pen_err )
+    {
+        case PENCIL_ERROR_NONE:
+        {
+            /* success */
+        }
+        break;
+        case PENCIL_ERROR_OUT_OF_BOUNDS:
+        {
+            TRACE_INFO( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_get_feature_order_at_pos" );
+        }
+        break;
+        case PENCIL_ERROR_UNKNOWN_OBJECT:
+        {
+            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_get_feature_order_at_pos" );
+        }
+        break;
+    }
+
+    return layout_order_get_first( &result );
+}
+
 static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
     universal_bool_list_t result;

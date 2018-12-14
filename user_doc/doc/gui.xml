@@ -68,6 +68,9 @@
         <itemizedlist>
         <listitem><para>Opens another window on the same database.</para></listitem>
         </itemizedlist>
+        This option allows you to work reliably with multiple windows on the same database.
+        <!-- opening the same database file using two instances of crystal facet uml
+        _may_ also work - but you risk an inconsistent database when deleting elements or performing undo/redo actions -->
     </para>
 
 </section>

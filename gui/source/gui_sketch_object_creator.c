@@ -318,6 +318,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                         int64_t parent_classifier_id,
                                                         int32_t list_order,
+                                                        int32_t port_list_order,
                                                         int64_t *out_feature_id )
 {
     TRACE_BEGIN();
@@ -352,6 +353,12 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     data_feature_type_t new_feature_type;
     new_feature_type = data_rules_get_default_feature_type ( &((*this_).data_rules), parent_class_type );
 
+    /* select the right list_order */
+    if ( DATA_FEATURE_TYPE_PORT == new_feature_type )
+    {
+        list_order = port_list_order;
+    }
+    
     /* find a good default name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );

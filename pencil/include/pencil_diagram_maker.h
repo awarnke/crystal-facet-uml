@@ -202,6 +202,27 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
                                                      );
 
 /*!
+ *  \brief gets the layout order at a given position for a feature
+ *
+ *  Avoid using this function, prefer to use pencil_diagram_maker_get_order_at_pos()
+ *  unless the feature is new/fake and does not yet have an ID.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_ptr feature for which to determine the layout order; not NULL
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_layout_order order at given position
+ *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
+ *          PENCIL_ERROR_UNKNOWN_OBJECT if the parent classifier is not in the diagram
+ */
+pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                               data_feature_t *feature_ptr,
+                                                               double x,
+                                                               double y,
+                                                               layout_order_t* out_layout_order
+                                                             );
+
+/*!
  *  \brief moves an object in the input_data cache. Does not persist the new order.
  *
  *  \param this_ pointer to own object attributes

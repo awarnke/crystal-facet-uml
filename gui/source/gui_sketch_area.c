@@ -1233,16 +1233,16 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             {
                                 /* propose a list order */
                                 layout_order_t layout_order;
-                                data_id_t new_relationship;
-                                data_id_init ( &new_relationship, DATA_TABLE_RELATIONSHIP, DATA_ID_VOID_ID );
-                                layout_order = gui_sketch_card_get_order_at_pos( target_card, new_relationship, x, y );
+                                data_id_t fake_relationship;
+                                data_id_init ( &fake_relationship, DATA_TABLE_RELATIONSHIP, DATA_ID_VOID_ID );
+                                layout_order = gui_sketch_card_get_order_at_pos( target_card, fake_relationship, x, y );
                                 if ( PENCIL_LAYOUT_ORDER_TYPE_LIST == layout_order_get_order_type( &layout_order ) )
                                 {
                                     list_order_proposal = layout_order_get_first( &layout_order );
                                 }
                                 else
                                 {
-                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
+                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
                                 }
                             }
 
@@ -1290,13 +1290,30 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             /* create a feature */
                             /* propose a list_order for the feature */
                             int32_t list_order_proposal = 0;
-                            list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 1024;
+                            list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
+                            int32_t port_list_order_proposal = 0;
+                            data_feature_init ( &((*this_).private_temp_fake_feature),
+                                                DATA_ID_VOID_ID,
+                                                DATA_FEATURE_TYPE_PORT,
+                                                data_id_get_row_id( &dragged_classifier ), /* classifier */
+                                                "NAME",
+                                                "port 8080",
+                                                "description",
+                                                0 /* list_order */
+                                              );
+                            port_list_order_proposal = gui_sketch_card_get_feature_order_at_pos ( target_card,
+                                                                                                  &((*this_).private_temp_fake_feature),
+                                                                                                  x,
+                                                                                                  y
+                                                                                                );
+                            data_feature_destroy ( &((*this_).private_temp_fake_feature) );
 
                             int64_t new_feature_id;
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
                                                                                   data_id_get_row_id( &dragged_classifier ),
                                                                                   list_order_proposal,
+                                                                                  port_list_order_proposal,
                                                                                   &new_feature_id
                                                                                 );
 

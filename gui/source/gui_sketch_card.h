@@ -152,6 +152,24 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
 static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y );
 
 /*!
+ *  \brief gets the order value at a given position for a feature
+ * 
+ *  Avoid using this function, prefer to use gui_sketch_card_get_order_at_pos()
+ *  unless the feature is new/fake and does not yet have an ID.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_ptr feature for which to determine the list order; must not be NULL.
+ *  \param x x-position
+ *  \param y y-position
+ *  \return the list order value at the given location
+ */
+static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card_t *this_,
+                                                                 data_feature_t *feature_ptr,
+                                                                 int32_t x,
+                                                                 int32_t y
+                                                               );
+
+/*!
  *  \brief determines if the given position is on a grid line
  *
  *  \param this_ pointer to own object attributes

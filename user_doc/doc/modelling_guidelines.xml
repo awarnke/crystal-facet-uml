@@ -54,6 +54,19 @@
     </para>
 
 </section>
+<section>
+    <title>Namespaces</title>
+    <para>
+        Put a prefix to all your elements denoting its namespace. You can then distinguish a GLOBAL_START_STATE from an AUDIO_START_STATE. Or global::start from audio::start.
+    </para>
+</section>
+</section>
+<section>
+    <title>Attic/Storage room</title>
+    <para>
+        If you are not sure if you really want to delete elements, 1) copy them to an attic-diagram and then 2) delete them from the original diagram.
+    </para>
+</section>
 </section>
 <section>
     <title>General Hints on Architecture Documentation</title>

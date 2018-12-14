@@ -349,6 +349,28 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
     return result;
 }
 
+pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( pencil_diagram_maker_t *this_,
+                                                               data_feature_t *feature_ptr,
+                                                               double x,
+                                                               double y,
+                                                               layout_order_t* out_layout_order )
+{
+    TRACE_BEGIN();
+    assert( NULL != feature_ptr );
+    assert( NULL != out_layout_order );
+
+    pencil_error_t result;
+    result = pencil_layouter_get_feature_order_at_pos ( &((*this_).layouter),
+                                                        feature_ptr,
+                                                        x,
+                                                        y,
+                                                        out_layout_order
+                                                      );
+
+    TRACE_END_ERR(result);
+    return result;
+}
+
 pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
                                                            data_id_t obj_id,
                                                            layout_order_t *order )

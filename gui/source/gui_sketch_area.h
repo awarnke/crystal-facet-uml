@@ -70,6 +70,7 @@ struct gui_sketch_area_struct {
     /* internal data structures */
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
     GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
+    data_feature_t private_temp_fake_feature;
 };
 
 typedef struct gui_sketch_area_struct gui_sketch_area_t;
