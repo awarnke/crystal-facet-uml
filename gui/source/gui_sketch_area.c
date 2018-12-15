@@ -748,17 +748,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     data_id_pair_t dragged_object;
                     data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
                     gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
-
-                    /* load/reload data to be drawn */
-                    gui_sketch_area_private_load_data( this_, data_id_get_row_id( &clicked_diagram_id ) );
-
-                    /* notify listener */
-                    gui_marked_set_set_focused( (*this_).marker, clicked_diagram_id );
-                    gui_sketch_area_private_notify_listener( this_, clicked_diagram_id );
-                    gui_marked_set_clear_selected_set( (*this_).marker );
-
-                    /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
                 }
                 else
                 {
@@ -1048,6 +1037,44 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_TOOLS_NAVIGATE:
             {
                 TRACE_INFO("GUI_TOOLS_NAVIGATE");
+                if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
+                {
+                    /* which object is selected? */
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    data_id_t dragged_diagram;
+                    dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                    if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
+                    {
+                        TSLOG_WARNING("GUI_TOOLS_NAVIGATE drag diagram not implemented");
+
+                    }
+                }
+                else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
+                {
+                    /* click on classifier without drag */
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    data_id_t dragged_diagram;
+                    dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                    if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
+                    {
+                        /* load/reload data to be drawn */
+                        gui_sketch_area_private_load_data( this_, data_id_get_row_id( &dragged_diagram ) );
+
+                        /* notify listener */
+                        gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
+                        gui_sketch_area_private_notify_listener( this_, dragged_diagram );
+                        gui_marked_set_clear_selected_set( (*this_).marker );
+
+                        /* mark dirty rect */
+                        gtk_widget_queue_draw( widget );
+                    }
+                    else
+                    {
+                        TSLOG_ANOMALY("GUI_TOOLS_NAVIGATE released mouse button but not a diagram clicked before");
+                    }
+                }
             }
             break;
 
@@ -1289,8 +1316,8 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         {
                             /* create a feature */
                             /* propose a list_order for the feature */
-                            int32_t list_order_proposal = 0;
-                            list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
+                            int32_t std_list_order_proposal = 0;
+                            std_list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
                             int32_t port_list_order_proposal = 0;
                             data_feature_init ( &((*this_).private_temp_fake_feature),
                                                 DATA_ID_VOID_ID,
@@ -1312,7 +1339,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
                                                                                   data_id_get_row_id( &dragged_classifier ),
-                                                                                  list_order_proposal,
+                                                                                  std_list_order_proposal,
                                                                                   port_list_order_proposal,
                                                                                   &new_feature_id
                                                                                 );

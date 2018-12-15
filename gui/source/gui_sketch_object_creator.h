@@ -132,14 +132,14 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_classifier_id id of the parent classifier where the new feature shall appear
- *  \param list_order order where the new feature shall be located, if not a port
+ *  \param std_list_order order where the new feature shall be located, if not a port
  *  \param port_list_order order where the new feature shall be located, if a port
  *  \param out_feature_id row_id of the newly created feature
  *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
  */
 ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
                                                         int64_t parent_classifier_id,
-                                                        int32_t list_order,
+                                                        int32_t std_list_order,
                                                         int32_t port_list_order,
                                                         int64_t *out_feature_id
                                                       );
