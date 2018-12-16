@@ -12,6 +12,7 @@
 #include "gui_sketch_marker.h"
 #include "gui_sketch_action.h"
 #include "gui_resources.h"
+#include "gui_error.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
@@ -146,14 +147,11 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
 static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
                                                            int32_t y,
-                                                           gui_sketch_action_t* out_action_id
+                                                           gui_sketch_action_t *out_action_id
                                                          );
 
 /*!
- *  \brief gets the object-id of the object at a given position.
- *
- *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,
- *  or the visible object at a given position, e.g. a diagram_t or a diagramelement_t.
+ *  \brief gets the diagram-id of the diagram_t at a given position.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
@@ -163,8 +161,30 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                                                               int32_t x,
                                                               int32_t y,
-                                                              data_id_t* out_selected_id
+                                                              data_id_t *out_selected_id
                                                             );
+
+/*!
+ *  \brief gets the gap information at a given position.
+ *
+ *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,
+ *  or the visible object at a given position, e.g. a diagram_t or a diagramelement_t.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x-position
+ *  \param y y-position
+ *  \param out_parent_id the parent object id at the given location. The id is invalid if the root location was chosen.
+ *  \param out_list_order the list_order at the given location.
+ *  \param out_gap_line the line coordinates to show a gap cursor bar.
+ *  \return GUI_ERROR_NONE if x/y points to a valid gap, GUI_ERROR_OUT_OF_BOUNDS in case of out of bounds error
+ */
+static inline gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                                    int32_t x,
+                                                                    int32_t y,
+                                                                    data_id_t *out_parent_id,
+                                                                    int32_t *out_list_order,
+                                                                    shape_int_rectangle_t *out_gap_line
+                                                                  );
 
 /*!
  *  \brief gets the bounding box of a diagram name
@@ -198,28 +218,6 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
 static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( gui_sketch_nav_tree_t *this_,
                                                                                    uint32_t child_index
                                                                                  );
-
-/*!
- *  \brief gets the order value at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object id for which to determine the list order.
- *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
- *  \param x x-position
- *  \param y y-position
- *  \return the list order value at the given location
- */
-static inline layout_order_t gui_sketch_nav_tree_get_order_at_pos ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, int32_t x, int32_t y );
-
-/*!
- *  \brief moves an object to an order (without modifying the database)
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object id which to move (modify the x-/y- or list order).
- *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
- *  \param order layout_order_t, where to move the object to
- */
-static inline void gui_sketch_nav_tree_move_object_to_order ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, layout_order_t *order );
 
 /*!
  *  \brief draws an icon and a label

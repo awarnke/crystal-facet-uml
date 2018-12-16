@@ -147,14 +147,14 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     {
         cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
     }
-    cairo_rectangle ( cr, left, block_top, width, (height*3)/10 );
+    cairo_rectangle ( cr, left, block_top, width, (height*1)/4 );
     cairo_fill (cr);
-    block_top += (height*3)/10;
+    block_top += (height*1)/4;
 
     cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
-    cairo_rectangle ( cr, left, block_top, width, (height*4)/10 );
+    cairo_rectangle ( cr, left, block_top, width, (height*2)/4 );
     cairo_fill (cr);
-    block_top += (height*4)/10;
+    block_top += (height*2)/4;
 
     cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
     cairo_rectangle ( cr, left, block_top, width, height-block_top );
@@ -163,7 +163,7 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     if ( ( 0 == tree_depth )&&( 0 == num_children ))
     {
         /* this is a new, empty database */
-        
+
         /* print some guidance */
         const int TAB_COL0_X = 14;
         const int TAB_COL1_X = 112;

@@ -12,6 +12,7 @@
 #include "gui_sketch_drag_state.h"
 #include "gui_tools.h"
 #include "gui_sketch_card.h"
+#include "gui_sketch_nav_tree.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -47,12 +48,14 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param selected_tool currently selected tool/edit-mode
  *  \param drag_state current dragging status
  *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
+ *  \param nav_tree the navigation tree, not NULL
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               gui_tools_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
+                              gui_sketch_nav_tree_t *nav_tree,
                               cairo_t *cr
                             );
 

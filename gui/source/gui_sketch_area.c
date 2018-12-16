@@ -334,11 +334,11 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     int32_t self_left;
     int32_t self_top;
     {
-        children_height = ( height * 3 ) / 10;
+        children_height = ( height * 1 ) / 4;
         children_top = height - children_height;
         parent_left = left;
         parent_width = width;
-        parent_height = ( height * 3 ) / 10;
+        parent_height = ( height * 1 ) / 4;
         self_width = width;
         self_left = left;
         self_top = top + parent_height;
@@ -400,7 +400,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
             {
                 shape_int_rectangle_init( &card_bounds, parent_left, top, parent_width, parent_height );
                 shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_LEFT, SHAPE_V_ALIGN_CENTER );
+                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
             }
             else
             {
@@ -516,6 +516,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                              selected_tool,
                              &((*this_).drag_state),
                              gui_sketch_area_get_card_at_pos ( this_, mouse_x, mouse_y ),
+                             &((*this_).nav_tree),
                              cr
                            );
 
@@ -573,18 +574,26 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     {
         case GUI_TOOLS_NAVIGATE:
         {
-            data_id_t object_under_mouse;
-            object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
-            data_id_t object_highlighted;
-            object_highlighted = gui_marked_set_get_highlighted( (*this_).marker );
-            if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
+            if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
-                if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                /* always redraw while dragging */
+                gtk_widget_queue_draw( widget );
+            }
+            else /* not dragging */
+            {
+                data_id_t object_under_mouse;
+                object_under_mouse = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                data_id_t object_highlighted;
+                object_highlighted = gui_marked_set_get_highlighted( (*this_).marker );
+                if ( ! data_id_equals( &object_under_mouse, &object_highlighted ) )
                 {
-                    gui_marked_set_set_highlighted( (*this_).marker, object_under_mouse );
+                    if ( data_id_is_valid( &object_under_mouse ) || data_id_is_valid( &object_highlighted ) )
+                    {
+                        gui_marked_set_set_highlighted( (*this_).marker, object_under_mouse );
 
-                    /* mark dirty rect */
-                    gtk_widget_queue_draw( widget );
+                        /* mark dirty rect */
+                        gtk_widget_queue_draw( widget );
+                    }
                 }
             }
         }
@@ -631,7 +640,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     TRACE_INFO( "mouse click outside sketch card." );
                 }
             }
-            else
+            else /* not dragging */
             {
                 data_id_pair_t object_under_mouse;
                 gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
@@ -1039,12 +1048,19 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 TRACE_INFO("GUI_TOOLS_NAVIGATE");
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
-                    /* which object is selected? */
+                    /* which diagram was dragged? */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t dragged_diagram;
                     dragged_diagram = data_id_pair_get_primary_id( dragged_object );
-                    if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
+
+                    /* to which diagram was it dragged to? */
+                    data_id_t released_diagram;
+                    released_diagram = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                    data_id_trace( &released_diagram );
+
+                    if (( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
+                        && ( DATA_TABLE_DIAGRAM == data_id_get_table( &released_diagram ) ))
                     {
                         TSLOG_WARNING("GUI_TOOLS_NAVIGATE drag diagram not implemented");
 
@@ -1052,7 +1068,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                 }
                 else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
                 {
-                    /* click on classifier without drag */
+                    /* click on diagram without drag */
                     data_id_pair_t *dragged_object;
                     dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
                     data_id_t dragged_diagram;

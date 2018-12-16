@@ -34,7 +34,7 @@ static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 12;
 static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
                                                            int32_t y,
-                                                           gui_sketch_action_t* out_action_id )
+                                                           gui_sketch_action_t *out_action_id )
 {
     assert ( NULL != out_action_id );
 
@@ -80,10 +80,99 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
     }
 }
 
+static inline gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                                    int32_t x,
+                                                                    int32_t y,
+                                                                    data_id_t *out_parent_id,
+                                                                    int32_t *out_list_order,
+                                                                    shape_int_rectangle_t *out_gap_line )
+{
+    assert ( NULL != out_parent_id );
+    assert ( NULL != out_list_order );
+    assert ( NULL != out_gap_line );
+    
+    gui_error_t ret_error = GUI_ERROR_NONE;
+
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        /* determine index of line, top linie has index 0 */
+        int32_t top;
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        uint32_t gap_index;
+        gap_index = ( y+(GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2) - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+
+        shape_int_rectangle_init( out_gap_line, 
+                                  shape_int_rectangle_get_left( &((*this_).bounds) ),
+                                  gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1,
+                                  shape_int_rectangle_get_width( &((*this_).bounds) ),
+                                  2
+                                );
+#if 0
+        /* is this the ancester region ? */
+        uint32_t real_ancestors = ( (*this_).ancestors_count > 0 ) ? ( (*this_).ancestors_count - 1 ) : 0;
+        if ( line_index < real_ancestors )
+        {
+            uint32_t ancester_idx = real_ancestors - line_index;
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+            );
+        }
+        else
+        {
+            uint32_t siblings_line = line_index - real_ancestors;
+            if ( siblings_line <= (*this_).siblings_self_index )
+            {
+                data_id_reinit( out_selected_id,
+                                DATA_TABLE_DIAGRAM,
+                                data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line]) )
+                );
+            }
+            else
+            {
+                uint32_t child_line = siblings_line - (*this_).siblings_self_index - 1;
+                if ( child_line < (*this_).children_count )
+                {
+                    data_id_reinit( out_selected_id,
+                                    DATA_TABLE_DIAGRAM,
+                                    data_diagram_get_id( &((*this_).child_diagrams[child_line]) )
+                    );
+                }
+                else
+                {
+                    siblings_line -= (*this_).children_count;
+                    if ( siblings_line == (*this_).siblings_self_index + 1 )
+                    {
+                        /* reserved for new child sign */
+                        data_id_reinit_void( out_selected_id );
+                    }
+                    else if ( siblings_line <= (*this_).siblings_count )
+                    {
+                        data_id_reinit( out_selected_id,
+                                        DATA_TABLE_DIAGRAM,
+                                        data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line-1]) )
+                        );
+                    }
+                    else
+                    {
+                        data_id_reinit_void( out_selected_id );
+                    }
+                }
+            }
+        }
+#endif // 0
+    }
+    else
+    {
+        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
+    }
+    return ret_error;
+}
+
 static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                                                               int32_t x,
                                                               int32_t y,
-                                                              data_id_t* out_selected_id )
+                                                              data_id_t *out_selected_id )
 {
     assert ( NULL != out_selected_id );
 
@@ -263,19 +352,6 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
 
     return result;
-}
-
-static inline layout_order_t gui_sketch_nav_tree_get_order_at_pos ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, int32_t x, int32_t y )
-{
-    layout_order_t result;
-    layout_order_init_empty( &result );
-    TSLOG_ERROR("Not yet implemented: gui_sketch_nav_tree_get_order_at_pos");
-    return result;
-}
-
-static inline void gui_sketch_nav_tree_move_object_to_order ( gui_sketch_nav_tree_t *this_, data_id_t obj_id, layout_order_t *order )
-{
-    TSLOG_ERROR("Not yet implemented: gui_sketch_nav_tree_move_object_to_order");
 }
 
 

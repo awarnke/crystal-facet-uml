@@ -28,16 +28,56 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               gui_tools_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
+                              gui_sketch_nav_tree_t *nav_tree,
                               cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != drag_state );
     assert( NULL != cr );
+    assert( NULL != nav_tree );
 
     switch ( selected_tool )
     {
         case GUI_TOOLS_NAVIGATE:
         {
+            if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
+            {
+                int32_t to_x;
+                int32_t to_y;
+                to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+                to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+                data_id_t out_parent_id;
+                int32_t out_list_order;
+                shape_int_rectangle_t out_gap_line;
+                gui_error_t gap_err;
+                gap_err = gui_sketch_nav_tree_get_gap_info_at_pos ( nav_tree,
+                                                                    to_x,
+                                                                    to_y,
+                                                                    &out_parent_id,
+                                                                    &out_list_order,
+                                                                    &out_gap_line
+                                                                  );
+                if ( gap_err == GUI_ERROR_NONE )
+                {
+                    cairo_set_source_rgba( cr,
+                                           (*this_).overlay_std_red,
+                                           (*this_).overlay_std_green,
+                                           (*this_).overlay_std_blue,
+                                           (*this_).overlay_std_alpha
+                                         );
+                    cairo_rectangle ( cr, 
+                                      shape_int_rectangle_get_left(&out_gap_line),
+                                      shape_int_rectangle_get_top(&out_gap_line),
+                                      shape_int_rectangle_get_width(&out_gap_line),
+                                      shape_int_rectangle_get_height(&out_gap_line) 
+                                    );
+                    cairo_fill (cr);
+                }
+                else
+                {
+                    TRACE_INFO("dragging diagram outside nav_tree");
+                }
+            }
         }
         break;
 
