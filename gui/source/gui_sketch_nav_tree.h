@@ -39,6 +39,7 @@ struct gui_sketch_nav_tree_struct {
     bool visible;  /*!< is the nav tree visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the nav tree */
 
+    /* diagram data to be shown */
     uint32_t ancestors_count;
     data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];  /*!< current diagram is at index 0 */
     uint32_t siblings_count;
@@ -46,9 +47,18 @@ struct gui_sketch_nav_tree_struct {
     int32_t siblings_self_index;  /*!< index of current diagram in list of siblings, -1 in case of error */
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
-    int32_t new_child_button_index;  /*!< index/line of the "new child" button, -1 if this button does not exist */
-    int32_t new_sibling_button_index;  /*!< index/line of the "new sibling" button, -1 if this button does not exist */
 
+    /* layout information, what is shown where */
+    uint32_t line_idx_ancestors_start;  /*! always 0, even if there are no ancestors */
+    uint32_t line_idx_siblings_start;  /*! line of first sibling; undefined in case of program-internal error */
+    uint32_t line_idx_siblings_next_after_self;  /*! line of next sibling after self; undefined if there is no next sibling */
+    uint32_t line_idx_self;  /*! line of self; undefined in case of program-internal error */
+    uint32_t line_idx_children_start;  /*! line of first child; undefined if there are no children */
+    int32_t line_idx_new_child;  /*! line of new child button; -1 if there is no such button */
+    int32_t line_idx_new_sibling;  /*! line of new sibling button; -1 if there is no such button */
+    int32_t line_idx_new_root;  /*! 0 equals line of new root button; -1 if there is no such button */
+
+    /* helper classes to perform drawing */
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
@@ -74,11 +84,20 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
 /*!
  *  \brief fetches the diagram data from the database
  *
+ *  and calls gui_sketch_nav_tree_private_do_layout to ensure consistency of own attributes
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to load
  *  \param db_reader pointer to a database reader object
  */
 void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
+
+/*!
+ *  \brief calculates the layout-line indices
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief marks the diagram data as invalid

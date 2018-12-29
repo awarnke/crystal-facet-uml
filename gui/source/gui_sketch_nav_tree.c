@@ -17,8 +17,15 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).siblings_count = 0;
     (*this_).children_count = 0;
     (*this_).siblings_self_index = -1;
-    (*this_).new_child_button_index = -1;
-    (*this_).new_sibling_button_index = -1;
+
+    (*this_).line_idx_new_child = -1;
+    (*this_).line_idx_new_sibling = -1;
+    (*this_).line_idx_new_root = -1;
+    (*this_).line_idx_ancestors_start = 0;
+    (*this_).line_idx_siblings_start = 0;
+    (*this_).line_idx_siblings_next_after_self = 0;
+    (*this_).line_idx_self = 0;
+    (*this_).line_idx_children_start = 0;
 
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
@@ -114,6 +121,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
         {
             assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
 
+            (*this_).siblings_self_index = -1;
             for ( int sib_index = 0; sib_index < (*this_).siblings_count; sib_index ++ )
             {
                 if ( diagram_id == data_diagram_get_id( &((*this_).sibling_diagrams[sib_index]) ) )
@@ -136,26 +144,59 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
                                                                 );
     }
 
+    gui_sketch_nav_tree_private_do_layout( this_ );
+
+    TRACE_END();
+}
+
+void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ )
+{
+    TRACE_BEGIN();
+    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
+    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+
     /* calculate the "new" button positions */
     if ( (*this_).ancestors_count == 0 )
     {
         /* cannot create a child without a parent */
-        (*this_).new_child_button_index = -1;
-        /* show only a new sibling button */
-        (*this_).new_sibling_button_index = 0;
+        (*this_).line_idx_new_child = -1;
+        /* cannot create a sibling without a root */
+        (*this_).line_idx_new_sibling = -1;
+        /* show only a new root button */
+        (*this_).line_idx_new_root = 0;
+
     }
     else
     {
-        (*this_).new_child_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count;
+        (*this_).line_idx_new_child = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count;
+        (*this_).line_idx_new_root = -1;
         if ( (*this_).ancestors_count == 1 )
         {
             /* cannot create a sibling to the root */
-            (*this_).new_sibling_button_index = -1;
+            (*this_).line_idx_new_sibling = -1;
         }
         else
         {
-            (*this_).new_sibling_button_index = (*this_).ancestors_count - 1 + (*this_).siblings_count + (*this_).children_count + 1;
+            (*this_).line_idx_new_sibling = (*this_).ancestors_count - 1
+                    + (*this_).siblings_count + (*this_).children_count + 1;  /* +1 for the new_child_line */
         }
+    }
+
+    (*this_).line_idx_ancestors_start = 0;
+    (*this_).line_idx_siblings_start = ( (*this_).ancestors_count == 0 ) ? 0 : ( (*this_).ancestors_count - 1 );
+    if ( (*this_).siblings_self_index != -1 )
+    {
+        (*this_).line_idx_self = (*this_).line_idx_siblings_start + (*this_).siblings_self_index;
+        (*this_).line_idx_siblings_next_after_self = (*this_).line_idx_self + (*this_).children_count + 1 + 1;  /* +1 for new child button */
+        (*this_).line_idx_children_start = (*this_).line_idx_self + 1;
+    }
+    else
+    {
+        TRACE_INFO("there is no self diagram in the current diagram tree!")
+        (*this_).line_idx_self = 0;
+        (*this_).line_idx_siblings_next_after_self = 0;
+        (*this_).line_idx_children_start = 0;
     }
 
     TRACE_END();
@@ -168,6 +209,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
     assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
 
+    /* clear data */
     for ( int anc_index = 0; anc_index < (*this_).ancestors_count; anc_index ++ )
     {
         data_diagram_destroy( &((*this_).ancestor_diagrams[anc_index]) );
@@ -179,16 +221,23 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
         data_diagram_destroy( &((*this_).sibling_diagrams[sib_index]) );
     }
     (*this_).siblings_count = 0;
-
     (*this_).siblings_self_index = -1;
-    (*this_).new_child_button_index = -1;
-    (*this_).new_sibling_button_index = -1;
 
     for ( int chi_index = 0; chi_index < (*this_).children_count; chi_index ++ )
     {
         data_diagram_destroy( &((*this_).child_diagrams[chi_index]) );
     }
     (*this_).children_count = 0;
+
+    /* clear layout infos */
+    (*this_).line_idx_new_child = -1;
+    (*this_).line_idx_new_sibling = -1;
+    (*this_).line_idx_new_root = -1;
+    (*this_).line_idx_ancestors_start = 0;
+    (*this_).line_idx_siblings_start = 0;
+    (*this_).line_idx_siblings_next_after_self = 0;
+    (*this_).line_idx_self = 0;
+    (*this_).line_idx_children_start = 0;
 
     TRACE_END();
 }

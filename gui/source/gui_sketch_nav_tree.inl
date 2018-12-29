@@ -46,31 +46,21 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
         uint32_t line_index;
         line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
 
-        if ( (*this_).ancestors_count == 0 )
+        if ( line_index == (*this_).line_idx_new_root )
         {
-            if ( line_index == 0 )
-            {
-                *out_action_id = GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM;
-            }
-            else
-            {
-                *out_action_id = GUI_SKETCH_ACTION_NONE;
-            }
+            *out_action_id = GUI_SKETCH_ACTION_NEW_ROOT_DIAGRAM;
+        }
+        else if ( line_index == (*this_).line_idx_new_child )
+        {
+            *out_action_id = GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM;
+        }
+        else if ( line_index == (*this_).line_idx_new_sibling )
+        {
+            *out_action_id = GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM;
         }
         else
         {
-            if ( line_index == (*this_).new_child_button_index )
-            {
-                *out_action_id = GUI_SKETCH_ACTION_NEW_CHILD_DIAGRAM;
-            }
-            else if ( line_index == (*this_).new_sibling_button_index )
-            {
-                *out_action_id = GUI_SKETCH_ACTION_NEW_SIBLING_DIAGRAM;
-            }
-            else
-            {
-                *out_action_id = GUI_SKETCH_ACTION_NONE;
-            }
+            *out_action_id = GUI_SKETCH_ACTION_NONE;
         }
     }
     else
@@ -90,7 +80,7 @@ static inline gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_n
     assert ( NULL != out_parent_id );
     assert ( NULL != out_list_order );
     assert ( NULL != out_gap_line );
-    
+
     gui_error_t ret_error = GUI_ERROR_NONE;
 
     if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
@@ -98,69 +88,112 @@ static inline gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_n
         /* determine index of line, top linie has index 0 */
         int32_t top;
         top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        uint32_t gap_index;
-        gap_index = ( y+(GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2) - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        uint32_t gap_index;  /* index of the top-most border is 0, index of the first gap is 1 */
+        uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
+        gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
 
-        shape_int_rectangle_init( out_gap_line, 
-                                  shape_int_rectangle_get_left( &((*this_).bounds) ),
-                                  gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1,
-                                  shape_int_rectangle_get_width( &((*this_).bounds) ),
-                                  2
-                                );
-#if 0
-        /* is this the ancester region ? */
-        uint32_t real_ancestors = ( (*this_).ancestors_count > 0 ) ? ( (*this_).ancestors_count - 1 ) : 0;
-        if ( line_index < real_ancestors )
+        /* initialize the gap box */
         {
-            uint32_t ancester_idx = real_ancestors - line_index;
-            data_id_reinit( out_selected_id,
+            int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
+            if ( gap_y_top < top )
+            {
+                gap_y_top = top;
+            }
+            shape_int_rectangle_init( out_gap_line,
+                                      shape_int_rectangle_get_left( &((*this_).bounds) ),
+                                      gap_y_top,
+                                      shape_int_rectangle_get_width( &((*this_).bounds) ),
+                                      2
+                                    );
+        }
+
+        uint32_t real_ancestors_count;  /* real means that self is not counted */
+        real_ancestors_count = ( (*this_).ancestors_count > 0 ) ? ( (*this_).ancestors_count - 1 ) : 0;
+
+        /* is this the ancester region ? */
+        if ( gap_index < real_ancestors_count )
+        {
+            uint32_t ancester_idx = real_ancestors_count - gap_index;
+            data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
-                            data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
-            );
+                            data_diagram_get_parent_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                          );
+            *out_list_order = 0;
         }
         else
         {
-            uint32_t siblings_line = line_index - real_ancestors;
+            uint32_t siblings_line = gap_index - real_ancestors_count;
             if ( siblings_line <= (*this_).siblings_self_index )
             {
-                data_id_reinit( out_selected_id,
+                data_id_reinit( out_parent_id,
                                 DATA_TABLE_DIAGRAM,
-                                data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line]) )
-                );
+                                data_diagram_get_parent_id( &((*this_).sibling_diagrams[siblings_line]) )
+                              );
+                if ( siblings_line == 0 )
+                {
+                    *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line]) ) - 32768;
+                }
+                else
+                {
+                    *out_list_order = (
+                        data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line-1]) )
+                        + data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line]) )
+                        ) / 2;
+                }
             }
             else
             {
                 uint32_t child_line = siblings_line - (*this_).siblings_self_index - 1;
-                if ( child_line < (*this_).children_count )
+                if ( child_line <= (*this_).children_count )
                 {
-                    data_id_reinit( out_selected_id,
+                    data_id_reinit( out_parent_id,
                                     DATA_TABLE_DIAGRAM,
-                                    data_diagram_get_id( &((*this_).child_diagrams[child_line]) )
-                    );
-                }
-                else
-                {
-                    siblings_line -= (*this_).children_count;
-                    if ( siblings_line == (*this_).siblings_self_index + 1 )
+                                    data_diagram_get_id( &((*this_).sibling_diagrams[(*this_).siblings_self_index]) )
+                                  );
+                    if ( child_line == 0 )
                     {
-                        /* reserved for new child sign */
-                        data_id_reinit_void( out_selected_id );
+                        *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_line]) ) - 32768;
                     }
-                    else if ( siblings_line <= (*this_).siblings_count )
+                    else if ( child_line == (*this_).children_count )
                     {
-                        data_id_reinit( out_selected_id,
-                                        DATA_TABLE_DIAGRAM,
-                                        data_diagram_get_id( &((*this_).sibling_diagrams[siblings_line-1]) )
-                        );
+                        *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_line-1]) ) + 32768;
                     }
                     else
                     {
-                        data_id_reinit_void( out_selected_id );
+                        *out_list_order = (
+                            data_diagram_get_list_order( &((*this_).child_diagrams[child_line-1]) )
+                            + data_diagram_get_list_order( &((*this_).child_diagrams[child_line]) )
+                        ) / 2;
+                    }
+                }
+                else
+                {
+                    siblings_line -= (*this_).children_count - 1;  /* -1 for new child sign */
+                    if ( siblings_line <= (*this_).siblings_count )
+                    {
+                        data_id_reinit( out_parent_id,
+                                        DATA_TABLE_DIAGRAM,
+                                        data_diagram_get_parent_id( &((*this_).sibling_diagrams[siblings_line-1]) )
+                                      );
+                        if ( siblings_line == (*this_).siblings_count )
+                        {
+                            *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line-1]) ) + 32768;
+                        }
+                        else
+                        {
+                            *out_list_order = (
+                                data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line-1]) )
+                                + data_diagram_get_list_order( &((*this_).sibling_diagrams[siblings_line]) )
+                            ) / 2;
+                        }
+                    }
+                    else
+                    {
+                        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
                     }
                 }
             }
         }
-#endif // 0
     }
     else
     {
@@ -302,12 +335,12 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
     }
     else if ( sibling_index > (*this_).siblings_self_index )
     {
-        y_offset = ( (*this_).ancestors_count - 1 + (*this_).children_count + 1 + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        y_offset = ( (*this_).line_idx_siblings_next_after_self + ( sibling_index - (*this_).siblings_self_index - 1 ) ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
         x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
     }
     else
     {
-        y_offset = ( (*this_).ancestors_count - 1 + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        y_offset = ( (*this_).line_idx_siblings_start + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
         x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
     }
 
@@ -336,17 +369,15 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds
 
     uint32_t y_offset;
     uint32_t x_offset;
-    if (( (*this_).siblings_self_index < 0 )||( (*this_).ancestors_count == 0 ))
+    y_offset = ( (*this_).line_idx_children_start + child_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+    if ( (*this_).ancestors_count == 0 )
     {
-        /* error case */
-        /* if self is not a sibling, simply add children to the end */
-        y_offset = ( (*this_).ancestors_count + (*this_).siblings_count + child_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        /* the no-root case */
         x_offset = 0;
     }
     else
     {
-        y_offset = ( (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + child_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
-        x_offset = ( (*this_).ancestors_count - 1 )  * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT + GUI_SKETCH_NAV_TREE_CHILD_INDENT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT + GUI_SKETCH_NAV_TREE_CHILD_INDENT;
     }
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
