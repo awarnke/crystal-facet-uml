@@ -87,12 +87,12 @@ ctrl_error_t ctrl_diagram_controller_create_diagram ( ctrl_diagram_controller_t 
  *  \param out_new_id id of the newly created diagram, NULL if the new id is not needed.
  *  \return error id in case of an error, CTRL_ERROR_NONE otherwise
  */
-ctrl_error_t ctrl_diagram_controller_create_child_diagram ( ctrl_diagram_controller_t *this_,
-                                                            int64_t parent_diagram_id,
-                                                            data_diagram_type_t diagram_type,
-                                                            const char* diagram_name,
-                                                            int64_t* out_new_id
-                                                          );
+ctrl_error_t ctrl_diagram_controller_private_create_child_diagram ( ctrl_diagram_controller_t *this_,
+                                                                    int64_t parent_diagram_id,
+                                                                    data_diagram_type_t diagram_type,
+                                                                    const char* diagram_name,
+                                                                    int64_t* out_new_id
+                                                                  );
 
 /*!
  *  \brief checks if a root diagram exists and creates one if not

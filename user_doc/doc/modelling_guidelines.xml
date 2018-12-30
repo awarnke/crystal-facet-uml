@@ -60,7 +60,6 @@
         Put a prefix to all your elements denoting its namespace. You can then distinguish a GLOBAL_START_STATE from an AUDIO_START_STATE. Or global::start from audio::start.
     </para>
 </section>
-</section>
 <section>
     <title>Attic/Storage room</title>
     <para>

@@ -40,9 +40,9 @@ typedef struct gui_sketch_object_creator_struct gui_sketch_object_creator_t;
  *  \param db_reader pointer to a database reader object
  */
 void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
-                                     ctrl_controller_t *controller,
-                                     data_database_reader_t *db_reader
-                                   );
+                                      ctrl_controller_t *controller,
+                                      data_database_reader_t *db_reader
+                                    );
 
 /*!
  *  \brief destroys the gui_sketch_object_creator_t struct
@@ -98,11 +98,13 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_diagram_id id of the parent diagram where the new diagram shall appear. DATA_ID_VOID_ID if a root diagram shall be created.
+ *  \param list_order order of the new diagram
  *  \param out_diagram_id row_id of the newly created diagram
  *  \return CTRL_ERROR_NONE in case of success
  */
 ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
                                                         int64_t parent_diagram_id,
+                                                        int32_t list_order,
                                                         int64_t *out_diagram_id
                                                       );
 

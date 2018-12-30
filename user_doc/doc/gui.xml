@@ -297,7 +297,7 @@
                 </inlinemediaobject>
                 icon for a new child-diagram.
                 </para></listitem>
-        <listitem><para>To restructure the diagram tree, drag the diagram title to the new location.</para></listitem>
+        <listitem><para>To restructure the diagram tree, drag a diagram name to the new location.</para></listitem>
         </itemizedlist>
     </para>
 
@@ -311,9 +311,9 @@
             <imageobject><imagedata fileref="../../gui/source/resources/tool_edit.png"/></imageobject>
         </inlinemediaobject>
         <itemizedlist>
-        <listitem><para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para></listitem>
         <listitem><para>To select the diagram or a classifier or a feature or a relationship with yellow corners, click on this object.</para></listitem>
         <listitem><para>To mark an element with pink corners, click on these objects twice.</para></listitem>
+        <listitem><para>To move classifiers within the diagram, 1.) press, 2.) drag and 3.) release the mouse button.</para></listitem>
         </itemizedlist>
     </para>
 

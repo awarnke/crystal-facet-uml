@@ -220,6 +220,7 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
 
 ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creator_t *this_,
                                                         int64_t parent_diagram_id,
+                                                        int32_t list_order,
                                                         int64_t *out_diagram_id )
 {
     TRACE_BEGIN();
@@ -234,11 +235,30 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     utf8stringbuf_t new_name = UTF8STRINGBUF( newname_buf );
     gui_sketch_object_creator_private_propose_diagram_name( this_, new_name );
 
-    c_result = ctrl_diagram_controller_create_child_diagram ( diag_control,
-                                                              parent_diagram_id,
-                                                              DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
-                                                              utf8stringbuf_get_string(new_name),
-                                                              out_diagram_id );
+    /* create the diagram */
+    data_error_t d_err;
+    d_err = data_diagram_init_new ( &((*this_).private_temp_diagram),
+                                    parent_diagram_id,
+                                    DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 
+                                    utf8stringbuf_get_string(new_name),
+                                    "",
+                                    list_order
+                                  );
+    if ( d_err != DATA_ERROR_NONE )
+    {
+        TSLOG_ERROR_HEX("data_diagram_init_new failed in gui_sketch_object_creator_create_diagram:",d_err);
+    }
+    
+    c_result = ctrl_diagram_controller_create_diagram ( diag_control,
+                                                        &((*this_).private_temp_diagram),
+                                                        false,  /* add_to_latest_undo_set */
+                                                        out_diagram_id
+                                                      );
+    
+    if ( d_err == DATA_ERROR_NONE )
+    {
+        data_diagram_destroy ( &((*this_).private_temp_diagram) );
+    }
 
     TRACE_END_ERR( c_result );
     return c_result;

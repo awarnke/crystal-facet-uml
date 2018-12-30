@@ -19,6 +19,41 @@ static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( gui_sketch_nav_t
     return result;
 }
 
+static inline int32_t gui_sketch_nav_tree_get_siblings_highest_order ( gui_sketch_nav_tree_t *this_ )
+{
+    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+    int32_t result;
+    
+    if ( (*this_).siblings_count == 0 )
+    {
+        result = 0;
+    }
+    else
+    {
+        result = data_diagram_get_list_order ( &((*this_).sibling_diagrams[(*this_).siblings_count-1]) );
+    }
+
+    return result;
+}
+
+static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( gui_sketch_nav_tree_t *this_ )
+{
+    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+    
+    int32_t result;
+    
+    if ( (*this_).children_count == 0 )
+    {
+        result = 0;
+    }
+    else
+    {
+        result = data_diagram_get_list_order ( &((*this_).child_diagrams[(*this_).children_count-1]) );
+    }
+
+    return result;
+}
+
 static inline gui_error_t gui_sketch_nav_tree_is_descendant ( gui_sketch_nav_tree_t *this_,
                                                               int64_t probe_ancestor_id,
                                                               int64_t probe_descendant_id,

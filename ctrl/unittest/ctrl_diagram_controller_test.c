@@ -81,7 +81,7 @@ static void create_read_modify_read(void)
     /* create a record */
     {
         diagram_id = DATA_ID_VOID_ID;
-        ctrl_err = ctrl_diagram_controller_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
+        ctrl_err = ctrl_diagram_controller_private_create_child_diagram ( diag_ctrl, PARENT_ID, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, "diagram_name", &diagram_id );
         TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
         TEST_ASSERT( DATA_ID_VOID_ID != diagram_id );
     }

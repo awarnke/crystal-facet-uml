@@ -17,8 +17,7 @@
 #define META_INFO_LIB_LICENSES_STR "sqlite 3.21.0 (Public Domain)"
 #define META_INFO_UNITTEST_LIB_LICENSES_STR "embunit 1.0.1 (by yusuke sasaki[arms22], MIT/X Consortium License)"
 
-/* Note: when changing META_INFO_VERSION_STR, */
-/*       change also */
+/* Note: when changing META_INFO_VERSION_STR, change also */
 /*       release_notes.txt : new entry */
 /*       doxygen_build/Doxyfile : PROJECT_NUMBER */
 /*       use_doc/doc/crystal_facet_user_documentation.xml */

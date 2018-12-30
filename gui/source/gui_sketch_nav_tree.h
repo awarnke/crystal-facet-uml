@@ -105,6 +105,22 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
 static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( gui_sketch_nav_tree_t *this_ );
 
 /*!
+ *  \brief gets the highest list order of the sibling diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the highest list order of the siblings diagrams, 0 if no sibling diagrams exist
+ */
+static inline int32_t gui_sketch_nav_tree_get_siblings_highest_order ( gui_sketch_nav_tree_t *this_ );
+
+/*!
+ *  \brief gets the highest list order of the children diagrams
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the highest list order of the children diagrams, 0 if no children diagrams exist
+ */
+static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( gui_sketch_nav_tree_t *this_ );
+
+/*!
  *  \brief checks if one diagram is a direct child or indirect descendant of the other
  *
  *  \param this_ pointer to own object attributes

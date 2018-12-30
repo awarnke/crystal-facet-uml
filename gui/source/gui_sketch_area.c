@@ -780,8 +780,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                     assert( data_diagram_is_valid( selected_diag ) );
                                     int64_t parent_diagram_id;
                                     parent_diagram_id = data_diagram_get_parent_id( selected_diag );
+                                    int32_t list_order;
+                                    list_order = gui_sketch_nav_tree_get_siblings_highest_order ( &((*this_).nav_tree) );
+
+
                                     c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
                                                                                           parent_diagram_id,
+                                                                                          list_order + 32768,
                                                                                           &new_diag_id
                                                                                         );
                                 }
@@ -792,8 +797,11 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                     assert( data_diagram_is_valid( selected_diag ) );
                                     int64_t selected_diagram_id;
                                     selected_diagram_id = data_diagram_get_id( selected_diag );
+                                    int32_t list_order;
+                                    list_order = gui_sketch_nav_tree_get_children_highest_order ( &((*this_).nav_tree) );
                                     c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
                                                                                           selected_diagram_id,
+                                                                                          list_order + 32768,
                                                                                           &new_diag_id
                                                                                         );
                                 }
@@ -803,6 +811,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                 {
                                     c_result = gui_sketch_object_creator_create_diagram ( &((*this_).object_creator),
                                                                                           DATA_ID_VOID_ID,
+                                                                                          0,
                                                                                           &new_diag_id
                                                                                         );
                                 }
