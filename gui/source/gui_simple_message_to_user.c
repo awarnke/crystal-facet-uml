@@ -231,9 +231,12 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
-            case GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE:
+            case GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT:
             {
-                utf8stringbuf_append_str( (*this_).content, "Root diagram cannot move to another location." );
+                utf8stringbuf_append_str( (*this_).content, 
+                                          "Ancestor diagram (e.g. parent/root) cannot move to a descendant location (e.g. child).\n"
+                                          "Instead, try to move a descendant out to an ancestor or sibling location" 
+                                        );
             }
             break;
 

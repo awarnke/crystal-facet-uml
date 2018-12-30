@@ -97,6 +97,29 @@ void gui_sketch_nav_tree_destroy ( gui_sketch_nav_tree_t *this_ );
 void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
 
 /*!
+ *  \brief gets the id of the root diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the root diagram, DATA_ID_VOID_ID if no diagrams exist
+ */
+static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( gui_sketch_nav_tree_t *this_ );
+
+/*!
+ *  \brief checks if one diagram is a direct child or indirect descendant of the other
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param probe_ancestor_id the id of the possible parent/ancestor diagram.
+ *  \param probe_descendant_id the id of the possible child/descendant diagram.
+ *  \param out_is_descendant true if probe_ancestor_id is an ancestor of probe_descendant_id.
+ *  \return GUI_ERROR_NONE if both ids are in the cache, GUI_ERROR_UNKNOWN_OBJECT otherwise
+ */
+static inline gui_error_t gui_sketch_nav_tree_is_descendant ( gui_sketch_nav_tree_t *this_,
+                                                              int64_t probe_ancestor_id,
+                                                              int64_t probe_descendant_id,
+                                                              bool *out_is_descendant
+                                                            );
+
+/*!
  *  \brief calculates the layout-line indices
  *
  *  \param this_ pointer to own object attributes

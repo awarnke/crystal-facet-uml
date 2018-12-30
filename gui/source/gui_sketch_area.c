@@ -1074,38 +1074,81 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         TRACE_INFO_INT( "dragged_diagram:", data_id_get_row_id( &dragged_diagram ) );
                         TRACE_INFO_INT( "target_parent_id:", data_id_get_row_id( &target_parent_id ) );
                         TRACE_INFO_INT( "target_list_order:", target_list_order );
-                        TSLOG_WARNING("GUI_TOOLS_NAVIGATE drag diagram not cleanly implemented");
-                        if ( data_id_get_row_id( &dragged_diagram ) != data_id_get_row_id( &target_parent_id ) )
+                        bool is_descendant;
+                        bool is_self;
+                        gui_error_t not_found;
+                        not_found = gui_sketch_nav_tree_is_descendant ( &((*this_).nav_tree),
+                                                                        data_id_get_row_id( &dragged_diagram ),
+                                                                        data_id_get_row_id( &target_parent_id ),
+                                                                        &is_descendant 
+                                                                      );
+                        is_self = ( data_id_get_row_id( &dragged_diagram ) == data_id_get_row_id( &target_parent_id ) );
+                        if ( ( ! is_self ) && ( not_found == GUI_ERROR_NONE ) && ( ! is_descendant ) )
                         {
                             ctrl_diagram_controller_t *diag_control;
                             diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
                             ctrl_error_t c_err;
                             c_err = ctrl_diagram_controller_update_diagram_list_order( diag_control,
-                                                                                    data_id_get_row_id( &dragged_diagram  ),
-                                                                                    target_list_order
-                                                                                    );
+                                                                                       data_id_get_row_id( &dragged_diagram ),
+                                                                                       target_list_order
+                                                                                     );
                             if ( CTRL_ERROR_NONE != c_err )
                             {
                                 TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
                             }
                             c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
-                                                                                    data_id_get_row_id( &dragged_diagram ),
-                                                                                    data_id_get_row_id( &target_parent_id ),
-                                                                                    true /* add_to_latest_undo_set */
+                                                                                      data_id_get_row_id( &dragged_diagram ),
+                                                                                      data_id_get_row_id( &target_parent_id ),
+                                                                                      true /* add_to_latest_undo_set */
                                                                                     );
                             if ( CTRL_ERROR_NONE != c_err )
                             {
                                 TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
                             }
                         }  
+                        else if ( DATA_ID_VOID_ID == data_id_get_row_id( &target_parent_id ) )
+                        {
+                            /* a diagram is dragged to the root location */
+                            ctrl_diagram_controller_t *diag_control2;
+                            diag_control2 = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+                            
+                            int64_t root_id;
+                            root_id = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
+                            if ( root_id != DATA_ID_VOID_ID )
+                            {
+                                ctrl_error_t c_err;
+                                c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
+                                                                                          data_id_get_row_id( &dragged_diagram ),
+                                                                                          DATA_ID_VOID_ID,
+                                                                                          false /* add_to_latest_undo_set */
+                                                                                        );
+                                if ( CTRL_ERROR_NONE != c_err )
+                                {
+                                    TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                }
+                                c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
+                                                                                          root_id,
+                                                                                          data_id_get_row_id( &dragged_diagram ),
+                                                                                          true /* add_to_latest_undo_set */
+                                                                                        );
+                                if ( CTRL_ERROR_NONE != c_err )
+                                {
+                                    TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                                }
+                            }
+                            else
+                            {
+                                TSLOG_WARNING("dragging a diagram to the root location but no root exists?");
+                            }
+                        }
                         else
                         {
                             TSLOG_WARNING("diagram dragging to invalid target location");
                             /* current diagram is root */
                             gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                                      GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                     GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT
                                                                    );
                         }
                     }
@@ -1491,76 +1534,6 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
             TRACE_INFO ( "key pressed: DEL" );
             gui_tools_delete( (*this_).tools );
             result_event_handled = true;
-        }
-        else if ( (*evt).keyval == GDK_KEY_F7 )
-        {
-            TRACE_INFO ( "key pressed: F7" );
-            if ( GUI_TOOLS_NAVIGATE == gui_tools_get_selected_tool( (*this_).tools ) )
-            {
-                TRACE_INFO ( "entry point for shift-node-up" );
-                /* todo */
-
-                data_diagram_t *old_current;
-                old_current = gui_sketch_card_get_diagram_ptr ( &((*this_).cards[0]) );
-
-                int64_t main_diagram_id = data_diagram_get_id( old_current );
-                TRACE_INFO_INT( "main_diagram_id:", main_diagram_id );
-                if ( DATA_ID_VOID_ID != main_diagram_id )
-                {
-                    data_diagram_t *old_parent;
-                    old_parent = gui_sketch_card_get_diagram_ptr ( &((*this_).cards[1]) );
-
-                    int64_t parent_diagram_id = data_diagram_get_parent_id( old_current );
-                    TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
-                    if ( DATA_ID_VOID_ID != parent_diagram_id )
-                    {
-
-                        parent_diagram_id = data_diagram_get_id( old_parent );
-                        TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
-                        int64_t grandparent_diagram_id = data_diagram_get_parent_id( old_parent );
-                        TRACE_INFO_INT( "grandparent_diagram_id:", grandparent_diagram_id );
-
-                        ctrl_diagram_controller_t *diag_control;
-                        diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                        ctrl_error_t c_err;
-                        c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
-                                                                                  main_diagram_id,
-                                                                                  grandparent_diagram_id,
-                                                                                  false /* add_to_latest_undo_set */
-                                                                                );
-                        if ( CTRL_ERROR_NONE != c_err )
-                        {
-                            TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
-                        }
-                        c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
-                                                                                  parent_diagram_id,
-                                                                                  main_diagram_id,
-                                                                                  true /* add_to_latest_undo_set */
-                                                                                );
-                        if ( CTRL_ERROR_NONE != c_err )
-                        {
-                            TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
-                        }
-                    }
-                    else
-                    {
-                        /* current diagram is root */
-                        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                 GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
-                                                               );
-                    }
-                }
-                else
-                {
-                    /* current diagram is invalid */
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
-                                                           );
-                }
-            }
         }
         /* other keys are out of scope */
     }

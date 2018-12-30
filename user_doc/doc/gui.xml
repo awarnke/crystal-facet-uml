@@ -297,7 +297,7 @@
                 </inlinemediaobject>
                 icon for a new child-diagram.
                 </para></listitem>
-        <listitem><para>To restructure the diagram tree by shifting the current diagram up and the parent down, press F7.</para></listitem>
+        <listitem><para>To restructure the diagram tree, drag the diagram title to the new location.</para></listitem>
         </itemizedlist>
     </para>
 
