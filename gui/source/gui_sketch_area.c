@@ -1054,16 +1054,60 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_t dragged_diagram;
                     dragged_diagram = data_id_pair_get_primary_id( dragged_object );
 
-                    /* to which diagram was it dragged to? */
-                    data_id_t released_diagram;
-                    released_diagram = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
-                    data_id_trace( &released_diagram );
+                    /* to which diagram-gap was it dragged to? */
+                    gui_error_t gui_err;
+                    data_id_t target_parent_id;
+                    int32_t target_list_order;
+                    shape_int_rectangle_t dummy_gap_marker_border;
+                    gui_err = gui_sketch_nav_tree_get_gap_info_at_pos ( &((*this_).nav_tree),
+                                                                        x,
+                                                                        y,
+                                                                        &target_parent_id,
+                                                                        &target_list_order,
+                                                                        &dummy_gap_marker_border
+                                                                      );
 
                     if (( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
-                        && ( DATA_TABLE_DIAGRAM == data_id_get_table( &released_diagram ) ))
+                        && ( DATA_TABLE_DIAGRAM == data_id_get_table( &target_parent_id ) )
+                        && ( GUI_ERROR_NONE == gui_err ))
                     {
-                        TSLOG_WARNING("GUI_TOOLS_NAVIGATE drag diagram not implemented");
+                        TRACE_INFO_INT( "dragged_diagram:", data_id_get_row_id( &dragged_diagram ) );
+                        TRACE_INFO_INT( "target_parent_id:", data_id_get_row_id( &target_parent_id ) );
+                        TRACE_INFO_INT( "target_list_order:", target_list_order );
+                        TSLOG_WARNING("GUI_TOOLS_NAVIGATE drag diagram not cleanly implemented");
+                        if ( data_id_get_row_id( &dragged_diagram ) != data_id_get_row_id( &target_parent_id ) )
+                        {
+                            ctrl_diagram_controller_t *diag_control;
+                            diag_control = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
 
+                            ctrl_error_t c_err;
+                            c_err = ctrl_diagram_controller_update_diagram_list_order( diag_control,
+                                                                                    data_id_get_row_id( &dragged_diagram  ),
+                                                                                    target_list_order
+                                                                                    );
+                            if ( CTRL_ERROR_NONE != c_err )
+                            {
+                                TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                            }
+                            c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control,
+                                                                                    data_id_get_row_id( &dragged_diagram ),
+                                                                                    data_id_get_row_id( &target_parent_id ),
+                                                                                    true /* add_to_latest_undo_set */
+                                                                                    );
+                            if ( CTRL_ERROR_NONE != c_err )
+                            {
+                                TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
+                            }
+                        }  
+                        else
+                        {
+                            TSLOG_WARNING("diagram dragging to invalid target location");
+                            /* current diagram is root */
+                            gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                                     GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                     GUI_SIMPLE_MESSAGE_CONTENT_ROOT_CANNOT_MOVE
+                                                                   );
+                        }
                     }
                 }
                 else if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
