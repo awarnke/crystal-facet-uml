@@ -8,6 +8,7 @@
 
 static const int STANDARD_FONT_SIZE = 12;
 static const char *STANDARD_FONT_FAMILY = "Sans";
+static const uint32_t NAV_TREE_FIRST_LINE = 1;
 
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
@@ -21,11 +22,15 @@ void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *re
     (*this_).line_idx_new_child = -1;
     (*this_).line_idx_new_sibling = -1;
     (*this_).line_idx_new_root = -1;
-    (*this_).line_idx_ancestors_start = 0;
-    (*this_).line_idx_siblings_start = 0;
-    (*this_).line_idx_siblings_next_after_self = 0;
-    (*this_).line_idx_self = 0;
-    (*this_).line_idx_children_start = 0;
+    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_cnt_ancestors = 0;
+    (*this_).line_cnt_siblings_to_incl_self = 0;
+    (*this_).line_cnt_siblings_after_self = 0;
+    (*this_).line_cnt_children = 0;
 
     (*this_).visible = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
@@ -164,12 +169,13 @@ void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ )
         /* cannot create a sibling without a root */
         (*this_).line_idx_new_sibling = -1;
         /* show only a new root button */
-        (*this_).line_idx_new_root = 0;
+        (*this_).line_idx_new_root = NAV_TREE_FIRST_LINE;
 
     }
     else
     {
-        (*this_).line_idx_new_child = (*this_).ancestors_count - 1 + (*this_).siblings_self_index + 1 + (*this_).children_count;
+        (*this_).line_idx_new_child = NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1
+                + (*this_).siblings_self_index + 1 + (*this_).children_count;
         (*this_).line_idx_new_root = -1;
         if ( (*this_).ancestors_count == 1 )
         {
@@ -178,26 +184,35 @@ void gui_sketch_nav_tree_private_do_layout( gui_sketch_nav_tree_t *this_ )
         }
         else
         {
-            (*this_).line_idx_new_sibling = (*this_).ancestors_count - 1
+            (*this_).line_idx_new_sibling = NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1
                     + (*this_).siblings_count + (*this_).children_count + 1;  /* +1 for the new_child_line */
         }
     }
 
-    (*this_).line_idx_ancestors_start = 0;
-    (*this_).line_idx_siblings_start = ( (*this_).ancestors_count == 0 ) ? 0 : ( (*this_).ancestors_count - 1 );
-    if ( (*this_).siblings_self_index != -1 )
+    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_cnt_ancestors = ( (*this_).ancestors_count == 0 ) ? 0 : ( (*this_).ancestors_count-1 );
+    (*this_).line_idx_siblings_start = ( (*this_).ancestors_count == 0 )
+            ? NAV_TREE_FIRST_LINE
+            : ( NAV_TREE_FIRST_LINE + (*this_).ancestors_count - 1 );
+
+    if (( (*this_).siblings_self_index != -1 ) && ( (*this_).siblings_count > (*this_).siblings_self_index ))
     {
         (*this_).line_idx_self = (*this_).line_idx_siblings_start + (*this_).siblings_self_index;
         (*this_).line_idx_siblings_next_after_self = (*this_).line_idx_self + (*this_).children_count + 1 + 1;  /* +1 for new child button */
         (*this_).line_idx_children_start = (*this_).line_idx_self + 1;
+        (*this_).line_cnt_siblings_to_incl_self = (*this_).siblings_self_index + 1;
+        (*this_).line_cnt_siblings_after_self = (*this_).siblings_count - 1 - (*this_).siblings_self_index;
     }
     else
     {
         TRACE_INFO("there is no self diagram in the current diagram tree!")
-        (*this_).line_idx_self = 0;
-        (*this_).line_idx_siblings_next_after_self = 0;
-        (*this_).line_idx_children_start = 0;
+        (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
+        (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
+        (*this_).line_cnt_siblings_to_incl_self = 0;
+        (*this_).line_cnt_siblings_after_self = 0;
     }
+    (*this_).line_cnt_children = (*this_).children_count;
 
     TRACE_END();
 }
@@ -233,12 +248,248 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     (*this_).line_idx_new_child = -1;
     (*this_).line_idx_new_sibling = -1;
     (*this_).line_idx_new_root = -1;
-    (*this_).line_idx_ancestors_start = 0;
-    (*this_).line_idx_siblings_start = 0;
-    (*this_).line_idx_siblings_next_after_self = 0;
-    (*this_).line_idx_self = 0;
-    (*this_).line_idx_children_start = 0;
+    (*this_).line_idx_ancestors_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_siblings_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_siblings_next_after_self = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_self = NAV_TREE_FIRST_LINE;
+    (*this_).line_idx_children_start = NAV_TREE_FIRST_LINE;
+    (*this_).line_cnt_siblings_to_incl_self = 0;
+    (*this_).line_cnt_siblings_after_self = 0;
+    (*this_).line_cnt_children = 0;
+    (*this_).line_cnt_ancestors = 0;
 
+    TRACE_END();
+}
+
+gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                      int32_t x,
+                                                      int32_t y,
+                                                      data_id_t *out_parent_id,
+                                                      int32_t *out_list_order,
+                                                      shape_int_rectangle_t *out_gap_line )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_parent_id );
+    assert ( NULL != out_list_order );
+    assert ( NULL != out_gap_line );
+    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
+    assert( (*this_).line_cnt_ancestors <= (*this_).ancestors_count );
+    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+    assert( (*this_).line_cnt_siblings_to_incl_self + (*this_).line_cnt_siblings_after_self == (*this_).siblings_count );
+    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+    assert( (*this_).line_cnt_children == (*this_).children_count );
+
+    gui_error_t ret_error;
+
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        /* determine index of line, top linie has index 0 */
+        int32_t top;
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        uint32_t gap_index;  /* index of the top-most border is 0, index of the first gap is 1 */
+        uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
+        gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+
+        /* initialize the gap box */
+        {
+            int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
+            if ( gap_y_top < top )
+            {
+                gap_y_top = top;
+            }
+            shape_int_rectangle_init( out_gap_line,
+                                      shape_int_rectangle_get_left( &((*this_).bounds) ),
+                                      gap_y_top,
+                                      shape_int_rectangle_get_width( &((*this_).bounds) ),
+                                      2
+                                    );
+        }
+
+        /* default: no gap */
+        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
+
+        /* is this the ancester region ? - note: ancestors have gaps only on top of an ancestor */
+        if ( ( gap_index >= (*this_).line_idx_ancestors_start )
+            && ( gap_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
+        {
+            /* formula differs from others because backwards order and index 0 reserved or self: */
+            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);  
+                
+            data_id_reinit( out_parent_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_parent_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                          );
+            *out_list_order = 0;
+            ret_error = GUI_ERROR_NONE;
+        }
+        
+        /* is this the children region ? - note: every child has a gap before and after itself */
+        else if ( ( gap_index >= (*this_).line_idx_children_start )
+            && ( gap_index <= (*this_).line_idx_children_start + (*this_).line_cnt_children )
+            && ( (*this_).siblings_self_index >= 0 ) )
+        {
+            uint32_t child_idx = gap_index - (*this_).line_idx_children_start;
+
+            /* use self as parent id because this shall work even if there are no children */
+            data_id_reinit( out_parent_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).sibling_diagrams[(*this_).siblings_self_index]) )
+                            );
+            if ( (*this_).line_cnt_children == 0 )
+            {
+                *out_list_order = 0;
+            }
+            else if ( child_idx == 0 )
+            {
+                *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_idx]) ) - 32768;
+            }
+            else if ( child_idx == (*this_).children_count )
+            {
+                *out_list_order = data_diagram_get_list_order( &((*this_).child_diagrams[child_idx-1]) ) + 32768;
+            }
+            else
+            {
+                *out_list_order = (
+                    data_diagram_get_list_order( &((*this_).child_diagrams[child_idx-1]) )
+                    + data_diagram_get_list_order( &((*this_).child_diagrams[child_idx]) )
+                    ) / 2;
+            }
+            ret_error = GUI_ERROR_NONE;
+        }
+        
+        /* is this the first half of the siblings region ? - note: gaps exist on top of each sibling-before-and-self */
+        else if ( ( gap_index >= (*this_).line_idx_siblings_start )
+            && ( gap_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
+        {
+            uint32_t sibl1_idx = gap_index - (*this_).line_idx_siblings_start;
+            data_id_reinit( out_parent_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_parent_id( &((*this_).sibling_diagrams[sibl1_idx]) )
+                          );
+            if ( sibl1_idx == 0 )
+            {
+                *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx]) ) - 32768;
+            }
+            else
+            {
+                *out_list_order = (
+                    data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx-1]) )
+                    + data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl1_idx]) )
+                    ) / 2;
+            }
+            ret_error = GUI_ERROR_NONE;
+        }
+            
+        /* is this the second half of the siblings region ? - note: gaps exist on top and bottom of each sibling-after */
+        else if ( ( gap_index >= (*this_).line_idx_siblings_next_after_self )
+            && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
+        {
+            uint32_t sibl2_idx = gap_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
+            data_id_reinit( out_parent_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_parent_id( &((*this_).sibling_diagrams[sibl2_idx-1]) )
+                          );
+            if ( sibl2_idx == (*this_).siblings_count )
+            {
+                *out_list_order = data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx-1]) ) + 32768;
+            }
+            else
+            {
+                *out_list_order = (
+                    data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx-1]) )
+                    + data_diagram_get_list_order( &((*this_).sibling_diagrams[sibl2_idx]) )
+                    ) / 2;
+            }
+            ret_error = GUI_ERROR_NONE;
+        }
+    }
+    else
+    {
+        ret_error = GUI_ERROR_OUT_OF_BOUNDS;
+    }
+    
+    TRACE_END_ERR( ret_error );
+    return ret_error;
+}
+
+void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                int32_t x,
+                                                int32_t y,
+                                                data_id_t *out_selected_id )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_selected_id );
+    assert( (*this_).ancestors_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS );
+    assert( (*this_).line_cnt_ancestors <= (*this_).ancestors_count );
+    assert( (*this_).siblings_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS );
+    assert( (*this_).line_cnt_siblings_to_incl_self + (*this_).line_cnt_siblings_after_self == (*this_).siblings_count );
+    assert( (*this_).children_count <= GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN );
+    assert( (*this_).line_cnt_children == (*this_).children_count );
+
+    if ( shape_int_rectangle_contains( &((*this_).bounds), x, y ) )
+    {
+        /* determine index of line, top linie has index 0 */
+        uint32_t line_index;
+        {
+            int32_t top;
+            top = shape_int_rectangle_get_top( &((*this_).bounds) );
+            line_index = ( y - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        }
+
+        /* default: no line */
+        data_id_reinit_void( out_selected_id );
+
+        /* is this the ancester region ? */
+        if ( ( line_index >= (*this_).line_idx_ancestors_start )
+            && ( line_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
+        {
+            /* formula differs from others because backwards order and index 0 reserved or self: */
+            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (line_index - (*this_).line_idx_ancestors_start);  
+                
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
+                          );
+        }
+        
+        /* is this the children region */
+        else if ( ( line_index >= (*this_).line_idx_children_start )
+            && ( line_index < (*this_).line_idx_children_start + (*this_).line_cnt_children ))
+        {
+            uint32_t child_idx = line_index - (*this_).line_idx_children_start;
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).child_diagrams[child_idx]) )
+                          );
+        }
+        
+        /* is this the first half of the siblings region ? */
+        else if ( ( line_index >= (*this_).line_idx_siblings_start )
+            && ( line_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
+        {
+            uint32_t sibl1_idx = line_index - (*this_).line_idx_siblings_start;
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).sibling_diagrams[sibl1_idx]) )
+                          );
+        }
+            
+        /* is this the second half of the siblings region ? */
+        else if ( ( line_index >= (*this_).line_idx_siblings_next_after_self )
+            && ( line_index < (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
+        {
+            uint32_t sibl2_idx = line_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
+            data_id_reinit( out_selected_id,
+                            DATA_TABLE_DIAGRAM,
+                            data_diagram_get_id( &((*this_).sibling_diagrams[sibl2_idx]) )
+                          );
+        }
+    }
+    else
+    {
+        data_id_reinit_void( out_selected_id );
+    }
+    
     TRACE_END();
 }
 

@@ -40,7 +40,7 @@ struct gui_sketch_nav_tree_struct {
     shape_int_rectangle_t bounds;  /*!< bounding box of the nav tree */
 
     /* diagram data to be shown */
-    uint32_t ancestors_count;
+    uint32_t ancestors_count;  /*!< number of ancestors, incuding self */
     data_diagram_t ancestor_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_ANCESTORS];  /*!< current diagram is at index 0 */
     uint32_t siblings_count;
     data_diagram_t sibling_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_SIBLINGS];
@@ -50,10 +50,14 @@ struct gui_sketch_nav_tree_struct {
 
     /* layout information, what is shown where */
     uint32_t line_idx_ancestors_start;  /*! always 0, even if there are no ancestors */
+    uint32_t line_cnt_ancestors;  /*!< number of ancestors, excluding self */
     uint32_t line_idx_siblings_start;  /*! line of first sibling; undefined in case of program-internal error */
+    uint32_t line_cnt_siblings_to_incl_self;  /*! lines of siblings to and including self */
     uint32_t line_idx_siblings_next_after_self;  /*! line of next sibling after self; undefined if there is no next sibling */
+    uint32_t line_cnt_siblings_after_self;  /*! lines of siblings after self, excluding self */
     uint32_t line_idx_self;  /*! line of self; undefined in case of program-internal error */
     uint32_t line_idx_children_start;  /*! line of first child; undefined if there are no children */
+    uint32_t line_cnt_children;  /*! identical to children_count */
     int32_t line_idx_new_child;  /*! line of new child button; -1 if there is no such button */
     int32_t line_idx_new_sibling;  /*! line of new sibling button; -1 if there is no such button */
     int32_t line_idx_new_root;  /*! 0 equals line of new root button; -1 if there is no such button */
@@ -139,15 +143,6 @@ static inline bool gui_sketch_nav_tree_is_visible( gui_sketch_nav_tree_t *this_ 
 static inline void gui_sketch_nav_tree_set_visible( gui_sketch_nav_tree_t *this_, bool visible );
 
 /*!
- *  \brief draws a single diagram
- *
- *  \param this_ pointer to own object attributes
- *  \param marker set of all objects to be marked
- *  \param cr cairo drawing context
- */
-void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr );
-
-/*!
  *  \brief gets the address of the diagram data of gui_sketch_nav_tree_t
  *
  *  \param this_ pointer to own object attributes
@@ -177,11 +172,11 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
-static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
-                                                              int32_t x,
-                                                              int32_t y,
-                                                              data_id_t *out_selected_id
-                                                            );
+void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                int32_t x,
+                                                int32_t y,
+                                                data_id_t *out_selected_id
+                                              );
 
 /*!
  *  \brief gets the gap information at a given position.
@@ -197,13 +192,13 @@ static inline void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tre
  *  \param out_gap_line the line coordinates to show a gap cursor bar.
  *  \return GUI_ERROR_NONE if x/y points to a valid gap, GUI_ERROR_OUT_OF_BOUNDS in case of out of bounds error
  */
-static inline gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
-                                                                    int32_t x,
-                                                                    int32_t y,
-                                                                    data_id_t *out_parent_id,
-                                                                    int32_t *out_list_order,
-                                                                    shape_int_rectangle_t *out_gap_line
-                                                                  );
+gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+                                                      int32_t x,
+                                                      int32_t y,
+                                                      data_id_t *out_parent_id,
+                                                      int32_t *out_list_order,
+                                                      shape_int_rectangle_t *out_gap_line
+                                                    );
 
 /*!
  *  \brief gets the bounding box of a diagram name
@@ -237,6 +232,15 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
 static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( gui_sketch_nav_tree_t *this_,
                                                                                    uint32_t child_index
                                                                                  );
+
+/*!
+ *  \brief draws a single diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param marker set of all objects to be marked
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
  *  \brief draws an icon and a label
