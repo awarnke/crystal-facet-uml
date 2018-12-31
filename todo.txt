@@ -1,7 +1,5 @@
 ideas for future versions:
   @gui
-  [ ] in overview mode, allow to shift diagrams vertically
-  [ ] in overview mode, allow to move diagrams horizontally
   [ ] paste: Allow to paste relationships
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
@@ -11,6 +9,7 @@ ideas for future versions:
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
   [ ] include and extends relationships shall show their stereotype
+  [ ] show interfaces in deployment diagrams as circles
   @data
   [ ] more relationship types needed: requirements have derive and refine relations
   [ ] more classifier types needed: start-activity, decision-activity, end-activity, history-state

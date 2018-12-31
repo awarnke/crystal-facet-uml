@@ -338,7 +338,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
                     }
                     else
                     {
-                        TRACE_INFO_INT( "ok:", child_id );
+                        TRACE_INFO_INT_INT( "ok: child, parent:", child_id, child_parent_id );
                     }
 
                     /* diagram found */

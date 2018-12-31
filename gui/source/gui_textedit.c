@@ -1313,20 +1313,35 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_mes
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    
+    bool push_new_data_to_widget = false;
     data_id_t id;
+    data_change_event_type_t evt_type;
     id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
 
-    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        push_new_data_to_widget = true;
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
         data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-
+        push_new_data_to_widget = true;
+    }
+    
+    if ( push_new_data_to_widget )
+    {
         /* update data */
         switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
+                gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
             }
             break;
 
@@ -1356,6 +1371,7 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_mes
 
             case DATA_TABLE_DIAGRAMELEMENT:
             {
+                /* a changed diagram element does not cause a change to the name */
             }
             break;
 
@@ -1384,20 +1400,35 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_chan
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    
+    bool push_new_data_to_widget = false;
     data_id_t id;
+    data_change_event_type_t evt_type;
     id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
 
-    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        push_new_data_to_widget = true;
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
         data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-
+        push_new_data_to_widget = true;
+    }
+    
+    if ( push_new_data_to_widget )
+    {
         /* update data */
         switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
+                gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
             }
             break;
 
@@ -1419,16 +1450,19 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_chan
 
             case DATA_TABLE_RELATIONSHIP:
             {
+                /* a relationship does not have a stereotype */
             }
             break;
 
             case DATA_TABLE_DIAGRAMELEMENT:
             {
+                /* a changed diagram element does not cause a change to the stereotype */
             }
             break;
 
             case DATA_TABLE_DIAGRAM:
             {
+                /* a diagram does not have a stereotype */
             }
             break;
 
@@ -1449,22 +1483,37 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    
+    bool push_new_data_to_widget = false;
     data_id_t id;
+    data_change_event_type_t evt_type;
     id = data_change_message_get_modified( msg );
-    GtkTextBuffer *buffer;
-    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
+    evt_type = data_change_message_get_event ( msg );
 
-    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        push_new_data_to_widget = true;
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
         data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-
+        push_new_data_to_widget = true;
+    }
+    
+    if ( push_new_data_to_widget )
+    {
         /* update data */
+        GtkTextBuffer *buffer;
+        buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
         switch ( data_id_get_table(&id) )
         {
             case DATA_TABLE_VOID:
             {
+                gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
             }
             break;
 
@@ -1497,6 +1546,7 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
 
             case DATA_TABLE_DIAGRAMELEMENT:
             {
+                /* a changed diagram element does not cause a change to the description */
             }
             break;
 
@@ -1526,15 +1576,29 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_mes
     TRACE_BEGIN();
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
+    
+    bool push_new_data_to_widget = false;
     data_id_t id;
+    data_change_event_type_t evt_type;
     id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
 
-    if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        push_new_data_to_widget = true;
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         /* reload currently visible data */
         data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-
+        push_new_data_to_widget = true;
+    }
+    
+    if ( push_new_data_to_widget )
+    {
         /* update data */
         switch ( data_id_get_table(&id) )
         {
@@ -1575,6 +1639,7 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_mes
 
             case DATA_TABLE_DIAGRAMELEMENT:
             {
+                /* a changed diagram element does not cause a change to the type */
             }
             break;
 

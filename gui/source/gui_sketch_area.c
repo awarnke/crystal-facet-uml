@@ -1124,7 +1124,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             
                             int64_t root_id;
                             root_id = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
-                            if ( root_id != DATA_ID_VOID_ID )
+                            if (( root_id != DATA_ID_VOID_ID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))
                             {
                                 ctrl_error_t c_err;
                                 c_err = ctrl_diagram_controller_update_diagram_parent_id( diag_control2,
@@ -1148,7 +1148,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             }
                             else
                             {
-                                TSLOG_WARNING("dragging a diagram to the root location but no root exists?");
+                                TSLOG_WARNING("dragging a diagram to the root location but no root exists or dragged diagram is root?");
                             }
                         }
                         else

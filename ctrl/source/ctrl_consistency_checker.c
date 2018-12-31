@@ -505,6 +505,7 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
     utf8stringbuf_append_int( out_report, total_diagrams - referenced_diagrams );
     utf8stringbuf_append_str( out_report, "\n" );
     (*io_err) += ( total_diagrams - referenced_diagrams );
+    TRACE_INFO_INT_INT( "total_diagrams, referenced_diagrams:", total_diagrams, referenced_diagrams );
 
     TRACE_END_ERR( err_result );
     return err_result;
