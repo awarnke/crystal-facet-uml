@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.7.1
+VERSIONSTR=1.8.0
 echo "clean old files and directories"
 test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR
