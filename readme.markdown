@@ -16,9 +16,9 @@ How to build
 >
 > sudo apt-get install libgtk-3-dev
 >
-> sudo apt-get install devscripts  # for debian
+> sudo apt-get install devscripts  # for debian build
 >
-> sudo apt install build-essential  # for debian
+> sudo apt install build-essential  # for debian build
 >
 > cd cmake_build
 >

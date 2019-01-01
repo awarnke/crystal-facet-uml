@@ -1,3 +1,10 @@
+crystal-facet-uml (1.8.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * New version 1.8.0 supports re-ordering features and diagrams
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Jan 2019 08:57:14 +0100
+
 crystal-facet-uml (1.7.1-1) UNRELEASED; urgency=medium
 
   * User documentation is generated from docbook.
