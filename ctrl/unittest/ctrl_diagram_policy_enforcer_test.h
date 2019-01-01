@@ -16,7 +16,7 @@ TestRef ctrl_diagram_policy_enforcer_test_get_list(void);
 
 
 /*
- * Copyright 2018-2018 Andreas Warnke
+ * Copyright 2018-2019 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

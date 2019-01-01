@@ -222,7 +222,7 @@ static void lifeline_to_diagramelement_consistency(void)
 
 
 /*
- * Copyright 2018-2018 Andreas Warnke
+ * Copyright 2018-2019 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

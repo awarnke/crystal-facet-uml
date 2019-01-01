@@ -838,7 +838,7 @@ void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

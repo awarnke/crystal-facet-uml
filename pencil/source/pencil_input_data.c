@@ -225,7 +225,7 @@ void pencil_input_data_private_update_containment_cache ( pencil_input_data_t *t
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

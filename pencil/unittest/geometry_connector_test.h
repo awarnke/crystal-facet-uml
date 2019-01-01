@@ -16,7 +16,7 @@ TestRef geometry_connector_test_get_list(void);
 
 
 /*
- * Copyright 2017-2018 Andreas Warnke
+ * Copyright 2017-2019 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

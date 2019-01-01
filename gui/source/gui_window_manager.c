@@ -138,7 +138,7 @@ void gui_window_manager_open_main_window2( gui_window_manager_t *this_, gui_simp
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

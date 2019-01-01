@@ -92,7 +92,7 @@ ctrl_error_t ctrl_classifier_policy_enforcer_private_unlink_lifeline ( ctrl_clas
 
 
 /*
-Copyright 2018-2018 Andreas Warnke
+Copyright 2018-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

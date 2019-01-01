@@ -162,6 +162,6 @@
  *  \verbinclude exported_diagrams/D0030_UML_Feature_Descendants.txt
  *
  *  \section cfu-arc-apx Appendix
- *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 

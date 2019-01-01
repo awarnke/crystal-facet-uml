@@ -200,7 +200,7 @@ void pencil_diagram_painter_get_drawing_space ( const pencil_diagram_painter_t *
 
 
 /*
-Copyright 2017-2018 Andreas Warnke
+Copyright 2017-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

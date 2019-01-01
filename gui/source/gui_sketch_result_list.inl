@@ -59,7 +59,7 @@ static inline void gui_sketch_result_list_move_object_to_order ( gui_sketch_resu
 
 
 /*
-Copyright 2018-2018 Andreas Warnke
+Copyright 2018-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

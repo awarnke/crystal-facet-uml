@@ -13,7 +13,7 @@
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_LICENSE_STR "Apache-2.0"
-#define META_INFO_COPYRIGHT_STR "2016-2018 A.Warnke"
+#define META_INFO_COPYRIGHT_STR "2016-2019 A.Warnke"
 #define META_INFO_LIB_LICENSES_STR "sqlite 3.21.0 (Public Domain)"
 #define META_INFO_UNITTEST_LIB_LICENSES_STR "embunit 1.0.1 (by yusuke sasaki[arms22], MIT/X Consortium License)"
 
@@ -30,7 +30,7 @@
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

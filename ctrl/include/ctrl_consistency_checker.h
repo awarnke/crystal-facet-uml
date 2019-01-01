@@ -356,7 +356,7 @@ Is this required? Maybe the model shows different views on different abstraction
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

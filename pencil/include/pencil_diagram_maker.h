@@ -242,7 +242,7 @@ pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_
 
 
 /*
-Copyright 2016-2018 Andreas Warnke
+Copyright 2016-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

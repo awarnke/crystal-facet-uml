@@ -1,4 +1,4 @@
-2018-12-xx 1.8.0 [xxxxxxx]
+2019-01-xx 1.8.0 [xxxxxxx]
   + in navigation mode, diagrams can be re-ordered by dragging their names in the tree view
   . F7 workaround removed, key F7 is without function now
   + in edit mode, features can be re-ordered, ports can be moved along the classifier border

@@ -104,7 +104,7 @@ static inline int64_t layout_visible_classifier_get_diagramelement_id ( const la
 
 
 /*
-Copyright 2018-2018 Andreas Warnke
+Copyright 2018-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

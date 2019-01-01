@@ -19,6 +19,6 @@
  *  crystal_facet_uml contains sqlite which is Public Domain.
  *  Unit tests are based on embunit (MIT/X Consortium License).
  *
- *  \author (c) 2016-2018 A.Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+ *  \author (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
  */
 
