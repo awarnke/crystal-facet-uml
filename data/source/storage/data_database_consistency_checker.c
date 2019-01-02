@@ -384,22 +384,50 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
                                                                          &diagram_id_pair_count
                                                                        );
 
-    for ( uint_fast32_t diag_idx = 0; diag_idx < diagram_id_pair_count; diag_idx ++ )
+    /* delete all parent-ids from diagrams that have parents who have empty parent ids */
+    bool finished = false;
+    for ( uint_fast32_t tree_depth = 0; ( tree_depth < diagram_id_pair_count ) && ( ! finished ); tree_depth ++ )
     {
-        TRACE_INT_INT(
-            "DIAG: ID, PARENT_ID:",
-            ((*this_).private_temp_diagram_ids_buf)[diag_idx][0],
-            ((*this_).private_temp_diagram_ids_buf)[diag_idx][1],
-        );
+        finished = true;
+        for ( uint_fast32_t child_idx = 0; child_idx < diagram_id_pair_count; child_idx ++ )
+        {
+            bool child_has_parent;
+            child_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[child_idx][1] );
+            if ( child_has_parent )
+            {
+                for ( uint_fast32_t probe_parent_idx = 0; probe_parent_idx < diagram_id_pair_count; probe_parent_idx ++ )
+                {
+                    bool is_parent;
+                    is_parent = ( ((*this_).private_temp_diagram_ids_buf)[child_idx][1] == ((*this_).private_temp_diagram_ids_buf)[probe_parent_idx][0] );
+                    if ( is_parent )
+                    {
+                        bool parent_has_parent;
+                        parent_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[probe_parent_idx][1] );
+                        if ( ! parent_has_parent )
+                        {
+                            /* this diagram is child to a parent that has no parent. */
+                            ((*this_).private_temp_diagram_ids_buf)[child_idx][1] = DATA_ID_VOID_ID;
+                            /* we are not yet finished: */
+                            finished = false;
+                        }
+                    }
+                }
+            }
+        }
     }
 
-
-    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
-    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
-    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
-    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
-    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
-
+    /* add all the rest to the io_set */
+    for ( uint_fast32_t diag_idx = 0; diag_idx < diagram_id_pair_count; diag_idx ++ )
+    {
+        bool diag_has_parent;
+        diag_has_parent = ( DATA_ID_VOID_ID != ((*this_).private_temp_diagram_ids_buf)[diag_idx][1] );
+        if ( diag_has_parent )
+        {
+            int64_t diag_id = ((*this_).private_temp_diagram_ids_buf)[diag_idx][0];
+            TSLOG_ERROR_INT( "Diagram has a parent that is not linked to root:", diag_id );
+            data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, diag_id );
+        }
+    }
 
     TRACE_END_ERR( result );
     return result;
