@@ -69,7 +69,7 @@ ctrl_error_t ctrl_consistency_checker_repair_database ( ctrl_consistency_checker
     error_count += errors_in_parent_link;
 
     /* find circular diagram parent links */
-    err_result |= ctrl_consistency_checker_private_detect_circular_diagram_parents ( this_, total_diagrams-errors_in_parent_link, &error_count, out_report );
+    err_result |= ctrl_consistency_checker_private_detect_circular_diagram_parents ( this_, total_diagrams - errors_in_parent_link, &error_count, out_report );
 
     /* find nonreferencing diagramelements */
     err_result |=  ctrl_consistency_checker_private_ensure_valid_diagramelements( this_, modify_db, &error_count, &fix_count, out_report );
@@ -490,10 +490,21 @@ ctrl_error_t ctrl_consistency_checker_private_detect_circular_diagram_parents ( 
     TRACE_BEGIN();
     assert ( NULL != io_err );
     ctrl_error_t err_result = CTRL_ERROR_NONE;
+    //data_error_t data_err;
 
     /* write report title */
     utf8stringbuf_append_str( out_report, "STEP: Ensure that no circular references of diagram parents exist\n" );
 
+    /*
+    data_small_set_t circ_ref;
+    data_small_set_init( &circ_ref );
+    data_err = data_database_consistency_checker_find_circular_diagram_parents ( &((*this_).db_checker), &circ_ref );
+    if ( DATA_ERROR_NONE == data_err )
+    {
+        uint32_t circ_ref_count = data_small_set_get_count( &circ_ref );
+    }
+    */
+    
     uint32_t referenced_diagrams;
     err_result |= ctrl_consistency_checker_private_count_diagrams ( this_,
                                                                     DATA_ID_VOID_ID,

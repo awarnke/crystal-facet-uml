@@ -184,7 +184,7 @@ static const int RESULT_FEATURES_FEATURE_CLASSIFIER_ID_COLUMN = 1;
 static const int RESULT_FEATURES_CLASSIFIER_ID_COLUMN = 2;
 
 /*!
- *  \brief search statement to find relationships that contain invalid references
+ *  \brief search statement to find relationships that contain invalid classifier references
  */
 static const char SELECT_RELATIONSHIPS_AND_CLASSIFIERS[] =
     "SELECT relationships.id,relationships.from_classifier_id,relationships.to_classifier_id,source.id,dest.id "
@@ -218,7 +218,7 @@ static const int RESULT_RELATIONSHIPS_SOURCE_ID_COLUMN = 3;
 static const int RESULT_RELATIONSHIPS_DEST_ID_COLUMN = 4;
 
 /*!
- *  \brief search statement to find relationships that contain invalid references
+ *  \brief search statement to find relationships that contain invalid feature references
  */
 static const char SELECT_FEATURE_RELATIONSHIPS[] =
     "SELECT relationships.id,relationships.from_classifier_id,relationships.to_classifier_id,"
@@ -359,6 +359,40 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
             result |= DATA_ERROR_AT_DB;
         }
     }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    assert( NULL != io_set );
+    data_error_t result = DATA_ERROR_NONE;
+
+    /* fetch all diagram ids from the database */
+    uint32_t diagram_id_pair_count;
+    result = data_database_consistency_checker_private_get_diagram_ids ( this_,
+                                                                         DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS,
+                                                                         &((*this_).private_temp_diagram_ids_buf),
+                                                                         &diagram_id_pair_count
+                                                                       );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
+                                                                         uint32_t max_out_array_size,
+                                                                         data_id_pair_t (*out_diagram_id_pair)[],
+                                                                         uint32_t *out_diagram_id_pair_count )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_diagram_id_pair );
+    assert( NULL != out_diagram_id_pair_count );
+    data_error_t result = DATA_ERROR_NONE;
+
+    *out_diagram_id_pair_count = 0;
 
     TRACE_END_ERR( result );
     return result;
