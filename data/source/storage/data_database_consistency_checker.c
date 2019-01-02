@@ -47,6 +47,12 @@ static void* NO_SQL_DEBUG_INFORMATION = NULL;
 static const int MAX_ROWS_TO_CHECK = 1000000;
 
 /*!
+ *  \brief search statement to find diagrams and their parent ids
+ */
+static const char SELECT_DIAGRAMS_IDS[] =
+    "SELECT diagrams.id,diagrams.parent_id FROM diagrams;";
+
+/*!
  *  \brief search statement to find orphaned diagrams
  */
 static const char SELECT_DIAGRAMS_AND_PARENTS[] =
@@ -310,7 +316,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -378,21 +384,118 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
                                                                          &diagram_id_pair_count
                                                                        );
 
+    for ( uint_fast32_t diag_idx = 0; diag_idx < diagram_id_pair_count; diag_idx ++ )
+    {
+        TRACE_INT_INT(
+            "DIAG: ID, PARENT_ID:",
+            ((*this_).private_temp_diagram_ids_buf)[diag_idx][0],
+            ((*this_).private_temp_diagram_ids_buf)[diag_idx][1],
+        );
+    }
+
+
+    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
+    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
+    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
+    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
+    TSLOG_WARNING( "data_database_consistency_checker_find_circular_diagram_parents not implemented" );
+
+
     TRACE_END_ERR( result );
     return result;
 }
 
 data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                          uint32_t max_out_array_size,
-                                                                         data_id_pair_t (*out_diagram_id_pair)[],
+                                                                         int64_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count )
 {
     TRACE_BEGIN();
     assert( NULL != out_diagram_id_pair );
     assert( NULL != out_diagram_id_pair_count );
+    assert( max_out_array_size <= MAX_ROWS_TO_CHECK );
     data_error_t result = DATA_ERROR_NONE;
+    int sqlite_err;
+    (*out_diagram_id_pair_count) = 0;
 
-    *out_diagram_id_pair_count = 0;
+    if ( ! data_database_is_open( (*this_).database ) )
+    {
+        result = DATA_ERROR_NO_DB;
+        TSLOG_WARNING( "Database not open, cannot request data." );
+    }
+    else
+    {
+        sqlite3 *native_db;
+        native_db = data_database_get_database_ptr( (*this_).database );
+        sqlite3_stmt *prepared_statement;
+
+        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_IDS );
+        sqlite_err =  sqlite3_prepare_v2 ( native_db,
+                                           SELECT_DIAGRAMS_IDS,
+                                           AUTO_DETECT_SQL_LENGTH,
+                                           &prepared_statement,
+                                           NO_SQL_DEBUG_INFORMATION
+                                         );
+
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+        else
+        {
+            sqlite_err = SQLITE_ROW;
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK) && (result == DATA_ERROR_NONE); row_index ++ )
+            {
+                TRACE_INFO( "sqlite3_step()" );
+                sqlite_err = sqlite3_step( prepared_statement );
+
+                if ( SQLITE_DONE == sqlite_err )
+                {
+                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+                }
+                else if ( SQLITE_ROW == sqlite_err )
+                {
+                    int64_t diag_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_ID_COLUMN );
+                    int64_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN );
+                    if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN ) )
+                    {
+                        diag_parent_id = DATA_ID_VOID_ID;
+                        TRACE_INFO_INT( "root:", diag_id );
+                    }
+                    else
+                    {
+                        TRACE_INFO_INT_INT( "ok: diag_id, parent_id:", diag_id, diag_parent_id );
+                    }
+
+                    /* diagram found */
+                    if ( row_index < max_out_array_size )
+                    {
+                        (*out_diagram_id_pair)[row_index][0] = diag_id;
+                        (*out_diagram_id_pair)[row_index][1] = diag_parent_id;
+                        (*out_diagram_id_pair_count) = row_index + 1;
+                    }
+                    else
+                    {
+                        TSLOG_ERROR_INT( "Number of diagrams in the database exceeds max_out_array_size:", max_out_array_size );
+                        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    }
+                }
+                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
+                {
+                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                    result |= DATA_ERROR_AT_DB;
+                }
+            }
+        }
+
+        sqlite_err = sqlite3_finalize( prepared_statement );
+        if ( 0 != sqlite_err )
+        {
+            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
+            result |= DATA_ERROR_AT_DB;
+        }
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -432,7 +535,7 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -528,7 +631,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -652,7 +755,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -734,7 +837,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -814,7 +917,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );
@@ -910,7 +1013,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
         else
         {
             sqlite_err = SQLITE_ROW;
-            for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
+            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
             {
                 TRACE_INFO( "sqlite3_step()" );
                 sqlite_err = sqlite3_step( prepared_statement );

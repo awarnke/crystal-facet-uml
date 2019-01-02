@@ -34,7 +34,7 @@ enum data_database_consistency_checker_const_enum {
 struct data_database_consistency_checker_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    data_id_pair_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS];  /*!< buffer to store a temporary diag ids list */
+    int64_t private_temp_diagram_ids_buf[DATA_DATABASE_CONSISTENCY_CHECKER_MAX_TEMP_DIAG_IDS][2];  /*!< buffer to store a temporary diag ids list */
 };
 
 typedef struct data_database_consistency_checker_struct data_database_consistency_checker_t;
@@ -85,15 +85,15 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
  *
  *  \param this_ pointer to own object attributes
  *  \param max_out_array_size size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_diagram_id_pair array of diagrams read from the database (in case of success).
- *                             The second if of the pair is the defined parent id - even if this parent record does not exist.
+ *  \param out_diagram_id_pair array of diagram-id-pairs read from the database (in case of success).
+ *                             The second id of the pair is the parent id - without check if this parent record exists.
  *  \param out_diagram_id_pair_count number of diagram records stored in out_diagram
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
                                                                          uint32_t max_out_array_size,
-                                                                         data_id_pair_t (*out_diagram_id_pair)[],
+                                                                         int64_t (*out_diagram_id_pair)[][2],
                                                                          uint32_t *out_diagram_id_pair_count
                                                                        );
 
