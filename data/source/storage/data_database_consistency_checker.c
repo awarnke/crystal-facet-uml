@@ -53,27 +53,14 @@ static const char SELECT_DIAGRAMS_IDS[] =
     "SELECT diagrams.id,diagrams.parent_id FROM diagrams;";
 
 /*!
- *  \brief search statement to find orphaned diagrams
+ *  \brief the column id of the result where this parameter is stored: diagrams.id
  */
-static const char SELECT_DIAGRAMS_AND_PARENTS[] =
-    "SELECT child.id,child.parent_id,parent.id "
-    "FROM diagrams AS child "
-    "LEFT JOIN diagrams AS parent ON child.parent_id=parent.id;";
+static const int RESULT_DIAGRAMS_DIAG_ID_COLUMN = 0;
 
 /*!
- *  \brief the column id of the result where this parameter is stored: child.id
+ *  \brief the column id of the result where this parameter is stored: diagrams.parent_id
  */
-static const int RESULT_DIAGRAMS_CHILD_ID_COLUMN = 0;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: child.parent_id
- */
-static const int RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN = 1;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: parent.id
- */
-static const int RESULT_DIAGRAMS_PARENT_ID_COLUMN = 2;
+static const int RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN = 1;
 
 /*!
  *  \brief search statement to find diagramelements with illegal related diagrams and classifiers
@@ -278,98 +265,6 @@ static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_ID_COLUMN = 7;
  */
 static const int RESULT_FEATURE_RELATIONSHIPS_DEST_FEATURE_CLASSIFIER_ID_COLUMN = 8;
 
-data_error_t data_database_consistency_checker_find_unreferenced_diagrams ( data_database_consistency_checker_t *this_,
-                                                                            uint32_t *out_total_count,
-                                                                            data_small_set_t *io_set )
-{
-    TRACE_BEGIN();
-    assert( NULL != io_set );
-    assert( NULL != out_total_count );
-    data_error_t result = DATA_ERROR_NONE;
-    int sqlite_err;
-    (*out_total_count) = 0;
-
-    if ( ! data_database_is_open( (*this_).database ) )
-    {
-        result = DATA_ERROR_NO_DB;
-        TSLOG_WARNING( "Database not open, cannot request data." );
-    }
-    else
-    {
-        sqlite3 *native_db;
-        native_db = data_database_get_database_ptr( (*this_).database );
-        sqlite3_stmt *prepared_statement;
-
-        TSLOG_EVENT_STR( "sqlite3_prepare_v2():", SELECT_DIAGRAMS_AND_PARENTS );
-        sqlite_err =  sqlite3_prepare_v2 ( native_db,
-                                           SELECT_DIAGRAMS_AND_PARENTS,
-                                           AUTO_DETECT_SQL_LENGTH,
-                                           &prepared_statement,
-                                           NO_SQL_DEBUG_INFORMATION
-                                         );
-
-        if ( 0 != sqlite_err )
-        {
-            TSLOG_ERROR_INT( "sqlite3_prepare_v2():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-        else
-        {
-            sqlite_err = SQLITE_ROW;
-            for ( uint_fast32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= MAX_ROWS_TO_CHECK); row_index ++ )
-            {
-                TRACE_INFO( "sqlite3_step()" );
-                sqlite_err = sqlite3_step( prepared_statement );
-
-                if ( SQLITE_DONE == sqlite_err )
-                {
-                    TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
-                }
-                else if ( SQLITE_ROW == sqlite_err )
-                {
-                    int64_t child_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_ID_COLUMN );
-                    int64_t child_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN );
-                    /*int64_t parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_PARENT_ID_COLUMN );*/
-                    bool parent_exists = ( SQLITE_INTEGER == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_PARENT_ID_COLUMN ) );
-                    if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN ) )
-                    {
-                        child_parent_id = DATA_ID_VOID_ID;
-                        TRACE_INFO_INT( "root:", child_id );
-                    }
-                    else if ( ! parent_exists )
-                    {
-                        TSLOG_ERROR_INT( "referenced parent not existing, child:", child_id );
-                        TRACE_INFO_INT_INT( "referenced parent not existing: child, parent:", child_id, child_parent_id );
-                        data_small_set_add_row_id( io_set, DATA_TABLE_DIAGRAM, child_id );
-                    }
-                    else
-                    {
-                        TRACE_INFO_INT_INT( "ok: child, parent:", child_id, child_parent_id );
-                    }
-
-                    /* diagram found */
-                    (*out_total_count)++;
-                }
-                else /*if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))*/
-                {
-                    TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-                    result |= DATA_ERROR_AT_DB;
-                }
-            }
-        }
-
-        sqlite_err = sqlite3_finalize( prepared_statement );
-        if ( 0 != sqlite_err )
-        {
-            TSLOG_ERROR_INT( "sqlite3_finalize():", sqlite_err );
-            result |= DATA_ERROR_AT_DB;
-        }
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
 data_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set )
 {
     TRACE_BEGIN();
@@ -388,7 +283,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
     bool finished = false;
     for ( uint_fast32_t tree_depth = 0; ( tree_depth < diagram_id_pair_count ) && ( ! finished ); tree_depth ++ )
     {
-        finished = true;
+        uint_fast32_t found_children = 0;
         for ( uint_fast32_t child_idx = 0; child_idx < diagram_id_pair_count; child_idx ++ )
         {
             bool child_has_parent;
@@ -407,13 +302,14 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
                         {
                             /* this diagram is child to a parent that has no parent. */
                             ((*this_).private_temp_diagram_ids_buf)[child_idx][1] = DATA_ID_VOID_ID;
-                            /* we are not yet finished: */
-                            finished = false;
+                            found_children ++;
                         }
                     }
                 }
             }
         }
+        TRACE_INFO_INT_INT( "invalid+circular references search: round,found_children:", tree_depth, found_children );
+        finished = ( found_children == 0 );
     }
 
     /* add all the rest to the io_set */
@@ -484,9 +380,9 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
                 }
                 else if ( SQLITE_ROW == sqlite_err )
                 {
-                    int64_t diag_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_ID_COLUMN );
-                    int64_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN );
-                    if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_CHILD_PARENT_ID_COLUMN ) )
+                    int64_t diag_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_ID_COLUMN );
+                    int64_t diag_parent_id = sqlite3_column_int64( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN );
+                    if ( SQLITE_NULL == sqlite3_column_type( prepared_statement, RESULT_DIAGRAMS_DIAG_PARENT_ID_COLUMN ) )
                     {
                         diag_parent_id = DATA_ID_VOID_ID;
                         TRACE_INFO_INT( "root:", diag_id );

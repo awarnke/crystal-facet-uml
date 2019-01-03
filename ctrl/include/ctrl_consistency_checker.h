@@ -65,7 +65,7 @@ struct ctrl_consistency_checker_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_database_consistency_checker_t db_checker;  /*!< own instance of a db_checker */
 
-    data_diagram_t temp_diagram_buffer[CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER];  /*!< buffer for reading diagrams */
+    data_diagram_t temp_diagram_buffer[CTRL_CONSISTENCY_CHECKER_MAX_DIAG_BUFFER];  /*!< buffer for reading diagrams, e.g. root diagrams */
 };
 
 typedef struct ctrl_consistency_checker_struct ctrl_consistency_checker_t;
@@ -126,12 +126,10 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
                                                                          );
 
 /*!
- *  \brief checks and repairs the database with regards to diagrams having a valid parent diagram
+ *  \brief checks the database with regards to invalid and circular references to parent diagrams
  *
  *  \param this_ pointer to own object attributes
  *  \param modify_db true if the database shall be repaired and modified
- *  \param out_total_diagrams number of total diagrams in the database (not NULL)
- *                            without these where errors in parent linkage are known.
  *  \param io_err number of errors detected (not NULL)
  *  \param io_fix number of errors fixed (not NULL)
  *  \param out_report english text stating what was checked and the results and what was reparied and the results
@@ -141,7 +139,6 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_single_root_diagram ( ctrl_
  */
 ctrl_error_t ctrl_consistency_checker_private_ensure_valid_diagram_parents ( ctrl_consistency_checker_t *this_,
                                                                              bool modify_db,
-                                                                             uint32_t *out_total_diagrams,
                                                                              uint32_t *io_err,
                                                                              uint32_t *io_fix,
                                                                              utf8stringbuf_t out_report
@@ -203,25 +200,6 @@ ctrl_error_t ctrl_consistency_checker_private_ensure_referenced_classifiers ( ct
                                                                               uint32_t *io_fix,
                                                                               utf8stringbuf_t out_report
                                                                             );
-
-/*!
- *  \brief checks the database with regards to circular references to parent diagrams
- *
- *  \param this_ pointer to own object attributes
- *  \param modify_db true if the database shall be repaired and modified
- *  \param io_err number of errors detected (not NULL)
- *  \param io_fix number of errors fixed (not NULL)
- *  \param out_report english text stating what was checked and the results and what was reparied and the results
- *  \return CTRL_ERROR_NONE in case of success,
- *          CTRL_ERROR_NO_DB if database not open/loaded,
- *          CTRL_ERROR_DB_STRUCTURE if database was corrupted
- */
-ctrl_error_t ctrl_consistency_checker_private_prevent_circular_diagram_parents ( ctrl_consistency_checker_t *this_,
-                                                                                 bool modify_db,
-                                                                                 uint32_t *io_err,
-                                                                                 uint32_t *io_fix,
-                                                                                 utf8stringbuf_t out_report
-                                                                               );
 
 /*!
  *  \brief checks and repairs the database with regards to features having a valid parent classifier

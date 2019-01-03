@@ -346,14 +346,14 @@ static void diagram_circular_referenced_diagrams_consistency( void )
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
     TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
-    TEST_ASSERT_EQUAL_INT( 0, fixed_errors );  /* cannot fix */
+    TEST_ASSERT_EQUAL_INT( 2, fixed_errors );
 
     /* check the diagrams */
     utf8stringbuf_clear( out_report );
     ctrl_err = ctrl_controller_repair_database ( &controller, TEST_ONLY, &found_errors, &fixed_errors, out_report );
     TRACE_INFO_STR( "out_report:", utf8stringbuf_get_string( out_report ) );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
-    TEST_ASSERT_EQUAL_INT( 2, found_errors );  /* id-2+id-4 referencing each other as parent */
+    TEST_ASSERT_EQUAL_INT( 0, found_errors );
     TEST_ASSERT_EQUAL_INT( 0, fixed_errors );
 }
 
