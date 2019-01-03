@@ -11,6 +11,7 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include <stdio.h>
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -57,6 +58,7 @@ static void tear_down(void)
     ctrl_controller_destroy( &controller );
     data_database_destroy( &database );
     stdio_err = remove( DATABASE_FILENAME );
+    assert ( 0 == stdio_err );
 }
 
 static void create_new_db(void)
@@ -96,7 +98,7 @@ static void open_existing_db(void)
 
     /* open an existing db */
     ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
-    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
 
     isopen = data_database_is_open( &database );
     TEST_ASSERT_EQUAL_INT( true, isopen );

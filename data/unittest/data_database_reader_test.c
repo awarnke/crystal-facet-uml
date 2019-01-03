@@ -3,7 +3,8 @@
 #include "data_database_reader_test.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_writer.h"
-#include <assert.h>
+#include <errno.h>
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -52,6 +53,7 @@ static void set_up(void)
     /* remove old database files first */
     int err;
     err = remove( DATABASE_FILENAME );
+    assert ( ( 0 == err )|| (( -1 == err )&&( errno == ENOENT )) );
 
     /* open a database and initialize a reader and a writer */
     data_database_init( &database );

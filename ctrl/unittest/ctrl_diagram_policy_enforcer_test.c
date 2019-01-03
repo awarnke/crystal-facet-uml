@@ -7,6 +7,7 @@
 #include "storage/data_database_reader.h"
 #include "trace.h"
 #include <stdio.h>
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -71,6 +72,7 @@ static void tear_down(void)
     data_database_close( &database );
     data_database_destroy( &database );
     err = remove( DATABASE_FILENAME );
+    assert ( 0 == err );
 }
 
 static void diagram_to_lifeline_consistency(void)

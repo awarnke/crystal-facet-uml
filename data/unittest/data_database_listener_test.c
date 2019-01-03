@@ -3,6 +3,7 @@
 #include "data_database_listener_test.h"
 #include "storage/data_database_listener.h"
 #include "storage/data_database.h"
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);

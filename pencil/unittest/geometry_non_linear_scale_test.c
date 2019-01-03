@@ -2,6 +2,7 @@
 
 #include "geometry_non_linear_scale_test.h"
 #include "util/geometry/geometry_non_linear_scale.h"
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);

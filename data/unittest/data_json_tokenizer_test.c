@@ -2,6 +2,7 @@
 
 #include "data_json_tokenizer_test.h"
 #include "serial/data_json_tokenizer.h"
+#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -75,7 +76,7 @@ static void test_is_token_end(void)
     for ( pos = 0; pos < (sizeof(results)-1); pos ++ )
     {
         is_end = data_json_tokenizer_private_is_token_end( &tok, test_str, &pos );
-        TEST_ASSERT_EQUAL_INT( results[pos]=='1', is_end );
+        TEST_ASSERT_EQUAL_INT( ( results[pos] == '1' ), is_end );
     }
 }
 
