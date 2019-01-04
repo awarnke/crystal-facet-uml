@@ -275,12 +275,14 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     /* determine currently selected diagram id and parent id for emergency-fallback */
     int64_t former_diagram_id;
     int64_t former_parent_diagram_id;
+    //data_id_t former_focused_element;
     {
         data_diagram_t *former_diagram;
         former_diagram = gui_sketch_area_get_selected_diagram_ptr ( this_ );
         former_diagram_id = data_diagram_get_id( former_diagram );
         former_parent_diagram_id = data_diagram_get_parent_id( former_diagram );
         TRACE_INFO_INT_INT( "former_diagram_id, former_parent_diagram_id:", former_diagram_id, former_parent_diagram_id );
+        //former_focused_element = gui_marked_set_get_focused( (*this_).marker );
     }
 
     /* reload diagram data */
@@ -298,6 +300,14 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
             /* the requested diagram was not loaded, go back to root diagram: */
             gui_sketch_area_private_load_data( this_, DATA_ID_VOID_ID );
         }
+
+        /* clear the selected set */
+        gui_marked_set_clear_selected_set( (*this_).marker );
+    }
+    else
+    {
+        /* restore the focused element */
+        //vi gui_marked_set_set_focused( (*this_).marker, former_focused_element );
     }
 
     TRACE_END();
@@ -307,7 +317,7 @@ static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
 static const gint BORDER = 10;
 static const gint HALF_BORDER = 5;
-static const uint32_t NAV_TREE_WIDTH = 192;
+static const uint32_t NAV_TREE_WIDTH = 224;
 static const uint32_t RESULT_LIST_WIDTH = 160;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
@@ -716,8 +726,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     if ( (*evt).button == 1 ) {
         TRACE_INFO("press");
 
-        gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
-
         /* get position */
         int32_t x;
         int32_t y;
@@ -1016,6 +1024,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             }
             break;
         }
+
+        gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
     }
 
     TRACE_TIMESTAMP();
@@ -1089,7 +1099,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                         not_found = gui_sketch_nav_tree_is_descendant ( &((*this_).nav_tree),
                                                                         data_id_get_row_id( &dragged_diagram ),
                                                                         data_id_get_row_id( &target_parent_id ),
-                                                                        &is_descendant 
+                                                                        &is_descendant
                                                                       );
                         is_self = ( data_id_get_row_id( &dragged_diagram ) == data_id_get_row_id( &target_parent_id ) );
                         if ( ( ! is_self ) && ( not_found == GUI_ERROR_NONE ) && ( ! is_descendant ) )
@@ -1115,13 +1125,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             {
                                 TSLOG_ERROR_HEX( "CTRL_ERROR_NONE !=", c_err );
                             }
-                        }  
+                        }
                         else if ( DATA_ID_VOID_ID == data_id_get_row_id( &target_parent_id ) )
                         {
                             /* a diagram is dragged to the root location */
                             ctrl_diagram_controller_t *diag_control2;
                             diag_control2 = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-                            
+
                             int64_t root_id;
                             root_id = gui_sketch_nav_tree_get_root_diagram_id ( &((*this_).nav_tree) );
                             if (( root_id != DATA_ID_VOID_ID )&&( root_id != data_id_get_row_id( &dragged_diagram ) ))

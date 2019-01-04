@@ -370,6 +370,15 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
+    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+
+    /* store changes on old object if a new object is selected */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        gui_textedit_private_name_commit_changes( this_, GTK_ENTRY ( (*this_).name_entry ) );
+        gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( (*this_).stereotype_entry ) );
+        gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    }
 
     /* load data */
     data_id_trace( id );
@@ -387,6 +396,15 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
+    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).stereotype_entry ) );
+
+    /* store changes on old object if a new object is selected */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        gui_textedit_private_name_commit_changes( this_, GTK_ENTRY ( (*this_).name_entry ) );
+        gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( (*this_).stereotype_entry ) );
+        gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    }
 
     /* load data */
     data_id_trace( id );
@@ -404,6 +422,15 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
+    assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
+
+    /* store changes on old object if a new object is selected */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        gui_textedit_private_name_commit_changes( this_, GTK_ENTRY ( (*this_).name_entry ) );
+        gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( (*this_).stereotype_entry ) );
+        gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    }
 
     /* load data */
     data_id_trace( id );
@@ -421,6 +448,15 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
     gui_textedit_t *this_;
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
+    assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
+
+    /* store changes on old object if a new object is selected */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        gui_textedit_private_name_commit_changes( this_, GTK_ENTRY ( (*this_).name_entry ) );
+        gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( (*this_).stereotype_entry ) );
+        gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    }
 
     /* load data */
     data_id_trace( id );
@@ -444,16 +480,10 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_mes
     id = data_change_message_get_modified( msg );
     evt_type = data_change_message_get_event ( msg );
 
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+        || ( data_id_equals( &id, &((*this_).selected_object_id) ) ))
     {
         data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( widget ) );
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
         gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( widget ) );
     }
@@ -474,17 +504,11 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_chan
     id = data_change_message_get_modified( msg );
     evt_type = data_change_message_get_event ( msg );
 
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+        || ( data_id_equals( &id, &((*this_).selected_object_id) ) ))
     {
         data_change_message_trace( msg );
         gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        gui_textedit_private_stereotype_update_view ( this_, GTK_ENTRY ( widget ) );
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
-        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
         gui_textedit_private_stereotype_update_view ( this_, GTK_ENTRY ( widget ) );
     }
 
@@ -504,16 +528,10 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_mes
     id = data_change_message_get_modified( msg );
     evt_type = data_change_message_get_event ( msg );
 
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+        || ( data_id_equals( &id, &((*this_).selected_object_id) ) ))
     {
         data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( widget ) );
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
         gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( widget ) );
     }
@@ -534,16 +552,10 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
     id = data_change_message_get_modified( msg );
     evt_type = data_change_message_get_event ( msg );
 
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+        || ( data_id_equals( &id, &((*this_).selected_object_id) ) ))
     {
         data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( widget ) );
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
         gui_textedit_private_load_object( this_, id, true /* force_reload */ );
         gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( widget ) );
     }
