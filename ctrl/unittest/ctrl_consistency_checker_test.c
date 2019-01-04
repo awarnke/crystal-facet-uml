@@ -7,7 +7,9 @@
 #include "storage/data_database_reader.h"
 #include "trace.h"
 #include <stdio.h>
-#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
+
+#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
+/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -101,10 +103,10 @@ static void set_up(void)
                                          "diagram_description-6",
                                          10444 /*=list_order*/
                                        );
-        assert( DATA_ERROR_NONE == data_err_d );
+        PROG_ASSERT( DATA_ERROR_NONE == data_err_d );
 
         data_err_d = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err_d );
+        PROG_ASSERT( DATA_ERROR_NONE == data_err_d );
     }
 
     /* create a valid classifier */
@@ -122,10 +124,10 @@ static void set_up(void)
                                             -16000 /*=y_order*/,
                                             -7000 /*=list_order*/
                                           );
-        assert( DATA_ERROR_NONE == data_err_c );
+        PROG_ASSERT( DATA_ERROR_NONE == data_err_c );
 
         data_err_c = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err_c );
+        PROG_ASSERT( DATA_ERROR_NONE == data_err_c );
     }
 
     /* create valid diagramelement */
@@ -142,7 +144,7 @@ static void set_up(void)
                                  );
 
         data_err_de = data_database_writer_create_diagramelement( &db_writer, &current_diagramelement, NULL /*=out_new_id*/ );
-        assert( DATA_ERROR_NONE == data_err_de );
+        PROG_ASSERT( DATA_ERROR_NONE == data_err_de );
     }
 }
 
@@ -157,7 +159,7 @@ static void tear_down(void)
     data_database_close( &database );
     data_database_destroy( &database );
     err = remove( DATABASE_FILENAME );
-    assert ( 0 == err );
+    PROG_ASSERT ( 0 == err );
 }
 
 static void diagram_two_roots_consistency(void)

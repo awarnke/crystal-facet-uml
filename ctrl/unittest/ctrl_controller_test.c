@@ -11,7 +11,9 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include <stdio.h>
-#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
+
+#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
+/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -58,7 +60,7 @@ static void tear_down(void)
     ctrl_controller_destroy( &controller );
     data_database_destroy( &database );
     stdio_err = remove( DATABASE_FILENAME );
-    assert ( 0 == stdio_err );
+    PROG_ASSERT ( 0 == stdio_err );
 }
 
 static void create_new_db(void)

@@ -11,7 +11,9 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include <stdio.h>
-#include <assert.h>  /* use TEST_ASSERT_* to check and report the test result, use assert() if the test case could not be executed as expected */
+
+#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
+/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
 
 static void set_up(void);
 static void tear_down(void);
@@ -71,7 +73,7 @@ static void tear_down(void)
     data_database_close( &database );
     data_database_destroy( &database );
     err = remove( DATABASE_FILENAME );
-    assert ( 0 == err );
+    PROG_ASSERT ( 0 == err );
 }
 
 static void classifier_create_read_modify_read(void)

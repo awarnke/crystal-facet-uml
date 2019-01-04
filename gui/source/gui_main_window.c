@@ -426,7 +426,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
-    gui_textedit_update_widgets( &((*this_).text_editor) );
+    gui_textedit_update_widgets( &((*this_).text_editor) );  /* hide some widgets again */
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 #else
