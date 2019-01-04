@@ -11,8 +11,10 @@
 
 void gui_textedit_init ( gui_textedit_t *this_,
                          GtkEntry *name_entry,
-                         GtkTextView *description_text_view,
                          GtkEntry *stereotype_entry,
+                         GtkComboBox *type_combo_box,
+                         GtkTextView *description_text_view,
+                         GtkButton *commit_button,
                          ctrl_controller_t *controller,
                          data_database_reader_t *db_reader,
                          data_database_t *database,
@@ -20,16 +22,21 @@ void gui_textedit_init ( gui_textedit_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != name_entry );
-    assert( NULL != description_text_view );
     assert( NULL != stereotype_entry );
+    assert( NULL != type_combo_box );
+    assert( NULL != description_text_view );
+    assert( NULL != commit_button );
 
     assert( NULL != controller );
     assert( NULL != db_reader );
     assert( NULL != message_to_user );
 
     (*this_).name_entry = name_entry;
-    (*this_).description_text_view = description_text_view;
     (*this_).stereotype_entry = stereotype_entry;
+    (*this_).type_combo_box = type_combo_box;
+    (*this_).description_text_view = description_text_view;
+    (*this_).commit_button = commit_button;
+
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     (*this_).database = database;
@@ -39,6 +46,13 @@ void gui_textedit_init ( gui_textedit_t *this_,
     data_feature_init_empty( &((*this_).private_feature_cache) );
     data_relationship_init_empty( &((*this_).private_relationship_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
+
+    {
+        GtkTreeIter iter;
+        (*this_).no_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
+        gtk_list_store_append( (*this_).no_types, &iter);
+        gtk_list_store_set ( (*this_).no_types, &iter, 0, 0x0, 1, "-- n/a --", -1 );
+    }
 
     {
         GtkTreeIter iter;
@@ -184,6 +198,9 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "Include (use-case), no circles", -1 );
     }
 
+    /* update widgets */
+    gui_textedit_update_widgets( this_ );
+
     TRACE_END();
 }
 
@@ -199,6 +216,9 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
 
     g_object_unref((*this_).diagram_types);
     (*this_).diagram_types = NULL;
+
+    g_object_unref((*this_).no_types);
+    (*this_).no_types = NULL;
 
     g_object_unref((*this_).classifier_types);
     (*this_).classifier_types = NULL;
@@ -223,6 +243,488 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
+void gui_textedit_update_widgets ( gui_textedit_t *this_ )
+{
+    TRACE_BEGIN();
+
+    gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( (*this_).name_entry ) );
+    gui_textedit_private_stereotype_update_view( this_, GTK_ENTRY ( (*this_).stereotype_entry ) );
+    gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( (*this_).type_combo_box ) );
+
+    TRACE_END();
+}
+
+/* ================================ USER INPUT CALLBACKS ================================ */
+
+gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_textedit_private_name_commit_changes( this_,  GTK_ENTRY ( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_textedit_private_type_commit_changes( this_, GTK_COMBO_BOX( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+    return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+    gui_textedit_private_name_commit_changes ( this_, (*this_).name_entry );
+    gui_textedit_private_stereotype_commit_changes ( this_, (*this_).stereotype_entry );
+    gui_textedit_private_description_commit_changes ( this_, (*this_).description_text_view );
+
+    data_error_t d_err;
+    d_err = DATA_ERROR_NONE;
+    d_err |= data_database_trace_stats( (*this_).database );
+    d_err |= data_database_flush_caches( (*this_).database );
+    d_err |= data_database_trace_stats( (*this_).database );
+    if ( DATA_ERROR_NONE != d_err )
+    {
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
+        );
+    }
+    else
+    {
+        #ifndef NDEBUG
+        /* in debug mode, also check consistency of database */
+        char repair_log_buffer[2000] = "";
+        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+        uint32_t found_errors;
+        uint32_t fixed_errors;
+        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, repair_log );
+        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
+        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
+        {
+            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
+                                                                 "ctrl_controller_repair_database() reported inconsistent db!"
+            );
+        }
+        #endif
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+/* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
+
+void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    /* load data */
+    data_id_trace( id );
+    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
+
+    gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    /* load data */
+    data_id_trace( id );
+    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
+
+    gui_textedit_private_stereotype_update_view( this_, GTK_ENTRY ( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    /* load data */
+    data_id_trace( id );
+    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
+
+    gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_description_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    /* load data */
+    data_id_trace( id );
+    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
+
+    gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( widget ) );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    data_id_t id;
+    data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( widget ) );
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    {
+        /* reload currently visible data */
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
+        gui_textedit_private_name_update_view ( this_, GTK_ENTRY ( widget ) );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    data_id_t id;
+    data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        gui_textedit_private_stereotype_update_view ( this_, GTK_ENTRY ( widget ) );
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    {
+        /* reload currently visible data */
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
+        gui_textedit_private_stereotype_update_view ( this_, GTK_ENTRY ( widget ) );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    data_id_t id;
+    data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( widget ) );
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    {
+        /* reload currently visible data */
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
+        gui_textedit_private_type_update_view( this_, GTK_COMBO_BOX( widget ) );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+
+    data_id_t id;
+    data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
+        gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( widget ) );
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    {
+        /* reload currently visible data */
+        data_id_trace( &id );
+        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
+        gui_textedit_private_description_update_view( this_, GTK_TEXT_VIEW( widget ) );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+/* ================================ PRIVATE METHODS ================================ */
+
+void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload )
+{
+    TRACE_BEGIN();
+
+    if ( ! data_id_equals( &((*this_).selected_object_id), &id ) )
+    {
+        force_reload = true;
+    }
+
+    switch ( data_id_get_table(&id) )
+    {
+        case DATA_TABLE_VOID:
+        {
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+
+            if ( force_reload || ( data_classifier_get_id( &((*this_).private_classifier_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_classifier_destroy( &((*this_).private_classifier_cache) );
+                db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+
+            if ( force_reload || ( data_feature_get_id( &((*this_).private_feature_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_feature_destroy( &((*this_).private_feature_cache) );
+                db_err= data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_feature_reinit_empty( &((*this_).private_feature_cache) );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+
+            if ( force_reload || ( data_relationship_get_id( &((*this_).private_relationship_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_relationship_destroy( &((*this_).private_relationship_cache) );
+                db_err= data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+
+            if ( force_reload || ( data_diagram_get_id( &((*this_).private_diagram_cache) ) != data_id_get_row_id(&id) ))
+            {
+                data_error_t db_err;
+
+                data_diagram_destroy( &((*this_).private_diagram_cache) );
+                db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
+
+                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                {
+                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
+                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
+                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
+                                                                         NULL
+                    );
+                }
+                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
+                {
+                    /* error at loading */
+                    data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+                }
+            }
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid data in data_id_t." );
+
+            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
+            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
+            data_feature_reinit_empty( &((*this_).private_feature_cache) );
+            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
+        }
+        break;
+    }
+
+    data_id_destroy( &((*this_).selected_object_id) );
+    (*this_).selected_object_id = id;
+
+    TRACE_END();
+}
+
 void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry *name_widget )
 {
     TRACE_BEGIN();
@@ -237,7 +739,8 @@ void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry 
     {
         case DATA_TABLE_VOID:
         {
-            TSLOG_WARNING( "no object selected where name can be updated." );
+            /* nothing to do */
+            TSLOG_ANOMALY( "no object selected where name can be updated." );
         }
         break;
 
@@ -365,17 +868,210 @@ void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry 
     TRACE_END();
 }
 
-gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_, GtkEntry *stereotype_widget )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
 
-    gui_textedit_private_name_commit_changes( this_,  GTK_ENTRY ( widget ) );
+    const char* text;
+    text = gtk_entry_get_text( stereotype_widget );
 
-    TRACE_TIMESTAMP();
+    TRACE_INFO_STR( "text:", text );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+        {
+            /* nothing to do */
+            TSLOG_ANOMALY( "no object selected where stereotype can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            const char* unchanged_text;
+            unchanged_text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            const char* unchanged_text;
+            unchanged_text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
+            if ( ! utf8string_equals_str( text, unchanged_text ) )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
+                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
+                {
+                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
+                    );
+                }
+                else if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid data in data_id_t." );
+        }
+        break;
+    }
+
     TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_, GtkComboBox *type_widget )
+{
+    TRACE_BEGIN();
+
+    int obj_type;
+    int index;
+    index = gtk_combo_box_get_active ( type_widget );
+    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
+
+    TRACE_INFO_INT( "obj_type:", obj_type );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+        {
+            /* nothing to do */
+            TSLOG_ANOMALY( "no object selected where type can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            data_classifier_type_t unchanged_main_type;
+            unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            data_feature_type_t unchanged_main_type;
+            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            data_relationship_type_t unchanged_main_type;
+            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            TSLOG_WARNING( "no object selected where type can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            data_diagram_type_t unchanged_type;
+            unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
+            if ( obj_type != unchanged_type )
+            {
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid data in data_id_t." );
+        }
+        break;
+    }
+
+    TRACE_END();
 }
 
 void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, GtkTextView *description_widget )
@@ -399,7 +1095,8 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, Gt
     {
         case DATA_TABLE_VOID:
         {
-            TSLOG_WARNING( "no object selected where description can be updated." );
+            /* nothing to do */
+            TSLOG_ANOMALY( "no object selected where description can be updated." );
         }
         break;
 
@@ -519,434 +1216,139 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, Gt
     TRACE_END();
 }
 
-gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    gui_textedit_private_description_commit_changes( this_, GTK_TEXT_VIEW( widget ) );
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
-}
-
-void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_, GtkEntry *stereotype_widget )
+void gui_textedit_private_name_update_view ( gui_textedit_t *this_, GtkEntry *name_widget )
 {
     TRACE_BEGIN();
 
-    const char* text;
-    text = gtk_entry_get_text( stereotype_widget );
-
-    TRACE_INFO_STR( "text:", text );
-
-    ctrl_error_t ctrl_err;
-    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
-    {
-        case DATA_TABLE_VOID:
-        {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_CLASSIFIER:
-        {
-            const char* unchanged_text;
-            unchanged_text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
-            if ( ! utf8string_equals_str( text, unchanged_text ) )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_classifier_stereotype ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
-                }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update stereotype failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_FEATURE:
-        {
-            const char* unchanged_text;
-            unchanged_text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
-            if ( ! utf8string_equals_str( text, unchanged_text ) )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_feature_value ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), text );
-                if ( CTRL_ERROR_STRING_BUFFER_EXCEEDED == ctrl_err )
-                {
-                    gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                             GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                             GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                    );
-                }
-                else if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update value/stereotype failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "invalid data in data_id_t." );
-        }
-        break;
-    }
-
-    TRACE_END();
-}
-
-gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    gui_textedit_private_stereotype_commit_changes( this_, GTK_ENTRY ( widget ) );
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-    return false;  /* all callbacks shall receive this signal */
-}
-
-void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    int obj_type;
-    int index;
-    index = gtk_combo_box_get_active ( GTK_COMBO_BOX( widget ) );
-    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, index );
-
-    TRACE_INFO_INT( "obj_type:", obj_type );
-
-    ctrl_error_t ctrl_err;
-    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
-    {
-        case DATA_TABLE_VOID:
-        {
-            TSLOG_WARNING( "no object selected where type can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_CLASSIFIER:
-        {
-            data_classifier_type_t unchanged_main_type;
-            unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_FEATURE:
-        {
-            data_feature_type_t unchanged_main_type;
-            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            data_relationship_type_t unchanged_main_type;
-            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            TSLOG_WARNING( "no object selected where type can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            data_diagram_type_t unchanged_type;
-            unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-            if ( obj_type != unchanged_type )
-            {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "invalid data in data_id_t." );
-        }
-        break;
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    gui_simple_message_to_user_hide( (*this_).message_to_user );
-
-    gui_textedit_private_name_commit_changes ( this_, (*this_).name_entry );
-    gui_textedit_private_stereotype_commit_changes ( this_, (*this_).stereotype_entry );
-    gui_textedit_private_description_commit_changes ( this_, (*this_).description_text_view );
-
-    data_error_t d_err;
-    d_err = DATA_ERROR_NONE;
-    d_err |= data_database_trace_stats( (*this_).database );
-    d_err |= data_database_flush_caches( (*this_).database );
-    d_err |= data_database_trace_stats( (*this_).database );
-    if ( DATA_ERROR_NONE != d_err )
-    {
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR
-                                               );
-    }
-    else
-    {
-#ifndef NDEBUG
-        /* in debug mode, also check consistency of database */
-        char repair_log_buffer[2000] = "";
-        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
-        uint32_t found_errors;
-        uint32_t fixed_errors;
-        ctrl_controller_repair_database( (*this_).controller, false /* no repair, just test */, &found_errors, &fixed_errors, repair_log );
-        fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
-        if (( found_errors != 0 ) || ( fixed_errors != 0 ))
-        {
-            gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                 GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_OPENED_WITH_ERROR,
-                                                                 "ctrl_controller_repair_database() reported inconsistent db!"
-                                                               );
-        }
-#endif
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    /* load data */
-    data_id_trace( id );
-    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
-
-    switch ( data_id_get_table(id) )
+    switch ( data_id_get_table( &((*this_).selected_object_id )) )
     {
         case DATA_TABLE_VOID:
         {
             /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
+            gtk_widget_hide ( GTK_WIDGET ( name_widget ) );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
             text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
             text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
             text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
+            gtk_widget_hide ( GTK_WIDGET ( name_widget ) );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( name_widget ) );
 
             const char* text;
             text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( name_widget ), text );
         }
         break;
 
         default:
         {
             TSLOG_ERROR( "invalid data in data_id_t." );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
+            gtk_entry_set_text( GTK_ENTRY ( name_widget ), "" );
         }
         break;
     }
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_private_stereotype_update_view ( gui_textedit_t *this_, GtkEntry *stereotype_widget )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
 
-    /* load data */
-    data_id_trace( id );
-    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
-
-    switch ( data_id_get_table(id) )
+    switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
             /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
-            /*gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );*/
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
+            gtk_widget_hide ( GTK_WIDGET ( stereotype_widget ) );
+            /*gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );*/
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show( GTK_WIDGET ( widget ) );
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), true );
+            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char* text;
             text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show( GTK_WIDGET ( widget ) );
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), true );
+            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), true );
 
             const char* text;
             text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), text );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), text );
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
             /* -- do not hide - otherwise the user interface looks inhomogenous -- */
-            gtk_widget_show( GTK_WIDGET ( widget ) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
+            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
 
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide( GTK_WIDGET ( widget ) );
-            /*gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );*/
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
+            gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );
+            /*gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );*/
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            /*gtk_widget_hide( GTK_WIDGET ( widget ) );*/
+            /*gtk_widget_hide( GTK_WIDGET ( stereotype_widget ) );*/
             /* -- do not hide - otherwise the user interface looks inhomogenous -- */
-            gtk_widget_show( GTK_WIDGET ( widget ) );
-            gtk_entry_set_text( GTK_ENTRY ( widget ), "    -- n/a --" );
-            gtk_editable_set_editable ( GTK_EDITABLE ( widget ), false );
+            gtk_widget_show( GTK_WIDGET ( stereotype_widget ) );
+            gtk_entry_set_text( GTK_ENTRY ( stereotype_widget ), "    -- n/a --" );
+            gtk_editable_set_editable ( GTK_EDITABLE ( stereotype_widget ), false );
         }
         break;
 
@@ -957,34 +1359,121 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
         break;
     }
 
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_textedit_description_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_textedit_private_type_update_view ( gui_textedit_t *this_, GtkComboBox *type_widget )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-    GtkTextBuffer *buffer;
-    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
 
-    /* load data */
-    data_id_trace( id );
-    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
-
-    switch ( data_id_get_table(id) )
+    switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
-            /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).no_types ) );
+            /* prevent that a user accitentially enters a type for a non-existing object */
+            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            data_classifier_type_t class_type;
+            class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+            int index;
+            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).classifier_types ), 0, class_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).classifier_types ) );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            data_feature_type_t feature_type;
+            feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
+            {
+                int index2;
+                index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_lifeline_type ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).feature_lifeline_type ) );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
+            }
+            else
+            {
+                int index;
+                index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            data_relationship_type_t relationship_type;
+            relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            int index;
+            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).relationship_types ), 0, relationship_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).relationship_types ) );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).no_types ) );
+            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            data_diagram_type_t diag_type;
+            diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
+            int index;
+            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).diagram_types ), 0, diag_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).diagram_types ) );
+            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid data in data_id_t." );
+        }
+        break;
+    }
+
+    TRACE_END();
+}
+
+void gui_textedit_private_description_update_view ( gui_textedit_t *this_, GtkTextView *description_widget )
+{
+    TRACE_BEGIN();
+
+    GtkTextBuffer *buffer;
+    buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( description_widget ) );
+
+    switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
+    {
+        case DATA_TABLE_VOID:
+        {
+            /* prevent that a user accitentially enters text to a non-existing object */
+            gtk_widget_hide ( GTK_WIDGET ( description_widget ) );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
             text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
@@ -994,7 +1483,7 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
             text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
@@ -1004,7 +1493,7 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
             text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
@@ -1014,13 +1503,13 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
+            gtk_widget_hide ( GTK_WIDGET ( description_widget ) );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
+            gtk_widget_show ( GTK_WIDGET ( description_widget ) );
 
             const char* text;
             text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
@@ -1035,633 +1524,6 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
         break;
     }
 
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    /* load data */
-    data_id_trace( id );
-    gui_textedit_private_load_object( this_, *id, false /* force_reload */ );
-
-    switch ( data_id_get_table(id) )
-    {
-        case DATA_TABLE_VOID:
-        {
-            /* prevent that a user accitentially enters text to a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
-        }
-        break;
-
-        case DATA_TABLE_CLASSIFIER:
-        {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
-
-            data_classifier_type_t class_type;
-            class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).classifier_types ), 0, class_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).classifier_types ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-        }
-        break;
-
-        case DATA_TABLE_FEATURE:
-        {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
-
-            data_feature_type_t feature_type;
-            feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
-            if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
-            {
-                int index2;
-                index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_lifeline_type ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_lifeline_type ) );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index2 );
-            }
-            else
-            {
-                int index;
-                index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-            }
-        }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
-
-            data_relationship_type_t relationship_type;
-            relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).relationship_types ), 0, relationship_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).relationship_types ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            gtk_widget_hide ( GTK_WIDGET ( widget ) );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            gtk_widget_show ( GTK_WIDGET ( widget ) );
-
-            data_diagram_type_t diag_type;
-            diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).diagram_types ), 0, diag_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( widget ), GTK_TREE_MODEL( (*this_).diagram_types ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "invalid data in data_id_t." );
-        }
-        break;
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload )
-{
-    TRACE_BEGIN();
-
-    if ( ! data_id_equals( &((*this_).selected_object_id), &id ) )
-    {
-        force_reload = true;
-    }
-
-    switch ( data_id_get_table(&id) )
-    {
-        case DATA_TABLE_VOID:
-        {
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-        }
-        break;
-
-        case DATA_TABLE_CLASSIFIER:
-        {
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-
-            if ( force_reload || ( data_classifier_get_id( &((*this_).private_classifier_cache) ) != data_id_get_row_id(&id) ))
-            {
-                data_error_t db_err;
-
-                data_classifier_destroy( &((*this_).private_classifier_cache) );
-                db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
-
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
-                {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                            GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                            NULL
-                                                                        );
-                }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
-                {
-                    /* error at loading */
-                    data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_FEATURE:
-        {
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-
-            if ( force_reload || ( data_feature_get_id( &((*this_).private_feature_cache) ) != data_id_get_row_id(&id) ))
-            {
-                data_error_t db_err;
-
-                data_feature_destroy( &((*this_).private_feature_cache) );
-                db_err= data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
-
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
-                {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
-                }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
-                {
-                    /* error at loading */
-                    data_feature_reinit_empty( &((*this_).private_feature_cache) );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-
-            if ( force_reload || ( data_relationship_get_id( &((*this_).private_relationship_cache) ) != data_id_get_row_id(&id) ))
-            {
-                data_error_t db_err;
-
-                data_relationship_destroy( &((*this_).private_relationship_cache) );
-                db_err= data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
-
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
-                {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                         GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                         GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                         NULL
-                    );
-                }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
-                {
-                    /* error at loading */
-                    data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-
-            if ( force_reload || ( data_diagram_get_id( &((*this_).private_diagram_cache) ) != data_id_get_row_id(&id) ))
-            {
-                data_error_t db_err;
-
-                data_diagram_destroy( &((*this_).private_diagram_cache) );
-                db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
-
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
-                {
-                    TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
-                    gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                            GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                                            GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED,
-                                                                            NULL
-                    );
-                }
-                if ( DATA_ERROR_NONE != (db_err & ~(DATA_ERROR_STRING_BUFFER_EXCEEDED)) )
-                {
-                    /* error at loading */
-                    data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-                }
-            }
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "invalid data in data_id_t." );
-
-            data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
-            data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
-            data_feature_reinit_empty( &((*this_).private_feature_cache) );
-            data_relationship_reinit_empty( &((*this_).private_relationship_cache) );
-        }
-        break;
-    }
-
-    data_id_destroy( &((*this_).selected_object_id) );
-    (*this_).selected_object_id = id;
-
-    TRACE_END();
-}
-
-void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    bool push_new_data_to_widget = false;
-    data_id_t id;
-    data_change_event_type_t evt_type;
-    id = data_change_message_get_modified( msg );
-    evt_type = data_change_message_get_event ( msg );
-
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
-    {
-        data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
-        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-
-    if ( push_new_data_to_widget )
-    {
-        /* update data */
-        switch ( data_id_get_table(&id) )
-        {
-            case DATA_TABLE_VOID:
-            {
-                gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            }
-            break;
-
-            case DATA_TABLE_CLASSIFIER:
-            {
-                const char* text;
-                text = data_classifier_get_name_ptr( &((*this_).private_classifier_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                const char* text;
-                text = data_feature_get_key_ptr( &((*this_).private_feature_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                const char* text;
-                text = data_relationship_get_name_ptr( &((*this_).private_relationship_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                /* a changed diagram element does not cause a change to the name */
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                const char* text;
-                text = data_diagram_get_name_ptr( &((*this_).private_diagram_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR( "invalid data in data_id_t." );
-            }
-            break;
-        }
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    bool push_new_data_to_widget = false;
-    data_id_t id;
-    data_change_event_type_t evt_type;
-    id = data_change_message_get_modified( msg );
-    evt_type = data_change_message_get_event ( msg );
-
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
-    {
-        data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
-        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-
-    if ( push_new_data_to_widget )
-    {
-        /* update data */
-        switch ( data_id_get_table(&id) )
-        {
-            case DATA_TABLE_VOID:
-            {
-                gtk_entry_set_text( GTK_ENTRY ( widget ), "" );
-            }
-            break;
-
-            case DATA_TABLE_CLASSIFIER:
-            {
-                const char* text;
-                text = data_classifier_get_stereotype_ptr( &((*this_).private_classifier_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                const char* text;
-                text = data_feature_get_value_ptr( &((*this_).private_feature_cache) );
-                gtk_entry_set_text( GTK_ENTRY ( widget ), text );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                /* a relationship does not have a stereotype */
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                /* a changed diagram element does not cause a change to the stereotype */
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                /* a diagram does not have a stereotype */
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR( "invalid data in data_id_t." );
-            }
-            break;
-        }
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    bool push_new_data_to_widget = false;
-    data_id_t id;
-    data_change_event_type_t evt_type;
-    id = data_change_message_get_modified( msg );
-    evt_type = data_change_message_get_event ( msg );
-
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
-    {
-        data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
-        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-
-    if ( push_new_data_to_widget )
-    {
-        /* update data */
-        GtkTextBuffer *buffer;
-        buffer = gtk_text_view_get_buffer ( GTK_TEXT_VIEW( widget ) );
-        switch ( data_id_get_table(&id) )
-        {
-            case DATA_TABLE_VOID:
-            {
-                gtk_text_buffer_set_text ( buffer, "", -1 /*len*/ );
-            }
-            break;
-
-            case DATA_TABLE_CLASSIFIER:
-            {
-                const char* text;
-                text = data_classifier_get_description_ptr( &((*this_).private_classifier_cache) );
-
-                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                const char* text;
-                text = data_feature_get_description_ptr( &((*this_).private_feature_cache) );
-
-                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                const char* text;
-                text = data_relationship_get_description_ptr( &((*this_).private_relationship_cache) );
-
-                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                /* a changed diagram element does not cause a change to the description */
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                const char* text;
-                text = data_diagram_get_description_ptr( &((*this_).private_diagram_cache) );
-
-                gtk_text_buffer_set_text ( buffer, text, -1 /*len*/ );
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR( "invalid data in data_id_t." );
-            }
-            break;
-        }
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
-{
-    TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
-
-    bool push_new_data_to_widget = false;
-    data_id_t id;
-    data_change_event_type_t evt_type;
-    id = data_change_message_get_modified( msg );
-    evt_type = data_change_message_get_event ( msg );
-
-    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
-    {
-        data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id, false /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
-    {
-        /* reload currently visible data */
-        data_id_trace( &id );
-        gui_textedit_private_load_object( this_, id, true /* force_reload */ );
-        push_new_data_to_widget = true;
-    }
-
-    if ( push_new_data_to_widget )
-    {
-        /* update data */
-        switch ( data_id_get_table(&id) )
-        {
-            case DATA_TABLE_VOID:
-            {
-            }
-            break;
-
-            case DATA_TABLE_CLASSIFIER:
-            {
-                data_classifier_type_t class_type;
-                class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-                int index;
-                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, class_type );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                data_feature_type_t feature_type;
-                feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
-                int index;
-                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, feature_type );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                data_relationship_type_t relationship_type;
-                relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-                int index;
-                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, relationship_type );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                /* a changed diagram element does not cause a change to the type */
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                data_diagram_type_t diag_type;
-                diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-                int index;
-                index = gtk_helper_tree_model_get_index( gtk_combo_box_get_model( GTK_COMBO_BOX( widget ) ), 0, diag_type );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( widget ), index );
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR( "invalid data in data_id_t." );
-            }
-            break;
-        }
-    }
-
-    TRACE_TIMESTAMP();
     TRACE_END();
 }
 

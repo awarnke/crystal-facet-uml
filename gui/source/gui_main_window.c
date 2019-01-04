@@ -243,21 +243,22 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE
                                );
+    (*this_).type_combo_box = gtk_combo_box_new();
+    GtkCellRenderer *column;
+    column = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
     gui_textedit_init( &((*this_).text_editor),
                        GTK_ENTRY( (*this_).name_entry ),
-                       GTK_TEXT_VIEW( (*this_).description_text_view ),
                        GTK_ENTRY( (*this_).stereotype_entry ),
+                       GTK_COMBO_BOX( (*this_).type_combo_box ),
+                       GTK_TEXT_VIEW( (*this_).description_text_view ),
+                       GTK_BUTTON( (*this_).edit_commit_button ),
                        controller,
                        db_reader,
                        database,
                        &((*this_).message_to_user)
                      );
-    GtkTreeModel *combo_types = gui_textedit_get_diagram_types_ptr( &((*this_).text_editor) );
-    (*this_).type_combo_box = gtk_combo_box_new_with_model( combo_types );
-    GtkCellRenderer *column;
-    column = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
 
     /* init the file chooser */
 
@@ -425,6 +426,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
+    gui_textedit_update_widgets( &((*this_).text_editor) );
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 #else
