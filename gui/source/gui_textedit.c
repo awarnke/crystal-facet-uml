@@ -844,6 +844,7 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id )
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
             data_diagram_reinit_empty( &((*this_).private_diagram_cache) );
             data_classifier_reinit_empty( &((*this_).private_classifier_cache) );
             data_feature_reinit_empty( &((*this_).private_feature_cache) );
@@ -918,7 +919,7 @@ void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_ )
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TSLOG_ANOMALY( "no object selected where name can be updated." );
+            TRACE_INFO( "no object selected where name can be updated." );
         }
         break;
 
@@ -1007,6 +1008,7 @@ void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_ )
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
             TSLOG_WARNING( "no object selected where name can be updated." );
         }
         break;
@@ -1063,7 +1065,7 @@ void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_ )
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TSLOG_ANOMALY( "no object selected where stereotype can be updated." );
+            TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
@@ -1119,19 +1121,20 @@ void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_ )
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+            TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
             TSLOG_WARNING( "no object selected where stereotype can be updated." );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            TSLOG_WARNING( "no object selected where stereotype can be updated." );
+            TRACE_INFO( "no object selected where stereotype can be updated." );
         }
         break;
 
@@ -1164,7 +1167,7 @@ void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ )
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TSLOG_ANOMALY( "no object selected where type can be updated." );
+            TRACE_INFO( "no object selected where type can be updated." );
         }
         break;
 
@@ -1224,6 +1227,7 @@ void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ )
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
             TSLOG_WARNING( "no object selected where type can be updated." );
         }
         break;
@@ -1280,7 +1284,7 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ )
         case DATA_TABLE_VOID:
         {
             /* nothing to do */
-            TSLOG_ANOMALY( "no object selected where description can be updated." );
+            TRACE_INFO( "no object selected where description can be updated." );
         }
         break;
 
@@ -1361,6 +1365,7 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ )
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
             TSLOG_WARNING( "no object selected where description can be updated." );
         }
         break;

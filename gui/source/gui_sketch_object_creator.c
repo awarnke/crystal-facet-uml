@@ -239,7 +239,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     data_error_t d_err;
     d_err = data_diagram_init_new ( &((*this_).private_temp_diagram),
                                     parent_diagram_id,
-                                    DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 
+                                    DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM,
                                     utf8stringbuf_get_string(new_name),
                                     "",
                                     list_order
@@ -248,13 +248,13 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
     {
         TSLOG_ERROR_HEX("data_diagram_init_new failed in gui_sketch_object_creator_create_diagram:",d_err);
     }
-    
+
     c_result = ctrl_diagram_controller_create_diagram ( diag_control,
                                                         &((*this_).private_temp_diagram),
                                                         false,  /* add_to_latest_undo_set */
                                                         out_diagram_id
                                                       );
-    
+
     if ( d_err == DATA_ERROR_NONE )
     {
         data_diagram_destroy ( &((*this_).private_temp_diagram) );
@@ -376,7 +376,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     /* select the right list_order */
     int32_t list_order;
     list_order = ( DATA_FEATURE_TYPE_PORT == new_feature_type ) ? port_list_order : std_list_order;
-    
+
     /* find a good default name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
     utf8stringbuf_t full_new_name = UTF8STRINGBUF( newname_buf );
@@ -415,7 +415,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 void gui_sketch_object_creator_private_propose_diagram_name( gui_sketch_object_creator_t *this_, utf8stringbuf_t out_name )
 {
     static int cycle_names = 0;
-    static char *(NAMES[8]) = {"Overview","Context","Structure","Deployment","Lifecycle","Errors","Use Cases","Sequence"};
+    static char *(NAMES[8]) = {"New Overview","New Context","New Structure","New Deployment","New Lifecycle","New Errors","New Use Cases","New Sequence"};
 
     cycle_names ++;
     utf8stringbuf_copy_str( out_name, NAMES[cycle_names&0x07] );
@@ -426,21 +426,21 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
                                                                 utf8stringbuf_t out_name )
 {
     static int cycle_names = 0;
-    static char *(BLOCK_NAMES[8]) = {"DRAM","SoC","NAND","NOR","PMIC","Watchdog","CPU","SRAM"};
-    static char *(FEATURE_NAMES[8]) = {"Usability","Reliability","Function","Security","Performance","Compatibility","Maintainability","Portability"};
-    static char *(REQUIREMENT_NAMES[8]) = {"reaction time","startup time","latency","resource consumption","update","fault tolerance","availability","hardware abstraction"};
-    static char *(ACTOR_NAMES[8]) = {"Customer","Database","Service/Maintenance","Operator","Backend/Server","Authorities","Hacker/Cheater","Peer/Client"};
-    static char *(USECASE_NAMES[8]) = {"Get Status","Perform Transaction","SW Update","Pay Order","Deliver","Debug","Prove Eventlog","Manage Rights"};
-    static char *(BOUNDARIES_NAMES[8]) = {"Controller SW","Machine","Backend","Virtual Machine","Security Module","Terminal","Smart Device","PC"};
-    static char *(ACTIVITY_NAMES[8]) = {"Startup","SW Update","Background Scan","Sleep","User Input","Normal Operation","Error Reporting","Idle"};
-    static char *(STATE_NAMES[8]) = {"off","starting","on","debugging","wait","shutdown","send","receive"};
-    static char *(DIAGREF_NAMES[8]) = {"Startup","Data Upload","Data Download","Shutdown","Suspend and Resume","Background Activities","Error Notification","SW Update"};
-    static char *(COMPONENT_NAMES[8]) = {"Persistence","ErrorLogger","UserInterface","PeripheralControl","Monitor","ServiceDiscovery","LifecycleManager","Controller"};
-    static char *(ARTIFACT_NAMES[8]) = {"Firmware","Code","Data","Settings","Log","ErrorReport","RuleSet","Inventory"};
-    static char *(IF_NAMES[8]) = {"Authentication_IF","Log_IF","TraceChannel_IF","Update_IF","DataSync_IF","DataLink_IF","AliveSignal_IF","PowerControl_IF"};
-    static char *(CLASS_NAMES[8]) = {"Serializer","Deserializer","CompressionAlg","Transformer","Wrapper","EventLoop","RingBuffer","Multiplexer"};
-    static char *(PACKAGE_NAMES[8]) = {"Drivers","Platform Services","User Applications","Utilities","Debug Tools","Authentication and Authorization","Controller","Maintenance Tools"};
-    static char *(NOTE_NAMES[8]) = {"Note","Comment","Hint","Todo","Remark","Question","Rationale","Proposal"};
+    static char *(BLOCK_NAMES[8]) = {"New DRAM","New SoC","New NAND","New NOR","New PMIC","New Watchdog","New CPU","New SRAM"};
+    static char *(FEATURE_NAMES[8]) = {"New Usability","New Reliability","New Function","New Security","New Performance","New Compatibility","New Maintainability","New Portability"};
+    static char *(REQUIREMENT_NAMES[8]) = {"New Reaction Time","New Startup Time","New Latency","New Resource Consumption","New Update","New Fault Tolerance","New Availability","New Hardware Abstraction"};
+    static char *(ACTOR_NAMES[8]) = {"New Customer","New Database","New Service/Maintenance","New Operator","New Backend/Server","New Authorities","New Hacker/Cheater","New Peer/Client"};
+    static char *(USECASE_NAMES[8]) = {"New Get Status","New Perform Transaction","New SW Update","New Pay Order","New Deliver","New Debug","New Prove Eventlog","New Manage Rights"};
+    static char *(BOUNDARIES_NAMES[8]) = {"New Controller SW","New Machine","New Backend","New Virtual Machine","New Security Module","New Terminal","New Smart Device","New PC"};
+    static char *(ACTIVITY_NAMES[8]) = {"New Startup","New SW Update","New Background Scan","New Sleep","New User Input","New Normal Operation","New Error Reporting","New Idle"};
+    static char *(STATE_NAMES[8]) = {"New Off","New Starting","New On","New Debugging","New Wait","New Shutdown","New Send","New Receive"};
+    static char *(DIAGREF_NAMES[8]) = {"New Startup","New Data Upload","New Data Download","New Shutdown","New Suspend and Resume","New Background Activities","New Error Notification","New SW Update"};
+    static char *(COMPONENT_NAMES[8]) = {"New Persistence","New ErrorLogger","New UserInterface","New PeripheralControl","New Monitor","New ServiceDiscovery","New LifecycleManager","New Controller"};
+    static char *(ARTIFACT_NAMES[8]) = {"New Firmware","New Code","New Data","New Settings","New Log","New ErrorReport","New RuleSet","New Inventory"};
+    static char *(IF_NAMES[8]) = {"New Authentication_IF","New Log_IF","New TraceChannel_IF","New Update_IF","New DataSync_IF","New DataLink_IF","New AliveSignal_IF","New PowerControl_IF"};
+    static char *(CLASS_NAMES[8]) = {"New Serializer","New Deserializer","New CompressionAlg","New Transformer","New Wrapper","New EventLoop","New RingBuffer","New Multiplexer"};
+    static char *(PACKAGE_NAMES[8]) = {"New Drivers","New Platform Services","New User Applications","New Utilities","New Debug Tools","New Authentication and Authorization","New Controller","New Maintenance Tools"};
+    static char *(NOTE_NAMES[8]) = {"New Note","New Comment","New Hint","New Todo","New Remark","New Question","New Rationale","New Proposal"};
 
     cycle_names ++;
 
@@ -569,11 +569,11 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
                                                              utf8stringbuf_t out_type )
 {
     static int cycle_names = 0;
-    static char *(PROPERTY_NAMES[8]) = {"state","run_mode","error_code","color","name","type","size","weight"};
+    static char *(PROPERTY_NAMES[8]) = {"new_state","new_run_mode","new_error_code","new_color","new_name","new_type","new_size","new_weight"};
     static char *(PROPERTY_TYPES[8]) = {"uint32_t","enum","struct","uint8_t[4]","char[48]","","size_t","double"};
-    static char *(OPERATION_NAMES[8]) = {"start","stop","pause","resume","get_state","handle_event","set_color","is_valid"};
+    static char *(OPERATION_NAMES[8]) = {"new_start","new_stop","new_pause","new_resume","new_get_state","new_handle_event","new_set_color","new_is_valid"};
     static char *(OPERATION_TYPES[8]) = {"uint32_t()(void)","uint32_t(*)(enum)","","","enum","","uint32_t(*)(uint8_t[4])","bool"};
-    static char *(PORT_NAMES[8]) = {"in_a","in_b","in_c","out_a","out_b","out_c","out_error","in_reset"};
+    static char *(PORT_NAMES[8]) = {"new_in_a","new_in_b","new_in_c","new_out_a","new_out_b","new_out_c","new_out_error","new_in_reset"};
     static char *(PORT_TYPES[8]) = {"","signal","uint16_t","IP-socket","signal","","","bool"};
 
     cycle_names ++;

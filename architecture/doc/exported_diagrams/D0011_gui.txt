@@ -7,6 +7,7 @@ gui_main_window                                  [C0042]
   has --> gui_sketch_area                        [R0031]
   has --> gui_tools                              [R0226]
   has --> gui_textedit                           [R0228]
+  has --> gui_nav_tree                           [R0236]
 
 
 gui_sketch_area                                  [C0043]
@@ -35,9 +36,23 @@ gui                                              [C0001]
   --> gui_main_window                            [R0046]
   --> gui_sketch_card                            [R0047]
   --> gui_sketch_area                            [R0048]
+  --> gui_nav_tree                               [R0235]
 
 
 gui_tools                                        [C0159]
 
 
 gui_textedit                                     [C0160]
+| This class manages 5 widgets.
+| 
+| It reads the data of the currently focused object into cache,
+| it writes back changes to the database (via the controller),
+| it updates the visible widgets when the focused object or the data changes.
+  name_entry: GtkEntry *                         [F0039]
+  stereotype: GtkEntry *                         [F0042]
+  type_combo_box: GtkComboBox *                  [F0040]
+  description_text_view:  GtkTextView *          [F0041]
+  commit_button: GtkButton *                     [F0043]
+
+
+gui_nav_tree                                     [C0174]

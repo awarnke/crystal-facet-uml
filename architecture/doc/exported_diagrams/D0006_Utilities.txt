@@ -4,7 +4,12 @@ Utilities                                        [D0006]
 
 tslog                                            [C0019]
 | - provides macros for event-logging and error-logging
-| - macros are typesafe (ts) so that integers are not acidentially passed to char* parameters
+| - macros are typesafe (ts) so that e.g. integers are not acidentially passed to char* parameters
+| 
+| Logging functionality may be enabled even in RELEASE/NDEBUG code.
+| Logs must not contain confidential data:
+| These may be forwarded to syslog or the filesystem
+| where access rights differ from the OS-process in which crystal_facet_uml runs.
   --> Error                                      [R0064]
   --> Anomaly                                    [R0066]
   --> Event                                      [R0067]
@@ -14,6 +19,13 @@ tslog                                            [C0019]
 trace                                            [C0020]
 | - provides trace macros
 | - traces allow to reconstruct/follow the program flow
+| 
+| The macros shall be typesafe;
+| The compiler shall complain if using wrong-typed parameters.
+| 
+| The trace functions are intended for debugging purposes only.
+| They are disabled in RELEASE/NDEBUG code.
+| Therefore it is valid to trace confidential information.
   --> Info                                       [R0088]
   --> Timestamp                                  [R0089]
   --> End (function)                             [R0087]

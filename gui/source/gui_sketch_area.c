@@ -1050,6 +1050,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         y = (int32_t) (*evt).y;
         TRACE_INFO_INT_INT("x/y",x,y);
 
+        /* update drag coordinates */
+        gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
+
         /* check that drag state is true */
         if ( ( ! gui_sketch_drag_state_is_dragging( &((*this_).drag_state) ) )
             && ( ! gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) ) )
