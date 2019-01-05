@@ -91,6 +91,20 @@ void gui_textedit_destroy ( gui_textedit_t *this_ );
  */
 void gui_textedit_update_widgets ( gui_textedit_t *this_ );
 
+/*!
+ *  \brief commits changed properties to the database.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_textedit_commit_changes ( gui_textedit_t *this_ );
+
+/*!
+ *  \brief prints the gui_textedit_t struct to the trace output
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_textedit_trace ( const gui_textedit_t *this_ );
+
 /* ================================ USER INPUT CALLBACKS ================================ */
 
 /*!
@@ -163,81 +177,72 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_mes
 /* ================================ PRIVATE METHODS ================================ */
 
 /*!
- *  \brief loads an object into cache.
+ *  \brief loads an object into cache (even if this object is already cached).
  *
  *  \param this_ pointer to own object attributes
  *  \param id identifier of the object to be loaded
- *  \param force_reload if false, the cache is only updated if the wrong object was cached before.
  */
-void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id, bool force_reload );
+void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id );
 
 /*!
  *  \brief commits changes to the objects name to the controller.
  *
  *  If the name is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
- *  \param name_widget pointer to the gtk entry widget
  */
-void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_, GtkEntry *name_widget );
+void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_ );
 
 /*!
  *  \brief commits changes to the objects stereotype to the controller.
  *
  *  If the stereotype is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
- *  \param stereotype_widget pointer to the gtk entry widget
  */
-void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_, GtkEntry *stereotype_widget );
+void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_ );
 
 /*!
  *  \brief commits changes to the objects type to the controller.
  *
  *  If the type is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
- *  \param type_widget pointer to the gtk combo box widget
  */
-void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_, GtkComboBox *type_widget );
+void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ );
 
 /*!
  *  \brief commits changes to the objects description to the controller.
  *
  *  If the description is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
- *  \param description_widget pointer to the gtk text view widget
  */
-void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_, GtkTextView *description_widget );
+void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ );
 
 /*!
  *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.
  *
  *  \param this_ pointer to own object attributes
- *  \param name_widget pointer to the gtk entry widget
  */
-void gui_textedit_private_name_update_view ( gui_textedit_t *this_, GtkEntry *name_widget );
+void gui_textedit_private_name_update_view ( gui_textedit_t *this_ );
 
 /*!
  *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.
  *
  *  \param this_ pointer to own object attributes
- *  \param stereotype_widget pointer to the gtk entry widget
  */
-void gui_textedit_private_stereotype_update_view ( gui_textedit_t *this_, GtkEntry *stereotype_widget );
+void gui_textedit_private_stereotype_update_view ( gui_textedit_t *this_ );
 
 /*!
  *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.
  *
  *  \param this_ pointer to own object attributes
- *  \param type_widget pointer to the gtk combo box widget
  */
-void gui_textedit_private_type_update_view ( gui_textedit_t *this_, GtkComboBox *type_widget );
+void gui_textedit_private_type_update_view ( gui_textedit_t *this_ );
 
 /*!
  *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.
  *
  *  \param this_ pointer to own object attributes
- *  \param description_widget pointer to the gtk text view widget
  */
-void gui_textedit_private_description_update_view ( gui_textedit_t *this_, GtkTextView *description_widget );
+void gui_textedit_private_description_update_view ( gui_textedit_t *this_ );
 
 #endif  /* GUI_TEXTEDIT_H */
 

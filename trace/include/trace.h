@@ -25,6 +25,11 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 #ifndef NDEBUG  /* SWITCH */
 
 /*!
+ *  \brief a condition to determine if tracing is active
+ */
+#define TRACE_ACTIVE (true)
+
+/*!
  *  \brief traces a string
  */
 #define TRACE_INFO(x) { const char *string_test = x; fprintf(TRACE_OUT_STREAM,"%s%s\n",TRACE_INDENT_INFO,string_test); }
@@ -89,6 +94,11 @@ extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
 #define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT_INFO,(int)(tp.tv_sec),(int)(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
 
 #else  /* SWITCH */
+
+/*!
+ *  \brief a condition to determine if tracing is active
+ */
+#define TRACE_ACTIVE (false)
 
 /*!
  *  \brief traces a string

@@ -73,6 +73,22 @@ static inline void data_id_init_void ( data_id_t *this_ );
 static inline void data_id_reinit_void ( data_id_t *this_ );
 
 /*!
+ *  \brief copies a data_id_t struct to this uninitialized data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes
+ */
+static inline void data_id_copy ( data_id_t *this_, const data_id_t *that );
+
+/*!
+ *  \brief copies a data_id_t struct to this already initialized data_id_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to original object attributes
+ */
+static inline void data_id_replace ( data_id_t *this_, const data_id_t *that );
+
+/*!
  *  \brief destroys the data_id_t struct
  *
  *  \param this_ pointer to own object attributes

@@ -27,6 +27,16 @@ static inline void data_id_reinit_void ( data_id_t *this_ )
     (*this_).row_id = DATA_ID_VOID_ID;
 }
 
+static inline void data_id_copy ( data_id_t *this_, const data_id_t *that )
+{
+    (*this_) = (*that);
+}
+
+static inline void data_id_replace ( data_id_t *this_, const data_id_t *that )
+{
+    (*this_) = (*that);
+}
+
 static inline void data_id_destroy ( data_id_t *this_ )
 {
     (*this_).table = DATA_TABLE_VOID;
