@@ -46,6 +46,7 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
 static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
                                                           int32_t x,
                                                           int32_t y,
+                                                          pencil_type_filter_t filter,
                                                           data_id_pair_t* out_selected_id,
                                                           data_id_pair_t* out_surrounding_id )
 {
@@ -53,6 +54,7 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
     pen_err = pencil_diagram_maker_get_object_id_at_pos( &((*this_).painter),
                                                          (double) x,
                                                          (double) y,
+                                                         filter,
                                                          out_selected_id,
                                                          out_surrounding_id
                                                        );

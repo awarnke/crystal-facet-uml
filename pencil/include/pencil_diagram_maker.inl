@@ -58,6 +58,7 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
 static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
                                                                          double x,
                                                                          double y,
+                                                                         pencil_type_filter_t filter,
                                                                          data_id_pair_t* out_selected_id,
                                                                          data_id_pair_t* out_surrounding_id )
 {
@@ -65,6 +66,7 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
                                                   x,
                                                   y,
                                                   3.0,
+                                                  filter,
                                                   out_selected_id,
                                                   out_surrounding_id
                                                 );

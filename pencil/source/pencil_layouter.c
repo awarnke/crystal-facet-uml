@@ -251,6 +251,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
                                                       double snap_distance,
+                                                      pencil_type_filter_t filter,
                                                       data_id_pair_t* out_selected_id,
                                                       data_id_pair_t* out_surrounding_id )
 {
@@ -288,6 +289,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
             result = pencil_layouter_private_get_feature_id_at_pos( this_,
                                                                     x,
                                                                     y,
+                                                                    filter,
                                                                     out_selected_id,
                                                                     out_surrounding_id
                                                                   );
@@ -408,6 +410,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
                                                                double x,
                                                                double y,
+                                                               pencil_type_filter_t filter,
                                                                data_id_pair_t* out_selected_id,
                                                                data_id_pair_t* out_surrounding_id )
 {
@@ -432,15 +435,27 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
             /* feature is found */
             const data_feature_t *data_feature;
             data_feature = layout_feature_get_data_ptr ( the_feature );
-            data_id_pair_reinit_by_table_and_id ( out_selected_id,
-                                                  DATA_TABLE_FEATURE,
-                                                  layout_feature_get_feature_id( the_feature ),
-                                                  DATA_TABLE_CLASSIFIER,
-                                                  data_feature_get_classifier_id( data_feature )
-                                                );
-
             layout_visible_classifier_t *layout_classifier;
             layout_classifier = layout_feature_get_classifier_ptr ( the_feature );
+            if (( PENCIL_TYPE_FILTER_LIFELINE == filter )
+                &&( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( data_feature ) ))
+            {
+                data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                                                      DATA_TABLE_DIAGRAMELEMENT,
+                                                      layout_visible_classifier_get_diagramelement_id( layout_classifier ),
+                                                      DATA_TABLE_CLASSIFIER,
+                                                      layout_visible_classifier_get_classifier_id( layout_classifier )
+                                                    );
+            }
+            else
+            {
+                data_id_pair_reinit_by_table_and_id ( out_selected_id,
+                                                      DATA_TABLE_FEATURE,
+                                                      layout_feature_get_feature_id( the_feature ),
+                                                      DATA_TABLE_CLASSIFIER,
+                                                      data_feature_get_classifier_id( data_feature )
+                                                    );
+            }
 
             data_id_pair_reinit_by_table_and_id ( out_surrounding_id,
                                                   DATA_TABLE_DIAGRAMELEMENT,

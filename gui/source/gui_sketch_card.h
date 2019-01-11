@@ -14,6 +14,7 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_input_data.h"
+#include "option/pencil_type_filter.h"
 #include "util/id/data_id_pair.h"
 #include "layout/layout_order.h"
 #include "universal_bool_list.h"
@@ -129,12 +130,14 @@ static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  */
 static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
                                                           int32_t x,
                                                           int32_t y,
+                                                          pencil_type_filter_t filter,
                                                           data_id_pair_t* out_selected_id,
                                                           data_id_pair_t* out_surrounding_id
                                                         );
@@ -153,7 +156,7 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_
 
 /*!
  *  \brief gets the order value at a given position for a feature
- * 
+ *
  *  Avoid using this function, prefer to use gui_sketch_card_get_order_at_pos()
  *  unless the feature is new/fake and does not yet have an ID.
  *

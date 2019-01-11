@@ -170,9 +170,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
 
     /* get preferred object distance */
     double obj_dist;
-    double gap;
+    //double gap;
     obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-    gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+    //gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
 
     if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
     {
@@ -215,10 +215,10 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
         double c_height = geometry_rectangle_get_height( classifier_bounds );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
-                                  c_left + gap,
-                                  c_top + gap,
-                                  c_width - gap - gap,
-                                  c_height - gap - gap
+                                  c_left /*+ gap*/,
+                                  c_top /*+ gap*/,
+                                  c_width /*- gap - gap*/,
+                                  c_height /*- gap - gap*/
         );
         layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
     }
@@ -353,7 +353,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
         bool property_or_operation;
-        property_or_operation 
+        property_or_operation
             = ( DATA_FEATURE_TYPE_PROPERTY == data_feature_get_main_type ( the_feature ) )
             || ( DATA_FEATURE_TYPE_OPERATION == data_feature_get_main_type ( the_feature ) );
 

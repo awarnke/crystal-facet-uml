@@ -19,6 +19,7 @@
 #include "pencil_relationship_layouter.h"
 #include "pencil_classifier_layouter.h"
 #include "pencil_error.h"
+#include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include "util/id/data_id_pair.h"
 #include "util/geometry/geometry_rectangle.h"
@@ -111,6 +112,7 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
  *  \param snap_distance maximum distance to the next connector line when to select the connector
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
@@ -120,6 +122,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
                                                       double snap_distance,
+                                                      pencil_type_filter_t filter,
                                                       data_id_pair_t* out_selected_id,
                                                       data_id_pair_t* out_surrounding_id
                                                     );
@@ -147,6 +150,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no feature is at the given position x, y.
@@ -154,6 +158,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
                                                                double x,
                                                                double y,
+                                                               pencil_type_filter_t filter,
                                                                data_id_pair_t* out_selected_id,
                                                                data_id_pair_t* out_surrounding_id
                                                              );

@@ -247,11 +247,13 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
 static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_area_t *this_,
                                                                   int32_t x,
                                                                   int32_t y,
+                                                                  pencil_type_filter_t filter,
                                                                   data_id_pair_t* out_selected_id
                                                                 );
 
@@ -261,12 +263,14 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
+ *  \param filter a filter for object types. E.g. PENCIL_TYPE_FILTER_LIFELINE will return the classifier instead of the lifeline-feature.
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  */
 static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_area_t *this_,
                                                                    int32_t x,
                                                                    int32_t y,
+                                                                   pencil_type_filter_t filter,
                                                                    data_id_pair_t* out_selected_id,
                                                                    data_id_pair_t* out_surrounding_id
                                                                  );

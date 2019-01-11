@@ -272,7 +272,7 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
 {
     TRACE_BEGIN();
 
-    /* determine currently selected diagram id and parent id for emergency-fallback */
+    /* determine currently selected diagram id and parent id from cache for emergency-fallback */
     int64_t former_diagram_id;
     int64_t former_parent_diagram_id;
     //data_id_t former_focused_element;
@@ -653,7 +653,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             else /* not dragging */
             {
                 data_id_pair_t object_under_mouse;
-                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_LIFELINE, &object_under_mouse );
                 data_id_t object_highlighted;
                 object_highlighted = gui_marked_set_get_highlighted( (*this_).marker );
                 if ( ! data_id_equals( data_id_pair_get_primary_id_ptr( &object_under_mouse ), &object_highlighted ) )
@@ -678,7 +678,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         case GUI_TOOLS_CREATE:
         {
             data_id_pair_t object_under_mouse;
-            gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &object_under_mouse );
+            gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_NONE, &object_under_mouse );
             data_id_t  classifier_under_mouse;
             classifier_under_mouse = data_id_pair_get_primary_id( &object_under_mouse );
 
@@ -862,7 +862,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                 /* determine the focused object */
                 data_id_pair_t focused_object;
-                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &focused_object );
+                gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_LIFELINE, &focused_object );
                 data_id_pair_trace( &focused_object );
                 data_id_t focused_object_visible;
                 focused_object_visible = data_id_pair_get_primary_id( &focused_object );
@@ -924,7 +924,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     /* determine the object at click location */
                     data_id_pair_t clicked_object;
                     data_id_pair_t surrounding_object;
-                    gui_sketch_area_private_get_object_ids_at_pos ( this_, x, y, &clicked_object, &surrounding_object );
+                    gui_sketch_area_private_get_object_ids_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_NONE, &clicked_object, &surrounding_object );
                     data_id_pair_trace( &clicked_object );
                     data_id_pair_trace( &surrounding_object );
                     data_id_t *clicked_classifier;
@@ -943,7 +943,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                                                      );
                         gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                     }
-                    else /* clicked either into inner space of a classifier or outside any classifier */
+                    else /* clicked either into inner space of a classifier or at a relation or outside any classifier */
                     {
                         /* stop dragging */
                         gui_sketch_drag_state_stop_dragging ( &((*this_).drag_state) );
@@ -1340,7 +1340,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                     /* which object is at the target location? */
                     data_id_pair_t destination_object;
-                    gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, &destination_object );
+                    gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_NONE, &destination_object );
                     data_id_pair_trace( &destination_object );
                     data_id_t destination_element;
                     destination_element = data_id_pair_get_primary_id( &destination_object );
