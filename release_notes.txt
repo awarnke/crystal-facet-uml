@@ -3,6 +3,8 @@
   + user experience improvements at using text-edit widgets
   + communication diagram select/highlight classifiers in edit mode, lifelines in create mode
   . lifeline properties cannot be changed anymore
+  + include, extends, deploy, manifest relationships show their stereotype
+  + refine and trace relations exist for requirements
 2019-01-01 1.8.0 [9dae9d7]
   + in navigation mode, diagrams can be re-ordered by dragging their names in the tree view
   . F7 workaround removed, key F7 is without function now

@@ -2,6 +2,7 @@
 
 #include "pencil_relationship_painter.h"
 #include "trace.h"
+#include "util/string/utf8string.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -192,6 +193,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
             case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
             case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+            case DATA_RELATIONSHIP_TYPE_UML_TRACE:
             {
                 double half_stroke_length = 0.5 * pencil_size_get_arrow_stroke_length( pencil_size );
                 double part_stroke_length = pencil_size_get_arrow_stroke_087_length( pencil_size );
@@ -474,6 +477,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
             case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
             case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+            case DATA_RELATIONSHIP_TYPE_UML_TRACE:
             {
                 /* no rhomboid or other feathers */
             }
@@ -513,6 +518,8 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             case DATA_RELATIONSHIP_TYPE_UML_REALIZATION:
             case DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY:
             case DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL:
+            case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+            case DATA_RELATIONSHIP_TYPE_UML_TRACE:
             {
                 double dashes[1];
                 dashes[0] = pencil_size_get_line_dash_length( pencil_size );
@@ -572,19 +579,87 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
         cairo_set_dash ( cr, NULL, 0, 0.0 );
 
         /* draw name text */
+        int text2_height;
+        if ( 0 == utf8string_get_length( data_relationship_get_name_ptr( the_relationship ) ))
+        {
+            text2_height = 0;
+        }
+        else
         {
             int text2_width;
-            int text2_height;
             pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
             pango_layout_set_text (layout, data_relationship_get_name_ptr( the_relationship ), -1);
             pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
 
             /* draw text */
-            /*cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );*/
             cairo_move_to ( cr, center_x - 0.5*text2_width, center_y - text2_height );
             pango_cairo_show_layout (cr, layout);
         }
 
+        /* draw the typename as stereotype, */
+        /* needed for relations that look like DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY */
+        {
+            const char *type_text;
+            switch ( data_relationship_get_main_type( the_relationship ) )
+            {
+                case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+                {
+                    type_text = "<<extends>>";
+                }
+                break;
+                
+                case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+                {
+                    type_text = "<<includes>>";
+                }
+                break;
+                
+                case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+                {
+                    type_text = "<<deploy>>";
+                }
+                break;
+                
+                case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+                {
+                    type_text = "<<manifest>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+                {
+                    type_text = "<<refine>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+                {
+                    type_text = "<<trace>>";
+                }
+                break;
+                
+                default:
+                {
+                    /* other types do not show their type */
+                    type_text = NULL;
+                }
+                break;
+            }
+            
+            if ( NULL != type_text )
+            {
+                int text3_width;
+                int text3_height;
+                pango_layout_set_font_description (layout, pencil_size_get_footnote_font_description(pencil_size) );
+                pango_layout_set_text (layout, type_text, -1);
+                pango_layout_get_pixel_size (layout, &text3_width, &text3_height);
+
+                /* draw text */
+                cairo_move_to ( cr, center_x - 0.5*text3_width, center_y - text2_height - text3_height );
+                pango_cairo_show_layout (cr, layout);
+            }
+        }
+        
         /* draw markers */
         if ( mark_selected )
         {

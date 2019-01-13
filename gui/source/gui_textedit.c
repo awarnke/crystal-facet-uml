@@ -200,6 +200,10 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "Extend (use-case), no cycles", -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "Include (use-case), no cycles", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_TRACE, 1, "Trace (requirement), no cycles", -1 );
+        gtk_list_store_append( (*this_).relationship_types, &iter);
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REFINE, 1, "Refine (requirement), no cycles", -1 );
     }
 
     /* update widgets */

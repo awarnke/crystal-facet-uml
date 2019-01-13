@@ -9,11 +9,9 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
-  [.] include and extends relationships shall show their stereotype
   [.] show interfaces in deployment diagrams as circles
   [ ] function call to self (timing and sequence diagrams) looks ugly
   @data
-  [.] more relationship types needed: requirements have trace (e.g. derive) and refine relations
   [.] more classifier types needed: start-activity, decision-activity, end-activity, history-state
   [.] more classifier types needed: equation (to be checked, see parametric diagram)
   @ctrl
