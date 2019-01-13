@@ -7,6 +7,9 @@
 #include <stdlib.h>
 #include <assert.h>
 
+/*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
+const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
+
 void pencil_feature_painter_init( pencil_feature_painter_t *this_ )
 {
     TRACE_BEGIN();
@@ -77,9 +80,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         }
 
         /* draw rectangle of ports */
-        if (( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
-            || ( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == data_feature_get_main_type (the_feature) )
-            || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == data_feature_get_main_type (the_feature) ))
+        if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
         {
             double port_icon_size;
             port_icon_size = pencil_size_get_standard_font_size( pencil_size );
@@ -116,6 +117,27 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
             cairo_fill_preserve (cr);
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+            cairo_stroke (cr);
+        }
+
+        /* draw circle of interfaces */
+        if (( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == data_feature_get_main_type (the_feature) )
+            || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == data_feature_get_main_type (the_feature) ))
+        {
+            double bottom = top + height;
+            double right = left + width;
+            double half_width = 0.5 * width;
+            double half_height = 0.5 * height;
+            double center_x = left + half_width;
+            double center_y = top + half_height;
+            double ctrl_xoffset = half_width * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+            double ctrl_yoffset = half_height * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+            cairo_move_to ( cr, center_x, bottom );
+            cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
+            cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
             cairo_stroke (cr);
         }
 
