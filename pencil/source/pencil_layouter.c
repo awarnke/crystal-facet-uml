@@ -748,7 +748,9 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                 }
                 break;
 
-                case DATA_FEATURE_TYPE_PORT:
+                case DATA_FEATURE_TYPE_PORT:  /* or */
+                case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
+                case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
                 {
                     geometry_rectangle_t *closest_parent_bounds;
                     closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );

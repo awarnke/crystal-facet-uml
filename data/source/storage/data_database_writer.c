@@ -1420,17 +1420,20 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
             error_msg = NULL;
         }
 
-        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        TSLOG_EVENT( "sqlite3_exec: sql_statement (see trace)" );
+        TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
         if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            TSLOG_ERROR( "sqlite3_exec() failed due to UNIQUE constraint: sql_statement (see trace)" );
+            TRACE_INFO_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
             result |= DATA_ERROR_DUPLICATE_NAME;
         }
         else if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
@@ -1468,7 +1471,8 @@ data_error_t data_database_writer_private_execute_create_command ( data_database
     }
     else
     {
-        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        TSLOG_WARNING( "database not open. cannot execute sql_statement (see trace)" );
+        TRACE_INFO_STR( "database not open. cannot execute", sql_statement );
         result = DATA_ERROR_NO_DB;
     }
 
@@ -1557,17 +1561,20 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
 
     if ( data_database_is_open( (*this_).database ) )
     {
-        TSLOG_EVENT_STR( "sqlite3_exec:", sql_statement );
+        TSLOG_EVENT( "sqlite3_exec: sql_statement (see trace)" );
+        TRACE_INFO_STR( "sqlite3_exec:", sql_statement );
         sqlite_err = sqlite3_exec( db, sql_statement, NULL, NULL, &error_msg );
         if ( SQLITE_CONSTRAINT == (0xff & sqlite_err) )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
+            TSLOG_ERROR( "sqlite3_exec() failed due to UNIQUE constraint: sql_statement (see trace)" );
+            TRACE_INFO_STR( "sqlite3_exec() failed due to UNIQUE constraint:", sql_statement );
             result |= DATA_ERROR_DUPLICATE_NAME;
         }
         else if ( SQLITE_OK != sqlite_err )
         {
-            TSLOG_ERROR_STR( "sqlite3_exec() failed:", sql_statement );
+            TSLOG_ERROR( "sqlite3_exec() failed: sql_statement (see trace)" );
             TSLOG_ERROR_INT( "sqlite3_exec() failed:", sqlite_err );
+            TRACE_INFO_STR( "sqlite3_exec() failed:", sql_statement );
             result |= DATA_ERROR_AT_DB;
         }
         if ( error_msg != NULL )
@@ -1579,7 +1586,8 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
     }
     else
     {
-        TSLOG_WARNING_STR( "database not open. cannot execute", sql_statement );
+        TSLOG_WARNING( "database not open. cannot execute sql_statement (see trace)" );
+        TRACE_INFO_STR( "database not open. cannot execute", sql_statement );
         result = DATA_ERROR_NO_DB;
     }
 

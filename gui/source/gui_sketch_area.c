@@ -1448,9 +1448,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                                 DATA_ID_VOID_ID,
                                                 DATA_FEATURE_TYPE_PORT,
                                                 data_id_get_row_id( &dragged_classifier ), /* classifier */
-                                                "NAME",
-                                                "port 8080",
-                                                "description",
+                                                "FAKE_FEATURE",
+                                                "port-type",
+                                                "to determine the list order",
                                                 0 /* list_order */
                                               );
                             port_list_order_proposal = gui_sketch_card_get_feature_order_at_pos ( target_card,

@@ -20,7 +20,6 @@ void pencil_feature_layouter_init( pencil_feature_layouter_t *this_,
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
     TRACE_END();
-
 }
 
 void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ )
@@ -101,55 +100,82 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             last_diagramelement_id = current_diagramelement_id;
         }
 
-        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
+        geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
+        switch ( data_feature_get_main_type (the_feature) )
         {
-            /* layout feature into parent classifier */
-            geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
-
-            pencil_feature_layouter_private_layout_lifeline ( this_,
-                                                              diagram_draw_area,
-                                                              diag_type,
+            case DATA_FEATURE_TYPE_LIFELINE:
+            {
+                /* layout feature into parent classifier */
+                pencil_feature_layouter_private_layout_lifeline ( this_,
+                                                                  diagram_draw_area,
+                                                                  diag_type,
+                                                                  c_bounds,
+                                                                  feature_layout
+                                                                );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_PORT:
+            {
+                /* layout feature into parent classifier */
+                pencil_feature_layouter_private_layout_port ( this_,
                                                               c_bounds,
+                                                              the_feature,
+                                                              font_layout,
                                                               feature_layout
                                                             );
-        }
-        else if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
-        {
-            /* layout feature into parent classifier */
-            geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
-
-            pencil_feature_layouter_private_layout_port ( this_,
-                                                          c_bounds,
-                                                          the_feature,
-                                                          font_layout,
-                                                          feature_layout
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
+            case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
+            {
+                /* WORKAROUND: USE PORT LAYOUT FOR NOW: */
+                pencil_feature_layouter_private_layout_port ( this_,
+                                                              c_bounds,
+                                                              the_feature,
+                                                              font_layout,
+                                                              feature_layout
+                                                            );
+            }
+            break;
+            
+            case DATA_FEATURE_TYPE_PROPERTY: /* or */
+            case DATA_FEATURE_TYPE_OPERATION:
+            {
+                /* determine the minimum bounds of the feature */
+                geometry_rectangle_t f_min_bounds;
+                pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
+                                                            the_feature,
+                                                            (*this_).pencil_size,
+                                                            font_layout,
+                                                            &f_min_bounds
                                                         );
-        }
-        else  /* not a lifeline nor a port */
-        {
-            /* determine the minimum bounds of the feature */
-            geometry_rectangle_t f_min_bounds;
-            pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
-                                                        the_feature,
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        &f_min_bounds
-                                                      );
 
-            /* layout feature into parent classifier */
-            geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
-            geometry_rectangle_t f_bounds;
-            geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_left( c_space ),
-                                      geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
-                                      geometry_rectangle_get_width( c_space ),
-                                      geometry_rectangle_get_height( &f_min_bounds )
-                                    );
-            layout_feature_set_bounds ( feature_layout, &f_bounds );
-            layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+                /* layout feature into parent classifier */
+                geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
+                geometry_rectangle_t f_bounds;
+                geometry_rectangle_init ( &f_bounds,
+                                        geometry_rectangle_get_left( c_space ),
+                                        geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
+                                        geometry_rectangle_get_width( c_space ),
+                                        geometry_rectangle_get_height( &f_min_bounds )
+                                        );
+                layout_feature_set_bounds ( feature_layout, &f_bounds );
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
 
-            /* adjust y position of next feature */
-            y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
+                /* adjust y position of next feature */
+                y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
+            }
+            break;
+            
+            default:
+            {
+                TSLOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
+                layout_feature_set_bounds ( feature_layout, c_bounds );
+                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+            }
+            break;
         }
     }
 
@@ -170,9 +196,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
 
     /* get preferred object distance */
     double obj_dist;
-    //double gap;
     obj_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
-    //gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
 
     if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
     {
@@ -209,18 +233,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
     {
         layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
-        double c_left = geometry_rectangle_get_left( classifier_bounds );
-        double c_top = geometry_rectangle_get_top( classifier_bounds );
-        double c_width = geometry_rectangle_get_width( classifier_bounds );
-        double c_height = geometry_rectangle_get_height( classifier_bounds );
-        geometry_rectangle_t lifeline_bounds;
-        geometry_rectangle_init ( &lifeline_bounds,
-                                  c_left /*+ gap*/,
-                                  c_top /*+ gap*/,
-                                  c_width /*- gap - gap*/,
-                                  c_height /*- gap - gap*/
-        );
-        layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
+        layout_feature_set_bounds ( out_feature_layout, classifier_bounds );
     }
 }
 

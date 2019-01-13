@@ -375,7 +375,16 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
 
     /* select the right list_order */
     int32_t list_order;
-    list_order = ( DATA_FEATURE_TYPE_PORT == new_feature_type ) ? port_list_order : std_list_order;
+    if ( ( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == new_feature_type )
+        || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == new_feature_type )
+        || ( DATA_FEATURE_TYPE_PORT == new_feature_type ) )
+    {
+        list_order = port_list_order;
+    }
+    else  /* DATA_FEATURE_TYPE_PROPERTY or DATA_FEATURE_TYPE_OPERATION */
+    {
+        list_order = std_list_order;
+    }
 
     /* find a good default name */
     char newname_buf[DATA_CLASSIFIER_MAX_NAME_SIZE];
@@ -575,6 +584,7 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
     static char *(OPERATION_TYPES[8]) = {"uint32_t()(void)","uint32_t(*)(enum)","","","enum","","uint32_t(*)(uint8_t[4])","bool"};
     static char *(PORT_NAMES[8]) = {"new_in_a","new_in_b","new_in_c","new_out_a","new_out_b","new_out_c","new_out_error","new_in_reset"};
     static char *(PORT_TYPES[8]) = {"","signal","uint16_t","IP-socket","signal","","","bool"};
+    static char *(IF_NAMES[8]) = {"New Auth_IF","New Log_IF","New Trace_IF","New Update_IF","New Sync_IF","New Link_IF","New Alive_IF","New Power_IF"};
 
     cycle_names ++;
 
@@ -604,6 +614,20 @@ void gui_sketch_object_creator_private_propose_feature_name( gui_sketch_object_c
         case DATA_FEATURE_TYPE_LIFELINE:
         {
             utf8stringbuf_clear( out_name );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:
+        {
+            utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
+            utf8stringbuf_clear( out_type );
+        }
+        break;
+
+        case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
+        {
+            utf8stringbuf_copy_str( out_name, IF_NAMES[cycle_names&0x07] );
             utf8stringbuf_clear( out_type );
         }
         break;

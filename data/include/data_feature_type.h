@@ -17,6 +17,9 @@ enum data_feature_type_enum {
     DATA_FEATURE_TYPE_OPERATION = 1,
     DATA_FEATURE_TYPE_PORT = 2,
     DATA_FEATURE_TYPE_LIFELINE = 3,  /* for sequence diagrams and timing diagrams and communication diagrams */
+    DATA_FEATURE_TYPE_PROVIDED_INTERFACE = 4,
+    DATA_FEATURE_TYPE_REQUIRED_INTERFACE = 5,
+    /* DATA_FEATURE_TYPE_TESTCASE = 6, */  /* SysML requirements diagram */
 };
 
 typedef enum data_feature_type_enum data_feature_type_t;

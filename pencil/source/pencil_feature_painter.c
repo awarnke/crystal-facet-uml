@@ -77,7 +77,9 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         }
 
         /* draw rectangle of ports */
-        if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
+        if (( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
+            || ( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == data_feature_get_main_type (the_feature) )
+            || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == data_feature_get_main_type (the_feature) ))
         {
             double port_icon_size;
             port_icon_size = pencil_size_get_standard_font_size( pencil_size );
@@ -145,13 +147,16 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             }
             else
             {
-                /* lifeline in communication diagrams */
-                cairo_move_to ( cr, left, top );
-                cairo_line_to ( cr, left, top + height );
-                cairo_line_to ( cr, left + width, top + height );
-                cairo_line_to ( cr, left + width, top );
-                cairo_line_to ( cr, left, top );
-                cairo_stroke (cr);
+                /* lifeline in communication diagrams, only drawn if highlighted: */
+                if ( mark_highlighted )
+                {
+                    cairo_move_to ( cr, left, top );
+                    cairo_line_to ( cr, left, top + height );
+                    cairo_line_to ( cr, left + width, top + height );
+                    cairo_line_to ( cr, left + width, top );
+                    cairo_line_to ( cr, left, top );
+                    cairo_stroke (cr);
+                }
             }
 
             cairo_set_dash ( cr, NULL, 0, 0.0 );

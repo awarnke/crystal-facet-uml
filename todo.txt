@@ -5,21 +5,22 @@ ideas for future versions:
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
   [ ] export formats: extend export formats by docbook, latex, doxygen, markdown
-  [ ] improve lifeline handling in communication diagrams - a user need not see the existance of lifeline objects
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
-  [ ] include and extends relationships shall show their stereotype
-  [ ] show interfaces in deployment diagrams as circles (maybe every classifier has a minimized view?)
+  [.] include and extends relationships shall show their stereotype
+  [.] show interfaces in deployment diagrams as circles
+  [ ] function call to self (timing and sequence diagrams) looks ugly
   @data
-  [ ] more relationship types needed: requirements have derive and refine relations
-  [ ] more classifier types needed: start-activity, decision-activity, end-activity, history-state
-  [ ] more classifier types needed: equation (to be checked, see parametric diagram)
+  [.] more relationship types needed: requirements have trace (e.g. derive) and refine relations
+  [.] more classifier types needed: start-activity, decision-activity, end-activity, history-state
+  [.] more classifier types needed: equation (to be checked, see parametric diagram)
   @ctrl
   [ ] export XMI format
   [ ] import XMI format
   @utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for long strings
+  [ ] remove the warnings from the opensuse build server
   @main
   [ ] remove the -f option again - db formats shall be converted automatically

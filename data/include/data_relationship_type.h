@@ -13,32 +13,41 @@
  *  \brief enumeration of all relationship types
  */
 enum data_relationship_type_enum {
+    /* any diagram: */
     DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY = 0,
-    /* class and use-case diagram */
+    /* class and use-case diagram: */
     DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION = 200,
-    /* class diagram */
+    /* class diagram: */
     DATA_RELATIONSHIP_TYPE_UML_AGGREGATION = 201,
     DATA_RELATIONSHIP_TYPE_UML_COMPOSITION = 202,
     DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION = 210,  /*!< equals inherits from */
     DATA_RELATIONSHIP_TYPE_UML_REALIZATION = 211,  /*!< equals abstraction, use this also for interface realization */
-    /* sequence diagram */
+    /* sequence diagram: */
     DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL = 220,  /*!< equals message or signal */
     DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL = 221,  /*!< equals function call */
     DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL = 222,  /*!< equals function result */
-    /* composition diagram, block diagram, deployent diagram */
+    /* composition diagram, block diagram, deployent diagram: */
     DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH = 230,
-    /* activity and state and INTERACTION_OVERVIEW_DIAGRAM diagrams */
+    /* activity and state and INTERACTION_OVERVIEW_DIAGRAM diagrams: */
     DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW = 240,
-    /* activity diagrams */
+    /* activity diagrams: */
     DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW = 241,
-    /* deployment diagram */
+    /* DATA_RELATIONSHIP_TYPE_UML_INTERRUPTING_EDGE = 242, */
+    /* deployment diagram: */
     DATA_RELATIONSHIP_TYPE_UML_DEPLOY = 250,
     DATA_RELATIONSHIP_TYPE_UML_MANIFEST = 251,
     /* use case diagram: a use case has the standard direct relations of a classifier plus include and extend */
     DATA_RELATIONSHIP_TYPE_UML_EXTEND = 260,
     DATA_RELATIONSHIP_TYPE_UML_INCLUDE = 261,
-    /* package diagram, use-case diagram (for system boundary) */
+    /* package diagram, use-case diagram (for system boundary): */
     DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT = 300,
+    /* requirement diagram, SysML: */
+  //  DATA_RELATIONSHIP_TYPE_UML_REFINE = 400,
+    /* DATA_RELATIONSHIP_TYPE_UML_COPY = 401, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
+  //  DATA_RELATIONSHIP_TYPE_UML_TRACE = 402,
+    /* DATA_RELATIONSHIP_TYPE_UML_VERIFY = 403, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
+    /* DATA_RELATIONSHIP_TYPE_UML_SATISFY = 404, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
+    /* DATA_RELATIONSHIP_TYPE_UML_DERIVE = 405, */  /* is a specialization of DATA_RELATIONSHIP_TYPE_UML_TRACE */
 };
 
 typedef enum data_relationship_type_enum data_relationship_type_t;

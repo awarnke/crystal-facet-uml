@@ -1,6 +1,8 @@
 2019-01-xx 1.9.0 [xxxxxxx]
   + the database check can repair circular diagram-parent references
   + user experience improvements at using text-edit widgets
+  + communication diagram select/highlight classifiers in edit mode, lifelines in create mode
+  . lifeline properties cannot be changed anymore
 2019-01-01 1.8.0 [9dae9d7]
   + in navigation mode, diagrams can be re-ordered by dragging their names in the tree view
   . F7 workaround removed, key F7 is without function now
