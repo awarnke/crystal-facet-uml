@@ -11,14 +11,20 @@
 
 /*!
  *  \brief enumeration of directions
+ *
+ *  Do not assume any order.
  */
 enum layout_direction_enum {
     PENCIL_LAYOUT_DIRECTION_CENTER = 0,  /*!< the direction points to the center of the object */
     PENCIL_LAYOUT_DIRECTION_LEFT = 1,  /*!< the direction points to the left */
-    PENCIL_LAYOUT_DIRECTION_UP = 2,  /*!< the direction points up */
-    PENCIL_LAYOUT_DIRECTION_RIGHT = 3,  /*!< the direction points to the right */
-    PENCIL_LAYOUT_DIRECTION_DOWN = 4,  /*!< the direction points down */
-    PENCIL_LAYOUT_DIRECTION_MAX = 5,  /*!< maximum number of directions, can be used to iterate over all directions */
+    PENCIL_LAYOUT_DIRECTION_UP_LEFT = 2,  /*!< the direction points up-left */
+    PENCIL_LAYOUT_DIRECTION_UP = 3,  /*!< the direction points up */
+    PENCIL_LAYOUT_DIRECTION_UP_RIGHT = 4,  /*!< the direction points up-right */
+    PENCIL_LAYOUT_DIRECTION_RIGHT = 5,  /*!< the direction points to the right */
+    PENCIL_LAYOUT_DIRECTION_DOWN_RIGHT = 6,  /*!< the direction points down-right */
+    PENCIL_LAYOUT_DIRECTION_DOWN = 7,  /*!< the direction points down */
+    PENCIL_LAYOUT_DIRECTION_DOWN_LEFT = 8,  /*!< the direction points down-left */
+    PENCIL_LAYOUT_DIRECTION_MAX = 9,  /*!< maximum number of directions, can be used to iterate over all directions */
 };
 
 typedef enum layout_direction_enum layout_direction_t;

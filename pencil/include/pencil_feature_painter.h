@@ -44,7 +44,7 @@ void pencil_feature_painter_init( pencil_feature_painter_t *this_ );
 void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
 
 /*!
- *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
+ *  \brief draws the feature to the cairo drawing context
  *
  *  \param this_ pointer to own object attributes
  *  \param layouted_feature pointer to the layout-information and data to be drawn
@@ -66,6 +66,68 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    PangoLayout *layout,
                                    cairo_t *cr
                                  );
+
+/*!
+ *  \brief draws the icon of the lifeline feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layouted_feature pointer to the layout-information and data to be drawn
+ *  \param marked true if mark_highlighted
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param cr a cairo drawing context
+ */
+void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
+                                                         layout_feature_t *layouted_feature,
+                                                         bool marked,
+                                                         pencil_size_t *pencil_size,
+                                                         cairo_t *cr
+                                                       );
+
+/*!
+ *  \brief draws the icon of the port feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layouted_feature pointer to the layout-information and data to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param foreground_color color to restore after having drawn the white background
+ *  \param cr a cairo drawing context
+ */
+void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *this_,
+                                                     layout_feature_t *layouted_feature,
+                                                     pencil_size_t *pencil_size,
+                                                     GdkRGBA foreground_color,
+                                                     cairo_t *cr
+                                                   );
+
+/*!
+ *  \brief draws the icon of the interface feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layouted_feature pointer to the layout-information and data to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param cr a cairo drawing context
+ */
+void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter_t *this_,
+                                                          layout_feature_t *layouted_feature,
+                                                          pencil_size_t *pencil_size,
+                                                          cairo_t *cr
+                                                        );
+
+/*!
+ *  \brief draws the label of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layouted_feature pointer to the layout-information and data to be drawn
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param layout structure to layout fonts
+ *  \param cr a cairo drawing context
+ */
+void pencil_feature_painter_private_draw_label ( pencil_feature_painter_t *this_,
+                                                 layout_feature_t *layouted_feature,
+                                                 pencil_size_t *pencil_size,
+                                                 PangoLayout *layout,
+                                                 cairo_t *cr
+                                               );
 
 /*!
  *  \brief determines the minumum feature bounds

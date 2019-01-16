@@ -47,16 +47,6 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     const data_feature_t *the_feature = layout_feature_get_data_ptr( layouted_feature );
     const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
 
-    double left, top;
-    double width, height;
-
-    left = geometry_rectangle_get_left ( feature_bounds );
-    top = geometry_rectangle_get_top ( feature_bounds );
-    width = geometry_rectangle_get_width ( feature_bounds );
-    height = geometry_rectangle_get_height ( feature_bounds );
-
-    double gap = pencil_size_get_standard_object_border( pencil_size );
-
     if ( data_feature_is_valid( the_feature ) )
     {
         TRACE_INFO_INT("drawing feature id", data_feature_get_id( the_feature ) );
@@ -79,138 +69,35 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 
-        /* draw rectangle of ports */
-        if ( DATA_FEATURE_TYPE_PORT == data_feature_get_main_type (the_feature) )
+        switch ( data_feature_get_main_type (the_feature) )
         {
-            double port_icon_size;
-            port_icon_size = pencil_size_get_standard_font_size( pencil_size );
-            double port_icon_gap;
-            port_icon_gap = 0.5 * gap;
-
-            double box_left;
-            double box_top;
-            double box_height;
-            double box_width;
-
-            box_top = top + port_icon_gap + 0.5 * ( height - port_icon_size );
-            box_height = port_icon_size - 2.0 * port_icon_gap;
-            box_width = port_icon_size - 2.0 * port_icon_gap;
-
-            if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
+            case DATA_FEATURE_TYPE_PORT:
             {
-                /* box to left, text to right */
-                box_left = left + port_icon_gap;
-
-                left += port_icon_size + gap;
-                width -= port_icon_size + gap;
+                pencil_feature_painter_private_draw_port_icon ( this_, layouted_feature, pencil_size, foreground_color, cr );
             }
-            else
+            break;
+
+            case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
+            case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
             {
-                /* box to right, text to left */
-                box_left = left + width - port_icon_size + port_icon_gap;
-
-                width -= port_icon_size + gap;
+                pencil_feature_painter_private_draw_interface_icon ( this_, layouted_feature, pencil_size, cr );
             }
+            break;
 
-            cairo_rectangle ( cr, box_left, box_top, box_width, box_height );
+            case DATA_FEATURE_TYPE_LIFELINE:
+            {
+                pencil_feature_painter_private_draw_lifeline_icon ( this_, layouted_feature, mark_highlighted, pencil_size, cr );
+            }
+            break;
 
-            cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
-            cairo_fill_preserve (cr);
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_stroke (cr);
+            default:
+            {
+                /* other feature types do not have an icon */
+            }
+            break;
         }
 
-        /* draw circle of interfaces */
-        if (( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == data_feature_get_main_type (the_feature) )
-            || ( DATA_FEATURE_TYPE_REQUIRED_INTERFACE == data_feature_get_main_type (the_feature) ))
-        {
-            double bottom = top + height;
-            double right = left + width;
-            double half_width = 0.5 * width;
-            double half_height = 0.5 * height;
-            double center_x = left + half_width;
-            double center_y = top + half_height;
-            double ctrl_xoffset = half_width * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-            double ctrl_yoffset = half_height * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-
-            cairo_move_to ( cr, center_x, bottom );
-            cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
-            cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
-            cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
-            cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
-            cairo_stroke (cr);
-        }
-
-        /* draw dotted line of lifelines */
-        if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (the_feature) )
-        {
-            double dashes[2];
-            dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
-            dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
-            cairo_set_dash ( cr, dashes, 2, 0.0 );
-
-            if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_direction( layouted_feature ) )
-            {
-                /* lineline in timing diagrams */
-                double y_center = geometry_rectangle_get_y_center ( feature_bounds );
-
-                cairo_move_to ( cr, left, y_center );
-                cairo_line_to ( cr, left + width, y_center );
-                cairo_stroke (cr);
-            }
-            else if ( PENCIL_LAYOUT_DIRECTION_DOWN == layout_feature_get_direction( layouted_feature ) )
-            {
-                /* lifeline in sequence diagrams */
-                double x_center = geometry_rectangle_get_x_center ( feature_bounds );
-
-                cairo_move_to ( cr, x_center, top );
-                cairo_line_to ( cr, x_center, top + height );
-                cairo_stroke (cr);
-            }
-            else
-            {
-                /* lifeline in communication diagrams, only drawn if highlighted: */
-                if ( mark_highlighted )
-                {
-                    cairo_move_to ( cr, left, top );
-                    cairo_line_to ( cr, left, top + height );
-                    cairo_line_to ( cr, left + width, top + height );
-                    cairo_line_to ( cr, left + width, top );
-                    cairo_line_to ( cr, left, top );
-                    cairo_stroke (cr);
-                }
-            }
-
-            cairo_set_dash ( cr, NULL, 0, 0.0 );
-        }
-
-        /* draw text - except for lifelines */
-        if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (the_feature) )
-        {
-
-            /* prepare text */
-            char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
-            utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-            utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( the_feature ) );
-            if ( data_feature_has_value( the_feature ) )
-            {
-                utf8stringbuf_append_str( label_buf, ": " );
-                utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
-            }
-
-            pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
-
-            /* precalculate text dimensions to vertically center the text */
-            int text2_width;
-            int text2_height;
-            pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
-            double y_adjust = ( height - text2_height ) / 2.0;
-
-            /* draw text */
-            cairo_move_to ( cr, left, top + y_adjust );
-            pango_cairo_show_layout (cr, layout);
-        }
+        pencil_feature_painter_private_draw_label ( this_, layouted_feature, pencil_size, layout, cr );
 
         if ( mark_selected )
         {
@@ -225,6 +112,335 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     else
     {
         TSLOG_ERROR("invalid visible feature in array!");
+    }
+
+    TRACE_END();
+}
+
+void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_t *this_,
+                                                         layout_feature_t *layouted_feature,
+                                                         bool marked,
+                                                         pencil_size_t *pencil_size,
+                                                         cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != layouted_feature );
+    assert( NULL != cr );
+
+    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+
+    double left = geometry_rectangle_get_left ( feature_bounds );
+    double top = geometry_rectangle_get_top ( feature_bounds );
+    double width = geometry_rectangle_get_width ( feature_bounds );
+    double height = geometry_rectangle_get_height ( feature_bounds );
+
+    double dashes[2];
+    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
+    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
+    cairo_set_dash ( cr, dashes, 2, 0.0 );
+
+    if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
+    {
+        /* lineline in timing diagrams */
+        double y_center = geometry_rectangle_get_y_center ( feature_bounds );
+
+        cairo_move_to ( cr, left, y_center );
+        cairo_line_to ( cr, left + width, y_center );
+        cairo_stroke (cr);
+    }
+    else if ( PENCIL_LAYOUT_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
+    {
+        /* lifeline in sequence diagrams */
+        double x_center = geometry_rectangle_get_x_center ( feature_bounds );
+
+        cairo_move_to ( cr, x_center, top );
+        cairo_line_to ( cr, x_center, top + height );
+        cairo_stroke (cr);
+    }
+    else
+    {
+        /* lifeline in communication diagrams, only drawn if highlighted: */
+        if ( marked )
+        {
+            cairo_move_to ( cr, left, top );
+            cairo_line_to ( cr, left, top + height );
+            cairo_line_to ( cr, left + width, top + height );
+            cairo_line_to ( cr, left + width, top );
+            cairo_line_to ( cr, left, top );
+            cairo_stroke (cr);
+        }
+    }
+
+    cairo_set_dash ( cr, NULL, 0, 0.0 );
+
+    TRACE_END();
+}
+
+void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *this_,
+                                                     layout_feature_t *layouted_feature,
+                                                     pencil_size_t *pencil_size,
+                                                     GdkRGBA foreground_color,
+                                                     cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != layouted_feature );
+    assert( NULL != cr );
+
+    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+
+    double left = geometry_rectangle_get_left ( feature_bounds );
+    double top = geometry_rectangle_get_top ( feature_bounds );
+    double width = geometry_rectangle_get_width ( feature_bounds );
+    double height = geometry_rectangle_get_height ( feature_bounds );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+
+    double port_icon_size;
+    port_icon_size = pencil_size_get_standard_font_size( pencil_size );
+    double port_icon_gap;
+    port_icon_gap = 0.5 * gap;
+
+    double box_left;
+    double box_top;
+    double box_height;
+    double box_width;
+
+    box_top = top + port_icon_gap + 0.5 * ( height - port_icon_size );
+    box_height = port_icon_size - 2.0 * port_icon_gap;
+    box_width = port_icon_size - 2.0 * port_icon_gap;
+
+    if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_label_direction( layouted_feature ) )
+    {
+        /* box to left, text to right */
+        box_left = left + port_icon_gap;
+
+        left += port_icon_size + gap;
+        width -= port_icon_size + gap;
+    }
+    else
+    {
+        /* box to right, text to left */
+        box_left = left + width - port_icon_size + port_icon_gap;
+
+        width -= port_icon_size + gap;
+    }
+
+    cairo_rectangle ( cr, box_left, box_top, box_width, box_height );
+
+    cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
+    cairo_fill_preserve (cr);
+    cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+    cairo_stroke (cr);
+
+    TRACE_END();
+}
+
+void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter_t *this_,
+                                                          layout_feature_t *layouted_feature,
+                                                          pencil_size_t *pencil_size,
+                                                          cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != layouted_feature );
+    assert( NULL != cr );
+
+    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+
+    double left = geometry_rectangle_get_left ( feature_bounds );
+    double top = geometry_rectangle_get_top ( feature_bounds );
+    double width = geometry_rectangle_get_width ( feature_bounds );
+    double height = geometry_rectangle_get_height ( feature_bounds );
+
+    double bottom = top + height;
+    double right = left + width;
+    double half_width = 0.5 * width;
+    double half_height = 0.5 * height;
+    double center_x = left + half_width;
+    double center_y = top + half_height;
+    double ctrl_xoffset = half_width * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+    double ctrl_yoffset = half_height * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+    switch ( layout_feature_get_icon_direction( layouted_feature ) )
+    {
+        case PENCIL_LAYOUT_DIRECTION_LEFT:
+        {
+            cairo_move_to ( cr, center_x, top );
+            cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
+            cairo_stroke (cr);
+        }
+        break;
+
+        case PENCIL_LAYOUT_DIRECTION_UP:
+        {
+            cairo_move_to ( cr, right, center_y );
+            cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
+            cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
+            cairo_stroke (cr);
+        }
+        break;
+
+        case PENCIL_LAYOUT_DIRECTION_RIGHT:
+        {
+            cairo_move_to ( cr, center_x, bottom );
+            cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
+            cairo_stroke (cr);
+        }
+        break;
+
+        case PENCIL_LAYOUT_DIRECTION_DOWN:
+        {
+            cairo_move_to ( cr, left, center_y );
+            cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
+            cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
+            cairo_stroke (cr);
+        }
+        break;
+
+        case PENCIL_LAYOUT_DIRECTION_CENTER:
+        {
+            cairo_move_to ( cr, center_x, bottom );
+            cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
+            cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
+            cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
+            cairo_stroke (cr);
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "unexpected value in layout_direction_t." );
+        }
+        break;
+    }
+
+    TRACE_END();
+}
+
+void pencil_feature_painter_private_draw_label ( pencil_feature_painter_t *this_,
+                                                 layout_feature_t *layouted_feature,
+                                                 pencil_size_t *pencil_size,
+                                                 PangoLayout *layout,
+                                                 cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != pencil_size );
+    assert( NULL != layouted_feature );
+    assert( NULL != layout );
+    assert( NULL != cr );
+
+    const data_feature_t *the_feature = layout_feature_get_data_ptr( layouted_feature );
+    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+
+    double gap = pencil_size_get_standard_object_border( pencil_size );  /* to remove the small gap */
+
+    double left = geometry_rectangle_get_left ( feature_bounds );
+    double top = geometry_rectangle_get_top ( feature_bounds );
+    double x_center = geometry_rectangle_get_x_center ( feature_bounds );
+    double y_center = geometry_rectangle_get_y_center ( feature_bounds );
+    double right = geometry_rectangle_get_right ( feature_bounds );
+    double bottom = geometry_rectangle_get_bottom ( feature_bounds );
+
+    /* draw text - except for lifelines */
+    if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (the_feature) )
+    {
+        /* prepare text */
+        char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
+        utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
+        utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( the_feature ) );
+        if ( data_feature_has_value( the_feature ) )
+        {
+            utf8stringbuf_append_str( label_buf, ": " );
+            utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
+        }
+
+        pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
+        pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
+
+        /* precalculate text dimensions of the the text */
+        int text2_width;
+        int text2_height;
+        pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
+        double text_half_width = text2_width / 2.0;
+        double text_half_height = text2_height / 2.0;
+
+        /* draw text */
+        switch ( layout_feature_get_label_direction( layouted_feature ) )
+        {
+            case PENCIL_LAYOUT_DIRECTION_CENTER:
+            {
+                cairo_move_to ( cr, x_center - text_half_width, y_center - text_half_height );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_LEFT:
+            {
+                cairo_move_to ( cr, left - text2_width, y_center - text_half_height );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_UP_LEFT:
+            {
+                cairo_move_to ( cr, left - text2_width, top - text2_height + gap );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_UP:
+            {
+                cairo_move_to ( cr, x_center - text_half_width, top - text2_height );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_UP_RIGHT:
+            {
+                cairo_move_to ( cr, right, top - text2_height + gap );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_RIGHT:
+            {
+                cairo_move_to ( cr, right, y_center - text_half_height );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_DOWN_RIGHT:
+            {
+                cairo_move_to ( cr, right, bottom - gap );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_DOWN:
+            {
+                cairo_move_to ( cr, x_center - text_half_width, bottom );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            case PENCIL_LAYOUT_DIRECTION_DOWN_LEFT:
+            {
+                cairo_move_to ( cr, left - text2_width, bottom - gap );
+                pango_cairo_show_layout (cr, layout);
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR( "layout_direction_t contains illegal value" );
+            }
+            break;
+        }
     }
 
     TRACE_END();

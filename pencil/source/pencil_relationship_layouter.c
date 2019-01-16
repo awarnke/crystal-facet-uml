@@ -327,7 +327,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     random ++;
     index_of_best = random % solutions_count;
     */
-
+    
     /* the best */
     *out_index_of_best = index_of_best;
 

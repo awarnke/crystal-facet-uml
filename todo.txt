@@ -9,7 +9,6 @@ ideas for future versions:
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile, Parametric, Interaction-Overview
-  [.] show interfaces in deployment diagrams as circles
   [ ] function call to self (timing and sequence diagrams) looks ugly
   @data
   [.] more classifier types needed: start-activity, decision-activity, end-activity, history-state

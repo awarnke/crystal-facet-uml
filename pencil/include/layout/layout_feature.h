@@ -19,7 +19,8 @@
  */
 struct layout_feature_struct {
     geometry_rectangle_t bounds;  /*!< bounds of a feature */
-    layout_direction_t direction;  /*!< direction, a hint for drawing a feature. Depending on the feature type, this is interpreted by the painter slightly different. */
+    layout_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature. */
+    layout_direction_t label_direction;  /*!< label direction, a hint for drawing the name of a feature. */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
     layout_visible_classifier_t *classifier;  /*!< pointer to the layout of the parent visible classifier */
 };
@@ -62,20 +63,36 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
 static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds );
 
 /*!
- *  \brief gets the direction of the layout feature
+ *  \brief gets the icon direction of the layout feature
  *
  *  \param this_ pointer to own object attributes
- *  \return direction of the feature
+ *  \return icon direction of the feature
  */
-static inline layout_direction_t layout_feature_get_direction ( const layout_feature_t *this_ );
+static inline layout_direction_t layout_feature_get_icon_direction ( const layout_feature_t *this_ );
 
 /*!
- *  \brief sets the direction of the layout feature
+ *  \brief sets the icon direction of the layout feature
  *
  *  \param this_ pointer to own object attributes
- *  \param direction new direction to set
+ *  \param direction new icon direction to set
  */
-static inline void layout_feature_set_direction ( layout_feature_t *this_, layout_direction_t direction );
+static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, layout_direction_t direction );
+
+/*!
+ *  \brief gets the label direction of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return label direction of the feature
+ */
+static inline layout_direction_t layout_feature_get_label_direction ( const layout_feature_t *this_ );
+
+/*!
+ *  \brief sets the label direction of the layout feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param direction new label direction to set
+ */
+static inline void layout_feature_set_label_direction ( layout_feature_t *this_, layout_direction_t direction );
 
 /*!
  *  \brief gets the data_feature_t object

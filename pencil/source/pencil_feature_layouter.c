@@ -114,7 +114,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                                 );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_PORT:
             {
                 /* layout port feature onto parent classifier box */
@@ -126,7 +126,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                             );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
             case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
             {
@@ -139,7 +139,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                                                  );
             }
             break;
-            
+
             case DATA_FEATURE_TYPE_PROPERTY: /* or */
             case DATA_FEATURE_TYPE_OPERATION:
             {
@@ -156,24 +156,26 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
                 geometry_rectangle_t f_bounds;
                 geometry_rectangle_init ( &f_bounds,
-                                        geometry_rectangle_get_left( c_space ),
-                                        geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
-                                        geometry_rectangle_get_width( c_space ),
-                                        geometry_rectangle_get_height( &f_min_bounds )
+                                          geometry_rectangle_get_left( c_space ),
+                                          geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
+                                          geometry_rectangle_get_width( c_space ),
+                                          geometry_rectangle_get_height( &f_min_bounds )
                                         );
                 layout_feature_set_bounds ( feature_layout, &f_bounds );
-                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+                layout_feature_set_icon_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+                layout_feature_set_label_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
 
                 /* adjust y position of next feature */
                 y_position_of_next_feature += geometry_rectangle_get_height( &f_bounds );
             }
             break;
-            
+
             default:
             {
                 TSLOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
                 layout_feature_set_bounds ( feature_layout, c_bounds );
-                layout_feature_set_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+                layout_feature_set_icon_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+                layout_feature_set_label_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
             }
             break;
         }
@@ -200,7 +202,8 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
 
     if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
     {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+        layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         double c_right = geometry_rectangle_get_right( classifier_bounds );
         double c_top = geometry_rectangle_get_top( classifier_bounds );
         double c_height = geometry_rectangle_get_height( classifier_bounds );
@@ -216,7 +219,8 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     }
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type )
     {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
+        layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
+        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         double c_bottom = geometry_rectangle_get_bottom( classifier_bounds );
         double c_left = geometry_rectangle_get_left( classifier_bounds );
         double c_width = geometry_rectangle_get_width( classifier_bounds );
@@ -232,7 +236,8 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     }
     else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
     {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+        layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
+        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         layout_feature_set_bounds ( out_feature_layout, classifier_bounds );
     }
 }
@@ -255,20 +260,6 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     double port_icon_size;
     port_icon_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
 
-    /* determine the minimum bounds of the port-feature */
-    geometry_rectangle_t f_min_bounds;
-    pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
-                                                the_feature,
-                                                (*this_).pencil_size,
-                                                font_layout,
-                                                &f_min_bounds
-                                              );
-
-    double feature_width;
-    double feature_height;
-    feature_width = geometry_rectangle_get_width( &f_min_bounds ) + port_icon_size + gap;
-    feature_height = ( geometry_rectangle_get_height( &f_min_bounds ) < port_icon_size ) ? port_icon_size : geometry_rectangle_get_height( &f_min_bounds );
-
     /* determine the coordinates of the box-line */
     geometry_rectangle_t classifier_box;
     geometry_rectangle_copy( &classifier_box, classifier_bounds );
@@ -280,64 +271,66 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
 
     /* position the port icon */
     double port_icon_left;
-    double feature_left;
-    double feature_top;
+    double port_icon_top;
     if ( list_order < 0 )
     {
         if ( list_order < INT32_MIN/2 )  /* SHOW ON RIGHT BORDER */
         {
+            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
+
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
             port_icon_left = geometry_rectangle_get_right( &classifier_box ) - 0.5 * port_icon_size;
-            feature_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - feature_height );
+            port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON TOP BORDER */
         {
+            layout_feature_set_label_direction ( out_feature_layout, (list_order < INT32_MIN/4)
+                                                                     ? PENCIL_LAYOUT_DIRECTION_UP_RIGHT
+                                                                     : PENCIL_LAYOUT_DIRECTION_UP_LEFT
+                                               );
+
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
-            feature_top = geometry_rectangle_get_top( &classifier_box ) - 0.5 * feature_height;
+            port_icon_top = geometry_rectangle_get_top( &classifier_box ) - 0.5 * port_icon_size;
         }
     }
     else
     {
         if ( list_order < INT32_MAX/2 )  /* SHOW ON LEFT BORDER */
         {
+            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) - 0.5 * port_icon_size;
-            feature_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - feature_height );
+            port_icon_top = geometry_rectangle_get_top( &classifier_box ) + y_pos_rel * ( geometry_rectangle_get_height( &classifier_box ) - port_icon_size );
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
+            layout_feature_set_label_direction ( out_feature_layout, (list_order < (INT32_MAX/4)*3)
+                                                                     ? PENCIL_LAYOUT_DIRECTION_DOWN_LEFT
+                                                                     : PENCIL_LAYOUT_DIRECTION_DOWN_RIGHT
+                                               );
+
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
-            feature_top = geometry_rectangle_get_bottom( &classifier_box ) - 0.5 * feature_height;
+            port_icon_top = geometry_rectangle_get_bottom( &classifier_box ) - 0.5 * port_icon_size;
         }
-    }
-
-    /* set text direction */
-    if (( list_order > (INT32_MIN/4) ) && ( list_order < (INT32_MAX/4)*3 ))
-    {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
-        feature_left = port_icon_left;
-    }
-    else
-    {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
-        feature_left = port_icon_left - gap - geometry_rectangle_get_width( &f_min_bounds );
     }
 
     /* set feature bounding box */
     geometry_rectangle_t f_bounds;
     geometry_rectangle_init ( &f_bounds,
-                              feature_left,
-                              feature_top,
-                              feature_width,
-                              feature_height
+                              port_icon_left,
+                              port_icon_top,
+                              port_icon_size,
+                              port_icon_size
                             );
     layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+    layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
 }
 
 void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_t *this_,
@@ -354,8 +347,10 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
     /* get preferred object size + distance */
     double interface_icon_size;
     double interface_distance;
+    double gap;
+    gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
     interface_icon_size = pencil_size_get_standard_font_size( (*this_).pencil_size );
-    interface_distance = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+    interface_distance = 2.001 * pencil_size_get_preferred_object_distance( (*this_).pencil_size ) + gap;  /* min dist formula as in relationship layouter */
 
     int32_t list_order;
     list_order = data_feature_get_list_order( the_feature );
@@ -367,7 +362,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         {
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
-            
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_right( classifier_bounds ) + interface_distance,
@@ -376,12 +370,16 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+            layout_feature_set_label_direction ( out_feature_layout, (list_order < (INT32_MIN/4)*3)
+                                                                     ? PENCIL_LAYOUT_DIRECTION_UP
+                                                                     : PENCIL_LAYOUT_DIRECTION_DOWN
+                                               );
         }
         else  /* SHOW ON TOP BORDER */
         {
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
-            
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_bounds ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_bounds ) - interface_icon_size ),
@@ -390,6 +388,8 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
+            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
         }
     }
     else
@@ -398,7 +398,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
         {
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
-            
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_bounds ) - interface_distance - interface_icon_size,
@@ -407,12 +406,16 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
-       }
+            layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
+            layout_feature_set_label_direction ( out_feature_layout, (list_order < INT32_MAX/4)
+                                                                     ? PENCIL_LAYOUT_DIRECTION_DOWN
+                                                                     : PENCIL_LAYOUT_DIRECTION_UP
+                                               );
+        }
         else  /* SHOW ON BOTTOM BORDER */
         {
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
-            
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
                                       geometry_rectangle_get_left( classifier_bounds ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_bounds ) - interface_icon_size ),
@@ -421,17 +424,15 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
+            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
         }
     }
 
-    /* set text direction */
-    if (( list_order > (INT32_MIN/4) ) && ( list_order < (INT32_MAX/4)*3 ))
+    if ( DATA_FEATURE_TYPE_PROVIDED_INTERFACE == data_feature_get_main_type (the_feature) )
     {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
-    }
-    else
-    {
-        layout_feature_set_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
+        /* a provided interface has no direction, it is a circle */
+        layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
     }
 }
 
