@@ -1,4 +1,7 @@
 #!/bin/sh
+echo "1.) Update the VERSIONSTR in this debian_pack.sh script"
+echo "2.) Copy the latest entry in debian_config/debian/changelog"
+echo "3.) cd debian_config && dch -i && vi debian/changelog"
 VERSIONSTR=1.9.0
 echo "clean old files and directories"
 test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
