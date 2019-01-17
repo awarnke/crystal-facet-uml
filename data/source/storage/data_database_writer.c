@@ -111,6 +111,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+    TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagrams ... ->", new_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -185,6 +186,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
         result |= data_database_sql_builder_build_delete_diagram_command ( &((*this_).sql_builder), obj_id );
         char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
         result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+        TSLOG_EVENT_INT( "sqlite3_exec: DELETE FROM diagrams ... ->", obj_id );  /* do not log confidential information, only id */
     }
 
     result |= data_database_writer_private_transaction_commit ( this_ );
@@ -225,6 +227,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET description ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -264,6 +267,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET name ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -302,6 +306,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET diagram_type ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -340,6 +345,7 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET list_order ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -378,6 +384,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagrams SET parent_id ... ->", diagram_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -413,6 +420,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+    TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO classifiers ... ->", new_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -495,6 +503,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
         result |= data_database_sql_builder_build_delete_classifier_command ( &((*this_).sql_builder), obj_id );
         char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
         result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+        TSLOG_EVENT_INT( "sqlite3_exec: DELETE FROM classifiers ... ->", obj_id );  /* do not log confidential information, only id */
     }
 
     result |= data_database_writer_private_transaction_commit ( this_ );
@@ -534,6 +543,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET stereotype ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -572,6 +582,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET description ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -610,6 +621,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET name ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -648,6 +660,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET main_type ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -686,6 +699,7 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET x_order ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -724,6 +738,7 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET y_order ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -762,6 +777,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE classifiers SET list_order ... ->", classifier_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -795,6 +811,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+    TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagramelements ... ->", new_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -839,6 +856,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: DELETE FROM diagramelements ... ->", obj_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -877,6 +895,7 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagramelements SET display_flags ... ->", diagramelement_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -915,6 +934,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE diagramelements SET focused_feature_id ... ->", diagramelement_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -946,6 +966,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+    TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO features ... ->", new_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -988,6 +1009,7 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: DELETE FROM features ... ->", obj_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1023,6 +1045,7 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE features SET main_type ... ->", feature_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1058,6 +1081,7 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE features SET key ... ->", feature_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1093,6 +1117,7 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE features SET value ... ->", feature_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1128,6 +1153,7 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE features SET description ... ->", feature_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1163,6 +1189,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE features SET list_order ... ->", feature_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1194,6 +1221,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
+    TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO relationships ... ->", new_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_unlock( this_ );
 
@@ -1236,6 +1264,7 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: DELETE FROM relationships ... ->", obj_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1271,6 +1300,7 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE relationships SET main_type ... ->", relationship_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1306,6 +1336,7 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE relationships SET name ... ->", relationship_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1341,6 +1372,7 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE relationships SET description ... ->", relationship_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
@@ -1376,6 +1408,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
 
     result |= data_database_writer_private_transaction_issue_command ( this_, sql_cmd );
+    TSLOG_EVENT_INT( "sqlite3_exec: UPDATE relationships SET list_order ... ->", relationship_id );  /* do not log confidential information, only id */
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 

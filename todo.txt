@@ -4,7 +4,7 @@ ideas for future versions:
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
-  [ ] export formats: extend export formats by docbook, latex, doxygen, markdown
+  [ ] export formats: extend export formats by docbook, latex, doxygen, asciidoc
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil

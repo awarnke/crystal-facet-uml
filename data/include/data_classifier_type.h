@@ -39,19 +39,19 @@ enum data_classifier_type_enum {
     DATA_CLASSIFIER_TYPE_UML_OBJECT = 126,  /* SysML */
     DATA_CLASSIFIER_TYPE_UML_ARTIFACT = 127,
     DATA_CLASSIFIER_TYPE_UML_COMMENT = 130, /* this is a note-text */
-    //DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION = 11000,  /* interruptable activity region, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE = 11001,  /* start control node, entry point, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE = 11002,  /* end control node, exit point, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_FORK_NODE = 11003,  /* fork control node, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE = 11004,  /* join control node, UML and SYSML */
-    // /*DATA_CLASSIFIER_TYPE_DYN_MERGE_NODE = 11004, */  /* merge control node=junction - we do not need this maybe, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE = 11006,  /* decision control node=choice, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY = 11007,  /* history pseudo state, UML and SYSML */
-    //DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY = 11008,  /* history pseudo state, UML and SYSML */
-    // /*DATA_CLASSIFIER_TYPE_DYN_PARTITION = 11010, */  /* activity partition, UML and SYSML */
-    // DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT = 11011,  /* receive signal, UML and SYSML */
-    // DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT = 11012,  /* receive time signal, UML and SYSML */
-    // DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL = 11013,  /* sends a signal, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION = 150,  /* interruptable activity region, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE = 151,  /* start control node, entry point, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE = 152,  /* end control node, exit point, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_FORK_NODE = 154,  /* fork control node, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE = 155,  /* join control node, UML and SYSML */
+    // /*DATA_CLASSIFIER_TYPE_DYN_MERGE_NODE = 156, */  /* merge control node=junction - we do not need this maybe, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE = 157,  /* decision control node=choice, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY = 158,  /* history pseudo state, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY = 159,  /* history pseudo state, UML and SYSML */
+    // /*DATA_CLASSIFIER_TYPE_DYN_PARTITION = 164, */  /* activity partition, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT = 167,  /* receive signal, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT = 168,  /* receive time signal, UML and SYSML */
+    //DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL = 169,  /* sends a signal, UML and SYSML */
     // missing: repeat-blocks/sections in sequence diagrams
     // missing: activity-bars and life-end-cross on lifelines - maybe these can be auto-generated?
 };

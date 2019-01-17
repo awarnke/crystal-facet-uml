@@ -32,7 +32,7 @@ enum data_relationship_type_enum {
     DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW = 240,
     /* activity diagrams: */
     DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW = 241,
-    /* DATA_RELATIONSHIP_TYPE_UML_INTERRUPTING_EDGE = 242, */
+    /* DATA_RELATIONSHIP_TYPE_UML_INTERRUPTING_EDGE = 242, */  /* one can alternatively model this using a signal */
     /* deployment diagram: */
     DATA_RELATIONSHIP_TYPE_UML_DEPLOY = 250,
     DATA_RELATIONSHIP_TYPE_UML_MANIFEST = 251,
