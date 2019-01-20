@@ -456,6 +456,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
     switch ( c_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
             utf8stringbuf_copy_str( out_name, BLOCK_NAMES[cycle_names&0x07] );
         }
@@ -492,12 +493,24 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             utf8stringbuf_copy_str( out_name, ACTIVITY_NAMES[cycle_names&0x07] );
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_STATE:
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         {
             utf8stringbuf_copy_str( out_name, STATE_NAMES[cycle_names&0x07] );
         }

@@ -134,6 +134,19 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             case DATA_CLASSIFIER_TYPE_UML_OBJECT:
             case DATA_CLASSIFIER_TYPE_UML_PART:
+            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+            case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+            case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
                 cairo_stroke (cr);
@@ -370,13 +383,13 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         int text2_height = 0;
         {
             /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
+            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE /* + 1 */ ];
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
+            //if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
+            //{
+            //    utf8stringbuf_copy_str( name_buf, ":" );
+            //}
+            //else
             {
                 utf8stringbuf_clear( name_buf );
             }
@@ -402,7 +415,17 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             pango_cairo_show_layout (cr, font_layout);
 
             /* underline instances */
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
+            bool is_instance;
+            {
+                /* explicit instances */
+                is_instance = (( DATA_CLASSIFIER_TYPE_UML_OBJECT == data_classifier_get_main_type ( classifier ) )
+                    || ( DATA_CLASSIFIER_TYPE_UML_PART == data_classifier_get_main_type ( classifier ) )
+                    || ( DATA_CLASSIFIER_TYPE_UML_NODE == data_classifier_get_main_type ( classifier ) )
+                    || ( DATA_CLASSIFIER_TYPE_UML_ARTIFACT == data_classifier_get_main_type ( classifier ) ));
+                /* anonymous instances: */
+                is_instance = is_instance || ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
+            }
+            if ( is_instance )
             {
                 cairo_move_to ( cr, left + 0.5*( width - text2_width ), text1_top+text1_height+f_line_gap+text2_height );
                 cairo_line_to ( cr, left + 0.5*( width + text2_width ), text1_top+text1_height+f_line_gap+text2_height );
@@ -424,6 +447,19 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
             cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+gap+gap );
             pango_cairo_show_layout (cr, font_layout);
+        }
+        else if (( DATA_CLASSIFIER_TYPE_UML_CLASS == data_classifier_get_main_type ( classifier ) )
+            || ( DATA_CLASSIFIER_TYPE_UML_OBJECT == data_classifier_get_main_type ( classifier ) )
+            || ( DATA_CLASSIFIER_TYPE_UML_INTERFACE == data_classifier_get_main_type ( classifier ) ))
+        {
+            /* draw property and operation compartments */
+            cairo_move_to ( cr, border_left, text1_top+text1_height+f_line_gap+text2_height+gap+gap );
+            cairo_line_to ( cr, border_left + border_width, text1_top+text1_height+f_line_gap+text2_height+gap+gap );
+            cairo_stroke (cr);
+
+            cairo_move_to ( cr, border_left, text1_top+text1_height+f_line_gap+text2_height+gap+gap+gap );
+            cairo_line_to ( cr, border_left + border_width, text1_top+text1_height+f_line_gap+text2_height+gap+gap+gap );
+            cairo_stroke (cr);
         }
 
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ) )

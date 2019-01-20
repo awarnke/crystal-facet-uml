@@ -2,27 +2,27 @@
 crystal_facet_uml
 =============
 
-crystal_facet_uml is a uml design tool
-to create a set of consistent uml diagrams.
-
-These diagrams can be exported to various vector-image formats.
+crystal_facet_uml is a tool to create diagrams for documenting software architecture.
+These diagrams are consistent in element naming and element hierarchies.
 
 It is based on glib, gdk, gtk, cairo, pango, sqlite, utf8stringbuf, embunit
 
 How to build
 -----------
 
-> sudo apt-get install cmake
+> sudo apt install cmake
 >
-> sudo apt-get install libgtk-3-dev
+> sudo apt install libgtk-3-dev
 >
-> sudo apt-get install devscripts  # for debian build
+> sudo apt install devscripts  # for debian build, includes build-essential
 >
-> sudo apt install build-essential  # for debian build
+> sudo apt install dblatex  # for user documentation
 >
-> cd cmake_build
+> sudo apt install xmlto  # for user documentation
 >
-> cmake ..
+> mkdir cmake_build && cd cmake_build
+>
+> cmake ../crystal_facet_uml
 >
 > make -j4
 
@@ -39,16 +39,16 @@ How to install
 How to use
 -----------
 
-> cd doxygen_build
+> cd ../crystal_facet_uml/user_doc
 >
-> ./make.sh
+> make
 >
-> echo read first chapter of crystal_facet_uml_documentation.pdf
+> evince chapter of crystal_facet_uml_documentation.pdf &
 
 Meta-Information
 -----------
 
-> Version: see PROJECT_NUMBER in doxygen_build/doxygen_config
+> Version: see META_INFO_VERSION_STR in main/include/meta/meta_info.h
 >
 > Author+Copyright: 2016-2019 Andreas Warnke
 >

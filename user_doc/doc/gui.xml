@@ -184,8 +184,10 @@
             <imageobject><imagedata fileref="../../gui/source/resources/edit_instantiate.png"/></imageobject>
         </inlinemediaobject>
         <itemizedlist>
-        <listitem><para>Toggles the pink-cornered classifiers between classes and instances. (Does not work for relationships and features)</para></listitem>
-        </itemizedlist>
+        <listitem><para>Toggles the pink-cornered classifiers between classes and anonymous instances.</para></listitem>
+        <listitem><para>No effect on classifiers that are already instances: Object, Part, Node, Artifact.</para></listitem>
+        <listitem><para>No effect on relationships and features.</para></listitem>
+    </itemizedlist>
     </para>
 
 </section>

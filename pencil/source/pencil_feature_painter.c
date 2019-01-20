@@ -90,9 +90,16 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             }
             break;
 
+            case DATA_FEATURE_TYPE_PROPERTY: /* or */
+            case DATA_FEATURE_TYPE_OPERATION:
+            {
+                /* no icon */
+            }
+            break;
+
             default:
             {
-                /* other feature types do not have an icon */
+                TSLOG_ERROR("invalid feature type in pencil_feature_painter_draw");
             }
             break;
         }

@@ -9,7 +9,7 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_INFO_VERSION_STR "1.9.0"
+#define META_INFO_VERSION_STR "1.10.0"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_LICENSE_STR "Apache-2.0"
@@ -21,6 +21,7 @@
 /*       release_notes.txt : new entry */
 /*       doxygen_build/Doxyfile : PROJECT_NUMBER */
 /*       user_doc/doc/crystal_facet_user_documentation.xml : date */
+/*       installation_linux/config/crystal_facet_uml.desktop */
 /*       package/build/source_pack.sh : VERSIONSTR */
 /*       package/build/debian_pack.sh : VERSIONSTR */
 /*       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version */

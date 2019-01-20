@@ -143,7 +143,8 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
 
     switch ( from_classifier_type )
     {
-        case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_BLOCK:  /* and */
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH;
         }
@@ -176,7 +177,19 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
 
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:  /* and */
         case DATA_CLASSIFIER_TYPE_UML_STATE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW;  /* control is preferred over DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW (?) */
         }
@@ -233,7 +246,8 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 
     switch ( parent_classifier_type )
     {
-        case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_BLOCK:  /* and */
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         {
             result = DATA_FEATURE_TYPE_PORT;
         }
@@ -266,7 +280,19 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:  /* and */
         case DATA_CLASSIFIER_TYPE_UML_STATE:  /* and */
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:  /* and */
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = DATA_FEATURE_TYPE_OPERATION;
         }
@@ -324,6 +350,7 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
     switch ( classifier_type )
     {
         case DATA_CLASSIFIER_TYPE_BLOCK:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         case DATA_CLASSIFIER_TYPE_FEATURE: /* a feature is an abstract requirement or requirement-group */
         case DATA_CLASSIFIER_TYPE_REQUIREMENT: /* for requirements, there is a predefined set of: id, text, ... */
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
@@ -346,6 +373,18 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
         case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = false;
         }

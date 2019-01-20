@@ -86,6 +86,19 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             /* standard size */
             *out_top_border = double_gap;
@@ -123,11 +136,11 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
         const data_classifier_t *classifier;
-        const data_diagramelement_t *diagramelement;
+        //const data_diagramelement_t *diagramelement;
         classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
+        //diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+        //data_diagramelement_flag_t display_flags;
+        //display_flags = data_diagramelement_get_display_flags( diagramelement );
 
         /* stereotype text */
         int text1_height = 0;
@@ -155,13 +168,13 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
         double space_for_line;
         {
             /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE+1];
+            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE /* + 1 */ ];
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
+            //if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
+            //{
+            //    utf8stringbuf_copy_str( name_buf, ":" );
+            //}
+            //else
             {
                 utf8stringbuf_clear( name_buf );
             }
