@@ -134,7 +134,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             case DATA_CLASSIFIER_TYPE_UML_OBJECT:
             case DATA_CLASSIFIER_TYPE_UML_PART:
-            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
             case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
             case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
@@ -145,7 +144,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
             case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
@@ -202,6 +201,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
             case DATA_CLASSIFIER_TYPE_UML_STATE:
+            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
             {
                 double corner_radius = 6.0*gap;
                 double bottom = border_top + border_height;

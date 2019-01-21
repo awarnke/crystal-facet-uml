@@ -501,7 +501,7 @@ void gui_sketch_object_creator_private_propose_classifier_name( gui_sketch_objec
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             utf8stringbuf_copy_str( out_name, ACTIVITY_NAMES[cycle_names&0x07] );

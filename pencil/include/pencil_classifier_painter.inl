@@ -97,7 +97,7 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             /* standard size */

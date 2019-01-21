@@ -1,4 +1,6 @@
 2019-02-xx 1.10.0 [xxxxxxx]
+  + new classifier types for activity, state and parametric diagrams
+  + part, artifact, node and object are automatically underlined as instance
   . classifier tagged by DATA_DIAGRAMELEMENT_FLAG_INSTANCE do not prepend an ':' to their name
 2019-01-17 1.9.0 [43d5e15]
   + the database check can repair circular diagram-parent references

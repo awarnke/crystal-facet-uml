@@ -51,7 +51,7 @@ enum data_classifier_type_enum {
     // /*DATA_CLASSIFIER_TYPE_DYN_PARTITION = 164, */  /* activity partition, UML and SYSML */
     DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT = 167,  /* receive signal, UML and SYSML */
     DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT = 168,  /* receive time signal, UML and SYSML */
-    DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT = 169,  /* receive an error-interrupt signal, UML and SYSML */
+    // /*DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT = 169,*/  /* receive an error-interrupt signal, better use an exception relation */
     DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL = 170,  /* sends a signal, UML and SYSML */
     // missing: repeat-blocks/sections in sequence diagrams
     // missing: activity-bars and life-end-cross on lifelines - maybe these can be auto-generated?

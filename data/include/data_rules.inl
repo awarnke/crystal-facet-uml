@@ -188,7 +188,7 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:  /* and */
+        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW;  /* control is preferred over DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW (?) */
@@ -291,7 +291,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:  /* and */
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:  /* and */
+        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/  /* and */
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = DATA_FEATURE_TYPE_OPERATION;
@@ -383,7 +383,7 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
         case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:
+        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             result = false;
