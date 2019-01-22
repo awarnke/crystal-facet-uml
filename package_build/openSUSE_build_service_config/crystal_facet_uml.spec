@@ -16,6 +16,7 @@ BuildRequires:  cmake
 BuildRequires:  gtk3
 BuildRequires:  gtk3-devel
 BuildRequires:  tar
+BuildRequires:  sqlite3-devel
 #BuildRequires:  desktop-file-utils
 #BuildRequires:  xdg-utils
 #PreReq:

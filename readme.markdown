@@ -10,16 +10,36 @@ It is based on glib, gdk, gtk, cairo, pango, sqlite, embunit
 How to build
 -----------
 
-> sudo apt install cmake
->
+debian/ubuntu/raspbian:
+
 > sudo apt install libgtk-3-dev
+>
+> sudo apt install libsqlite3-dev
+>
+> sudo apt install cmake
 >
 > sudo apt install devscripts  # for debian build, includes build-essential
 >
 > sudo apt install dblatex  # for user documentation
 >
 > sudo apt install xmlto  # for user documentation
+
+openSuSE:
+
+> sudo zypper install gtk3-devel
 >
+> sudo zypper install sqlite3-devel
+>
+> sudo zypper install cmake
+>
+> sudo zypper install devscripts  # for debian build, includes build-essential
+>
+> sudo zypper install dblatex  # for user documentation
+>
+> sudo apt install xmlto  # for user documentation
+
+all:
+
 > mkdir cmake_build && cd cmake_build
 >
 > cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-code/

@@ -3,9 +3,7 @@ crystal_facet_uml
 
 is provided under the Apache-2.0 License. See below.
 
-It contains code of other projects:
-- sqlite 3.21.0 from https://www.sqlite.org/ (Public Domain)
-- utf8stringbuf v018 from https://sourceforge.net/projects/utf8stringbuf/ (Apache-2.0 License)
+Unit-tests contain code of other projects:
 - embunit 1.0.1 from https://sourceforge.net/projects/embunit/ (by yusuke sasaki[arms22], MIT/X Consortium License)
 
 It dynamically links to libraries
@@ -17,6 +15,7 @@ It dynamically links to libraries
 - cairo
 - pango
 - gio-unix
+- sqlite3
 
 It relies on
 - a POSIX OS

@@ -12,9 +12,6 @@ Files: debian/*
 Copyright: 2018-2019 Andreas Warnke <cfu@andreaswarnke.de>
 License: Apache-2.0
 
-Files: sqlite/*
-License: public-domain
-
 Files: embunit/*
 Copyright: Embedded Unit Project
 License: MIT-0

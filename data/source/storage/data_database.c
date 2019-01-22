@@ -480,7 +480,7 @@ void data_database_init ( data_database_t *this_ )
     TRACE_BEGIN();
     int perr;
 
-    TRACE_INFO_STR( "sqlite3_libversion", sqlite3_libversion() );
+    TSLOG_EVENT_STR( "sqlite3_libversion:", sqlite3_libversion() );
 
     (*this_).db_file_name = utf8stringbuf_init( sizeof((*this_).private_db_file_name_buffer), (*this_).private_db_file_name_buffer );
     utf8stringbuf_clear( (*this_).db_file_name );
@@ -677,17 +677,20 @@ void data_database_destroy ( data_database_t *this_ )
 data_error_t data_database_flush_caches ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    int sqlite_err;
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_open )
     {
+        /* not available on some systems, e.g. 3.8.10.2 */
+        /*
+        int sqlite_err;
         sqlite_err = sqlite3_db_cacheflush( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
             result = DATA_ERROR_AT_DB;
         }
+        */
     }
 
     TRACE_END_ERR( result );

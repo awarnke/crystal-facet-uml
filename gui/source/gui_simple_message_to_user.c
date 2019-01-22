@@ -116,7 +116,7 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                                           "This is " META_INFO_PROGRAM_NAME_STR " version " META_INFO_VERSION_STR "\n"
                                           "Copyright: " META_INFO_COPYRIGHT_STR "\n"
                                           "License: " META_INFO_LICENSE_STR "\n"
-                                          "Contains " META_INFO_LIB_LICENSES_STR
+                                          "Links against gtk3, sqlite3" 
                 );
             }
             break;
@@ -233,16 +233,16 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
 
             case GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT:
             {
-                utf8stringbuf_append_str( (*this_).content, 
+                utf8stringbuf_append_str( (*this_).content,
                                           "An ancestor (parent/root) diagram cannot move to a descendant (child) location.\n"
-                                          "Instead, try to move a descendant out to an ancestor or sibling location" 
+                                          "Instead, try to move a descendant out to an ancestor or sibling location"
                                         );
             }
             break;
 
             case GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE:
             {
-                utf8stringbuf_append_str( (*this_).content, 
+                utf8stringbuf_append_str( (*this_).content,
                                           "This software was compiled in DEBUG mode.\nIt may be slower than the RELEASE version.\n"
                                           "Confidential information may be printed to syslog."
                                         );
