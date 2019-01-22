@@ -681,16 +681,17 @@ data_error_t data_database_flush_caches ( data_database_t *this_ )
 
     if ( (*this_).is_open )
     {
-        /* not available on some systems, e.g. 3.8.10.2 */
-        /*
+        /* available if sqlite newer than 2016-01-06 (3.10.0) */
+#if ( SQLITE_VERSION_NUMBER >= 3010000 )
         int sqlite_err;
+        TSLOG_EVENT( "sqlite3_db_cacheflush" );
         sqlite_err = sqlite3_db_cacheflush( (*this_).db );
         if ( SQLITE_OK != sqlite_err )
         {
             TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
             result = DATA_ERROR_AT_DB;
         }
-        */
+#endif
     }
 
     TRACE_END_ERR( result );
