@@ -61,7 +61,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: to build with all 4 cores, run make -j4 afterwards" )
+MESSAGE( "Note: to build using 4 cores, run           make -j4 afterwards" )
 
 INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
@@ -82,5 +82,5 @@ INCLUDE_DIRECTORIES(universal/unittest)
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
 TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
-SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
-
+SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C EXCLUDE_FROM_ALL TRUE)
+MESSAGE ("Note: to build the unit tests, call:        make unittest_crystal_facet_uml")
