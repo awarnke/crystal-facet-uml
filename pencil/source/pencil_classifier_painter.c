@@ -134,17 +134,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             case DATA_CLASSIFIER_TYPE_UML_OBJECT:
             case DATA_CLASSIFIER_TYPE_UML_PART:
-            case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-            case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
-            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
                 cairo_stroke (cr);
@@ -303,6 +292,42 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             }
             break;
 
+            case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
+            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+            {
+                double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
+                double circle_radius = 0.5 * circle_diameter;
+                
+                double circle_top = top;
+                double circle_bottom = circle_top + circle_diameter;
+                double half_width = 0.5 * width;
+                double center_x = left + half_width;
+                double center_y = top + circle_radius;
+                double circle_left = center_x - circle_radius;
+                double circle_right = center_x + circle_radius;
+                double ctrl_offset = circle_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                cairo_move_to ( cr, center_x, circle_bottom );
+                cairo_curve_to ( cr, circle_left + ctrl_offset, circle_bottom, circle_left, circle_bottom - ctrl_offset, circle_left /* end point x */, center_y /* end point y */ );
+                cairo_curve_to ( cr, circle_left, circle_top + ctrl_offset, circle_left + ctrl_offset, circle_top, center_x /* end point x */, circle_top /* end point y */ );
+                cairo_curve_to ( cr, circle_right - ctrl_offset, circle_top, circle_right, circle_top + ctrl_offset, circle_right /* end point x */, center_y /* end point y */ );
+                cairo_curve_to ( cr, circle_right, circle_bottom - ctrl_offset, circle_right - ctrl_offset, circle_bottom, center_x /* end point x */, circle_bottom /* end point y */ );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = circle_bottom + gap;
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
             case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
             {
@@ -316,15 +341,19 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             {
-                double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
-
-                cairo_rectangle ( cr, border_left, border_top, border_width/5.0, top_ornament_height );
+                double title_corner_height = pencil_size_get_standard_font_size( pencil_size );
+                double title_corner_edge45 = 0.4 * title_corner_height;
+                double title_corner_width = border_width/5.0;
 
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+                cairo_move_to ( cr, border_left, border_top+title_corner_height );
+                cairo_line_to ( cr, border_left+title_corner_width - title_corner_edge45, border_top+title_corner_height );
+                cairo_line_to ( cr, border_left+title_corner_width, border_top+title_corner_height-title_corner_edge45 );
+                cairo_line_to ( cr, border_left+title_corner_width, border_top );
                 cairo_stroke (cr);
 
                 /* adjust the text position */
-                text1_top = border_top + gap + top_ornament_height;
+                text1_top = border_top + gap + title_corner_height;
             }
             break;
 

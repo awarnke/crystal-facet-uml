@@ -90,16 +90,17 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
             cairo_move_to ( cr, left + gap + f_tab_size, top+gap );
             pango_cairo_show_layout (cr, font_layout);
 
-            static const double EDGE_45 = 4.0;
-            double title_corner_width = text_width + gap + 2.0*f_tab_size + EDGE_45;
+            double title_corner_height = text_height+f_line_gap;
+            double title_corner_edge45 = 0.4 * title_corner_height;
+            double title_corner_width = text_width + gap + 2.0*f_tab_size + title_corner_edge45;
             if ( title_corner_width > width*0.9 )
             {
                 title_corner_width = width*0.9;
             }
-            cairo_move_to ( cr, left+gap, top+gap+text_height+f_line_gap );
-            cairo_line_to ( cr, left+title_corner_width - EDGE_45, top+gap+text_height+f_line_gap );
-            cairo_line_to ( cr, left+title_corner_width, top+gap+text_height+f_line_gap-EDGE_45 );
-            cairo_line_to ( cr, left+title_corner_width, top+gap );
+            cairo_move_to ( cr, left+gap, top+gap+title_corner_height );
+            cairo_line_to ( cr, left+gap+title_corner_width - title_corner_edge45, top+gap+title_corner_height );
+            cairo_line_to ( cr, left+gap+title_corner_width, top+gap+title_corner_height-title_corner_edge45 );
+            cairo_line_to ( cr, left+gap+title_corner_width, top+gap );
             cairo_stroke (cr);
         }
         else
