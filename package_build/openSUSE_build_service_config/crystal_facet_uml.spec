@@ -31,7 +31,7 @@ crystal_facet_uml draws UML diagrams.
 
 %build
 cmake -DCMAKE_BUILD_TYPE=Release .
-make %{?_smp_mflags}
+make %{?_smp_mflags} unittest_crystal_facet_uml crystal_facet_uml
 
 %install
 mkdir -p %{buildroot}/usr/bin

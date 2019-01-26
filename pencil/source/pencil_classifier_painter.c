@@ -134,7 +134,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_CLASS:
             case DATA_CLASSIFIER_TYPE_UML_OBJECT:
             case DATA_CLASSIFIER_TYPE_UML_PART:
-            case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
             case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
@@ -202,11 +201,21 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
             case DATA_CLASSIFIER_TYPE_UML_STATE:
             case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+            case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
             {
                 double corner_radius = 6.0*gap;
                 double bottom = border_top + border_height;
                 double right = border_left + border_width;
                 double ctrl_offset = corner_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                /* set dashes */
+                if ( DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION == data_classifier_get_main_type ( classifier ) )
+                {
+                    double dashes[2];
+                    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
+                    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
+                    cairo_set_dash ( cr, dashes, 2, 0.0 );
+                }
 
                 cairo_move_to ( cr, right - corner_radius, bottom );
                 cairo_line_to ( cr, border_left + corner_radius, bottom );
@@ -218,6 +227,9 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_line_to ( cr, right, bottom - corner_radius );
                 cairo_curve_to ( cr, right, bottom - ctrl_offset, right - ctrl_offset, bottom, right - corner_radius /* end point x */, bottom /* end point y */ );
                 cairo_stroke (cr);
+
+                /* reset dashes */
+                cairo_set_dash ( cr, NULL, 0, 0.0 );
 
                 /* adjust the text position */
                 text1_top = border_top + gap;
