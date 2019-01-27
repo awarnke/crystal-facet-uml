@@ -79,6 +79,16 @@ static inline const data_classifier_t *layout_visible_classifier_get_classifier_
 static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_ptr ( const layout_visible_classifier_t *this_ );
 
 /*!
+ *  \brief returns true if the classifier is drawn as fixed-size symbol
+ *
+ *  The following classifier types are fixed-sized symbols: (use-case:) actor, (activity:) start, end, fork, join, timeout, history
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return id of the classifier
+ */
+static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_visible_classifier_t *this_ );
+
+/*!
  *  \brief gets the row id of the classifier
  *
  *  This is a shortcut for data_classifier_get_id( data_visible_classifier_get_classifier_const ( (*this_).data ) )

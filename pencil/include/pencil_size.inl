@@ -85,6 +85,7 @@ static inline void pencil_size_init_empty( pencil_size_t *this_ )
     (*this_).arrow_stroke_length = 10.0;
     (*this_).arrow_stroke_087_length = 8.66;
     (*this_).preferred_object_distance = 20.0;
+    (*this_).classifier_symbol_height = 24.0;
 }
 
 static inline void pencil_size_reinit( pencil_size_t *this_, double width, double height )
@@ -119,6 +120,7 @@ static inline void pencil_size_reinit( pencil_size_t *this_, double width, doubl
     (*this_).arrow_stroke_length = smaller_border/67;
     (*this_).arrow_stroke_087_length = (*this_).arrow_stroke_length*0.866025403784; /* =sqrt(0.75) */
     (*this_).preferred_object_distance = smaller_border/33.0;
+    (*this_).classifier_symbol_height = smaller_border/20.0;
 }
 
 static inline double pencil_size_get_footnote_font_size( const pencil_size_t *this_ )
@@ -194,6 +196,11 @@ static inline double pencil_size_get_arrow_stroke_087_length( const pencil_size_
 static inline double pencil_size_get_preferred_object_distance( const pencil_size_t *this_ )
 {
     return (*this_).preferred_object_distance;
+}
+
+static inline double pencil_size_get_classifier_symbol_height( const pencil_size_t *this_ )
+{
+    return (*this_).classifier_symbol_height;
 }
 
 static inline GdkRGBA pencil_size_get_standard_color( const pencil_size_t *this_ )

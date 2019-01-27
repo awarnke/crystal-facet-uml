@@ -152,8 +152,6 @@ void gui_textedit_init ( gui_textedit_t *this_,
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, 1, "Accept Event", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, 1, "Accept Time Event", -1 );
-        //gtk_list_store_append( (*this_).classifier_types, &iter);
-        //gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT, 1, "Interrupt", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, 1, "Send Signal", -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);

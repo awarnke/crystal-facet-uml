@@ -50,11 +50,18 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
         {
-            /* the actor icon height is part of the shape border  */
-            double actor_icon_height = 2.5 * pencil_size_get_title_font_size( pencil_size );
+            /* the symbol icon height is part of the shape border  */
+            double symbol_icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
 
-            *out_top_border = double_gap + actor_icon_height;
+            *out_top_border = double_gap + symbol_icon_height;
             *out_left_border = gap;
             *out_bottom_border = gap;
             *out_right_border = gap;
@@ -88,16 +95,8 @@ static inline void pencil_classifier_painter_private_get_shape_border_dimensions
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             /* standard size */

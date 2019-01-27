@@ -275,7 +275,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             {
-                double actor_height = 2.5 * pencil_size_get_title_font_size( pencil_size );
+                double actor_height = pencil_size_get_classifier_symbol_height( pencil_size );
                 double half_width = 0.5 * border_width;
                 double actor_width;
                 pencil_classifier_painter_private_draw_actor_icon ( this_,
@@ -298,7 +298,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
             {
                 //double circle_diameter = height;
-                double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
+                double circle_diameter = pencil_size_get_classifier_symbol_height( pencil_size );
                 double circle_radius = 0.5 * circle_diameter;
 
                 double circle_top = top;
@@ -323,7 +323,6 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             break;
 
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
             {
                 double border_right = border_left + border_width;
                 double border_bottom = border_top + border_height;
@@ -390,7 +389,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 double x_center;
                 x_center = geometry_rectangle_get_x_center ( classifier_bounds );
                 double block_width;
-                block_width = pencil_size_get_title_font_size( pencil_size );
+                block_width = 3.0 * pencil_size_get_bold_line_width( pencil_size );
 
                 cairo_rectangle ( cr, x_center - (0.5 * block_width), border_top, block_width, border_height );
                 cairo_fill (cr);

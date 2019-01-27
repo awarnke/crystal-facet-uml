@@ -34,11 +34,12 @@ struct pencil_size_struct {
     PangoFontDescription *title_font_description;  /*!< text description of title text */
     double standard_line_width;  /*!< line width of standard lines */
     double bold_line_width;  /*!< line width of bold lines */
-    double line_dash_length;  /*!< dash length of a dashed line */
+    double line_dash_length;  /*!< dash length of a short-dashed line */
     double standard_object_border;  /*!< gap between the bounding rectangle and the outer line of an object */
     double arrow_stroke_length;  /*!< length of a stroke to paint an arrow tip */
     double arrow_stroke_087_length;  /*!< sqrt(0.75)=0.8660 parts of the length of a stroke to paint an arrow */
     double preferred_object_distance;  /*!< preferred distance between two objects or object and connector */
+    double classifier_symbol_height;  /*!< height of actors, timeouts, fork, join, start, end */
     GdkRGBA standard_color;  /*!< foreground color of all standard objects */
     GdkRGBA select_color;  /*!< foreground color of all currently selected objects (user selected set): pink */
     GdkRGBA highlight_color;  /*!< foreground color of the current highlighted/mouse over object: turquoise */
@@ -185,6 +186,13 @@ static inline double pencil_size_get_arrow_stroke_087_length( const pencil_size_
  *  \param this_ pointer to own object attributes
  */
 static inline double pencil_size_get_preferred_object_distance( const pencil_size_t *this_ );
+
+/*!
+ *  \brief gets the attribute of pencil_size_t: classifier_symbol_height
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline double pencil_size_get_classifier_symbol_height( const pencil_size_t *this_ );
 
 /*!
  *  \brief gets the attribute of pencil_size_t: standard_color

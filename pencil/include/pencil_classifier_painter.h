@@ -73,6 +73,8 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
  *
  *  without contained features, without contained classifiers.
  *
+ *  This method returns values assuming title and ornaments are included, unsuitable for fix-sized symbols.
+ *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
@@ -88,8 +90,10 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
                                                     geometry_rectangle_t *out_classifier_space
                                                   );
 
-/* !
+/*!
  *  \brief determines the inner drawing space for contained classifiers and features
+ *
+ *  This method returns values assuming title and ornaments are included, unsuitable for fix-sized symbols.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
