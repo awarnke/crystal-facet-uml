@@ -3,6 +3,7 @@
   + part, artifact, node and object are automatically underlined as instance
   . classifier tagged by DATA_DIAGRAMELEMENT_FLAG_INSTANCE do not prepend an ':' to their name
   . sqlite3 is linked dynamically
+  + symbols of interruptable region and diagram reference updated
 2019-01-17 1.9.0 [43d5e15]
   + the database check can repair circular diagram-parent references
   + user experience improvements at using text-edit widgets

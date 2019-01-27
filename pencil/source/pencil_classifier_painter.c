@@ -304,9 +304,10 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
             case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
-                double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
+                double circle_diameter = height;
+                //double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
                 double circle_radius = 0.5 * circle_diameter;
-                
+
                 double circle_top = top;
                 double circle_bottom = circle_top + circle_diameter;
                 double half_width = 0.5 * width;

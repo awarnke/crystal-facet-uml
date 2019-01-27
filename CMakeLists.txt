@@ -1,7 +1,7 @@
 PROJECT(crystal_facet_uml)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
+# ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INCLUDE_DIRECTORIES(gui/source)
 INCLUDE_DIRECTORIES(gui/include)
@@ -43,35 +43,49 @@ INCLUDE_DIRECTORIES(/usr/include/gdk-pixbuf-2.0)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/glib-2.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/gtk-3.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
-MESSAGE("Note: if include directories are missing, check out pkg-config --cflags glib-2.0")
+MESSAGE( "Note: if include directories are missing, run  pkg-config --cflags glib-2.0")
+
 LINK_DIRECTORIES(/opt/gnome/lib)
 LINK_DIRECTORIES(/opt/gnome/lib/gtk-3.0)
 LINK_DIRECTORIES(/usr/lib/)
 LINK_DIRECTORIES(/usr/lib64/)
-SET(crystal_facet_uml_BINARY_DIR ../bin)
-SET(crystal_facet_uml_SOURCE_DIR ..)
-FILE(GLOB commonSource gui/source/*.c trace/source/*.c ctrl/source/*.c data/source/*.c data/source/storage/*.c data/source/serial/*.c utf8stringbuf/source/util/string/*.c pencil/source/*.c pencil/source/util/geometry/*.c)
-FILE(GLOB appSource main/source/*.c)
-FILE(GLOB utestSource main/unittest/*.c embunit/embUnit/*.c embunit/textui.c data/unittest/*.c ctrl/unittest/*.c pencil/unittest/*.c universal/unittest/*.c)
+#SET(crystal_facet_uml_BINARY_DIR ../bin)
+#SET(crystal_facet_uml_SOURCE_DIR ..)
+FILE(GLOB commonSource gui/source/*.c
+                       trace/source/*.c
+                       ctrl/source/*.c
+                       data/source/*.c
+                       data/source/storage/*.c
+                       data/source/serial/*.c
+                       utf8stringbuf/source/util/string/*.c
+                       pencil/source/*.c
+                       pencil/source/util/geometry/*.c)
+FILE(GLOB appSource    main/source/*.c)
+FILE(GLOB utestSource  main/unittest/*.c
+                       embunit/embUnit/*.c
+                       embunit/textui.c
+                       data/unittest/*.c
+                       ctrl/unittest/*.c
+                       pencil/unittest/*.c
+                       universal/unittest/*.c)
+
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
+MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
+MESSAGE( "Note: to build using 4 cores, run              make -j4 afterwards" )
+
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
+
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+
 ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
 TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
-MESSAGE( "Note: to build a release, run               cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: to build with asserts and traces, run cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: to build using 4 cores, run           make -j4 afterwards" )
-
-INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/") # Needed for CPack to work
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/crystal-facet-uml/")
-MESSAGE("Note: run 'cd user_doc && make' before running 'make install' or 'make package'")
-
-# now the test cases. be less restrictive with errors.
-SET(CMAKE_C_FLAGS "-std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 INCLUDE_DIRECTORIES(embunit)
 INCLUDE_DIRECTORIES(data/unittest)
@@ -79,8 +93,30 @@ INCLUDE_DIRECTORIES(ctrl/unittest)
 INCLUDE_DIRECTORIES(pencil/unittest)
 INCLUDE_DIRECTORIES(universal/unittest)
 
+# now the test cases. be less restrictive with errors.
+SET(CMAKE_C_FLAGS "-std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
+
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
+
+# ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+MESSAGE( "Note: to build the unit tests, call:           make unittest_crystal_facet_uml")
+
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
 TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
-SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C EXCLUDE_FROM_ALL TRUE)
-MESSAGE ("Note: to build the unit tests, call:        make unittest_crystal_facet_uml")
+SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C
+                                                 EXCLUDE_FROM_ALL TRUE)
+
+# ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+MESSAGE( "Note: run 'cd user_doc && make' before running make install")
+
+# ==== ==== ==== ==== ==== ==== ==== ==== Install Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
+INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/crystal-facet-uml/")
+
+
