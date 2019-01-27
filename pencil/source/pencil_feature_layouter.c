@@ -158,7 +158,8 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 geometry_rectangle_init ( &f_bounds,
                                           geometry_rectangle_get_left( c_space ),
                                           geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
-                                          geometry_rectangle_get_width( c_space ),
+                                          //geometry_rectangle_get_width( c_space ),
+                                          geometry_rectangle_get_width( &f_min_bounds ),
                                           geometry_rectangle_get_height( &f_min_bounds )
                                         );
                 layout_feature_set_bounds ( feature_layout, &f_bounds );

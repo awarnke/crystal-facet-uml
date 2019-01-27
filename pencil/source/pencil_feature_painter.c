@@ -465,14 +465,17 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
     assert( NULL != font_layout );
     assert( NULL != out_feature_bounds );
 
+    double gap = pencil_size_get_standard_object_border( pencil_size );
+
     double left = 0.0;
     double top = 0.0;
-    double width = 0.0;
+    double width = 2.0 * gap;
     double height = 0.0;
 
     if ( data_feature_is_valid( the_feature ) )
     {
         TRACE_INFO_INT("calculating minimum bounds of feature id", data_feature_get_id( the_feature ) );
+
 
         /* layout text */
         int text2_width;

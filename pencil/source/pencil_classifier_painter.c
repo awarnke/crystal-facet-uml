@@ -294,18 +294,11 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
             case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
-            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
-                double circle_diameter = height;
-                //double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
+                //double circle_diameter = height;
+                double circle_diameter = 2.5 * pencil_size_get_title_font_size( pencil_size );
                 double circle_radius = 0.5 * circle_diameter;
 
                 double circle_top = top;
@@ -326,6 +319,106 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
                 /* adjust the text position */
                 text1_top = circle_bottom + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+            /*case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_INTERRUPT:*/
+            {
+                double border_right = border_left + border_width;
+                double border_bottom = border_top + border_height;
+                double y_center;
+                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
+                double x_indent;
+                x_indent = border_height / 2.0;
+
+                cairo_move_to ( cr, border_right, border_bottom );
+                cairo_line_to ( cr, border_right, border_top );
+                cairo_line_to ( cr, border_left, border_top );
+                cairo_line_to ( cr, border_left + x_indent, y_center );
+                cairo_line_to ( cr, border_left, border_bottom );
+                cairo_line_to ( cr, border_right, border_bottom );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+            {
+                double border_right = border_left + border_width;
+                double border_bottom = border_top + border_height;
+                double y_center;
+                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
+                double x_indent;
+                x_indent = border_height / 2.0;
+
+                cairo_move_to ( cr, border_right - x_indent, border_bottom );
+                cairo_line_to ( cr, border_right, y_center );
+                cairo_line_to ( cr, border_right - x_indent, border_top );
+                cairo_line_to ( cr, border_left, border_top );
+                cairo_line_to ( cr, border_left, border_bottom );
+                cairo_line_to ( cr, border_right - x_indent, border_bottom );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+            {
+                double border_right = border_left + border_width;
+                double border_bottom = border_top + border_height;
+
+                cairo_move_to ( cr, border_right, border_bottom );
+                cairo_line_to ( cr, border_left, border_top );
+                cairo_line_to ( cr, border_right, border_top );
+                cairo_line_to ( cr, border_left, border_bottom );
+                cairo_line_to ( cr, border_right, border_bottom );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                text1_top = border_bottom + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+            {
+                double x_center;
+                x_center = geometry_rectangle_get_x_center ( classifier_bounds );
+                double block_width;
+                block_width = pencil_size_get_title_font_size( pencil_size );
+
+                cairo_rectangle ( cr, x_center - (0.5 * block_width), border_top, block_width, border_height );
+                cairo_fill (cr);
+
+                /* adjust the text position */
+                text1_top = border_top + gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+            {
+                double right, bottom;
+                right = geometry_rectangle_get_right ( classifier_bounds );
+                bottom = geometry_rectangle_get_bottom ( classifier_bounds );
+                double x_center, y_center;
+                x_center = geometry_rectangle_get_x_center ( classifier_bounds );
+                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
+
+                cairo_move_to ( cr, x_center, bottom );
+                cairo_line_to ( cr, left, y_center );
+                cairo_line_to ( cr, x_center, top );
+                cairo_line_to ( cr, right, y_center );
+                cairo_line_to ( cr, x_center, bottom );
+                cairo_stroke (cr);
+
+                /* adjust the text position */
+                double some_offset = pencil_size_get_standard_font_size( pencil_size );
+                text1_top = y_center - some_offset;
             }
             break;
 
