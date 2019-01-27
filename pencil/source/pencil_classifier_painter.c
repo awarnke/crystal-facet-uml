@@ -308,14 +308,37 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 double center_y = top + circle_radius;
                 double circle_left = center_x - circle_radius;
                 double circle_right = center_x + circle_radius;
-                double ctrl_offset = circle_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
 
-                cairo_move_to ( cr, center_x, circle_bottom );
-                cairo_curve_to ( cr, circle_left + ctrl_offset, circle_bottom, circle_left, circle_bottom - ctrl_offset, circle_left /* end point x */, center_y /* end point y */ );
-                cairo_curve_to ( cr, circle_left, circle_top + ctrl_offset, circle_left + ctrl_offset, circle_top, center_x /* end point x */, circle_top /* end point y */ );
-                cairo_curve_to ( cr, circle_right - ctrl_offset, circle_top, circle_right, circle_top + ctrl_offset, circle_right /* end point x */, center_y /* end point y */ );
-                cairo_curve_to ( cr, circle_right, circle_bottom - ctrl_offset, circle_right - ctrl_offset, circle_bottom, center_x /* end point x */, circle_bottom /* end point y */ );
-                cairo_stroke (cr);
+                if ( data_classifier_get_main_type ( classifier ) != DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
+                {
+                    double ctrl_offset = circle_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                    cairo_move_to ( cr, center_x, circle_bottom );
+                    cairo_curve_to ( cr, circle_left + ctrl_offset, circle_bottom, circle_left, circle_bottom - ctrl_offset, circle_left /* end point x */, center_y /* end point y */ );
+                    cairo_curve_to ( cr, circle_left, circle_top + ctrl_offset, circle_left + ctrl_offset, circle_top, center_x /* end point x */, circle_top /* end point y */ );
+                    cairo_curve_to ( cr, circle_right - ctrl_offset, circle_top, circle_right, circle_top + ctrl_offset, circle_right /* end point x */, center_y /* end point y */ );
+                    cairo_curve_to ( cr, circle_right, circle_bottom - ctrl_offset, circle_right - ctrl_offset, circle_bottom, center_x /* end point x */, circle_bottom /* end point y */ );
+                    cairo_stroke (cr);
+                }
+
+                if ( ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
+                    || ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE ) )
+                {
+                    double circle2_radius = circle_radius - gap;
+                    double circle2_top = circle_top + gap;
+                    double circle2_bottom = circle_bottom - gap;
+                    double circle2_left = circle_left + gap;
+                    double circle2_right = circle_right - gap;
+                    double ctrl2_offset = circle2_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+                    /* draw a smaller filled circle */
+                    cairo_move_to ( cr, center_x, circle2_bottom );
+                    cairo_curve_to ( cr, circle2_left + ctrl2_offset, circle2_bottom, circle2_left, circle2_bottom - ctrl2_offset, circle2_left /* end point x */, center_y /* end point y */ );
+                    cairo_curve_to ( cr, circle2_left, circle2_top + ctrl2_offset, circle2_left + ctrl2_offset, circle2_top, center_x /* end point x */, circle2_top /* end point y */ );
+                    cairo_curve_to ( cr, circle2_right - ctrl2_offset, circle2_top, circle2_right, circle2_top + ctrl2_offset, circle2_right /* end point x */, center_y /* end point y */ );
+                    cairo_curve_to ( cr, circle2_right, circle2_bottom - ctrl2_offset, circle2_right - ctrl2_offset, circle2_bottom, center_x /* end point x */, circle2_bottom /* end point y */ );
+                    cairo_fill (cr);
+                }
 
                 /* adjust the text position */
                 text1_top = circle_bottom + gap;
