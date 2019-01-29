@@ -340,6 +340,36 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                     cairo_fill (cr);
                 }
 
+                if ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY )
+                {
+                    double quarter_font = 0.15 * pencil_size_get_classifier_symbol_height( pencil_size );
+                    cairo_move_to ( cr, center_x - quarter_font, center_y - 2.0 * quarter_font );
+                    cairo_line_to ( cr, center_x - quarter_font, center_y + 2.0 * quarter_font );
+                    cairo_move_to ( cr, center_x - quarter_font, center_y );
+                    cairo_line_to ( cr, center_x + quarter_font, center_y );
+                    cairo_move_to ( cr, center_x + quarter_font, center_y - 2.0 * quarter_font );
+                    cairo_line_to ( cr, center_x + quarter_font, center_y + 2.0 * quarter_font );
+                    cairo_stroke (cr);
+                }
+                else if ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY )
+                {
+                    double quarter_font = 0.15 * pencil_size_get_classifier_symbol_height( pencil_size );
+                    cairo_move_to ( cr, center_x - 1.5 * quarter_font, center_y - 2.0 * quarter_font );
+                    cairo_line_to ( cr, center_x - 1.5 * quarter_font, center_y + 2.0 * quarter_font );
+                    cairo_move_to ( cr, center_x - 1.5 * quarter_font, center_y );
+                    cairo_line_to ( cr, center_x + 0.3 * quarter_font, center_y );
+                    cairo_move_to ( cr, center_x + 0.3 * quarter_font, center_y - 2.0 * quarter_font );
+                    cairo_line_to ( cr, center_x + 0.3 * quarter_font, center_y + 2.0 * quarter_font );
+                    cairo_stroke (cr);
+                    cairo_move_to ( cr, center_x + 1.5 * quarter_font, center_y - 2.0 * quarter_font );
+                    cairo_line_to ( cr, center_x + 1.5 * quarter_font, center_y );
+                    cairo_move_to ( cr, center_x + 0.8 * quarter_font, center_y - 1.6 * quarter_font );
+                    cairo_line_to ( cr, center_x + 2.2 * quarter_font, center_y - 0.4 * quarter_font );
+                    cairo_move_to ( cr, center_x + 2.2 * quarter_font, center_y - 1.6 * quarter_font );
+                    cairo_line_to ( cr, center_x + 0.8 * quarter_font, center_y - 0.4 * quarter_font );
+                    cairo_stroke (cr);
+                }
+
                 /* adjust the text position */
                 text1_top = circle_bottom + gap;
             }
