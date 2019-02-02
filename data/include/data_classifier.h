@@ -185,6 +185,10 @@ static inline void data_classifier_set_id ( data_classifier_t *this_, int64_t id
 /*!
  *  \brief gets the attribute main_type
  *
+ *  The main_type is the type of this element.
+ *  The name main_type is chosen to
+ *  distinguish this type from the type-name of a possible generalization or the class-name which this possible instance possibly realizes.
+ *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object
  */
@@ -200,6 +204,8 @@ static inline void data_classifier_set_main_type ( data_classifier_t *this_, dat
 
 /*!
  *  \brief gets the attribute stereotype
+ *
+ *  A stereotype is a marker-attribute which can be used to assign the classifier to a group
  *
  *  \param this_ pointer to own object attributes
  *  \return requested attribute of this object

@@ -10,6 +10,10 @@
                 <imageobject><imagedata fileref="feature_gallery_export/D0003_Classifiers.png"/></imageobject>
             </mediaobject>
             <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0024_Classifiers_II.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0024_Classifiers_II.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.png"/></imageobject>
             </mediaobject>
@@ -52,6 +56,10 @@
                 <imageobject><imagedata fileref="feature_gallery_export/D0021_Timing.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0021_Timing.png"/></imageobject>
             </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0023_Interaction_Overview.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0023_Interaction_Overview.png"/></imageobject>
+            </mediaobject>
         </para>
     </section>
 
@@ -89,6 +97,10 @@
             <mediaobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0019_Block_Diagram.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0019_Block_Diagram.png"/></imageobject>
+            </mediaobject>
+            <mediaobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0022_Parametric_Diagram.pdf" width="12cm"/></imageobject>
+                <imageobject><imagedata fileref="feature_gallery_export/D0022_Parametric_Diagram.png"/></imageobject>
             </mediaobject>
         </para>
     </section>

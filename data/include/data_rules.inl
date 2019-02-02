@@ -398,6 +398,14 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
     return result;
 }
 
+static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type )
+{
+    bool result;
+    result = (( classifier_type == DATA_CLASSIFIER_TYPE_UML_PART )
+              || ( classifier_type == DATA_CLASSIFIER_TYPE_UML_OBJECT ));
+    return result;
+}
+
 
 /*
 Copyright 2017-2019 Andreas Warnke

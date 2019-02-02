@@ -17,6 +17,7 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
+    data_rules_init ( &((*this_).data_rules) );
 
     TRACE_END();
 }
@@ -25,6 +26,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_rules_destroy ( &((*this_).data_rules) );
     pencil_marker_destroy( &((*this_).marker) );
 
     TRACE_END();
@@ -53,6 +55,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     const data_diagramelement_t *diagramelement;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
     diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+    const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
 
     double left, top;
     double width, height;
@@ -75,18 +78,102 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
         data_id_to_utf8stringbuf( &the_id, id_str );
 
+        /* determine text dimension */
         int text4_width;
         int text4_height;
         pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
         pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
 
+        /* position the text */
+        int x_gap = 0;
+        int y_gap = 0;
+        switch ( classifier_type )
+        {
+            case DATA_CLASSIFIER_TYPE_BLOCK:
+            case DATA_CLASSIFIER_TYPE_FEATURE:
+            case DATA_CLASSIFIER_TYPE_REQUIREMENT:
+            case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
+            case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
+            case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+            case DATA_CLASSIFIER_TYPE_UML_PART:
+            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+            case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+            case DATA_CLASSIFIER_TYPE_UML_CLASS:
+            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+            case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+            case DATA_CLASSIFIER_TYPE_UML_COMMENT:
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
+            {
+                /* there is a border line */
+                x_gap = 2*gap;
+                y_gap = 2*gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_NODE:
+            {
+                /* there is a 3D border line */
+                x_gap = 4*gap;
+                y_gap = 2*gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+            case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+            case DATA_CLASSIFIER_TYPE_UML_STATE:
+            case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
+            {
+                /* there is a border line with a round corner */
+                x_gap = 7*gap;
+                y_gap = 2*gap;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_ACTOR:
+            case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
+            case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
+            case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
+            {
+                /* position the text right-bottom of the icon */
+                x_gap = (width - pencil_size_get_classifier_symbol_height( pencil_size ))/2 - text4_width;
+                y_gap = 0;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+            case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+            {
+                /* there is a chance that the bottom-right corner is empty */
+                x_gap = 0;
+                y_gap = 0;
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+            {
+                /* the send signal has a 45 degree edge */
+                x_gap = height/2;
+                y_gap = 2*gap;
+            }
+            break;
+
+            default:
+            {
+                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_draw()");
+            }
+            break;
+        }
+
         /* draw text */
         GdkRGBA grey_color;
         grey_color = pencil_size_get_gray_out_color( pencil_size );
         cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
-        //cairo_move_to ( cr, left + width - text4_width - gap, top - text4_height );
-        cairo_move_to ( cr, left + width - text4_width - gap - gap, top + height - text4_height - gap - gap );
+        cairo_move_to ( cr, left + width - text4_width - x_gap, top + height - text4_height - y_gap );
         pango_cairo_show_layout (cr, font_layout);
     }
 
@@ -126,7 +213,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         int border_top = top + gap;
         int border_width = width - 2.0 * gap;
         int border_height = height - 2.0 * gap;
-        switch ( data_classifier_get_main_type ( classifier ) )
+        switch ( classifier_type )
         {
             case DATA_CLASSIFIER_TYPE_BLOCK:  /* SysML */
             case DATA_CLASSIFIER_TYPE_FEATURE:
@@ -448,7 +535,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                 cairo_fill (cr);
 
                 /* adjust the text position */
-                text1_top = border_top + gap;
+                text1_top = border_top + border_height + gap;
             }
             break;
 
@@ -569,14 +656,19 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         /* draw name text */
         int text2_height = 0;
         {
+            bool is_always_instance;
+            bool is_anonymous_instance;
+            is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), classifier_type );
+            is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
+
             /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE /* + 1 */ ];
+            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            //if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            //{
-            //    utf8stringbuf_copy_str( name_buf, ":" );
-            //}
-            //else
+            if ( is_anonymous_instance && ( ! is_always_instance ) )
+            {
+                utf8stringbuf_copy_str( name_buf, ":" );
+            }
+            else
             {
                 utf8stringbuf_clear( name_buf );
             }
@@ -602,17 +694,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             pango_cairo_show_layout (cr, font_layout);
 
             /* underline instances */
-            bool is_instance;
-            {
-                /* explicit instances */
-                is_instance = (( DATA_CLASSIFIER_TYPE_UML_OBJECT == data_classifier_get_main_type ( classifier ) )
-                    || ( DATA_CLASSIFIER_TYPE_UML_PART == data_classifier_get_main_type ( classifier ) )
-                    || ( DATA_CLASSIFIER_TYPE_UML_NODE == data_classifier_get_main_type ( classifier ) )
-                    || ( DATA_CLASSIFIER_TYPE_UML_ARTIFACT == data_classifier_get_main_type ( classifier ) ));
-                /* anonymous instances: */
-                is_instance = is_instance || ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
-            }
-            if ( is_instance )
+            if ( is_always_instance || is_anonymous_instance )
             {
                 cairo_move_to ( cr, left + 0.5*( width - text2_width ), text1_top+text1_height+f_line_gap+text2_height );
                 cairo_line_to ( cr, left + 0.5*( width + text2_width ), text1_top+text1_height+f_line_gap+text2_height );
@@ -621,8 +703,8 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
         }
 
         /* draw description text */
-        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
-            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
+        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
+            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == classifier_type ))
         {
             int text3_width;
             int text3_height;
@@ -635,9 +717,9 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+gap+gap );
             pango_cairo_show_layout (cr, font_layout);
         }
-        else if (( DATA_CLASSIFIER_TYPE_UML_CLASS == data_classifier_get_main_type ( classifier ) )
-            || ( DATA_CLASSIFIER_TYPE_UML_OBJECT == data_classifier_get_main_type ( classifier ) )
-            || ( DATA_CLASSIFIER_TYPE_UML_INTERFACE == data_classifier_get_main_type ( classifier ) ))
+        else if (( DATA_CLASSIFIER_TYPE_UML_CLASS == classifier_type )
+            || ( DATA_CLASSIFIER_TYPE_UML_OBJECT == classifier_type )
+            || ( DATA_CLASSIFIER_TYPE_UML_INTERFACE == classifier_type ))
         {
             /* draw property and operation compartments */
             cairo_move_to ( cr, border_left, text1_top+text1_height+f_line_gap+text2_height+gap+gap );

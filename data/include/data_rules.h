@@ -73,6 +73,17 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
  */
 static inline bool data_rules_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
+/*!
+ *  \brief determines if the classifier type is always an instance
+ *
+ *  This is true for part and object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type the classifier type
+ *  \return true if the classifier type cannot be an abstract concept but is always an instance.
+ */
+static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+
 #include "data_rules.inl"
 
 #endif  /* DATA_RULES_H */

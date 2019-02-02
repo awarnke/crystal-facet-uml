@@ -20,6 +20,7 @@
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "data_rules.h"
 #include <cairo.h>
 #include <stdint.h>
 
@@ -28,6 +29,7 @@
  */
 struct pencil_classifier_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
+    data_rules_t data_rules;  /*!< own instance of data rules */
 };
 
 typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;

@@ -135,11 +135,11 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
         const data_classifier_t *classifier;
-        //const data_diagramelement_t *diagramelement;
+        const data_diagramelement_t *diagramelement;
         classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        //diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-        //data_diagramelement_flag_t display_flags;
-        //display_flags = data_diagramelement_get_display_flags( diagramelement );
+        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+        data_diagramelement_flag_t display_flags;
+        display_flags = data_diagramelement_get_display_flags( diagramelement );
 
         /* stereotype text */
         int text1_height = 0;
@@ -166,14 +166,19 @@ static inline void pencil_classifier_painter_private_get_stereotype_and_name_dim
         int text2_height;
         double space_for_line;
         {
+            bool is_always_instance;
+            bool is_anonymous_instance;
+            is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
+            is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
+
             /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE /* + 1 */ ];
+            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            //if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ))
-            //{
-            //    utf8stringbuf_copy_str( name_buf, ":" );
-            //}
-            //else
+            if ( is_anonymous_instance && ( ! is_always_instance ) )
+            {
+                utf8stringbuf_copy_str( name_buf, ":" );
+            }
+            else
             {
                 utf8stringbuf_clear( name_buf );
             }

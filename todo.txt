@@ -12,8 +12,9 @@ ideas for future versions:
   [ ] Support Diagram-Types: Profile
   [ ] function call to self (timing and sequence diagrams) looks ugly
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
+  [ ] activity bars on lifelines missing
   @data
-  [.] more classifier types needed: start-activity, decision-activity, end-activity, history-state
+  [ ] nodes and artifacts can either be concepts or instances. named-instances are not yet supported.
   @ctrl
   [ ] export XMI format
   [ ] import XMI format

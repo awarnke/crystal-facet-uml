@@ -1,7 +1,7 @@
 2019-02-xx 1.10.0 [xxxxxxx]
   + new classifier types for activity, state, Interaction-Overview and parametric diagrams
   + part, artifact, node and object are automatically underlined as instance
-  . classifier tagged by DATA_DIAGRAMELEMENT_FLAG_INSTANCE do not prepend an ':' to their name
+  + objects and parts are always instances
   . sqlite3 is linked dynamically
   + symbols for interruptable region, diagram reference, decision, fork, join, timeout, send-sig, rcv-event, history
 2019-01-17 1.9.0 [43d5e15]
@@ -136,5 +136,5 @@
 2016-05-01 v002 [1d03746]
   + The user can create and rename classifiers like classes
   - DB format incompatible to version 0.01
-2016-03-31 v001 [b8be2b]
+2016-03-31 v001 [b8be2bc]
   + The user can create, rename and navigate diagrams
