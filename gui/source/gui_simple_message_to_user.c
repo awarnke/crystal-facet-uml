@@ -116,8 +116,8 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
                                           "This is " META_INFO_PROGRAM_NAME_STR " version " META_INFO_VERSION_STR "\n"
                                           "Copyright: " META_INFO_COPYRIGHT_STR "\n"
                                           "License: " META_INFO_LICENSE_STR "\n"
-                                          "Links against gtk3, sqlite3" 
-                );
+                                          "Links to gtk3, sqlite3" 
+                                        );
             }
             break;
 
