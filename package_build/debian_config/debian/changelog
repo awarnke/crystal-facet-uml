@@ -1,9 +1,9 @@
-crystal-facet-uml (1.10.0-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.10.0-1ubuntu1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * New version 1.10.0 supports ...
+  * New version 1.10.0 provides more classifiers for activity diagrams
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 00 Jan 2019 20:06:11 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Feb 2019 17:32:01 +0100
 
 crystal-facet-uml (1.9.0-1) UNRELEASED; urgency=medium
 

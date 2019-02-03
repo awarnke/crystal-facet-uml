@@ -1,4 +1,4 @@
-2019-02-03 1.10.0 [xxxxxxx]
+2019-02-03 1.10.0 [9899988]
   + new classifier types for activity, state, Interaction-Overview and parametric diagrams
   + part, artifact, node and object are automatically underlined as instance
   + objects and parts are always instances
