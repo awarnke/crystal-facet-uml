@@ -63,7 +63,7 @@ How to use
 >
 > make
 >
-> evince chapter of crystal_facet_uml_documentation.pdf &
+> evince crystal_facet_uml_user_documentation.pdf &
 
 Meta-Information
 -----------
@@ -73,5 +73,3 @@ Meta-Information
 > Author+Copyright: 2016-2019 Andreas Warnke
 >
 > License: Apache 2.0 License
->
-> Note: This program contains code from other projects with different licenses (see license.txt).

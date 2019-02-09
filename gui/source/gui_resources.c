@@ -6,6 +6,12 @@
 #include <stdbool.h>
 
 /* including resource files */
+
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Woverlength-strings"
+#endif
+
 #include "resources/crystal_facet_uml.c"
 #include "resources/edit_commit.c"
 #include "resources/edit_copy.c"
@@ -33,6 +39,10 @@
 #include "resources/navigate_create_child.c"
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_open_folder.c"
+
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
 
 void gui_resources_init ( gui_resources_t *this_ )
 {

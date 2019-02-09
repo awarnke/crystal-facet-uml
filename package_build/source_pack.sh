@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.10.0
+VERSIONSTR=1.11.0
 echo "Building Archive Version $VERSIONSTR"
 
 echo "clean up possibly broken previous build"

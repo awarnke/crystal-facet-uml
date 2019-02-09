@@ -13,6 +13,7 @@ Copyright: 2018-2019 Andreas Warnke <cfu@andreaswarnke.de>
 License: Apache-2.0
 
 Files: embunit/*
+Comment: The directory embunit should be excluded from package files
 Copyright: Embedded Unit Project
 License: MIT-0
 

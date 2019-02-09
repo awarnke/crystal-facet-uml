@@ -75,7 +75,7 @@ MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYP
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build using 4 cores, run              make -j4 afterwards" )
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
 
@@ -96,7 +96,7 @@ INCLUDE_DIRECTORIES(pencil/unittest)
 INCLUDE_DIRECTORIES(universal/unittest)
 
 # now the test cases. be less restrictive with errors.
-SET(CMAKE_C_FLAGS "-std=c99 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
+SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
 
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
 

@@ -1,8 +1,6 @@
 [Desktop Entry]
-Encoding=UTF-8
 Name=crystal_facet_uml
 GenericName=UML Drawing Tool
-Version=1.10.0
 Icon=crystal_facet_uml
 Comment=A tool to create a set of consistent uml diagrams
 Exec=/usr/bin/crystal_facet_uml -u %f

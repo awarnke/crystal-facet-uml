@@ -1,3 +1,10 @@
+crystal-facet-uml (1.11.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * New version 1.11.0
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Feb 2019 17:33:01 +0100
+
 crystal-facet-uml (1.10.0-1ubuntu1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
@@ -24,17 +31,17 @@ crystal-facet-uml (1.7.1-1) UNRELEASED; urgency=medium
   * User documentation is generated from docbook.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 21 Nov 2018 21:00:00 +0100
- 
+
 crystal-facet-uml (1.7.0-1) UNRELEASED; urgency=medium
 
   * tree view allows to navigate interactively
   * new sibling and new child diagrams can be created in tree view
   * when deleting a diagram, unfocused windows show parent diagram
-  * only local-scenario relationships are shown in timing, sequence 
+  * only local-scenario relationships are shown in timing, sequence
     and communication diagrams
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 Nov 2018 15:42:20 +0100
- 
+
 crystal-facet-uml (1.6.1-1) UNRELEASED; urgency=medium
 
   * Restructure deb packet generation from CPACK to dh_make tool.

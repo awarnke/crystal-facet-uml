@@ -271,7 +271,14 @@ static inline utf8codepoint_t utf8stringbuf_get_char_at( const utf8stringbuf_t t
 
 static inline utf8error_t utf8stringbuf_copy_buf( utf8stringbuf_t this_, const utf8stringbuf_t original ) {
     utf8error_t complete = UTF8ERROR_SUCCESS;
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+#endif
     strncpy( this_.buf, original.buf, this_.size );
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
     if ( this_.buf[this_.size-1] != '\0' ) {
         utf8_string_buf_private_make_null_termination( this_ );
         complete = UTF8ERROR_TRUNCATED;
@@ -286,7 +293,14 @@ static inline utf8error_t utf8stringbuf_copy_str( utf8stringbuf_t this_, const c
         complete = UTF8ERROR_NULL_PARAM;
     }
     else {
+#if __GNUC__ >= 8
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wstringop-truncation"
+#endif
         strncpy( this_.buf, original, this_.size );
+#if __GNUC__ >= 8
+#pragma GCC diagnostic pop
+#endif
         if ( this_.buf[this_.size-1] != '\0' ) {
             utf8_string_buf_private_make_null_termination( this_ );
             complete = UTF8ERROR_TRUNCATED;

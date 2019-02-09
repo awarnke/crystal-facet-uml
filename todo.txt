@@ -14,7 +14,7 @@ ideas for future versions:
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing
   @data
-  [ ] nodes and artifacts can either be concepts or instances. named-instances are not yet supported.
+  [ ] nodes and artifacts can either be concepts or anonymous instances. named-instances are not yet supported.
   @ctrl
   [ ] export XMI format
   [ ] import XMI format
