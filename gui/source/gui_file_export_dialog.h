@@ -21,6 +21,20 @@ struct gui_file_export_dialog_struct {
     gui_file_exporter_t file_exporter;  /*!<  own instance of gui_file_exporter_t */
 
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
+    
+    GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
+    GtkWidget *format_docbook;  /*!< pointer to checkbox for export-format docbook */
+    GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
+    GtkWidget *format_rtf;  /*!< pointer to checkbox for export-format rtf */
+    GtkWidget *format_pdf;  /*!< pointer to checkbox for export-format pdf */
+    GtkWidget *format_png;  /*!< pointer to checkbox for export-format png */
+    GtkWidget *format_ps;  /*!< pointer to checkbox for export-format ps */
+    GtkWidget *format_svg;  /*!< pointer to checkbox for export-format svg */
+    GtkWidget *format_txt;  /*!< pointer to checkbox for export-format txt */
+    GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
+    
+    GtkFlowBox *flowbox_fragments;  /*!< pointer to flow box for export of many independant files */
+    GtkFlowBox *flowbox_whole;  /*!< pointer to checkbox for export of single or linked files */
 };
 
 typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;

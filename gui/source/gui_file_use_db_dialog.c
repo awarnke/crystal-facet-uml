@@ -39,6 +39,7 @@ void gui_file_use_db_dialog_destroy( gui_file_use_db_dialog_t *this_ )
     TRACE_BEGIN();
 
     gtk_widget_destroy( (*this_).use_db_file_chooser );
+    /* no need to g_object_unref ( (*this_).use_db_file_chooser ); here */
 
     gui_file_db_manager_destroy( &((*this_).file_manager) );
 
