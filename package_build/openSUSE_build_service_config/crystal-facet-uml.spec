@@ -1,8 +1,9 @@
 #
-# spec file for package crystal_facet_uml
+# spec file for package crystal-facet-uml
 #
 
-Name:           crystal_facet_uml
+Name:           crystal-facet-uml
+#Name of the contained application: crystal_facet_uml
 Version:        1.11.0
 Release:        1
 License:        Apache-2.0
@@ -50,8 +51,8 @@ mkdir -p %{buildroot}/usr/share/pixmaps
 cp ./gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
 mkdir -p %{buildroot}/usr/share/man/man1
 cp ./user_doc/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
-#mkdir -p     %%{buildroot}/usr/share/doc/packages/crystal-facet-uml/
-#cp ./user_doc/crystal_facet_uml_user_documentation.pdf     %%{buildroot}/usr/share/doc/packages/crystal-facet-uml/
+mkdir -p %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
+cp ./user_doc/crystal_facet_uml_user_documentation.pdf %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
 
 %check
 ./crystal_facet_uml -v
@@ -64,7 +65,7 @@ cp ./user_doc/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
 /usr/share/pixmaps/crystal_facet_uml.png
 /usr/share/applications/crystal_facet_uml.desktop
 /usr/share/man/man1/crystal_facet_uml.1.gz
-#/usr/share/doc/packages/crystal-facet-uml/crystal_facet_uml_user_documentation.pdf
+/usr/share/doc/packages/crystal-facet-uml/crystal_facet_uml_user_documentation.pdf
 
 %changelog
 

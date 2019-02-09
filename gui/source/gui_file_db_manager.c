@@ -1,16 +1,16 @@
-/* File: gui_file_manager.c; Copyright and License: see below */
+/* File: gui_file_db_manager.c; Copyright and License: see below */
 
-#include "gui_file_manager.h"
+#include "gui_file_db_manager.h"
 #include "trace.h"
 #include <gtk/gtk.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
 
-void gui_file_manager_init ( gui_file_manager_t *this_,
-                             ctrl_controller_t *controller,
-                             data_database_t *database,
-                             gui_simple_message_to_user_t *message_to_user )
+void gui_file_db_manager_init ( gui_file_db_manager_t *this_,
+                                ctrl_controller_t *controller,
+                                data_database_t *database,
+                                gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
     assert( NULL != controller );
@@ -24,7 +24,7 @@ void gui_file_manager_init ( gui_file_manager_t *this_,
     TRACE_END();
 }
 
-void gui_file_manager_destroy( gui_file_manager_t *this_ )
+void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -35,10 +35,10 @@ void gui_file_manager_destroy( gui_file_manager_t *this_ )
     TRACE_END();
 }
 
-void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
+void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_file_manager_t *this_ = user_data;
+    gui_file_db_manager_t *this_ = user_data;
 
     switch ( response_id )
     {

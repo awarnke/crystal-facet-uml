@@ -260,38 +260,19 @@ void gui_main_window_init ( gui_main_window_t *this_,
                        &((*this_).message_to_user)
                      );
 
-    /* init the file chooser */
+    /* init the file choosers */
 
-    (*this_).use_db_file_chooser = gtk_file_chooser_dialog_new ( "Select DB to use",
-                                                                 GTK_WINDOW( (*this_).window ),
-                                                                 GTK_FILE_CHOOSER_ACTION_SAVE,
-                                                                 "Cancel",
-                                                                 GTK_RESPONSE_CANCEL,
-                                                                 "Create/Use DB-File",
-                                                                 GTK_RESPONSE_ACCEPT,
-                                                                 NULL
-                                                               );
-    gtk_file_chooser_set_current_name( GTK_FILE_CHOOSER( (*this_).use_db_file_chooser ), "untitled.cfu1" );
-    gui_file_manager_init( &((*this_).file_manager), controller, database, &((*this_).message_to_user) );
-
-    (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
-                                                                 GTK_WINDOW( (*this_).window ),
-                                                                 GTK_FILE_CHOOSER_ACTION_SELECT_FOLDER,
-                                                                 "Cancel",
-                                                                 GTK_RESPONSE_CANCEL,
-                                                                 "txt Files",
-                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_TXT,
-                                                                 "svg Files",
-                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_SVG,
-                                                                 "png Files",
-                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_PNG,
-                                                                 "pdf Files",
-                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_PDF,
-                                                                 "ps Files",
-                                                                 GUI_FILE_EXPORTER_CONST_EXPORT_PS,
-                                                                 NULL
-                                                               );
-    gui_file_exporter_init( &((*this_).file_exporter), db_reader, &((*this_).message_to_user) );
+    gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog), 
+                                  controller, 
+                                  database, 
+                                  GTK_WINDOW( (*this_).window ),
+                                  &((*this_).message_to_user) 
+                                );
+    gui_file_export_dialog_init( &((*this_).file_export_dialog), 
+                                 db_reader, 
+                                 GTK_WINDOW( (*this_).window ),
+                                 &((*this_).message_to_user) 
+                               );
 
     TRACE_INFO("GTK+ Widgets are created.");
 
@@ -401,10 +382,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
-    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "response", G_CALLBACK(gui_file_manager_use_db_response_callback), &((*this_).file_manager) );
-    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "response", G_CALLBACK(gui_file_exporter_export_response_callback), &((*this_).file_exporter) );
-    g_signal_connect( G_OBJECT((*this_).use_db_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
-    g_signal_connect( G_OBJECT((*this_).export_file_chooser), "delete-event", G_CALLBACK(gtk_widget_hide_on_delete), NULL );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
 
@@ -455,17 +432,15 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");
 
-    gtk_widget_destroy( (*this_).use_db_file_chooser );
-    gtk_widget_destroy( (*this_).export_file_chooser );
-
+    gui_file_export_dialog_destroy ( &((*this_).file_export_dialog) );
+    gui_file_use_db_dialog_destroy ( &((*this_).file_use_db_dialog) );
+    
     TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_tools_destroy( &((*this_).tools_data) );
     gui_marked_set_destroy( &((*this_).marker_data) );
     gui_textedit_destroy( &((*this_).text_editor) );
-    gui_file_manager_destroy( &((*this_).file_manager) );
-    gui_file_exporter_destroy( &((*this_).file_exporter) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).database = NULL;
 
@@ -500,7 +475,7 @@ void gui_main_window_use_db_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
-    gtk_widget_show_all( GTK_WIDGET( (*this_).use_db_file_chooser ) );
+    gui_file_use_db_dialog_show ( &((*this_).file_use_db_dialog) );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -513,7 +488,7 @@ void gui_main_window_export_btn_callback( GtkWidget* button, gpointer data )
 
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 
-    gtk_widget_show_all( GTK_WIDGET( (*this_).export_file_chooser ) );
+    gui_file_export_dialog_show ( &((*this_).file_export_dialog) );
 
     TRACE_TIMESTAMP();
     TRACE_END();

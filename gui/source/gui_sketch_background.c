@@ -109,8 +109,8 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_message_user_doc( (*this_).resources ),
-                                                         "The user manual crystal_facet_uml_user_documentation.pdf is available.",
-                                                         "see http://www.andreaswarnke.de/crystal_facet_uml/html/index.html",
+                                                         "The user manual crystal_facet_uml_user_documentation.pdf is available",
+                                                         "in the net and locally at /usr/share/doc/packages/crystal-facet-uml",
                                                          text_area_start+BORDER,
                                                          top+BORDER+192,
                                                          cr

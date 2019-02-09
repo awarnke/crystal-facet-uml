@@ -1,7 +1,7 @@
-/* File: gui_file_manager.h; Copyright and License: see below */
+/* File: gui_file_db_manager.h; Copyright and License: see below */
 
-#ifndef GUI_FILE_MANAGER_H
-#define GUI_FILE_MANAGER_H
+#ifndef GUI_FILE_DB_MANAGER_H
+#define GUI_FILE_DB_MANAGER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -18,13 +18,13 @@
 /*!
  *  \brief attributes of the file manager
  */
-struct gui_file_manager_struct {
+struct gui_file_db_manager_struct {
     ctrl_controller_t *controller;  /*!< pointer to external ctrl_controller_t */
     data_database_t *database;  /*!< pointer to external data_database_t */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 };
 
-typedef struct gui_file_manager_struct gui_file_manager_t;
+typedef struct gui_file_db_manager_struct gui_file_db_manager_t;
 
 /*!
  *  \brief initializes the main window
@@ -34,25 +34,25 @@ typedef struct gui_file_manager_struct gui_file_manager_t;
  *  \param database pointer to the database object to use
  *  \param message_to_user pointer to the message_to_user object to use
  */
-void gui_file_manager_init( gui_file_manager_t *this_,
-                            ctrl_controller_t *controller,
-                            data_database_t *database,
-                            gui_simple_message_to_user_t *message_to_user
-                          );
+void gui_file_db_manager_init( gui_file_db_manager_t *this_,
+                               ctrl_controller_t *controller,
+                               data_database_t *database,
+                               gui_simple_message_to_user_t *message_to_user
+                             );
 
 /*!
  *  \brief destroys the main window
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_file_manager_destroy( gui_file_manager_t *this_ );
+void gui_file_db_manager_destroy( gui_file_db_manager_t *this_ );
 
 /*!
  *  \brief callback function of a GtkDialog
  */
-void gui_file_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+void gui_file_db_manager_use_db_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 
-#endif  /* GUI_FILE_MANAGER_H */
+#endif  /* GUI_FILE_DB_MANAGER_H */
 
 
 /*

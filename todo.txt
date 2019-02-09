@@ -4,8 +4,9 @@ ideas for future versions:
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
-  [ ] export formats: extend export formats by docbook, latex, doxygen, asciidoc
+  [ ] export formats: extend export formats by docbook, latex, doxygen, asciidoc, xhtml, rtf, pdf
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
+  [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
