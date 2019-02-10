@@ -10,7 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "gui_file_exporter.h"
+#include "io_diagram_image_exporter.h"
 #include "storage/data_database.h"
 #include <gtk/gtk.h>
 
@@ -18,10 +18,12 @@
  *  \brief attributes of the file export dialog
  */
 struct gui_file_export_dialog_struct {
-    gui_file_exporter_t file_exporter;  /*!<  own instance of gui_file_exporter_t */
+    io_diagram_image_exporter_t file_exporter;  /*!<  own instance of gui_file_exporter_t */
+
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
-    
+
     GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
     GtkWidget *format_docbook;  /*!< pointer to checkbox for export-format docbook */
     GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
@@ -32,9 +34,11 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_svg;  /*!< pointer to checkbox for export-format svg */
     GtkWidget *format_txt;  /*!< pointer to checkbox for export-format txt */
     GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
-    
-    GtkFlowBox *flowbox_fragments;  /*!< pointer to flow box for export of many independant files */
-    GtkFlowBox *flowbox_whole;  /*!< pointer to checkbox for export of single or linked files */
+
+    GtkWidget *diagram_set_label;
+    GtkFlowBox *flowbox_diagram_set;  /*!< pointer to flow box for export of many independant files */
+    GtkWidget *document_label;
+    GtkFlowBox *flowbox_document;  /*!< pointer to checkbox for export of single or linked files */
 };
 
 typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;
@@ -44,6 +48,7 @@ typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
+ *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_export_dialog_init( gui_file_export_dialog_t *this_,
@@ -65,6 +70,11 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void gui_file_export_dialog_show( gui_file_export_dialog_t *this_ );
+
+/*!
+ *  \brief callback function of the GtkDialog
+ */
+void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
 
 #endif  /* GUI_FILE_EXPORT_DIALOG_H */
 

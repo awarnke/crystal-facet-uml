@@ -10,7 +10,6 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "gui_file_export_format.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include <gtk/gtk.h>

@@ -17,6 +17,8 @@ INCLUDE_DIRECTORIES(data/include)
 INCLUDE_DIRECTORIES(utf8stringbuf/include)
 INCLUDE_DIRECTORIES(pencil/source)
 INCLUDE_DIRECTORIES(pencil/include)
+INCLUDE_DIRECTORIES(io/source)
+INCLUDE_DIRECTORIES(io/include)
 INCLUDE_DIRECTORIES(universal/include)
 
 INCLUDE_DIRECTORIES(/usr/include)
@@ -59,7 +61,8 @@ FILE(GLOB commonSource gui/source/*.c
                        data/source/serial/*.c
                        utf8stringbuf/source/util/string/*.c
                        pencil/source/*.c
-                       pencil/source/util/geometry/*.c)
+                       pencil/source/util/geometry/*.c
+                       io/source/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/unittest/*.c
                        embunit/embUnit/*.c

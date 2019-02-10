@@ -1,7 +1,7 @@
-/* File: gui_file_export_format.h; Copyright and License: see below */
+/* File: io_file_format.h; Copyright and License: see below */
 
-#ifndef GUI_FILE_EXPORT_FORMAT
-#define GUI_FILE_EXPORT_FORMAT
+#ifndef IO_FILE_FORMAT
+#define IO_FILE_FORMAT
 
 /* public file for the doxygen documentation: */
 /*!
@@ -9,20 +9,25 @@
  *  \brief defines the export formats of diagram-image/text files
  */
 
-/*!t
+#include "util/string/utf8stringbuf.h"
+
+/*!
  *  \brief file format of exported images/text
  */
-enum gui_file_export_format_enum {
-    GUI_FILE_EXPORT_FORMAT_SVG,  /*!< scalable vector graphics */
-    GUI_FILE_EXPORT_FORMAT_PDF,  /*!< portable document format */
-    GUI_FILE_EXPORT_FORMAT_PS,  /*!< postscript */
-    GUI_FILE_EXPORT_FORMAT_PNG,  /*!< portable network graphics */
-    GUI_FILE_EXPORT_FORMAT_TXT,  /*!< utf8 encoded text */
+enum io_file_format_enum {
+    IO_FILE_FORMAT_NONE= 0x0000,  /*!< no format selected */
+    IO_FILE_FORMAT_SVG = 0x0001,  /*!< scalable vector graphics */
+    IO_FILE_FORMAT_PDF = 0x0002,  /*!< portable document format */
+    IO_FILE_FORMAT_PS  = 0x0004,  /*!< postscript */
+    IO_FILE_FORMAT_PNG = 0x0008,  /*!< portable network graphics */
+    IO_FILE_FORMAT_TXT = 0x0010,  /*!< utf8 encoded text */
 };
 
-typedef enum gui_file_export_format_enum gui_file_export_format_t;
+typedef enum io_file_format_enum io_file_format_t;
 
-#endif  /* GUI_FILE_EXPORT_FORMAT */
+void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_fileformat );
+
+#endif  /* IO_FILE_FORMAT */
 
 
 /*

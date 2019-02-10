@@ -1,7 +1,7 @@
-/* File: gui_file_exporter.h; Copyright and License: see below */
+/* File: io_diagram_image_exporter.h; Copyright and License: see below */
 
-#ifndef GUI_FILE_EXPORTER_H
-#define GUI_FILE_EXPORTER_H
+#ifndef IO_DIAGRAM_IMAGE_EXPORTER_H
+#define IO_DIAGRAM_IMAGE_EXPORTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -10,7 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "gui_file_export_format.h"
+#include "io_file_format.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_description_writer.h"
@@ -20,22 +20,10 @@
 #include <gtk/gtk.h>
 
 /*!
- *  \brief constants of gui_file_exporter_t
- */
-enum gui_file_exporter_const_enum {
-    GUI_FILE_EXPORTER_CONST_EXPORT_TXT = 0x70a0,  /*!< response code to export txt files */
-    GUI_FILE_EXPORTER_CONST_EXPORT_PNG = 0x70a1,  /*!< response code to export png files */
-    GUI_FILE_EXPORTER_CONST_EXPORT_SVG = 0x70a2,  /*!< response code to export svg files */
-    GUI_FILE_EXPORTER_CONST_EXPORT_PDF = 0x70a3,  /*!< response code to export pdf files */
-    GUI_FILE_EXPORTER_CONST_EXPORT_PS = 0x70a4,  /*!< response code to export ps files */
-};
-
-/*!
  *  \brief attributes of the file exporter
  */
-struct gui_file_exporter_struct {
+struct io_diagram_image_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
@@ -45,31 +33,36 @@ struct gui_file_exporter_struct {
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */
 };
 
-typedef struct gui_file_exporter_struct gui_file_exporter_t;
+typedef struct io_diagram_image_exporter_struct io_diagram_image_exporter_t;
 
 /*!
  *  \brief initializes the main window
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
- *  \param message_to_user pointer to the message_to_user object to use
  */
-void gui_file_exporter_init( gui_file_exporter_t *this_,
-                             data_database_reader_t *db_reader,
-                             gui_simple_message_to_user_t *message_to_user
-                           );
+void io_diagram_image_exporter_init( io_diagram_image_exporter_t *this_,
+                                     data_database_reader_t *db_reader
+                                   );
 
 /*!
  *  \brief destroys the main window
  *
  *  \param this_ pointer to own object attributes
  */
-void gui_file_exporter_destroy( gui_file_exporter_t *this_ );
+void io_diagram_image_exporter_destroy( io_diagram_image_exporter_t *this_ );
 
 /*!
- *  \brief callback function of a GtkDialog
+ *  \brief renders diagrams and exports these to picture (or text) files
+ *  \param this_ pointer to own object attributes
+ *  \param export_type image file format
+ *  \param target_folder path name to a folder where to store the images
+ *  \result 0 in case of success, -1 otherwise
  */
-void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint response_id, gpointer user_data );
+int io_diagram_image_exporter_export_files( io_diagram_image_exporter_t *this_,
+                                            io_file_format_t export_type,
+                                            const char* target_folder
+                                          );
 
 /*!
  *  \brief renders diagrams and exports these to picture (or text) files
@@ -80,12 +73,12 @@ void gui_file_exporter_export_response_callback( GtkDialog *dialog, gint respons
  *  \param target_folder path name to a folder where to store the images
  *  \result 0 in case of success, -1 otherwise
  */
-int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
-                                                  int64_t diagram_id,
-                                                  uint32_t max_recursion,
-                                                  gui_file_export_format_t export_type,
-                                                  const char* target_folder
-                                                );
+int io_diagram_image_exporter_private_export_image_files( io_diagram_image_exporter_t *this_,
+                                                          int64_t diagram_id,
+                                                          uint32_t max_recursion,
+                                                          io_file_format_t export_type,
+                                                          const char* target_folder
+                                                        );
 
 /*!
  *  \brief creates one cairo surface to render a diagram into a file
@@ -94,10 +87,10 @@ int gui_file_exporter_private_export_image_files( gui_file_exporter_t *this_,
  *  \param target_filename path name of the file to store the cairo surface
  *  \result 0 in case of success, -1 otherwise
  */
-int gui_file_exporter_private_render_surface_to_file( gui_file_exporter_t *this_,
-                                                      gui_file_export_format_t export_type,
-                                                      const char* target_filename
-                                                    );
+int io_diagram_image_exporter_private_render_surface_to_file( io_diagram_image_exporter_t *this_,
+                                                              io_file_format_t export_type,
+                                                              const char* target_filename
+                                                            );
 
 /*!
  *  \brief appends all characters that are valid within a filename to filename
@@ -105,9 +98,12 @@ int gui_file_exporter_private_render_surface_to_file( gui_file_exporter_t *this_
  *  \param name name of the object, after wjich the file shall be named
  *  \param filename filename stringbuffer to which to write the valid characters
  */
-void gui_file_exporter_private_append_valid_chars_to_filename( gui_file_exporter_t *this_, const char *name, utf8stringbuf_t filename );
+void io_diagram_image_exporter_private_append_valid_chars_to_filename( io_diagram_image_exporter_t *this_,
+                                                                       const char *name,
+                                                                       utf8stringbuf_t filename
+                                                                     );
 
-#endif  /* GUI_FILE_EXPORTER_H */
+#endif  /* IO_DIAGRAM_IMAGE_EXPORTER_H */
 
 
 /*

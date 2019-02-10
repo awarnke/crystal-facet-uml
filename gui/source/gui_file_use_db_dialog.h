@@ -31,6 +31,7 @@ typedef struct gui_file_use_db_dialog_struct gui_file_use_db_dialog_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
  *  \param database pointer to a database object
+ *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_use_db_dialog_init( gui_file_use_db_dialog_t *this_,
