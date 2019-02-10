@@ -17,7 +17,8 @@
  */
 struct layout_visible_classifier_struct {
     geometry_rectangle_t bounds;  /*!< outer bounds of a classifier record */
-    geometry_rectangle_t space;  /*!< inner space of a classifier record where features or contained classifiers are drawn */
+    geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations or contained classifiers are drawn */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier */
     const data_visible_classifier_t *data;  /*!< pointer to the data object of the visible classifier */
 };
 
@@ -53,6 +54,22 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( l
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief gets the label bounds of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr ( layout_visible_classifier_t *this_ );
+
+/*!
+ *  \brief sets the label bounds of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param label_box coordinates of new label bounds
+ */
+static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
  *  \brief gets the pointer to the data_visible_classifier_t object

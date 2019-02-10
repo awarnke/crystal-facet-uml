@@ -9,7 +9,6 @@
  *  \brief Exports all diagrams
  */
 
-#include "gui_simple_message_to_user.h"
 #include "io_file_format.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"

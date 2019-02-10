@@ -21,6 +21,7 @@
 struct layout_relationship_struct {
     pencil_visibility_t visible;  /*!< defines if the relationship is visible */
     geometry_connector_t shape;  /*!< shape of relationship records */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the relationship. */
     const data_relationship_t *data;  /*!< pointer to the data object of the relationship */
     layout_visible_classifier_t *from_classifier;  /*!< pointer to the layout of the source visible classifier */
     layout_visible_classifier_t *to_classifier;  /*!< pointer to the layout of the destination visible classifier */
@@ -78,6 +79,22 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ );
+
+/*!
+ *  \brief gets the label bounds of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ );
+
+/*!
+ *  \brief sets the label bounds of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param label_box coordinates of new label bounds
+ */
+static inline void layout_relationship_set_label_box ( layout_relationship_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
  *  \brief gets the data_relationship_t object

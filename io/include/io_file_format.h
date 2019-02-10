@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief defines the export formats of diagram-image/text files
+ *  \brief Defines the export formats of diagram-image/text files
  */
 
 #include "util/string/utf8stringbuf.h"

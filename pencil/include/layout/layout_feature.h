@@ -21,6 +21,7 @@ struct layout_feature_struct {
     geometry_rectangle_t bounds;  /*!< bounds of a feature */
     layout_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature. */
     layout_direction_t label_direction;  /*!< label direction, a hint for drawing the name of a feature. */
+    geometry_rectangle_t label_box;  /*!< bounding box of the label of the feature. For operations and properties, this is identical to the bounding box */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
     layout_visible_classifier_t *classifier;  /*!< pointer to the layout of the parent visible classifier */
 };
@@ -93,6 +94,22 @@ static inline layout_direction_t layout_feature_get_label_direction ( const layo
  *  \param direction new label direction to set
  */
 static inline void layout_feature_set_label_direction ( layout_feature_t *this_, layout_direction_t direction );
+
+/*!
+ *  \brief gets the label bounds of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_feature_t *this_ );
+
+/*!
+ *  \brief sets the label bounds of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param label_box coordinates of new label bounds
+ */
+static inline void layout_feature_set_label_box ( layout_feature_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
  *  \brief gets the data_feature_t object

@@ -27,9 +27,9 @@ typedef enum layout_order_type_enum layout_order_type_t;
  *  \brief attributes of the layout_order
  */
 struct layout_order_struct {
-    layout_order_type_t order_type;
-    int32_t first;
-    int32_t second;
+    layout_order_type_t order_type;  /*!< defines the type of order */
+    int32_t first;  /*!< list_order if _TYPE_LIST, x_order if _TYPE_X_Y, undefined otherwise */
+    int32_t second;  /*!< y_order if _TYPE_X_Y, undefined otherwise */
 };
 
 typedef struct layout_order_struct layout_order_t;

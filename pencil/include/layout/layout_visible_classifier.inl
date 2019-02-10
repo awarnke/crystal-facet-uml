@@ -8,6 +8,7 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
 
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).space) );
+    geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).data = visible_classifier_data;
 }
 
@@ -15,6 +16,7 @@ static inline void layout_visible_classifier_destroy ( layout_visible_classifier
 {
     geometry_rectangle_destroy( &((*this_).bounds) );
     geometry_rectangle_destroy( &((*this_).space) );
+    geometry_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
 }
 
@@ -26,6 +28,16 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( l
 static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
 {
     return &((*this_).space);
+}
+
+static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr ( layout_visible_classifier_t *this_ )
+{
+    return &((*this_).label_box);
+}
+
+static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box )
+{
+    geometry_rectangle_replace( &((*this_).label_box), label_box );
 }
 
 static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ )

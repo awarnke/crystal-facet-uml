@@ -15,6 +15,7 @@ static inline void layout_relationship_init ( layout_relationship_t *this_,
 
     (*this_).visible = PENCIL_VISIBILITY_HIDE;
     geometry_connector_init_empty( &((*this_).shape) );
+    geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).data = relationship_data;
     (*this_).from_classifier = from_classifier;
     (*this_).to_classifier = to_classifier;
@@ -25,6 +26,7 @@ static inline void layout_relationship_init ( layout_relationship_t *this_,
 static inline void layout_relationship_destroy ( layout_relationship_t *this_ )
 {
     geometry_connector_destroy( &((*this_).shape) );
+    geometry_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
 }
 
@@ -41,6 +43,16 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
 static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ )
 {
     return &((*this_).shape);
+}
+
+static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ )
+{
+    return &((*this_).label_box);
+}
+
+static inline void layout_relationship_set_label_box ( layout_relationship_t *this_, const geometry_rectangle_t *label_box )
+{
+    geometry_rectangle_replace( &((*this_).label_box), label_box );
 }
 
 static inline const data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ )

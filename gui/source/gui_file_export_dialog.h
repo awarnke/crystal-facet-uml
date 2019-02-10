@@ -26,6 +26,7 @@ struct gui_file_export_dialog_struct {
 
     GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
     GtkWidget *format_docbook;  /*!< pointer to checkbox for export-format docbook */
+    GtkWidget *format_doxygen;  /*!< pointer to checkbox for export-format doxygen */
     GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
     GtkWidget *format_rtf;  /*!< pointer to checkbox for export-format rtf */
     GtkWidget *format_pdf;  /*!< pointer to checkbox for export-format pdf */
