@@ -25,9 +25,19 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( l
     return &((*this_).bounds);
 }
 
+static inline void layout_visible_classifier_set_bounds ( layout_visible_classifier_t *this_, const geometry_rectangle_t *bounds )
+{
+    geometry_rectangle_replace( &((*this_).bounds), bounds );
+}
+
 static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
 {
     return &((*this_).space);
+}
+
+static inline void layout_visible_classifier_set_space ( layout_visible_classifier_t *this_, const geometry_rectangle_t *space )
+{
+    geometry_rectangle_replace( &((*this_).space), space );
 }
 
 static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr ( layout_visible_classifier_t *this_ )
@@ -69,7 +79,7 @@ static inline bool layout_visible_classifier_is_fix_sized_symbol ( const layout_
                 || ( DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY == classifier_type )
                 || ( DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT == classifier_type )
              );
-             
+
     return result;
 }
 

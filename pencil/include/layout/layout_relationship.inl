@@ -45,6 +45,11 @@ static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_r
     return &((*this_).shape);
 }
 
+static inline void layout_relationship_set_shape ( layout_relationship_t *this_, const geometry_connector_t *shape )
+{
+    geometry_connector_replace ( &((*this_).shape), shape );
+}
+
 static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ )
 {
     return &((*this_).label_box);

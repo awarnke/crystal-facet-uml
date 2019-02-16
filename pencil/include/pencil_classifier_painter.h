@@ -14,6 +14,9 @@
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
 #include "layout/layout_visible_classifier.h"
+#include "draw/draw_symbol.h"
+#include "draw/draw_label.h"
+#include "draw/draw_geometry.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
@@ -30,6 +33,9 @@
 struct pencil_classifier_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     data_rules_t data_rules;  /*!< own instance of data rules */
+    draw_symbol_t draw_symbol;  /*!< collection of draw symbol/icon functions */
+    draw_label_t draw_label;  /*!< collection of draw label functions */
+    draw_geometry_t draw_geometry;  /*!< collection of draw geometry functions */
 };
 
 typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
@@ -111,72 +117,6 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                    PangoLayout *font_layout,
                                                    geometry_rectangle_t *out_classifier_space
                                                  );
-
-/*!
- *  \brief draws the component icon at the defined location
- *
- *  \param this_ pointer to own object attributes
- *  \param x x location where to draw the icon
- *  \param y y location where to draw the icon
- *  \param h_align alignment of the icon versus the given x coordinate
- *  \param v_align alignment of the icon versus the given y coordinate
- *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
- */
-void pencil_classifier_painter_private_draw_component_icon ( const pencil_classifier_painter_t *this_,
-                                                             double x,
-                                                             double y,
-                                                             geometry_h_align_t h_align,
-                                                             geometry_v_align_t v_align,
-                                                             double height,
-                                                             cairo_t *cr,
-                                                             double *out_width
-                                                           );
-
-/*!
- *  \brief draws the artifact icon at the defined location
- *
- *  \param this_ pointer to own object attributes
- *  \param x x location where to draw the icon
- *  \param y y location where to draw the icon
- *  \param h_align alignment of the icon versus the given x coordinate
- *  \param v_align alignment of the icon versus the given y coordinate
- *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
- */
-void pencil_classifier_painter_private_draw_artifact_icon ( const pencil_classifier_painter_t *this_,
-                                                            double x,
-                                                            double y,
-                                                            geometry_h_align_t h_align,
-                                                            geometry_v_align_t v_align,
-                                                            double height,
-                                                            cairo_t *cr,
-                                                            double *out_width
-                                                          );
-
-/*!
- *  \brief draws the actor icon at the defined location
- *
- *  \param this_ pointer to own object attributes
- *  \param x x location where to draw the icon
- *  \param y y location where to draw the icon
- *  \param h_align alignment of the icon versus the given x coordinate
- *  \param v_align alignment of the icon versus the given y coordinate
- *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
- */
-void pencil_classifier_painter_private_draw_actor_icon ( const pencil_classifier_painter_t *this_,
-                                                         double x,
-                                                         double y,
-                                                         geometry_h_align_t h_align,
-                                                         geometry_v_align_t v_align,
-                                                         double height,
-                                                         cairo_t *cr,
-                                                         double *out_width
-                                                       );
 
 /*!
  *  \brief determines the dimensions of the border of the classifier-shape.

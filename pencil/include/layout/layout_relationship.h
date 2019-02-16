@@ -81,6 +81,14 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
 static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ );
 
 /*!
+ *  \brief sets the shape of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param shape new shape of this relationship
+ */
+static inline void layout_relationship_set_shape ( layout_relationship_t *this_, const geometry_connector_t *shape );
+
+/*!
  *  \brief gets the label bounds of the relationship
  *
  *  \param this_ pointer to own object attributes
