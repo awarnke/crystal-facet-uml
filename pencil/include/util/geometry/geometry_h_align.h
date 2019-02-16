@@ -30,7 +30,11 @@ typedef enum geometry_h_align_enum geometry_h_align_t;
  *  \param reference_width width of object to which to align to
  *  \return left coordinate of aligned object
  */
-static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, double width, double reference_left, double reference_width );
+static inline double geometry_h_align_get_left ( const geometry_h_align_t *this_, 
+                                                 double width, 
+                                                 double reference_left, 
+                                                 double reference_width
+                                               );
 
 #include "util/geometry/geometry_h_align.inl"
 

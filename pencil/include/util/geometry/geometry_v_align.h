@@ -30,7 +30,11 @@ typedef enum geometry_v_align_enum geometry_v_align_t;
  *  \param reference_height height of object to which to align to
  *  \return top coordinate of aligned object
  */
-static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, double height, double reference_top, double reference_height );
+static inline double geometry_v_align_get_top ( const geometry_v_align_t *this_, 
+                                                double height, 
+                                                double reference_top, 
+                                                double reference_height 
+                                              );
 
 #include "util/geometry/geometry_v_align.inl"
 

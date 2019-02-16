@@ -23,104 +23,51 @@ void draw_symbol_destroy( draw_symbol_t *this_ )
     TRACE_END();
 }
 
-void draw_symbol_draw_component_icon ( const draw_symbol_t *this_,
-                                       double x,
-                                       double y,
-                                       geometry_h_align_t h_align,
-                                       geometry_v_align_t v_align,
-                                       double height,
-                                       cairo_t *cr,
-                                       double *out_width )
+geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
+                                                        double x,
+                                                        double y,
+                                                        geometry_h_align_t h_align,
+                                                        geometry_v_align_t v_align,
+                                                        double height
+                                                      )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    double width = 1.4 * height;
+    geometry_rectangle_init ( &result, 
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+                              width,
+                              height
+                            );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_component ( const draw_symbol_t *this_,
+                                  geometry_rectangle_t bounds,
+                                  cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    assert( NULL != out_width );
 
     /* calculate component bounds */
-    double comp_left;
-    double comp_right;
-    double comp_top;
-    double comp_bottom;
-    double comp_height;
-    double comp_width;
-    double port_half_width;
-
-    comp_height = height;
-    comp_width = comp_height * 1.2;
-    port_half_width = height * 0.2;
-
-    switch ( h_align )
-    {
-        case GEOMETRY_H_ALIGN_LEFT:
-        {
-            comp_left = x + port_half_width;
-        }
-        break;
-
-        case GEOMETRY_H_ALIGN_CENTER:
-        {
-            comp_left = x + 0.5 * ( port_half_width - comp_width );
-        }
-        break;
-
-        case GEOMETRY_H_ALIGN_RIGHT:
-        {
-            comp_left = x - comp_width;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown geometry_h_align_t in draw_symbol_private_draw_component_icon()");
-            assert(0);
-            comp_left = x;
-        }
-        break;
-    }
-    comp_right = comp_left + comp_width;
-
-    switch ( v_align )
-    {
-        case GEOMETRY_V_ALIGN_TOP:
-        {
-            comp_top = y;
-        }
-        break;
-
-        case GEOMETRY_V_ALIGN_CENTER:
-        {
-            comp_top = y - 0.5 * comp_height;
-        }
-        break;
-
-        case GEOMETRY_V_ALIGN_BOTTOM:
-        {
-            comp_top = y - comp_height;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown geometry_v_align_t in draw_symbol_private_draw_component_icon()");
-            assert(0);
-            comp_top = y;
-        }
-        break;
-    }
-    comp_bottom = comp_top + comp_height;
+    const double comp_right = geometry_rectangle_get_right( &bounds );
+    const double comp_top = geometry_rectangle_get_top( &bounds );
+    const double comp_bottom = geometry_rectangle_get_bottom( &bounds );
+    const double comp_height = geometry_rectangle_get_height( &bounds );
+    const double port_half_width = comp_height * 0.2;
+    const double comp_left = geometry_rectangle_get_left( &bounds ) + port_half_width;
+    //const double comp_width = geometry_rectangle_get_width( &bounds ) - port_half_width;
 
     /* calculate bounds of the two ports */
-    double port1_top;
-    double port2_top;
-    double port_left;
-    double port_width;
-    double port_height;
-
-    port_left = comp_left - port_half_width;
-    port_width = 2.0*port_half_width;
-    port_height = 0.2*height;
-    port1_top = comp_top + 0.2*height;
-    port2_top = comp_top + 0.6*height;
+    const double port_left = comp_left - port_half_width;
+    const double port_width = 2.0*port_half_width;
+    const double port_height = 0.2*comp_height;
+    const double port1_top = comp_top + 0.2*comp_height;
+    const double port2_top = comp_top + 0.6*comp_height;
 
     /* draw the icon */
     cairo_move_to ( cr, comp_left, port1_top );
@@ -138,97 +85,47 @@ void draw_symbol_draw_component_icon ( const draw_symbol_t *this_,
     cairo_rectangle ( cr, port_left, port2_top, port_width, port_height );
     cairo_stroke (cr);
 
-    /* return the result */
-    *out_width = comp_width + port_half_width;
-
     TRACE_END();
 }
 
-void draw_symbol_draw_artifact_icon ( const draw_symbol_t *this_,
-                                      double x,
-                                      double y,
-                                      geometry_h_align_t h_align,
-                                      geometry_v_align_t v_align,
-                                      double height,
-                                      cairo_t *cr,
-                                      double *out_width )
+geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
+                                                       double x,
+                                                       double y,
+                                                       geometry_h_align_t h_align,
+                                                       geometry_v_align_t v_align,
+                                                       double height
+                                                     )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    double width = 0.7 * height;
+    geometry_rectangle_init ( &result, 
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+                              width,
+                              height
+                            );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
+                                 geometry_rectangle_t bounds,
+                                 cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    assert( NULL != out_width );
 
     /* calculate artifact bounds */
-    double art_left;
-    double art_right;
-    double art_top;
-    double art_bottom;
-    double art_height;
-    double art_width;
-    double art_corner_edge;
-
-    art_height = height;
-    art_width = art_height * 0.7;
-    art_corner_edge = height * 0.3;
-
-    switch ( h_align )
-    {
-        case GEOMETRY_H_ALIGN_LEFT:
-        {
-            art_left = x;
-        }
-        break;
-
-        case GEOMETRY_H_ALIGN_CENTER:
-        {
-            art_left = x - 0.5 * art_width;
-        }
-        break;
-
-        case GEOMETRY_H_ALIGN_RIGHT:
-        {
-            art_left = x - art_width;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown geometry_h_align_t in draw_symbol_private_draw_component_icon()");
-            assert(0);
-            art_left = x;
-        }
-        break;
-    }
-    art_right = art_left + art_width;
-
-    switch ( v_align )
-    {
-        case GEOMETRY_V_ALIGN_TOP:
-        {
-            art_top = y;
-        }
-        break;
-
-        case GEOMETRY_V_ALIGN_CENTER:
-        {
-            art_top = y - 0.5 * art_height;
-        }
-        break;
-
-        case GEOMETRY_V_ALIGN_BOTTOM:
-        {
-            art_top = y - art_height;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown geometry_v_align_t in draw_symbol_private_draw_component_icon()");
-            assert(0);
-            art_top = y;
-        }
-        break;
-    }
-    art_bottom = art_top + art_height;
+    const double art_left = geometry_rectangle_get_left( &bounds );
+    const double art_right = geometry_rectangle_get_right( &bounds );
+    const double art_top = geometry_rectangle_get_top( &bounds );
+    const double art_bottom = geometry_rectangle_get_bottom( &bounds );
+    const double art_height = geometry_rectangle_get_height( &bounds );
+    //const double art_width = geometry_rectangle_get_width( &bounds );
+    const double art_corner_edge = art_height * 0.3;
 
     /* draw the icon */
     cairo_move_to ( cr, art_right, art_top + art_corner_edge );
@@ -241,46 +138,53 @@ void draw_symbol_draw_artifact_icon ( const draw_symbol_t *this_,
     cairo_line_to ( cr, art_right - art_corner_edge, art_top );
     cairo_stroke (cr);
 
-    /* return the result */
-    *out_width = art_width;
-
     TRACE_END();
 }
 
-void draw_symbol_draw_actor_icon ( const draw_symbol_t *this_,
-                                   double x,
-                                   double y,
-                                   geometry_h_align_t h_align,
-                                   geometry_v_align_t v_align,
-                                   double height,
-                                   cairo_t *cr,
-                                   double *out_width )
+geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
+                                                    double x,
+                                                    double y,
+                                                    geometry_h_align_t h_align,
+                                                    geometry_v_align_t v_align,
+                                                    double height
+                                                  )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    double width = height/3.0;
+    geometry_rectangle_init ( &result, 
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+                              width,
+                              height
+                            );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_actor ( const draw_symbol_t *this_,
+                              geometry_rectangle_t bounds,
+                              cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
-    assert( NULL != out_width );
 
     /* calculate actor bounds */
-    double act_left;
-    double act_right;
-    double act_top;
-    double act_bottom;
-    double act_height;
-    double act_width;
-
-    act_height = height;
-    act_width = height/3.0;
-    act_left = geometry_h_align_get_left( &h_align, act_width, x, 0.0 );
-    act_top = geometry_v_align_get_top( &v_align, act_height, y, 0.0 );
-    act_right = act_left + act_width;
-    act_bottom = act_top + act_height;
+    const double act_left = geometry_rectangle_get_left( &bounds );
+    const double act_right = geometry_rectangle_get_right( &bounds );
+    const double act_top = geometry_rectangle_get_top( &bounds );
+    const double act_bottom = geometry_rectangle_get_bottom( &bounds );
+    const double act_height = geometry_rectangle_get_height( &bounds );
+    const double act_width = geometry_rectangle_get_width( &bounds );
 
     /* draw the icon */
-    double radius = act_width/2.0;
-    double ctrl_offset = radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-    double head_bottom = act_top + act_height/3.0;
-    double leg_top = act_top + act_height*0.6;
-    double arm_top = act_top + act_height*0.45;
+    const double radius = act_width/2.0;
+    const double ctrl_offset = radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+    const double head_bottom = act_top + act_height/3.0;
+    const double leg_top = act_top + act_height*0.6;
+    const double arm_top = act_top + act_height*0.45;
 
     cairo_move_to ( cr, act_left + radius, head_bottom );
     cairo_curve_to ( cr, act_left + ctrl_offset, head_bottom, act_left, head_bottom - ctrl_offset, act_left /* end point x */, act_top + radius /* end point y */ );
@@ -294,9 +198,6 @@ void draw_symbol_draw_actor_icon ( const draw_symbol_t *this_,
     cairo_move_to ( cr, act_right, arm_top );
     cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
-
-    /* return the result */
-    *out_width = act_width;
 
     TRACE_END();
 }

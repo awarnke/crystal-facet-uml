@@ -48,18 +48,27 @@ void draw_symbol_destroy( draw_symbol_t *this_ );
  *  \param h_align alignment of the icon versus the given x coordinate
  *  \param v_align alignment of the icon versus the given y coordinate
  *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
+ *  \return bounding box rectangle of the icon
  */
-void draw_symbol_draw_component_icon ( const draw_symbol_t *this_,
-                                       double x,
-                                       double y,
-                                       geometry_h_align_t h_align,
-                                       geometry_v_align_t v_align,
-                                       double height,
-                                       cairo_t *cr,
-                                       double *out_width
-                                     );
+geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
+                                                        double x,
+                                                        double y,
+                                                        geometry_h_align_t h_align,
+                                                        geometry_v_align_t v_align,
+                                                        double height
+                                                      );
+
+/*!
+ *  \brief draws the component icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_component ( const draw_symbol_t *this_,
+                                  geometry_rectangle_t bounds,
+                                  cairo_t *cr
+                                );
 
 /*!
  *  \brief draws the artifact icon at the defined location
@@ -70,18 +79,27 @@ void draw_symbol_draw_component_icon ( const draw_symbol_t *this_,
  *  \param h_align alignment of the icon versus the given x coordinate
  *  \param v_align alignment of the icon versus the given y coordinate
  *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
+ *  \return bounding box rectangle of the icon
  */
-void draw_symbol_draw_artifact_icon ( const draw_symbol_t *this_,
-                                      double x,
-                                      double y,
-                                      geometry_h_align_t h_align,
-                                      geometry_v_align_t v_align,
-                                      double height,
-                                      cairo_t *cr,
-                                      double *out_width
-                                    );
+geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
+                                                       double x,
+                                                       double y,
+                                                       geometry_h_align_t h_align,
+                                                       geometry_v_align_t v_align,
+                                                       double height
+                                                     );
+
+/*!
+ *  \brief draws the artifact icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
+                                  geometry_rectangle_t bounds,
+                                  cairo_t *cr
+                                );
 
 /*!
  *  \brief draws the actor icon at the defined location
@@ -92,18 +110,27 @@ void draw_symbol_draw_artifact_icon ( const draw_symbol_t *this_,
  *  \param h_align alignment of the icon versus the given x coordinate
  *  \param v_align alignment of the icon versus the given y coordinate
  *  \param height size of the icon
- *  \param cr a cairo drawing context
- *  \param out_width width of the drawn icon to be returned. NULL is not allowed.
+ *  \return bounding box rectangle of the icon
  */
-void draw_symbol_draw_actor_icon ( const draw_symbol_t *this_,
-                                   double x,
-                                   double y,
-                                   geometry_h_align_t h_align,
-                                   geometry_v_align_t v_align,
-                                   double height,
-                                   cairo_t *cr,
-                                   double *out_width
-                                 );
+geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
+                                                    double x,
+                                                    double y,
+                                                    geometry_h_align_t h_align,
+                                                    geometry_v_align_t v_align,
+                                                    double height
+                                                  );
+
+/*!
+ *  \brief draws the actor icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_actor ( const draw_symbol_t *this_,
+                              geometry_rectangle_t bounds,
+                              cairo_t *cr
+                            );
 
 #endif  /* DRAW_SYMBOL_H */
 

@@ -243,16 +243,18 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
                 /* draw icon */
                 double icon_height = pencil_size_get_title_font_size( pencil_size );
-                double icon_width;
-                draw_symbol_draw_component_icon ( &((*this_).draw_symbol),
-                                                  border_left + border_width - gap,  /* x */
-                                                  border_top + gap,  /* y */
-                                                  GEOMETRY_H_ALIGN_RIGHT,
-                                                  GEOMETRY_V_ALIGN_TOP,
-                                                  icon_height,
-                                                  cr,
-                                                  &icon_width 
-                                                );
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_component_bounds( &((*this_).draw_symbol),
+                                                                border_left + border_width - gap,  /* x */
+                                                                border_top + gap,  /* y */
+                                                                GEOMETRY_H_ALIGN_RIGHT,
+                                                                GEOMETRY_V_ALIGN_TOP,
+                                                                icon_height
+                                                              );
+                draw_symbol_draw_component ( &((*this_).draw_symbol),
+                                             icon_bounds,
+                                             cr
+                                            );
 
                 /* adjust the text position */
                 text1_top = border_top + gap;
@@ -266,16 +268,18 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
                 /* draw icon */
                 double icon_height = pencil_size_get_title_font_size( pencil_size );
-                double icon_width;
-                draw_symbol_draw_artifact_icon ( &((*this_).draw_symbol),
-                                                 border_left + border_width - gap,  /* x */
-                                                 border_top + gap,  /* y */
-                                                 GEOMETRY_H_ALIGN_RIGHT,
-                                                 GEOMETRY_V_ALIGN_TOP,
-                                                 icon_height,
-                                                 cr,
-                                                 &icon_width 
-                                               );
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_artifact_bounds ( &((*this_).draw_symbol),
+                                                                border_left + border_width - gap,  /* x */
+                                                                border_top + gap,  /* y */
+                                                                GEOMETRY_H_ALIGN_RIGHT,
+                                                                GEOMETRY_V_ALIGN_TOP,
+                                                                icon_height
+                                                              );
+                draw_symbol_draw_artifact ( &((*this_).draw_symbol),
+                                            icon_bounds,
+                                            cr
+                                          );
 
                 /* adjust the text position */
                 text1_top = border_top + gap;
@@ -372,16 +376,18 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             {
                 double actor_height = pencil_size_get_classifier_symbol_height( pencil_size );
                 double half_width = 0.5 * border_width;
-                double actor_width;
-                draw_symbol_draw_actor_icon ( &((*this_).draw_symbol),
-                                              border_left + half_width,
-                                              border_top,
-                                              GEOMETRY_H_ALIGN_CENTER,
-                                              GEOMETRY_V_ALIGN_TOP,
-                                              actor_height,
-                                              cr,
-                                              &actor_width
-                                            );
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_actor_bounds ( &((*this_).draw_symbol),
+                                                             border_left + half_width,
+                                                             border_top,
+                                                             GEOMETRY_H_ALIGN_CENTER,
+                                                             GEOMETRY_V_ALIGN_TOP,
+                                                             actor_height
+                                                           );
+                draw_symbol_draw_actor ( &((*this_).draw_symbol),
+                                         icon_bounds,
+                                         cr
+                                       );
 
                 /* adjust the text position */
                 text1_top = border_top + actor_height + gap;
