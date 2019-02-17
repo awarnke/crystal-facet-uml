@@ -474,9 +474,10 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                                                             border_top,
                                                             GEOMETRY_H_ALIGN_CENTER,
                                                             GEOMETRY_V_ALIGN_TOP,
-                                                            icon_height );
+                                                            icon_height
+                                                          );
                 draw_symbol_draw_time ( &((*this_).draw_symbol), icon_bounds, cr );
-                
+
                 /* adjust the text position */
                 text1_top = border_top + icon_height + gap;
             }
@@ -485,16 +486,21 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
             case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
             {
-                double x_center;
-                x_center = geometry_rectangle_get_x_center ( classifier_bounds );
-                double block_width;
-                block_width = 3.0 * pencil_size_get_bold_line_width( pencil_size );
-
-                cairo_rectangle ( cr, x_center - (0.5 * block_width), border_top, block_width, border_height );
-                cairo_fill (cr);
+                const double icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
+                const double half_width = 0.5 * border_width;
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_sync_bounds ( &((*this_).draw_symbol),
+                                                            border_left + half_width,
+                                                            border_top,
+                                                            GEOMETRY_H_ALIGN_CENTER,
+                                                            GEOMETRY_V_ALIGN_TOP,
+                                                            icon_height,
+                                                            pencil_size
+                                                          );
+                draw_symbol_draw_sync ( &((*this_).draw_symbol), icon_bounds, cr );
 
                 /* adjust the text position */
-                text1_top = border_top + border_height + gap;
+                text1_top = border_top + icon_height + gap;
             }
             break;
 
