@@ -251,10 +251,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                                                                 GEOMETRY_V_ALIGN_TOP,
                                                                 icon_height
                                                               );
-                draw_symbol_draw_component ( &((*this_).draw_symbol),
-                                             icon_bounds,
-                                             cr
-                                            );
+                draw_symbol_draw_component ( &((*this_).draw_symbol), icon_bounds, cr );
 
                 /* adjust the text position */
                 text1_top = border_top + gap;
@@ -276,10 +273,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                                                                 GEOMETRY_V_ALIGN_TOP,
                                                                 icon_height
                                                               );
-                draw_symbol_draw_artifact ( &((*this_).draw_symbol),
-                                            icon_bounds,
-                                            cr
-                                          );
+                draw_symbol_draw_artifact ( &((*this_).draw_symbol), icon_bounds, cr );
 
                 /* adjust the text position */
                 text1_top = border_top + gap;
@@ -384,10 +378,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
                                                              GEOMETRY_V_ALIGN_TOP,
                                                              actor_height
                                                            );
-                draw_symbol_draw_actor ( &((*this_).draw_symbol),
-                                         icon_bounds,
-                                         cr
-                                       );
+                draw_symbol_draw_actor ( &((*this_).draw_symbol), icon_bounds, cr );
 
                 /* adjust the text position */
                 text1_top = border_top + actor_height + gap;
@@ -475,18 +466,19 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
             {
-                double border_right = border_left + border_width;
-                double border_bottom = border_top + border_height;
-
-                cairo_move_to ( cr, border_right, border_bottom );
-                cairo_line_to ( cr, border_left, border_top );
-                cairo_line_to ( cr, border_right, border_top );
-                cairo_line_to ( cr, border_left, border_bottom );
-                cairo_line_to ( cr, border_right, border_bottom );
-                cairo_stroke (cr);
-
+                const double icon_height = pencil_size_get_classifier_symbol_height( pencil_size );
+                const double half_width = 0.5 * border_width;
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_time_bounds ( &((*this_).draw_symbol),
+                                                            border_left + half_width,
+                                                            border_top,
+                                                            GEOMETRY_H_ALIGN_CENTER,
+                                                            GEOMETRY_V_ALIGN_TOP,
+                                                            icon_height );
+                draw_symbol_draw_time ( &((*this_).draw_symbol), icon_bounds, cr );
+                
                 /* adjust the text position */
-                text1_top = border_bottom + gap;
+                text1_top = border_top + icon_height + gap;
             }
             break;
 

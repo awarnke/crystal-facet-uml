@@ -347,6 +347,17 @@ void draw_symbol_draw_time ( const draw_symbol_t *this_,
     TRACE_BEGIN();
     assert( NULL != cr );
 
+    const double top = geometry_rectangle_get_top( &bounds );
+    const double bottom = geometry_rectangle_get_bottom( &bounds );
+    const double left = geometry_rectangle_get_left( &bounds );
+    const double right = geometry_rectangle_get_right( &bounds );
+
+    cairo_move_to ( cr, right, bottom );
+    cairo_line_to ( cr, left, top );
+    cairo_line_to ( cr, right, top );
+    cairo_line_to ( cr, left, bottom );
+    cairo_line_to ( cr, right, bottom );
+    cairo_stroke (cr);
 
     TRACE_END();
 }
@@ -381,6 +392,13 @@ void draw_symbol_draw_sync ( const draw_symbol_t *this_,
     TRACE_BEGIN();
     assert( NULL != cr );
 
+    const double left = geometry_rectangle_get_left( &bounds );
+    const double top = geometry_rectangle_get_top( &bounds );
+    const double width = geometry_rectangle_get_width( &bounds );
+    const double height = geometry_rectangle_get_height( &bounds );
+
+    cairo_rectangle ( cr, left, top, width, height );
+    cairo_fill (cr);
 
     TRACE_END();
 }
