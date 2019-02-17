@@ -34,10 +34,10 @@ geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *thi
     TRACE_BEGIN();
     geometry_rectangle_t result;
 
-    double width = 1.4 * height;
-    geometry_rectangle_init ( &result, 
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+    const double width = 1.4 * height;
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
                               width,
                               height
                             );
@@ -99,10 +99,10 @@ geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this
     TRACE_BEGIN();
     geometry_rectangle_t result;
 
-    double width = 0.7 * height;
-    geometry_rectangle_init ( &result, 
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+    const double width = 0.7 * height;
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
                               width,
                               height
                             );
@@ -152,10 +152,10 @@ geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
     TRACE_BEGIN();
     geometry_rectangle_t result;
 
-    double width = height/3.0;
-    geometry_rectangle_init ( &result, 
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ), 
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ), 
+    const double width = height/3.0;
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
                               width,
                               height
                             );
@@ -198,6 +198,189 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
     cairo_move_to ( cr, act_right, arm_top );
     cairo_line_to ( cr, act_left, arm_top );
     cairo_stroke (cr);
+
+    TRACE_END();
+}
+
+geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
+                                                     double x,
+                                                     double y,
+                                                     geometry_h_align_t h_align,
+                                                     geometry_v_align_t v_align,
+                                                     double height )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    const double width = height;
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
+                              width,
+                              height
+                            );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_circle ( const draw_symbol_t *this_,
+                               geometry_rectangle_t bounds,
+                               const pencil_size_t *pencil_size,
+                               bool stroke,
+                               bool fill,
+                               bool shallow_history,
+                               bool deep_history,
+                               cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != pencil_size );
+    assert ( NULL != cr );
+
+    const double circle_top = geometry_rectangle_get_top( &bounds );
+    const double circle_bottom = geometry_rectangle_get_bottom( &bounds );
+    const double center_x = geometry_rectangle_get_x_center( &bounds );
+    const double center_y = geometry_rectangle_get_y_center( &bounds );
+    const double circle_left = geometry_rectangle_get_left( &bounds );
+    const double circle_right = geometry_rectangle_get_right( &bounds );
+    const double circle_width = geometry_rectangle_get_width( &bounds );
+    const double circle_height = geometry_rectangle_get_height( &bounds );
+    const double circle_x_radius = center_x - circle_left;
+    const double circle_y_radius = center_y - circle_top;
+
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+
+    if ( stroke )
+    {
+        const double ctrl_x_offset = circle_x_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+        const double ctrl_y_offset = circle_y_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+        cairo_move_to ( cr, center_x, circle_bottom );
+        cairo_curve_to ( cr, circle_left + ctrl_x_offset, circle_bottom, circle_left, circle_bottom - ctrl_y_offset, circle_left /* end point x */, center_y /* end point y */ );
+        cairo_curve_to ( cr, circle_left, circle_top + ctrl_y_offset, circle_left + ctrl_x_offset, circle_top, center_x /* end point x */, circle_top /* end point y */ );
+        cairo_curve_to ( cr, circle_right - ctrl_x_offset, circle_top, circle_right, circle_top + ctrl_y_offset, circle_right /* end point x */, center_y /* end point y */ );
+        cairo_curve_to ( cr, circle_right, circle_bottom - ctrl_y_offset, circle_right - ctrl_x_offset, circle_bottom, center_x /* end point x */, circle_bottom /* end point y */ );
+        cairo_stroke (cr);
+    }
+
+    if ( fill )
+    {
+        const double circle2_x_radius = circle_x_radius - gap;
+        const double circle2_y_radius = circle_y_radius - gap;
+        const double circle2_top = circle_top + gap;
+        const double circle2_bottom = circle_bottom - gap;
+        const double circle2_left = circle_left + gap;
+        const double circle2_right = circle_right - gap;
+        const double ctrl2_x_offset = circle2_x_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+        const double ctrl2_y_offset = circle2_y_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
+
+        /* draw a smaller filled circle */
+        cairo_move_to ( cr, center_x, circle2_bottom );
+        cairo_curve_to ( cr, circle2_left + ctrl2_x_offset, circle2_bottom, circle2_left, circle2_bottom - ctrl2_y_offset, circle2_left /* end point x */, center_y /* end point y */ );
+        cairo_curve_to ( cr, circle2_left, circle2_top + ctrl2_y_offset, circle2_left + ctrl2_x_offset, circle2_top, center_x /* end point x */, circle2_top /* end point y */ );
+        cairo_curve_to ( cr, circle2_right - ctrl2_x_offset, circle2_top, circle2_right, circle2_top + ctrl2_y_offset, circle2_right /* end point x */, center_y /* end point y */ );
+        cairo_curve_to ( cr, circle2_right, circle2_bottom - ctrl2_y_offset, circle2_right - ctrl2_x_offset, circle2_bottom, center_x /* end point x */, circle2_bottom /* end point y */ );
+        cairo_fill (cr);
+    }
+
+    if ( shallow_history )
+    {
+        const double quarter_x_font = 0.15 * circle_width;
+        const double quarter_y_font = 0.15 * circle_height;
+        cairo_move_to ( cr, center_x - quarter_x_font, center_y - 2.0 * quarter_y_font );
+        cairo_line_to ( cr, center_x - quarter_x_font, center_y + 2.0 * quarter_y_font );
+        cairo_move_to ( cr, center_x - quarter_x_font, center_y );
+        cairo_line_to ( cr, center_x + quarter_x_font, center_y );
+        cairo_move_to ( cr, center_x + quarter_x_font, center_y - 2.0 * quarter_y_font );
+        cairo_line_to ( cr, center_x + quarter_x_font, center_y + 2.0 * quarter_y_font );
+        cairo_stroke (cr);
+    }
+    else if ( deep_history )
+    {
+        const double quarter_x_font = 0.15 * circle_width;
+        const double quarter_y_font = 0.15 * circle_height;
+        cairo_move_to ( cr, center_x - 1.5 * quarter_x_font, center_y - 2.0 * quarter_y_font );
+        cairo_line_to ( cr, center_x - 1.5 * quarter_x_font, center_y + 2.0 * quarter_y_font );
+        cairo_move_to ( cr, center_x - 1.5 * quarter_x_font, center_y );
+        cairo_line_to ( cr, center_x + 0.3 * quarter_x_font, center_y );
+        cairo_move_to ( cr, center_x + 0.3 * quarter_x_font, center_y - 2.0 * quarter_y_font );
+        cairo_line_to ( cr, center_x + 0.3 * quarter_x_font, center_y + 2.0 * quarter_y_font );
+        cairo_stroke (cr);
+        cairo_move_to ( cr, center_x + 1.5 * quarter_x_font, center_y - 2.0 * quarter_y_font );
+        cairo_line_to ( cr, center_x + 1.5 * quarter_x_font, center_y );
+        cairo_move_to ( cr, center_x + 0.8 * quarter_x_font, center_y - 1.6 * quarter_y_font );
+        cairo_line_to ( cr, center_x + 2.2 * quarter_x_font, center_y - 0.4 * quarter_y_font );
+        cairo_move_to ( cr, center_x + 2.2 * quarter_x_font, center_y - 1.6 * quarter_y_font );
+        cairo_line_to ( cr, center_x + 0.8 * quarter_x_font, center_y - 0.4 * quarter_y_font );
+        cairo_stroke (cr);
+    }
+
+    TRACE_END();
+}
+
+geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
+                                                   double x,
+                                                   double y,
+                                                   geometry_h_align_t h_align,
+                                                   geometry_v_align_t v_align,
+                                                   double height )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    const double width = height/1.732050808;
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
+                              width,
+                              height
+    );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_time ( const draw_symbol_t *this_,
+                             geometry_rectangle_t bounds,
+                             cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+
+
+    TRACE_END();
+}
+
+geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
+                                                   double x,
+                                                   double y,
+                                                   geometry_h_align_t h_align,
+                                                   geometry_v_align_t v_align,
+                                                   double height,
+                                                   const pencil_size_t *pencil_size )
+{
+    TRACE_BEGIN();
+    geometry_rectangle_t result;
+
+    const double width = 3.0 * pencil_size_get_bold_line_width( pencil_size );
+    geometry_rectangle_init ( &result,
+                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
+                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
+                              width,
+                              height
+    );
+
+    TRACE_END();
+    return result;
+}
+
+void draw_symbol_draw_sync ( const draw_symbol_t *this_,
+                             geometry_rectangle_t bounds,
+                             cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+
 
     TRACE_END();
 }

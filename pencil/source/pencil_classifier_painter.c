@@ -374,8 +374,8 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             case DATA_CLASSIFIER_TYPE_UML_ACTOR:
             {
-                double actor_height = pencil_size_get_classifier_symbol_height( pencil_size );
-                double half_width = 0.5 * border_width;
+                const double actor_height = pencil_size_get_classifier_symbol_height( pencil_size );
+                const double half_width = 0.5 * border_width;
                 geometry_rectangle_t icon_bounds;
                 icon_bounds = draw_symbol_get_actor_bounds ( &((*this_).draw_symbol),
                                                              border_left + half_width,
@@ -399,81 +399,33 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
             case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
             {
-                //double circle_diameter = height;
-                double circle_diameter = pencil_size_get_classifier_symbol_height( pencil_size );
-                double circle_radius = 0.5 * circle_diameter;
-
-                double circle_top = top;
-                double circle_bottom = circle_top + circle_diameter;
-                double half_width = 0.5 * width;
-                double center_x = left + half_width;
-                double center_y = top + circle_radius;
-                double circle_left = center_x - circle_radius;
-                double circle_right = center_x + circle_radius;
-
-                if ( data_classifier_get_main_type ( classifier ) != DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
-                {
-                    double ctrl_offset = circle_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-
-                    cairo_move_to ( cr, center_x, circle_bottom );
-                    cairo_curve_to ( cr, circle_left + ctrl_offset, circle_bottom, circle_left, circle_bottom - ctrl_offset, circle_left /* end point x */, center_y /* end point y */ );
-                    cairo_curve_to ( cr, circle_left, circle_top + ctrl_offset, circle_left + ctrl_offset, circle_top, center_x /* end point x */, circle_top /* end point y */ );
-                    cairo_curve_to ( cr, circle_right - ctrl_offset, circle_top, circle_right, circle_top + ctrl_offset, circle_right /* end point x */, center_y /* end point y */ );
-                    cairo_curve_to ( cr, circle_right, circle_bottom - ctrl_offset, circle_right - ctrl_offset, circle_bottom, center_x /* end point x */, circle_bottom /* end point y */ );
-                    cairo_stroke (cr);
-                }
-
-                if ( ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
-                    || ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE ) )
-                {
-                    double circle2_radius = circle_radius - gap;
-                    double circle2_top = circle_top + gap;
-                    double circle2_bottom = circle_bottom - gap;
-                    double circle2_left = circle_left + gap;
-                    double circle2_right = circle_right - gap;
-                    double ctrl2_offset = circle2_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-
-                    /* draw a smaller filled circle */
-                    cairo_move_to ( cr, center_x, circle2_bottom );
-                    cairo_curve_to ( cr, circle2_left + ctrl2_offset, circle2_bottom, circle2_left, circle2_bottom - ctrl2_offset, circle2_left /* end point x */, center_y /* end point y */ );
-                    cairo_curve_to ( cr, circle2_left, circle2_top + ctrl2_offset, circle2_left + ctrl2_offset, circle2_top, center_x /* end point x */, circle2_top /* end point y */ );
-                    cairo_curve_to ( cr, circle2_right - ctrl2_offset, circle2_top, circle2_right, circle2_top + ctrl2_offset, circle2_right /* end point x */, center_y /* end point y */ );
-                    cairo_curve_to ( cr, circle2_right, circle2_bottom - ctrl2_offset, circle2_right - ctrl2_offset, circle2_bottom, center_x /* end point x */, circle2_bottom /* end point y */ );
-                    cairo_fill (cr);
-                }
-
-                if ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY )
-                {
-                    double quarter_font = 0.15 * pencil_size_get_classifier_symbol_height( pencil_size );
-                    cairo_move_to ( cr, center_x - quarter_font, center_y - 2.0 * quarter_font );
-                    cairo_line_to ( cr, center_x - quarter_font, center_y + 2.0 * quarter_font );
-                    cairo_move_to ( cr, center_x - quarter_font, center_y );
-                    cairo_line_to ( cr, center_x + quarter_font, center_y );
-                    cairo_move_to ( cr, center_x + quarter_font, center_y - 2.0 * quarter_font );
-                    cairo_line_to ( cr, center_x + quarter_font, center_y + 2.0 * quarter_font );
-                    cairo_stroke (cr);
-                }
-                else if ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY )
-                {
-                    double quarter_font = 0.15 * pencil_size_get_classifier_symbol_height( pencil_size );
-                    cairo_move_to ( cr, center_x - 1.5 * quarter_font, center_y - 2.0 * quarter_font );
-                    cairo_line_to ( cr, center_x - 1.5 * quarter_font, center_y + 2.0 * quarter_font );
-                    cairo_move_to ( cr, center_x - 1.5 * quarter_font, center_y );
-                    cairo_line_to ( cr, center_x + 0.3 * quarter_font, center_y );
-                    cairo_move_to ( cr, center_x + 0.3 * quarter_font, center_y - 2.0 * quarter_font );
-                    cairo_line_to ( cr, center_x + 0.3 * quarter_font, center_y + 2.0 * quarter_font );
-                    cairo_stroke (cr);
-                    cairo_move_to ( cr, center_x + 1.5 * quarter_font, center_y - 2.0 * quarter_font );
-                    cairo_line_to ( cr, center_x + 1.5 * quarter_font, center_y );
-                    cairo_move_to ( cr, center_x + 0.8 * quarter_font, center_y - 1.6 * quarter_font );
-                    cairo_line_to ( cr, center_x + 2.2 * quarter_font, center_y - 0.4 * quarter_font );
-                    cairo_move_to ( cr, center_x + 2.2 * quarter_font, center_y - 1.6 * quarter_font );
-                    cairo_line_to ( cr, center_x + 0.8 * quarter_font, center_y - 0.4 * quarter_font );
-                    cairo_stroke (cr);
-                }
+                const double circle_diameter = pencil_size_get_classifier_symbol_height( pencil_size );
+                const double half_width = 0.5 * border_width;
+                geometry_rectangle_t icon_bounds;
+                icon_bounds = draw_symbol_get_circle_bounds ( &((*this_).draw_symbol),
+                                                              border_left + half_width,
+                                                              border_top,
+                                                              GEOMETRY_H_ALIGN_CENTER,
+                                                              GEOMETRY_V_ALIGN_TOP,
+                                                              circle_diameter
+                                                            );
+                const bool stroke = ( data_classifier_get_main_type ( classifier ) != DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE );
+                const bool fill = ( ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE )
+                                  || ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE ) );
+                const bool shallow_history = ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY );
+                const bool deep_history = ( data_classifier_get_main_type ( classifier ) == DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY );
+                draw_symbol_draw_circle ( &((*this_).draw_symbol),
+                                          icon_bounds,
+                                          pencil_size,
+                                          stroke,
+                                          fill,
+                                          shallow_history,
+                                          deep_history,
+                                          cr
+                                        );
 
                 /* adjust the text position */
-                text1_top = circle_bottom + gap;
+                text1_top = border_top + circle_diameter + gap;
             }
             break;
 

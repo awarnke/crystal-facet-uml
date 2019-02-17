@@ -40,7 +40,7 @@ void draw_symbol_init( draw_symbol_t *this_ );
 void draw_symbol_destroy( draw_symbol_t *this_ );
 
 /*!
- *  \brief draws the component icon at the defined location
+ *  \brief calculates the bounding rectangle for component icon
  *
  *  \param this_ pointer to own object attributes
  *  \param x x location where to draw the icon
@@ -71,7 +71,7 @@ void draw_symbol_draw_component ( const draw_symbol_t *this_,
                                 );
 
 /*!
- *  \brief draws the artifact icon at the defined location
+ *  \brief calculates the bounding rectangle for the artifact icon
  *
  *  \param this_ pointer to own object attributes
  *  \param x x location where to draw the icon
@@ -102,7 +102,7 @@ void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
                                 );
 
 /*!
- *  \brief draws the actor icon at the defined location
+ *  \brief calculates the bounding rectangle for the actor icon
  *
  *  \param this_ pointer to own object attributes
  *  \param x x location where to draw the icon
@@ -131,6 +131,111 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
                               geometry_rectangle_t bounds,
                               cairo_t *cr
                             );
+
+/*!
+ *  \brief calculates the bounding rectangle for the circle icon at the defined location
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x location where to draw the icon
+ *  \param y y location where to draw the icon
+ *  \param h_align alignment of the icon versus the given x coordinate
+ *  \param v_align alignment of the icon versus the given y coordinate
+ *  \param height size of the icon
+ *  \return bounding box rectangle of the icon
+ */
+geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
+                                                     double x,
+                                                     double y,
+                                                     geometry_h_align_t h_align,
+                                                     geometry_v_align_t v_align,
+                                                     double height
+                                                   );
+
+/*!
+ *  \brief draws the circle icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param pencil_size a set of size-values used for drawing elements in this diagram
+ *  \param stroke true if the outer circle line shall be drawn
+ *  \param fill true if the inner circle area shall be filled
+ *  \param shallow_history true if the H character shall be drawn
+ *  \param deep_history true if the H* character pir shall be drawn
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_circle ( const draw_symbol_t *this_,
+                               geometry_rectangle_t bounds,
+                               const pencil_size_t *pencil_size,
+                               bool stroke,
+                               bool fill,
+                               bool shallow_history,
+                               bool deep_history,
+                               cairo_t *cr
+                             );
+
+/*!
+ *  \brief calculates the bounding rectangle for the time icon
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x location where to draw the icon
+ *  \param y y location where to draw the icon
+ *  \param h_align alignment of the icon versus the given x coordinate
+ *  \param v_align alignment of the icon versus the given y coordinate
+ *  \param height size of the icon
+ *  \return bounding box rectangle of the icon
+ */
+geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
+                                                   double x,
+                                                   double y,
+                                                   geometry_h_align_t h_align,
+                                                   geometry_v_align_t v_align,
+                                                   double height
+                                                 );
+
+/*!
+ *  \brief draws the time icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_time ( const draw_symbol_t *this_,
+                             geometry_rectangle_t bounds,
+                             cairo_t *cr
+                           );
+
+/*!
+ *  \brief calculates the bounding rectangle for the sync icon
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param x x location where to draw the icon
+ *  \param y y location where to draw the icon
+ *  \param h_align alignment of the icon versus the given x coordinate
+ *  \param v_align alignment of the icon versus the given y coordinate
+ *  \param height size of the icon
+ *  \param pencil_size a set of size-values used for drawing elements in this diagram
+ *  \return bounding box rectangle of the icon
+ */
+geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
+                                                   double x,
+                                                   double y,
+                                                   geometry_h_align_t h_align,
+                                                   geometry_v_align_t v_align,
+                                                   double height,
+                                                   const pencil_size_t *pencil_size
+                                                 );
+
+/*!
+ *  \brief draws the sync icon into the bounds rect
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param bounds bounding rectangle of the icon
+ *  \param cr a cairo drawing context
+ */
+void draw_symbol_draw_sync ( const draw_symbol_t *this_,
+                             geometry_rectangle_t bounds,
+                             cairo_t *cr
+                           );
 
 #endif  /* DRAW_SYMBOL_H */
 
