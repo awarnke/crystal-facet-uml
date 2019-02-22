@@ -36,6 +36,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
                                                     double *out_text_height,
                                                     double *out_text_width )
 {
+    TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
@@ -128,6 +129,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
         *out_text_height = 0.0;
         *out_text_width = 0.0;
     }
+    TRACE_END();
 }
 
 

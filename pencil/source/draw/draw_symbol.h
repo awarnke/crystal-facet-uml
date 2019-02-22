@@ -30,14 +30,14 @@ typedef struct draw_symbol_struct draw_symbol_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void draw_symbol_init( draw_symbol_t *this_ );
+static inline void draw_symbol_init( draw_symbol_t *this_ );
 
 /*!
  *  \brief destroys the draw_symbol_t
  *
  *  \param this_ pointer to own object attributes
  */
-void draw_symbol_destroy( draw_symbol_t *this_ );
+static inline void draw_symbol_destroy( draw_symbol_t *this_ );
 
 /*!
  *  \brief calculates the bounding rectangle for component icon
@@ -50,13 +50,13 @@ void draw_symbol_destroy( draw_symbol_t *this_ );
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        geometry_h_align_t h_align,
-                                                        geometry_v_align_t v_align,
-                                                        double height
-                                                      );
+static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
+                                                                      double x,
+                                                                      double y,
+                                                                      geometry_h_align_t h_align,
+                                                                      geometry_v_align_t v_align,
+                                                                      double height
+                                                                    );
 
 /*!
  *  \brief draws the component icon into the bounds rect
@@ -81,13 +81,13 @@ void draw_symbol_draw_component ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
-                                                       double x,
-                                                       double y,
-                                                       geometry_h_align_t h_align,
-                                                       geometry_v_align_t v_align,
-                                                       double height
-                                                     );
+static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
+                                                                     double x,
+                                                                     double y,
+                                                                     geometry_h_align_t h_align,
+                                                                     geometry_v_align_t v_align,
+                                                                     double height
+                                                                   );
 
 /*!
  *  \brief draws the artifact icon into the bounds rect
@@ -112,13 +112,13 @@ void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
-                                                    double x,
-                                                    double y,
-                                                    geometry_h_align_t h_align,
-                                                    geometry_v_align_t v_align,
-                                                    double height
-                                                  );
+static inline geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
+                                                                  double x,
+                                                                  double y,
+                                                                  geometry_h_align_t h_align,
+                                                                  geometry_v_align_t v_align,
+                                                                  double height
+                                                                );
 
 /*!
  *  \brief draws the actor icon into the bounds rect
@@ -143,13 +143,13 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
-                                                     double x,
-                                                     double y,
-                                                     geometry_h_align_t h_align,
-                                                     geometry_v_align_t v_align,
-                                                     double height
-                                                   );
+static inline geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
+                                                                   double x,
+                                                                   double y,
+                                                                   geometry_h_align_t h_align,
+                                                                   geometry_v_align_t v_align,
+                                                                   double height
+                                                                 );
 
 /*!
  *  \brief draws the circle icon into the bounds rect
@@ -184,13 +184,13 @@ void draw_symbol_draw_circle ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
-                                                   double x,
-                                                   double y,
-                                                   geometry_h_align_t h_align,
-                                                   geometry_v_align_t v_align,
-                                                   double height
-                                                 );
+static inline geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
+                                                                 double x,
+                                                                 double y,
+                                                                 geometry_h_align_t h_align,
+                                                                 geometry_v_align_t v_align,
+                                                                 double height
+                                                               );
 
 /*!
  *  \brief draws the time icon into the bounds rect
@@ -216,14 +216,14 @@ void draw_symbol_draw_time ( const draw_symbol_t *this_,
  *  \param pencil_size a set of size-values used for drawing elements in this diagram
  *  \return bounding box rectangle of the icon
  */
-geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
-                                                   double x,
-                                                   double y,
-                                                   geometry_h_align_t h_align,
-                                                   geometry_v_align_t v_align,
-                                                   double height,
-                                                   const pencil_size_t *pencil_size
-                                                 );
+static inline geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
+                                                                 double x,
+                                                                 double y,
+                                                                 geometry_h_align_t h_align,
+                                                                 geometry_v_align_t v_align,
+                                                                 double height,
+                                                                 const pencil_size_t *pencil_size
+                                                               );
 
 /*!
  *  \brief draws the sync icon into the bounds rect

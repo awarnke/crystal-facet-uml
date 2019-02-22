@@ -9,43 +9,6 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
-void draw_symbol_init( draw_symbol_t *this_ )
-{
-    TRACE_BEGIN();
-
-    TRACE_END();
-}
-
-void draw_symbol_destroy( draw_symbol_t *this_ )
-{
-    TRACE_BEGIN();
-
-    TRACE_END();
-}
-
-geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
-                                                        double x,
-                                                        double y,
-                                                        geometry_h_align_t h_align,
-                                                        geometry_v_align_t v_align,
-                                                        double height
-                                                      )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = 1.4 * height;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-                            );
-
-    TRACE_END();
-    return result;
-}
-
 void draw_symbol_draw_component ( const draw_symbol_t *this_,
                                   geometry_rectangle_t bounds,
                                   cairo_t *cr )
@@ -88,29 +51,6 @@ void draw_symbol_draw_component ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
-                                                       double x,
-                                                       double y,
-                                                       geometry_h_align_t h_align,
-                                                       geometry_v_align_t v_align,
-                                                       double height
-                                                     )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = 0.7 * height;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-                            );
-
-    TRACE_END();
-    return result;
-}
-
 void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
                                  geometry_rectangle_t bounds,
                                  cairo_t *cr )
@@ -139,29 +79,6 @@ void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
     cairo_stroke (cr);
 
     TRACE_END();
-}
-
-geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
-                                                    double x,
-                                                    double y,
-                                                    geometry_h_align_t h_align,
-                                                    geometry_v_align_t v_align,
-                                                    double height
-                                                  )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = height/3.0;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-                            );
-
-    TRACE_END();
-    return result;
 }
 
 void draw_symbol_draw_actor ( const draw_symbol_t *this_,
@@ -200,28 +117,6 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
     cairo_stroke (cr);
 
     TRACE_END();
-}
-
-geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
-                                                     double x,
-                                                     double y,
-                                                     geometry_h_align_t h_align,
-                                                     geometry_v_align_t v_align,
-                                                     double height )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = height;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-                            );
-
-    TRACE_END();
-    return result;
 }
 
 void draw_symbol_draw_circle ( const draw_symbol_t *this_,
@@ -318,28 +213,6 @@ void draw_symbol_draw_circle ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
-                                                   double x,
-                                                   double y,
-                                                   geometry_h_align_t h_align,
-                                                   geometry_v_align_t v_align,
-                                                   double height )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = height/1.732050808;
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-    );
-
-    TRACE_END();
-    return result;
-}
-
 void draw_symbol_draw_time ( const draw_symbol_t *this_,
                              geometry_rectangle_t bounds,
                              cairo_t *cr )
@@ -360,29 +233,6 @@ void draw_symbol_draw_time ( const draw_symbol_t *this_,
     cairo_stroke (cr);
 
     TRACE_END();
-}
-
-geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
-                                                   double x,
-                                                   double y,
-                                                   geometry_h_align_t h_align,
-                                                   geometry_v_align_t v_align,
-                                                   double height,
-                                                   const pencil_size_t *pencil_size )
-{
-    TRACE_BEGIN();
-    geometry_rectangle_t result;
-
-    const double width = 3.0 * pencil_size_get_bold_line_width( pencil_size );
-    geometry_rectangle_init ( &result,
-                              geometry_h_align_get_left( &h_align, width, x, 0.0 ),
-                              geometry_v_align_get_top( &v_align, height, y, 0.0 ),
-                              width,
-                              height
-    );
-
-    TRACE_END();
-    return result;
 }
 
 void draw_symbol_draw_sync ( const draw_symbol_t *this_,

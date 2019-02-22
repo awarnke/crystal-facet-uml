@@ -88,6 +88,15 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr 
 static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box );
 
 /*!
+ *  \brief moves the layout_visible_classifier_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param delta_x delta-x difference by which to shift the layout_visible_classifier_t
+ *  \param delta_y delta-y difference by which to shift the layout_visible_classifier_t
+ */
+static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y );
+
+/*!
  *  \brief gets the pointer to the data_visible_classifier_t object
  *
  *  \param this_ pointer to own object attributes

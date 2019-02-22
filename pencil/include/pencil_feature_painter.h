@@ -14,6 +14,7 @@
 #include "pencil_size.h"
 #include "layout/layout_feature.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
@@ -142,7 +143,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
                                                  const data_feature_t *the_feature,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
-                                                 geometry_rectangle_t *out_feature_bounds
+                                                 geometry_dimensions_t *out_feature_bounds
                                                );
 
 #endif  /* PENCIL_FEATURE_PAINTER_H */

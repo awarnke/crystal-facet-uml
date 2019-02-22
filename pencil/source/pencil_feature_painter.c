@@ -457,7 +457,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
                                                  const data_feature_t *the_feature,
                                                  const pencil_size_t *pencil_size,
                                                  PangoLayout *font_layout,
-                                                 geometry_rectangle_t *out_feature_bounds )
+                                                 geometry_dimensions_t *out_feature_bounds )
 {
     TRACE_BEGIN();
     assert( NULL != the_feature );
@@ -467,8 +467,6 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
 
-    double left = 0.0;
-    double top = 0.0;
     double width = 2.0 * gap;
     double height = 0.0;
 
@@ -511,7 +509,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
         TSLOG_ERROR("invalid feature in array!");
     }
 
-    geometry_rectangle_reinit( out_feature_bounds, left, top, width, height );
+    geometry_dimensions_reinit( out_feature_bounds, width, height );
     TRACE_END();
 }
 

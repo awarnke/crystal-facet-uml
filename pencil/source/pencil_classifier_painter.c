@@ -710,25 +710,30 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
     TRACE_END();
 }
 
-void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_painter_t *this_,
-                                                    const data_visible_classifier_t *visible_classifier,
-                                                    const pencil_size_t *pencil_size,
-                                                    PangoLayout *font_layout,
-                                                    geometry_rectangle_t *out_classifier_bounds,
-                                                    geometry_rectangle_t *out_classifier_space )
+static inline double MAX_OF_2( double a, double b ) { return ((a>b)?a:b); }
+static inline double MAX_OF_3( double a, double b, double c ) { return ((a>b)?((a>c)?a:c):((b>c)?b:c)); }
+
+void pencil_classifier_painter_set_all_bounds ( const pencil_classifier_painter_t *this_,
+                                                const data_visible_classifier_t *visible_classifier,
+                                                const pencil_size_t *pencil_size,
+                                                PangoLayout *font_layout,
+                                                const geometry_dimensions_t *proposed_bounds,
+                                                const geometry_dimensions_t *minimum_feature_space,
+                                                layout_visible_classifier_t *io_classifier_layout )
 {
     TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != visible_classifier );
-    assert( NULL != out_classifier_bounds );
-    assert( NULL != out_classifier_space );
+    assert( NULL != pencil_size );
     assert( NULL != font_layout );
+    assert( NULL != proposed_bounds );
+    assert( NULL != minimum_feature_space );
+    assert( NULL != io_classifier_layout );
 
     /* border sizes of the classifier-shape */
-    double top_border = 0.0;
-    double left_border = 0.0;
-    double bottom_border = 0.0;
-    double right_border = 0.0;
+    double top_border;
+    double left_border;
+    double bottom_border;
+    double right_border;
 
     /* stereotype and name dimensions */
     double text_height;
@@ -758,45 +763,76 @@ void pencil_classifier_painter_get_minimum_bounds ( const pencil_classifier_pain
                                                    &text_width
                                                  );
 
-    /* minimum bounding box */
-    double left = 0.0;
-    double top = 0.0;
-    double width = left_border + text_width + right_border;
-    double height = top_border + text_height + bottom_border;
+    /* get the bounds and inner space rectangles to modify */
+    geometry_rectangle_t *out_classifier_bounds;
+    out_classifier_bounds = layout_visible_classifier_get_bounds_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_space;
+    out_classifier_space = layout_visible_classifier_get_space_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_label_box;
+    out_classifier_label_box = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
-    geometry_rectangle_reinit( out_classifier_bounds, left, top, width, height );
-    geometry_rectangle_reinit( out_classifier_space, left + left_border, top + top_border + text_height, text_width, 0.0 );
+    bool is_fix_sized_symbol;
+    is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
+
+    /* adapt to the size of the contained features */
+    if ( ! is_fix_sized_symbol )
+    {
+        const double width_by_text = left_border + text_width + right_border;
+        const double width_by_space = left_border + geometry_dimensions_get_width( minimum_feature_space ) + right_border;
+        const double width_by_proposal = geometry_dimensions_get_width( proposed_bounds );
+        const double width = MAX_OF_3 ( width_by_text, width_by_space, width_by_proposal );
+
+        const double height_by_text_and_space = top_border + text_height + geometry_dimensions_get_height( minimum_feature_space ) + bottom_border;
+        const double height_by_proposal = geometry_dimensions_get_height( proposed_bounds );
+        const double height = MAX_OF_2 ( height_by_text_and_space, height_by_proposal );
+
+        geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, width, height );
+
+        const double space_width = width - left_border - right_border;
+        const double space_height = height-top_border-text_height-bottom_border;
+
+        geometry_rectangle_reinit( out_classifier_space, left_border, top_border+text_height, space_width, space_height );
+        geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, top_border, text_width, text_height );
+    }
+    else
+    {
+        const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
+        const double symbol_width = pencil_size_get_classifier_symbol_height( pencil_size );
+        geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, symbol_width, symbol_height );
+        geometry_rectangle_reinit( out_classifier_space, 0.0, symbol_height+text_height, symbol_width, 0.0 );
+        geometry_rectangle_reinit( out_classifier_label_box, (symbol_width-text_width)/2.0, symbol_height, text_width, text_height );
+    }
     TRACE_END();
 }
 
-void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_painter_t *this_,
-                                                   const data_visible_classifier_t *visible_classifier,
-                                                   const pencil_size_t *pencil_size,
-                                                   const geometry_rectangle_t *classifier_bounds,
-                                                   PangoLayout *font_layout,
-                                                   geometry_rectangle_t *out_classifier_space )
+void pencil_classifier_painter_set_space_and_label ( const pencil_classifier_painter_t *this_,
+                                                     const data_visible_classifier_t *visible_classifier,
+                                                     const pencil_size_t *pencil_size,
+                                                     PangoLayout *font_layout,
+                                                     layout_visible_classifier_t *io_classifier_layout )
 {
     TRACE_BEGIN();
-    assert( NULL != pencil_size );
     assert( NULL != visible_classifier );
-    assert( NULL != classifier_bounds );
-    assert( NULL != out_classifier_space );
+    assert( NULL != pencil_size );
     assert( NULL != font_layout );
+    assert( NULL != io_classifier_layout );
 
-    double space_left = 0.0;
-    double space_top = 0.0;
-    double space_width = 0.0;
-    double space_height = 0.0;
-
-    /* get the classifier */
-    const data_classifier_t *classifier;
-    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-
-    /* determine border sizes of the classifier-shape */
+    /* border sizes of the classifier-shape */
     double top_border;
     double left_border;
     double bottom_border;
     double right_border;
+
+    /* stereotype and name dimensions */
+    double text_height;
+    double text_width;
+
+    const data_classifier_t *classifier;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+
+    TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
+
+    /* determine border sizes of the classifier-shape */
     draw_geometry_get_shape_border_dimensions( &((*this_).draw_geometry),
                                                data_classifier_get_main_type ( classifier ),
                                                pencil_size,
@@ -807,8 +843,6 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                              );
 
     /* determine stereotype and name dimensions */
-    double text_height;
-    double text_width;
     draw_label_get_stereotype_and_name_dimensions( &((*this_).draw_label),
                                                    visible_classifier,
                                                    pencil_size,
@@ -817,14 +851,38 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                    &text_width
                                                  );
 
+    /* get the bounds and inner space rectangles to modify */
+    const geometry_rectangle_t *classifier_bounds;
+    classifier_bounds = layout_visible_classifier_get_bounds_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_space;
+    out_classifier_space = layout_visible_classifier_get_space_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_label_box;
+    out_classifier_label_box = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
+
+    bool is_fix_sized_symbol;
+    is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
+
     /* calculate the result */
-    space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
-    space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
-    space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
-    space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
+    const double space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
+    const double space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
+    const double width = geometry_rectangle_get_width( classifier_bounds );
+    if ( ! is_fix_sized_symbol )
+    {
+        const double space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
+        const double space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
 
-    geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
+        geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
 
+        geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, top_border, text_width, text_height );
+    }
+    else
+    {
+        const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
+        //const double symbol_width = pencil_size_get_classifier_symbol_height( pencil_size );
+
+        geometry_rectangle_reinit( out_classifier_space, space_left, symbol_height+text_height, space_width, 0.0 );
+        geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, symbol_height, text_width, text_height );
+    }
     TRACE_END();
 }
 

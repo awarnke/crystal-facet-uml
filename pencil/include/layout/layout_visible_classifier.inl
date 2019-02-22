@@ -50,6 +50,13 @@ static inline void layout_visible_classifier_set_label_box ( layout_visible_clas
     geometry_rectangle_replace( &((*this_).label_box), label_box );
 }
 
+static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y )
+{
+    geometry_rectangle_shift( &((*this_).bounds), delta_x, delta_y );
+    geometry_rectangle_shift( &((*this_).space), delta_x, delta_y );
+    geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );
+}
+
 static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ )
 {
     return (*this_).data;

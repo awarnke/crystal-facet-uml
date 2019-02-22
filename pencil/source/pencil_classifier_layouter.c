@@ -10,7 +10,7 @@
 void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
                                       const pencil_size_t *pencil_size,
-                                      geometry_rectangle_t *default_classifier_size,
+                                      geometry_dimensions_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
                                       geometry_non_linear_scale_t *y_scale,
                                       pencil_feature_layouter_t *feature_layouter )
@@ -18,6 +18,9 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
     TRACE_BEGIN();
     assert( NULL != layout_data );
     assert( NULL != pencil_size );
+    assert( NULL != default_classifier_size );
+    assert( NULL != x_scale );
+    assert( NULL != y_scale );
     assert( NULL != feature_layouter );
 
     (*this_).layout_data = layout_data;
@@ -60,93 +63,43 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
         classifier_layout = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
         const data_visible_classifier_t *visible_classifier2;
         visible_classifier2 = layout_visible_classifier_get_data_ptr ( classifier_layout );
-        const data_classifier_t *classifier2;
-        classifier2 = data_visible_classifier_get_classifier_const( visible_classifier2 );
 
-        /* get the bounds and inner space rectangles to modify */
-        geometry_rectangle_t *classifier_bounds;
-        classifier_bounds = layout_visible_classifier_get_bounds_ptr( classifier_layout );
-        geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( classifier_layout );
-        bool is_fix_sized_symbol;
-        is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( classifier_layout );
-
-        /* adapt to the size of the contained features */
-        if ( ! is_fix_sized_symbol )
+        /* set the bounds, space and label_box of the classifier layout */
         {
-            /* determine the minimum size of the classifier */
-            /* and initialize bounds and space */
-            pencil_classifier_painter_get_minimum_bounds ( &((*this_).classifier_painter),
-                                                           visible_classifier2,
-                                                           (*this_).pencil_size,
-                                                           font_layout,
-                                                           classifier_bounds,
-                                                           classifier_space
-                                                         );
+            geometry_dimensions_t features_bounds;
+            geometry_dimensions_init_empty( &features_bounds );
+            pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
+                                                                layout_visible_classifier_get_diagramelement_id( classifier_layout ),
+                                                                font_layout,
+                                                                &features_bounds
+                                                              );
 
-            /* determine the minimum size of the contained features */
-            double extend_to_right = 0.0;
-            double extend_to_bottom = 0.0;
-            {
-                double min_space_width = geometry_rectangle_get_width( classifier_space );
+            pencil_classifier_painter_set_all_bounds ( &((*this_).classifier_painter),
+                                                       visible_classifier2,
+                                                       (*this_).pencil_size,
+                                                       font_layout,
+                                                       (*this_).default_classifier_size,
+                                                       &features_bounds,
+                                                       classifier_layout );
 
-                geometry_rectangle_t features_bounds;
-                geometry_rectangle_init_empty( &features_bounds );
-                pencil_feature_layouter_calculate_features_bounds ( (*this_).feature_layouter,
-                                                                    layout_visible_classifier_get_diagramelement_id( classifier_layout ),
-                                                                    font_layout,
-                                                                    &features_bounds
-                                                                );
-
-                /* adjust width and height to feature bounds */
-                double feat_width = geometry_rectangle_get_width( &features_bounds );
-                if ( min_space_width < feat_width )
-                {
-                    extend_to_right = feat_width - min_space_width;
-                }
-                extend_to_bottom += geometry_rectangle_get_height( &features_bounds );
-
-                geometry_rectangle_destroy( &features_bounds );
-            }
-
-            /* determine minimum size */
-            double min_width = geometry_rectangle_get_width( classifier_bounds );
-            double min_height = geometry_rectangle_get_height( classifier_bounds );
-            min_height += extend_to_bottom;
-            min_width += extend_to_right;
-
-            /* determine default size */
-            double def_width = geometry_rectangle_get_width( (*this_).default_classifier_size );
-            double def_height = geometry_rectangle_get_height( (*this_).default_classifier_size );
-
-            /* adjust width and height to default or to minumum bounds */
-            if ( def_width > min_width )
-            {
-                extend_to_right += def_width - min_width;
-            }
-            if ( def_height > min_height )
-            {
-                extend_to_bottom += def_height - min_height;
-            }
-            geometry_rectangle_expand( classifier_bounds, extend_to_right, extend_to_bottom );
-            geometry_rectangle_expand( classifier_space, extend_to_right, extend_to_bottom );
-        }
-        else
-        {
-            double symbol_height = pencil_size_get_classifier_symbol_height( (*this_).pencil_size );
-            geometry_rectangle_reinit( classifier_bounds, 0.0, 0.0, symbol_height, symbol_height );
-            geometry_rectangle_reinit( classifier_space, 0.0, symbol_height, symbol_height, 0.0 );
+            geometry_dimensions_destroy( &features_bounds );
         }
 
         /* move the classifier rectangles to the target location */
-        double width = geometry_rectangle_get_width( classifier_bounds );
-        double height = geometry_rectangle_get_height( classifier_bounds );
-        int32_t order_x = data_classifier_get_x_order( classifier2 );
-        int32_t order_y = data_classifier_get_y_order( classifier2 );
-        double center_x = geometry_non_linear_scale_get_location( (*this_).x_scale, order_x );
-        double center_y = geometry_non_linear_scale_get_location( (*this_).y_scale, order_y );
-        geometry_rectangle_shift( classifier_bounds, center_x-0.5*width, center_y-0.5*height );
-        geometry_rectangle_shift( classifier_space, center_x-0.5*width, center_y-0.5*height );
+        {
+            const data_classifier_t *classifier2;
+            classifier2 = data_visible_classifier_get_classifier_const( visible_classifier2 );
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = layout_visible_classifier_get_bounds_ptr( classifier_layout );
+
+            double act_center_x = geometry_rectangle_get_x_center( classifier_bounds );
+            double act_center_y = geometry_rectangle_get_y_center( classifier_bounds );
+            int32_t order_x = data_classifier_get_x_order( classifier2 );
+            int32_t order_y = data_classifier_get_y_order( classifier2 );
+            double center_x = geometry_non_linear_scale_get_location( (*this_).x_scale, order_x );
+            double center_y = geometry_non_linear_scale_get_location( (*this_).y_scale, order_y );
+            layout_visible_classifier_shift( classifier_layout, center_x-act_center_x, center_y-act_center_y );
+        }
     }
 
     TRACE_END();
@@ -490,7 +443,7 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
 
         /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
         {
-            double default_classifier_area = geometry_rectangle_get_area( (*this_).default_classifier_size );
+            double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
             double classifier_area = geometry_rectangle_get_area( classifier_bounds );
             if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
             {
@@ -849,16 +802,9 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
-        /*
-        const data_classifier_t *classifier2;
-        classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-        */
-
-        /* get the bounds and inner space rectangles to modify */
+        /* get the bounds to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
-        geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( visible_classifier2 );
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
@@ -866,16 +812,15 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
                                  diag_y+((sort_idx*diag_h)/count_clasfy),
                                  diag_w,
                                  (diag_h/count_clasfy)
-                                );
+                               );
 
-        /* update inner space */
-        pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
-                                                      layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                      (*this_).pencil_size,
-                                                      classifier_bounds,
-                                                      font_layout,
-                                                      classifier_space
-                                                    );
+        /* update inner space and label_box */
+        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        visible_classifier2
+                                                      );
     }
 
     /* cleanup sorted array indices */
@@ -922,16 +867,9 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
-        /*
-        const data_classifier_t *classifier2;
-        classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-        */
-
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
-        geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( visible_classifier2 );
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
@@ -941,14 +879,13 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
                                  diag_h/8
                                );
 
-        /* update inner space */
-        pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
-                                                      layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                      (*this_).pencil_size,
-                                                      classifier_bounds,
-                                                      font_layout,
-                                                      classifier_space
-                                                    );
+        /* update inner space and label_box */
+        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        visible_classifier2
+                                                      );
     }
 
     /* cleanup sorted array indices */
@@ -995,16 +932,9 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         layout_visible_classifier_t *visible_classifier2;
         visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
 
-        /*
-        const data_classifier_t *classifier2;
-        classifier2 = layout_visible_classifier_get_classifier_ptr( visible_classifier2 );
-        */
-
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( visible_classifier2 );
-        geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( visible_classifier2 );
 
         /* define the bounding box */
         geometry_rectangle_init( classifier_bounds,
@@ -1014,14 +944,13 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
                                  (diag_h/count_clasfy)
                                );
 
-        /* update inner space */
-        pencil_classifier_painter_get_drawing_space ( &((*this_).classifier_painter),
-                                                      layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                      (*this_).pencil_size,
-                                                      classifier_bounds,
-                                                      font_layout,
-                                                      classifier_space
-                                                    );
+        /* update inner space and label_box */
+        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        visible_classifier2
+                                                      );
     }
 
     /* cleanup sorted array indices */

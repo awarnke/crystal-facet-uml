@@ -15,7 +15,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     pencil_size_init_empty( &((*this_).pencil_size) );
     geometry_non_linear_scale_init( &((*this_).x_scale), 0.0, 1.0 );
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
-    geometry_rectangle_init_empty( &((*this_).default_classifier_size) );
+    geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
 
     pencil_layout_data_init( &((*this_).layout_data) );
 
@@ -65,7 +65,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     pencil_size_destroy( &((*this_).pencil_size) );
     geometry_non_linear_scale_destroy( &((*this_).x_scale) );
     geometry_non_linear_scale_destroy( &((*this_).y_scale) );
-    geometry_rectangle_destroy( &((*this_).default_classifier_size) );
+    geometry_dimensions_destroy( &((*this_).default_classifier_size) );
 
     pencil_layout_data_destroy( &((*this_).layout_data) );
 
@@ -242,7 +242,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     }
     double half_width = sqrt(classifier_area);
     double half_height = half_width / 2.1;
-    geometry_rectangle_reinit( &((*this_).default_classifier_size), -half_width, -half_height, 2.0 * half_width, 2.0 * half_height );
+    geometry_dimensions_reinit( &((*this_).default_classifier_size), 2.0 * half_width, 2.0 * half_height );
 
     TRACE_END();
 }

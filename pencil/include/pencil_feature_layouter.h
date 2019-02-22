@@ -14,6 +14,7 @@
 #include "pencil_layout_data.h"
 #include "pencil_feature_painter.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
@@ -65,7 +66,7 @@ void pencil_feature_layouter_destroy( pencil_feature_layouter_t *this_ );
 void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
- *  \brief calculates feature bounding rectangle of property and operation features for one diagramelement
+ *  \brief calculates feature bounding dimensions of property and operation features for one diagramelement
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement for which to calculate the feature bounds
@@ -75,7 +76,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
                                                          int64_t diagramelement_id,
                                                          PangoLayout *font_layout,
-                                                         geometry_rectangle_t *out_features_bounds
+                                                         geometry_dimensions_t *out_features_bounds
                                                        );
 
 /*!

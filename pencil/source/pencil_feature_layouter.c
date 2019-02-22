@@ -144,13 +144,13 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             case DATA_FEATURE_TYPE_OPERATION:
             {
                 /* determine the minimum bounds of the feature */
-                geometry_rectangle_t f_min_bounds;
+                geometry_dimensions_t f_min_bounds;
                 pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
                                                             the_feature,
                                                             (*this_).pencil_size,
                                                             font_layout,
                                                             &f_min_bounds
-                                                        );
+                                                          );
 
                 /* layout feature into parent classifier */
                 geometry_rectangle_t *c_space = layout_visible_classifier_get_space_ptr ( layout_classifier );
@@ -159,8 +159,8 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                                           geometry_rectangle_get_left( c_space ),
                                           geometry_rectangle_get_top( c_space ) + y_position_of_next_feature,
                                           //geometry_rectangle_get_width( c_space ),
-                                          geometry_rectangle_get_width( &f_min_bounds ),
-                                          geometry_rectangle_get_height( &f_min_bounds )
+                                          geometry_dimensions_get_width( &f_min_bounds ),
+                                          geometry_dimensions_get_height( &f_min_bounds )
                                         );
                 layout_feature_set_bounds ( feature_layout, &f_bounds );
                 layout_feature_set_icon_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
@@ -440,14 +440,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
 void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter_t *this_,
                                                          int64_t diagramelement_id,
                                                          PangoLayout *font_layout,
-                                                         geometry_rectangle_t *out_features_bounds )
+                                                         geometry_dimensions_t *out_features_bounds )
 {
     TRACE_BEGIN();
     assert( NULL != font_layout );
     assert( NULL != out_features_bounds );
 
-    double left = 0.0;
-    double top = 0.0;
     double width = 0.0;
     double height = 0.0;
 
@@ -470,8 +468,8 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         if (( diagramelement_id == layout_visible_classifier_get_diagramelement_id( layout_classifier ) )
             && property_or_operation )
         {
-            geometry_rectangle_t min_feature_bounds;
-            geometry_rectangle_init_empty( &min_feature_bounds );
+            geometry_dimensions_t min_feature_bounds;
+            geometry_dimensions_init_empty( &min_feature_bounds );
             pencil_feature_painter_get_minimum_bounds ( &((*this_).feature_painter),
                                                         the_feature,
                                                         (*this_).pencil_size,
@@ -479,15 +477,15 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                         &min_feature_bounds
                                                       );
 
-            double current_w = geometry_rectangle_get_width( &min_feature_bounds );
+            double current_w = geometry_dimensions_get_width( &min_feature_bounds );
             width = ( width < current_w ) ? current_w : width;
-            height += geometry_rectangle_get_height( &min_feature_bounds );
+            height += geometry_dimensions_get_height( &min_feature_bounds );
 
-            geometry_rectangle_destroy( &min_feature_bounds );
+            geometry_dimensions_destroy( &min_feature_bounds );
         }
     }
 
-    geometry_rectangle_reinit( out_features_bounds, left, top, width, height );
+    geometry_dimensions_reinit( out_features_bounds, width, height );
     TRACE_END();
 }
 

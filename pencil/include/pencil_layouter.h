@@ -23,6 +23,7 @@
 #include "layout/layout_order.h"
 #include "util/id/data_id_pair.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
@@ -42,7 +43,7 @@ struct pencil_layouter_struct {
     pencil_size_t pencil_size;  /*!< own instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
     geometry_non_linear_scale_t x_scale;  /*!< own instance of a scale object for the x-axis */
     geometry_non_linear_scale_t y_scale;  /*!< own instance of a scale object for the y-axis */
-    geometry_rectangle_t default_classifier_size;  /*!< own instance of a classifier default size rectangle */
+    geometry_dimensions_t default_classifier_size;  /*!< own instance of a classifier default size */
 
     pencil_diagram_painter_t diagram_painter;  /*!< own instance of a painter object to ask for display dimensions */
 

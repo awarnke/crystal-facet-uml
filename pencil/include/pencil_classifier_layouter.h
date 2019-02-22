@@ -15,6 +15,7 @@
 #include "pencil_layout_data.h"
 #include "pencil_feature_layouter.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
@@ -35,7 +36,7 @@ struct pencil_classifier_layouter_struct {
     const geometry_rectangle_t *diagram_draw_area;  /*!< pointer to an external drawing rectangle containing inner contents of the diagram */
     geometry_non_linear_scale_t *x_scale;  /*!< pointer to an external scale object for the x-axis */
     geometry_non_linear_scale_t *y_scale;  /*!< pointer to an external scale object for the y-axis */
-    geometry_rectangle_t *default_classifier_size;  /*!< pointer to an external classifier default size rectangle */
+    geometry_dimensions_t *default_classifier_size;  /*!< pointer to an external classifier default size rectangle */
 
     pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
 
@@ -58,7 +59,7 @@ typedef struct pencil_classifier_layouter_struct pencil_classifier_layouter_t;
 void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
                                       pencil_layout_data_t *layout_data,
                                       const pencil_size_t *pencil_size,
-                                      geometry_rectangle_t *default_classifier_size,
+                                      geometry_dimensions_t *default_classifier_size,
                                       geometry_non_linear_scale_t *x_scale,
                                       geometry_non_linear_scale_t *y_scale,
                                       pencil_feature_layouter_t *feature_layouter

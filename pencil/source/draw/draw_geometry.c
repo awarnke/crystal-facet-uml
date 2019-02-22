@@ -31,6 +31,7 @@ void draw_geometry_get_shape_border_dimensions( const draw_geometry_t *this_,
                                                 double *out_bottom_border,
                                                 double *out_right_border )
 {
+    TRACE_BEGIN();
     assert( NULL != pencil_size );
     assert( NULL != out_top_border );
     assert( NULL != out_left_border );
@@ -135,6 +136,7 @@ void draw_geometry_get_shape_border_dimensions( const draw_geometry_t *this_,
         }
         break;
     }
+    TRACE_END();
 }
 
 
