@@ -237,6 +237,8 @@ void draw_symbol_draw_sync ( const draw_symbol_t *this_,
                              cairo_t *cr
                            );
 
+#include "draw_symbol.inl"
+
 #endif  /* DRAW_SYMBOL_H */
 
 

@@ -118,48 +118,6 @@ void pencil_classifier_painter_get_drawing_space ( const pencil_classifier_paint
                                                    geometry_rectangle_t *out_classifier_space
                                                  );
 
-/*!
- *  \brief determines the dimensions of the border of the classifier-shape.
- *
- *  E.g. a simple line border is 2.0 * pencil_size_get_standard_object_border()
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_type type of the classifier to draw
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param out_top_border height of the top border is returned. NULL is not allowed.
- *  \param out_left_border width of the left border is returned. NULL is not allowed.
- *  \param out_bottom_border height of the bottom border is returned. NULL is not allowed.
- *  \param out_right_border width of the right border is returned. NULL is not allowed.
- */
-static inline void pencil_classifier_painter_private_get_shape_border_dimensions( const pencil_classifier_painter_t *this_,
-                                                                                  data_classifier_type_t classifier_type,
-                                                                                  const pencil_size_t *pencil_size,
-                                                                                  double *out_top_border,
-                                                                                  double *out_left_border,
-                                                                                  double *out_bottom_border,
-                                                                                  double *out_right_border
-                                                                                );
-
-/*!
- *  \brief determines the dimensions of the stereotype and name of the classifier.
- *
- *  \param this_ pointer to own object attributes
- *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_text_height height of the text is returned. NULL is not allowed.
- *  \param out_text_width width of the text is returned. NULL is not allowed.
- */
-static inline void pencil_classifier_painter_private_get_stereotype_and_name_dimensions( const pencil_classifier_painter_t *this_,
-                                                                                         const data_visible_classifier_t *visible_classifier,
-                                                                                         const pencil_size_t *pencil_size,
-                                                                                         PangoLayout *font_layout,
-                                                                                         double *out_text_height,
-                                                                                         double *out_text_width
-                                                                                       );
-
-#include "pencil_classifier_painter.inl"
-
 #endif  /* PENCIL_CLASSIFIER_PAINTER_H */
 
 

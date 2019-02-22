@@ -12,6 +12,7 @@
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
 #include "data_relationship_type.h"
+#include "data_diagram_type.h"
 #include <stdbool.h>
 
 /*!

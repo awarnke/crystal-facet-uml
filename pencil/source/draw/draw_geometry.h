@@ -12,6 +12,7 @@
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
 #include "pencil_size.h"
+#include "data_classifier_type.h"
 #include "util/geometry/geometry_rectangle.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -38,6 +39,28 @@ void draw_geometry_init( draw_geometry_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void draw_geometry_destroy( draw_geometry_t *this_ );
+
+/*!
+ *  \brief determines the dimensions of the border of the classifier-shape.
+ *
+ *  E.g. a simple line border is 2.0 * pencil_size_get_standard_object_border()
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type type of the classifier to draw
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param out_top_border height of the top border is returned. NULL is not allowed.
+ *  \param out_left_border width of the left border is returned. NULL is not allowed.
+ *  \param out_bottom_border height of the bottom border is returned. NULL is not allowed.
+ *  \param out_right_border width of the right border is returned. NULL is not allowed.
+ */
+void draw_geometry_get_shape_border_dimensions( const draw_geometry_t *this_,
+                                                data_classifier_type_t classifier_type,
+                                                const pencil_size_t *pencil_size,
+                                                double *out_top_border,
+                                                double *out_left_border,
+                                                double *out_bottom_border,
+                                                double *out_right_border
+                                              );
 
 #endif  /* DRAW_GEOMETRY_H */
 
