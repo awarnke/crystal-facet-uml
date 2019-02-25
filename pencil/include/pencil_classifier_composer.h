@@ -1,12 +1,12 @@
-/* File: pencil_classifier_painter.h; Copyright and License: see below */
+/* File: pencil_classifier_composer.h; Copyright and License: see below */
 
-#ifndef PENCIL_CLASSIFIER_PAINTER_H
-#define PENCIL_CLASSIFIER_PAINTER_H
+#ifndef PENCIL_CLASSIFIER_COMPOSER_H
+#define PENCIL_CLASSIFIER_COMPOSER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a classifier and its contents into a cairo drawing context
+ *  \brief Renders a classifier by composing it of draw_graphics, draw_symbol and draw_label commands
  */
 
 #include "pencil_input_data.h"
@@ -31,7 +31,7 @@
 /*!
  *  \brief attributes of the classifier painter
  */
-struct pencil_classifier_painter_struct {
+struct pencil_classifier_composer_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     data_rules_t data_rules;  /*!< own instance of data rules */
     draw_symbol_t draw_symbol;  /*!< collection of draw symbol/icon functions */
@@ -39,21 +39,21 @@ struct pencil_classifier_painter_struct {
     draw_geometry_t draw_geometry;  /*!< collection of draw geometry functions */
 };
 
-typedef struct pencil_classifier_painter_struct pencil_classifier_painter_t;
+typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;
 
 /*!
  *  \brief initializes the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ );
+void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ );
 
 /*!
  *  \brief destroys the painter
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
+void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
 
 /*!
  *  \brief draws the chosen classifier contents into the diagram_bounds area of the cairo drawing context
@@ -67,7 +67,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ );
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
-void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
                                       layout_visible_classifier_t *layouted_classifier,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
@@ -92,7 +92,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
  *  \param minimum_feature_space minimum space needed by the contained features
  *  \param io_classifier_layout output is bounds, space and label_box. Must not be NULL.
  */
-void pencil_classifier_painter_set_all_bounds ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
                                                 const data_visible_classifier_t *visible_classifier,
                                                 const pencil_size_t *pencil_size,
                                                 PangoLayout *font_layout,
@@ -112,14 +112,14 @@ void pencil_classifier_painter_set_all_bounds ( const pencil_classifier_painter_
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param io_classifier_layout input is bounds, output is space and label_box. Must not be NULL.
  */
-void pencil_classifier_painter_set_space_and_label ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_composer_t *this_,
                                                      const data_visible_classifier_t *visible_classifier,
                                                      const pencil_size_t *pencil_size,
                                                      PangoLayout *font_layout,
                                                      layout_visible_classifier_t *io_classifier_layout
                                                    );
 
-#endif  /* PENCIL_CLASSIFIER_PAINTER_H */
+#endif  /* PENCIL_CLASSIFIER_COMPOSER_H */
 
 
 /*

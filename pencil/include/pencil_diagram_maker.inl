@@ -10,7 +10,7 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, pen
     assert( NULL != input_data );
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
-    pencil_classifier_painter_init( &((*this_).classifier_painter) );
+    pencil_classifier_composer_init( &((*this_).classifier_painter) );
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
@@ -26,7 +26,7 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     TRACE_BEGIN();
 
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
-    pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
+    pencil_classifier_composer_destroy( &((*this_).classifier_painter) );
     pencil_relationship_painter_destroy( &((*this_).relationship_painter) );
     pencil_feature_painter_destroy( &((*this_).feature_painter) );
 

@@ -97,6 +97,17 @@ static inline void layout_visible_classifier_set_label_box ( layout_visible_clas
 static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y );
 
 /*!
+ *  \brief expands or shrinks the layout_visible_classifier_t
+ *
+ *  The top left corner remains fix.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param delta_width value by which to increase the width. In case of a negative value, the layout_visible_classifier shrinks (but not below 0).
+ *  \param delta_height value by which to increase the height. In case of a negative value, the layout_visible_classifier shrinks (but not below 0).
+ */
+static inline void layout_visible_classifier_expand ( layout_visible_classifier_t *this_, double delta_width, double delta_height );
+
+/*!
  *  \brief gets the pointer to the data_visible_classifier_t object
  *
  *  \param this_ pointer to own object attributes

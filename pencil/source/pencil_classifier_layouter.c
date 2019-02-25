@@ -29,7 +29,7 @@ void pencil_classifier_layouter_init( pencil_classifier_layouter_t *this_,
     (*this_).x_scale = x_scale;
     (*this_).y_scale = y_scale;
     (*this_).feature_layouter = feature_layouter;
-    pencil_classifier_painter_init( &((*this_).classifier_painter) );
+    pencil_classifier_composer_init( &((*this_).classifier_composer) );
 
     /* get draw area */
     {
@@ -45,7 +45,7 @@ void pencil_classifier_layouter_destroy( pencil_classifier_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_classifier_painter_destroy( &((*this_).classifier_painter) );
+    pencil_classifier_composer_destroy( &((*this_).classifier_composer) );
 
     TRACE_END();
 }
@@ -74,7 +74,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
                                                                 &features_bounds
                                                               );
 
-            pencil_classifier_painter_set_all_bounds ( &((*this_).classifier_painter),
+            pencil_classifier_composer_set_all_bounds ( &((*this_).classifier_composer),
                                                        visible_classifier2,
                                                        (*this_).pencil_size,
                                                        font_layout,
@@ -191,9 +191,7 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
 
             /* try embrace child */
             geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
-            geometry_rectangle_t probe_parent_space;  /* try out a new parent space rectangle */
             geometry_rectangle_copy( &probe_parent_bounds, parent_bounds );
-            geometry_rectangle_copy( &probe_parent_space, parent_space );
             double extend_to_left = 0.0;
             double extend_to_right = 0.0;
             double extend_to_top = 0.0;
@@ -220,8 +218,6 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             }
             geometry_rectangle_expand( &probe_parent_bounds, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
             geometry_rectangle_shift( &probe_parent_bounds, -extend_to_left, -extend_to_top );
-            geometry_rectangle_expand( &probe_parent_space, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
-            geometry_rectangle_shift( &probe_parent_space, -extend_to_left, -extend_to_top );
 
             /* check what else would be embraced */
             bool illegal_overlap = false;
@@ -254,13 +250,12 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             /* cancel or commit */
             if ( ! illegal_overlap )
             {
-                geometry_rectangle_replace ( parent_bounds, &probe_parent_bounds );
-                geometry_rectangle_replace ( parent_space, &probe_parent_space );
+                layout_visible_classifier_expand( from_classifier, extend_to_left+extend_to_right, extend_to_top+extend_to_bottom );
+                layout_visible_classifier_shift( from_classifier, -extend_to_left, -extend_to_top );
             }
 
             /* cleanup */
             geometry_rectangle_destroy( &probe_parent_bounds );
-            geometry_rectangle_destroy( &probe_parent_space );
         }
         else
         {
@@ -373,13 +368,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         /* move the classifier */
         layout_visible_classifier_t *the_classifier;
         the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
-        geometry_rectangle_t *classifier_bounds;
-        classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
-        geometry_rectangle_shift ( classifier_bounds, solution_move_dx[index_of_best], solution_move_dy[index_of_best] );
-        /* move all contained features */
-        geometry_rectangle_t *classifier_space;
-        classifier_space = layout_visible_classifier_get_space_ptr( the_classifier );
-        geometry_rectangle_shift ( classifier_space, solution_move_dx[index_of_best], solution_move_dy[index_of_best] );
+        layout_visible_classifier_shift( the_classifier, solution_move_dx[index_of_best], solution_move_dy[index_of_best] );
     }
 
     universal_array_index_sorter_destroy( &sorted );
@@ -815,7 +804,7 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
                                );
 
         /* update inner space and label_box */
-        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+        pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
                                                         (*this_).pencil_size,
                                                         font_layout,
@@ -880,7 +869,7 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
                                );
 
         /* update inner space and label_box */
-        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+        pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
                                                         (*this_).pencil_size,
                                                         font_layout,
@@ -945,7 +934,7 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
                                );
 
         /* update inner space and label_box */
-        pencil_classifier_painter_set_space_and_label ( &((*this_).classifier_painter),
+        pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
                                                         (*this_).pencil_size,
                                                         font_layout,

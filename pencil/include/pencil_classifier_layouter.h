@@ -10,7 +10,7 @@
  */
 
 #include "pencil_input_data.h"
-#include "pencil_classifier_painter.h"
+#include "pencil_classifier_composer.h"
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
 #include "pencil_feature_layouter.h"
@@ -38,7 +38,7 @@ struct pencil_classifier_layouter_struct {
     geometry_non_linear_scale_t *y_scale;  /*!< pointer to an external scale object for the y-axis */
     geometry_dimensions_t *default_classifier_size;  /*!< pointer to an external classifier default size rectangle */
 
-    pencil_classifier_painter_t classifier_painter;  /*!< own instance of a painter object to ask for display dimensions */
+    pencil_classifier_composer_t classifier_composer;  /*!< own instance of a composer object to ask for display dimensions */
 
     pencil_feature_layouter_t *feature_layouter;  /*!< pointer or an external helper to layout features */
 };

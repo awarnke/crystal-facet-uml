@@ -1,6 +1,6 @@
-/* File: pencil_classifier_painter.c; Copyright and License: see below */
+/* File: pencil_classifier_composer.c; Copyright and License: see below */
 
-#include "pencil_classifier_painter.h"
+#include "pencil_classifier_composer.h"
 #include "trace.h"
 #include "util/string/utf8stringbuf.h"
 #include "util/string/utf8string.h"
@@ -12,7 +12,7 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
-void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
+void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -25,7 +25,7 @@ void pencil_classifier_painter_init( pencil_classifier_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
+void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -38,7 +38,7 @@ void pencil_classifier_painter_destroy( pencil_classifier_painter_t *this_ )
     TRACE_END();
 }
 
-void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
                                       layout_visible_classifier_t *layouted_classifier,
                                       data_id_t mark_focused,
                                       data_id_t mark_highlighted,
@@ -170,7 +170,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_draw()");
+                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
             }
             break;
         }
@@ -592,7 +592,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 
             default:
             {
-                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_painter_draw()");
+                TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
             }
             break;
         }
@@ -696,6 +696,40 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
             cairo_stroke (cr);
         }
 
+#ifndef NDEBUG
+        /* draw the rectangles */
+        {
+            const geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = layout_visible_classifier_get_bounds_ptr( layouted_classifier );
+            const geometry_rectangle_t *classifier_space;
+            classifier_space = layout_visible_classifier_get_space_ptr( layouted_classifier );
+            const geometry_rectangle_t *classifier_label_box;
+            classifier_label_box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+
+            cairo_set_source_rgba( cr, 1.0, 0.5, 0.6, 0.75 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( classifier_bounds ),
+                              geometry_rectangle_get_top ( classifier_bounds ),
+                              geometry_rectangle_get_width ( classifier_bounds ),
+                              geometry_rectangle_get_height ( classifier_bounds )
+                            );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( classifier_space ),
+                              geometry_rectangle_get_top ( classifier_space ),
+                              geometry_rectangle_get_width ( classifier_space ),
+                              geometry_rectangle_get_height ( classifier_space )
+            );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( classifier_label_box ),
+                              geometry_rectangle_get_top ( classifier_label_box ),
+                              geometry_rectangle_get_width ( classifier_label_box ),
+                              geometry_rectangle_get_height ( classifier_label_box )
+            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        }
+#endif
+
         if ( data_small_set_contains_row_id( mark_selected, DATA_TABLE_DIAGRAMELEMENT, data_diagramelement_get_id(diagramelement) ) )
         {
             pencil_marker_mark_selected_rectangle( &((*this_).marker), *classifier_bounds, cr );
@@ -713,7 +747,7 @@ void pencil_classifier_painter_draw ( const pencil_classifier_painter_t *this_,
 static inline double MAX_OF_2( double a, double b ) { return ((a>b)?a:b); }
 static inline double MAX_OF_3( double a, double b, double c ) { return ((a>b)?((a>c)?a:c):((b>c)?b:c)); }
 
-void pencil_classifier_painter_set_all_bounds ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
                                                 const data_visible_classifier_t *visible_classifier,
                                                 const pencil_size_t *pencil_size,
                                                 PangoLayout *font_layout,
@@ -805,7 +839,7 @@ void pencil_classifier_painter_set_all_bounds ( const pencil_classifier_painter_
     TRACE_END();
 }
 
-void pencil_classifier_painter_set_space_and_label ( const pencil_classifier_painter_t *this_,
+void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_composer_t *this_,
                                                      const data_visible_classifier_t *visible_classifier,
                                                      const pencil_size_t *pencil_size,
                                                      PangoLayout *font_layout,

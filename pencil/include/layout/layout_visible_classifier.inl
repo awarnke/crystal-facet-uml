@@ -57,6 +57,14 @@ static inline void layout_visible_classifier_shift ( layout_visible_classifier_t
     geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );
 }
 
+static inline void layout_visible_classifier_expand ( layout_visible_classifier_t *this_, double delta_width, double delta_height )
+{
+    geometry_rectangle_expand( &((*this_).bounds), delta_width, delta_height );
+    geometry_rectangle_expand( &((*this_).space), delta_width, delta_height );
+    /* the label just stays centered - no expansion */
+    geometry_rectangle_shift( &((*this_).label_box), (delta_width/2.0), 0.0 );
+}
+
 static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ )
 {
     return (*this_).data;

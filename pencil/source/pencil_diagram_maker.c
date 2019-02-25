@@ -117,7 +117,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
         pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
-        pencil_classifier_painter_draw( &((*this_).classifier_painter),
+        pencil_classifier_composer_draw( &((*this_).classifier_painter),
                                         classifier_layout,
                                         mark_focused,
                                         mark_highlighted,
