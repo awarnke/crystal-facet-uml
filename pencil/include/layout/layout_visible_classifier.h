@@ -10,6 +10,8 @@
  */
 
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_h_align.h"
+#include "util/geometry/geometry_v_align.h"
 #include "data_visible_classifier.h"
 
 /*!
@@ -19,6 +21,8 @@ struct layout_visible_classifier_struct {
     geometry_rectangle_t bounds;  /*!< outer bounds of a classifier record */
     geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations or contained classifiers are drawn */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier */
+    geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
+    geometry_v_align_t label_v_anchor;  /*!< side of the label box that stays fix in case of expand */
     const data_visible_classifier_t *data;  /*!< pointer to the data object of the visible classifier */
 };
 
@@ -86,6 +90,18 @@ static inline geometry_rectangle_t *layout_visible_classifier_get_label_box_ptr 
  *  \param label_box coordinates of new label bounds
  */
 static inline void layout_visible_classifier_set_label_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *label_box );
+
+/*!
+ *  \brief sets the bounding box of the classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param label_h_anchor side of the label that stays fix in case of expand
+ *  \param label_v_anchor side of the label that stays fix in case of expand
+ */
+static inline void layout_visible_classifier_set_label_anchor ( layout_visible_classifier_t *this_,
+                                                                geometry_h_align_t label_h_anchor,
+                                                                geometry_v_align_t label_v_anchor 
+                                                              );
 
 /*!
  *  \brief moves the layout_visible_classifier_t

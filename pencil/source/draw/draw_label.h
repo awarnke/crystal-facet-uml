@@ -59,6 +59,24 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
                                                     double *out_text_width
                                                   );
 
+/*!
+ *  \brief renders stereotype and name of the classifier.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
+ *  \param label_box the rectangle where to draw to
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
+ *  \param cr the cairo drawing context.
+ */
+void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
+                                          const data_visible_classifier_t *visible_classifier,
+                                          const geometry_rectangle_t *label_box,
+                                          const pencil_size_t *pencil_size,
+                                          PangoLayout *font_layout,
+                                          cairo_t *cr 
+                                        );
+
 #endif  /* DRAW_LABEL_H */
 
 

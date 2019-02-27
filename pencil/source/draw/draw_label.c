@@ -132,6 +132,110 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
     TRACE_END();
 }
 
+void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
+                                          const data_visible_classifier_t *visible_classifier,
+                                          const geometry_rectangle_t *label_box,
+                                          const pencil_size_t *pencil_size,
+                                          PangoLayout *font_layout,
+                                          cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != visible_classifier );
+    assert( NULL != label_box );
+    assert( NULL != pencil_size );
+    assert( NULL != font_layout );
+    assert( NULL != cr );
+    
+    const data_classifier_t *classifier;
+    const data_diagramelement_t *diagramelement;
+    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+    const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+    const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
+
+    const double left = geometry_rectangle_get_left( label_box );
+    const double top = geometry_rectangle_get_top( label_box );
+    const double width = geometry_rectangle_get_width( label_box );
+    const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
+
+    /* draw stereotype text */
+    int text1_height = 0;
+    {
+        if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
+        {
+            /* prepare text */
+            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
+            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
+            utf8stringbuf_copy_str( stereotype_buf, "<<" );
+            utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
+            utf8stringbuf_append_str( stereotype_buf, ">>" );
+
+            int text1_width;
+            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
+            pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
+            cairo_move_to ( cr, left + 0.5*( width - text1_width ), top );
+            pango_cairo_show_layout (cr, font_layout);
+        }
+    }
+
+    /* draw name text */
+    int text2_height = 0;
+    {
+        bool is_always_instance;
+        bool is_anonymous_instance;
+        is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), classifier_type );
+        is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
+
+        /* prepare text */
+        char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
+        utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
+        if ( is_anonymous_instance && ( ! is_always_instance ) )
+        {
+            utf8stringbuf_copy_str( name_buf, ":" );
+        }
+        else
+        {
+            utf8stringbuf_clear( name_buf );
+        }
+        utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
+
+        int text2_width;
+        pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
+        pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
+        pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+
+        /* draw text */
+        cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap );
+        pango_cairo_show_layout (cr, font_layout);
+
+        /* underline instances */
+        if ( is_always_instance || is_anonymous_instance )
+        {
+            cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap+text2_height );
+            cairo_line_to ( cr, left + 0.5*( width + text2_width ), top+text1_height+f_line_gap+text2_height );
+            cairo_stroke (cr);
+        }
+    }
+
+    /* draw description text */
+    if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
+        || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == classifier_type ))
+    {
+        int text3_width;
+        int text3_height;
+        pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
+        pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
+        pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+
+        /* draw text */
+        cairo_move_to ( cr, left + 0.5*( width - text3_width ), top+text1_height+f_line_gap+text2_height+f_line_gap );
+        pango_cairo_show_layout (cr, font_layout);
+    }
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2016-2019 Andreas Warnke

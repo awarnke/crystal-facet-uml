@@ -72,7 +72,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     height = geometry_rectangle_get_height ( classifier_bounds );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
-    double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
     /* draw id */
     {
@@ -211,9 +210,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 
-        /* prepare text to draw */
-        int text1_top = top+2*gap;
-
         /* draw rectangle */
         int border_left = left + gap;
         int border_top = top + gap;
@@ -230,9 +226,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -252,9 +245,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                                 icon_height
                                                               );
                 draw_symbol_draw_component ( &((*this_).draw_symbol), icon_bounds, cr );
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -274,9 +264,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                                 icon_height
                                                               );
                 draw_symbol_draw_artifact ( &((*this_).draw_symbol), icon_bounds, cr );
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -312,9 +299,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
                 /* reset dashes */
                 cairo_set_dash ( cr, NULL, 0, 0.0 );
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -335,10 +319,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_curve_to ( cr, right - ctrl_xoffset, border_top, right, border_top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
                 cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                double some_offset = pencil_size_get_standard_font_size( pencil_size );
-                text1_top = border_top + gap + some_offset;
             }
             break;
 
@@ -360,9 +340,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_move_to ( cr, right, border_top );
                 cairo_line_to ( cr, right-offset_3d, border_top+offset_3d );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + offset_3d + gap;
             }
             break;
 
@@ -379,9 +356,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                              actor_height
                                                            );
                 draw_symbol_draw_actor ( &((*this_).draw_symbol), icon_bounds, cr );
-
-                /* adjust the text position */
-                text1_top = border_top + actor_height + gap;
             }
             break;
 
@@ -414,9 +388,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                           deep_history,
                                           cr
                                         );
-
-                /* adjust the text position */
-                text1_top = border_top + circle_diameter + gap;
             }
             break;
 
@@ -436,9 +407,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_line_to ( cr, border_left, border_bottom );
                 cairo_line_to ( cr, border_right, border_bottom );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -458,9 +426,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_line_to ( cr, border_left, border_bottom );
                 cairo_line_to ( cr, border_right - x_indent, border_bottom );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -477,9 +442,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                             icon_height
                                                           );
                 draw_symbol_draw_time ( &((*this_).draw_symbol), icon_bounds, cr );
-
-                /* adjust the text position */
-                text1_top = border_top + icon_height + gap;
             }
             break;
 
@@ -498,9 +460,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                                             pencil_size
                                                           );
                 draw_symbol_draw_sync ( &((*this_).draw_symbol), icon_bounds, cr );
-
-                /* adjust the text position */
-                text1_top = border_top + icon_height + gap;
             }
             break;
 
@@ -519,10 +478,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_line_to ( cr, right, y_center );
                 cairo_line_to ( cr, x_center, bottom );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                double some_offset = pencil_size_get_standard_font_size( pencil_size );
-                text1_top = y_center - some_offset;
             }
             break;
 
@@ -531,9 +486,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             {
                 cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -549,9 +501,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_line_to ( cr, border_left+title_corner_width, border_top+title_corner_height-title_corner_edge45 );
                 cairo_line_to ( cr, border_left+title_corner_width, border_top );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap + title_corner_height;
             }
             break;
 
@@ -563,9 +512,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
                 cairo_rectangle ( cr, border_left, border_top+top_ornament_height, border_width, border_height-top_ornament_height );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap + top_ornament_height;
             }
             break;
 
@@ -584,9 +530,6 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                 cairo_line_to ( cr, border_right, border_top + corner_edge );
                 cairo_line_to ( cr, border_right - corner_edge, border_top );
                 cairo_stroke (cr);
-
-                /* adjust the text position */
-                text1_top = border_top + gap;
             }
             break;
 
@@ -597,105 +540,53 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             break;
         }
 
-        /* draw stereotype text */
-        int text1_height = 0;
-        {
-            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
-            {
-                /* prepare text */
-                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, "<<" );
-                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-                utf8stringbuf_append_str( stereotype_buf, ">>" );
-
-                int text1_width;
-                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
-                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
-                cairo_move_to ( cr, left + 0.5*( width - text1_width ), text1_top );
-                pango_cairo_show_layout (cr, font_layout);
-            }
-        }
-
-        /* draw name text */
-        int text2_height = 0;
-        {
-            bool is_always_instance;
-            bool is_anonymous_instance;
-            is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), classifier_type );
-            is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
-
-            /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
-            utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( is_anonymous_instance && ( ! is_always_instance ) )
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
-            {
-                utf8stringbuf_clear( name_buf );
-            }
-            utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
-
-            int text2_width;
-            pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-
-            /* highlight */
-            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
-            {
-                GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
-                cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
-                cairo_rectangle ( cr, left + 0.5*( width - text2_width ), text1_top+text1_height+f_line_gap, text2_width, text2_height );
-                cairo_fill (cr);
-            }
-
-            /* draw text */
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_move_to ( cr, left + 0.5*( width - text2_width ), text1_top+text1_height+f_line_gap );
-            pango_cairo_show_layout (cr, font_layout);
-
-            /* underline instances */
-            if ( is_always_instance || is_anonymous_instance )
-            {
-                cairo_move_to ( cr, left + 0.5*( width - text2_width ), text1_top+text1_height+f_line_gap+text2_height );
-                cairo_line_to ( cr, left + 0.5*( width + text2_width ), text1_top+text1_height+f_line_gap+text2_height );
-                cairo_stroke (cr);
-            }
-        }
-
-        /* draw description text */
-        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
-            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == classifier_type ))
-        {
-            int text3_width;
-            int text3_height;
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
-            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
-
-            /* draw text */
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
-            cairo_move_to ( cr, left + 0.5*( width - text3_width ), text1_top+text1_height+f_line_gap+text2_height+gap+gap );
-            pango_cairo_show_layout (cr, font_layout);
-        }
-        else if (( DATA_CLASSIFIER_TYPE_UML_CLASS == classifier_type )
+        if (( DATA_CLASSIFIER_TYPE_UML_CLASS == classifier_type )
             || ( DATA_CLASSIFIER_TYPE_UML_OBJECT == classifier_type )
             || ( DATA_CLASSIFIER_TYPE_UML_INTERFACE == classifier_type ))
         {
+            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+            cairo_rectangle ( cr, 
+                              geometry_rectangle_get_left(box),
+                              geometry_rectangle_get_top(box),
+                              geometry_rectangle_get_width(box),
+                              geometry_rectangle_get_height(box)
+                            );
+            double text_bottom = geometry_rectangle_get_bottom(box);
+
             /* draw property and operation compartments */
-            cairo_move_to ( cr, border_left, text1_top+text1_height+f_line_gap+text2_height+gap+gap );
-            cairo_line_to ( cr, border_left + border_width, text1_top+text1_height+f_line_gap+text2_height+gap+gap );
+            cairo_move_to ( cr, border_left, text_bottom+gap );
+            cairo_line_to ( cr, border_left + border_width, text_bottom+gap );
             cairo_stroke (cr);
 
-            cairo_move_to ( cr, border_left, text1_top+text1_height+f_line_gap+text2_height+gap+gap+gap );
-            cairo_line_to ( cr, border_left + border_width, text1_top+text1_height+f_line_gap+text2_height+gap+gap+gap );
+            cairo_move_to ( cr, border_left, text_bottom+gap+gap );
+            cairo_line_to ( cr, border_left + border_width, text_bottom+gap+gap );
             cairo_stroke (cr);
         }
 
+        /* highlight */
+        if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
+        {
+            GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
+            cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
+            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+            cairo_rectangle ( cr, 
+                              geometry_rectangle_get_left(box),
+                              geometry_rectangle_get_top(box),
+                              geometry_rectangle_get_width(box),
+                              geometry_rectangle_get_height(box)
+                            );
+            cairo_fill (cr);
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        }
+
+        draw_label_draw_stereotype_and_name( &((*this_).draw_label),
+                                             visible_classifier,
+                                             layout_visible_classifier_get_label_box_ptr( layouted_classifier ),
+                                             pencil_size,
+                                             font_layout,
+                                             cr
+                                           );
+        
 #ifndef NDEBUG
         /* draw the rectangles */
         {
@@ -775,12 +666,14 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    data_classifier_type_t classifier_type;
+    classifier_type = data_classifier_get_main_type( classifier );
 
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
     draw_geometry_get_shape_border_dimensions( &((*this_).draw_geometry),
-                                               data_classifier_get_main_type ( classifier ),
+                                               classifier_type,
                                                pencil_size,
                                                &top_border,
                                                &left_border,
@@ -807,7 +700,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     bool is_fix_sized_symbol;
     is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
-
+    
     /* adapt to the size of the contained features */
     if ( ! is_fix_sized_symbol )
     {
@@ -822,11 +715,25 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
         geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, width, height );
 
+        if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
+        {
+            const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
+            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN, 
+                                                   text_height,
+                                                   0.0,
+                                                   height
+                                                 );
+        }
+
         const double space_width = width - left_border - right_border;
         const double space_height = height-top_border-text_height-bottom_border;
 
         geometry_rectangle_reinit( out_classifier_space, left_border, top_border+text_height, space_width, space_height );
         geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, top_border, text_width, text_height );
+        layout_visible_classifier_set_label_anchor( io_classifier_layout,
+                                                    GEOMETRY_H_ALIGN_CENTER,
+                                                    GEOMETRY_V_ALIGN_TOP
+                                                  );
     }
     else
     {
@@ -835,6 +742,10 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
         geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, symbol_width, symbol_height );
         geometry_rectangle_reinit( out_classifier_space, 0.0, symbol_height+text_height, symbol_width, 0.0 );
         geometry_rectangle_reinit( out_classifier_label_box, (symbol_width-text_width)/2.0, symbol_height, text_width, text_height );
+        layout_visible_classifier_set_label_anchor( io_classifier_layout,
+                                                    GEOMETRY_H_ALIGN_CENTER,
+                                                    GEOMETRY_V_ALIGN_TOP
+                                                  );
     }
     TRACE_END();
 }
@@ -863,12 +774,14 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
 
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
+    data_classifier_type_t classifier_type;
+    classifier_type = data_classifier_get_main_type( classifier );
 
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
     draw_geometry_get_shape_border_dimensions( &((*this_).draw_geometry),
-                                               data_classifier_get_main_type ( classifier ),
+                                               classifier_type,
                                                pencil_size,
                                                &top_border,
                                                &left_border,
@@ -897,25 +810,44 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
 
     /* calculate the result */
-    const double space_left = geometry_rectangle_get_left( classifier_bounds ) + left_border;
-    const double space_width = geometry_rectangle_get_width( classifier_bounds ) - left_border - right_border;
+    const double left = geometry_rectangle_get_left( classifier_bounds );
+    const double top = geometry_rectangle_get_top( classifier_bounds );
     const double width = geometry_rectangle_get_width( classifier_bounds );
+    const double space_left = left + left_border;
+    const double space_width = width - left_border - right_border;
     if ( ! is_fix_sized_symbol )
     {
+        if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
+        {
+            const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
+            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN, 
+                                                   text_height,
+                                                   0.0,
+                                                   geometry_rectangle_get_height( classifier_bounds )
+                                                 );
+        }
+
         const double space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
         const double space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
 
         geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
 
-        geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, top_border, text_width, text_height );
+        geometry_rectangle_reinit( out_classifier_label_box, left+(width-text_width)/2.0, top+top_border, text_width, text_height );
+        layout_visible_classifier_set_label_anchor( io_classifier_layout,
+                                                    GEOMETRY_H_ALIGN_CENTER,
+                                                    GEOMETRY_V_ALIGN_TOP
+                                                  );
     }
     else
     {
         const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
-        //const double symbol_width = pencil_size_get_classifier_symbol_height( pencil_size );
 
         geometry_rectangle_reinit( out_classifier_space, space_left, symbol_height+text_height, space_width, 0.0 );
-        geometry_rectangle_reinit( out_classifier_label_box, (width-text_width)/2.0, symbol_height, text_width, text_height );
+        geometry_rectangle_reinit( out_classifier_label_box, left+(width-text_width)/2.0, top+symbol_height, text_width, text_height );
+        layout_visible_classifier_set_label_anchor( io_classifier_layout,
+                                                    GEOMETRY_H_ALIGN_CENTER,
+                                                    GEOMETRY_V_ALIGN_TOP
+                                                  );
     }
     TRACE_END();
 }
