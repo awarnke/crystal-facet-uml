@@ -42,6 +42,18 @@ void io_file_format_to_string( io_file_format_t format_set, utf8stringbuf_t out_
         count ++;
     }
 
+    if ( ( format_set & IO_FILE_FORMAT_DOCBOOK ) != 0 )
+    {
+        utf8stringbuf_append_str( out_fileformat, (count==0)?("docbook"):(", docbook") );
+        count ++;
+    }
+
+    if ( ( format_set & IO_FILE_FORMAT_XHTML ) != 0 )
+    {
+        utf8stringbuf_append_str( out_fileformat, (count==0)?("xhtml"):(", xhtml") );
+        count ++;
+    }
+
     if ( count == 0 )
     {
         utf8stringbuf_copy_str( out_fileformat, "none" );

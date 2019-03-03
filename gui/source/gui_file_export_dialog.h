@@ -10,7 +10,7 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "io_diagram_image_exporter.h"
+#include "io_exporter.h"
 #include "storage/data_database.h"
 #include <gtk/gtk.h>
 
@@ -18,7 +18,7 @@
  *  \brief attributes of the file export dialog
  */
 struct gui_file_export_dialog_struct {
-    io_diagram_image_exporter_t file_exporter;  /*!<  own instance of gui_file_exporter_t */
+    io_exporter_t file_exporter;  /*!<  own instance of io_exporter_t */
 
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 

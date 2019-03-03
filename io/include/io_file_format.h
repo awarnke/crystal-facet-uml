@@ -21,6 +21,8 @@ enum io_file_format_enum {
     IO_FILE_FORMAT_PS  = 0x0004,  /*!< postscript */
     IO_FILE_FORMAT_PNG = 0x0008,  /*!< portable network graphics */
     IO_FILE_FORMAT_TXT = 0x0010,  /*!< utf8 encoded text */
+    IO_FILE_FORMAT_DOCBOOK = 0x0100,  /*!< docbook */
+    IO_FILE_FORMAT_XHTML = 0x0200,  /*!< xhtml */
 };
 
 typedef enum io_file_format_enum io_file_format_t;

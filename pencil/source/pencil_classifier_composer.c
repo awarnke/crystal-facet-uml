@@ -9,9 +9,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-/*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
-const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
-
 void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
 {
     TRACE_BEGIN();
