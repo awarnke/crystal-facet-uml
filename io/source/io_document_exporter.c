@@ -49,36 +49,70 @@ static const char DOCBOOK_ENC[]
 static const char DOCBOOK_DTD[]
 = "<!DOCTYPE article PUBLIC \"-//OASIS//DTD DocBook XML V4.5//EN\"\n"
 "\"http://www.oasis-open.org/docbook/xml/4.5/docbookx.dtd\">\n";
-static const char DOCBOOK_START_DOC[]
+static const char DOCBOOK_DOC_START[]
 = "<article lang=\"en\">\n";
-static const char DOCBOOK_START_TITLE[]
+static const char DOCBOOK_DOC_TITLE_START[]
 = "    <title>";
-static const char DOCBOOK_END_TITLE[]
+static const char DOCBOOK_DOC_TITLE_END[]
 = "</title>\n";
-static const char DOCBOOK_END_DOC[]
+static const char DOCBOOK_DOC_END[]
 = "</article>\n";
 
-static const char DOCBOOK_START_SECT[]
+static const char DOCBOOK_SECT_START[]
 = "    <section>\n";
-static const char DOCBOOK_START_SECT_TITLE[]
+static const char DOCBOOK_SECT_TITLE_START[]
 = "        <title>";
-static const char DOCBOOK_END_SECT_TITLE[]
+static const char DOCBOOK_SECT_TITLE_END[]
 = "</title>\n";
-static const char DOCBOOK_START_PARA[]
+static const char DOCBOOK_SECT_PARA_START[]
 = "        <para>\n";
-static const char DOCBOOK_START_IMG[]
+static const char DOCBOOK_SECT_IMG_START[]
 ="\n            <mediaobject>\n"
 "                <imageobject><imagedata fileref=\"";
-static const char DOCBOOK_CONT_IMG[]
+static const char DOCBOOK_SECT_IMG_MIDDLE[]
 = ".pdf\" width=\"12cm\"/></imageobject>\n"
 "                <imageobject><imagedata fileref=\"";
-static const char DOCBOOK_END_IMG[]
+static const char DOCBOOK_SECT_IMG_END[]
 = ".png\"/></imageobject>\n"
 "            </mediaobject>\n";
-static const char DOCBOOK_END_PARA[]
+static const char DOCBOOK_SECT_PARA_END[]
 = "        </para>\n";
-static const char DOCBOOK_END_SECT[]
+static const char DOCBOOK_SECT_END[]
 = "    </section>\n";
+
+
+static const char XHTML_ENC[]
+= "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
+static const char XHTML_DTD[]
+= "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
+static const char XHTML_DOC_START[]
+= "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
+static const char XHTML_DOC_TITLE_START[]
+= "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><title>";
+static const char XHTML_DOC_TITLE_END[]
+= "</title></head>\n"
+"    <body>\n";
+static const char XHTML_DOC_END[]
+= "    </body>\n"
+"</html>\n";
+
+static const char XHTML_SECT_START[]
+= "        <div>\n";
+static const char XHTML_SECT_TITLE_START[]
+= "            <h1 class=\"title\">";
+static const char XHTML_SECT_TITLE_END[]
+= "</h1>\n";
+static const char XHTML_SECT_PARA_START[]
+= "            <p class=\"description\">\n";
+static const char XHTML_SECT_IMG_START[]
+= "                <div class=\"mediaobject\"><img src=\"";
+static const char XHTML_SECT_IMG_END[]
+= ".png\"/></div>\n";
+static const char XHTML_SECT_PARA_END[]
+= "            </p>\n";
+static const char XHTML_SECT_END[]
+= "        </div>\n";
+            
 
 int io_document_exporter_write_header( io_document_exporter_t *this_,
                                        io_file_format_t export_type,
@@ -97,10 +131,10 @@ int io_document_exporter_write_header( io_document_exporter_t *this_,
         {
             export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_ENC, output );
             export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DTD, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_DOC, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_TITLE, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_START, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_TITLE_START, output );
             export_err |= io_document_exporter_private_write_xml_enc ( this_, document_title, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_TITLE, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_TITLE_END, output );
 
             if ( export_err != 0 )
             {
@@ -111,6 +145,17 @@ int io_document_exporter_write_header( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_ENC, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DTD, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_START, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_TITLE_START, output );
+            export_err |= io_document_exporter_private_write_xml_enc ( this_, document_title, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_TITLE_END, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
         }
         break;
 
@@ -138,7 +183,7 @@ int io_document_exporter_start_diagram( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_SECT, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_START, output );
 
             if ( export_err != 0 )
             {
@@ -149,6 +194,12 @@ int io_document_exporter_start_diagram( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_START, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
         }
         break;
 
@@ -185,17 +236,17 @@ int io_document_exporter_write_diagram( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_SECT_TITLE, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_TITLE_START, output );
             export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_SECT_TITLE, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_PARA, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_TITLE_END, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_PARA_START, output );
             export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_description, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_START_IMG, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_START, output );
             export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_CONT_IMG, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_MIDDLE, output );
             export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_IMG, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_PARA, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_END, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_PARA_END, output );
             
             if ( export_err != 0 )
             {
@@ -206,6 +257,20 @@ int io_document_exporter_write_diagram( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_TITLE_START, output );
+            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_name, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_TITLE_END, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_PARA_START, output );
+            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_description, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_IMG_START, output );
+            export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_IMG_END, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_PARA_END, output );
+            
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
         }
         break;
 
@@ -233,7 +298,7 @@ int io_document_exporter_end_diagram( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_SECT, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_END, output );
 
             if ( export_err != 0 )
             {
@@ -244,6 +309,12 @@ int io_document_exporter_end_diagram( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_END, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
         }
         break;
 
@@ -271,7 +342,7 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_END_DOC, output );
+            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_END, output );
 
             if ( export_err != 0 )
             {
@@ -282,6 +353,12 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_END, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
         }
         break;
 
