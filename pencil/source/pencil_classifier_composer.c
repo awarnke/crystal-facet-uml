@@ -20,7 +20,7 @@ void pencil_classifier_composer_init( pencil_classifier_composer_t *this_ )
     data_rules_init ( &((*this_).data_rules) );
     draw_symbol_init( &((*this_).draw_symbol) );
     draw_label_init( &((*this_).draw_label) );
-    draw_geometry_init( &((*this_).draw_geometry) );
+    draw_contour_init( &((*this_).draw_contour) );
 
     TRACE_END();
 }
@@ -31,7 +31,7 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ )
 
     draw_symbol_destroy( &((*this_).draw_symbol) );
     draw_label_destroy( &((*this_).draw_label) );
-    draw_geometry_destroy( &((*this_).draw_geometry) );
+    draw_contour_destroy( &((*this_).draw_contour) );
     data_rules_destroy ( &((*this_).data_rules) );
     pencil_marker_destroy( &((*this_).marker) );
 
@@ -76,12 +76,14 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     /* draw id */
     {
         /* prepare text */
-        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
-        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
         data_id_t the_id;
         data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
+
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_copy_str( id_str, "{id=" );
         data_id_to_utf8stringbuf( &the_id, id_str );
+        utf8stringbuf_append_str( id_str, "}" );
 
         /* determine text dimension */
         int text4_width;
@@ -211,28 +213,44 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
         }
 
         /* draw rectangle */
-        int border_left = left + gap;
-        int border_top = top + gap;
-        int border_width = width - 2.0 * gap;
-        int border_height = height - 2.0 * gap;
+        const int border_left = left + gap;
+        const int border_top = top + gap;
+        const int border_width = width - 2.0 * gap;
+        //const int border_height = height - 2.0 * gap;
         switch ( classifier_type )
         {
             case DATA_CLASSIFIER_TYPE_BLOCK:  /* SysML */
             case DATA_CLASSIFIER_TYPE_FEATURE:
             case DATA_CLASSIFIER_TYPE_REQUIREMENT:  /* SysML */
-            case DATA_CLASSIFIER_TYPE_UML_CLASS:
-            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
             case DATA_CLASSIFIER_TYPE_UML_PART:
             {
-                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
+                draw_contour_draw_rect ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
+            }
+            break;
+
+            case DATA_CLASSIFIER_TYPE_UML_CLASS:
+            case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
+            {
+                draw_contour_draw_rect ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
+
+                const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
+                double text_bottom = geometry_rectangle_get_bottom(box);
+
+                /* draw property and operation compartments */
+                cairo_move_to ( cr, border_left, text_bottom+gap );
+                cairo_line_to ( cr, border_left + border_width, text_bottom+gap );
+                cairo_stroke (cr);
+
+                cairo_move_to ( cr, border_left, text_bottom+gap+gap );
+                cairo_line_to ( cr, border_left + border_width, text_bottom+gap+gap );
                 cairo_stroke (cr);
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
             {
-                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
-                cairo_stroke (cr);
+                draw_contour_draw_rect ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
 
                 /* draw icon */
                 double icon_height = pencil_size_get_title_font_size( pencil_size );
@@ -250,8 +268,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
             {
-                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
-                cairo_stroke (cr);
+                draw_contour_draw_rect ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
 
                 /* draw icon */
                 double icon_height = pencil_size_get_title_font_size( pencil_size );
@@ -270,76 +287,26 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
             case DATA_CLASSIFIER_TYPE_UML_STATE:
             case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
+            {
+                draw_contour_draw_rounded_rect ( &((*this_).draw_contour), classifier_bounds, false, pencil_size, cr );
+            }
+            break;
+
             case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
             {
-                double corner_radius = 6.0*gap;
-                double bottom = border_top + border_height;
-                double right = border_left + border_width;
-                double ctrl_offset = corner_radius * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-
-                /* set dashes */
-                if ( DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION == data_classifier_get_main_type ( classifier ) )
-                {
-                    double dashes[2];
-                    dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
-                    dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
-                    cairo_set_dash ( cr, dashes, 2, 0.0 );
-                }
-
-                cairo_move_to ( cr, right - corner_radius, bottom );
-                cairo_line_to ( cr, border_left + corner_radius, bottom );
-                cairo_curve_to ( cr, border_left + ctrl_offset, bottom, border_left, bottom - ctrl_offset, border_left /* end point x */, bottom - corner_radius /* end point y */ );
-                cairo_line_to ( cr, border_left, border_top + corner_radius );
-                cairo_curve_to ( cr, border_left, border_top + ctrl_offset, border_left + ctrl_offset, border_top, border_left + corner_radius /* end point x */, border_top /* end point y */ );
-                cairo_line_to ( cr, right - corner_radius, border_top );
-                cairo_curve_to ( cr, right - ctrl_offset, border_top, right, border_top + ctrl_offset, right /* end point x */, border_top + corner_radius /* end point y */ );
-                cairo_line_to ( cr, right, bottom - corner_radius );
-                cairo_curve_to ( cr, right, bottom - ctrl_offset, right - ctrl_offset, bottom, right - corner_radius /* end point x */, bottom /* end point y */ );
-                cairo_stroke (cr);
-
-                /* reset dashes */
-                cairo_set_dash ( cr, NULL, 0, 0.0 );
+                draw_contour_draw_rounded_rect ( &((*this_).draw_contour), classifier_bounds, true, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
             {
-                double bottom = border_top + border_height;
-                double right = border_left + border_width;
-                double half_width = 0.5 * border_width;
-                double half_height = 0.5 * border_height;
-                double center_x = border_left + half_width;
-                double center_y = border_top + half_height;
-                double ctrl_xoffset = half_width * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-                double ctrl_yoffset = half_height * (1.0-BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE);
-
-                cairo_move_to ( cr, center_x, bottom );
-                cairo_curve_to ( cr, border_left + ctrl_xoffset, bottom, border_left, bottom - ctrl_yoffset, border_left /* end point x */, center_y /* end point y */ );
-                cairo_curve_to ( cr, border_left, border_top + ctrl_yoffset, border_left + ctrl_xoffset, border_top, center_x /* end point x */, border_top /* end point y */ );
-                cairo_curve_to ( cr, right - ctrl_xoffset, border_top, right, border_top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
-                cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
-                cairo_stroke (cr);
+                draw_contour_draw_ellipse ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_NODE:
             {
-                double offset_3d = 2.0*gap;
-                double bottom = border_top + border_height;
-                double right = border_left + border_width;
-
-                cairo_rectangle ( cr, border_left, border_top+offset_3d, border_width-offset_3d, border_height-offset_3d );
-                cairo_stroke (cr);
-
-                cairo_move_to ( cr, border_left, border_top+offset_3d );
-                cairo_line_to ( cr, border_left+offset_3d, border_top );
-                cairo_line_to ( cr, right, border_top );
-                cairo_line_to ( cr, right, bottom-offset_3d );
-                cairo_line_to ( cr, right-offset_3d, bottom );
-                cairo_stroke (cr);
-                cairo_move_to ( cr, right, border_top );
-                cairo_line_to ( cr, right-offset_3d, border_top+offset_3d );
-                cairo_stroke (cr);
+                draw_contour_draw_3d_box ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
@@ -393,39 +360,13 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
             {
-                double border_right = border_left + border_width;
-                double border_bottom = border_top + border_height;
-                double y_center;
-                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
-                double x_indent;
-                x_indent = border_height / 2.0;
-
-                cairo_move_to ( cr, border_right, border_bottom );
-                cairo_line_to ( cr, border_right, border_top );
-                cairo_line_to ( cr, border_left, border_top );
-                cairo_line_to ( cr, border_left + x_indent, y_center );
-                cairo_line_to ( cr, border_left, border_bottom );
-                cairo_line_to ( cr, border_right, border_bottom );
-                cairo_stroke (cr);
+                draw_contour_draw_accept_event ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
             {
-                double border_right = border_left + border_width;
-                double border_bottom = border_top + border_height;
-                double y_center;
-                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
-                double x_indent;
-                x_indent = border_height / 2.0;
-
-                cairo_move_to ( cr, border_right - x_indent, border_bottom );
-                cairo_line_to ( cr, border_right, y_center );
-                cairo_line_to ( cr, border_right - x_indent, border_top );
-                cairo_line_to ( cr, border_left, border_top );
-                cairo_line_to ( cr, border_left, border_bottom );
-                cairo_line_to ( cr, border_right - x_indent, border_bottom );
-                cairo_stroke (cr);
+                draw_contour_draw_send_signal ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
@@ -465,71 +406,31 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
 
             case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
             {
-                double right, bottom;
-                right = geometry_rectangle_get_right ( classifier_bounds );
-                bottom = geometry_rectangle_get_bottom ( classifier_bounds );
-                double x_center, y_center;
-                x_center = geometry_rectangle_get_x_center ( classifier_bounds );
-                y_center = geometry_rectangle_get_y_center ( classifier_bounds );
-
-                cairo_move_to ( cr, x_center, bottom );
-                cairo_line_to ( cr, left, y_center );
-                cairo_line_to ( cr, x_center, top );
-                cairo_line_to ( cr, right, y_center );
-                cairo_line_to ( cr, x_center, bottom );
-                cairo_stroke (cr);
+                draw_contour_draw_rhombus ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-            case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
             {
-                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
-                cairo_stroke (cr);
+                draw_contour_draw_rect ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
             {
-                double title_corner_height = pencil_size_get_standard_font_size( pencil_size );
-                double title_corner_edge45 = 0.4 * title_corner_height;
-                double title_corner_width = border_width/5.0;
-
-                cairo_rectangle ( cr, border_left, border_top, border_width, border_height );
-                cairo_move_to ( cr, border_left, border_top+title_corner_height );
-                cairo_line_to ( cr, border_left+title_corner_width - title_corner_edge45, border_top+title_corner_height );
-                cairo_line_to ( cr, border_left+title_corner_width, border_top+title_corner_height-title_corner_edge45 );
-                cairo_line_to ( cr, border_left+title_corner_width, border_top );
-                cairo_stroke (cr);
+                draw_contour_draw_diagram_ref ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
             {
-                double top_ornament_height = pencil_size_get_standard_font_size( pencil_size );
-
-                cairo_rectangle ( cr, border_left, border_top, border_width/3.0, top_ornament_height );
-
-                cairo_rectangle ( cr, border_left, border_top+top_ornament_height, border_width, border_height-top_ornament_height );
-                cairo_stroke (cr);
+                draw_contour_draw_package ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
             case DATA_CLASSIFIER_TYPE_UML_COMMENT:
             {
-                double corner_edge = pencil_size_get_standard_font_size( pencil_size );
-                double border_bottom = border_top + border_height;
-                double border_right = border_left + border_width;
-
-                cairo_move_to ( cr, border_right, border_top + corner_edge );
-                cairo_line_to ( cr, border_right - corner_edge, border_top + corner_edge );
-                cairo_line_to ( cr, border_right - corner_edge, border_top );
-                cairo_line_to ( cr, border_left, border_top );
-                cairo_line_to ( cr, border_left, border_bottom );
-                cairo_line_to ( cr, border_right, border_bottom );
-                cairo_line_to ( cr, border_right, border_top + corner_edge );
-                cairo_line_to ( cr, border_right - corner_edge, border_top );
-                cairo_stroke (cr);
+                draw_contour_draw_comment ( &((*this_).draw_contour), classifier_bounds, pencil_size, cr );
             }
             break;
 
@@ -540,36 +441,13 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             break;
         }
 
-        if (( DATA_CLASSIFIER_TYPE_UML_CLASS == classifier_type )
-            || ( DATA_CLASSIFIER_TYPE_UML_OBJECT == classifier_type )
-            || ( DATA_CLASSIFIER_TYPE_UML_INTERFACE == classifier_type ))
-        {
-            const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
-            cairo_rectangle ( cr, 
-                              geometry_rectangle_get_left(box),
-                              geometry_rectangle_get_top(box),
-                              geometry_rectangle_get_width(box),
-                              geometry_rectangle_get_height(box)
-                            );
-            double text_bottom = geometry_rectangle_get_bottom(box);
-
-            /* draw property and operation compartments */
-            cairo_move_to ( cr, border_left, text_bottom+gap );
-            cairo_line_to ( cr, border_left + border_width, text_bottom+gap );
-            cairo_stroke (cr);
-
-            cairo_move_to ( cr, border_left, text_bottom+gap+gap );
-            cairo_line_to ( cr, border_left + border_width, text_bottom+gap+gap );
-            cairo_stroke (cr);
-        }
-
         /* highlight */
         if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_EMPHASIS ))
         {
             GdkRGBA emph_color = pencil_size_get_emphasized_color( pencil_size );
             cairo_set_source_rgba( cr, emph_color.red, emph_color.green, emph_color.blue, emph_color.alpha );
             const geometry_rectangle_t *box = layout_visible_classifier_get_label_box_ptr( layouted_classifier );
-            cairo_rectangle ( cr, 
+            cairo_rectangle ( cr,
                               geometry_rectangle_get_left(box),
                               geometry_rectangle_get_top(box),
                               geometry_rectangle_get_width(box),
@@ -579,6 +457,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 
+        /* draw label */
         draw_label_draw_stereotype_and_name( &((*this_).draw_label),
                                              visible_classifier,
                                              layout_visible_classifier_get_label_box_ptr( layouted_classifier ),
@@ -586,8 +465,8 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                                              font_layout,
                                              cr
                                            );
-        
-#ifndef NDEBUG
+
+#if 0
         /* draw the rectangles */
         {
             const geometry_rectangle_t *classifier_bounds;
@@ -672,7 +551,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
-    draw_geometry_get_shape_border_dimensions( &((*this_).draw_geometry),
+    draw_contour_get_shape_border_dimensions( &((*this_).draw_contour),
                                                classifier_type,
                                                pencil_size,
                                                &top_border,
@@ -700,7 +579,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     bool is_fix_sized_symbol;
     is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
-    
+
     /* adapt to the size of the contained features */
     if ( ! is_fix_sized_symbol )
     {
@@ -718,7 +597,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
         if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
         {
             const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
-            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN, 
+            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN,
                                                    text_height,
                                                    0.0,
                                                    height
@@ -780,7 +659,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
     /* determine border sizes of the classifier-shape */
-    draw_geometry_get_shape_border_dimensions( &((*this_).draw_geometry),
+    draw_contour_get_shape_border_dimensions( &((*this_).draw_contour),
                                                classifier_type,
                                                pencil_size,
                                                &top_border,
@@ -820,7 +699,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
         if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
         {
             const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
-            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN, 
+            top_border = geometry_v_align_get_top( &DECISION_V_ALIGN,
                                                    text_height,
                                                    0.0,
                                                    geometry_rectangle_get_height( classifier_bounds )

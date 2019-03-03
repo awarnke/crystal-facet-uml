@@ -11,24 +11,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-void draw_label_init( draw_label_t *this_ )
-{
-    TRACE_BEGIN();
-
-    data_rules_init ( &((*this_).data_rules) );
-
-    TRACE_END();
-}
-
-void draw_label_destroy( draw_label_t *this_ )
-{
-    TRACE_BEGIN();
-
-    data_rules_destroy ( &((*this_).data_rules) );
-
-    TRACE_END();
-}
-
 void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
                                                     const data_visible_classifier_t *visible_classifier,
                                                     const pencil_size_t *pencil_size,
@@ -145,7 +127,7 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != cr );
-    
+
     const data_classifier_t *classifier;
     const data_diagramelement_t *diagramelement;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );

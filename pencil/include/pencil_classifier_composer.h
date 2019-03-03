@@ -16,7 +16,7 @@
 #include "layout/layout_visible_classifier.h"
 #include "draw/draw_symbol.h"
 #include "draw/draw_label.h"
-#include "draw/draw_geometry.h"
+#include "draw/draw_contour.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_h_align.h"
@@ -36,7 +36,7 @@ struct pencil_classifier_composer_struct {
     data_rules_t data_rules;  /*!< own instance of data rules */
     draw_symbol_t draw_symbol;  /*!< collection of draw symbol/icon functions */
     draw_label_t draw_label;  /*!< collection of draw label functions */
-    draw_geometry_t draw_geometry;  /*!< collection of draw geometry functions */
+    draw_contour_t draw_contour;  /*!< collection of draw contour functions */
 };
 
 typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;

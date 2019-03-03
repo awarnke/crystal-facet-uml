@@ -32,14 +32,14 @@ typedef struct draw_label_struct draw_label_t;
  *
  *  \param this_ pointer to own object attributes
  */
-void draw_label_init( draw_label_t *this_ );
+static inline void draw_label_init( draw_label_t *this_ );
 
 /*!
  *  \brief destroys the draw_label_t
  *
  *  \param this_ pointer to own object attributes
  */
-void draw_label_destroy( draw_label_t *this_ );
+static inline void draw_label_destroy( draw_label_t *this_ );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
@@ -74,8 +74,10 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
                                           const geometry_rectangle_t *label_box,
                                           const pencil_size_t *pencil_size,
                                           PangoLayout *font_layout,
-                                          cairo_t *cr 
+                                          cairo_t *cr
                                         );
+
+#include "draw_label.inl"
 
 #endif  /* DRAW_LABEL_H */
 

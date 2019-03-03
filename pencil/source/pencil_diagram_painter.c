@@ -120,12 +120,14 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     /* draw id */
     {
         /* prepare text */
-        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
-        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
         data_id_t the_id;
         data_id_init( &the_id, DATA_TABLE_DIAGRAM, data_diagram_get_id(the_diagram) );
+
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_copy_str( id_str, "{id=" );
         data_id_to_utf8stringbuf( &the_id, id_str );
+        utf8stringbuf_append_str( id_str, "}" );
 
         int text4_width;
         int text4_height;
