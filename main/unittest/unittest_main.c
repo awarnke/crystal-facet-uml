@@ -39,7 +39,6 @@ int main (int argc, char *argv[]) {
         fprintf( stdout, "    + %s %s\n", META_INFO_PROGRAM_ID_STR, META_INFO_VERSION_STR );
         fprintf( stdout, "    + Copyright: %s\n", META_INFO_COPYRIGHT_STR );
         fprintf( stdout, "    + License: %s\n", META_INFO_LICENSE_STR );
-        fprintf( stdout, "    + Contains: %s\n", META_INFO_UNITTEST_LIB_LICENSES_STR );
     }
 
     bool do_unit_tests = false;

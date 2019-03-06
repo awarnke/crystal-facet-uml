@@ -9,10 +9,6 @@ gtk3                                             [C0005]
   depends on --> gdk                             [R0001]
 
 
-utf8stringbuf                                    [C0006]
-| String library
-
-
 sqlite3                                          [C0007]
 | SQL database
 

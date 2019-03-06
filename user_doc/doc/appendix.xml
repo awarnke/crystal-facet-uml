@@ -27,8 +27,6 @@
     <para>
 
         License of crystal_facet_uml is Apache-2.0.
-        crystal_facet_uml contains sqlite which is Public Domain.
-        Unit tests are based on embunit (MIT/X Consortium License).
 
         (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
     </para>

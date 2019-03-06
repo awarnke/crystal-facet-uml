@@ -45,3 +45,15 @@ diagrams                                         [C0084]
   name                                           [F0029]
   description                                    [F0030]
   parent --> diagrams                            [R0099]
+
+
+data                                             [C0004]
+| - provides read access to ctrl, pencil and gui components
+| - provides write acccess to only the ctrl component
+| - ensures low-level consistency of database: all referenced objects exist.
+| - sends notifications on changes
+  --> diagrams                                   [R0266]
+  --> diagramelements                            [R0267]
+  --> classifiers                                [R0268]
+  --> relationships                              [R0269]
+  --> features                                   [R0270]

@@ -48,6 +48,12 @@ gui_textedit                                     [C0160]
 | It reads the data of the currently focused object into cache,
 | it writes back changes to the database (via the controller),
 | it updates the visible widgets when the focused object or the data changes.
+| 
+| A challenge for implementation is, that
+| on one hand, it implements the callback functions for 5 gtk widgets
+| (which look independant if ignoring the internal implementation),
+| on the other hand, it manages just one cached focused object
+| (update on user-interaction, reload on change events).
   name_entry: GtkEntry *                         [F0039]
   stereotype: GtkEntry *                         [F0042]
   type_combo_box: GtkComboBox *                  [F0040]

@@ -33,6 +33,7 @@ static inline void test_runner_run_suite( test_runner_t *this_, test_suite_t tes
              test_result_get_total( &suite_local_result ), 
              test_result_get_failed( &suite_local_result ) 
            );
+    test_result_destroy( &suite_local_result );
 }
 
 static inline test_result_t test_get_result( test_runner_t *this_ )

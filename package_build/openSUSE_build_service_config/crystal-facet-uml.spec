@@ -32,7 +32,7 @@ crystal_facet_uml draws UML diagrams.
 
 %build
 cmake -DCMAKE_BUILD_TYPE=Release .
-make %{?_smp_mflags}
+make %{?_smp_mflags} all unittest_crystal_facet_uml
 
 %install
 mkdir -p %{buildroot}/usr/bin
@@ -55,7 +55,7 @@ mkdir -p %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
 cp ./user_doc/crystal_facet_uml_user_documentation.pdf %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
 
 %check
-./crystal_facet_uml -v
+./unittest_crystal_facet_uml -a
 # manual check: sudo zypper install crystal_facet_uml-1.10.0-1.x86_64.rpm
 
 %files

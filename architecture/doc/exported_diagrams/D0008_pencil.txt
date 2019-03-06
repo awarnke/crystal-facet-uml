@@ -34,8 +34,20 @@ pencil_layout_data                               [C0036]
 pencil                                           [C0002]
 | - renders diagrams to cairo drawing contexts
 | - highlights uml-elements as requested by the gui module
+  --> pencil.draw                                [R0282]
   --> pencil_diagram_maker                       [R0049]
   --> pencil_xxx_painter                         [R0051]
   --> pencil_input_data                          [R0052]
   --> pencil_layout_data                         [R0053]
   --> pencil_xxx_layouter                        [R0056]
+  --> pencil.layout                              [R0265]
+
+
+pencil.layout                                    [C0196]
+
+
+pencil.draw                                      [C0205]
+| Encapulates drawing routines for
+| - geometric objects
+| - labels
+| - symbols/icons

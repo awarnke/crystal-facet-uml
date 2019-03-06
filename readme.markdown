@@ -5,7 +5,7 @@ crystal_facet_uml
 crystal_facet_uml is a tool to create diagrams for documenting software architecture.
 These diagrams are consistent in element naming and element hierarchies.
 
-It is based on glib, gdk, gtk, cairo, pango, sqlite, embunit
+It is based on glib, gdk, gtk, cairo, pango, sqlite
 
 How to build
 -----------
