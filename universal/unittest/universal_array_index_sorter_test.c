@@ -2,6 +2,7 @@
 
 #include "universal_array_index_sorter.h"
 #include "universal_array_index_sorter_test.h"
+#include "test_assert.h"
 #include <stdio.h>
 #include <assert.h>
 
@@ -9,14 +10,12 @@ static void set_up(void);
 static void tear_down(void);
 static void test_insert_and_retrieve(void);
 
-TestRef universal_array_index_sorter_test_get_list(void)
+test_suite_t universal_array_index_sorter_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_insert_and_retrieve",test_insert_and_retrieve),
-    };
-    EMB_UNIT_TESTCALLER(result,"universal_array_index_sorter_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "universal_array_index_sorter_test_get_list", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_insert_and_retrieve", &test_insert_and_retrieve );
+    return result;
 }
 
 static void set_up(void)

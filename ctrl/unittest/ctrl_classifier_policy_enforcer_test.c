@@ -6,6 +6,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "trace.h"
+#include "test_assert.h"
 #include <stdio.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -40,14 +41,12 @@ static data_database_writer_t db_writer;
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_classifier_policy_enforcer_test_get_list(void)
+test_suite_t ctrl_classifier_policy_enforcer_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("lifeline_to_diagramelement_consistency",lifeline_to_diagramelement_consistency),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_classifier_policy_enforcer_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_classifier_policy_enforcer_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "lifeline_to_diagramelement_consistency", &lifeline_to_diagramelement_consistency );
+    return result;
 }
 
 static void set_up(void)

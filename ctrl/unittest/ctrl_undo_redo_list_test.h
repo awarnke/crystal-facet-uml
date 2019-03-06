@@ -9,9 +9,9 @@
  *                         data_database, data_database_reader, ctrl_undo_redo_list
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_undo_redo_list_test_get_list(void);
+test_suite_t ctrl_undo_redo_list_test_get_list(void);
 
 #endif  /* CTRL_UNDO_REDO_LIST_TEST_H */
 

@@ -2,6 +2,7 @@
 
 #include "data_small_set_test.h"
 #include "util/id/data_small_set.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -12,16 +13,14 @@ static void test_small_set_add_and_remove(void);
 static void test_small_set_full(void);
 static void test_small_set_clear(void);
 
-TestRef data_small_set_test_get_list(void)
+test_suite_t data_small_set_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_small_set_add_and_remove",test_small_set_add_and_remove),
-        new_TestFixture("test_small_set_full",test_small_set_full),
-        new_TestFixture("test_small_set_clear",test_small_set_clear),
-    };
-    EMB_UNIT_TESTCALLER(result,"data_small_set_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "data_small_set_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_small_set_add_and_remove", &test_small_set_add_and_remove );
+    test_suite_add_test_case( &result, "test_small_set_full", &test_small_set_full );
+    test_suite_add_test_case( &result, "test_small_set_clear", &test_small_set_clear );
+    return result;
 }
 
 static void set_up(void)

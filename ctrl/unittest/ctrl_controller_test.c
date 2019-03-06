@@ -10,6 +10,7 @@
 #include "data_visible_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "test_assert.h"
 #include <stdio.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -36,16 +37,14 @@ static const char DATABASE_FILENAME[] = "unittest_crystal_facet_uml_default.cfu1
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_controller_test_get_list(void)
+test_suite_t ctrl_controller_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("create_new_db",create_new_db),
-        new_TestFixture("open_existing_db",open_existing_db),
-        new_TestFixture("open_invalid_file",open_invalid_file),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_controller_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_controller_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "create_new_db", &create_new_db );
+    test_suite_add_test_case( &result, "open_existing_db", &open_existing_db );
+    test_suite_add_test_case( &result, "open_invalid_file", &open_invalid_file );
+    return result;
 }
 
 static void set_up(void)

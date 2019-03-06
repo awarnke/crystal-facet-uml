@@ -5,6 +5,7 @@
 #include "ctrl_classifier_controller.h"
 #include "storage/data_database.h"
 #include "storage/data_database_reader.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -36,17 +37,15 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_undo_redo_list_test_get_list(void)
+test_suite_t ctrl_undo_redo_list_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("undo_redo_classifier",undo_redo_classifier),
-        new_TestFixture("undo_redo_list_limits",undo_redo_list_limits),
-        new_TestFixture("undo_redo_feature_and_relationship",undo_redo_feature_and_relationship),
-        new_TestFixture("undo_redo_update_diagram",undo_redo_update_diagram),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_undo_redo_list_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_undo_redo_list_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "undo_redo_classifier", &undo_redo_classifier );
+    test_suite_add_test_case( &result, "undo_redo_list_limits", &undo_redo_list_limits );
+    test_suite_add_test_case( &result, "undo_redo_feature_and_relationship", &undo_redo_feature_and_relationship );
+    test_suite_add_test_case( &result, "undo_redo_update_diagram", &undo_redo_update_diagram );
+    return result;
 }
 
 static void set_up(void)

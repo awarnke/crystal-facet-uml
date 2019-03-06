@@ -2,6 +2,7 @@
 
 #include "geometry_rectangle_test.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -11,15 +12,13 @@ static void tear_down(void);
 static void test_contain(void);
 static void test_intersect(void);
 
-TestRef geometry_rectangle_test_get_list(void)
+test_suite_t geometry_rectangle_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_contain",test_contain),
-        new_TestFixture("test_intersect",test_intersect),
-    };
-    EMB_UNIT_TESTCALLER(result,"geometry_rectangle_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "geometry_rectangle_test_get_list", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_contain", &test_contain );
+    test_suite_add_test_case( &result, "test_intersect", &test_intersect );
+    return result;
 }
 
 static void set_up(void)

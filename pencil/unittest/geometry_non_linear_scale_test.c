@@ -2,6 +2,7 @@
 
 #include "geometry_non_linear_scale_test.h"
 #include "util/geometry/geometry_non_linear_scale.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -10,14 +11,12 @@ static void set_up(void);
 static void tear_down(void);
 static void test_scale_conversion(void);
 
-TestRef geometry_non_linear_scale_test_get_list(void)
+test_suite_t geometry_non_linear_scale_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_scale_conversion",test_scale_conversion),
-    };
-    EMB_UNIT_TESTCALLER(result,"geometry_non_linear_scale_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "geometry_non_linear_scale_test_get_list", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_scale_conversion", &test_scale_conversion );
+    return result;
 }
 
 static void set_up(void)

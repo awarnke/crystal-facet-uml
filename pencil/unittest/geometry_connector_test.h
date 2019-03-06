@@ -8,9 +8,9 @@
  *  \brief UNITTEST for geometry_connector
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef geometry_connector_test_get_list(void);
+test_suite_t geometry_connector_test_get_list(void);
 
 #endif  /* GEOMETRY_CONNECTOR_TEST_H */
 

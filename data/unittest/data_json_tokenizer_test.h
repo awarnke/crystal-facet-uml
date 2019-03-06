@@ -8,9 +8,9 @@
  *  \brief UNITTEST for data_json_tokenizer
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef data_json_tokenizer_test_get_list(void);
+test_suite_t data_json_tokenizer_test_get_list(void);
 
 #endif  /* DATA_JSON_TOKENIZER_TEST_H */
 

@@ -2,6 +2,7 @@
 
 #include "data_change_notifier_test.h"
 #include "storage/data_change_notifier.h"
+#include "test_assert.h"
 #include <glib-object.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -24,15 +25,13 @@ typedef struct test_data_struct test_data_t;
 
 static test_data_t data;
 
-TestRef data_change_notifier_test_get_list(void)
+test_suite_t data_change_notifier_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_notifier_list_insert_and_remove",test_notifier_list_insert_and_remove),
-        new_TestFixture("test_notifier_list_full",test_notifier_list_full),
-    };
-    EMB_UNIT_TESTCALLER(result,"data_change_notifier_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "data_change_notifier_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_notifier_list_insert_and_remove", &test_notifier_list_insert_and_remove );
+    test_suite_add_test_case( &result, "test_notifier_list_full", &test_notifier_list_full );
+    return result;
 }
 
 static void set_up(void)

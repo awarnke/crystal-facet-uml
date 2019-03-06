@@ -762,6 +762,7 @@ INPUT                  = ../gui \
                          ../utf8stringbuf \
                          ../pencil \
                          ../io \
+                         ../test \
                          ../universal \
                          ./source_code_doc.txt \
                          ../architecture/doc/architecture.txt \

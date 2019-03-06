@@ -6,6 +6,7 @@
 #include "storage/data_database_writer.h"
 #include "storage/data_database_reader.h"
 #include "trace.h"
+#include "test_assert.h"
 #include <stdio.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -59,23 +60,21 @@ static const bool TEST_ONLY = false;
  */
 static const bool FIX_ERRORS = true;
 
-TestRef ctrl_consistency_checker_test_get_list(void)
+test_suite_t ctrl_consistency_checker_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("diagram_two_roots_consistency",diagram_two_roots_consistency),
-        new_TestFixture("diagram_missing_parent_consistency",diagram_missing_parent_consistency),
-        new_TestFixture("diagram_circular_referenced_diagrams_consistency",diagram_circular_referenced_diagrams_consistency),
-        new_TestFixture("diagram_nonreferencing_diagramelements_consistency",diagram_nonreferencing_diagramelements_consistency),
-        new_TestFixture("diagram_illreferencing_diagramelements_consistency",diagram_illreferencing_diagramelements_consistency),
-        new_TestFixture("repair_unreferenced_classifiers",repair_unreferenced_classifiers),
-        new_TestFixture("repair_unreferenced_classifiers_2",repair_unreferenced_classifiers_2),
-        new_TestFixture("repair_invalid_feature_parent",repair_invalid_feature_parent),
-        new_TestFixture("repair_invalid_relationship",repair_invalid_relationship),
-        new_TestFixture("repair_ill_feature_relationship",repair_ill_feature_relationship),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_consistency_checker_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_classifier_policy_enforcer_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "diagram_two_roots_consistency", &diagram_two_roots_consistency );
+    test_suite_add_test_case( &result, "diagram_missing_parent_consistency", &diagram_missing_parent_consistency );
+    test_suite_add_test_case( &result, "diagram_circular_referenced_diagrams_consistency", &diagram_circular_referenced_diagrams_consistency );
+    test_suite_add_test_case( &result, "diagram_nonreferencing_diagramelements_consistency", &diagram_nonreferencing_diagramelements_consistency );
+    test_suite_add_test_case( &result, "diagram_illreferencing_diagramelements_consistency", &diagram_illreferencing_diagramelements_consistency );
+    test_suite_add_test_case( &result, "repair_unreferenced_classifiers", &repair_unreferenced_classifiers );
+    test_suite_add_test_case( &result, "repair_unreferenced_classifiers_2", &repair_unreferenced_classifiers_2 );
+    test_suite_add_test_case( &result, "repair_invalid_feature_parent", &repair_invalid_feature_parent );
+    test_suite_add_test_case( &result, "repair_invalid_relationship", &repair_invalid_relationship );
+    test_suite_add_test_case( &result, "repair_ill_feature_relationship", &repair_ill_feature_relationship );
+    return result;
 }
 
 static void set_up(void)

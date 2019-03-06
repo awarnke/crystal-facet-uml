@@ -66,8 +66,6 @@ FILE(GLOB commonSource gui/source/*.c
                        io/source/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/unittest/*.c
-                       embunit/embUnit/*.c
-                       embunit/textui.c
                        data/unittest/*.c
                        ctrl/unittest/*.c
                        pencil/unittest/*.c
@@ -91,9 +89,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-MESSAGE( "Note: to build the unit tests, fetch           https://sourceforge.net/projects/embunit/" )
-
-INCLUDE_DIRECTORIES(embunit)
+INCLUDE_DIRECTORIES(test/include)
 INCLUDE_DIRECTORIES(data/unittest)
 INCLUDE_DIRECTORIES(ctrl/unittest)
 INCLUDE_DIRECTORIES(pencil/unittest)

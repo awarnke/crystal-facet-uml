@@ -22,7 +22,7 @@
 #include "meta/meta_info.h"
 #include "util/string/utf8string.h"
 #include <stdbool.h>
-#include <embUnit/embUnit.h>
+#include <test_runner.h>
 
 /*!
  *  \brief main runs the unit tests
@@ -72,44 +72,47 @@ int main (int argc, char *argv[]) {
     }
 
     /* start tests */
-    TestRunner_start();
+    test_runner_t runner;
+    test_runner_init ( &runner );
 
     /* unit-tests */
     if ( do_unit_tests )
     {
-        TestRunner_runTest( data_small_set_test_get_list() );
-        TestRunner_runTest( data_change_notifier_test_get_list() );
-        TestRunner_runTest( data_database_listener_test_get_list() );
-        TestRunner_runTest( data_json_tokenizer_test_get_list() );
-        TestRunner_runTest( geometry_rectangle_test_get_list() );
-        TestRunner_runTest( geometry_connector_test_get_list() );
-        TestRunner_runTest( geometry_non_linear_scale_test_get_list() );
-        TestRunner_runTest( pencil_description_writer_test_get_list() );
-        TestRunner_runTest( universal_array_index_sorter_test_get_list() );
+        test_runner_run_suite( &runner, data_small_set_test_get_list() );
+        test_runner_run_suite( &runner, data_change_notifier_test_get_list() );
+        test_runner_run_suite( &runner, data_database_listener_test_get_list() );
+        test_runner_run_suite( &runner, data_json_tokenizer_test_get_list() );
+        test_runner_run_suite( &runner, geometry_rectangle_test_get_list() );
+        test_runner_run_suite( &runner, geometry_connector_test_get_list() );
+        test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
+        test_runner_run_suite( &runner, pencil_description_writer_test_get_list() );
+        test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );
     }
 
     /* module tests which involve multiple software units */
     if ( do_module_tests )
     {
-        TestRunner_runTest( data_database_reader_test_get_list() );
-        TestRunner_runTest( ctrl_controller_test_get_list() );
-        TestRunner_runTest( ctrl_diagram_controller_test_get_list() );
-        TestRunner_runTest( ctrl_classifier_controller_test_get_list() );
-        TestRunner_runTest( ctrl_consistency_checker_test_get_list() );
-        TestRunner_runTest( ctrl_undo_redo_list_test_get_list() );
-        TestRunner_runTest( ctrl_diagram_policy_enforcer_test_get_list() );
-        TestRunner_runTest( ctrl_classifier_policy_enforcer_test_get_list() );
+        test_runner_run_suite( &runner, data_database_reader_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_controller_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_diagram_controller_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_classifier_controller_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_consistency_checker_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_list() );
+        test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
     }
 
-    TestRunner_end();
 
     /* fetch failures */
-    struct __TestResult testresult;
-    testresult = TestRunner_getTestResult();
-    exit_code = testresult.failureCount;
+    test_result_t res = test_get_result( &runner );
+    fprintf( stdout, 
+             "ALL TESTS - RESULT: total %d, failed: %d\n", 
+             test_result_get_total( &res ), 
+             test_result_get_failed( &res ) 
+           );
+    exit_code = test_result_get_failed( &res );
 
     TSLOG_DESTROY();
-    TRACE_INFO( "to find failures in the trace, search for pattern _test.c" );
     TRACE_INFO( "--------------------" );
     TRACE_TIMESTAMP();
     TRACE_END_ERR( exit_code );

@@ -8,9 +8,9 @@
  *  \brief UNITTEST for data_database_listener
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef data_database_listener_test_get_list(void);
+test_suite_t data_database_listener_test_get_list(void);
 
 #endif  /* DATA_DATABASE_LISTENER_TEST_H */
 

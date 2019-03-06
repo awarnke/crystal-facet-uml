@@ -8,9 +8,9 @@
  *  \brief UNITTEST for universal_array_index_sorter
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef universal_array_index_sorter_test_get_list(void);
+test_suite_t universal_array_index_sorter_test_get_list(void);
 
 #endif  /* UNIVERSAL_ARRAY_INDEX_SORTER_TEST_H */
 

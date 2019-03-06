@@ -8,9 +8,9 @@
  *  \brief MODULE TEST for ctrl_classifier_policy_enforcer
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_classifier_policy_enforcer_test_get_list(void);
+test_suite_t ctrl_classifier_policy_enforcer_test_get_list(void);
 
 #endif  /* CTRL_CLASSIFIER_POLICY_ENFORCER_TEST_H */
 

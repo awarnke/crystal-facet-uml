@@ -1,5 +1,4 @@
 .gitattributes export-ignore
-embunit export-ignore
 example_diagrams export-ignore
 package_build export-ignore
 

@@ -9,9 +9,9 @@
  *                         data_database, data_database_reader, ctrl_diagram_controller
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_diagram_controller_test_get_list(void);
+test_suite_t ctrl_diagram_controller_test_get_list(void);
 
 #endif  /* CTRL_DIAGRAM_CONTROLLER_TEST_H */
 

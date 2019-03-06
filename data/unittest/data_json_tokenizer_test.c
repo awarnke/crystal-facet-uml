@@ -2,6 +2,7 @@
 
 #include "data_json_tokenizer_test.h"
 #include "serial/data_json_tokenizer.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -17,20 +18,18 @@ static void test_skip_number(void);
 static void test_parse(void);
 
 
-TestRef data_json_tokenizer_test_get_list(void)
+test_suite_t data_json_tokenizer_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_skip_whitespace",test_skip_whitespace),
-        new_TestFixture("test_is_token_end",test_is_token_end),
-        new_TestFixture("test_get_value_type",test_get_value_type),
-        new_TestFixture("test_find_string_end",test_find_string_end),
-        new_TestFixture("test_parse_integer",test_parse_integer),
-        new_TestFixture("test_skip_number",test_skip_number),
-        new_TestFixture("test_parse",test_parse),
-    };
-    EMB_UNIT_TESTCALLER(result,"data_json_tokenizer_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "data_json_tokenizer_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_skip_whitespace", &test_skip_whitespace );
+    test_suite_add_test_case( &result, "test_is_token_end", &test_is_token_end );
+    test_suite_add_test_case( &result, "test_get_value_type", &test_get_value_type );
+    test_suite_add_test_case( &result, "test_find_string_end", &test_find_string_end );
+    test_suite_add_test_case( &result, "test_parse_integer", &test_parse_integer );
+    test_suite_add_test_case( &result, "test_skip_number", &test_skip_number );
+    test_suite_add_test_case( &result, "test_parse", &test_parse );
+    return result;
 }
 
 static data_json_tokenizer_t tok;

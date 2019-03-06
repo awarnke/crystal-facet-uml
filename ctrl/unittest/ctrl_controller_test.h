@@ -9,9 +9,9 @@
  *  focussing on opening, switching and closing files
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_controller_test_get_list(void);
+test_suite_t ctrl_controller_test_get_list(void);
 
 #endif  /* CTRL_CONTROLLER_TEST_H */
 

@@ -3,6 +3,7 @@
 #include "data_database_reader_test.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_database_writer.h"
+#include "test_assert.h"
 #include <errno.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -36,18 +37,16 @@ static data_database_reader_t db_reader;
  */
 static data_database_writer_t db_writer;
 
-TestRef data_database_reader_test_get_list(void)
+test_suite_t data_database_reader_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_search_diagrams",test_search_diagrams),
-        new_TestFixture("test_search_diagramelements",test_search_diagramelements),
-        new_TestFixture("test_search_classifiers",test_search_classifiers),
-        new_TestFixture("test_search_features",test_search_features),
-        new_TestFixture("test_search_relationships",test_search_relationships),
-    };
-    EMB_UNIT_TESTCALLER(result,"data_small_set_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "data_database_reader_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_search_diagrams", &test_search_diagrams );
+    test_suite_add_test_case( &result, "test_search_diagramelements", &test_search_diagramelements );
+    test_suite_add_test_case( &result, "test_search_classifiers", &test_search_classifiers );
+    test_suite_add_test_case( &result, "test_search_features", &test_search_features );
+    test_suite_add_test_case( &result, "test_search_relationships", &test_search_relationships );
+    return result;
 }
 
 static void set_up(void)

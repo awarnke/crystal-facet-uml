@@ -8,9 +8,9 @@
  *  \brief UNITTEST for geometry_rectangle
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef geometry_rectangle_test_get_list(void);
+test_suite_t geometry_rectangle_test_get_list(void);
 
 #endif  /* GEOMETRY_RECTANGLE_TEST_H */
 

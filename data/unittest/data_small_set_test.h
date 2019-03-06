@@ -8,9 +8,9 @@
  *  \brief UNITTEST for data_small_set
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef data_small_set_test_get_list(void);
+test_suite_t data_small_set_test_get_list(void);
 
 #endif  /* DATA_SMALL_SET_TEST_H */
 

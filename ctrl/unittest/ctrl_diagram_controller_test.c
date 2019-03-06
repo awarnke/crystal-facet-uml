@@ -7,6 +7,7 @@
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_diagram_type.h"
+#include "test_assert.h"
 #include <stdio.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -37,15 +38,13 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_diagram_controller_test_get_list(void)
+test_suite_t ctrl_diagram_controller_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("create_read_modify_read",create_read_modify_read),
-        new_TestFixture("create_diagramelements_and_delete",create_diagramelements_and_delete),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_diagram_controller_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_diagram_controller_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "create_read_modify_read", &create_read_modify_read );
+    test_suite_add_test_case( &result, "create_diagramelements_and_delete", &create_diagramelements_and_delete );
+    return result;
 }
 
 static void set_up(void)

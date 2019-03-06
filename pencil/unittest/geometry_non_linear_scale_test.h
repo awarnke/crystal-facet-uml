@@ -8,9 +8,9 @@
  *  \brief UNITTEST for geometry_non_linear_scale
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef geometry_non_linear_scale_test_get_list(void);
+test_suite_t geometry_non_linear_scale_test_get_list(void);
 
 #endif  /* GEOMETRY_NON_LINEAR_SCALE_TEST_H */
 

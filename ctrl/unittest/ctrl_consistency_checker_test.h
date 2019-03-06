@@ -9,9 +9,9 @@
  *                         data_database, data_database_reader, ctrl_consistency_checker
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_consistency_checker_test_get_list(void);
+test_suite_t ctrl_consistency_checker_test_get_list(void);
 
 #endif  /* CTRL_CONSISTENCY_CHECKER_TEST_H */
 

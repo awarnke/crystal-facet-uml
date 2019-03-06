@@ -3,6 +3,7 @@
 #include "pencil_description_writer.h"
 #include "pencil_description_writer_test.h"
 #include "pencil_input_data.h"
+#include "test_assert.h"
 #include <stdio.h>
 #include <string.h>
 
@@ -19,20 +20,18 @@ static void test_write_indent_multiline_string_dual(void);
 static void test_write_indent_multiline_string_crnl(void);
 static void test_write_indent_multiline_string_cr(void);
 
-TestRef pencil_description_writer_test_get_list(void)
+test_suite_t pencil_description_writer_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_write_indent_multiline_string_null",test_write_indent_multiline_string_null),
-        new_TestFixture("test_write_indent_multiline_string_empty",test_write_indent_multiline_string_empty),
-        new_TestFixture("test_write_indent_multiline_string_empty_last",test_write_indent_multiline_string_empty_last),
-        new_TestFixture("test_write_indent_multiline_string_single",test_write_indent_multiline_string_single),
-        new_TestFixture("test_write_indent_multiline_string_dual",test_write_indent_multiline_string_dual),
-        new_TestFixture("test_write_indent_multiline_string_crnl",test_write_indent_multiline_string_crnl),
-        new_TestFixture("test_write_indent_multiline_string_cr",test_write_indent_multiline_string_cr),
-    };
-    EMB_UNIT_TESTCALLER(result,"pencil_description_writer_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "pencil_description_writer_test_get_list", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_null", &test_write_indent_multiline_string_null );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty", &test_write_indent_multiline_string_empty );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_empty_last", &test_write_indent_multiline_string_empty_last );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_single", &test_write_indent_multiline_string_single );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_dual", &test_write_indent_multiline_string_dual );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_crnl", &test_write_indent_multiline_string_crnl );
+    test_suite_add_test_case( &result, "test_write_indent_multiline_string_cr", &test_write_indent_multiline_string_cr );
+    return result;
 }
 
 static pencil_input_data_t my_fake_input_data;

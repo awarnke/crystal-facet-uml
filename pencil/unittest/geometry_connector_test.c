@@ -3,6 +3,7 @@
 #include "geometry_connector_test.h"
 #include "util/geometry/geometry_connector.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -13,16 +14,14 @@ static void test_base_methods(void);
 static void test_rectangle_related_methods(void);
 static void test_connector_intersects(void);
 
-TestRef geometry_connector_test_get_list(void)
+test_suite_t geometry_connector_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_base_methods",test_base_methods),
-        new_TestFixture("test_rectangle_related_methods",test_rectangle_related_methods),
-        new_TestFixture("test_connector_intersects",test_connector_intersects),
-    };
-    EMB_UNIT_TESTCALLER(result,"geometry_connector_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "geometry_connector_test_get_list", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_base_methods", &test_base_methods );
+    test_suite_add_test_case( &result, "test_rectangle_related_methods", &test_rectangle_related_methods );
+    test_suite_add_test_case( &result, "test_connector_intersects", &test_connector_intersects );
+    return result;
 }
 
 static void set_up(void)

@@ -9,9 +9,9 @@
  *                         data_database, data_database_reader, ctrl_classifier_controller
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_classifier_controller_test_get_list(void);
+test_suite_t ctrl_classifier_controller_test_get_list(void);
 
 #endif  /* CTRL_CLASSIFIER_CONTROLLER_TEST_H */
 

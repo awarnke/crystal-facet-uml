@@ -3,6 +3,7 @@
 #include "data_database_listener_test.h"
 #include "storage/data_database_listener.h"
 #include "storage/data_database.h"
+#include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
 /* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
@@ -12,15 +13,13 @@ static void tear_down(void);
 static void test_database_listener_register_and_notify(void);
 static void test_database_listener_registration_full(void);
 
-TestRef data_database_listener_test_get_list(void)
+test_suite_t data_database_listener_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("test_database_listener_register_and_notify",test_database_listener_register_and_notify),
-        new_TestFixture("test_database_listener_registration_full",test_database_listener_registration_full),
-    };
-    EMB_UNIT_TESTCALLER(result,"data_database_listener_test_get_list",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "data_database_listener_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "test_database_listener_register_and_notify", &test_database_listener_register_and_notify );
+    test_suite_add_test_case( &result, "test_database_listener_registration_full", &test_database_listener_registration_full );
+    return result;
 }
 
 static int callback_counter = 0;

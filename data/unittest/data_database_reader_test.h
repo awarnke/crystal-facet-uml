@@ -8,9 +8,9 @@
  *  \brief MODULE TEST for data_database_writer, data_database_sql_builder, data_database and data_database_reader
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef data_database_reader_test_get_list(void);
+test_suite_t data_database_reader_test_get_list(void);
 
 #endif  /* DATA_DATABASE_READER_TEST_H */
 

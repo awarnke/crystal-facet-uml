@@ -10,6 +10,7 @@
 #include "data_visible_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "test_assert.h"
 #include <stdio.h>
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
@@ -41,16 +42,14 @@ static data_database_reader_t db_reader;
  */
 static ctrl_controller_t controller;
 
-TestRef ctrl_classifier_controller_test_get_list(void)
+test_suite_t ctrl_classifier_controller_test_get_list(void)
 {
-    EMB_UNIT_TESTFIXTURES(fixtures) {
-        new_TestFixture("classifier_create_read_modify_read",classifier_create_read_modify_read),
-        new_TestFixture("features_CRURDR",features_CRURDR),
-        new_TestFixture("relationship_CRURDR",relationship_CRURDR),
-    };
-    EMB_UNIT_TESTCALLER(result,"ctrl_classifier_controller_test",set_up,tear_down,fixtures);
-
-    return (TestRef)&result;
+    test_suite_t result;
+    test_suite_init( &result, "ctrl_classifier_controller_test", &set_up, &tear_down );
+    test_suite_add_test_case( &result, "classifier_create_read_modify_read", &classifier_create_read_modify_read );
+    test_suite_add_test_case( &result, "features_CRURDR", &features_CRURDR );
+    test_suite_add_test_case( &result, "relationship_CRURDR", &relationship_CRURDR );
+    return result;
 }
 
 static void set_up(void)

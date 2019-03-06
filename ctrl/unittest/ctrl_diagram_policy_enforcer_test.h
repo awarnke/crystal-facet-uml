@@ -8,9 +8,9 @@
  *  \brief MODULE TEST for ctrl_diagram_policy_enforcer
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef ctrl_diagram_policy_enforcer_test_get_list(void);
+test_suite_t ctrl_diagram_policy_enforcer_test_get_list(void);
 
 #endif  /* CTRL_DIAGRAM_POLICY_ENFORCER_TEST_H */
 

@@ -8,9 +8,9 @@
  *  \brief UNITTEST for pencil_description_writer
  */
 
-#include <embUnit/embUnit.h>
+#include <test_suite.h>
 
-TestRef pencil_description_writer_test_get_list(void);
+test_suite_t pencil_description_writer_test_get_list(void);
 
 #endif  /* PENCIL_DESCRIPTION_WRITER_TEST_H */
 

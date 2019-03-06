@@ -1,7 +1,8 @@
 2019-03-xx 1.11.0 [xxxxxxx]
   + export dialog allows to select multiple file formats
-  + docbook export
-  + xhtml export
+  + docbook export (without descriptions)
+  + xhtml export (without descriptions)
+  . embunit replaced by own test functions to comply to debian packaging rules
 2019-02-03 1.10.0 [9899988]
   + new classifier types for activity, state, Interaction-Overview and parametric diagrams
   + part, artifact, node and object are automatically underlined as instance
