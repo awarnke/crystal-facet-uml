@@ -99,7 +99,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
  *  \param export_type image file format
- *  \param format_writer writer-object where to write the document to
+ *  \param format_writer writer to format the data and stream it out to a file
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_part( io_exporter_t *this_,

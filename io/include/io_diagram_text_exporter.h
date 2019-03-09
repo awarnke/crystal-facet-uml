@@ -9,6 +9,7 @@
  *  \brief Renders diagram and classifier descriptions to an output stream
  */
 
+#include "io_format_writer.h"
 #include "set/data_visible_set.h"
 #include "data_table.h"
 #include <stdio.h>
@@ -41,85 +42,45 @@ void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ );
  *  \brief prints names and descriptions of the diagram and contained classifiers to the output stream
  *
  *  \param this_ pointer to own object attributes
- *  \param out a stream where to print the data
+ *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
-int io_diagram_text_exporter_draw ( io_diagram_text_exporter_t *this_, FILE *out );
+int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer );
 
 /*!
- *  \brief prints names and descriptions of the diagram to the output stream
+ *  \brief prints names and descriptions of the classifiers to the output stream
  *
  *  \param this_ pointer to own object attributes
- *  \param out a stream where to print the data
+ *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
-int io_diagram_text_exporter_private_write_diagram ( io_diagram_text_exporter_t *this_, FILE *out );
+int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer );
 
 /*!
- *  \brief prints names and descriptions of the diagram to the output stream
- *
- *  \param this_ pointer to own object attributes
- *  \param out a stream where to print the data
- *  \return -1 in case of error, 0 in case of success
- */
-int io_diagram_text_exporter_private_write_classifiers ( io_diagram_text_exporter_t *this_, FILE *out );
-
-/*!
- *  \brief prints names and descriptions of the diagram to the output stream
+ *  \brief prints names and descriptions of the classifier to the output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier of which the features are written
- *  \param out a stream where to print the data
+ *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
-int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out );
+int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
+                                                                    int64_t classifier_id,
+                                                                    io_format_writer_t *format_writer
+                                                                  );
 
 /*!
- *  \brief prints names and descriptions of the diagram to the output stream
+ *  \brief prints names and descriptions of the relathionships to the output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier of which the relations are written
- *  \param out a stream where to print the data
+ *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
-int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out );
-
-/*!
- *  \brief prints a multiline string with indentation prefix
- *
- *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
- *  newline, return and return-newline are recognized as line breaks.
- *
- *  \param this_ pointer to own object attributes
- *  \param indent pattern, by which each line is indented; must not be NULL
- *  \param multiline_string string to write to out
- *  \param out a stream where to print the data
- *  \return -1 in case of error, 0 in case of success
- */
-int io_diagram_text_exporter_private_write_indent_multiline_string ( io_diagram_text_exporter_t *this_,
-                                                                      const char *indent,
-                                                                      const char *multiline_string,
-                                                                      FILE *out
-                                                                    );
-
-/*!
- *  \brief prints an id
- *
- *  if the id is invalid, nothing is printed.
- *
- *  \param this_ pointer to own object attributes
- *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
- *  \param table table identifier
- *  \param row_id row identifier
- *  \param out a stream where to print the data
- *  \return -1 in case of error, 0 in case of success
- */
-int io_diagram_text_exporter_private_write_id ( io_diagram_text_exporter_t *this_,
-                                                 int indent_width,
-                                                 data_table_t table,
-                                                 int64_t row_id,
-                                                 FILE *out
-                                               );
+int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
+                                                                     int64_t classifier_id,
+                                                                     io_format_writer_t *format_writer
+                                                                   );
 
 #endif  /* IO_DIAGRAM_TEXT_EXPORTER_H */
 

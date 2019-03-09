@@ -13,7 +13,6 @@
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
-#include "io_diagram_text_exporter.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -71,6 +70,8 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
 /*!
  *  \brief writes a diagram start
  *
+ *  This starts a section that contains a diagram and a list of classifiers
+ *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise
  */
@@ -90,7 +91,60 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
                                   );
 
 /*!
+ *  \brief writes a classifier start
+ *
+ *  This starts a division that contains a classifier and a list of features and relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_start_classifier( io_format_writer_t *this_ );
+
+/*!
+ *  \brief writes a classifier of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_ptr pointer to classifier that shall be written
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_write_classifier( io_format_writer_t *this_, data_classifier_t *classifier_ptr );
+
+/*!
+ *  \brief writes a feature of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_ptr pointer to feature that shall be written
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_write_feature( io_format_writer_t *this_, data_feature_t *feature_ptr );
+
+/*!
+ *  \brief writes a relationship of the document
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param relation_ptr pointer to relationship that shall be written
+ *  \param dest_classifier_ptr pointer to destination classifier
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_write_relationship( io_format_writer_t *this_,
+                                         data_relationship_t *relation_ptr,
+                                         data_classifier_t *dest_classifier_ptr
+                                       );
+
+/*!
+ *  \brief writes a classifier end
+ *
+ *  This ends a division that contains a classifier and a list of features and relationships
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_end_classifier( io_format_writer_t *this_ );
+
+/*!
  *  \brief writes a diagram end
+ *
+ *  This ends a section that contains a diagram and a list of classifiers
  *
  *  \param this_ pointer to own object attributes
  *  \result 0 in case of success, -1 otherwise
@@ -122,6 +176,41 @@ static inline int io_format_writer_private_write_plain ( io_format_writer_t *thi
  *  \result 0 in case of success, -1 otherwise
  */
 static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *this_, const char *text );
+
+/*!
+ *  \brief prints a multiline string with indentation prefix
+ *
+ *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
+ *  newline, return and return-newline are recognized as line breaks.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent pattern, by which each line is indented; must not be NULL
+ *  \param multiline_string string to write to out
+ *  \param format_writer writer to format the data and stream it out to a file
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t *this_,
+                                                             const char *indent,
+                                                             const char *multiline_string
+                                                           );
+
+/*!
+ *  \brief prints an id with indentation prefix
+ *
+ *  if the id is invalid, nothing is printed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
+ *  \param table table identifier
+ *  \param row_id row identifier
+ *  \param format_writer writer to format the data and stream it out to a file
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
+                                               int indent_width,
+                                               data_table_t table,
+                                               int64_t row_id
+                                             );
 
 #include "io_format_writer.inl"
 

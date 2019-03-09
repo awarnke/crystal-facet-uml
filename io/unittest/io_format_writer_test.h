@@ -1,18 +1,18 @@
-/* File: io_diagram_text_exporter_test.h; Copyright and License: see below */
+/* File: io_format_writer_test.h; Copyright and License: see below */
 
-#ifndef IO_DIAGRAM_TEXT_EXPORTER_TEST_H
-#define IO_DIAGRAM_TEXT_EXPORTER_TEST_H
+#ifndef IO_FORMAT_WRITER_TEST_H
+#define IO_FORMAT_WRITER_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for io_diagram_text_exporter
+ *  \brief UNITTEST for io_format_writer
  */
 
 #include <test_suite.h>
 
-test_suite_t io_diagram_text_exporter_test_get_list(void);
+test_suite_t io_format_writer_test_get_list(void);
 
-#endif  /* IO_DIAGRAM_TEXT_EXPORTER_TEST_H */
+#endif  /* IO_FORMAT_WRITER_TEST_H */
 
 
 /*

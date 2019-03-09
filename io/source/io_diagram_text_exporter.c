@@ -27,97 +27,39 @@ void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
     TRACE_END();
 }
 
-int io_diagram_text_exporter_draw ( io_diagram_text_exporter_t *this_, FILE *out )
+int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
-    assert( NULL != out );
-    int result = 0;
+    assert( NULL != format_writer );
+    int write_err = 0;
 
     /* write diagram */
-    result |= io_diagram_text_exporter_private_write_diagram( this_, out );
+    data_diagram_t *diag_ptr;
+    diag_ptr = data_visible_set_get_diagram_ptr( (*this_).input_data );
+    TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
+    write_err |= io_format_writer_write_header( format_writer, "DUMMY_TITLE" );
+    write_err |= io_format_writer_start_diagram( format_writer );
+    write_err |= io_format_writer_write_diagram( format_writer,
+                                                 diag_ptr,
+                                                 "NO_IMAGE_FILE"
+                                               );
     /* write all classifiers */
-    result |= io_diagram_text_exporter_private_write_classifiers( this_, out );
+    write_err |= io_diagram_text_exporter_write_classifiers( this_, format_writer );
 
-    TRACE_END_ERR( result );
-    return result;
+    /* write footer */
+    write_err |= io_format_writer_end_diagram( format_writer );
+    write_err |= io_format_writer_write_footer( format_writer );
+
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
-static const char TWO_NEWLINES[] = "\n\n";
-static const size_t TWO_NEWLINES_LEN = 2;
-static const char LINE_END[] = "\n";
-static const size_t LINE_END_LEN = 1;
-static const char SPACE[] = "  ";
-static const size_t SPACE_LEN = 2;
-static const char COLON_SPACE[] = ": ";
-static const size_t COLON_SPACE_LEN = 2;
-static const char SPACE_ARROW_SPACE[] = " --> ";
-static const size_t SPACE_ARROW_SPACE_LEN = 5;
-static const char ARROW_SPACE[] = "--> ";
-static const size_t ARROW_SPACE_LEN = 4;
-static const char TITLE_END[] = "\n";
-static const size_t TITLE_END_LEN = 1;
-static const char SINGLE_INDENT[] = "| ";
-static const char DOUBLE_INDENT[] = "  | ";
-static const int ID_INDENT_COLUMN = 48;
-static const char ID_INDENT_SPACES[] = "                                                ";
-
-int io_diagram_text_exporter_private_write_diagram ( io_diagram_text_exporter_t *this_, FILE *out )
+int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *this_, io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
-    assert( NULL != out );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-
-    /* get diagram */
-    data_diagram_t *diag;
-    diag = data_visible_set_get_diagram_ptr( (*this_).input_data );
-    TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag));
-
-    /* print diagram name */
-    const char *diag_name = data_diagram_get_name_ptr(diag);
-    size_t diag_name_len = strlen(diag_name);
-    out_count = fwrite( diag_name, 1 /* size of char */, diag_name_len, out );
-    if ( out_count != diag_name_len )
-    {
-        TSLOG_ERROR_INT( "not all bytes could be written. missing:", diag_name_len - out_count );
-        result = -1;
-    }
-
-    /* print id */
-    result |= io_diagram_text_exporter_private_write_id( this_,
-                                                          ID_INDENT_COLUMN - diag_name_len,
-                                                          DATA_TABLE_DIAGRAM,
-                                                          data_diagram_get_id(diag),
-                                                          out
-                                                        );
-
-    /* print an empty line */
-    out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
-    if ( out_count != TITLE_END_LEN )
-    {
-        TSLOG_ERROR_INT( "not all bytes could be written. missing:", TITLE_END_LEN - out_count );
-        result = -1;
-    }
-
-    /* print diagram description */
-    const char *diag_descr = data_diagram_get_description_ptr(diag);
-    result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
-                                                                               SINGLE_INDENT,
-                                                                               diag_descr,
-                                                                               out
-                                                                             );
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
-int io_diagram_text_exporter_private_write_classifiers ( io_diagram_text_exporter_t *this_, FILE *out )
-{
-    TRACE_BEGIN();
-    assert( NULL != out );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
+    assert( NULL != format_writer );
+    int write_err = 0;
 
     /* iterate over all classifiers */
     uint32_t count;
@@ -134,67 +76,33 @@ int io_diagram_text_exporter_private_write_classifiers ( io_diagram_text_exporte
             int64_t classifier_id = data_classifier_get_id(classifier);
             TRACE_INFO_INT( "printing classifier with id", classifier_id );
 
-            /* print an empty line */
-            out_count = fwrite( TWO_NEWLINES, 1 /* size of char */, TWO_NEWLINES_LEN, out );
-            if ( out_count != TWO_NEWLINES_LEN )
-            {
-                TSLOG_ERROR_INT( "not all bytes could be written. missing:", TWO_NEWLINES_LEN - out_count );
-                result = -1;
-            }
+            write_err |=  io_format_writer_start_classifier( format_writer );
 
-            /* print classifier name */
-            const char *classifier_name = data_classifier_get_name_ptr(classifier);
-            size_t classifier_name_len = strlen(classifier_name);
-            out_count = fwrite( classifier_name, 1 /* size of char */, classifier_name_len, out );
-            if ( out_count != classifier_name_len )
-            {
-                TSLOG_ERROR_INT( "not all bytes could be written. missing:", classifier_name_len - out_count );
-                result = -1;
-            }
-
-            /* print id */
-            result |= io_diagram_text_exporter_private_write_id( this_,
-                                                                  ID_INDENT_COLUMN - classifier_name_len,
-                                                                  DATA_TABLE_CLASSIFIER,
-                                                                  data_classifier_get_id(classifier),
-                                                                  out
-            );
-
-            /* print an empty line */
-            out_count = fwrite( TITLE_END, 1 /* size of char */, TITLE_END_LEN, out );
-            if ( out_count != TITLE_END_LEN )
-            {
-                TSLOG_ERROR_INT( "not all bytes could be written. missing:", TITLE_END_LEN - out_count );
-                result = -1;
-            }
-
-            /* print classifier description */
-            const char *classifier_descr = data_classifier_get_description_ptr(classifier);
-            result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
-                                                                                       SINGLE_INDENT,
-                                                                                       classifier_descr,
-                                                                                       out
-                                                                                     );
+            write_err |=  io_format_writer_write_classifier( format_writer, classifier );
 
             /* print all features */
-            result |= io_diagram_text_exporter_private_write_features_of_classifier( this_, classifier_id, out );
+            write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_, classifier_id, format_writer );
 
             /* print all relationships */
-            result |= io_diagram_text_exporter_private_write_relations_of_classifier( this_, classifier_id, out );
+            write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_, classifier_id, format_writer );
+
+            /* finish */
+            write_err |=  io_format_writer_end_classifier( format_writer );
         }
     }
 
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
-int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out )
+int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
+                                                                    int64_t classifier_id,
+                                                                    io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
-    assert( NULL != out );
+    assert( NULL != format_writer );
     assert( DATA_ID_VOID_ID != classifier_id );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
+    int write_err = 0;
 
     /* iterate over all features */
     uint32_t count;
@@ -208,84 +116,23 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
         {
             if ( classifier_id == data_feature_get_classifier_id( feature ) )
             {
-                /* print a new line */
-                out_count = fwrite( SPACE, 1 /* size of char */, SPACE_LEN, out );
-                if ( out_count != SPACE_LEN )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_LEN - out_count );
-                    result = -1;
-                }
-
-                /* print feature name */
-                const char *feature_key = data_feature_get_key_ptr( feature );
-                size_t feature_key_len = strlen(feature_key);
-                out_count = fwrite( feature_key, 1 /* size of char */, feature_key_len, out );
-                if ( out_count != feature_key_len )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", feature_key_len - out_count );
-                    result = -1;
-                }
-
-                /* print feature value (optional) */
-                const char *feature_value = data_feature_get_value_ptr( feature );
-                size_t feature_value_len = strlen(feature_value);
-                if ( 0 != feature_value_len )
-                {
-                    /* print colon space */
-                    out_count = fwrite( COLON_SPACE, 1 /* size of char */, COLON_SPACE_LEN, out );
-                    if ( out_count != COLON_SPACE_LEN )
-                    {
-                        TSLOG_ERROR_INT( "not all bytes could be written. missing:", COLON_SPACE_LEN - out_count );
-                        result = -1;
-                    }
-
-                    out_count = fwrite( feature_value, 1 /* size of char */, feature_value_len, out );
-                    if ( out_count != feature_value_len )
-                    {
-                        TSLOG_ERROR_INT( "not all bytes could be written. missing:", feature_value_len - out_count );
-                        result = -1;
-                    }
-                }
-
-                /* print id */
-                int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - feature_key_len - ((feature_value_len==0)?0:feature_value_len+COLON_SPACE_LEN);
-                result |= io_diagram_text_exporter_private_write_id( this_,
-                                                                      id_indent_width,
-                                                                      DATA_TABLE_FEATURE,
-                                                                      data_feature_get_id(feature),
-                                                                      out
-                );
-
-                /* print an empty line */
-                out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
-                if ( out_count != LINE_END_LEN )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
-                    result = -1;
-                }
-
-                /* print feature description */
-                const char *feature_descr = data_feature_get_description_ptr( feature );
-                result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
-                                                                                           DOUBLE_INDENT,
-                                                                                           feature_descr,
-                                                                                           out
-                                                                                         );
+                write_err |=  io_format_writer_write_feature( format_writer, feature );
             }
         }
     }
 
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
-int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out )
+int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
+                                                                     int64_t classifier_id,
+                                                                     io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
-    assert( NULL != out );
+    assert( NULL != format_writer );
     assert( DATA_ID_VOID_ID != classifier_id );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
+    int write_err = 0;
 
     /* iterate over all relationships */
     uint32_t count;
@@ -316,85 +163,14 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                         if ( dest_classifier_id == data_relationship_get_to_classifier_id( relation ) )
                         {
                             /* destination classifier found, print the relation */
-
-                            /* print a new line */
-                            out_count = fwrite( SPACE, 1 /* size of char */, SPACE_LEN, out );
-                            if ( out_count != SPACE_LEN )
-                            {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_LEN - out_count );
-                                result = -1;
-                            }
-
-                            /* print relationship name */
-                            const char *relation_name = data_relationship_get_name_ptr( relation );
-                            size_t relation_name_len = strlen( relation_name );
-                            out_count = fwrite( relation_name, 1 /* size of char */, relation_name_len, out );
-                            if ( out_count != relation_name_len )
-                            {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", relation_name_len - out_count );
-                                result = -1;
-                            }
-
-                            /* print arrow */
-                            if ( relation_name_len == 0 )
-                            {
-                                out_count = fwrite( ARROW_SPACE, 1 /* size of char */, ARROW_SPACE_LEN, out );
-                                if ( out_count != ARROW_SPACE_LEN )
-                                {
-                                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", ARROW_SPACE_LEN - out_count );
-                                    result = -1;
-                                }
-                            }
-                            else
-                            {
-                                out_count = fwrite( SPACE_ARROW_SPACE, 1 /* size of char */, SPACE_ARROW_SPACE_LEN, out );
-                                if ( out_count != SPACE_ARROW_SPACE_LEN )
-                                {
-                                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", SPACE_ARROW_SPACE_LEN - out_count );
-                                    result = -1;
-                                }
-                            }
-
-                            /* print destination classifier name */
-                            const char *dest_classifier_name = data_classifier_get_name_ptr( dest_classifier );
-                            size_t dest_classifier_name_len = strlen( dest_classifier_name );
-                            out_count = fwrite( dest_classifier_name, 1 /* size of char */, dest_classifier_name_len, out );
-                            if ( out_count != dest_classifier_name_len )
-                            {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", dest_classifier_name_len - out_count );
-                                result = -1;
-                            }
-
-                            /* print id */
-                            int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - relation_name_len
-                                                  - ((relation_name_len==0)?ARROW_SPACE_LEN:SPACE_ARROW_SPACE_LEN)
-                                                  - dest_classifier_name_len;
-                            result |= io_diagram_text_exporter_private_write_id( this_,
-                                                                                  id_indent_width,
-                                                                                  DATA_TABLE_RELATIONSHIP,
-                                                                                  data_relationship_get_id(relation),
-                                                                                  out
-                            );
-
-                            /* print an empty line */
-                            out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
-                            if ( out_count != LINE_END_LEN )
-                            {
-                                TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
-                                result = -1;
-                            }
-
-                            /* print relationship description */
-                            const char *relation_descr = data_relationship_get_description_ptr( relation );
-                            result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
-                                                                                                       DOUBLE_INDENT,
-                                                                                                       relation_descr,
-                                                                                                       out
-                                                                                                     );
+                            write_err |= io_format_writer_write_relationship( format_writer,
+                                                                              relation,
+                                                                              dest_classifier
+                                                                            );
                         }
                         else
                         {
-                            TRACE_INFO_INT_INT( "relationship of classifier not printed because destination not in current diagram",
+                            TRACE_INFO_INT_INT( "relationship of classifier not written because destination not in current diagram",
                                                 classifier_id,
                                                 dest_classifier_id
                                               );
@@ -405,146 +181,8 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
         }
     }
 
-    TRACE_END_ERR( result );
-    return result;
-}
-
-int io_diagram_text_exporter_private_write_indent_multiline_string ( io_diagram_text_exporter_t *this_,
-                                                                     const char *indent,
-                                                                     const char *multiline_string,
-                                                                     FILE *out )
-{
-    TRACE_BEGIN();
-    assert( NULL != indent );
-    assert( NULL != out );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-    size_t indent_length = strlen( indent );
-
-    if ( NULL != multiline_string )
-    {
-        const char *line_start = multiline_string;
-        size_t line_length = 0;
-        bool ignore_newline = false;  /* newlines after returns are ignored */
-
-        size_t length = strlen( multiline_string );
-        for ( size_t index = 0; index < length; index ++ )
-        {
-            bool end_of_line = false;
-
-            char current = multiline_string[index];
-            if ( '\r' == current )
-            {
-                ignore_newline = true;
-                end_of_line = true;
-            }
-            else if ( '\n' == current )
-            {
-                if ( ignore_newline )
-                {
-                    line_start = &(multiline_string[index+1]);
-                }
-                else
-                {
-                    end_of_line = true;
-                }
-                ignore_newline = false;
-            }
-            else
-            {
-                ignore_newline = false;
-                line_length ++;
-                if ( index+1 == length )
-                {
-                    end_of_line = true;
-                }
-            }
-
-            if ( end_of_line )
-            {
-                /* print indent pattern */
-                out_count = fwrite( indent, 1 /* size of char */, indent_length, out );
-                if ( out_count != indent_length )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_length - out_count );
-                    result = -1;
-                }
-
-                /* print next line */
-                out_count = fwrite( line_start, 1 /* size of char */, line_length, out );
-                if ( out_count != line_length )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", line_length - out_count );
-                    result = -1;
-                }
-
-                /* print newline */
-                out_count = fwrite( LINE_END, 1 /* size of char */, LINE_END_LEN, out );
-                if ( out_count != LINE_END_LEN )
-                {
-                    TSLOG_ERROR_INT( "not all bytes could be written. missing:", LINE_END_LEN - out_count );
-                    result = -1;
-                }
-
-                /* reset line indices */
-                line_start = &(multiline_string[index+1]);
-                line_length = 0;
-            }
-        }
-    }
-
-    TRACE_END_ERR( result );
-    return result;
-}
-
-int io_diagram_text_exporter_private_write_id ( io_diagram_text_exporter_t *this_,
-                                                int indent_width,
-                                                data_table_t table,
-                                                int64_t row_id,
-                                                FILE *out )
-{
-    TRACE_BEGIN();
-    assert( NULL != out );
-    assert( DATA_TABLE_VOID != table );
-    assert( DATA_ID_VOID_ID != row_id );
-    assert( sizeof(ID_INDENT_SPACES) == 1+ID_INDENT_COLUMN );
-    assert( indent_width <= ID_INDENT_COLUMN );
-    int result = 0;
-    size_t out_count;  /* checks if the number of written characters matches the expectation */
-
-    /* indent */
-    if ( indent_width > 0 )
-    {
-        out_count = fwrite( &ID_INDENT_SPACES, 1, indent_width, out );
-        if ( out_count != indent_width )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_width - out_count );
-            result = -1;
-        }
-    }
-
-    /* print id */
-    {
-        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+2];
-        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-        utf8stringbuf_clear( id_str );
-        utf8stringbuf_append_str( id_str, " [" );
-        data_id_t the_id;
-        data_id_init( &the_id, table, row_id );
-        data_id_to_utf8stringbuf( &the_id, id_str );
-        utf8stringbuf_append_str( id_str, "]" );
-
-        unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, out );
-        if ( out_count != len )
-        {
-            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
-            result = -1;
-        }
-    }
-
-    TRACE_END_ERR( result );
-    return result;
+    TRACE_END_ERR( write_err );
+    return write_err;
 }
 
 

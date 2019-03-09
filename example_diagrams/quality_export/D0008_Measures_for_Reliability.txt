@@ -52,14 +52,6 @@ Fault injection Tests                            [C0063]
   improves --> Fault Tolerance                   [R0041]
 
 
-Example Guidelines                               [C0073]
-  Spark/ADA: Avionics                            [F0022]
-  Power of Ten: NASA                             [F0019]
-  SecureC                                        [F0021]
-  MISRA-C/C++: automotive                        [F0020]
-  implements --> Coding Guidelines               [R0054]
-
-
 Redundancy                                       [C0074]
   2 of 3 voter                                   [F0025]
   duo-duplex                                     [F0026]
@@ -92,3 +84,17 @@ Input Signal Validation                          [C0083]
 Partitioning                                     [C0075]
   --> Fault Tolerance                            [R0129]
   --> Recoverability                             [R0130]
+
+
+automated Tests                                  [C0118]
+  High Requirements Coverage                     [F0069]
+  High Code Coverage                             [F0068]
+  --> Maturity                                   [R0136]
+
+
+Example Guidelines                               [C0073]
+  Spark/ADA: Avionics                            [F0022]
+  Power of Ten: NASA                             [F0019]
+  SecureC                                        [F0021]
+  MISRA-C/C++: automotive                        [F0020]
+  implements --> Coding Guidelines               [R0054]

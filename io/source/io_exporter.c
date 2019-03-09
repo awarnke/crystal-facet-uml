@@ -171,9 +171,13 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             }
             else
             {
-                /* write file */
                 int write_err;
-                write_err = io_diagram_text_exporter_draw ( &((*this_).diagram_text_exporter), text_output );
+
+                /* write file */
+                io_format_writer_init( &((*this_).temp_format_writer ), IO_FILE_FORMAT_TXT, text_output );
+                write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
+                io_format_writer_destroy( &((*this_).temp_format_writer ) );
+
                 if ( 0 != write_err )
                 {
                     TSLOG_ERROR("error writing txt.");
@@ -331,6 +335,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                                                       diag_ptr,
                                                       utf8stringbuf_get_string( (*this_).temp_filename )
                                                     );
+        export_err |= io_diagram_text_exporter_write_classifiers ( &((*this_).diagram_text_exporter), format_writer );
     }
 
     /* recursion to children */

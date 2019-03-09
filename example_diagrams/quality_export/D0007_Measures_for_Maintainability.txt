@@ -49,15 +49,6 @@ YAGNI                                            [C0095]
 | You aren't gonna need it
 
 
-SOLID                                            [C0096]
-  --> Interface Segregation                      [R0101]
-  --> Liskov Substitution                        [R0102]
-  --> Dependency Inversion                       [R0103]
-  --> Open/Closed                                [R0104]
-  --> Single Responsability                      [R0105]
-  supports --> Modularity                        [R0111]
-
-
 Occam's razor                                    [C0097]
 | Among competing hypotheses, the one with the fewest assumptions should be selected
 
@@ -95,3 +86,18 @@ Least Astonishment                               [C0103]
 
 Strong Cohesion                                  [C0104]
   influences --> Modularity                      [R0119]
+
+
+automated Tests                                  [C0118]
+  High Requirements Coverage                     [F0069]
+  High Code Coverage                             [F0068]
+  limit risks at changes --> Modifyability       [R0135]
+
+
+SOLID                                            [C0096]
+  --> Interface Segregation                      [R0101]
+  --> Liskov Substitution                        [R0102]
+  --> Dependency Inversion                       [R0103]
+  --> Open/Closed                                [R0104]
+  --> Single Responsability                      [R0105]
+  supports --> Modularity                        [R0111]
