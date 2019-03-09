@@ -28,6 +28,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
 
     (*this_).export_type = export_type;
     (*this_).output = output;
+    (*this_).current_tree_depth = 0;
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
@@ -96,12 +97,14 @@ static const char XHTML_DOC_END[]
 = "    </body>\n"
 "</html>\n";
 
+#define XHTML_SECT_MAX_DEPTH 6
 static const char XHTML_SECT_START[]
 = "        <div>\n";
-static const char XHTML_SECT_TITLE_START[]
-= "            <h1 class=\"title\">";
-static const char XHTML_SECT_TITLE_END[]
-= "</h1>\n";
+static const char *XHTML_SECT_TITLE_START[XHTML_SECT_MAX_DEPTH]
+= {"            <h1 class=\"title\">","            <h2 class=\"title\">","            <h3 class=\"title\">",
+   "            <h4 class=\"title\">","            <h5 class=\"title\">","            <h6 class=\"title\">"};
+static const char *XHTML_SECT_TITLE_END[XHTML_SECT_MAX_DEPTH]
+= {"</h1>\n","</h2>\n","</h3>\n","</h4>\n","</h5>\n","</h6>\n"};
 static const char XHTML_SECT_PARA_START[]
 = "            <p class=\"description\">\n";
 static const char XHTML_SECT_IMG_START[]
@@ -172,6 +175,9 @@ int io_format_writer_start_diagram( io_format_writer_t *this_ )
     TRACE_BEGIN();
     assert ( NULL != (*this_).output );
     int export_err = 0;
+
+    /* increase tree depth */
+    (*this_).current_tree_depth ++;
 
     switch ( (*this_).export_type )
     {
@@ -249,9 +255,11 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_START );
+            unsigned int index_of_depth = (*this_).current_tree_depth - 1;
+            index_of_depth = ( index_of_depth >= XHTML_SECT_MAX_DEPTH ) ? ( XHTML_SECT_MAX_DEPTH-1 ) : index_of_depth;
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_START[index_of_depth] );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_END[index_of_depth] );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_description );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_START );
@@ -315,6 +323,9 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
         }
         break;
     }
+
+    /* decrease tree depth */
+    (*this_).current_tree_depth --;
 
     TRACE_END_ERR( export_err );
     return export_err;

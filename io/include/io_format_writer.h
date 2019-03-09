@@ -31,6 +31,8 @@ enum io_format_writer_max_enum {
 struct io_format_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
     FILE *output;  /*!< output file */
+    uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to io_format_writer_start_diagram */
+
     char temp_output_buffer[IO_DOCUMENT_EXPORTER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
