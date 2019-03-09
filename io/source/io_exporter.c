@@ -20,10 +20,9 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).db_reader = db_reader;
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
-    data_visible_set_init( &((*this_).painter_input_data) );
-    io_diagram_text_exporter_init( &((*this_).description_writer), &((*this_).painter_input_data) );
-    io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).painter_input_data) );
-    io_format_writer_init( &((*this_).document_exporter ), &((*this_).painter_input_data) );
+    data_visible_set_init( &((*this_).input_data) );
+    io_diagram_text_exporter_init( &((*this_).diagram_text_exporter), &((*this_).input_data) );
+    io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).input_data) );
 
     TRACE_END();
 }
@@ -32,10 +31,9 @@ void io_exporter_destroy( io_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
-    io_format_writer_destroy( &((*this_).document_exporter ) );
     io_diagram_image_exporter_destroy( &((*this_).diagram_image_exporter ) );
-    io_diagram_text_exporter_destroy( &((*this_).description_writer) );
-    data_visible_set_destroy( &((*this_).painter_input_data) );
+    io_diagram_text_exporter_destroy( &((*this_).diagram_text_exporter) );
+    data_visible_set_destroy( &((*this_).input_data) );
 
     (*this_).db_reader = NULL;
 
@@ -111,9 +109,9 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* load data to be drawn */
-        data_visible_set_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
+        data_visible_set_load( &((*this_).input_data), diagram_id, (*this_).db_reader );
         data_diagram_t *diag_ptr;
-        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).painter_input_data) );
+        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).input_data) );
         const char *diag_name;
         diag_name = data_diagram_get_name_ptr( diag_ptr );
 
@@ -175,7 +173,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             {
                 /* write file */
                 int write_err;
-                write_err = io_diagram_text_exporter_draw ( &((*this_).description_writer), text_output );
+                write_err = io_diagram_text_exporter_draw ( &((*this_).diagram_text_exporter), text_output );
                 if ( 0 != write_err )
                 {
                     TSLOG_ERROR("error writing txt.");
@@ -269,18 +267,20 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     else
     {
         int write_err;
-        
+
         /* write file */
-        write_err = io_format_writer_write_header( &((*this_).document_exporter), export_type, "Document Title", output );
-        write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, export_type, output );
-        write_err |= io_format_writer_write_footer( &((*this_).document_exporter), export_type, output );
+        io_format_writer_init( &((*this_).temp_format_writer ), export_type, output );
+        write_err = io_format_writer_write_header( &((*this_).temp_format_writer), "Design Document" );
+        write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, &((*this_).temp_format_writer) );
+        write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
+        io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
         if ( 0 != write_err )
         {
             TSLOG_ERROR("error writing document.");
             export_err |= -1;
         }
-        
+
         /* close file */
         int close_err;
         close_err = fclose( output );
@@ -293,26 +293,25 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
     TRACE_END_ERR( export_err );
     return export_err;
-    
+
 }
 
 int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               int64_t diagram_id,
                                               uint32_t max_recursion,
-                                              io_file_format_t export_type,
-                                              FILE *output )
+                                              io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
-    assert ( NULL != output );
+    assert ( NULL != format_writer );
     int export_err = 0;
 
     /* write part for current diagram */
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* load data to be drawn */
-        data_visible_set_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
+        data_visible_set_load( &((*this_).input_data), diagram_id, (*this_).db_reader );
         data_diagram_t *diag_ptr;
-        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).painter_input_data) );
+        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).input_data) );
         const char *diag_name;
         diag_name = data_diagram_get_name_ptr( diag_ptr );
 
@@ -325,17 +324,13 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         }
         utf8stringbuf_append_str( (*this_).temp_filename, "_" );
         io_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );
-        
+
         /* write doc part */
-        export_err |= io_format_writer_start_diagram( &((*this_).document_exporter),
-                                                          export_type,
-                                                          output
-                                                        );
-        export_err |= io_format_writer_write_diagram( &((*this_).document_exporter),
-                                                          export_type,
-                                                          utf8stringbuf_get_string( (*this_).temp_filename ),
-                                                          output
-                                                        );
+        export_err |= io_format_writer_start_diagram( format_writer );
+        export_err |= io_format_writer_write_diagram( format_writer,
+                                                      diag_ptr,
+                                                      utf8stringbuf_get_string( (*this_).temp_filename )
+                                                    );
     }
 
     /* recursion to children */
@@ -359,7 +354,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                 int64_t probe_row_id;
                 probe_row_id = data_id_get_row_id( &probe );
 
-                export_err |= io_exporter_private_export_document_part( this_, probe_row_id, max_recursion-1, export_type, output );
+                export_err |= io_exporter_private_export_document_part( this_, probe_row_id, max_recursion-1, format_writer );
 
                 data_id_destroy( &probe );
             }
@@ -371,10 +366,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* write doc part */
-        export_err |= io_format_writer_end_diagram( &((*this_).document_exporter),
-                                                        export_type,
-                                                        output
-                                                      );
+        export_err |= io_format_writer_end_diagram( format_writer );
     }
 
     TRACE_END_ERR( export_err );

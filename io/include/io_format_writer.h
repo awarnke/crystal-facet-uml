@@ -29,9 +29,8 @@ enum io_format_writer_max_enum {
  *  \brief attributes of the document exporter
  */
 struct io_format_writer_struct {
-    data_visible_set_t *painter_input_data;  /*!< pointer to external cache of diagram data */
-    io_diagram_text_exporter_t description_writer;  /*!< own instance of a description writer */
-
+    io_file_format_t export_type;  /*!< format of output document */
+    FILE *output;  /*!< output file */
     char temp_output_buffer[IO_DOCUMENT_EXPORTER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
@@ -43,10 +42,12 @@ typedef struct io_format_writer_struct io_format_writer_t;
  *  \brief initializes the document exporter
  *
  *  \param this_ pointer to own object attributes
- *  \param painter_input_data pointer to cache of diagram data
+ *  \param export_type image file format
+ *  \param output file object where to write the document to
  */
 void io_format_writer_init( io_format_writer_t *this_,
-                            data_visible_set_t *painter_input_data
+                            io_file_format_t export_type,
+                            FILE *output
                           );
 
 /*!
@@ -60,96 +61,65 @@ void io_format_writer_destroy( io_format_writer_t *this_ );
  *  \brief writes the header of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param export_type image file format
  *  \param document_title title of the document
- *  \param output file object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_write_header( io_format_writer_t *this_,
-                                   io_file_format_t export_type,
-                                   const char *document_title,
-                                   FILE *output
-                                 );
+int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title );
 
 /*!
  *  \brief writes a diagram start
  *
  *  \param this_ pointer to own object attributes
- *  \param export_type image file format
- *  \param output file object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_start_diagram( io_format_writer_t *this_,
-                                    io_file_format_t export_type,
-                                    FILE *output
-                                  );
+int io_format_writer_start_diagram( io_format_writer_t *this_ );
 
 /*!
  *  \brief writes a diagram of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param export_type image file format
+ *  \param diag_ptr pointer to diagram that shall be written
  *  \param diagram_file_base_name filename of the diagram without extension
- *  \param output file object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_diagram( io_format_writer_t *this_,
-                                    io_file_format_t export_type,
-                                    const char *diagram_file_base_name,
-                                    FILE *output
+                                    data_diagram_t *diag_ptr,
+                                    const char *diagram_file_base_name
                                   );
 
 /*!
  *  \brief writes a diagram end
  *
  *  \param this_ pointer to own object attributes
- *  \param export_type image file format
- *  \param output file object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_end_diagram( io_format_writer_t *this_,
-                                  io_file_format_t export_type,
-                                  FILE *output
-                                );
+int io_format_writer_end_diagram( io_format_writer_t *this_ );
 
 /*!
  *  \brief writes a diagram of the document
  *
  *  \param this_ pointer to own object attributes
- *  \param export_type image file format
- *  \param output file object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_write_footer( io_format_writer_t *this_,
-                                   io_file_format_t export_type,
-                                   FILE *output
-                                 );
+int io_format_writer_write_footer( io_format_writer_t *this_ );
 
 /*!
  *  \brief writes a string to a file, unencoded
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \param output file
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int io_format_writer_private_write_plain ( io_format_writer_t *this_,
-                                                         const char *text,
-                                                         FILE *output
-                                                       );
+static inline int io_format_writer_private_write_plain ( io_format_writer_t *this_, const char *text );
 
 /*!
  *  \brief writes a string to a file, xml encoded
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \param output file
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *this_,
-                                                           const char *text,
-                                                           FILE *output
-                                                         );
+static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *this_, const char *text );
 
 #include "io_format_writer.inl"
 

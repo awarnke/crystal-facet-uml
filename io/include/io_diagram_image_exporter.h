@@ -21,7 +21,7 @@
 struct io_diagram_image_exporter_struct {
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
-    data_visible_set_t *painter_input_data;  /*!< pointer to external cache of diagram data */
+    data_visible_set_t *input_data;  /*!< pointer to external cache of diagram data */
 };
 
 typedef struct io_diagram_image_exporter_struct io_diagram_image_exporter_t;
@@ -30,10 +30,10 @@ typedef struct io_diagram_image_exporter_struct io_diagram_image_exporter_t;
  *  \brief initializes the diagram image file exporter
  *
  *  \param this_ pointer to own object attributes
- *  \param painter_input_data pointer to cache of diagram data
+ *  \param input_data pointer to cache of diagram data
  */
 void io_diagram_image_exporter_init( io_diagram_image_exporter_t *this_,
-                                     data_visible_set_t *painter_input_data
+                                     data_visible_set_t *input_data
                                    );
 
 /*!

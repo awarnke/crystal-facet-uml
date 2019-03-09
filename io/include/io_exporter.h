@@ -25,11 +25,11 @@
  */
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    data_visible_set_t painter_input_data;  /*!< caches the diagram data */
+    data_visible_set_t input_data;  /*!< caches the diagram data */
     io_diagram_image_exporter_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
-    io_format_writer_t document_exporter;  /*!< exports the database to one given file */
-    io_diagram_text_exporter_t description_writer;  /*!< own instance of a description writer */
+    io_diagram_text_exporter_t diagram_text_exporter;  /*!< own instance of a diagram_text_exporter */
 
+    io_format_writer_t temp_format_writer;  /*!< possibly uninitialized memory for a format writer */
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */
 };
@@ -99,14 +99,13 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
  *  \param export_type image file format
- *  \param output file object where to write the document to
+ *  \param format_writer writer-object where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               int64_t diagram_id,
                                               uint32_t max_recursion,
-                                              io_file_format_t export_type,
-                                              FILE *output
+                                              io_format_writer_t *format_writer
                                             );
 
 /*!
