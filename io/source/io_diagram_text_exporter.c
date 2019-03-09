@@ -1,6 +1,6 @@
-/* File: pencil_description_writer.c; Copyright and License: see below */
+/* File: io_diagram_text_exporter.c; Copyright and License: see below */
 
-#include "pencil_description_writer.h"
+#include "io_diagram_text_exporter.h"
 #include "trace.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pencil_description_writer_init( pencil_description_writer_t *this_, data_visible_set_t *input_data )
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -18,7 +18,7 @@ void pencil_description_writer_init( pencil_description_writer_t *this_, data_vi
     TRACE_END();
 }
 
-void pencil_description_writer_destroy( pencil_description_writer_t *this_ )
+void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -27,17 +27,17 @@ void pencil_description_writer_destroy( pencil_description_writer_t *this_ )
     TRACE_END();
 }
 
-int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *out )
+int io_diagram_text_exporter_draw ( io_diagram_text_exporter_t *this_, FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );
     int result = 0;
 
     /* write diagram */
-    result |= pencil_description_writer_private_write_diagram( this_, out );
+    result |= io_diagram_text_exporter_private_write_diagram( this_, out );
 
     /* write all classifiers */
-    result |= pencil_description_writer_private_write_classifiers( this_, out );
+    result |= io_diagram_text_exporter_private_write_classifiers( this_, out );
 
     TRACE_END_ERR( result );
     return result;
@@ -62,7 +62,7 @@ static const char DOUBLE_INDENT[] = "  | ";
 static const int ID_INDENT_COLUMN = 48;
 static const char ID_INDENT_SPACES[] = "                                                ";
 
-int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out )
+int io_diagram_text_exporter_private_write_diagram ( io_diagram_text_exporter_t *this_, FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );
@@ -85,7 +85,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
     }
 
     /* print id */
-    result |= pencil_description_writer_private_write_id( this_,
+    result |= io_diagram_text_exporter_private_write_id( this_,
                                                           ID_INDENT_COLUMN - diag_name_len,
                                                           DATA_TABLE_DIAGRAM,
                                                           data_diagram_get_id(diag),
@@ -102,7 +102,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
 
     /* print diagram description */
     const char *diag_descr = data_diagram_get_description_ptr(diag);
-    result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+    result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
                                                                                SINGLE_INDENT,
                                                                                diag_descr,
                                                                                out
@@ -112,7 +112,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
     return result;
 }
 
-int pencil_description_writer_private_write_classifiers ( pencil_description_writer_t *this_, FILE *out )
+int io_diagram_text_exporter_private_write_classifiers ( io_diagram_text_exporter_t *this_, FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );
@@ -153,7 +153,7 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
             }
 
             /* print id */
-            result |= pencil_description_writer_private_write_id( this_,
+            result |= io_diagram_text_exporter_private_write_id( this_,
                                                                   ID_INDENT_COLUMN - classifier_name_len,
                                                                   DATA_TABLE_CLASSIFIER,
                                                                   data_classifier_get_id(classifier),
@@ -170,17 +170,17 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
 
             /* print classifier description */
             const char *classifier_descr = data_classifier_get_description_ptr(classifier);
-            result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+            result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
                                                                                        SINGLE_INDENT,
                                                                                        classifier_descr,
                                                                                        out
                                                                                      );
 
             /* print all features */
-            result |= pencil_description_writer_private_write_features_of_classifier( this_, classifier_id, out );
+            result |= io_diagram_text_exporter_private_write_features_of_classifier( this_, classifier_id, out );
 
             /* print all relationships */
-            result |= pencil_description_writer_private_write_relations_of_classifier( this_, classifier_id, out );
+            result |= io_diagram_text_exporter_private_write_relations_of_classifier( this_, classifier_id, out );
         }
     }
 
@@ -188,7 +188,7 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
     return result;
 }
 
-int pencil_description_writer_private_write_features_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out )
+int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );
@@ -249,7 +249,7 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
 
                 /* print id */
                 int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - feature_key_len - ((feature_value_len==0)?0:feature_value_len+COLON_SPACE_LEN);
-                result |= pencil_description_writer_private_write_id( this_,
+                result |= io_diagram_text_exporter_private_write_id( this_,
                                                                       id_indent_width,
                                                                       DATA_TABLE_FEATURE,
                                                                       data_feature_get_id(feature),
@@ -266,7 +266,7 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
 
                 /* print feature description */
                 const char *feature_descr = data_feature_get_description_ptr( feature );
-                result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
                                                                                            DOUBLE_INDENT,
                                                                                            feature_descr,
                                                                                            out
@@ -279,7 +279,7 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
     return result;
 }
 
-int pencil_description_writer_private_write_relations_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out )
+int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );
@@ -369,7 +369,7 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
                             int id_indent_width = ID_INDENT_COLUMN - SPACE_LEN - relation_name_len
                                                   - ((relation_name_len==0)?ARROW_SPACE_LEN:SPACE_ARROW_SPACE_LEN)
                                                   - dest_classifier_name_len;
-                            result |= pencil_description_writer_private_write_id( this_,
+                            result |= io_diagram_text_exporter_private_write_id( this_,
                                                                                   id_indent_width,
                                                                                   DATA_TABLE_RELATIONSHIP,
                                                                                   data_relationship_get_id(relation),
@@ -386,7 +386,7 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
 
                             /* print relationship description */
                             const char *relation_descr = data_relationship_get_description_ptr( relation );
-                            result |= pencil_description_writer_private_write_indent_multiline_string( this_,
+                            result |= io_diagram_text_exporter_private_write_indent_multiline_string( this_,
                                                                                                        DOUBLE_INDENT,
                                                                                                        relation_descr,
                                                                                                        out
@@ -409,10 +409,10 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
     return result;
 }
 
-int pencil_description_writer_private_write_indent_multiline_string ( pencil_description_writer_t *this_,
-                                                                      const char *indent,
-                                                                      const char *multiline_string,
-                                                                      FILE *out )
+int io_diagram_text_exporter_private_write_indent_multiline_string ( io_diagram_text_exporter_t *this_,
+                                                                     const char *indent,
+                                                                     const char *multiline_string,
+                                                                     FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != indent );
@@ -497,11 +497,11 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
     return result;
 }
 
-int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
-                                                 int indent_width,
-                                                 data_table_t table,
-                                                 int64_t row_id,
-                                                 FILE *out )
+int io_diagram_text_exporter_private_write_id ( io_diagram_text_exporter_t *this_,
+                                                int indent_width,
+                                                data_table_t table,
+                                                int64_t row_id,
+                                                FILE *out )
 {
     TRACE_BEGIN();
     assert( NULL != out );

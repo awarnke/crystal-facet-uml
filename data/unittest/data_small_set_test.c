@@ -1,7 +1,7 @@
 /* File: data_small_set_test.c; Copyright and License: see below */
 
 #include "data_small_set_test.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include "test_assert.h"
 
 #define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}

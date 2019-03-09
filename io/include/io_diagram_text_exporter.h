@@ -1,7 +1,7 @@
-/* File: pencil_description_writer.h; Copyright and License: see below */
+/* File: io_diagram_text_exporter.h; Copyright and License: see below */
 
-#ifndef PENCIL_DESCRIPTION_WRITER_H
-#define PENCIL_DESCRIPTION_WRITER_H
+#ifndef IO_DIAGRAM_TEXT_EXPORTER_H
+#define IO_DIAGRAM_TEXT_EXPORTER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -16,26 +16,26 @@
 /*!
  *  \brief attributes of the description writer
  */
-struct pencil_description_writer_struct {
+struct io_diagram_text_exporter_struct {
     data_visible_set_t *input_data;  /*!< pointer to an external data cache */
 };
 
-typedef struct pencil_description_writer_struct pencil_description_writer_t;
+typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
 
 /*!
- *  \brief initializes the pencil_description_writer_t
+ *  \brief initializes the io_diagram_text_exporter_t
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be rendered
  */
-void pencil_description_writer_init( pencil_description_writer_t *this_, data_visible_set_t *input_data );
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, data_visible_set_t *input_data );
 
 /*!
- *  \brief destroys the pencil_description_writer_t
+ *  \brief destroys the io_diagram_text_exporter_t
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_description_writer_destroy( pencil_description_writer_t *this_ );
+void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ );
 
 /*!
  *  \brief prints names and descriptions of the diagram and contained classifiers to the output stream
@@ -44,7 +44,7 @@ void pencil_description_writer_destroy( pencil_description_writer_t *this_ );
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *out );
+int io_diagram_text_exporter_draw ( io_diagram_text_exporter_t *this_, FILE *out );
 
 /*!
  *  \brief prints names and descriptions of the diagram to the output stream
@@ -53,7 +53,7 @@ int pencil_description_writer_draw ( pencil_description_writer_t *this_, FILE *o
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_diagram ( pencil_description_writer_t *this_, FILE *out );
+int io_diagram_text_exporter_private_write_diagram ( io_diagram_text_exporter_t *this_, FILE *out );
 
 /*!
  *  \brief prints names and descriptions of the diagram to the output stream
@@ -62,7 +62,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_classifiers ( pencil_description_writer_t *this_, FILE *out );
+int io_diagram_text_exporter_private_write_classifiers ( io_diagram_text_exporter_t *this_, FILE *out );
 
 /*!
  *  \brief prints names and descriptions of the diagram to the output stream
@@ -72,7 +72,7 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_features_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out );
+int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out );
 
 /*!
  *  \brief prints names and descriptions of the diagram to the output stream
@@ -82,7 +82,7 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_relations_of_classifier ( pencil_description_writer_t *this_, int64_t classifier_id, FILE *out );
+int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_, int64_t classifier_id, FILE *out );
 
 /*!
  *  \brief prints a multiline string with indentation prefix
@@ -96,7 +96,7 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_indent_multiline_string ( pencil_description_writer_t *this_,
+int io_diagram_text_exporter_private_write_indent_multiline_string ( io_diagram_text_exporter_t *this_,
                                                                       const char *indent,
                                                                       const char *multiline_string,
                                                                       FILE *out
@@ -114,14 +114,14 @@ int pencil_description_writer_private_write_indent_multiline_string ( pencil_des
  *  \param out a stream where to print the data
  *  \return -1 in case of error, 0 in case of success
  */
-int pencil_description_writer_private_write_id ( pencil_description_writer_t *this_,
+int io_diagram_text_exporter_private_write_id ( io_diagram_text_exporter_t *this_,
                                                  int indent_width,
                                                  data_table_t table,
                                                  int64_t row_id,
                                                  FILE *out
                                                );
 
-#endif  /* PENCIL_DESCRIPTION_WRITER_H */
+#endif  /* IO_DIAGRAM_TEXT_EXPORTER_H */
 
 
 /*

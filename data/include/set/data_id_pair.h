@@ -153,7 +153,7 @@ static inline data_id_t *data_id_pair_get_secondary_id_ptr ( data_id_pair_t *thi
  *  \brief checks if the primary_id is valid
  *
  *  \param this_ pointer to own object attributes
- *  \return true if primary_id is valid 
+ *  \return true if primary_id is valid
  */
 static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ );
 
@@ -164,7 +164,7 @@ static inline bool data_id_pair_is_valid ( const data_id_pair_t *this_ );
  */
 static inline void data_id_pair_trace ( const data_id_pair_t *this_ );
 
-#include "util/id/data_id_pair.inl"
+#include "set/data_id_pair.inl"
 
 #endif  /* DATA_ID_PAIR_H */
 

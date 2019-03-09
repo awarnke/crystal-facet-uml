@@ -7,7 +7,7 @@
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_diagram_type.h"
-#include "data_visible_classifier.h"
+#include "set/data_visible_classifier.h"
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "test_assert.h"

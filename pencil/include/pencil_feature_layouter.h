@@ -17,7 +17,7 @@
 #include "util/geometry/geometry_non_linear_scale.h"
 #include "data_diagram.h"
 #include "set/data_visible_set.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include "data_id.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"

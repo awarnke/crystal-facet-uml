@@ -19,7 +19,7 @@
 #include "data_classifier.h"
 #include "data_classifier_type.h"
 #include "data_diagram.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include "data_feature.h"
 #include "data_relationship.h"
 #include <stdio.h>

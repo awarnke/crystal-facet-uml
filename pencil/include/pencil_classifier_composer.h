@@ -21,7 +21,7 @@
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
 #include "data_diagram.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include "data_id.h"
 #include "data_rules.h"
 #include "set/data_visible_set.h"

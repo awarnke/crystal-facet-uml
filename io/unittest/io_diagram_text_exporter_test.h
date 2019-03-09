@@ -1,18 +1,18 @@
-/* File: pencil_description_writer_test.h; Copyright and License: see below */
+/* File: io_diagram_text_exporter_test.h; Copyright and License: see below */
 
-#ifndef PENCIL_DESCRIPTION_WRITER_TEST_H
-#define PENCIL_DESCRIPTION_WRITER_TEST_H
+#ifndef IO_DIAGRAM_TEXT_EXPORTER_TEST_H
+#define IO_DIAGRAM_TEXT_EXPORTER_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for pencil_description_writer
+ *  \brief UNITTEST for io_diagram_text_exporter
  */
 
 #include <test_suite.h>
 
-test_suite_t pencil_description_writer_test_get_list(void);
+test_suite_t io_diagram_text_exporter_test_get_list(void);
 
-#endif  /* PENCIL_DESCRIPTION_WRITER_TEST_H */
+#endif  /* IO_DIAGRAM_TEXT_EXPORTER_TEST_H */
 
 
 /*

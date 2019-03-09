@@ -11,10 +11,10 @@
 
 #include "io_file_format.h"
 #include "io_diagram_image_exporter.h"
-#include "io_document_exporter.h"
+#include "io_format_writer.h"
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
-#include "pencil_description_writer.h"
+#include "io_diagram_text_exporter.h"
 #include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
@@ -27,8 +27,8 @@ struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     io_diagram_image_exporter_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
-    io_document_exporter_t document_exporter;  /*!< exports the database to one given file */
-    pencil_description_writer_t description_writer;  /*!< own instance of a description writer */
+    io_format_writer_t document_exporter;  /*!< exports the database to one given file */
+    io_diagram_text_exporter_t description_writer;  /*!< own instance of a description writer */
 
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */

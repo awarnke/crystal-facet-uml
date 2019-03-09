@@ -1,10 +1,10 @@
-/* File: io_document_exporter.inl; Copyright and License: see below */
+/* File: io_format_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "util/string/utf8error.h"
 
-static inline int io_document_exporter_private_write_plain ( io_document_exporter_t *this_, 
-                                                             const char *text, 
+static inline int io_format_writer_private_write_plain ( io_format_writer_t *this_,
+                                                             const char *text,
                                                              FILE *output )
 {
     assert ( NULL != text );
@@ -15,8 +15,8 @@ static inline int io_document_exporter_private_write_plain ( io_document_exporte
     return ( (out_count != text_len) ? -1 : 0 );
 }
 
-static inline int io_document_exporter_private_write_xml_enc ( io_document_exporter_t *this_, 
-                                                               const char *text, 
+static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *this_,
+                                                               const char *text,
                                                                FILE *output )
 {
     assert ( NULL != text );

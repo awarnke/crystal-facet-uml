@@ -13,9 +13,9 @@
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
-#include "util/id/data_id_pair.h"
+#include "set/data_id_pair.h"
 #include "set/data_visible_classifier.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include <stdio.h>
 #include <sqlite3.h>
 #include <stdbool.h>

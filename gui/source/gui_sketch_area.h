@@ -16,7 +16,7 @@
 #include "set/data_visible_set.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
-#include "util/id/data_id_pair.h"
+#include "set/data_id_pair.h"
 #include "gui_sketch_card.h"
 #include "gui_sketch_nav_tree.h"
 #include "gui_sketch_result_list.h"

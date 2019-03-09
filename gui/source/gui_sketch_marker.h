@@ -13,7 +13,7 @@
 #include "util/shape/shape_int_rectangle.h"
 #include "pencil_marker.h"
 #include "util/geometry/geometry_rectangle.h"
-#include "util/id/data_small_set.h"
+#include "set/data_small_set.h"
 #include "data_id.h"
 #include <cairo.h>
 #include <stdint.h>

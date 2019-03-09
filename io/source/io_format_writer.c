@@ -1,6 +1,6 @@
-/* File: io_document_exporter.c; Copyright and License: see below */
+/* File: io_format_writer.c; Copyright and License: see below */
 
-#include "io_document_exporter.h"
+#include "io_format_writer.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gtk/gtk.h>
@@ -11,7 +11,7 @@
 #include <stdbool.h>
 #include <assert.h>
 
-static const char * const IO_DOCUMENT_EXPORTER_PRIVATE_ENCODE_XML_STRINGS[] = {
+static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
     "<", "&lt;",
     ">", "&gt;",
     "\"", "&quot;",
@@ -19,26 +19,26 @@ static const char * const IO_DOCUMENT_EXPORTER_PRIVATE_ENCODE_XML_STRINGS[] = {
     NULL,  /* end translation table */
 };
 
-void io_document_exporter_init ( io_document_exporter_t *this_,
+void io_format_writer_init ( io_format_writer_t *this_,
                                  data_visible_set_t *painter_input_data )
 {
     TRACE_BEGIN();
     assert( NULL != painter_input_data );
 
     (*this_).painter_input_data = painter_input_data;
-    pencil_description_writer_init( &((*this_).description_writer), (*this_).painter_input_data );
+    io_diagram_text_exporter_init( &((*this_).description_writer), (*this_).painter_input_data );
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
-    (*this_).xml_encode_table = IO_DOCUMENT_EXPORTER_PRIVATE_ENCODE_XML_STRINGS;
+    (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
 
     TRACE_END();
 }
 
-void io_document_exporter_destroy( io_document_exporter_t *this_ )
+void io_format_writer_destroy( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
 
-    pencil_description_writer_destroy( &((*this_).description_writer) );
+    io_diagram_text_exporter_destroy( &((*this_).description_writer) );
     (*this_).painter_input_data = NULL;
 
     TRACE_END();
@@ -112,13 +112,13 @@ static const char XHTML_SECT_PARA_END[]
 = "            </p>\n";
 static const char XHTML_SECT_END[]
 = "        </div>\n";
-            
 
-int io_document_exporter_write_header( io_document_exporter_t *this_,
-                                       io_file_format_t export_type,
-                                       const char *document_title,
-                                       FILE *output
-                                     )
+
+int io_format_writer_write_header( io_format_writer_t *this_,
+                                   io_file_format_t export_type,
+                                   const char *document_title,
+                                   FILE *output
+                                 )
 {
     TRACE_BEGIN();
     assert ( NULL != output );
@@ -129,12 +129,12 @@ int io_document_exporter_write_header( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_ENC, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DTD, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_START, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_TITLE_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, document_title, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_TITLE_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ENC, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DTD, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_START, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_TITLE_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_TITLE_END, output );
 
             if ( export_err != 0 )
             {
@@ -145,12 +145,12 @@ int io_document_exporter_write_header( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_ENC, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DTD, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_START, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_TITLE_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, document_title, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_TITLE_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ENC, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DTD, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_START, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_TITLE_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_TITLE_END, output );
 
             if ( export_err != 0 )
             {
@@ -171,9 +171,9 @@ int io_document_exporter_write_header( io_document_exporter_t *this_,
     return export_err;
 }
 
-int io_document_exporter_start_diagram( io_document_exporter_t *this_,
-                                        io_file_format_t export_type,
-                                        FILE *output )
+int io_format_writer_start_diagram( io_format_writer_t *this_,
+                                    io_file_format_t export_type,
+                                    FILE *output )
 {
     TRACE_BEGIN();
     assert ( NULL != output );
@@ -183,7 +183,7 @@ int io_document_exporter_start_diagram( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_START, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_START, output );
 
             if ( export_err != 0 )
             {
@@ -194,7 +194,7 @@ int io_document_exporter_start_diagram( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_START, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_START, output );
 
             if ( export_err != 0 )
             {
@@ -215,10 +215,10 @@ int io_document_exporter_start_diagram( io_document_exporter_t *this_,
     return export_err;
 }
 
-int io_document_exporter_write_diagram( io_document_exporter_t *this_,
-                                        io_file_format_t export_type,
-                                        const char *diagram_file_base_name,
-                                        FILE *output )
+int io_format_writer_write_diagram( io_format_writer_t *this_,
+                                    io_file_format_t export_type,
+                                    const char *diagram_file_base_name,
+                                    FILE *output )
 {
     TRACE_BEGIN();
     assert ( NULL != diagram_file_base_name );
@@ -231,74 +231,22 @@ int io_document_exporter_write_diagram( io_document_exporter_t *this_,
     diag_name = data_diagram_get_name_ptr( diag_ptr );
     const char *diag_description;
     diag_description = data_diagram_get_description_ptr( diag_ptr );
-        
-    switch ( export_type )
-    {
-        case IO_FILE_FORMAT_DOCBOOK:
-        {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_TITLE_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_TITLE_END, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_PARA_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_description, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_MIDDLE, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_IMG_END, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_PARA_END, output );
-            
-            if ( export_err != 0 )
-            {
-                TSLOG_ERROR( "not all bytes could be written" );
-            }
-        }
-        break;
-
-        case IO_FILE_FORMAT_XHTML:
-        {
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_TITLE_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_TITLE_END, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_PARA_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diag_description, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_IMG_START, output );
-            export_err |= io_document_exporter_private_write_xml_enc ( this_, diagram_file_base_name, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_IMG_END, output );
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_PARA_END, output );
-            
-            if ( export_err != 0 )
-            {
-                TSLOG_ERROR( "not all bytes could be written" );
-            }
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("error: unknown_format.");
-            export_err = -1;
-        }
-        break;
-    }
-
-    TRACE_END_ERR( export_err );
-    return export_err;
-}
-
-int io_document_exporter_end_diagram( io_document_exporter_t *this_,
-                                      io_file_format_t export_type,
-                                      FILE *output )
-{
-    TRACE_BEGIN();
-    assert ( NULL != output );
-    int export_err = 0;
 
     switch ( export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_SECT_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_TITLE_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_TITLE_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_description, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_MIDDLE, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_END, output );
 
             if ( export_err != 0 )
             {
@@ -309,7 +257,15 @@ int io_document_exporter_end_diagram( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_SECT_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_description, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_START, output );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_END, output );
 
             if ( export_err != 0 )
             {
@@ -330,9 +286,9 @@ int io_document_exporter_end_diagram( io_document_exporter_t *this_,
     return export_err;
 }
 
-int io_document_exporter_write_footer( io_document_exporter_t *this_,
-                                        io_file_format_t export_type,
-                                        FILE *output )
+int io_format_writer_end_diagram( io_format_writer_t *this_,
+                                  io_file_format_t export_type,
+                                  FILE *output )
 {
     TRACE_BEGIN();
     assert ( NULL != output );
@@ -342,7 +298,7 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, DOCBOOK_DOC_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_END, output );
 
             if ( export_err != 0 )
             {
@@ -353,7 +309,51 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_document_exporter_private_write_plain ( this_, XHTML_DOC_END, output );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_END, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("error: unknown_format.");
+            export_err = -1;
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_write_footer( io_format_writer_t *this_,
+                                   io_file_format_t export_type,
+                                   FILE *output )
+{
+    TRACE_BEGIN();
+    assert ( NULL != output );
+    int export_err = 0;
+
+    switch ( export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_END, output );
+
+            if ( export_err != 0 )
+            {
+                TSLOG_ERROR( "not all bytes could be written" );
+            }
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_END, output );
 
             if ( export_err != 0 )
             {
@@ -376,7 +376,7 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2019-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

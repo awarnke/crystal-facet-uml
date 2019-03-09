@@ -21,9 +21,9 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
     data_visible_set_init( &((*this_).painter_input_data) );
-    pencil_description_writer_init( &((*this_).description_writer), &((*this_).painter_input_data) );
+    io_diagram_text_exporter_init( &((*this_).description_writer), &((*this_).painter_input_data) );
     io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).painter_input_data) );
-    io_document_exporter_init( &((*this_).document_exporter ), &((*this_).painter_input_data) );
+    io_format_writer_init( &((*this_).document_exporter ), &((*this_).painter_input_data) );
 
     TRACE_END();
 }
@@ -32,9 +32,9 @@ void io_exporter_destroy( io_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
-    io_document_exporter_destroy( &((*this_).document_exporter ) );
+    io_format_writer_destroy( &((*this_).document_exporter ) );
     io_diagram_image_exporter_destroy( &((*this_).diagram_image_exporter ) );
-    pencil_description_writer_destroy( &((*this_).description_writer) );
+    io_diagram_text_exporter_destroy( &((*this_).description_writer) );
     data_visible_set_destroy( &((*this_).painter_input_data) );
 
     (*this_).db_reader = NULL;
@@ -175,7 +175,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
             {
                 /* write file */
                 int write_err;
-                write_err = pencil_description_writer_draw ( &((*this_).description_writer), text_output );
+                write_err = io_diagram_text_exporter_draw ( &((*this_).description_writer), text_output );
                 if ( 0 != write_err )
                 {
                     TSLOG_ERROR("error writing txt.");
@@ -271,9 +271,9 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         int write_err;
         
         /* write file */
-        write_err = io_document_exporter_write_header( &((*this_).document_exporter), export_type, "Document Title", output );
+        write_err = io_format_writer_write_header( &((*this_).document_exporter), export_type, "Document Title", output );
         write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, export_type, output );
-        write_err |= io_document_exporter_write_footer( &((*this_).document_exporter), export_type, output );
+        write_err |= io_format_writer_write_footer( &((*this_).document_exporter), export_type, output );
 
         if ( 0 != write_err )
         {
@@ -327,11 +327,11 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         io_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );
         
         /* write doc part */
-        export_err |= io_document_exporter_start_diagram( &((*this_).document_exporter),
+        export_err |= io_format_writer_start_diagram( &((*this_).document_exporter),
                                                           export_type,
                                                           output
                                                         );
-        export_err |= io_document_exporter_write_diagram( &((*this_).document_exporter),
+        export_err |= io_format_writer_write_diagram( &((*this_).document_exporter),
                                                           export_type,
                                                           utf8stringbuf_get_string( (*this_).temp_filename ),
                                                           output
@@ -371,7 +371,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* write doc part */
-        export_err |= io_document_exporter_end_diagram( &((*this_).document_exporter),
+        export_err |= io_format_writer_end_diagram( &((*this_).document_exporter),
                                                         export_type,
                                                         output
                                                       );
