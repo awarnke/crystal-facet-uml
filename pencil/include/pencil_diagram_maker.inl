@@ -4,7 +4,7 @@
 #include "trace.h"
 #include <assert.h>
 
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, pencil_input_data_t *input_data )
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -38,7 +38,7 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 }
 
 static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
-                                                      pencil_input_data_t *input_data,
+                                                      data_visible_set_t *input_data,
                                                       geometry_rectangle_t diagram_bounds )
 {
     pencil_layouter_reinit ( &((*this_).layouter), input_data );

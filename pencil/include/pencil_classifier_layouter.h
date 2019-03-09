@@ -9,7 +9,6 @@
  *  \brief Calculates positions of classifiers and features in a diagram
  */
 
-#include "pencil_input_data.h"
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
@@ -20,6 +19,7 @@
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
 #include "universal_array_index_sorter.h"

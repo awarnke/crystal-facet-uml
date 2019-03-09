@@ -9,7 +9,6 @@
  *  \brief Renders a diagram into a cairo drawing context
  */
 
-#include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_diagram.h"
@@ -17,6 +16,7 @@
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "set/data_visible_set.h"
 #include <cairo.h>
 #include <stdint.h>
 

@@ -2,7 +2,7 @@
 
 #include "pencil_description_writer.h"
 #include "pencil_description_writer_test.h"
-#include "pencil_input_data.h"
+#include "data_visible_set.h"
 #include "test_assert.h"
 #include <stdio.h>
 #include <string.h>
@@ -34,7 +34,7 @@ test_suite_t pencil_description_writer_test_get_list(void)
     return result;
 }
 
-static pencil_input_data_t my_fake_input_data;
+static data_visible_set_t my_fake_input_data;
 static pencil_description_writer_t my_fake_testee;
 static char my_out_buffer[24];
 static FILE *my_out_stream;
@@ -43,7 +43,7 @@ static const int ENDMARKER_LEN = 1;
 
 static void set_up(void)
 {
-    pencil_input_data_init( &my_fake_input_data );
+    data_visible_set_init( &my_fake_input_data );
     pencil_description_writer_init( &my_fake_testee, &my_fake_input_data );
 
     my_out_stream = fmemopen( &my_out_buffer, sizeof( my_out_buffer ), "w");
@@ -55,7 +55,7 @@ static void tear_down(void)
     fclose( my_out_stream );
 
     pencil_description_writer_destroy( &my_fake_testee );
-    pencil_input_data_destroy( &my_fake_input_data );
+    data_visible_set_destroy( &my_fake_input_data );
 }
 
 static void test_write_indent_multiline_string_null(void)

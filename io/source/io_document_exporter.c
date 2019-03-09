@@ -20,7 +20,7 @@ static const char * const IO_DOCUMENT_EXPORTER_PRIVATE_ENCODE_XML_STRINGS[] = {
 };
 
 void io_document_exporter_init ( io_document_exporter_t *this_,
-                                 pencil_input_data_t *painter_input_data )
+                                 data_visible_set_t *painter_input_data )
 {
     TRACE_BEGIN();
     assert( NULL != painter_input_data );
@@ -226,7 +226,7 @@ int io_document_exporter_write_diagram( io_document_exporter_t *this_,
     int export_err = 0;
 
     data_diagram_t *diag_ptr;
-    diag_ptr = pencil_input_data_get_diagram_ptr ( (*this_).painter_input_data );
+    diag_ptr = data_visible_set_get_diagram_ptr ( (*this_).painter_input_data );
     const char *diag_name;
     diag_name = data_diagram_get_name_ptr( diag_ptr );
     const char *diag_description;

@@ -14,7 +14,7 @@ void gui_sketch_card_init( gui_sketch_card_t *this_ )
     (*this_).visible = false;
     (*this_).dirty_elements_layout = false;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
-    pencil_input_data_init( &((*this_).painter_input_data) );
+    data_visible_set_init( &((*this_).painter_input_data) );
     pencil_diagram_maker_init( &((*this_).painter), &((*this_).painter_input_data) );
 
     TRACE_END();
@@ -25,7 +25,7 @@ void gui_sketch_card_destroy( gui_sketch_card_t *this_ )
     TRACE_BEGIN();
 
     pencil_diagram_maker_destroy( &((*this_).painter) );
-    pencil_input_data_destroy( &((*this_).painter_input_data) );
+    data_visible_set_destroy( &((*this_).painter_input_data) );
     shape_int_rectangle_destroy(&((*this_).bounds));
 
     TRACE_END();

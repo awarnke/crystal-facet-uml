@@ -9,11 +9,11 @@
  *  \brief Marks objects by colors and/or lines/ornaments
  */
 
-#include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "set/data_visible_set.h"
 #include <cairo.h>
 #include <stdint.h>
 

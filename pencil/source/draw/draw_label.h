@@ -14,7 +14,7 @@
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_rules.h"
-#include "data_visible_classifier.h"
+#include "set/data_visible_classifier.h"
 #include <cairo.h>
 #include <stdint.h>
 

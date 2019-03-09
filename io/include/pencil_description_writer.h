@@ -9,7 +9,7 @@
  *  \brief Renders diagram and classifier descriptions to an output stream
  */
 
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "data_table.h"
 #include <stdio.h>
 
@@ -17,7 +17,7 @@
  *  \brief attributes of the description writer
  */
 struct pencil_description_writer_struct {
-    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
+    data_visible_set_t *input_data;  /*!< pointer to an external data cache */
 };
 
 typedef struct pencil_description_writer_struct pencil_description_writer_t;
@@ -28,7 +28,7 @@ typedef struct pencil_description_writer_struct pencil_description_writer_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be rendered
  */
-void pencil_description_writer_init( pencil_description_writer_t *this_, pencil_input_data_t *input_data );
+void pencil_description_writer_init( pencil_description_writer_t *this_, data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the pencil_description_writer_t

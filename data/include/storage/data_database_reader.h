@@ -14,7 +14,7 @@
 #include "data_diagram.h"
 #include "data_error.h"
 #include "data_classifier.h"
-#include "data_visible_classifier.h"
+#include "set/data_visible_classifier.h"
 #include "util/id/data_small_set.h"
 #include "data_feature.h"
 #include "data_relationship.h"

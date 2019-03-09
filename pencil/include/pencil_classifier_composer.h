@@ -9,7 +9,6 @@
  *  \brief Renders a classifier by composing it of draw_graphics, draw_symbol and draw_label commands
  */
 
-#include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
@@ -25,6 +24,7 @@
 #include "util/id/data_small_set.h"
 #include "data_id.h"
 #include "data_rules.h"
+#include "set/data_visible_set.h"
 #include <cairo.h>
 #include <stdint.h>
 

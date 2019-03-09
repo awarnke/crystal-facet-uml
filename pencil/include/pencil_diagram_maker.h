@@ -9,7 +9,6 @@
  *  \brief Layouts and paints a diagram with all its contents into a cairo drawing context
  */
 
-#include "pencil_input_data.h"
 #include "pencil_layouter.h"
 #include "pencil_marker.h"
 #include "pencil_diagram_painter.h"
@@ -25,6 +24,7 @@
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
 #include <cairo.h>
@@ -34,7 +34,7 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_maker_struct {
-    pencil_input_data_t *input_data;  /*!< pointer to an external data cache */
+    data_visible_set_t *input_data;  /*!< pointer to an external data cache */
 
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
@@ -52,7 +52,7 @@ typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  */
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, pencil_input_data_t *input_data );
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the painter
@@ -69,7 +69,7 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
 static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
-                                                      pencil_input_data_t *input_data,
+                                                      data_visible_set_t *input_data,
                                                       geometry_rectangle_t diagram_bounds
                                                     );
 

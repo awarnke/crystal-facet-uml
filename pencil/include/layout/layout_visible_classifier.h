@@ -12,7 +12,7 @@
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_h_align.h"
 #include "util/geometry/geometry_v_align.h"
-#include "data_visible_classifier.h"
+#include "set/data_visible_classifier.h"
 
 /*!
  *  \brief shape and location of a visible_classifier

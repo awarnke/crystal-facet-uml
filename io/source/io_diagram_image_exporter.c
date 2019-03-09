@@ -12,7 +12,7 @@
 #include <assert.h>
 
 void io_diagram_image_exporter_init ( io_diagram_image_exporter_t *this_,
-                                      pencil_input_data_t *painter_input_data )
+                                      data_visible_set_t *painter_input_data )
 {
     TRACE_BEGIN();
     assert( NULL != painter_input_data );

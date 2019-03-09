@@ -9,7 +9,6 @@
  *  \brief Calculates positions of classifiers, features and relationships in a diagram
  */
 
-#include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_classifier_composer.h"
 #include "pencil_size.h"
@@ -28,6 +27,7 @@
 #include "data_diagram.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
+#include "set/data_visible_set.h"
 #include "universal_int32_pair.h"
 #include "universal_bool_list.h"
 #include "universal_array_index_sorter.h"
@@ -60,7 +60,7 @@ typedef struct pencil_layouter_struct pencil_layouter_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be layouted
  */
-void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_data );
+void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_data );
 
 /*!
  *  \brief re-initializes the layouter to layout new/other input_data
@@ -68,7 +68,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the data to be layouted
  */
-void pencil_layouter_reinit( pencil_layouter_t *this_, pencil_input_data_t *input_data );
+void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the layouter

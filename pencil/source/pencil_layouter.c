@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_data )
+void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -41,7 +41,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, pencil_input_data_t *input_
     TRACE_END();
 }
 
-void pencil_layouter_reinit( pencil_layouter_t *this_, pencil_input_data_t *input_data )
+void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );

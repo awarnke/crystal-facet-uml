@@ -15,7 +15,7 @@
 #include "storage/data_database.h"
 #include "pencil_diagram_maker.h"
 #include "pencil_description_writer.h"
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -25,7 +25,7 @@
  */
 struct io_exporter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
-    pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
+    data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     io_diagram_image_exporter_t diagram_image_exporter;  /*!< exports single diagram images to one given file */
     io_document_exporter_t document_exporter;  /*!< exports the database to one given file */
     pencil_description_writer_t description_writer;  /*!< own instance of a description writer */

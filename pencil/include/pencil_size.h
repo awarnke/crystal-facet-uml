@@ -23,7 +23,7 @@ enum pencil_size_const_enum {
 };
 
 /*!
- *  \brief attributes of the pencil_input_data_t
+ *  \brief attributes of the data_visible_set_t
  */
 struct pencil_size_struct {
     double footnote_font_size;  /*!< text size of footnote text */

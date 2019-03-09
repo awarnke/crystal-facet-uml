@@ -1,15 +1,15 @@
-/* File: pencil_input_data.c; Copyright and License: see below */
+/* File: data_visible_set.c; Copyright and License: see below */
 
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 
-void pencil_input_data_init( pencil_input_data_t *this_ )
+void data_visible_set_init( data_visible_set_t *this_ )
 {
     TRACE_BEGIN();
-    TRACE_INFO_INT( "sizeof(pencil_input_data_t):", sizeof(pencil_input_data_t) );
+    TRACE_INFO_INT( "sizeof(data_visible_set_t):", sizeof(data_visible_set_t) );
 
     data_diagram_init_empty( &((*this_).diagram) );
     (*this_).visible_classifier_count = 0;
@@ -19,19 +19,19 @@ void pencil_input_data_init( pencil_input_data_t *this_ )
     TRACE_END();
 }
 
-void pencil_input_data_destroy( pencil_input_data_t *this_ )
+void data_visible_set_destroy( data_visible_set_t *this_ )
 {
     TRACE_BEGIN();
 
     data_diagram_destroy( &((*this_).diagram) );
-    pencil_input_data_private_destroy_visible_classifiers( this_ );
-    pencil_input_data_private_destroy_features( this_ );
-    pencil_input_data_private_destroy_relationships( this_ );
+    data_visible_set_private_destroy_visible_classifiers( this_ );
+    data_visible_set_private_destroy_features( this_ );
+    data_visible_set_private_destroy_relationships( this_ );
 
     TRACE_END();
 }
 
-void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
+void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
     assert( NULL != db_reader );
@@ -41,18 +41,18 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
         /* re-init */
         data_diagram_reinit_empty( &((*this_).diagram) );
 
-        pencil_input_data_private_destroy_visible_classifiers( this_ );
-        pencil_input_data_private_destroy_features( this_ );
-        pencil_input_data_private_destroy_relationships( this_ );
+        data_visible_set_private_destroy_visible_classifiers( this_ );
+        data_visible_set_private_destroy_features( this_ );
+        data_visible_set_private_destroy_relationships( this_ );
     }
     else
     {
         data_error_t db_err;
 
         data_diagram_destroy( &((*this_).diagram) );
-        pencil_input_data_private_destroy_visible_classifiers( this_ );
-        pencil_input_data_private_destroy_features( this_ );
-        pencil_input_data_private_destroy_relationships( this_ );
+        data_visible_set_private_destroy_visible_classifiers( this_ );
+        data_visible_set_private_destroy_features( this_ );
+        data_visible_set_private_destroy_relationships( this_ );
 
         /* load diagram */
         db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
@@ -139,12 +139,12 @@ void pencil_input_data_load( pencil_input_data_t *this_, int64_t diagram_id, dat
     }
 
     /* update the containment cache */
-    pencil_input_data_private_update_containment_cache( this_ );
+    data_visible_set_private_update_containment_cache( this_ );
 
     TRACE_END();
 }
 
-void pencil_input_data_private_update_containment_cache ( pencil_input_data_t *this_ )
+void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
@@ -176,8 +176,8 @@ void pencil_input_data_private_update_containment_cache ( pencil_input_data_t *t
                 child_id = data_relationship_get_to_classifier_id ( the_relationship );
                 int32_t parent_index;
                 int32_t child_index;
-                parent_index = pencil_input_data_get_classifier_index ( this_, parent_id );
-                child_index = pencil_input_data_get_classifier_index ( this_, child_id );
+                parent_index = data_visible_set_get_classifier_index ( this_, parent_id );
+                child_index = data_visible_set_get_classifier_index ( this_, child_id );
                 if ( ( parent_index != -1 )&&( child_index != -1 ) )
                 {
                     assert ( 0 <= parent_index );

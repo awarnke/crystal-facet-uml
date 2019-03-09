@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void pencil_description_writer_init( pencil_description_writer_t *this_, pencil_input_data_t *input_data )
+void pencil_description_writer_init( pencil_description_writer_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -71,7 +71,7 @@ int pencil_description_writer_private_write_diagram ( pencil_description_writer_
 
     /* get diagram */
     data_diagram_t *diag;
-    diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
+    diag = data_visible_set_get_diagram_ptr( (*this_).input_data );
     TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag));
 
     /* print diagram name */
@@ -121,12 +121,12 @@ int pencil_description_writer_private_write_classifiers ( pencil_description_wri
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+    count = data_visible_set_get_visible_classifier_count ( (*this_).input_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get classifier */
         data_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, index );
+        visible_classifier = data_visible_set_get_visible_classifier_ptr ( (*this_).input_data, index );
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
             data_classifier_t *classifier;
@@ -198,12 +198,12 @@ int pencil_description_writer_private_write_features_of_classifier ( pencil_desc
 
     /* iterate over all features */
     uint32_t count;
-    count = pencil_input_data_get_feature_count ( (*this_).input_data );
+    count = data_visible_set_get_feature_count ( (*this_).input_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get feature */
         data_feature_t *feature;
-        feature = pencil_input_data_get_feature_ptr ( (*this_).input_data, index );
+        feature = data_visible_set_get_feature_ptr ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
             if ( classifier_id == data_feature_get_classifier_id( feature ) )
@@ -289,24 +289,24 @@ int pencil_description_writer_private_write_relations_of_classifier ( pencil_des
 
     /* iterate over all relationships */
     uint32_t count;
-    count = pencil_input_data_get_relationship_count ( (*this_).input_data );
+    count = data_visible_set_get_relationship_count ( (*this_).input_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get relationship */
         data_relationship_t *relation;
-        relation = pencil_input_data_get_relationship_ptr ( (*this_).input_data, index );
+        relation = data_visible_set_get_relationship_ptr ( (*this_).input_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
             if ( classifier_id == data_relationship_get_from_classifier_id( relation ) )
             {
                 /* find destination classifier */
                 uint32_t dest_count;
-                dest_count = pencil_input_data_get_visible_classifier_count ( (*this_).input_data );
+                dest_count = data_visible_set_get_visible_classifier_count ( (*this_).input_data );
                 for ( uint32_t dest_index = 0; dest_index < dest_count; dest_index ++ )
                 {
                     /* get classifier */
                     data_visible_classifier_t *visible_classifier;
-                    visible_classifier = pencil_input_data_get_visible_classifier_ptr ( (*this_).input_data, dest_index );
+                    visible_classifier = data_visible_set_get_visible_classifier_ptr ( (*this_).input_data, dest_index );
                     if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
                     {
                         data_classifier_t *dest_classifier;

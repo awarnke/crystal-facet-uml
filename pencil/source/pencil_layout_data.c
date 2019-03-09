@@ -19,7 +19,7 @@ void pencil_layout_data_init( pencil_layout_data_t *this_ )
     TRACE_END();
 }
 
-void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t *input_data )
+void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert ( NULL != input_data );
@@ -34,7 +34,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
     {
         (*this_).diagram_valid = true;
         layout_diagram_init ( &((*this_).diagram_layout),
-                              pencil_input_data_get_diagram_ptr( input_data )
+                              data_visible_set_get_diagram_ptr( input_data )
                             );
 
         /* TRACE_INFO_INT ( "diagram      data    objects:", 1 ); */
@@ -44,14 +44,14 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
 
     /* init visible classifiers */
     {
-        const uint32_t data_classifier_count = pencil_input_data_get_visible_classifier_count( input_data );
+        const uint32_t data_classifier_count = data_visible_set_get_visible_classifier_count( input_data );
         (*this_).visible_classifier_count = 0;
         assert ( data_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
         for ( uint32_t c_idx = 0; c_idx < data_classifier_count; c_idx ++ )
         {
             data_visible_classifier_t *classifier_data;
-            classifier_data = pencil_input_data_get_visible_classifier_ptr( input_data, c_idx );
+            classifier_data = data_visible_set_get_visible_classifier_ptr( input_data, c_idx );
 
             if ( ( NULL != classifier_data ) && data_visible_classifier_is_valid( classifier_data ) )
             {
@@ -69,7 +69,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
 
     /* init features */
     {
-        const uint32_t data_feature_count = pencil_input_data_get_feature_count( input_data );
+        const uint32_t data_feature_count = data_visible_set_get_feature_count( input_data );
         uint32_t debug_dropped_features;
         debug_dropped_features = 0;
         (*this_).feature_count = 0;
@@ -77,7 +77,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
         for ( uint32_t f_idx = 0; f_idx < data_feature_count; f_idx ++ )
         {
             const data_feature_t *feature_data;
-            feature_data = pencil_input_data_get_feature_ptr( input_data, f_idx );
+            feature_data = data_visible_set_get_feature_ptr( input_data, f_idx );
             uint32_t layout_feature_count = 0;
 
             if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
@@ -161,7 +161,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
 
     /* init relationships */
     {
-        const uint32_t data_relationship_count = pencil_input_data_get_relationship_count( input_data );
+        const uint32_t data_relationship_count = data_visible_set_get_relationship_count( input_data );
         uint32_t debug_dropped_relationships;
         debug_dropped_relationships = 0;
         (*this_).relationship_count = 0;
@@ -169,7 +169,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
         for ( uint32_t r_idx = 0; r_idx < data_relationship_count; r_idx ++ )
         {
             const data_relationship_t *relationship_data;
-            relationship_data = pencil_input_data_get_relationship_ptr( input_data, r_idx );
+            relationship_data = data_visible_set_get_relationship_ptr( input_data, r_idx );
             uint32_t layout_relationship_count = 0;
             if ( ( NULL != relationship_data ) && data_relationship_is_valid( relationship_data ) )
             {
@@ -199,7 +199,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      data_visible_set_get_relationship_ptr( input_data, r_idx ),
                                                                       probe3_classifier,
                                                                       probe4_classifier,
                                                                       NULL,
@@ -227,7 +227,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      data_visible_set_get_relationship_ptr( input_data, r_idx ),
                                                                       probe3_classifier,
                                                                       layout_feature_get_classifier_ptr( probe4_feature ),
                                                                       NULL,
@@ -267,7 +267,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      data_visible_set_get_relationship_ptr( input_data, r_idx ),
                                                                       layout_feature_get_classifier_ptr( probe3_feature ),
                                                                       probe5_classifier,
                                                                       probe3_feature,
@@ -295,7 +295,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      pencil_input_data_get_relationship_ptr( input_data, r_idx ),
+                                                                      data_visible_set_get_relationship_ptr( input_data, r_idx ),
                                                                       layout_feature_get_classifier_ptr( probe3_feature ),
                                                                       layout_feature_get_classifier_ptr( probe5_feature ),
                                                                       probe3_feature,

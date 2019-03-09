@@ -78,11 +78,11 @@ static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_,
     /* get index */
     uint32_t ancestor_index;
     uint32_t descendant_index;
-    ancestor_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(ancestor) );
-    descendant_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(descendant) );
+    ancestor_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(ancestor) );
+    descendant_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(descendant) );
 
     /* ask input_data */
-    return pencil_input_data_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
+    return data_visible_set_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
 }
 
 static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
@@ -91,10 +91,10 @@ static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t
 
     /* get index */
     uint32_t classifier_index;
-    classifier_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
 
     /* ask input_data */
-    return pencil_input_data_count_ancestors_of_index ( (*this_).input_data, classifier_index );
+    return data_visible_set_count_ancestors_of_index ( (*this_).input_data, classifier_index );
 }
 
 static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
@@ -103,10 +103,10 @@ static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data
 
     /* get index */
     uint32_t classifier_index;
-    classifier_index = pencil_input_data_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
 
     /* ask input_data */
-    return pencil_input_data_count_descendants_of_index ( (*this_).input_data, classifier_index );
+    return data_visible_set_count_descendants_of_index ( (*this_).input_data, classifier_index );
 }
 
 

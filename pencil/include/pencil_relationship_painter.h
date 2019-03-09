@@ -9,12 +9,12 @@
  *  \brief Renders a relationship into a cairo drawing context
  */
 
-#include "pencil_input_data.h"
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_relationship.h"
 #include "util/geometry/geometry_connector.h"
 #include "data_diagram.h"
+#include "set/data_visible_set.h"
 #include "util/id/data_small_set.h"
 #include "data_id.h"
 #include <cairo.h>

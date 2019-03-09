@@ -20,7 +20,7 @@ void io_exporter_init ( io_exporter_t *this_,
     (*this_).db_reader = db_reader;
     (*this_).temp_filename = utf8stringbuf_init( sizeof((*this_).temp_filename_buf), (*this_).temp_filename_buf );
 
-    pencil_input_data_init( &((*this_).painter_input_data) );
+    data_visible_set_init( &((*this_).painter_input_data) );
     pencil_description_writer_init( &((*this_).description_writer), &((*this_).painter_input_data) );
     io_diagram_image_exporter_init( &((*this_).diagram_image_exporter ), &((*this_).painter_input_data) );
     io_document_exporter_init( &((*this_).document_exporter ), &((*this_).painter_input_data) );
@@ -35,7 +35,7 @@ void io_exporter_destroy( io_exporter_t *this_ )
     io_document_exporter_destroy( &((*this_).document_exporter ) );
     io_diagram_image_exporter_destroy( &((*this_).diagram_image_exporter ) );
     pencil_description_writer_destroy( &((*this_).description_writer) );
-    pencil_input_data_destroy( &((*this_).painter_input_data) );
+    data_visible_set_destroy( &((*this_).painter_input_data) );
 
     (*this_).db_reader = NULL;
 
@@ -111,9 +111,9 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* load data to be drawn */
-        pencil_input_data_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
+        data_visible_set_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
         data_diagram_t *diag_ptr;
-        diag_ptr = pencil_input_data_get_diagram_ptr ( &((*this_).painter_input_data) );
+        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).painter_input_data) );
         const char *diag_name;
         diag_name = data_diagram_get_name_ptr( diag_ptr );
 
@@ -310,9 +310,9 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     if ( DATA_ID_VOID_ID != diagram_id )
     {
         /* load data to be drawn */
-        pencil_input_data_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
+        data_visible_set_load( &((*this_).painter_input_data), diagram_id, (*this_).db_reader );
         data_diagram_t *diag_ptr;
-        diag_ptr = pencil_input_data_get_diagram_ptr ( &((*this_).painter_input_data) );
+        diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).painter_input_data) );
         const char *diag_name;
         diag_name = data_diagram_get_name_ptr( diag_ptr );
 

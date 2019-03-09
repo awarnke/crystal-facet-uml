@@ -5,17 +5,17 @@
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
     /* load data to be drawn */
-    pencil_input_data_load( &((*this_).painter_input_data), diagram_id, db_reader );
+    data_visible_set_load( &((*this_).painter_input_data), diagram_id, db_reader );
 }
 
 static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ )
 {
-    pencil_input_data_invalidate( &((*this_).painter_input_data) );
+    data_visible_set_invalidate( &((*this_).painter_input_data) );
 }
 
 static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ )
 {
-    return pencil_input_data_is_valid( &((*this_).painter_input_data) );
+    return data_visible_set_is_valid( &((*this_).painter_input_data) );
 }
 
 static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ )
@@ -40,7 +40,7 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
 
 static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ )
 {
-    return pencil_input_data_get_diagram_ptr( &((*this_).painter_input_data) );
+    return data_visible_set_get_diagram_ptr( &((*this_).painter_input_data) );
 }
 
 static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
@@ -220,21 +220,21 @@ static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t 
 {
     int32_t result = 0;
 
-    if ( pencil_input_data_is_valid( &((*this_).painter_input_data) ) )
+    if ( data_visible_set_is_valid( &((*this_).painter_input_data) ) )
     {
-        for ( uint32_t f_idx = 0; f_idx < pencil_input_data_get_feature_count( &((*this_).painter_input_data) ); f_idx ++ )
+        for ( uint32_t f_idx = 0; f_idx < data_visible_set_get_feature_count( &((*this_).painter_input_data) ); f_idx ++ )
         {
             data_feature_t *feat;
-            feat = pencil_input_data_get_feature_ptr ( &((*this_).painter_input_data), f_idx );
+            feat = data_visible_set_get_feature_ptr ( &((*this_).painter_input_data), f_idx );
             if ( data_feature_get_list_order( feat ) > result )
             {
                 result = data_feature_get_list_order( feat );
             }
         }
-        for ( uint32_t rs_idx = 0; rs_idx < pencil_input_data_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
+        for ( uint32_t rs_idx = 0; rs_idx < data_visible_set_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
         {
             data_relationship_t *relation;
-            relation = pencil_input_data_get_relationship_ptr ( &((*this_).painter_input_data), rs_idx );
+            relation = data_visible_set_get_relationship_ptr ( &((*this_).painter_input_data), rs_idx );
             if ( data_relationship_get_list_order( relation ) > result )
             {
                 result = data_relationship_get_list_order( relation );

@@ -35,7 +35,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 
     /* draw diagram */
     data_diagram_t *diag;
-    diag = pencil_input_data_get_diagram_ptr( (*this_).input_data );
+    diag = data_visible_set_get_diagram_ptr( (*this_).input_data );
     pencil_diagram_painter_draw ( &((*this_).diagram_painter),
                                   diagram_layout,
                                   data_id_equals_id( &mark_focused, DATA_TABLE_DIAGRAM, data_diagram_get_id(diag) ),
@@ -217,7 +217,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                 {
                     int64_t diagramelement_id = data_id_get_row_id( &mark_highlighted );
                     data_visible_classifier_t *visible_clsfy;
-                    visible_clsfy = pencil_input_data_get_visible_classifier_by_id_ptr ( (*this_).input_data, diagramelement_id );
+                    visible_clsfy = data_visible_set_get_visible_classifier_by_id_ptr ( (*this_).input_data, diagramelement_id );
                     if ( visible_clsfy != NULL )
                     {
                         if ( data_visible_classifier_is_valid( visible_clsfy ) )
@@ -288,7 +288,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
         {
             int64_t feature_id = data_id_get_row_id ( &obj_id );
             data_feature_t *the_feature;
-            the_feature = pencil_input_data_get_feature_by_id_ptr ( (*this_).input_data, feature_id );
+            the_feature = data_visible_set_get_feature_by_id_ptr ( (*this_).input_data, feature_id );
             if( NULL != the_feature )
             {
                 result = pencil_layouter_get_feature_order_at_pos ( &((*this_).layouter),
@@ -396,7 +396,7 @@ pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_
                     int32_t y_order = layout_order_get_second( order );
 
                     data_classifier_t *move_me;
-                    move_me = pencil_input_data_get_classifier_by_id_ptr( (*this_).input_data, row_id );
+                    move_me = data_visible_set_get_classifier_by_id_ptr( (*this_).input_data, row_id );
                     if ( move_me == NULL )
                     {
                         TSLOG_WARNING( "pencil input data does not contain the object to be moved" );
@@ -459,7 +459,7 @@ pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_
                     int32_t list_order = layout_order_get_first( order );
 
                     data_classifier_t *move_me;
-                    move_me = pencil_input_data_get_classifier_by_id_ptr( (*this_).input_data, row_id );
+                    move_me = data_visible_set_get_classifier_by_id_ptr( (*this_).input_data, row_id );
                     if ( move_me == NULL )
                     {
                         TSLOG_WARNING( "pencil input data does not contain the classifier to be moved" );
@@ -478,7 +478,7 @@ pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_
                     int32_t list_order = layout_order_get_first( order );
 
                     data_feature_t *move_me;
-                    move_me = pencil_input_data_get_feature_by_id_ptr( (*this_).input_data, row_id );
+                    move_me = data_visible_set_get_feature_by_id_ptr( (*this_).input_data, row_id );
                     if ( move_me == NULL )
                     {
                         TSLOG_WARNING( "pencil input data does not contain the feature to be moved" );
@@ -497,7 +497,7 @@ pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_
                     int32_t list_order = layout_order_get_first( order );
 
                     data_relationship_t *move_me;
-                    move_me = pencil_input_data_get_relationship_by_id_ptr( (*this_).input_data, row_id );
+                    move_me = data_visible_set_get_relationship_by_id_ptr( (*this_).input_data, row_id );
                     if ( move_me == NULL )
                     {
                         TSLOG_WARNING( "pencil input data does not contain the relationship to be moved" );

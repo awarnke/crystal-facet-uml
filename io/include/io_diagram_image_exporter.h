@@ -11,7 +11,7 @@
 
 #include "io_file_format.h"
 #include "pencil_diagram_maker.h"
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include <gtk/gtk.h>
 
@@ -21,7 +21,7 @@
 struct io_diagram_image_exporter_struct {
     geometry_rectangle_t bounds;  /*!< bounding box of the exported images */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
-    pencil_input_data_t *painter_input_data;  /*!< pointer to external cache of diagram data */
+    data_visible_set_t *painter_input_data;  /*!< pointer to external cache of diagram data */
 };
 
 typedef struct io_diagram_image_exporter_struct io_diagram_image_exporter_t;
@@ -33,7 +33,7 @@ typedef struct io_diagram_image_exporter_struct io_diagram_image_exporter_t;
  *  \param painter_input_data pointer to cache of diagram data
  */
 void io_diagram_image_exporter_init( io_diagram_image_exporter_t *this_,
-                                     pencil_input_data_t *painter_input_data
+                                     data_visible_set_t *painter_input_data
                                    );
 
 /*!

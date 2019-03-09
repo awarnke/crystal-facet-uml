@@ -13,7 +13,7 @@
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "option/pencil_type_filter.h"
 #include "util/id/data_id_pair.h"
 #include "layout/layout_order.h"
@@ -28,7 +28,7 @@
 struct gui_sketch_card_struct {
     bool visible;  /*!< is the card visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the card */
-    pencil_input_data_t painter_input_data;  /*!< caches the diagram data */
+    data_visible_set_t painter_input_data;  /*!< caches the diagram data */
     pencil_diagram_maker_t painter;  /*!< own instance of a diagram painter */
     bool dirty_elements_layout;  /*!< marker that elements need to be layouted */
 };

@@ -12,8 +12,8 @@
 #include "io_file_format.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
+#include "set/data_visible_set.h"
 #include "pencil_description_writer.h"
-#include "pencil_input_data.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -29,9 +29,9 @@ enum io_document_exporter_max_enum {
  *  \brief attributes of the document exporter
  */
 struct io_document_exporter_struct {
-    pencil_input_data_t *painter_input_data;  /*!< pointer to external cache of diagram data */
+    data_visible_set_t *painter_input_data;  /*!< pointer to external cache of diagram data */
     pencil_description_writer_t description_writer;  /*!< own instance of a description writer */
-    
+
     char temp_output_buffer[IO_DOCUMENT_EXPORTER_MAX_STRING_SIZE];  /*!< temporary output buffer to convert strings */
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
@@ -46,7 +46,7 @@ typedef struct io_document_exporter_struct io_document_exporter_t;
  *  \param painter_input_data pointer to cache of diagram data
  */
 void io_document_exporter_init( io_document_exporter_t *this_,
-                                pencil_input_data_t *painter_input_data
+                                data_visible_set_t *painter_input_data
                               );
 
 /*!
@@ -100,7 +100,7 @@ int io_document_exporter_write_diagram( io_document_exporter_t *this_,
                                       );
 
 /*!
- *  \brief writes a diagram end 
+ *  \brief writes a diagram end
  *
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
@@ -130,12 +130,12 @@ int io_document_exporter_write_footer( io_document_exporter_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \param output file 
+ *  \param output file
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int io_document_exporter_private_write_plain ( io_document_exporter_t *this_, 
-                                                             const char *text, 
-                                                             FILE *output 
+static inline int io_document_exporter_private_write_plain ( io_document_exporter_t *this_,
+                                                             const char *text,
+                                                             FILE *output
                                                            );
 
 /*!
@@ -143,12 +143,12 @@ static inline int io_document_exporter_private_write_plain ( io_document_exporte
  *
  *  \param this_ pointer to own object attributes
  *  \param text string to write
- *  \param output file 
+ *  \param output file
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int io_document_exporter_private_write_xml_enc ( io_document_exporter_t *this_, 
-                                                               const char *text, 
-                                                               FILE *output 
+static inline int io_document_exporter_private_write_xml_enc ( io_document_exporter_t *this_,
+                                                               const char *text,
+                                                               FILE *output
                                                              );
 
 #include "io_document_exporter.inl"

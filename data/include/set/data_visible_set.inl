@@ -1,24 +1,24 @@
-/* File: pencil_input_data.inl; Copyright and License: see below */
+/* File: data_visible_set.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <assert.h>
 
-static inline data_diagram_t *pencil_input_data_get_diagram_ptr ( pencil_input_data_t *this_ )
+static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_set_t *this_ )
 {
     return &((*this_).diagram);
 }
 
-static inline bool pencil_input_data_is_valid ( pencil_input_data_t *this_ )
+static inline bool data_visible_set_is_valid ( data_visible_set_t *this_ )
 {
     return data_diagram_is_valid( &((*this_).diagram) );
 }
 
-static inline void pencil_input_data_invalidate ( pencil_input_data_t *this_ )
+static inline void data_visible_set_invalidate ( data_visible_set_t *this_ )
 {
     data_diagram_reinit_empty( &((*this_).diagram) );
 }
 
-static inline void pencil_input_data_private_destroy_visible_classifiers( pencil_input_data_t *this_ )
+static inline void data_visible_set_private_destroy_visible_classifiers( data_visible_set_t *this_ )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
@@ -30,7 +30,7 @@ static inline void pencil_input_data_private_destroy_visible_classifiers( pencil
     (*this_).visible_classifier_count = 0;
 }
 
-static inline void pencil_input_data_private_destroy_features( pencil_input_data_t *this_ )
+static inline void data_visible_set_private_destroy_features( data_visible_set_t *this_ )
 {
     assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
 
@@ -42,7 +42,7 @@ static inline void pencil_input_data_private_destroy_features( pencil_input_data
     (*this_).feature_count = 0;
 }
 
-static inline void pencil_input_data_private_destroy_relationships( pencil_input_data_t *this_ )
+static inline void data_visible_set_private_destroy_relationships( data_visible_set_t *this_ )
 {
     assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
@@ -54,12 +54,12 @@ static inline void pencil_input_data_private_destroy_relationships( pencil_input
     (*this_).relationship_count = 0;
 }
 
-static inline uint32_t pencil_input_data_get_visible_classifier_count ( pencil_input_data_t *this_ )
+static inline uint32_t data_visible_set_get_visible_classifier_count ( data_visible_set_t *this_ )
 {
     return (*this_).visible_classifier_count;
 }
 
-static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_ptr ( pencil_input_data_t *this_, uint32_t index )
+static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_ptr ( data_visible_set_t *this_, uint32_t index )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
 
@@ -77,7 +77,7 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     return result;
 }
 
-static inline data_visible_classifier_t *pencil_input_data_get_visible_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t diagramelement_id )
+static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t diagramelement_id )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     data_visible_classifier_t *result = NULL;
@@ -101,7 +101,7 @@ static inline data_visible_classifier_t *pencil_input_data_get_visible_classifie
     return result;
 }
 
-static inline data_classifier_t *pencil_input_data_get_classifier_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
+static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     data_classifier_t *result = NULL;
@@ -124,7 +124,7 @@ static inline data_classifier_t *pencil_input_data_get_classifier_by_id_ptr ( pe
     return result;
 }
 
-static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data_t *this_, int64_t row_id )
+static inline int32_t data_visible_set_get_classifier_index ( data_visible_set_t *this_, int64_t row_id )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     int32_t result = -1;
@@ -143,7 +143,7 @@ static inline int32_t pencil_input_data_get_classifier_index ( pencil_input_data
     return result;
 }
 
-static inline uint32_t pencil_input_data_get_classifier_index_from_pointer ( const pencil_input_data_t *this_,
+static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,
                                                                              const data_visible_classifier_t *classifier_ptr )
 {
     assert ( NULL != classifier_ptr );  /* input parameters test */
@@ -153,12 +153,12 @@ static inline uint32_t pencil_input_data_get_classifier_index_from_pointer ( con
     return ( classifier_ptr - (*this_).visible_classifiers );
 }
 
-static inline uint32_t pencil_input_data_get_feature_count ( pencil_input_data_t *this_ )
+static inline uint32_t data_visible_set_get_feature_count ( data_visible_set_t *this_ )
 {
     return (*this_).feature_count;
 }
 
-static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_data_t *this_, uint32_t index )
+static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_set_t *this_, uint32_t index )
 {
     assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
 
@@ -176,7 +176,7 @@ static inline data_feature_t *pencil_input_data_get_feature_ptr ( pencil_input_d
     return result;
 }
 
-static inline data_feature_t *pencil_input_data_get_feature_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
+static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
     assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
     data_feature_t *result = NULL;
@@ -195,18 +195,18 @@ static inline data_feature_t *pencil_input_data_get_feature_by_id_ptr ( pencil_i
     return result;
 }
 
-static inline data_feature_t *pencil_input_data_get_feature_list_ptr ( pencil_input_data_t *this_ )
+static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visible_set_t *this_ )
 {
     assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
     return (*this_).features;
 }
 
-static inline uint32_t pencil_input_data_get_relationship_count ( pencil_input_data_t *this_ )
+static inline uint32_t data_visible_set_get_relationship_count ( data_visible_set_t *this_ )
 {
     return (*this_).relationship_count;
 }
 
-static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( pencil_input_data_t *this_, uint32_t index )
+static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_visible_set_t *this_, uint32_t index )
 {
     assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
 
@@ -224,7 +224,7 @@ static inline data_relationship_t *pencil_input_data_get_relationship_ptr ( penc
     return result;
 }
 
-static inline data_relationship_t *pencil_input_data_get_relationship_by_id_ptr ( pencil_input_data_t *this_, int64_t row_id )
+static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
     assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
     data_relationship_t *result = NULL;
@@ -243,7 +243,7 @@ static inline data_relationship_t *pencil_input_data_get_relationship_by_id_ptr 
     return result;
 }
 
-static inline bool pencil_input_data_is_ancestor_by_index ( const pencil_input_data_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
+static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_set_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     assert( ancestor_index < (*this_).visible_classifier_count );
@@ -252,7 +252,7 @@ static inline bool pencil_input_data_is_ancestor_by_index ( const pencil_input_d
     return (*this_).containment_cache[ancestor_index][descendant_index];
 }
 
-static inline uint32_t pencil_input_data_count_ancestors_of_index ( const pencil_input_data_t *this_, uint32_t classifier_index )
+static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_visible_set_t *this_, uint32_t classifier_index )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     assert( classifier_index < (*this_).visible_classifier_count );
@@ -270,7 +270,7 @@ static inline uint32_t pencil_input_data_count_ancestors_of_index ( const pencil
     return result;
 }
 
-static inline uint32_t pencil_input_data_count_descendants_of_index ( const pencil_input_data_t *this_, uint32_t classifier_index )
+static inline uint32_t data_visible_set_count_descendants_of_index ( const data_visible_set_t *this_, uint32_t classifier_index )
 {
     assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
     assert( classifier_index < (*this_).visible_classifier_count );

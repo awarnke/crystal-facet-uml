@@ -15,7 +15,7 @@
 #include "layout/layout_feature.h"
 #include "layout/layout_relationship.h"
 #include "layout/layout_visible_classifier.h"
-#include "pencil_input_data.h"
+#include "set/data_visible_set.h"
 #include "option/pencil_visibility.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -51,7 +51,7 @@ struct pencil_layout_data_struct {
     uint32_t relationship_count;  /*!< number of all layouted relationship records */
 
     /* input data */
-    const pencil_input_data_t *input_data;  /*!< the input data which is base for the layout data */
+    const data_visible_set_t *input_data;  /*!< the input data which is base for the layout data */
 };
 
 typedef struct pencil_layout_data_struct pencil_layout_data_t;
@@ -69,7 +69,7 @@ void pencil_layout_data_init( pencil_layout_data_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be layouted
  */
-void pencil_layout_data_reinit( pencil_layout_data_t *this_, pencil_input_data_t *input_data );
+void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the painter input data layout
@@ -166,7 +166,7 @@ static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( p
  *  \param this_ pointer to own object attributes
  *  \param ancestor the ancestor classifier
  *  \param descendant the descendant classifier
- *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within the pencil_input_data object
+ *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within the data_visible_set object
  */
 static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant );
 
