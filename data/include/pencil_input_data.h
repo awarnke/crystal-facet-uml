@@ -274,7 +274,7 @@ static inline void pencil_input_data_private_destroy_features( pencil_input_data
  */
 static inline void pencil_input_data_private_destroy_relationships( pencil_input_data_t *this_ );
 
-#include "pencil_input_data.inl"
+#include "set/pencil_input_data.inl"
 
 #endif  /* PENCIL_INPUT_DATA_H */
 

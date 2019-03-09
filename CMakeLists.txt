@@ -59,6 +59,7 @@ FILE(GLOB commonSource gui/source/*.c
                        data/source/*.c
                        data/source/storage/*.c
                        data/source/serial/*.c
+                       data/source/set/*.c
                        utf8stringbuf/source/util/string/*.c
                        pencil/source/*.c
                        pencil/source/util/geometry/*.c
