@@ -22,6 +22,24 @@
         </para>
 
         <section>
+            <title>Install</title>
+            <para>
+                The .deb and .rpm packages can be installed by the package installers of your system.
+            </para>
+            <para>
+                Because the packages are not signed, you may want to ignore the warning.
+                <mediaobject>
+                    <imageobject><imagedata fileref="install_without_signature.png"/></imageobject>
+                </mediaobject>
+            </para>
+            <para>
+                Alternatively, you may want to build the software from the .orig source-package
+                and then install it by <userinput>sudo make install</userinput>; see the readme file for more information.
+            </para>
+
+        </section>
+
+        <section>
             <title>License</title>
             <para>
 
