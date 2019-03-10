@@ -10,3 +10,4 @@ cd ..
 git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=package_build/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
 cd package_build
 
+echo "test the archive by calling ./source_test.sh"

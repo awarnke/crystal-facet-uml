@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.10.0
+VERSIONSTR=1.11.0
 echo "Test-Building Version $VERSIONSTR"
 
 echo "clean up possibly broken previous test-build"
@@ -12,16 +12,23 @@ echo "building doc"
 cd crystal-facet-uml-$VERSIONSTR/doxygen_build
 ./make.sh
 cd ../..
+
 echo "building user doc and man page"
 cd crystal-facet-uml-$VERSIONSTR/user_doc
 make
 cd ../..
+
 echo "building binary"
 cd crystal-facet-uml-$VERSIONSTR
 mkdir cmake_build
 cd cmake_build
 cmake -DCMAKE_BUILD_TYPE=Release ..
 make -j4    # start up to 4 parallel processes to make use of quad-core processors
+cd ../..
+
+echo "runing unit tests"
+cd crystal-facet-uml-$VERSIONSTR/cmake_build
+./unittest_crystal_facet_uml -a || echo "ERROR == ERROR == ERROR == ERROR"
 cd ../..
 
 echo "clean up test"
