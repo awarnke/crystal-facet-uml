@@ -75,6 +75,10 @@ FILE(GLOB utestSource  main/unittest/*.c
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+if(NOT CMAKE_BUILD_TYPE)
+  message("Warn: CMAKE_BUILD_TYPE no set!                  set(CMAKE_BUILD_TYPE \"Release\")")
+  set(CMAKE_BUILD_TYPE "Release")
+endif(NOT CMAKE_BUILD_TYPE)
 MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )
 MESSAGE( "Note:                                          CMAKE_CURRENT_SOURCE_DIR = ${CMAKE_CURRENT_SOURCE_DIR}" )
 MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
@@ -82,7 +86,8 @@ MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYP
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build using 4 cores, run              make -j4 afterwards" )
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings" )
+# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
 
@@ -102,7 +107,8 @@ INCLUDE_DIRECTORIES(pencil/unittest)
 INCLUDE_DIRECTORIES(universal/unittest)
 
 # now the test cases. be less restrictive with errors.
-SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall" )
+SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall -Wno-overlength-strings" )
+# Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 LIST(APPEND unittestSource ${commonSource} ${utestSource})
 

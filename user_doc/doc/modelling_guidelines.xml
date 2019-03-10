@@ -24,22 +24,11 @@
         Start the root of the tree explaining the document structure.
 
         At the second level of the tree, list the main areas to be shown,
-        for example based on the arc42 template https://arc42.org/overview/ :
+        for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
 
-        <itemizedlist>
-        <listitem><para>Introduction and Goals</para></listitem>
-        <listitem><para>Constraints</para></listitem>
-        <listitem><para>Context and Scope (show the system boundary, what is outside, what use-cases exist)</para></listitem>
-        <listitem><para>Solution Strategy</para></listitem>
-        <listitem><para>Building Block View,</para></listitem>
-        <listitem><para>Runtime View,</para></listitem>
-        <listitem><para>Deployment View,</para></listitem>
-        <listitem><para>Crosscutting Concepts,</para></listitem>
-        <listitem><para>Architectural Decisions (show alternatives, give a rationale),</para></listitem>
-        <listitem><para>Quality Requirements</para></listitem>
-        <listitem><para>Risks and Technical Debt</para></listitem>
-        <listitem><para>Glossary (table showing Context, Term and Description)</para></listitem>
-        </itemizedlist>
+        <mediaobject>
+            <imageobject><imagedata fileref="modelling_hint_on_structure.png"/></imageobject>
+        </mediaobject>
     </para>
 
 </section>

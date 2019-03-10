@@ -41,7 +41,7 @@ crystal_facet_uml exports diagrams as
 <itemizedlist>
     <listitem><para>vector graphics</para><para>(pdf, ps, svg)</para></listitem>
     <listitem><para>pixel graphics</para><para>(png)</para></listitem>
-    <listitem><para>textual representation</para><para>(utf-8)</para></listitem>
+    <listitem><para>textual representation</para><para>(utf-8-txt, docbook, xhtml)</para></listitem>
 </itemizedlist>
 
 crystal_facet_uml can also be started from command line

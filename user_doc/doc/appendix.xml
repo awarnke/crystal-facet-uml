@@ -3,33 +3,33 @@
     <title>Download Information</title>
     <para>
     </para>
-<section>
-    <title>Download Links</title>
-    <para>
+    <section>
+        <title>Download Links</title>
+        <para>
 
-        Find the latest version at:
-        <itemizedlist>
-        <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
-        <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
-        <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
-        </itemizedlist>
+            Find the latest version at:
+            <itemizedlist>
+            <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
+            <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
+            </itemizedlist>
 
-        User documentation is available here:
-        <itemizedlist>
-        <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
-        <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
-        </itemizedlist>
-    </para>
-</section>
+            User documentation is available here:
+            <itemizedlist>
+            <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
+            </itemizedlist>
+        </para>
 
-<section>
-    <title>License</title>
-    <para>
+        <section>
+            <title>License</title>
+            <para>
 
-        License of crystal_facet_uml is Apache-2.0.
+                License of crystal_facet_uml is Apache-2.0.
 
-        (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
-    </para>
+                (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+            </para>
 
-</section>
+        </section>
+    </section>
 </appendix>
