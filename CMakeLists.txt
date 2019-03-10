@@ -51,8 +51,8 @@ LINK_DIRECTORIES(/opt/gnome/lib)
 LINK_DIRECTORIES(/opt/gnome/lib/gtk-3.0)
 LINK_DIRECTORIES(/usr/lib/)
 LINK_DIRECTORIES(/usr/lib64/)
-#SET(crystal_facet_uml_BINARY_DIR ../bin)
-#SET(crystal_facet_uml_SOURCE_DIR ..)
+#SET(crystal_facet_uml_BINARY_DIR ./bin)
+#SET(crystal_facet_uml_SOURCE_DIR .)
 FILE(GLOB commonSource gui/source/*.c
                        trace/source/*.c
                        ctrl/source/*.c
@@ -105,12 +105,9 @@ LIST(APPEND unittestSource ${commonSource} ${utestSource})
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-MESSAGE( "Note: to build the unit tests, call:           make unittest_crystal_facet_uml")
-
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
 TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
-SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C )
-#                                                 EXCLUDE_FROM_ALL TRUE )
+SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
 
