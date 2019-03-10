@@ -42,7 +42,8 @@ void io_exporter_destroy( io_exporter_t *this_ )
 
 int io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
-                              const char* target_folder )
+                              const char* target_folder,
+                              const char* document_file_name )
 {
     TRACE_BEGIN();
     int export_err = 0;
@@ -244,7 +245,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, "/document.db.xml" );
+            utf8stringbuf_append_str( (*this_).temp_filename, "/document.xml" );
         }
         break;
 

@@ -1,9 +1,9 @@
 crystal-facet-uml (1.11.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * New version 1.11.0
+  * New version 1.11.0 exports docbook and html formats
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Feb 2019 17:33:01 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Mar 2019 07:33:01 +0100
 
 crystal-facet-uml (1.10.0-1ubuntu1) UNRELEASED; urgency=medium
 

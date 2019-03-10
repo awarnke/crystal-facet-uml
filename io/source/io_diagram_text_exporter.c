@@ -114,7 +114,8 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
         feature = data_visible_set_get_feature_ptr ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            if ( classifier_id == data_feature_get_classifier_id( feature ) )
+            if (( classifier_id == data_feature_get_classifier_id( feature ) )
+                && ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( feature ) ))
             {
                 write_err |=  io_format_writer_write_feature( format_writer, feature );
             }

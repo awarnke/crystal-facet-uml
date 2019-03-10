@@ -269,6 +269,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                   &((*this_).message_to_user) 
                                 );
     gui_file_export_dialog_init( &((*this_).file_export_dialog), 
+                                 database,
                                  db_reader, 
                                  GTK_WINDOW( (*this_).window ),
                                  &((*this_).message_to_user) 

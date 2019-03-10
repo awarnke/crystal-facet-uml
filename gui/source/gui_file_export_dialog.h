@@ -18,6 +18,8 @@
  *  \brief attributes of the file export dialog
  */
 struct gui_file_export_dialog_struct {
+    data_database_t *database;  /*!< pointer to external data_database_t */
+
     io_exporter_t file_exporter;  /*!<  own instance of io_exporter_t */
 
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
@@ -48,11 +50,13 @@ typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;
  *  \brief initializes the file export dialog
  *
  *  \param this_ pointer to own object attributes
+ *  \param database pointer to external data_database_t
  *  \param db_reader pointer to a database reader object
  *  \param parent_window pointer to the gtk parent window, to which this modal dialog belongs
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_file_export_dialog_init( gui_file_export_dialog_t *this_,
+                                  data_database_t *database,
                                   data_database_reader_t *db_reader,
                                   GtkWindow *parent_window,
                                   gui_simple_message_to_user_t *message_to_user

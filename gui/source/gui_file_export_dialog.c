@@ -8,15 +8,18 @@
 #include <stdbool.h>
 
 void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
+                                   data_database_t *database,
                                    data_database_reader_t *db_reader,
                                    GtkWindow *parent_window,
                                    gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
+    assert( NULL != database );
     assert( NULL != db_reader );
     assert( NULL != parent_window );
     assert( NULL != message_to_user );
 
+    (*this_).database = database;
     (*this_).message_to_user = message_to_user;
 
     (*this_).export_file_chooser = gtk_file_chooser_dialog_new ( "Select Export Folder",
@@ -103,6 +106,7 @@ void gui_file_export_dialog_destroy( gui_file_export_dialog_t *this_ )
     io_exporter_destroy( &((*this_).file_exporter) );
 
     (*this_).message_to_user = NULL;
+    (*this_).database = NULL;
 
     TRACE_END();
 }
@@ -149,7 +153,16 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
 
-            export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path );
+            const char *document_filename = data_database_get_filename_ptr ( (*this_).database );
+            
+            if ( data_database_is_open((*this_).database) )
+            {
+                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, document_filename );
+            }
+            else
+            {
+                export_err = -1;
+            }
 
             g_free (folder_path);
 
