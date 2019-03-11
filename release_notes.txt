@@ -1,4 +1,4 @@
-2019-03-10 1.11.0 [2ccfb94]
+2019-03-10 1.11.0 [29089a8]
   + export dialog allows to select multiple file formats simultaneously
   + docbook export
   + html export
