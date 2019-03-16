@@ -66,22 +66,22 @@ static inline const data_relationship_t *layout_relationship_get_data_ptr ( cons
     return (*this_).data;
 }
 
-static inline layout_visible_classifier_t *layout_relationship_get_from_classifier_ptr ( layout_relationship_t *this_ )
+static inline layout_visible_classifier_t *layout_relationship_get_from_classifier_ptr ( const layout_relationship_t *this_ )
 {
     return (*this_).from_classifier;
 }
 
-static inline layout_visible_classifier_t *layout_relationship_get_to_classifier_ptr ( layout_relationship_t *this_ )
+static inline layout_visible_classifier_t *layout_relationship_get_to_classifier_ptr ( const layout_relationship_t *this_ )
 {
     return (*this_).to_classifier;
 }
 
-static inline layout_feature_t *layout_relationship_get_from_feature_ptr ( layout_relationship_t *this_ )
+static inline layout_feature_t *layout_relationship_get_from_feature_ptr ( const layout_relationship_t *this_ )
 {
     return (*this_).from_feature;
 }
 
-static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( layout_relationship_t *this_ )
+static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( const layout_relationship_t *this_ )
 {
     return (*this_).to_feature;
 }

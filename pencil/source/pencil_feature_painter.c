@@ -1,6 +1,7 @@
 /* File: pencil_feature_painter.c; Copyright and License: see below */
 
 #include "pencil_feature_painter.h"
+#include "pencil_layout_data.h"
 #include "trace.h"
 #include <pango/pangocairo.h>
 #include <stdio.h>
@@ -105,6 +106,32 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
         }
 
         pencil_feature_painter_private_draw_label ( this_, layouted_feature, pencil_size, layout, cr );
+
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangles */
+        {
+            const geometry_rectangle_t *feature_bounds;
+            feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+            const geometry_rectangle_t *feature_label_box;
+            feature_label_box = layout_feature_get_label_box_ptr( layouted_feature );
+
+            cairo_set_source_rgba( cr, 0.5, 0.7, 1.0, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( feature_bounds ),
+                              geometry_rectangle_get_top ( feature_bounds ),
+                              geometry_rectangle_get_width ( feature_bounds ),
+                              geometry_rectangle_get_height ( feature_bounds )
+            );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( feature_label_box ),
+                              geometry_rectangle_get_top ( feature_label_box ),
+                              geometry_rectangle_get_width ( feature_label_box ),
+                              geometry_rectangle_get_height ( feature_label_box )
+            );
+            cairo_stroke (cr);
+            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
+        }
+#endif
 
         if ( mark_selected )
         {
@@ -465,7 +492,7 @@ void pencil_feature_painter_get_minimum_bounds ( pencil_feature_painter_t *this_
     assert( NULL != font_layout );
     assert( NULL != out_feature_bounds );
 
-    double gap = pencil_size_get_standard_object_border( pencil_size );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
 
     double width = 2.0 * gap;
     double height = 0.0;

@@ -9,19 +9,20 @@
  *  \brief Defines the own program name and the version
  */
 
-#define META_INFO_VERSION_STR "1.11.0"
+#define META_INFO_VERSION_STR "1.11.1"
 #define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
 #define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
 #define META_INFO_LICENSE_STR "Apache-2.0"
 #define META_INFO_COPYRIGHT_STR "2016-2019 A.Warnke"
 
 /* Note: when changing META_INFO_VERSION_STR, change also */
-/*       release_notes.txt : new entry */
 /*       doxygen_build/Doxyfile : PROJECT_NUMBER */
 /*       user_doc/doc/crystal_facet_user_documentation.xml : date */
 /*       package/build/source_pack.sh : VERSIONSTR */
+/*       package/build/source_test.sh : VERSIONSTR */
 /*       package/build/debian_pack.sh : VERSIONSTR */
 /*       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version */
+/*       release_notes.txt : new entry */
 /*       package_build/debian_config/debian/changelog : */
 /*               new entry, e.g. copy latest entry, then call dch -i in folder debian_config */
 

@@ -84,7 +84,8 @@ MESSAGE( "Note:                                          CMAKE_CURRENT_SOURCE_DI
 MESSAGE( "Note:                                          CMAKE_BUILD_DIR = ${CMAKE_BUILD_DIR}" )
 MESSAGE( "Note: to build a release, run                  cmake -DCMAKE_BUILD_TYPE=Release " ${CMAKE_CURRENT_SOURCE_DIR} )
 MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYPE=Debug " ${CMAKE_CURRENT_SOURCE_DIR} )
-MESSAGE( "Note: to build using 4 cores, run              make -j4 afterwards" )
+MESSAGE( "Note: then, to build using 4 cores, run        make -j4" )
+MESSAGE( "Note: to install, run                          sudo make install" )
 
 SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
@@ -129,5 +130,6 @@ INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_fac
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/crystal-facet-uml/")
+#INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/packages/crystal-facet-uml/") #for opensuse
 
 

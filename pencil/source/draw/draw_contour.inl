@@ -30,6 +30,23 @@ static inline void draw_contour_draw_rect ( const draw_contour_t *this_,
     cairo_stroke (cr);
 }
 
+static inline void draw_contour_draw_horizonal_line ( const draw_contour_t *this_,
+                                                      const geometry_rectangle_t *outer_bounds,
+                                                      double y_coordinate,
+                                                      const pencil_size_t *pencil_size,
+                                                      cairo_t *cr )
+{
+    assert ( NULL != outer_bounds );
+    assert ( NULL != pencil_size );
+    assert ( NULL != cr );
+    const double left = geometry_rectangle_get_left ( outer_bounds );
+    const double width = geometry_rectangle_get_width ( outer_bounds );
+    const double gap = pencil_size_get_standard_object_border( pencil_size );
+    cairo_move_to ( cr, left + gap, y_coordinate );
+    cairo_line_to ( cr, left + width - gap, y_coordinate );
+    cairo_stroke (cr);
+}
+
 
 /*
 Copyright 2019-2019 Andreas Warnke

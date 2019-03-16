@@ -12,6 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "pencil_feature_painter.h"
+#include "pencil_layout_data.h"
 #include "layout/layout_visible_classifier.h"
 #include "draw/draw_symbol.h"
 #include "draw/draw_label.h"
@@ -63,19 +64,21 @@ void pencil_classifier_composer_destroy( pencil_classifier_composer_t *this_ );
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
+ *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout structure to layout fonts
  *  \param cr a cairo drawing context
  */
 void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_,
-                                      layout_visible_classifier_t *layouted_classifier,
-                                      data_id_t mark_focused,
-                                      data_id_t mark_highlighted,
-                                      const data_small_set_t *mark_selected,
-                                      const pencil_size_t *pencil_size,
-                                      PangoLayout *font_layout,
-                                      cairo_t *cr
-                                    );
+                                       layout_visible_classifier_t *layouted_classifier,
+                                       data_id_t mark_focused,
+                                       data_id_t mark_highlighted,
+                                       const data_small_set_t *mark_selected,
+                                       pencil_layout_data_t *layout_data,
+                                       const pencil_size_t *pencil_size,
+                                       PangoLayout *font_layout,
+                                       cairo_t *cr
+                                     );
 
 /*!
  *  \brief determines the minumum classifier bounds
@@ -93,13 +96,13 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *  \param io_classifier_layout output is bounds, space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
-                                                const data_visible_classifier_t *visible_classifier,
-                                                const pencil_size_t *pencil_size,
-                                                PangoLayout *font_layout,
-                                                const geometry_dimensions_t *proposed_bounds,
-                                                const geometry_dimensions_t *minimum_feature_space,
-                                                layout_visible_classifier_t *io_classifier_layout
-                                              );
+                                                 const data_visible_classifier_t *visible_classifier,
+                                                 const pencil_size_t *pencil_size,
+                                                 PangoLayout *font_layout,
+                                                 const geometry_dimensions_t *proposed_bounds,
+                                                 const geometry_dimensions_t *minimum_feature_space,
+                                                 layout_visible_classifier_t *io_classifier_layout
+                                               );
 
 /*!
  *  \brief determines the inner drawing space for contained classifiers and features - and the label_box
@@ -113,11 +116,27 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
  *  \param io_classifier_layout input is bounds, output is space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_composer_t *this_,
-                                                     const data_visible_classifier_t *visible_classifier,
-                                                     const pencil_size_t *pencil_size,
-                                                     PangoLayout *font_layout,
-                                                     layout_visible_classifier_t *io_classifier_layout
-                                                   );
+                                                      const data_visible_classifier_t *visible_classifier,
+                                                      const pencil_size_t *pencil_size,
+                                                      PangoLayout *font_layout,
+                                                      layout_visible_classifier_t *io_classifier_layout
+                                                    );
+
+/*!
+ *  \brief draws feature compartments of the given classifier into the classifier_space area
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param layouted_classifier pointer to the classifiers layout-information and data to be drawn
+ *  \param layout_data pointer to the diagrams layout-information needed to calculate the feature compartments
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param cr a cairo drawing context
+ */
+void pencil_classifier_composer_private_draw_feature_compartments ( const pencil_classifier_composer_t *this_,
+                                                                    layout_visible_classifier_t *layouted_classifier,
+                                                                    pencil_layout_data_t *layout_data,
+                                                                    const pencil_size_t *pencil_size,
+                                                                    cairo_t *cr
+                                                                  );
 
 #endif  /* PENCIL_CLASSIFIER_COMPOSER_H */
 

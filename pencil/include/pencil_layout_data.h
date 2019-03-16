@@ -21,6 +21,11 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#ifndef NDEBUG
+/* make the layout visible for debugging: */
+#define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+#endif
+
 /*!
  *  \brief constants for maximum values of pencil_layout_data_t
  */

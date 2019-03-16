@@ -75,12 +75,13 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
                                                               );
 
             pencil_classifier_composer_set_all_bounds ( &((*this_).classifier_composer),
-                                                       visible_classifier2,
-                                                       (*this_).pencil_size,
-                                                       font_layout,
-                                                       (*this_).default_classifier_size,
-                                                       &features_bounds,
-                                                       classifier_layout );
+                                                        visible_classifier2,
+                                                        (*this_).pencil_size,
+                                                        font_layout,
+                                                        (*this_).default_classifier_size,
+                                                        &features_bounds,
+                                                        classifier_layout
+                                                      );
 
             geometry_dimensions_destroy( &features_bounds );
         }
@@ -805,11 +806,11 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        visible_classifier2
-                                                      );
+                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier2
+                                                       );
     }
 
     /* cleanup sorted array indices */
@@ -870,11 +871,11 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        visible_classifier2
-                                                      );
+                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier2
+                                                       );
     }
 
     /* cleanup sorted array indices */
@@ -935,11 +936,11 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                        layout_visible_classifier_get_data_ptr( visible_classifier2 ),
-                                                        (*this_).pencil_size,
-                                                        font_layout,
-                                                        visible_classifier2
-                                                      );
+                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         visible_classifier2
+                                                       );
     }
 
     /* cleanup sorted array indices */

@@ -69,7 +69,7 @@ static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_f
     return (*this_).data;
 }
 
-static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ )
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( const layout_feature_t *this_ )
 {
     return (*this_).classifier;
 }

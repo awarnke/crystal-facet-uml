@@ -1,6 +1,7 @@
 /* File: pencil_relationship_painter.c; Copyright and License: see below */
 
 #include "pencil_relationship_painter.h"
+#include "pencil_layout_data.h"
 #include "trace.h"
 #include "util/string/utf8string.h"
 #include <pango/pangocairo.h>
@@ -607,19 +608,19 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                     type_text = "<<extends>>";
                 }
                 break;
-                
+
                 case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
                 {
                     type_text = "<<includes>>";
                 }
                 break;
-                
+
                 case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
                 {
                     type_text = "<<deploy>>";
                 }
                 break;
-                
+
                 case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
                 {
                     type_text = "<<manifest>>";
@@ -637,7 +638,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                     type_text = "<<trace>>";
                 }
                 break;
-                
+
                 default:
                 {
                     /* other types do not show their type */
@@ -645,7 +646,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                 }
                 break;
             }
-            
+
             if ( NULL != type_text )
             {
                 int text3_width;
@@ -659,7 +660,32 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                 pango_cairo_show_layout (cr, layout);
             }
         }
-        
+
+#ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+        /* draw the rectangles */
+        {
+            geometry_rectangle_t bounds;
+            bounds = geometry_connector_get_bounding_rectangle( connector_shape );
+            const geometry_rectangle_t *relation_label_box;
+            relation_label_box = layout_relationship_get_label_box_ptr( layouted_relationship );
+
+            cairo_set_source_rgba( cr, 0.5, 1.0, 0.6, 0.5 );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( &bounds ),
+                              geometry_rectangle_get_top ( &bounds ),
+                              geometry_rectangle_get_width ( &bounds ),
+                              geometry_rectangle_get_height ( &bounds )
+            );
+            cairo_rectangle ( cr,
+                              geometry_rectangle_get_left ( relation_label_box ),
+                              geometry_rectangle_get_top ( relation_label_box ),
+                              geometry_rectangle_get_width ( relation_label_box ),
+                              geometry_rectangle_get_height ( relation_label_box )
+            );
+            cairo_stroke (cr);
+        }
+#endif
+
         /* draw markers */
         if ( mark_selected )
         {

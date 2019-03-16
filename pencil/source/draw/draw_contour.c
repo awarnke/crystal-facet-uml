@@ -100,15 +100,52 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
-        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             /* standard size */
             *out_top_border = double_gap;
             *out_left_border = double_gap;
             *out_bottom_border = double_gap;
             *out_right_border = double_gap;
+        }
+        break;
+            
+        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
+        {
+            /* within a decision rhombus, space is limited: */
+            double v_offset = pencil_size_get_standard_font_size( pencil_size );
+            double h_offset = 2.0 * pencil_size_get_standard_font_size( pencil_size );
+
+            /* standard size */
+            *out_top_border = double_gap + v_offset;
+            *out_left_border = double_gap + h_offset;
+            *out_bottom_border = double_gap + v_offset;
+            *out_right_border = double_gap + h_offset;
+        }
+        break;
+        
+        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
+        {
+            /* within an accept event, space is limited: */
+            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            
+            /* standard size */
+            *out_top_border = double_gap;
+            *out_left_border = double_gap + h_offset;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap;
+        }
+        break;
+        
+        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
+        {
+            /* within a send signal, space is limited: */
+            double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
+            
+            /* standard size */
+            *out_top_border = double_gap;
+            *out_left_border = double_gap;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap + h_offset;
         }
         break;
 

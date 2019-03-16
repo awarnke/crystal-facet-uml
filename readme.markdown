@@ -20,9 +20,9 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install devscripts  # for debian build, includes build-essential
 >
-> sudo apt install dblatex  # for user documentation
+> sudo apt install dblatex     # for user documentation
 >
-> sudo apt install xmlto  # for user documentation
+> sudo apt install xmlto       # for user documentation
 
 openSuSE:
 
@@ -34,15 +34,16 @@ openSuSE:
 >
 > sudo zypper install devscripts  # for debian build, includes build-essential
 >
-> sudo zypper install dblatex  # for user documentation
+> sudo zypper install dblatex     # for user documentation
 >
-> sudo apt install xmlto  # for user documentation
+> sudo zypper install xmlto       # for user documentation
 
 all:
 
 > mkdir cmake_build && cd cmake_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-code/
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-code/  # or
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # depending on the source directory
 >
 > make crystal_facet_uml
 

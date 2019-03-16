@@ -110,7 +110,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_message_user_doc( (*this_).resources ),
                                                          "The user manual crystal_facet_uml_user_documentation.pdf is available",
-                                                         "in the net and locally at /usr/share/doc/packages/crystal-facet-uml",
+                                                         "in the net and locally at /usr/share/doc/(packages/)crystal-facet-uml",
                                                          text_area_start+BORDER,
                                                          top+BORDER+192,
                                                          cr
@@ -179,16 +179,6 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                                              top+BORDER+TAB_ROW1_Y,
                                                              cr
                                                            );
-        /*
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_search( (*this_).resources ),
-                                                             "Click to create a",
-                                                             "diagram below the current.",
-                                                             left+TAB_COL2_X+BORDER,
-                                                             top+BORDER+TAB_ROW0_Y,
-                                                             cr
-                                                           );
-        */
         gui_sketch_background_private_draw_icon_and_message( this_,
                                                              gui_resources_get_tool_navigate( (*this_).resources ),
                                                              "Click on a diagram to navigate,",

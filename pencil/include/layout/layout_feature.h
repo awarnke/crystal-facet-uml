@@ -125,7 +125,7 @@ static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_f
  *  \param this_ pointer to own object attributes
  *  \return a pointer to the parent layout_visible_classifier_t object
  */
-static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ );
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( const layout_feature_t *this_ );
 
 /*!
  *  \brief gets the row id of the feature

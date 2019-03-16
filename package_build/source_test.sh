@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.11.0
+VERSIONSTR=1.11.1
 echo "Test-Building Version $VERSIONSTR"
 
 echo "clean up possibly broken previous test-build"

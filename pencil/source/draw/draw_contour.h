@@ -204,6 +204,22 @@ void draw_contour_draw_comment ( const draw_contour_t *this_,
                                  cairo_t *cr
                                );
 
+/*!
+ *  \brief draws a horizontal line to e.g. split compartments of feature-groups
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param outer_bounds outer bounding rectangle of the shape, the line has a distance of gap to the outer bounds
+ *  \param y_coordinate coordinate where to draw the line
+ *  \param pencil_size set of sizes and colors for drawing lines and text
+ *  \param cr a cairo drawing context
+ */
+static inline void draw_contour_draw_horizonal_line ( const draw_contour_t *this_,
+                                                      const geometry_rectangle_t *outer_bounds,
+                                                      double y_coordinate,
+                                                      const pencil_size_t *pencil_size,
+                                                      cairo_t *cr
+                                                    );
+
 #include "draw_contour.inl"
 
 #endif  /* DRAW_CONTOUR_H */
