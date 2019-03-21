@@ -13,6 +13,7 @@
 #include "util/geometry/geometry_v_align.h"
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_dimensions.h"
 #include "data_rules.h"
 #include "set/data_visible_classifier.h"
 #include <cairo.h>
@@ -46,6 +47,7 @@ static inline void draw_label_destroy( draw_label_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier the visible_classifier consisting of diagramelement and classifier to draw
+ *  \param proposed_bounds proposed bounds for the text width and height
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_text_height height of the text is returned. NULL is not allowed.
@@ -53,6 +55,7 @@ static inline void draw_label_destroy( draw_label_t *this_ );
  */
 void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
                                                     const data_visible_classifier_t *visible_classifier,
+                                                    const geometry_dimensions_t *proposed_bounds,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
                                                     double *out_text_height,

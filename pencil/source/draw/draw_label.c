@@ -11,8 +11,12 @@
 #include <stdlib.h>
 #include <assert.h>
 
+static const int DRAW_LABEL_PANGO_UNLIMITED_WIDTH = -1;
+static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
+
 void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
                                                     const data_visible_classifier_t *visible_classifier,
+                                                    const geometry_dimensions_t *proposed_bounds,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
                                                     double *out_text_height,
@@ -20,6 +24,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
 {
     TRACE_BEGIN();
     assert( NULL != visible_classifier );
+    assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_text_height );
@@ -49,7 +54,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
 
                 /* determine text width and height */
                 pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
+                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
                 pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             }
         }
@@ -63,6 +68,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
             bool is_anonymous_instance;
             is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
             is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
+            int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
 
             /* prepare text */
             char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
@@ -79,8 +85,12 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
 
             /* determine text width and height */
             pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
+            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
             pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
+
+            /* restore pango context */
+            pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH );
 
             /* for space between stereotype and name */
             text2_height += pencil_size_get_font_line_gap( pencil_size );
@@ -96,7 +106,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
             || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
+            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
             pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
         }
 
@@ -154,7 +164,7 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
 
             int text1_width;
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), -1);
+            pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
             pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
             cairo_move_to ( cr, left + 0.5*( width - text1_width ), top );
             pango_cairo_show_layout (cr, font_layout);
@@ -183,13 +193,18 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
         utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
 
         int text2_width;
+        double f_size = pencil_size_get_standard_font_size( pencil_size );
         pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), -1);
+        pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
+        pango_layout_set_width(font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */
         cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
+
+        /* restore pango context */
+        pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH);
 
         /* underline instances */
         if ( is_always_instance || is_anonymous_instance )
@@ -207,7 +222,7 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
         int text3_width;
         int text3_height;
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), -1);
+        pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
         pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
 
         /* draw text */

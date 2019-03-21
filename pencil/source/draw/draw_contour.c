@@ -25,7 +25,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
     assert( NULL != out_right_border );
 
     double gap = pencil_size_get_standard_object_border( pencil_size );
-    double double_gap = 2.0 * gap;  /* a line has the gap disance on both sides to the next object */
+    double double_gap = 2.0 * gap;  /* a line has the gap distance on both sides to the next object */
 
     switch ( classifier_type )
     {
@@ -91,12 +91,10 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_UML_STATE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
         case DATA_CLASSIFIER_TYPE_UML_PART:
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
@@ -108,7 +106,29 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
             *out_right_border = double_gap;
         }
         break;
-            
+
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        {
+            double type_icon_height = pencil_size_get_standard_font_size( pencil_size );
+
+            *out_top_border = double_gap;
+            *out_left_border = double_gap;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap + 1.4 * type_icon_height;
+        }
+        break;
+
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        {
+            double type_icon_height = pencil_size_get_standard_font_size( pencil_size );
+
+            *out_top_border = double_gap;
+            *out_left_border = double_gap;
+            *out_bottom_border = double_gap;
+            *out_right_border = double_gap + 0.7 * type_icon_height;
+        }
+        break;
+
         case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
         {
             /* within a decision rhombus, space is limited: */
@@ -122,12 +142,12 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
             *out_right_border = double_gap + h_offset;
         }
         break;
-        
+
         case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT :
         {
             /* within an accept event, space is limited: */
             double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
-            
+
             /* standard size */
             *out_top_border = double_gap;
             *out_left_border = double_gap + h_offset;
@@ -135,12 +155,12 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
             *out_right_border = double_gap;
         }
         break;
-        
+
         case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
         {
             /* within a send signal, space is limited: */
             double h_offset = 1.5 * pencil_size_get_standard_font_size( pencil_size );
-            
+
             /* standard size */
             *out_top_border = double_gap;
             *out_left_border = double_gap;

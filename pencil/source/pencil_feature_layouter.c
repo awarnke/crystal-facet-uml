@@ -118,6 +118,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             {
                 TSLOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
                 layout_feature_set_bounds ( feature_layout, c_bounds );
+                layout_feature_set_label_box ( feature_layout, c_bounds );
                 layout_feature_set_icon_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
                 layout_feature_set_label_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
             }
@@ -159,6 +160,7 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                   0.25 * c_height
                                 );
         layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
+        layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type )
     {
@@ -176,12 +178,14 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                   dda_bottom - c_bottom - obj_dist
                                 );
         layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
+        layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
     else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
     {
         layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         layout_feature_set_bounds ( out_feature_layout, classifier_bounds );
+        layout_feature_set_label_box ( out_feature_layout, classifier_bounds );
     }
 
     TRACE_END();
@@ -276,6 +280,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                               port_icon_size
                             );
     layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+    layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
 
     TRACE_END();
@@ -319,6 +324,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
             layout_feature_set_label_direction ( out_feature_layout, (list_order < (INT32_MIN/4)*3)
                                                                      ? PENCIL_LAYOUT_DIRECTION_UP
@@ -337,6 +343,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
             layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
         }
@@ -355,6 +362,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
             layout_feature_set_label_direction ( out_feature_layout, (list_order < INT32_MAX/4)
                                                                      ? PENCIL_LAYOUT_DIRECTION_DOWN
@@ -373,6 +381,7 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
                                       interface_icon_size
                                     );
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
             layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
         }
@@ -471,6 +480,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                               geometry_dimensions_get_height( &f_min_bounds )
                             );
     layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+    layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );  /* dummy direction */
     layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );  /* dummy direction */
 

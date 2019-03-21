@@ -121,15 +121,14 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                               geometry_rectangle_get_top ( feature_bounds ),
                               geometry_rectangle_get_width ( feature_bounds ),
                               geometry_rectangle_get_height ( feature_bounds )
-            );
+                            );
             cairo_rectangle ( cr,
                               geometry_rectangle_get_left ( feature_label_box ),
                               geometry_rectangle_get_top ( feature_label_box ),
                               geometry_rectangle_get_width ( feature_label_box ),
                               geometry_rectangle_get_height ( feature_label_box )
-            );
+                            );
             cairo_stroke (cr);
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 #endif
 

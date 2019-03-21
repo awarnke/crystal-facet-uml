@@ -1,5 +1,7 @@
 2019-03-xx 1.11.1 [xxxxxxx]
   + operations and properites do not overlap with class/interface compartments
+  + linebreaks in classifier names are possible
+  + component and artifact icons do not overlap with the label
 2019-03-10 1.11.0 [29089a8]
   + export dialog allows to select multiple file formats simultaneously
   + docbook export

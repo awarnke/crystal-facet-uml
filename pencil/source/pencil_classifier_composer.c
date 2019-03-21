@@ -493,15 +493,14 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
                               geometry_rectangle_get_top ( classifier_space ),
                               geometry_rectangle_get_width ( classifier_space ),
                               geometry_rectangle_get_height ( classifier_space )
-            );
+                            );
             cairo_rectangle ( cr,
                               geometry_rectangle_get_left ( classifier_label_box ),
                               geometry_rectangle_get_top ( classifier_label_box ),
                               geometry_rectangle_get_width ( classifier_label_box ),
                               geometry_rectangle_get_height ( classifier_label_box )
-            );
+                            );
             cairo_stroke (cr);
-            cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 #endif
 
@@ -568,6 +567,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     /* determine stereotype and name dimensions */
     draw_label_get_stereotype_and_name_dimensions( &((*this_).draw_label),
                                                    visible_classifier,
+                                                   proposed_bounds,
                                                    pencil_size,
                                                    font_layout,
                                                    &text_height,
@@ -663,10 +663,19 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     double text_height;
     double text_width;
 
+    /* name the input data */
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
     data_classifier_type_t classifier_type;
     classifier_type = data_classifier_get_main_type( classifier );
+
+    /* get the bounds and inner space rectangles to modify */
+    const geometry_rectangle_t *classifier_bounds;
+    classifier_bounds = layout_visible_classifier_get_bounds_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_space;
+    out_classifier_space = layout_visible_classifier_get_space_ptr( io_classifier_layout );
+    geometry_rectangle_t *out_classifier_label_box;
+    out_classifier_label_box = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
 
     TRACE_INFO_INT("calculating minimum bounds of classifier id", data_classifier_get_id( classifier ) );
 
@@ -681,24 +690,16 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
                                              );
 
     /* determine stereotype and name dimensions */
+    geometry_dimensions_t proposed_bounds;
+    geometry_dimensions_init( &proposed_bounds, geometry_rectangle_get_width( classifier_bounds ), geometry_rectangle_get_height( classifier_bounds ) );
     draw_label_get_stereotype_and_name_dimensions( &((*this_).draw_label),
                                                    visible_classifier,
+                                                   &proposed_bounds,
                                                    pencil_size,
                                                    font_layout,
                                                    &text_height,
                                                    &text_width
                                                  );
-
-    /* get the bounds and inner space rectangles to modify */
-    const geometry_rectangle_t *classifier_bounds;
-    classifier_bounds = layout_visible_classifier_get_bounds_ptr( io_classifier_layout );
-    geometry_rectangle_t *out_classifier_space;
-    out_classifier_space = layout_visible_classifier_get_space_ptr( io_classifier_layout );
-    geometry_rectangle_t *out_classifier_label_box;
-    out_classifier_label_box = layout_visible_classifier_get_label_box_ptr( io_classifier_layout );
-
-    bool is_fix_sized_symbol;
-    is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
 
     /* calculate the result */
     const double left = geometry_rectangle_get_left( classifier_bounds );
@@ -706,6 +707,9 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     const double width = geometry_rectangle_get_width( classifier_bounds );
     const double space_left = left + left_border;
     const double space_width = width - left_border - right_border;
+
+    bool is_fix_sized_symbol;
+    is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
     if ( ! is_fix_sized_symbol )
     {
         if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )

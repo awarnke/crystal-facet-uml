@@ -675,13 +675,13 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
                               geometry_rectangle_get_top ( &bounds ),
                               geometry_rectangle_get_width ( &bounds ),
                               geometry_rectangle_get_height ( &bounds )
-            );
+                            );
             cairo_rectangle ( cr,
                               geometry_rectangle_get_left ( relation_label_box ),
                               geometry_rectangle_get_top ( relation_label_box ),
                               geometry_rectangle_get_width ( relation_label_box ),
                               geometry_rectangle_get_height ( relation_label_box )
-            );
+                            );
             cairo_stroke (cr);
         }
 #endif
