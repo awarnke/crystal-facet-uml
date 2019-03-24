@@ -2,8 +2,8 @@
 
 #include "gui_serializer_deserializer.h"
 #include "trace.h"
-#include "serial/data_json_serializer.h"
-#include "serial/data_json_deserializer.h"
+#include "json/json_serializer.h"
+#include "json/json_deserializer.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
 #include <assert.h>
@@ -48,12 +48,12 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
     TRACE_BEGIN();
     data_error_t serialize_error = DATA_ERROR_NONE;
     data_error_t read_error;
-    data_json_serializer_t serializer;
+    json_serializer_t serializer;
 
-    data_json_serializer_init( &serializer );
+    json_serializer_init( &serializer );
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
-    serialize_error |= data_json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
+    serialize_error |= json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
     {
         data_id_t current_id;
@@ -79,7 +79,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
                     if ( read_error == DATA_ERROR_NONE )
                     {
-                        serialize_error |= data_json_serializer_append_classifier( &serializer,
+                        serialize_error |= json_serializer_append_classifier( &serializer,
                                                                                    &out_classifier,
                                                                                    &((*this_).temp_features),
                                                                                    out_feature_count,
@@ -115,7 +115,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                            &out_relation );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= data_json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
+                    serialize_error |= json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
                 }
                 else
                 {
@@ -153,7 +153,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
                         if ( read_error == DATA_ERROR_NONE )
                         {
-                            serialize_error |= data_json_serializer_append_classifier( &serializer,
+                            serialize_error |= json_serializer_append_classifier( &serializer,
                                                                                        &out_classifier,
                                                                                        &((*this_).temp_features),
                                                                                        out_feature_count,
@@ -188,7 +188,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                       &out_diagram );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= data_json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
+                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
                 }
                 else
                 {
@@ -205,7 +205,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
             break;
         }
     }
-    serialize_error |= data_json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
+    serialize_error |= json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
 
     if ( serialize_error == DATA_ERROR_NONE )
     {
@@ -221,7 +221,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
     }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
-    data_json_serializer_destroy( &serializer );
+    json_serializer_destroy( &serializer );
 
     TRACE_END();
 }
@@ -288,14 +288,14 @@ void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_de
 void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializer_deserializer_t *this_, const char *json_text, int64_t diagram_id )
 {
     TRACE_BEGIN();
-    data_json_deserializer_t deserializer;
+    json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
 
     TRACE_INFO ( json_text );
 
-    data_json_deserializer_init( &deserializer, json_text );
+    json_deserializer_init( &deserializer, json_text );
 
-    parse_error = data_json_deserializer_expect_begin_set( &deserializer );
+    parse_error = json_deserializer_expect_begin_set( &deserializer );
 
     if ( DATA_ERROR_NONE == parse_error )
     {
@@ -305,7 +305,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* no not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
-            parse_error = data_json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
+            parse_error = json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
             {
                 switch ( next_object_type )
@@ -321,7 +321,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                     {
                         data_classifier_t new_classifier;
                         uint32_t feature_count;
-                        parse_error = data_json_deserializer_get_next_classifier ( &deserializer,
+                        parse_error = json_deserializer_get_next_classifier ( &deserializer,
                                                                                    &new_classifier,
                                                                                    GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
                                                                                    &((*this_).temp_features),
@@ -436,7 +436,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                     case DATA_TABLE_DIAGRAM:
                     {
                         data_diagram_t new_diagram;
-                        parse_error = data_json_deserializer_get_next_diagram ( &deserializer, &new_diagram );
+                        parse_error = json_deserializer_get_next_diagram ( &deserializer, &new_diagram );
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
@@ -469,7 +469,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
 
                     case DATA_TABLE_RELATIONSHIP:
                     {
-                        parse_error = data_json_deserializer_skip_next_object ( &deserializer );
+                        parse_error = json_deserializer_skip_next_object ( &deserializer );
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
@@ -499,10 +499,10 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = data_json_deserializer_expect_end_set( &deserializer );
+        parse_error = json_deserializer_expect_end_set( &deserializer );
     }
 
-    data_json_deserializer_destroy( &deserializer );
+    json_deserializer_destroy( &deserializer );
 
     if ( DATA_ERROR_DUPLICATE_NAME == parse_error )
     {
@@ -511,7 +511,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
     else if ( DATA_ERROR_NONE != parse_error )
     {
         uint32_t read_pos;
-        data_json_deserializer_get_read_pos ( &deserializer, &read_pos );
+        json_deserializer_get_read_pos ( &deserializer, &read_pos );
         gui_simple_message_to_user_show_message_with_int ( (*this_).message_to_user,
                                                            GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                            GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,

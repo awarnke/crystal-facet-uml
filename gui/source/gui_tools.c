@@ -2,8 +2,6 @@
 
 #include "gui_tools.h"
 #include "trace.h"
-#include "serial/data_json_serializer.h"
-#include "serial/data_json_deserializer.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
 #include <assert.h>

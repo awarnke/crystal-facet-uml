@@ -1,17 +1,17 @@
-/* File: data_json_deserializer.h; Copyright and License: see below */
+/* File: json_deserializer.h; Copyright and License: see below */
 
-#ifndef DATA_JSON_DESERIALIZER_H
-#define DATA_JSON_DESERIALIZER_H
+#ifndef JSON_DESERIALIZER_H
+#define JSON_DESERIALIZER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
  *  \brief Deserializes data objects from json format.
  *
- *  This object is a json parser, using the data_json_tokenizer as lexer.
+ *  This object is a json parser, using the json_tokenizer as lexer.
  */
 
-#include "serial/data_json_tokenizer.h"
+#include "json/json_tokenizer.h"
 #include "data_error.h"
 #include "data_table.h"
 #include "data_classifier.h"
@@ -27,37 +27,37 @@
  *  The attribute values keep track on the structure of the input tokens
  *  to check if these appear in the right order.
  */
-struct data_json_deserializer_struct {
-    data_json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
+struct json_deserializer_struct {
+    json_tokenizer_t tokenizer;  /*!< own tokenizer instance to consecutively fetch tokens from the json input file */
     const char *in_data;  /*!< string to be parsed */
     uint32_t read_pos;  /*!< current read position in string to be parsed */
     bool after_first_array_entry;  /*!< true if the first array entry has already been parsed */
 };
 
-typedef struct data_json_deserializer_struct data_json_deserializer_t;
+typedef struct json_deserializer_struct json_deserializer_t;
 
 /*!
- *  \brief initializes the data_json_deserializer_t struct
+ *  \brief initializes the json_deserializer_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
  */
-void data_json_deserializer_init ( data_json_deserializer_t *this_, const char *in_data );
+void json_deserializer_init ( json_deserializer_t *this_, const char *in_data );
 
 /*!
- *  \brief re-initializes the data_json_deserializer_t struct
+ *  \brief re-initializes the json_deserializer_t struct
  *
  *  \param this_ pointer to own object attributes
  *  \param in_data json text to be parsed
  */
-void data_json_deserializer_reinit ( data_json_deserializer_t *this_, const char *in_data );
+void json_deserializer_reinit ( json_deserializer_t *this_, const char *in_data );
 
 /*!
- *  \brief destroys the data_json_deserializer_t struct
+ *  \brief destroys the json_deserializer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_deserializer_destroy ( data_json_deserializer_t *this_ );
+void json_deserializer_destroy ( json_deserializer_t *this_ );
 
 /*!
  *  \brief checks that the header of the json set is valid
@@ -67,7 +67,7 @@ void data_json_deserializer_destroy ( data_json_deserializer_t *this_ );
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t *this_ );
+data_error_t json_deserializer_expect_begin_set ( json_deserializer_t *this_ );
 
 /*!
  *  \brief checks that the ending of the json set is valid
@@ -77,7 +77,7 @@ data_error_t data_json_deserializer_expect_begin_set ( data_json_deserializer_t 
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *this_ );
+data_error_t json_deserializer_expect_end_set ( json_deserializer_t *this_ );
 
 /*!
  *  \brief determines the type of object which will be parsed next
@@ -92,7 +92,7 @@ data_error_t data_json_deserializer_expect_end_set ( data_json_deserializer_t *t
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deserializer_t *this_, data_table_t *out_type );
+data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *this_, data_table_t *out_type );
 
 /*!
  *  \brief parses the next object as classifier
@@ -107,7 +107,7 @@ data_error_t data_json_deserializer_get_type_of_next_element ( data_json_deseria
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer_t *this_,
+data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
                                                           data_classifier_t *out_object,
                                                           uint32_t max_out_array_size,
                                                           data_feature_t (*out_feature)[],
@@ -124,7 +124,7 @@ data_error_t data_json_deserializer_get_next_classifier ( data_json_deserializer
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t *this_, data_diagram_t *out_object );
+data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, data_diagram_t *out_object );
 
 /*!
  *  \brief skips the next object, e.g. a relationship if this is of no interest
@@ -134,7 +134,7 @@ data_error_t data_json_deserializer_get_next_diagram ( data_json_deserializer_t 
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_skip_next_object ( data_json_deserializer_t *this_ );
+data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ );
 
 /*!
  *  \brief gets the current read position
@@ -144,7 +144,7 @@ data_error_t data_json_deserializer_skip_next_object ( data_json_deserializer_t 
  *  \param this_ pointer to own object attributes
  *  \param out_read_pos pointer to storage location for the result. Must not be NULL.
  */
-void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint32_t *out_read_pos );
+void json_deserializer_get_read_pos ( json_deserializer_t *this_, uint32_t *out_read_pos );
 
 /*!
  *  \brief parses the next feature array
@@ -158,7 +158,7 @@ void data_json_deserializer_get_read_pos ( data_json_deserializer_t *this_, uint
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_private_get_next_feature_array ( data_json_deserializer_t *this_,
+data_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
                                                                      uint32_t max_out_array_size,
                                                                      data_feature_t (*out_feature)[],
                                                                      uint32_t *out_feature_count
@@ -176,9 +176,9 @@ data_error_t data_json_deserializer_private_get_next_feature_array ( data_json_d
  *          DATA_ERROR_LEXICAL_STRUCTURE if JSON format is invalid,
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
-data_error_t data_json_deserializer_private_get_next_feature ( data_json_deserializer_t *this_, data_feature_t *out_object );
+data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *this_, data_feature_t *out_object );
 
-#endif  /* DATA_JSON_DESERIALIZER_H */
+#endif  /* JSON_DESERIALIZER_H */
 
 
 /*

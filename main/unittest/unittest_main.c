@@ -3,7 +3,6 @@
 #include "data_change_notifier_test.h"
 #include "data_small_set_test.h"
 #include "data_database_listener_test.h"
-#include "data_json_tokenizer_test.h"
 #include "data_database_reader_test.h"
 #include "ctrl_diagram_controller_test.h"
 #include "ctrl_controller_test.h"
@@ -16,6 +15,7 @@
 #include "geometry_connector_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "io_format_writer_test.h"
+#include "json_tokenizer_test.h"
 #include "universal_array_index_sorter_test.h"
 #include "utf8stringbuf_test.h"
 #include "utf8codepoint_test.h"
@@ -84,11 +84,11 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, data_small_set_test_get_list() );
         test_runner_run_suite( &runner, data_change_notifier_test_get_list() );
         test_runner_run_suite( &runner, data_database_listener_test_get_list() );
-        test_runner_run_suite( &runner, data_json_tokenizer_test_get_list() );
         test_runner_run_suite( &runner, geometry_rectangle_test_get_list() );
         test_runner_run_suite( &runner, geometry_connector_test_get_list() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
         test_runner_run_suite( &runner, io_format_writer_test_get_list() );
+        test_runner_run_suite( &runner, json_tokenizer_test_get_list() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );
         test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
         test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );

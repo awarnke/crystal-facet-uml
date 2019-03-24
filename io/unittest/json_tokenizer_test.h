@@ -1,18 +1,18 @@
-/* File: data_json_tokenizer_test.h; Copyright and License: see below */
+/* File: json_tokenizer_test.h; Copyright and License: see below */
 
-#ifndef DATA_JSON_TOKENIZER_TEST_H
-#define DATA_JSON_TOKENIZER_TEST_H
+#ifndef JSON_TOKENIZER_TEST_H
+#define JSON_TOKENIZER_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for data_json_tokenizer
+ *  \brief UNITTEST for json_tokenizer
  */
 
 #include <test_suite.h>
 
-test_suite_t data_json_tokenizer_test_get_list(void);
+test_suite_t json_tokenizer_test_get_list(void);
 
-#endif  /* DATA_JSON_TOKENIZER_TEST_H */
+#endif  /* JSON_TOKENIZER_TEST_H */
 
 
 /*

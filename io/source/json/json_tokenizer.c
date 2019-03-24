@@ -1,12 +1,12 @@
-/* File: data_json_tokenizer.c; Copyright and License: see below */
+/* File: json_tokenizer.c; Copyright and License: see below */
 
-#include "serial/data_json_tokenizer.h"
+#include "json/json_tokenizer.h"
 #include "trace.h"
 #include "tslog.h"
 #include <string.h>
 #include <assert.h>
 
-static const char * const DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[] = {
+static const char * const JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[] = {
     "\\t", "\x09",  /* tab */
     "\\n", "\x0a",  /* newline */
     "\\r", "\x0d",  /* return */
@@ -18,28 +18,28 @@ static const char * const DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS[] = {
     NULL,  /* for JSON, see rfc7159 */
 };
 
-void data_json_tokenizer_init ( data_json_tokenizer_t *this_ )
+void json_tokenizer_init ( json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void data_json_tokenizer_reinit ( data_json_tokenizer_t *this_ )
+void json_tokenizer_reinit ( json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ )
+void json_tokenizer_destroy ( json_tokenizer_t *this_ )
 {
     TRACE_BEGIN();
 
     TRACE_END();
 }
 
-data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_begin_object ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -47,9 +47,9 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_OBJECT == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -64,7 +64,7 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_name )
+data_error_t json_tokenizer_get_member_name ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_name )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -73,22 +73,22 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
     utf8error_t str_err = UTF8ERROR_SUCCESS;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     /* expect string begin */
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
     {
         /* expected token found */
         uint32_t start = (*io_read_pos)+1;
         uint32_t end = start;
 
-        data_json_tokenizer_private_find_string_end ( this_, in_data, &end );
+        json_tokenizer_private_find_string_end ( this_, in_data, &end );
 
         /* expect string end */
-        if ( DATA_JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
+        if ( JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
         {
             uint32_t token_end = end+1;
-            if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &token_end ) )
+            if ( ! json_tokenizer_private_is_token_end( this_, in_data, &token_end ) )
             {
                 result_err = DATA_ERROR_LEXICAL_STRUCTURE;
             }
@@ -100,7 +100,7 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
                 /* copy and unescape the string */
                 str_err |= utf8stringbuf_copy_region_from_str( out_name, in_data, start, end-start );
                 str_err |= utf8stringbuf_replace_all( out_name,
-                                                      DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                                                      JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
@@ -127,7 +127,7 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
     return result_err;
 }
 
-data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object )
+data_error_t json_tokenizer_is_end_object ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -136,9 +136,9 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_END_OBJECT == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_END_OBJECT == in_data[*io_read_pos] )
     {
         /* object-end token found */
         (*io_read_pos) ++;
@@ -155,7 +155,7 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_name_separator ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -163,9 +163,9 @@ data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_NAME_SEPARATOR == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -180,7 +180,7 @@ data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_begin_array ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -188,9 +188,9 @@ data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *thi
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_ARRAY == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -205,7 +205,7 @@ data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *thi
     return result_err;
 }
 
-data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_array )
+data_error_t json_tokenizer_is_end_array ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_array )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -214,9 +214,9 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_END_ARRAY == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_END_ARRAY == in_data[*io_read_pos] )
     {
         /* array-end token found */
         (*io_read_pos) ++;
@@ -233,7 +233,7 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_value_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_value_separator ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -241,9 +241,9 @@ data_error_t data_json_tokenizer_expect_value_separator ( data_json_tokenizer_t 
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
-    if ( DATA_JSON_CONSTANTS_CHAR_VALUE_SEPARATOR == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_VALUE_SEPARATOR == in_data[*io_read_pos] )
     {
         /* expected token found */
         (*io_read_pos) ++;
@@ -258,7 +258,7 @@ data_error_t data_json_tokenizer_expect_value_separator ( data_json_tokenizer_t 
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, data_json_value_type_t *value_type )
+data_error_t json_tokenizer_get_value_type ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, json_value_type_t *value_type )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -267,47 +267,47 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     /* determine next token */
     char current = in_data[*io_read_pos];
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT == current )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_OBJECT == current )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_OBJECT;
+        *value_type = JSON_VALUE_TYPE_OBJECT;
     }
-    else if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY == current )
+    else if ( JSON_CONSTANTS_CHAR_BEGIN_ARRAY == current )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_ARRAY;
+        *value_type = JSON_VALUE_TYPE_ARRAY;
     }
-    else if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == current )
+    else if ( JSON_CONSTANTS_CHAR_BEGIN_STRING == current )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_STRING;
+        *value_type = JSON_VALUE_TYPE_STRING;
     }
-    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_FALSE, sizeof(DATA_JSON_CONSTANTS_FALSE)-1 ) )
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_FALSE, sizeof(JSON_CONSTANTS_FALSE)-1 ) )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_BOOLEAN;
+        *value_type = JSON_VALUE_TYPE_BOOLEAN;
     }
-    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_TRUE, sizeof(DATA_JSON_CONSTANTS_TRUE)-1 ) )
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_TRUE, sizeof(JSON_CONSTANTS_TRUE)-1 ) )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_BOOLEAN;
+        *value_type = JSON_VALUE_TYPE_BOOLEAN;
     }
-    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_NULL, sizeof(DATA_JSON_CONSTANTS_NULL)-1 ) )
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_NULL, sizeof(JSON_CONSTANTS_NULL)-1 ) )
     {
-        *value_type = DATA_JSON_VALUE_TYPE_NULL;
+        *value_type = JSON_VALUE_TYPE_NULL;
     }
     else if ( ( '-' == current ) || (( '0' <= current ) && ( current <= '9')) )
     {
         /* assume integer */
-        *value_type = DATA_JSON_VALUE_TYPE_INTEGER;
+        *value_type = JSON_VALUE_TYPE_INTEGER;
 
         /* check if there is an 'e', 'E' or '.' in the number */
         bool finished = false;
-        for ( uint32_t num_pos = *io_read_pos; ( ! finished ) && ( num_pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); num_pos ++ )
+        for ( uint32_t num_pos = *io_read_pos; ( ! finished ) && ( num_pos < JSON_TOKENIZER_MAX_INPUT_SIZE ); num_pos ++ )
         {
             char probe = in_data[num_pos];
             if ( ( '.' == probe ) || ( 'e' == probe ) || ( 'E' == probe ) )
             {
-                *value_type = DATA_JSON_VALUE_TYPE_NUMBER;
+                *value_type = JSON_VALUE_TYPE_NUMBER;
                 finished = true;
             }
             else if (( probe < '0' )||( '9' < probe ))
@@ -318,7 +318,7 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
     }
     else
     {
-        *value_type = DATA_JSON_VALUE_TYPE_UNDEF;
+        *value_type = JSON_VALUE_TYPE_UNDEF;
         result_err = DATA_ERROR_PARSER_STRUCTURE;
     }
 
@@ -326,7 +326,7 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_value )
+data_error_t json_tokenizer_get_string_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_value )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -335,22 +335,22 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
     utf8error_t str_err = UTF8ERROR_SUCCESS;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     /* expect string begin */
-    if ( DATA_JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
+    if ( JSON_CONSTANTS_CHAR_BEGIN_STRING == in_data[*io_read_pos] )
     {
         /* expected token found */
         uint32_t start = (*io_read_pos)+1;
         uint32_t end = start;
 
-        data_json_tokenizer_private_find_string_end ( this_, in_data, &end );
+        json_tokenizer_private_find_string_end ( this_, in_data, &end );
 
         /* expect string end */
-        if ( DATA_JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
+        if ( JSON_CONSTANTS_CHAR_END_STRING == in_data[end] )
         {
             uint32_t token_end = end+1;
-            if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &token_end ) )
+            if ( ! json_tokenizer_private_is_token_end( this_, in_data, &token_end ) )
             {
                 result_err = DATA_ERROR_LEXICAL_STRUCTURE;
             }
@@ -362,7 +362,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
                 /* copy and unescape the string */
                 str_err |= utf8stringbuf_copy_region_from_str( out_value, in_data, start, end-start );
                 str_err |= utf8stringbuf_replace_all( out_value,
-                                                      DATA_JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
+                                                      JSON_TOKENIZER_PRIVATE_DECODE_JSON_STRINGS );
                 if ( UTF8ERROR_SUCCESS != str_err )
                 {
                     result_err = DATA_ERROR_STRING_BUFFER_EXCEEDED;
@@ -385,7 +385,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, int64_t *out_int )
+data_error_t json_tokenizer_get_int_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, int64_t *out_int )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -394,17 +394,17 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     uint32_t new_pos = *io_read_pos;
     int64_t parsed_int;
-    parsed_int = data_json_tokenizer_private_parse_integer( this_, in_data, &new_pos );
+    parsed_int = json_tokenizer_private_parse_integer( this_, in_data, &new_pos );
 
     if ( new_pos <= *io_read_pos )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
     }
-    else if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+    else if ( ! json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
     }
@@ -418,7 +418,7 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, double *out_number )
+data_error_t json_tokenizer_get_number_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, double *out_number )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -427,16 +427,16 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     uint32_t new_pos = *io_read_pos;
-    data_json_tokenizer_private_skip_number( this_, in_data, &new_pos );
+    json_tokenizer_private_skip_number( this_, in_data, &new_pos );
 
     if ( new_pos <= *io_read_pos )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
     }
-    else if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+    else if ( ! json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
     {
         result_err = DATA_ERROR_LEXICAL_STRUCTURE;
     }
@@ -451,7 +451,7 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
     return result_err;
 }
 
-data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *out_bool )
+data_error_t json_tokenizer_get_boolean_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *out_bool )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -460,13 +460,13 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     uint32_t new_pos = *io_read_pos;
-    if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_FALSE, sizeof(DATA_JSON_CONSTANTS_FALSE)-1 ) )
+    if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_FALSE, sizeof(JSON_CONSTANTS_FALSE)-1 ) )
     {
-        new_pos += sizeof(DATA_JSON_CONSTANTS_FALSE)-1;
-        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        new_pos += sizeof(JSON_CONSTANTS_FALSE)-1;
+        if ( ! json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
         {
             result_err = DATA_ERROR_LEXICAL_STRUCTURE;
         }
@@ -476,10 +476,10 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
             (*io_read_pos) = new_pos;
         }
     }
-    else if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_TRUE, sizeof(DATA_JSON_CONSTANTS_TRUE)-1 ) )
+    else if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_TRUE, sizeof(JSON_CONSTANTS_TRUE)-1 ) )
     {
-        new_pos += sizeof(DATA_JSON_CONSTANTS_TRUE)-1;
-        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        new_pos += sizeof(JSON_CONSTANTS_TRUE)-1;
+        if ( ! json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
         {
             result_err = DATA_ERROR_LEXICAL_STRUCTURE;
         }
@@ -498,7 +498,7 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_null_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -506,13 +506,13 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     uint32_t new_pos = *io_read_pos;
-    if ( 0 == strncmp( &(in_data[*io_read_pos]), DATA_JSON_CONSTANTS_NULL, sizeof(DATA_JSON_CONSTANTS_NULL)-1 ) )
+    if ( 0 == strncmp( &(in_data[*io_read_pos]), JSON_CONSTANTS_NULL, sizeof(JSON_CONSTANTS_NULL)-1 ) )
     {
-        new_pos += sizeof(DATA_JSON_CONSTANTS_NULL)-1;
-        if ( ! data_json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
+        new_pos += sizeof(JSON_CONSTANTS_NULL)-1;
+        if ( ! json_tokenizer_private_is_token_end( this_, in_data, &new_pos ) )
         {
             result_err = DATA_ERROR_LEXICAL_STRUCTURE;
         }
@@ -530,7 +530,7 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
     return result_err;
 }
 
-data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+data_error_t json_tokenizer_expect_eof ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != in_data );
@@ -538,7 +538,7 @@ data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, cons
     data_error_t result_err = DATA_ERROR_NONE;
 
     /* skip whitespace */
-    data_json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
+    json_tokenizer_private_skip_whitespace( this_, in_data, io_read_pos );
 
     char eof = in_data[*io_read_pos];
     if ( '\0' == eof )

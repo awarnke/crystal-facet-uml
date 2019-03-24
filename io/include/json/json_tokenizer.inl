@@ -1,22 +1,22 @@
-/* File: data_json_tokenizer.inl; Copyright and License: see below */
+/* File: json_tokenizer.inl; Copyright and License: see below */
 
-#include "serial/data_json_constants.h"
+#include "json/json_constants.h"
 #include <assert.h>
 
-static inline void data_json_tokenizer_private_skip_whitespace ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+static inline void json_tokenizer_private_skip_whitespace ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
 
     bool ws_end_reached = false;
     uint32_t pos;
-    for ( pos = *io_read_pos; ( ! ws_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    for ( pos = *io_read_pos; ( ! ws_end_reached ) && ( pos < JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
     {
         char current = in_data[pos];
-        if ( ( DATA_JSON_CONSTANTS_CHAR_NL != current )
-            && ( DATA_JSON_CONSTANTS_CHAR_CR != current )
-            && ( DATA_JSON_CONSTANTS_CHAR_TAB != current )
-            && ( DATA_JSON_CONSTANTS_CHAR_SPACE != current ))
+        if ( ( JSON_CONSTANTS_CHAR_NL != current )
+            && ( JSON_CONSTANTS_CHAR_CR != current )
+            && ( JSON_CONSTANTS_CHAR_TAB != current )
+            && ( JSON_CONSTANTS_CHAR_SPACE != current ))
         {
             ws_end_reached = true;
         }
@@ -24,7 +24,7 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
     *io_read_pos = (pos-1);
 }
 
-static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos )
+static inline bool json_tokenizer_private_is_token_end ( json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != in_read_pos );
@@ -37,26 +37,26 @@ static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenize
         prev = in_data[(*in_read_pos)-1];
         next = in_data[(*in_read_pos)];
         result = (( next == '\0' )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_NL )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_CR )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_TAB )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_SPACE )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_END_OBJECT )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_END_ARRAY )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
-            || ( next == DATA_JSON_CONSTANTS_CHAR_VALUE_SEPARATOR )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_NL )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_CR )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_TAB )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_SPACE )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_END_OBJECT )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_END_ARRAY )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
-            || ( prev == DATA_JSON_CONSTANTS_CHAR_VALUE_SEPARATOR ));
+            || ( next == JSON_CONSTANTS_CHAR_NL )
+            || ( next == JSON_CONSTANTS_CHAR_CR )
+            || ( next == JSON_CONSTANTS_CHAR_TAB )
+            || ( next == JSON_CONSTANTS_CHAR_SPACE )
+            || ( next == JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
+            || ( next == JSON_CONSTANTS_CHAR_END_OBJECT )
+            || ( next == JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
+            || ( next == JSON_CONSTANTS_CHAR_END_ARRAY )
+            || ( next == JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
+            || ( next == JSON_CONSTANTS_CHAR_VALUE_SEPARATOR )
+            || ( prev == JSON_CONSTANTS_CHAR_NL )
+            || ( prev == JSON_CONSTANTS_CHAR_CR )
+            || ( prev == JSON_CONSTANTS_CHAR_TAB )
+            || ( prev == JSON_CONSTANTS_CHAR_SPACE )
+            || ( prev == JSON_CONSTANTS_CHAR_BEGIN_OBJECT )
+            || ( prev == JSON_CONSTANTS_CHAR_END_OBJECT )
+            || ( prev == JSON_CONSTANTS_CHAR_BEGIN_ARRAY )
+            || ( prev == JSON_CONSTANTS_CHAR_END_ARRAY )
+            || ( prev == JSON_CONSTANTS_CHAR_NAME_SEPARATOR )
+            || ( prev == JSON_CONSTANTS_CHAR_VALUE_SEPARATOR ));
 
     }
     else
@@ -67,7 +67,7 @@ static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenize
     return result;
 }
 
-static inline void data_json_tokenizer_private_find_string_end ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+static inline void json_tokenizer_private_find_string_end ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
@@ -75,16 +75,16 @@ static inline void data_json_tokenizer_private_find_string_end ( data_json_token
     bool str_end_reached = false;
     uint32_t pos;
     char esc_incomplete = false;
-    for ( pos = *io_read_pos; ( ! str_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    for ( pos = *io_read_pos; ( ! str_end_reached ) && ( pos < JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
     {
         char current = in_data[pos];
         if ( ( '\0' == current )
-            || (( DATA_JSON_CONSTANTS_CHAR_END_STRING == current )
+            || (( JSON_CONSTANTS_CHAR_END_STRING == current )
             && ( ! esc_incomplete )) )
         {
             str_end_reached = true;
         }
-        if (( DATA_JSON_CONSTANTS_CHAR_ESC == current ) && ( ! esc_incomplete ))
+        if (( JSON_CONSTANTS_CHAR_ESC == current ) && ( ! esc_incomplete ))
         {
             esc_incomplete = true;
         }
@@ -96,7 +96,7 @@ static inline void data_json_tokenizer_private_find_string_end ( data_json_token
     *io_read_pos = (pos-1);
 }
 
-static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+static inline int64_t json_tokenizer_private_parse_integer ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
@@ -130,7 +130,7 @@ static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_toke
         }
 
         bool int_end_reached = false;
-        for ( ; ( ! int_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+        for ( ; ( ! int_end_reached ) && ( pos < JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
         {
             char current = in_data[pos];
             if (( '0' <= current )&&( current <= '9'))
@@ -162,14 +162,14 @@ static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_toke
     return result;
 }
 
-static inline void data_json_tokenizer_private_skip_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
+static inline void json_tokenizer_private_skip_number ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos )
 {
     assert( NULL != in_data );
     assert( NULL != io_read_pos );
 
     bool num_end_reached = false;
     uint32_t pos;
-    for ( pos = *io_read_pos; ( ! num_end_reached ) && ( pos < DATA_JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
+    for ( pos = *io_read_pos; ( ! num_end_reached ) && ( pos < JSON_TOKENIZER_MAX_INPUT_SIZE ); pos ++ )
     {
         char current = in_data[pos];
         if ( (( '0' <= current )&&( current <= '9'))

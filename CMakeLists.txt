@@ -58,13 +58,13 @@ FILE(GLOB commonSource gui/source/*.c
                        ctrl/source/*.c
                        data/source/*.c
                        data/source/storage/*.c
-                       data/source/serial/*.c
                        data/source/set/*.c
                        utf8stringbuf/source/util/string/*.c
                        pencil/source/*.c
                        pencil/source/util/geometry/*.c
                        pencil/source/draw/*.c
-                       io/source/*.c)
+                       io/source/*.c
+                       io/source/json/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/unittest/*.c
                        data/unittest/*.c

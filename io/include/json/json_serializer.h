@@ -1,7 +1,7 @@
-/* File: data_json_serializer.h; Copyright and License: see below */
+/* File: json_serializer.h; Copyright and License: see below */
 
-#ifndef DATA_JSON_SERIALIZER_H
-#define DATA_JSON_SERIALIZER_H
+#ifndef JSON_SERIALIZER_H
+#define JSON_SERIALIZER_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -20,26 +20,26 @@
 /*!
  *  \brief all data attributes needed for serializing data objects
  */
-struct data_json_serializer_struct {
+struct json_serializer_struct {
     bool in_array;  /*!< true if begin_array() was called and end_array() is not yet called. */
     bool is_first;  /*!< true if after begin_array(), no object was inserted yet. */
 };
 
-typedef struct data_json_serializer_struct data_json_serializer_t;
+typedef struct json_serializer_struct json_serializer_t;
 
 /*!
- *  \brief initializes the data_json_serializer_t struct
+ *  \brief initializes the json_serializer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_serializer_init ( data_json_serializer_t *this_ );
+void json_serializer_init ( json_serializer_t *this_ );
 
 /*!
- *  \brief destroys the data_json_serializer_t struct
+ *  \brief destroys the json_serializer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_serializer_destroy ( data_json_serializer_t *this_ );
+void json_serializer_destroy ( json_serializer_t *this_ );
 
 /*!
  *  \brief begins a json object containing an array of objects
@@ -48,9 +48,9 @@ void data_json_serializer_destroy ( data_json_serializer_t *this_ );
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was already called.
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was already called.
  */
-data_error_t data_json_serializer_begin_set ( data_json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief ends a json object containing an array of objects
@@ -59,9 +59,9 @@ data_error_t data_json_serializer_begin_set ( data_json_serializer_t *this_, utf
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_end_array() was already called.
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_end_array() was already called.
  */
-data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a classifier to the stringbuffer
@@ -73,9 +73,9 @@ data_error_t data_json_serializer_end_set ( data_json_serializer_t *this_, utf8s
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
-data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *this_,
+data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
                                                       data_classifier_t *object,
                                                       data_feature_t (*features)[],
                                                       uint32_t feature_count,
@@ -90,9 +90,9 @@ data_error_t data_json_serializer_append_classifier ( data_json_serializer_t *th
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
-data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_, data_diagram_t *object, utf8stringbuf_t out );
+data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_diagram_t *object, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a relationship to the stringbuffer
@@ -102,9 +102,9 @@ data_error_t data_json_serializer_append_diagram ( data_json_serializer_t *this_
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
- *          DATA_ERROR_INVALID_REQUEST if data_json_serializer_begin_array() was not yet called.
+ *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
-data_error_t data_json_serializer_append_relationship ( data_json_serializer_t *this_, data_relationship_t *object, utf8stringbuf_t out );
+data_error_t json_serializer_append_relationship ( json_serializer_t *this_, data_relationship_t *object, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a feature to the stringbuffer, intended for use within a classifier
@@ -115,9 +115,9 @@ data_error_t data_json_serializer_append_relationship ( data_json_serializer_t *
  *  \return UTF8ERROR_SUCCESS in case of success,
  *          negative value if stringbuffer exceeded
  */
-utf8error_t data_json_serializer_private_append_feature ( data_json_serializer_t *this_, data_feature_t *object, utf8stringbuf_t out );
+utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, data_feature_t *object, utf8stringbuf_t out );
 
-#endif  /* DATA_JSON_SERIALIZER_H */
+#endif  /* JSON_SERIALIZER_H */
 
 
 /*

@@ -1,21 +1,21 @@
-/* File: data_json_tokenizer.h; Copyright and License: see below */
+/* File: json_tokenizer.h; Copyright and License: see below */
 
-#ifndef DATA_JSON_TOKENIZER_H
-#define DATA_JSON_TOKENIZER_H
+#ifndef JSON_TOKENIZER_H
+#define JSON_TOKENIZER_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
  *  \brief Tokenizes a json input string.
  *
- *  This data_json_tokenizer verifies the JSON file tokens (lexer) and allows the caller (parser) to validate the data structure.
+ *  This json_tokenizer verifies the JSON file tokens (lexer) and allows the caller (parser) to validate the data structure.
  *
- *  In contrast to a DOM parser, this data_json_tokenizer parses the input sequentially and provides parsed contents step by step.
- *  In contrast to a SAX parser, this data_json_tokenizer does not require callbacks that are called whenever the next token is parsed.
- *  This data_json_tokenizer allows the caller to specify the expectation what the next token is and fails if this expectation is wrong.
+ *  In contrast to a DOM parser, this json_tokenizer parses the input sequentially and provides parsed contents step by step.
+ *  In contrast to a SAX parser, this json_tokenizer does not require callbacks that are called whenever the next token is parsed.
+ *  This json_tokenizer allows the caller to specify the expectation what the next token is and fails if this expectation is wrong.
  */
 
-#include "serial/data_json_value_type.h"
+#include "json/json_value_type.h"
 #include "data_error.h"
 #include "util/string/utf8stringbuf.h"
 #include <stdbool.h>
@@ -24,39 +24,39 @@
 /*!
  *  \brief constants for max input size
  */
-enum data_json_tokenizer_max_enum {
-    DATA_JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops. 16MB should be big enough. */
+enum json_tokenizer_max_enum {
+    JSON_TOKENIZER_MAX_INPUT_SIZE = 16*1024*1024,  /*!< assuming a maxmum input string size allows to prevent endless-loops. 16MB should be big enough. */
 };
 
 /*!
  *  \brief all data attributes needed for tokenizing data objects
  */
-struct data_json_tokenizer_struct {
+struct json_tokenizer_struct {
     int dummy;
 };
 
-typedef struct data_json_tokenizer_struct data_json_tokenizer_t;
+typedef struct json_tokenizer_struct json_tokenizer_t;
 
 /*!
- *  \brief initializes the data_json_tokenizer_t struct
+ *  \brief initializes the json_tokenizer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_tokenizer_init ( data_json_tokenizer_t *this_ );
+void json_tokenizer_init ( json_tokenizer_t *this_ );
 
 /*!
- *  \brief re-initializes the data_json_tokenizer_t struct
+ *  \brief re-initializes the json_tokenizer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_tokenizer_reinit ( data_json_tokenizer_t *this_ );
+void json_tokenizer_reinit ( json_tokenizer_t *this_ );
 
 /*!
- *  \brief destroys the data_json_tokenizer_t struct
+ *  \brief destroys the json_tokenizer_t struct
  *
  *  \param this_ pointer to own object attributes
  */
-void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ );
+void json_tokenizer_destroy ( json_tokenizer_t *this_ );
 
 /*!
  *  \brief checks that the next token is a "begin-object" json token
@@ -68,7 +68,7 @@ void data_json_tokenizer_destroy ( data_json_tokenizer_t *this_ );
  *          DATA_ERROR_PARSER_STRUCTURE if there is no begin-object token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_begin_object ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief returns the next "member-name" json token
@@ -82,7 +82,7 @@ data_error_t data_json_tokenizer_expect_begin_object ( data_json_tokenizer_t *th
  *          DATA_ERROR_PARSER_STRUCTURE if there is no member-name token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_name );
+data_error_t json_tokenizer_get_member_name ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_name );
 
 /*!
  *  \brief checks if the next token is an "end-object" json token
@@ -94,7 +94,7 @@ data_error_t data_json_tokenizer_get_member_name ( data_json_tokenizer_t *this_,
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object );
+data_error_t json_tokenizer_is_end_object ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_object );
 
 /*!
  *  \brief checks that the next token is a "name-separator" json token
@@ -106,7 +106,7 @@ data_error_t data_json_tokenizer_is_end_object ( data_json_tokenizer_t *this_, c
  *          DATA_ERROR_PARSER_STRUCTURE if there is no end-object token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_name_separator ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief checks that the next token is a "begin-array" json token
@@ -118,7 +118,7 @@ data_error_t data_json_tokenizer_expect_name_separator ( data_json_tokenizer_t *
  *          DATA_ERROR_PARSER_STRUCTURE if there is no begin-array token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_begin_array ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief checks if the next token is an "end-array" json token
@@ -130,7 +130,7 @@ data_error_t data_json_tokenizer_expect_begin_array ( data_json_tokenizer_t *thi
  *  \return DATA_ERROR_NONE if the lexical structure of the input is valid,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_array );
+data_error_t json_tokenizer_is_end_array ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *end_array );
 
 /*!
  *  \brief checks that the next token is a "value-separator" json token
@@ -142,7 +142,7 @@ data_error_t data_json_tokenizer_is_end_array ( data_json_tokenizer_t *this_, co
  *          DATA_ERROR_PARSER_STRUCTURE if there is no value-separator token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_value_separator ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_value_separator ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief determines the type of the next value without modifying the read-pointer
@@ -158,7 +158,7 @@ data_error_t data_json_tokenizer_expect_value_separator ( data_json_tokenizer_t 
  *          DATA_ERROR_PARSER_STRUCTURE if there is no value-token (e.g. we are at the end of an array),
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, data_json_value_type_t *value_type );
+data_error_t json_tokenizer_get_value_type ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, json_value_type_t *value_type );
 
 /*!
  *  \brief determines the next value of type string
@@ -172,7 +172,7 @@ data_error_t data_json_tokenizer_get_value_type ( data_json_tokenizer_t *this_, 
  *          DATA_ERROR_PARSER_STRUCTURE if there is no string-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_value );
+data_error_t json_tokenizer_get_string_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, utf8stringbuf_t out_value );
 
 /*!
  *  \brief determines the next value of type integer (subtype of number)
@@ -185,7 +185,7 @@ data_error_t data_json_tokenizer_get_string_value ( data_json_tokenizer_t *this_
  *          DATA_ERROR_PARSER_STRUCTURE if there is no integer-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, int64_t *out_int );
+data_error_t json_tokenizer_get_int_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, int64_t *out_int );
 
 /*!
  *  \brief determines the next value of type number
@@ -198,7 +198,7 @@ data_error_t data_json_tokenizer_get_int_value ( data_json_tokenizer_t *this_, c
  *          DATA_ERROR_PARSER_STRUCTURE if there is no number-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, double *out_number );
+data_error_t json_tokenizer_get_number_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, double *out_number );
 
 /*!
  *  \brief determines the next value of type boolean
@@ -211,7 +211,7 @@ data_error_t data_json_tokenizer_get_number_value ( data_json_tokenizer_t *this_
  *          DATA_ERROR_PARSER_STRUCTURE if there is no boolean-value-token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *out_bool );
+data_error_t json_tokenizer_get_boolean_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos, bool *out_bool );
 
 /*!
  *  \brief checks that the next token is a "null" json token
@@ -223,7 +223,7 @@ data_error_t data_json_tokenizer_get_boolean_value ( data_json_tokenizer_t *this
  *          DATA_ERROR_PARSER_STRUCTURE if there is no null token,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_null_value ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief checks that the next token is EOF
@@ -235,7 +235,7 @@ data_error_t data_json_tokenizer_expect_null_value ( data_json_tokenizer_t *this
  *          DATA_ERROR_PARSER_STRUCTURE if there is no EOF,
  *          DATA_ERROR_LEXICAL_STRUCTURE otherwise.
  */
-data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+data_error_t json_tokenizer_expect_eof ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief skips whitespaces
@@ -248,7 +248,7 @@ data_error_t data_json_tokenizer_expect_eof ( data_json_tokenizer_t *this_, cons
  *  \param io_read_pos pointer to current read position.
  *                     The read position will be moved(changed) if there are whitespaces after the current read position.
  */
-static inline void data_json_tokenizer_private_skip_whitespace ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+static inline void json_tokenizer_private_skip_whitespace ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief checks if the current token is ended
@@ -264,7 +264,7 @@ static inline void data_json_tokenizer_private_skip_whitespace ( data_json_token
  *  \param in_read_pos pointer to current read position.
  *  \return false if in_data[*in_read_pos] and in_data[*in_read_pos+1] belong to the same token
  */
-static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos );
+static inline bool json_tokenizer_private_is_token_end ( json_tokenizer_t *this_, const char *in_data, const uint32_t *in_read_pos );
 
 /*!
  *  \brief deterines the string end of a string literal
@@ -273,7 +273,7 @@ static inline bool data_json_tokenizer_private_is_token_end ( data_json_tokenize
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to (before:) the position where the string literal starts; (after:) the position of the terminating quote character
  */
-static inline void data_json_tokenizer_private_find_string_end ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+static inline void json_tokenizer_private_find_string_end ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief parses the integer token
@@ -283,7 +283,7 @@ static inline void data_json_tokenizer_private_find_string_end ( data_json_token
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is an integer.
  *  \result parsed integer or 0 in case of error
  */
-static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+static inline int64_t json_tokenizer_private_parse_integer ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
 /*!
  *  \brief skips the number token, numbers are not supported by this parser
@@ -292,11 +292,11 @@ static inline int64_t data_json_tokenizer_private_parse_integer ( data_json_toke
  *  \param in_data utf8 encoded string where to read from
  *  \param io_read_pos pointer to current read position. The read position will be moved(changed) if the next token is a number.
  */
-static inline void data_json_tokenizer_private_skip_number ( data_json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
+static inline void json_tokenizer_private_skip_number ( json_tokenizer_t *this_, const char *in_data, uint32_t *io_read_pos );
 
-#include "serial/data_json_tokenizer.inl"
+#include "json/json_tokenizer.inl"
 
-#endif  /* DATA_JSON_TOKENIZER_H */
+#endif  /* JSON_TOKENIZER_H */
 
 
 /*
