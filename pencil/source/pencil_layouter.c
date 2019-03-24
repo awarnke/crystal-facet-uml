@@ -181,11 +181,11 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* store the classifier bounds into input_data_layouter_t */
         pencil_classifier_layouter_estimate_bounds( &((*this_).pencil_classifier_layouter), font_layout );
 
-        /* parent classifiers embrace their children */
-        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
-
         /* move the classifiers to avoid overlaps */
         pencil_classifier_layouter_move_to_avoid_overlaps( &((*this_).pencil_classifier_layouter) );
+
+        /* parent classifiers embrace their children */
+        pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
 
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
