@@ -17,6 +17,10 @@
 #include "geometry_non_linear_scale_test.h"
 #include "io_format_writer_test.h"
 #include "universal_array_index_sorter_test.h"
+#include "utf8stringbuf_test.h"
+#include "utf8codepoint_test.h"
+#include "utf8string_test.h"
+#include "utf8stringbuf_performance.h"
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
@@ -86,6 +90,10 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
         test_runner_run_suite( &runner, io_format_writer_test_get_list() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );
+        test_runner_run_suite( &runner, utf8codepoint_test_get_list() );
+        test_runner_run_suite( &runner, utf8stringbuf_test_get_list() );
+        test_runner_run_suite( &runner, utf8string_test_get_list() );
+        test_runner_run_suite( &runner, utf8stringbuf_performance_get_list()) ;
     }
 
     /* module tests which involve multiple software units */

@@ -16,6 +16,11 @@
 #include <cairo.h>
 #include <stdint.h>
 
+/*! \brief aspect ratio of the artifact icon */
+extern const double DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT;
+/*! \brief aspect ratio of the component icon */
+extern const double DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT;
+
 /*!
  *  \brief attributes of the draw symbol functions
  */

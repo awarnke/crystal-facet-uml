@@ -1,9 +1,11 @@
+/* File: utf8codepoint.c; Copyright and License: see below */
+
 /*!
  *  \file utf8codepoint.c
- * 
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2019 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */ 
+ */
 
 #include "util/string/utf8codepoint.h"
 
@@ -15,8 +17,8 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
     utf8codepoint_t result = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
     if ( max_size >= 1 ) {
         unsigned char firstByte = (unsigned char) (that[0]);
-        unsigned int byte_length = 
-            ( firstByte < 0xe0 ) 
+        unsigned int byte_length =
+            ( firstByte < 0xe0 )
             ? (
                     ( firstByte < 0xc0 ) ? 1 : 2
             )
@@ -44,7 +46,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                     /* second byte is valid */
                     result.byte_length = 2;
                     result.code_point = (((uint32_t)(firstByte & 0x1f))<<6)
-                                       |(secondByte & 0x3f); 
+                                       |(secondByte & 0x3f);
                 }
             }
             break;
@@ -59,7 +61,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                     result.byte_length = 3;
                     result.code_point = (((uint32_t)(firstByte & 0x0f))<<12)
                                        |(((uint32_t)(secondByte & 0x3f))<<6)
-                                       |(thirdByte & 0x3f); 
+                                       |(thirdByte & 0x3f);
                 }
             }
             break;
@@ -69,7 +71,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                 unsigned char thirdByte = (unsigned char) (that[2]);
                 unsigned char fourthByte = (unsigned char) (that[3]);
                 if (( ( 0xc0 & secondByte ) == 0x80 )
-                    && ( ( 0xc0 & thirdByte ) == 0x80 ) 
+                    && ( ( 0xc0 & thirdByte ) == 0x80 )
                     && ( ( 0xc0 & fourthByte ) == 0x80 ))
                 {
                     /* second, third and fourth bytes are valid */
@@ -77,7 +79,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                     result.code_point = (((uint32_t)(firstByte & 0x07))<<18)
                                        |(((uint32_t)(secondByte & 0x3f))<<12)
                                        |(((uint32_t)(thirdByte & 0x3f))<<6)
-                                       |(fourthByte & 0x3f); 
+                                       |(fourthByte & 0x3f);
                 }
             }
             break;
@@ -88,7 +90,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                 unsigned char fourthByte = (unsigned char) (that[3]);
                 unsigned char fifthByte = (unsigned char) (that[4]);
                 if (( ( 0xc0 & secondByte ) == 0x80 )
-                    && ( ( 0xc0 & thirdByte ) == 0x80 ) 
+                    && ( ( 0xc0 & thirdByte ) == 0x80 )
                     && ( ( 0xc0 & fourthByte ) == 0x80 )
                     && ( ( 0xc0 & fifthByte ) == 0x80 ))
                 {
@@ -98,7 +100,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                                        |(((uint32_t)(secondByte & 0x3f))<<18)
                                        |(((uint32_t)(thirdByte & 0x3f))<<12)
                                        |(((uint32_t)(fourthByte & 0x3f))<<6)
-                                       |(fifthByte & 0x3f); 
+                                       |(fifthByte & 0x3f);
                 }
             }
             break;
@@ -110,7 +112,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                 unsigned char fifthByte = (unsigned char) (that[4]);
                 unsigned char sixthByte = (unsigned char) (that[5]);
                 if (( ( 0xc0 & secondByte ) == 0x80 )
-                    && ( ( 0xc0 & thirdByte ) == 0x80 ) 
+                    && ( ( 0xc0 & thirdByte ) == 0x80 )
                     && ( ( 0xc0 & fourthByte ) == 0x80 )
                     && ( ( 0xc0 & fifthByte ) == 0x80 )
                     && ( ( 0xc0 & sixthByte ) == 0x80 )
@@ -123,7 +125,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
                                        |(((uint32_t)(thirdByte & 0x3f))<<18)
                                        |(((uint32_t)(fourthByte & 0x3f))<<12)
                                        |(((uint32_t)(fifthByte & 0x3f))<<6)
-                                       |(sixthByte & 0x3f); 
+                                       |(sixthByte & 0x3f);
                 }
             }
             break;
@@ -134,3 +136,19 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
     return result;
 }
 
+
+/*
+ * Copyright 2012-2019 Andreas Warnke
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */

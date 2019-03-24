@@ -1,6 +1,7 @@
 /* File: draw_contour.c; Copyright and License: see below */
 
 #include "draw/draw_contour.h"
+#include "draw/draw_symbol.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -114,7 +115,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
             *out_top_border = double_gap;
             *out_left_border = double_gap;
             *out_bottom_border = double_gap;
-            *out_right_border = double_gap + 1.4 * type_icon_height;
+            *out_right_border = double_gap + DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT * type_icon_height;
         }
         break;
 
@@ -125,7 +126,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
             *out_top_border = double_gap;
             *out_left_border = double_gap;
             *out_bottom_border = double_gap;
-            *out_right_border = double_gap + 0.7 * type_icon_height;
+            *out_right_border = double_gap + DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT * type_icon_height;
         }
         break;
 

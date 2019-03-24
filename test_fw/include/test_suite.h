@@ -7,7 +7,7 @@
 /*!
  *  \file
  *  \brief Provides a set of unit test functions - in line with the xunit architecture.
- *  see https://en.wikipedia.org/wiki/XUnit 
+ *  see https://en.wikipedia.org/wiki/XUnit
  */
 
 #include <stdbool.h>
@@ -16,7 +16,7 @@
  *  \brief constants of simple test suite
  */
 enum test_suite_max_enum {
-    TEST_SUITE_MAX_TEST_CASES = 16,  /*!< maximum number test cases per test suite */
+    TEST_SUITE_MAX_TEST_CASES = 48,  /*!< maximum number test cases per test suite */
 };
 
 /*!
@@ -45,7 +45,7 @@ typedef struct test_suite_struct test_suite_t;
 static inline void test_suite_init( test_suite_t *this_,
                                     const char *name,
                                     void (*setup) (void),
-                                    void (*teardown) (void)                  
+                                    void (*teardown) (void)
                                   );
 
 /*!
@@ -64,7 +64,7 @@ static inline void test_suite_destroy( test_suite_t *this_ );
  */
 static inline void test_suite_add_test_case( test_suite_t *this_,
                                              const char *name,
-                                             void (*test_case) (void)   
+                                             void (*test_case) (void)
                                            );
 
 /*!

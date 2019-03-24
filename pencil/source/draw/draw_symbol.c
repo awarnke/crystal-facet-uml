@@ -9,6 +9,9 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
+const double DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT = 0.7;
+const double DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT = 1.4;
+
 void draw_symbol_draw_component ( const draw_symbol_t *this_,
                                   geometry_rectangle_t bounds,
                                   cairo_t *cr )

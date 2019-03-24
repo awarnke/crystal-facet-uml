@@ -71,7 +71,8 @@ FILE(GLOB utestSource  main/unittest/*.c
                        ctrl/unittest/*.c
                        io/unittest/*.c
                        pencil/unittest/*.c
-                       universal/unittest/*.c)
+                       universal/unittest/*.c
+                       utf8stringbuf/unittest/*.c)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -100,12 +101,13 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-INCLUDE_DIRECTORIES(test/include)
+INCLUDE_DIRECTORIES(test_fw/include)
 INCLUDE_DIRECTORIES(data/unittest)
 INCLUDE_DIRECTORIES(ctrl/unittest)
 INCLUDE_DIRECTORIES(io/unittest)
 INCLUDE_DIRECTORIES(pencil/unittest)
 INCLUDE_DIRECTORIES(universal/unittest)
+INCLUDE_DIRECTORIES(utf8stringbuf/unittest)
 
 # now the test cases. be less restrictive with errors.
 SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall -Wno-overlength-strings" )

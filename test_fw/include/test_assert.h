@@ -9,11 +9,13 @@
  *  \brief provides assert functions for test cases
  */
 
+#include <string.h>
 #include <stdbool.h>
 #include <stdio.h>
 
 #define TEST_ASSERT(COND) if (!(COND)) {fprintf(stderr,"FAIL at %s:%d\n",__FILE__,__LINE__);exit(-1);}
 #define TEST_ASSERT_EQUAL_INT(EXPECTED,ACTUAL) if (EXPECTED!=ACTUAL) {fprintf(stderr,"FAIL at %s:%d\n",__FILE__,__LINE__);exit(-1);}
+#define TEST_ASSERT_EQUAL_STRING(EXPECTED,ACTUAL) if ((EXPECTED==NULL)||(ACTUAL==NULL)||(0!=strcmp(EXPECTED,ACTUAL))) {fprintf(stderr,"FAIL at %s:%d\n",__FILE__,__LINE__);exit(-1);}
 
 #endif  /* TEST_ASSERT_H */
 

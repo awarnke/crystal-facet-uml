@@ -1,9 +1,11 @@
+/* File: utf8codepoint.inl; Copyright and License: see below */
+
 /*!
  *  \file utf8codepoint.inl
- * 
+ *
  *  \note License: Use this code according to the license: Apache 2.0.
  *  \author (c) 2012-2019 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
- */ 
+ */
 
 /*#ifndef UTF8CODEPOINT_INL_*/
 /*#define UTF8CODEPOINT_INL_*/
@@ -15,7 +17,7 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
-    
+
 /*!
  *  \enum utf8codepoint_enum
  *  \private
@@ -26,8 +28,8 @@ enum utf8codepoint_enum {UTF8CODEPOINT_INVALID_LEN=0,};
 /*!
  *  \fn utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size )
  *  \private
- *  \param that Pointer to a multi-byte utf-8 character; must not be NULL. 
- *  \param max_size maximum number of bytes to read.  
+ *  \param that Pointer to a multi-byte utf-8 character; must not be NULL.
+ *  \param max_size maximum number of bytes to read.
  */
 extern utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, unsigned int max_size );
 
@@ -36,19 +38,19 @@ static inline utf8codepoint_t utf8codepoint( uint32_t code_point ) {
     /* for balanced performance between standard and worst cases, */
     /* this_ is implemented as asymmetric decision tree: */
     /* in the best case, we have 2 comparisons, in the worst case 4 */
-    result.byte_length = 
-            ( code_point <= 0x7ff ) 
+    result.byte_length =
+            ( code_point <= 0x7ff )
             ? (
                     ( code_point <= 0x7f ) ? 1 : 2
             )
             : (
-                    ( code_point <= 0x1fffff ) 
+                    ( code_point <= 0x1fffff )
                     ? (
                             ( code_point <= 0xffff ) ? 3 : 4
                     )
                     : (
-                            ( code_point <= 0x3ffffff ) 
-                            ? 5 
+                            ( code_point <= 0x3ffffff )
+                            ? 5
                             : (
                                     ( code_point <= 0x7fffffff ) ? 6 : UTF8CODEPOINT_INVALID_LEN
                             )
@@ -66,7 +68,7 @@ static inline utf8codepoint_t utf8codepoint_init( const char *that, unsigned int
             if (( 0x80 & firstByte ) == 0x00 ) {
                 /* 7-bit ASCII character */
                 result.byte_length = 1;
-                result.code_point = firstByte; 
+                result.code_point = firstByte;
             }
             else {
                 /* call a non-inline function for the difficult part */
@@ -112,3 +114,20 @@ static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ ) {
 #endif
 
 /*#endif*/ /*UTF8CODEPOINT_INL_*/
+
+
+/*
+ * Copyright 2012-2019 Andreas Warnke
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */

@@ -22,7 +22,7 @@ static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw
 {
     geometry_rectangle_t result;
 
-    const double width = 1.4 * height;
+    const double width = DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT * height;
     geometry_rectangle_init ( &result,
                               geometry_h_align_get_left( &h_align, width, x, 0.0 ),
                               geometry_v_align_get_top( &v_align, height, y, 0.0 ),
@@ -42,7 +42,7 @@ static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_
 {
     geometry_rectangle_t result;
 
-    const double width = 0.7 * height;
+    const double width = DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT * height;
     geometry_rectangle_init ( &result,
                               geometry_h_align_get_left( &h_align, width, x, 0.0 ),
                               geometry_v_align_get_top( &v_align, height, y, 0.0 ),
