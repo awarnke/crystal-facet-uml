@@ -89,6 +89,19 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
                                                        );
 
 /*!
+ *  \brief initializes the geometry_rectangle_t struct by the minimum bounding box of a and b
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param rect_a rectangle a. Must not be NULL
+ *  \param rect_b rectangle b. Must not be NULL
+ *  \return 0 in case of success (always)
+ */
+static inline int geometry_rectangle_init_by_bounds ( geometry_rectangle_t *this_,
+                                                      const geometry_rectangle_t *rect_a,
+                                                      const geometry_rectangle_t *rect_b
+                                                    );
+
+/*!
  *  \brief initializes the geometry_rectangle_t struct by providing two corner coordinates
  *
  *  \param this_ pointer to own object attributes

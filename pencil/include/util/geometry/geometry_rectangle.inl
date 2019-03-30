@@ -90,6 +90,32 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
     return result;
 }
 
+static inline int geometry_rectangle_init_by_bounds ( geometry_rectangle_t *this_,
+                                                      const geometry_rectangle_t *rect_a,
+                                                      const geometry_rectangle_t *rect_b )
+{
+    assert( NULL != rect_a );
+    assert( NULL != rect_b );
+
+    int result = 0;
+    double rect_a_right;
+    double rect_a_bottom;
+    double rect_b_right;
+    double rect_b_bottom;
+
+    rect_a_right = (*rect_a).left + (*rect_a).width;
+    rect_a_bottom = (*rect_a).top + (*rect_a).height;
+    rect_b_right = (*rect_b).left + (*rect_b).width;
+    rect_b_bottom = (*rect_b).top + (*rect_b).height;
+
+    (*this_).left = fmin( (*rect_a).left, (*rect_b).left );
+    (*this_).top = fmin( (*rect_a).top, (*rect_b).top );
+    (*this_).width = fmax( rect_a_right, rect_b_right ) - (*this_).left;
+    (*this_).height = fmax( rect_a_bottom, rect_b_bottom ) - (*this_).top;
+
+    return result;
+}
+
 static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
 {
     assert( NULL != that );

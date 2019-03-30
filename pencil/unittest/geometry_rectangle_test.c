@@ -11,6 +11,7 @@ static void set_up(void);
 static void tear_down(void);
 static void test_contain(void);
 static void test_intersect(void);
+static void test_bounds(void);
 
 test_suite_t geometry_rectangle_test_get_list(void)
 {
@@ -18,6 +19,7 @@ test_suite_t geometry_rectangle_test_get_list(void)
     test_suite_init( &result, "geometry_rectangle_test_get_list", &set_up, &tear_down );
     test_suite_add_test_case( &result, "test_contain", &test_contain );
     test_suite_add_test_case( &result, "test_intersect", &test_intersect );
+    test_suite_add_test_case( &result, "test_bounds", &test_bounds );
     return result;
 }
 
@@ -124,6 +126,33 @@ static void test_intersect(void)
     geometry_rectangle_destroy ( &rect_a );
     geometry_rectangle_destroy ( &rect_b );
     geometry_rectangle_destroy ( &intersect_rect );
+}
+
+static void test_bounds(void)
+{
+    geometry_rectangle_t rect_a;
+    geometry_rectangle_t rect_b;
+    geometry_rectangle_t bounds_rect;
+    int err;
+
+    /* part intersect */
+    geometry_rectangle_init ( &rect_a, 10.0, 10.0, 10.0 /*width*/, 10.0 /*height*/ );
+    geometry_rectangle_init ( &rect_b, 18.0, 12.0, 10.0 /*width*/, 10.0 /*height*/ );
+    err = geometry_rectangle_init_by_bounds( &bounds_rect, &rect_a, &rect_b );
+    TEST_ASSERT_EQUAL_INT( 0, err );
+    TEST_ASSERT( 10.0001 > geometry_rectangle_get_left( &bounds_rect ) );
+    TEST_ASSERT(  9.9999 < geometry_rectangle_get_left( &bounds_rect ) );
+    TEST_ASSERT( 28.0001 > geometry_rectangle_get_right( &bounds_rect ) );
+    TEST_ASSERT( 27.9999 < geometry_rectangle_get_right( &bounds_rect ) );
+    TEST_ASSERT( 10.0001 > geometry_rectangle_get_top( &bounds_rect ) );
+    TEST_ASSERT(  9.9999 < geometry_rectangle_get_top( &bounds_rect ) );
+    TEST_ASSERT( 22.0001 > geometry_rectangle_get_bottom( &bounds_rect ) );
+    TEST_ASSERT( 21.9999 < geometry_rectangle_get_bottom( &bounds_rect ) );
+
+    /* clean up */
+    geometry_rectangle_destroy ( &rect_a );
+    geometry_rectangle_destroy ( &rect_b );
+    geometry_rectangle_destroy ( &bounds_rect );
 }
 
 
