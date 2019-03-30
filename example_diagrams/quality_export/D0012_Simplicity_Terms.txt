@@ -1,0 +1,19 @@
+Simplicity Terms                                 [D0012]
+
+
+Simplicity                                       [C0098]
+  --> KISS                                       [R0106]
+  --> YAGNI                                      [R0107]
+  --> Occam's razor                              [R0108]
+
+
+KISS                                             [C0094]
+| Keep it simple and stupid
+
+
+Occam's razor                                    [C0097]
+| Among competing hypotheses, the one with the fewest assumptions should be selected
+
+
+YAGNI                                            [C0095]
+| You aren't gonna need it

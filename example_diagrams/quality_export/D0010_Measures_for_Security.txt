@@ -47,8 +47,8 @@ Cryptographic Signatures                         [C0079]
 
 
 Encryption                                       [C0080]
-  symmetric                                      [F0036]
   public/private                                 [F0037]
+  symmetric                                      [F0036]
   supports --> Confidentiality                   [R0092]
 
 

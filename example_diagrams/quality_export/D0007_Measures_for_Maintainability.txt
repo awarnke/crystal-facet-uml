@@ -5,9 +5,6 @@ Measures for Maintainability                     [D0007]
 Testability                                      [C0047]
 
 
-Modifyability                                    [C0046]
-
-
 Analyzability                                    [C0045]
 
 
@@ -41,22 +38,7 @@ Dependency Inversion                             [C0093]
   use Abstractions                               [F0046]
 
 
-KISS                                             [C0094]
-| Keep it simple and stupid
-
-
-YAGNI                                            [C0095]
-| You aren't gonna need it
-
-
-Occam's razor                                    [C0097]
-| Among competing hypotheses, the one with the fewest assumptions should be selected
-
-
 Simplicity                                       [C0098]
-  --> KISS                                       [R0106]
-  --> YAGNI                                      [R0107]
-  --> Occam's razor                              [R0108]
   supports --> Modifyability                     [R0109]
   supports --> Reusability                       [R0110]
 
@@ -75,15 +57,6 @@ Information Hiding                               [C0102]
   simplifies --> Analyzability                   [R0118]
 
 
-Least Astonishment                               [C0103]
-| A reader shall not be surprised when looking at the design.
-  Conformity of style and concepts               [F0066]
-  Clear semantics of names                       [F0067]
-  | Module names, Interface names, Message names, Port names:
-  | The name shall state what the data/function represents.
-  | The name shall be short and as concrete as possible.
-
-
 Strong Cohesion                                  [C0104]
   influences --> Modularity                      [R0119]
 
@@ -94,6 +67,9 @@ automated Tests                                  [C0118]
   limit risks at changes --> Modifyability       [R0135]
 
 
+Modifyability                                    [C0046]
+
+
 SOLID                                            [C0096]
   --> Interface Segregation                      [R0101]
   --> Liskov Substitution                        [R0102]
@@ -101,3 +77,12 @@ SOLID                                            [C0096]
   --> Open/Closed                                [R0104]
   --> Single Responsability                      [R0105]
   supports --> Modularity                        [R0111]
+
+
+Least Astonishment                               [C0103]
+| A reader shall not be surprised when looking at the design.
+  Conformity of style and concepts               [F0066]
+  Clear semantics of names                       [F0067]
+  | Module names, Interface names, Message names, Port names:
+  | The name shall state what the data/function represents.
+  | The name shall be short and as concrete as possible.

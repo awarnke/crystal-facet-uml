@@ -2,7 +2,7 @@ Measures for Reliability                         [D0008]
 | This diagram shows examples - not aiming for completeness.
 
 
-Recoverability                                   [C0037]
+Recover-ability                                  [C0037]
 
 
 Fault Tolerance                                  [C0036]
@@ -83,7 +83,7 @@ Input Signal Validation                          [C0083]
 
 Partitioning                                     [C0075]
   --> Fault Tolerance                            [R0129]
-  --> Recoverability                             [R0130]
+  --> Recover-ability                            [R0130]
 
 
 automated Tests                                  [C0118]

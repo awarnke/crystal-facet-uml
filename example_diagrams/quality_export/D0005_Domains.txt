@@ -1,6 +1,7 @@
 Domains                                          [D0005]
-| Measures to improve software quality are sometimes domain-specific.
-| Some domains are focusing on tests, some on formal proves, 
+| The "Quality in Use" depends on the domain.
+| Measures to improve software quality are often domain-specific.
+| Some domains are more focusing on tests, some on formal proves, 
 | some on reaction times till deploying software updates.
 
 
@@ -44,3 +45,6 @@ Transport and Logistics                          [C0111]
 
 
 Government                                       [C0112]
+
+
+Travel / Tourism                                 [C0119]

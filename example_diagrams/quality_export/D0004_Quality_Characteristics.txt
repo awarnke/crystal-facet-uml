@@ -1,4 +1,5 @@
 Quality Characteristics                          [D0004]
+| Charactersitics of Ext/Int Product Quality 
 | according to ISO 25010
 
 
@@ -10,23 +11,20 @@ Maintainability                                  [C0012]
   --> Modularity                                 [R0081]
 
 
-Appropriateness                                  [C0013]
-
-
 Correctness                                      [C0014]
 
 
 Functional Suitability                           [C0015]
-  --> Completeness                               [R0056]
+  --> Complete-ness                              [R0056]
   --> Correctness                                [R0057]
-  --> Appropriateness                            [R0058]
+  --> Appropriate-ness                           [R0058]
 
 
-Completeness                                     [C0016]
+Complete-ness                                    [C0016]
 
 
 Usability                                        [C0017]
-  --> Recognizability                            [R0071]
+  --> Recogni-zability                           [R0071]
   --> Learnability                               [R0072]
   --> Operability                                [R0073]
   --> User Error Protection                      [R0074]
@@ -48,19 +46,19 @@ Resource Utilization                             [C0019]
 Portability                                      [C0020]
   --> Adaptability                               [R0068]
   --> Installability                             [R0069]
-  --> Replaceability                             [R0070]
+  --> Replace-ability                            [R0070]
 
 
 Reliability                                      [C0021]
   --> Maturity                                   [R0062]
   --> Availability                               [R0063]
   --> Fault Tolerance                            [R0064]
-  --> Recoverability                             [R0065]
+  --> Recover-ability                            [R0065]
 
 
 Compatibility                                    [C0022]
   --> Co-existence                               [R0066]
-  --> Interoperability                           [R0067]
+  --> Inter-operability                          [R0067]
 
 
 Performance Efficiency                           [C0023]
@@ -81,13 +79,13 @@ Capacity                                         [C0026]
 Co-existence                                     [C0027]
 
 
-Interoperability                                 [C0028]
+Inter-operability                                [C0028]
 
 
 Accessibility                                    [C0029]
 
 
-Recognizability                                  [C0030]
+Recogni-zability                                 [C0030]
 
 
 Aesthetics                                       [C0031]
@@ -108,7 +106,7 @@ Maturity                                         [C0035]
 Fault Tolerance                                  [C0036]
 
 
-Recoverability                                   [C0037]
+Recover-ability                                  [C0037]
 
 
 Non-Repudiation                                  [C0038]
@@ -135,9 +133,6 @@ Reusability                                      [C0044]
 Analyzability                                    [C0045]
 
 
-Modifyability                                    [C0046]
-
-
 Testability                                      [C0047]
 
 
@@ -147,4 +142,10 @@ Adaptability                                     [C0048]
 Installability                                   [C0049]
 
 
-Replaceability                                   [C0050]
+Replace-ability                                  [C0050]
+
+
+Appropriate-ness                                 [C0013]
+
+
+Modifyability                                    [C0046]

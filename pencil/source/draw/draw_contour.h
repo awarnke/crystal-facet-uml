@@ -54,13 +54,13 @@ static inline void draw_contour_destroy( draw_contour_t *this_ );
  *  \param out_right_border width of the right border is returned. NULL is not allowed.
  */
 void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
-                                                data_classifier_type_t classifier_type,
-                                                const pencil_size_t *pencil_size,
-                                                double *out_top_border,
-                                                double *out_left_border,
-                                                double *out_bottom_border,
-                                                double *out_right_border
-                                              );
+                                               data_classifier_type_t classifier_type,
+                                               const pencil_size_t *pencil_size,
+                                               double *out_top_border,
+                                               double *out_left_border,
+                                               double *out_bottom_border,
+                                               double *out_right_border
+                                             );
 
 /*!
  *  \brief draws a rectangle shape into the outer bounds rect

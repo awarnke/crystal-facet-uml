@@ -4,8 +4,10 @@ Product Quality                                  [D0002]
 Ext/Int Product Quality                          [C0003]
 | Product quality are internal and externally visible qualities, 
 | such as memory consumption or startup timings.
+  Product quality influences quality-in-use --> Quality in Use [R0139]
 
 
 Quality in Use                                   [C0004]
 | Quality in use can be measured when the product is already in use, 
 | e.g. the percentage of satisfied customers can be determined.
+  Quality-in-use requires product quality --> Ext/Int Product Quality  [R0140]
