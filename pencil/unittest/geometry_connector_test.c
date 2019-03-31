@@ -45,8 +45,7 @@ static void test_base_methods(void)
                                          30.0 /*destination_end_y*/,
                                          20.0 /*main_line_x*/
                                        );
-    TEST_ASSERT( 40.0001 > geometry_connector_get_length( &my_connector ) );
-    TEST_ASSERT( 39.9999 < geometry_connector_get_length( &my_connector ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 40.0, geometry_connector_get_length( &my_connector ) );
     TEST_ASSERT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 21.0, 9.0, 1.5 /* max_distance */ ) );
     TEST_ASSERT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 21.0, 9.0, 0.5 /* max_distance */ ) );
 
@@ -58,8 +57,7 @@ static void test_base_methods(void)
                                          30.0 /*destination_end_y*/,
                                          10.0 /*main_line_x*/
                                        );
-    TEST_ASSERT( 20.0001 > geometry_connector_get_length( &my_connector ) );
-    TEST_ASSERT( 19.9999 < geometry_connector_get_length( &my_connector ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_connector_get_length( &my_connector ) );
     TEST_ASSERT_EQUAL_INT( true, geometry_connector_is_close( &my_connector, 9.0, 20.0, 1.5 /* max_distance */ ) );
     TEST_ASSERT_EQUAL_INT( false, geometry_connector_is_close( &my_connector, 10.0, 8.0, 1.5 /* max_distance */ ) );
 
@@ -85,8 +83,7 @@ static void test_rectangle_related_methods(void)
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
     TEST_ASSERT_EQUAL_INT( true, intersects );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT( 400.0001 > geometry_rectangle_get_area( &bounds ) );
-    TEST_ASSERT( 399.9999 < geometry_rectangle_get_area( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
 
     geometry_rectangle_destroy ( &bounds );
     geometry_rectangle_destroy ( &overlap );
@@ -103,8 +100,7 @@ static void test_rectangle_related_methods(void)
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
     TEST_ASSERT_EQUAL_INT( false, intersects );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT( 400.0001 > geometry_rectangle_get_area( &bounds ) );
-    TEST_ASSERT( 399.9999 < geometry_rectangle_get_area( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 400.0, geometry_rectangle_get_area( &bounds ) );
 
     geometry_rectangle_destroy ( &bounds );
     geometry_rectangle_destroy ( &overlap );
@@ -121,8 +117,7 @@ static void test_rectangle_related_methods(void)
     intersects = geometry_connector_is_intersecting_rectangle( &my_connector, &overlap );
     TEST_ASSERT_EQUAL_INT( true, intersects );
     bounds = geometry_connector_get_bounding_rectangle ( &my_connector );
-    TEST_ASSERT( 0.0001 > geometry_rectangle_get_area( &bounds ) );
-    TEST_ASSERT( -0.0001 < geometry_rectangle_get_area( &bounds ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &bounds ) );
 
     geometry_rectangle_destroy ( &overlap );
     geometry_rectangle_destroy ( &bounds );

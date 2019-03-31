@@ -85,7 +85,7 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_b, 10.0, 21.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( -1, err );
-    TEST_ASSERT( 0.0001 > geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 0.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( false, intersects );
@@ -100,8 +100,7 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_b, 15.0, 15.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT( 25.0001 > geometry_rectangle_get_area( &intersect_rect ) );
-    TEST_ASSERT( 24.9999 < geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 25.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( true, intersects );
@@ -116,8 +115,7 @@ static void test_intersect(void)
     geometry_rectangle_init ( &rect_b, 15.0, 15.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_intersect( &intersect_rect, &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT( 100.0001 > geometry_rectangle_get_area( &intersect_rect ) );
-    TEST_ASSERT( 99.9999 < geometry_rectangle_get_area( &intersect_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 100.0, geometry_rectangle_get_area( &intersect_rect ) );
 
     intersects = geometry_rectangle_is_intersecting( &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( true, intersects );
@@ -140,14 +138,10 @@ static void test_bounds(void)
     geometry_rectangle_init ( &rect_b, 18.0, 12.0, 10.0 /*width*/, 10.0 /*height*/ );
     err = geometry_rectangle_init_by_bounds( &bounds_rect, &rect_a, &rect_b );
     TEST_ASSERT_EQUAL_INT( 0, err );
-    TEST_ASSERT( 10.0001 > geometry_rectangle_get_left( &bounds_rect ) );
-    TEST_ASSERT(  9.9999 < geometry_rectangle_get_left( &bounds_rect ) );
-    TEST_ASSERT( 28.0001 > geometry_rectangle_get_right( &bounds_rect ) );
-    TEST_ASSERT( 27.9999 < geometry_rectangle_get_right( &bounds_rect ) );
-    TEST_ASSERT( 10.0001 > geometry_rectangle_get_top( &bounds_rect ) );
-    TEST_ASSERT(  9.9999 < geometry_rectangle_get_top( &bounds_rect ) );
-    TEST_ASSERT( 22.0001 > geometry_rectangle_get_bottom( &bounds_rect ) );
-    TEST_ASSERT( 21.9999 < geometry_rectangle_get_bottom( &bounds_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_left( &bounds_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 28.0, geometry_rectangle_get_right( &bounds_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_rectangle_get_top( &bounds_rect ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 22.0, geometry_rectangle_get_bottom( &bounds_rect ) );
 
     /* clean up */
     geometry_rectangle_destroy ( &rect_a );
