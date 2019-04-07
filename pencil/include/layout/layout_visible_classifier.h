@@ -18,7 +18,7 @@
  *  \brief shape and location of a visible_classifier
  */
 struct layout_visible_classifier_struct {
-    geometry_rectangle_t bounds;  /*!< outer bounds of a classifier record */
+    geometry_rectangle_t bounds;  /*!< outer bounds of a classifier shape. The label_box may be outside of the bounds. */
     geometry_rectangle_t space;  /*!< inner space of a classifier record where properties, operations or contained classifiers are drawn */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the visible classifier */
     geometry_h_align_t label_h_anchor;  /*!< side of the label box that stays fix in case of expand */
@@ -100,7 +100,7 @@ static inline void layout_visible_classifier_set_label_box ( layout_visible_clas
  */
 static inline void layout_visible_classifier_set_label_anchor ( layout_visible_classifier_t *this_,
                                                                 geometry_h_align_t label_h_anchor,
-                                                                geometry_v_align_t label_v_anchor 
+                                                                geometry_v_align_t label_v_anchor
                                                               );
 
 /*!

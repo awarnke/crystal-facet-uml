@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Calculates positions relationships in a diagram
+ *  \brief Calculates positions of relationships in a diagram
  */
 
 #include "pencil_size.h"

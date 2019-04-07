@@ -187,8 +187,15 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             parent_bounds = layout_visible_classifier_get_bounds_ptr ( from_classifier );
             geometry_rectangle_t *parent_space;
             parent_space = layout_visible_classifier_get_space_ptr ( from_classifier );
+            /*
             geometry_rectangle_t *child_bounds;
             child_bounds = layout_visible_classifier_get_bounds_ptr ( to_classifier );
+            */
+            geometry_rectangle_t child_total_bounds;
+            geometry_rectangle_init_by_bounds( &child_total_bounds,
+                                               layout_visible_classifier_get_bounds_ptr ( to_classifier ),
+                                               layout_visible_classifier_get_label_box_ptr ( to_classifier )
+                                             );
 
             /* try embrace child */
             geometry_rectangle_t probe_parent_bounds;  /* try out a new parent bounds rectangle */
@@ -197,10 +204,10 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             double extend_to_right = 0.0;
             double extend_to_top = 0.0;
             double extend_to_bottom = 0.0;
-            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( child_bounds );
-            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( child_bounds );
-            extend_to_right = geometry_rectangle_get_right( child_bounds ) - geometry_rectangle_get_right( parent_space );
-            extend_to_bottom = geometry_rectangle_get_bottom( child_bounds ) - geometry_rectangle_get_bottom( parent_space );
+            extend_to_left = geometry_rectangle_get_left( parent_space ) - geometry_rectangle_get_left( &child_total_bounds );
+            extend_to_top = geometry_rectangle_get_top( parent_space ) - geometry_rectangle_get_top( &child_total_bounds );
+            extend_to_right = geometry_rectangle_get_right( &child_total_bounds ) - geometry_rectangle_get_right( parent_space );
+            extend_to_bottom = geometry_rectangle_get_bottom( &child_total_bounds ) - geometry_rectangle_get_bottom( parent_space );
             if ( extend_to_left < 0.0 )
             {
                 extend_to_left = 0.0;

@@ -110,7 +110,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
 
         case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
         {
-            double type_icon_height = pencil_size_get_standard_font_size( pencil_size );
+            double type_icon_height = pencil_size_get_title_font_size( pencil_size );
 
             *out_top_border = double_gap;
             *out_left_border = double_gap;
@@ -121,7 +121,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
 
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         {
-            double type_icon_height = pencil_size_get_standard_font_size( pencil_size );
+            double type_icon_height = pencil_size_get_title_font_size( pencil_size );
 
             *out_top_border = double_gap;
             *out_left_border = double_gap;

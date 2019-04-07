@@ -1,12 +1,12 @@
 all: crystal_facet_uml_user_documentation.pdf html crystal_facet_uml.1.gz
 
-crystal_facet_uml_user_documentation.pdf: doc/*.xml
+crystal_facet_uml_user_documentation.pdf: doc/*.xml doc/feature_gallery_export/*.pdf doc/*.pdf
 	cd doc &&\
 	dblatex --type=pdf crystal_facet_uml_user_documentation.xml &&\
 	cd .. &&\
 	mv doc/crystal_facet_uml_user_documentation.pdf .
 
-html: doc/*.xml
+html: doc/*.xml doc/feature_gallery_export/*.png doc/*.png
 	xmlto --stringparam html.stylesheet=html.css -o html/ xhtml doc/crystal_facet_uml_user_documentation.xml &&\
 	echo relocate image files &&\
 	cd doc &&\

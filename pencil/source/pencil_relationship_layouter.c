@@ -290,12 +290,19 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         {
             layout_visible_classifier_t *probe_classifier;
             probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, clasfy_index );
+
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
-
             if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
             {
                 debts_of_current += 100000.0;
+            }
+
+            geometry_rectangle_t *classifier_label_box;
+            classifier_label_box = layout_visible_classifier_get_label_box_ptr( probe_classifier );
+            if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_label_box ) )
+            {
+                debts_of_current += 10000.0;
             }
         }
 

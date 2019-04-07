@@ -493,6 +493,7 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
         geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, width, height );
 
+        /* update the borders based on the text dimensions */
         if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
         {
             const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
@@ -501,36 +502,44 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
                                                    0.0,
                                                    height
                                                  );
+            bottom_border = top_border;
         }
 
-        const double space_width = width - left_border - right_border;
-        const double space_height = height-top_border-text_height-bottom_border;
-
-        const geometry_h_align_t TEXT_H_ALIGN = GEOMETRY_H_ALIGN_CENTER;
+        /* calculate label_box */
+        static const geometry_h_align_t TEXT_H_ALIGN = GEOMETRY_H_ALIGN_CENTER;
         const double text_left = geometry_h_align_get_left( &TEXT_H_ALIGN,
                                                             text_width,
                                                             left_border,
                                                             width - left_border - right_border
                                                           );
-
-        geometry_rectangle_reinit( out_classifier_space, left_border, top_border+text_height, space_width, space_height );
         geometry_rectangle_reinit( out_classifier_label_box, text_left, top_border, text_width, text_height );
         layout_visible_classifier_set_label_anchor( io_classifier_layout,
                                                     GEOMETRY_H_ALIGN_CENTER,
                                                     GEOMETRY_V_ALIGN_TOP
                                                   );
+
+        /* calculate space */
+        const double space_width = width - left_border - right_border;
+        const double space_height = height-top_border-text_height-bottom_border;
+        geometry_rectangle_reinit( out_classifier_space, left_border, top_border+text_height, space_width, space_height );
     }
     else
     {
         const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
         const double symbol_width = pencil_size_get_classifier_symbol_height( pencil_size );
+
+        /* calculate bounds */
         geometry_rectangle_reinit( out_classifier_bounds, 0.0, 0.0, symbol_width, symbol_height );
-        geometry_rectangle_reinit( out_classifier_space, 0.0, symbol_height+text_height, symbol_width, 0.0 );
+
+        /* calculate label_box */
         geometry_rectangle_reinit( out_classifier_label_box, (symbol_width-text_width)/2.0, symbol_height, text_width, text_height );
         layout_visible_classifier_set_label_anchor( io_classifier_layout,
                                                     GEOMETRY_H_ALIGN_CENTER,
                                                     GEOMETRY_V_ALIGN_TOP
                                                   );
+
+        /* calculate space */
+        geometry_rectangle_reinit( out_classifier_space, 0.0, symbol_height+text_height, symbol_width, 0.0 );
     }
     TRACE_END();
 }
@@ -599,6 +608,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     const double left = geometry_rectangle_get_left( classifier_bounds );
     const double top = geometry_rectangle_get_top( classifier_bounds );
     const double width = geometry_rectangle_get_width( classifier_bounds );
+    const double height = geometry_rectangle_get_height( classifier_bounds );
     const double space_left = left + left_border;
     const double space_width = width - left_border - right_border;
 
@@ -606,6 +616,7 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     is_fix_sized_symbol = layout_visible_classifier_is_fix_sized_symbol( io_classifier_layout );
     if ( ! is_fix_sized_symbol )
     {
+        /* update the borders based on the text dimensions */
         if ( DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE == classifier_type )
         {
             const geometry_v_align_t DECISION_V_ALIGN = GEOMETRY_V_ALIGN_CENTER;
@@ -614,36 +625,42 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
                                                    0.0,
                                                    geometry_rectangle_get_height( classifier_bounds )
                                                  );
+            bottom_border = top_border;
         }
 
-        const double space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
-        const double space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
-
-        const geometry_h_align_t TEXT_H_ALIGN = GEOMETRY_H_ALIGN_CENTER;
+        /* calculate label_box */
+        static const geometry_h_align_t TEXT_H_ALIGN = GEOMETRY_H_ALIGN_CENTER;
         const double text_left = geometry_h_align_get_left( &TEXT_H_ALIGN,
                                                             text_width,
                                                             left + left_border,
                                                             width - left_border - right_border
                                                           );
-
-        geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
-
         geometry_rectangle_reinit( out_classifier_label_box, text_left, top+top_border, text_width, text_height );
         layout_visible_classifier_set_label_anchor( io_classifier_layout,
                                                     GEOMETRY_H_ALIGN_CENTER,
                                                     GEOMETRY_V_ALIGN_TOP
                                                   );
+
+        /* calculate space */
+        const double space_top = geometry_rectangle_get_top( classifier_bounds ) + top_border + text_height;
+        const double space_height = geometry_rectangle_get_height( classifier_bounds ) - top_border - bottom_border - text_height;
+        geometry_rectangle_reinit( out_classifier_space, space_left, space_top, space_width, space_height );
+
     }
     else
     {
         const double symbol_height = pencil_size_get_classifier_symbol_height( pencil_size );
 
-        geometry_rectangle_reinit( out_classifier_space, space_left, symbol_height+text_height, space_width, 0.0 );
-        geometry_rectangle_reinit( out_classifier_label_box, left+(width-text_width)/2.0, top+symbol_height, text_width, text_height );
+        /* calculate label_box */
+        const double label_top = ( symbol_height + text_height > height ) ? ( top + height - text_height ) : ( top + symbol_height );
+        geometry_rectangle_reinit( out_classifier_label_box, left+(width-text_width)/2.0, label_top, text_width, text_height );
         layout_visible_classifier_set_label_anchor( io_classifier_layout,
                                                     GEOMETRY_H_ALIGN_CENTER,
                                                     GEOMETRY_V_ALIGN_TOP
                                                   );
+
+        /* calculate space */
+        geometry_rectangle_reinit( out_classifier_space, space_left, symbol_height+text_height, space_width, 0.0 );
     }
     TRACE_END();
 }
