@@ -26,7 +26,7 @@ void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_feat_label_layouter_private_do_layout ( pencil_feat_label_layouter_t *this_ )
+void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_ )
 {
     TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
@@ -132,7 +132,7 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
 }
 
 void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_layouter_t *this_,
-                                                            const layout_feature_t *current_feature,
+                                                            layout_feature_t *current_feature,
                                                             uint32_t solutions_max,
                                                             geometry_rectangle_t out_solutions[],
                                                             uint32_t *out_solutions_count )
@@ -142,12 +142,38 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
+    const data_feature_t *feature_data = layout_feature_get_data_ptr ( current_feature );
+    assert( NULL != feature_data );
+    data_feature_type_t current_type = data_feature_get_main_type( feature_data );
+
+    if (( DATA_FEATURE_TYPE_PROPERTY == current_type )||( DATA_FEATURE_TYPE_OPERATION == current_type ))
+    {
+        /* the label-box is identical to the feature bounds */
+        assert( solutions_max >= 1 );
+        geometry_rectangle_copy( &(out_solutions[0]), layout_feature_get_bounds_ptr ( current_feature ) );
+        *out_solutions_count = 1;
+    }
+    else
+    {
+        /* dummy box */
+        assert( solutions_max >= 1 );
+        const geometry_rectangle_t * bounds = layout_feature_get_bounds_ptr ( current_feature );
+        geometry_rectangle_init( &(out_solutions[0]),
+                                 geometry_rectangle_get_left(bounds) + 20,
+                                 geometry_rectangle_get_top(bounds) + 20,
+                                 200,
+                                 20
+                               );
+        *out_solutions_count = 1;
+
+    }
+
     TRACE_END();
 }
 
 
 void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layouter_t *this_,
-                                                          const layout_feature_t *current_feature,
+                                                          layout_feature_t *current_feature,
                                                           uint32_t solutions_count,
                                                           const geometry_rectangle_t solutions[],
                                                           uint32_t *out_index_of_best )
@@ -156,6 +182,10 @@ void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layo
     assert( NULL != current_feature );
     assert( NULL != solutions );
     assert( NULL != out_index_of_best );
+
+    static unsigned int random;
+    random ++;
+    *out_index_of_best = random % solutions_count;
 
     TRACE_END();
 }

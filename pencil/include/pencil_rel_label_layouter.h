@@ -57,7 +57,7 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *this_ );
+void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_ );
 
 /*!
  *  \brief determine order by which to layout relationship-labels
@@ -79,7 +79,7 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
  *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  */
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
-                                                           const layout_relationship_t *current_relation,
+                                                           layout_relationship_t *current_relation,
                                                            uint32_t solutions_max,
                                                            geometry_rectangle_t out_solutions[],
                                                            uint32_t *out_solutions_count
@@ -95,7 +95,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layouter_t *this_,
-                                                         const layout_relationship_t *current_relation,
+                                                         layout_relationship_t *current_relation,
                                                          uint32_t solutions_count,
                                                          const geometry_rectangle_t solutions[],
                                                          uint32_t *out_index_of_best

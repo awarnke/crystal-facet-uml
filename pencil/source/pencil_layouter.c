@@ -162,6 +162,10 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 
         /* hide relationships in simple list and box diagrams */
         pencil_relationship_layouter_layout_void( &((*this_).pencil_relationship_layouter) );
+
+        /* layout labels of features and relationshipt */
+        pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter) );
+        pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter) );
     }
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
     {
@@ -217,6 +221,10 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
 
         /* hide containment relationships if children are embraced */
         pencil_classifier_layouter_hide_relations_of_embraced_children( &((*this_).pencil_classifier_layouter) );
+        
+        /* layout labels of features and relationshipt */
+        pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter) );
+        pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter) );
     }
 
     TRACE_END();

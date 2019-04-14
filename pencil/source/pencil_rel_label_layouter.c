@@ -26,7 +26,7 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *this_ )
+void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_ )
 {
     TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
@@ -124,7 +124,7 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
 }
 
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
-                                                           const layout_relationship_t *current_relation,
+                                                           layout_relationship_t *current_relation,
                                                            uint32_t solutions_max,
                                                            geometry_rectangle_t out_solutions[],
                                                            uint32_t *out_solutions_count)
@@ -134,11 +134,26 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
+    {
+        /* dummy box */
+        assert( solutions_max >= 1 );
+        const geometry_connector_t * shape = layout_relationship_get_shape_ptr ( current_relation );
+
+        geometry_rectangle_init( &(out_solutions[0]),
+                                 geometry_connector_get_main_line_source_x(shape) + 20,
+                                 geometry_connector_get_main_line_source_y(shape) + 20,
+                                 100,
+                                 20
+                               );
+        *out_solutions_count = 1;
+
+    }
+
     TRACE_END();
 }
 
 void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layouter_t *this_,
-                                                         const layout_relationship_t *current_relation,
+                                                         layout_relationship_t *current_relation,
                                                          uint32_t solutions_count,
                                                          const geometry_rectangle_t solutions[],
                                                          uint32_t *out_index_of_best)
@@ -147,6 +162,10 @@ void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layout
     assert( NULL != current_relation );
     assert( NULL != solutions );
     assert( NULL != out_index_of_best );
+
+    static unsigned int random;
+    random ++;
+    *out_index_of_best = random % solutions_count;
 
     TRACE_END();
 }
