@@ -2,6 +2,7 @@
 
 #include "pencil_rel_label_layouter.h"
 #include "trace.h"
+#include "util/string/utf8string.h"
 
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
                                      pencil_layout_data_t *layout_data,
@@ -14,7 +15,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
 
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
-    
+
     TRACE_END();
 }
 
@@ -41,6 +42,12 @@ void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *
     count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
+        /* determine pointer to relationship */
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        layout_relationship_t *current_relation;
+        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+
         /* declaration of list of options */
         uint32_t solutions_count = 0;
         static const uint32_t SOLUTIONS_MAX = 8;
@@ -48,8 +55,7 @@ void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *
 
         /* propose options */
         pencil_rel_label_layouter_private_propose_solutions ( this_,
-                                                              &sorted,
-                                                              sort_index,
+                                                              current_relation,
                                                               SOLUTIONS_MAX,
                                                               solution,
                                                               &solutions_count
@@ -64,8 +70,7 @@ void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *
         else
         {
             pencil_rel_label_layouter_private_select_solution ( this_,
-                                                                &sorted,
-                                                                sort_index,
+                                                                current_relation,
                                                                 solutions_count,
                                                                 solution,
                                                                 &index_of_best
@@ -73,13 +78,8 @@ void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *
         }
 
         /* store best option to (*this_).layout_data */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        /* copy the relationship shape */
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
         geometry_rectangle_t *relationship_label_box;
-        relationship_label_box = layout_relationship_get_label_box_ptr( the_relationship );
+        relationship_label_box = layout_relationship_get_label_box_ptr( current_relation );
         geometry_rectangle_copy( relationship_label_box, &(solution[index_of_best]) );
     }
 
@@ -93,18 +93,44 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
     TRACE_BEGIN();
     assert( NULL != out_sorted );
 
+    /* sort the relationships by their label-box: the less simple, the earlier it shall be processed */
+    uint32_t count_relations;
+    count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_relations; index ++ )
+    {
+        const layout_relationship_t *current_relation;
+        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        const data_relationship_t *relation_data = layout_relationship_get_data_ptr ( current_relation );
+        assert( NULL != relation_data );
+
+        int64_t simpleness = 0;
+
+        /* determine simpleness by length of label */
+        simpleness -= utf8string_get_length( data_relationship_get_name_ptr( relation_data ) );
+
+        /* insert relation to sorted array, the simpler the more to the back */
+        if ( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility ( current_relation ) )
+        {
+            int insert_error;
+            insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+            if ( 0 != insert_error )
+            {
+                TSLOG_WARNING( "not all relationship label-boxes are layouted" );
+            }
+        }
+    }
+
     TRACE_END();
 }
 
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
-                                                           const universal_array_index_sorter_t *sorted,
-                                                           uint32_t sort_index,
+                                                           const layout_relationship_t *current_relation,
                                                            uint32_t solutions_max,
-                                                           geometry_connector_t out_solutions[],
+                                                           geometry_rectangle_t out_solutions[],
                                                            uint32_t *out_solutions_count)
 {
     TRACE_BEGIN();
-    assert( NULL != sorted );
+    assert( NULL != current_relation );
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
@@ -112,14 +138,13 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
 }
 
 void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layouter_t *this_,
-                                                         const universal_array_index_sorter_t *sorted,
-                                                         uint32_t sort_index,
+                                                         const layout_relationship_t *current_relation,
                                                          uint32_t solutions_count,
-                                                         const geometry_connector_t solutions[],
+                                                         const geometry_rectangle_t solutions[],
                                                          uint32_t *out_index_of_best)
 {
     TRACE_BEGIN();
-    assert( NULL != sorted );
+    assert( NULL != current_relation );
     assert( NULL != solutions );
     assert( NULL != out_index_of_best );
 

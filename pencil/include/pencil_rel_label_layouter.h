@@ -73,37 +73,33 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
  *  \brief propose multiple solutions to layout one relationship-label
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to layout relationship-labels; must not be NULL.
- *  \param sort_index index of the current relationship for which to propose solutions
+ *  \param current_relation relationship for which to propose solutions
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  */
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
-                                                              const universal_array_index_sorter_t *sorted,
-                                                              uint32_t sort_index,
-                                                              uint32_t solutions_max,
-                                                              geometry_rectangle_t out_solutions[],
-                                                              uint32_t *out_solutions_count
-                                                            );
+                                                           const layout_relationship_t *current_relation,
+                                                           uint32_t solutions_max,
+                                                           geometry_rectangle_t out_solutions[],
+                                                           uint32_t *out_solutions_count
+                                                         );
 
 /*!
  *  \brief selects one solution to layout a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to layout relationship-labels; must not be NULL.
- *  \param sort_index index (in sorted relationships) of the current relationship for which to select a solution
+ *  \param current_relation relationship for which to propose solutions
  *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  *  \param solutions array of solutions
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
 void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layouter_t *this_,
-                                                            const universal_array_index_sorter_t *sorted,
-                                                            uint32_t sort_index,
-                                                            uint32_t solutions_count,
-                                                            const geometry_rectangle_t solutions[],
-                                                            uint32_t *out_index_of_best
-                                                          );
+                                                         const layout_relationship_t *current_relation,
+                                                         uint32_t solutions_count,
+                                                         const geometry_rectangle_t solutions[],
+                                                         uint32_t *out_index_of_best
+                                                       );
 
 #endif  /* PENCIL_REL_LABEL_LAYOUTER_H */
 
