@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <stdint.h>
 
 void pencil_relationship_layouter_init( pencil_relationship_layouter_t *this_,
                                         pencil_layout_data_t *layout_data,

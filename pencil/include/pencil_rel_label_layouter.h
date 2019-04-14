@@ -22,7 +22,7 @@
 #include <stdint.h>
 
 /*!
- *  \brief attributes of the relationship layouter
+ *  \brief attributes of the relationship-label layouter
  */
 struct pencil_rel_label_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
@@ -34,46 +34,46 @@ struct pencil_rel_label_layouter_struct {
 typedef struct pencil_rel_label_layouter_struct pencil_rel_label_layouter_t;
 
 /*!
- *  \brief initializes the layouter
+ *  \brief initializes the relationship-label layouter
  *
  *  \param this_ pointer to own object attributes
  *  \param layout_data pointer to the layout information to be used and modified
  *  \param pencil_size pointer to the pencil_size_t object
  */
 void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
-                                        pencil_layout_data_t *layout_data,
-                                        pencil_size_t *pencil_size
-                                      );
+                                     pencil_layout_data_t *layout_data,
+                                     pencil_size_t *pencil_size
+                                   );
 
 /*!
- *  \brief destroys the layouter
+ *  \brief destroys the relationship-label layouter
  *
  *  \param this_ pointer to own object attributes
  */
 void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ );
 
 /*!
- *  \brief determines the shapes of the relationships
+ *  \brief determines the rectangels of the relationship-labels
  *
  *  \param this_ pointer to own object attributes
  */
 void pencil_rel_label_layouter_private_do_layout ( pencil_rel_label_layouter_t *this_ );
 
 /*!
- *  \brief determine order by which to shape relationships
+ *  \brief determine order by which to layout relationship-labels
  *
  *  Relationships that are not visible are ignored. Therefore out_sorted may contain fewer relationships than (*this_).layout_data.
  *
  *  \param this_ pointer to own object attributes
- *  \param out_sorted sorting order by which to shape relationships; must not be NULL, shall be initialized to empty.
+ *  \param out_sorted sorting order by which to layout relationship-labels; must not be NULL, shall be initialized to empty.
  */
 void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_label_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
- *  \brief propose multiple solutions to shape one relationship
+ *  \brief propose multiple solutions to layout one relationship-label
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
+ *  \param sorted sorting order by which to layout relationship-labels; must not be NULL.
  *  \param sort_index index of the current relationship for which to propose solutions
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
@@ -83,15 +83,15 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
                                                               const universal_array_index_sorter_t *sorted,
                                                               uint32_t sort_index,
                                                               uint32_t solutions_max,
-                                                              geometry_connector_t out_solutions[],
+                                                              geometry_rectangle_t out_solutions[],
                                                               uint32_t *out_solutions_count
                                                             );
 
 /*!
- *  \brief selects one solution to shape a relationship
+ *  \brief selects one solution to layout a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param sorted sorting order by which to shape relationships; must not be NULL.
+ *  \param sorted sorting order by which to layout relationship-labels; must not be NULL.
  *  \param sort_index index (in sorted relationships) of the current relationship for which to select a solution
  *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  *  \param solutions array of solutions
@@ -101,7 +101,7 @@ void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layout
                                                             const universal_array_index_sorter_t *sorted,
                                                             uint32_t sort_index,
                                                             uint32_t solutions_count,
-                                                            const geometry_connector_t solutions[],
+                                                            const geometry_rectangle_t solutions[],
                                                             uint32_t *out_index_of_best
                                                           );
 

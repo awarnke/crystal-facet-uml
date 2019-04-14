@@ -71,7 +71,8 @@ static inline int utf8string_equals_region_str( const char *this_, int start, co
     if (( this_ != NULL ) && ( that != NULL )) {
         int thisLen = strlen(this_);
         int thatLen = strlen(that);
-        if (( 0 <= start )&&( start+thatLen <= thisLen )) {
+        int end = start + thatLen;
+        if (( 0 <= start )&&( start < end )&&( end <= thisLen )) {
             cmpResult = memcmp( &(this_[start]), that, thatLen );
         }
     }
@@ -83,7 +84,8 @@ static inline int utf8string_equals_region_buf( const char *this_, int start, co
     if ( this_ != NULL ) {
         int thisLen = strlen(this_);
         int thatLen = strlen(that.buf);
-        if (( 0 <= start )&&( start+thatLen <= thisLen )) {
+        int end = start + thatLen;
+        if (( 0 <= start )&&( start < end )&&( end <= thisLen )) {
             cmpResult = memcmp( &(this_[start]), that.buf, thatLen );
         }
     }

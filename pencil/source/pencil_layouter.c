@@ -25,6 +25,10 @@ void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_d
                                   &((*this_).layout_data),
                                   &((*this_).pencil_size)
                                 );
+    pencil_feat_label_layouter_init( &((*this_).feature_label_layouter),
+                                     &((*this_).layout_data),
+                                     &((*this_).pencil_size)
+                                   );
     pencil_classifier_layouter_init( &((*this_).pencil_classifier_layouter),
                                      &((*this_).layout_data),
                                      &((*this_).pencil_size),
@@ -37,7 +41,10 @@ void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_d
                                        &((*this_).layout_data),
                                        &((*this_).pencil_size)
                                      );
-
+    pencil_rel_label_layouter_init( &((*this_).relationship_label_layouter),
+                                    &((*this_).layout_data),
+                                    &((*this_).pencil_size)
+                                  );
     TRACE_END();
 }
 
@@ -56,8 +63,10 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
+    pencil_rel_label_layouter_destroy( &((*this_).relationship_label_layouter) );
     pencil_relationship_layouter_destroy( &((*this_).pencil_relationship_layouter) );
     pencil_classifier_layouter_destroy( &((*this_).pencil_classifier_layouter) );
+    pencil_feat_label_layouter_destroy( &((*this_).feature_label_layouter) );
     pencil_feature_layouter_destroy( &((*this_).feature_layouter) );
 
     pencil_diagram_painter_destroy( &((*this_).diagram_painter) );
