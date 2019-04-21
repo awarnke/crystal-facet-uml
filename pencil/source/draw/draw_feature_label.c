@@ -16,19 +16,17 @@ static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
                                                        const data_feature_t *feature,
-                                                       const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
-                                                       double *out_text_height,
-                                                       double *out_text_width )
+                                                       double *out_text_width,
+                                                       double *out_text_height )
 {
     TRACE_BEGIN();
     assert( NULL != feature );
-    assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_height );
     assert( NULL != out_text_width );
+    assert( NULL != out_text_height );
 
     if ( data_feature_is_valid( feature ) )
     {
@@ -59,8 +57,8 @@ void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_
     else
     {
         TSLOG_ERROR("invalid feature in draw_feature_label_get_key_and_value_dimensions()");
-        *out_text_height = 0.0;
         *out_text_width = 0.0;
+        *out_text_height = 0.0;
     }
     TRACE_END();
 }

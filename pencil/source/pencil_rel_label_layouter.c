@@ -29,10 +29,11 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_ )
+void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    assert( NULL != font_layout );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -59,6 +60,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_ )
         /* propose options */
         pencil_rel_label_layouter_private_propose_solutions ( this_,
                                                               current_relation,
+                                                              font_layout,
                                                               SOLUTIONS_MAX,
                                                               solution,
                                                               &solutions_count
@@ -128,12 +130,14 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
 
 void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layouter_t *this_,
                                                            layout_relationship_t *current_relation,
+                                                           PangoLayout *font_layout,
                                                            uint32_t solutions_max,
                                                            geometry_rectangle_t out_solutions[],
                                                            uint32_t *out_solutions_count)
 {
     TRACE_BEGIN();
     assert( NULL != current_relation );
+    assert( NULL != font_layout );
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 

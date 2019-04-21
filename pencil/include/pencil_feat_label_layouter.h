@@ -56,8 +56,9 @@ void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ );
  *  \brief determines the rectangels of the feature-label
  *
  *  \param this_ pointer to own object attributes
+ *  \param font_layout structure to layout fonts
  */
-void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_ );
+void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief determine order by which to layout the feature-labels
@@ -74,12 +75,14 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
  *
  *  \param this_ pointer to own object attributes
  *  \param current_feature feature for which to propose solutions
+ *  \param font_layout structure to layout fonts
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
  *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
  */
 void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_layouter_t *this_,
                                                             layout_feature_t *current_feature,
+                                                            PangoLayout *font_layout,
                                                             uint32_t solutions_max,
                                                             geometry_rectangle_t out_solutions[],
                                                             uint32_t *out_solutions_count

@@ -19,16 +19,16 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
                                                     const geometry_dimensions_t *proposed_bounds,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
-                                                    double *out_text_height,
-                                                    double *out_text_width )
+                                                    double *out_text_width,
+                                                    double *out_text_height )
 {
     TRACE_BEGIN();
     assert( NULL != visible_classifier );
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_height );
     assert( NULL != out_text_width );
+    assert( NULL != out_text_height );
 
     if ( data_visible_classifier_is_valid( visible_classifier ) )
     {
@@ -118,8 +118,8 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
     else
     {
         TSLOG_ERROR("invalid visible classifier in draw_classifier_label_get_stereotype_and_name_dimensions()");
-        *out_text_height = 0.0;
         *out_text_width = 0.0;
+        *out_text_height = 0.0;
     }
     TRACE_END();
 }
@@ -258,7 +258,7 @@ void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
     const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
-    
+
     /* prepare text */
     data_id_t the_id;
     data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );

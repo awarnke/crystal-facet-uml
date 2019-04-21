@@ -16,19 +16,17 @@ static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_relationship_label_get_type_and_name_dimensions ( const draw_relationship_label_t *this_,
                                                             const data_relationship_t *relationship,
-                                                            const geometry_dimensions_t *proposed_bounds,
                                                             const pencil_size_t *pencil_size,
                                                             PangoLayout *font_layout,
-                                                            double *out_text_height,
-                                                            double *out_text_width )
+                                                            double *out_text_width,
+                                                            double *out_text_height )
 {
     TRACE_BEGIN();
     assert( NULL != relationship );
-    assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
-    assert( NULL != out_text_height );
     assert( NULL != out_text_width );
+    assert( NULL != out_text_height );
 #if 0
     if ( data_relationship_is_valid( relationship ) )
     {
@@ -119,8 +117,8 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
 #endif
     {
         TSLOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
-        *out_text_height = 0.0;
         *out_text_width = 0.0;
+        *out_text_height = 0.0;
     }
     TRACE_END();
 }

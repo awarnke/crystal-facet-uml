@@ -438,8 +438,8 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
     double right_border;
 
     /* stereotype and name dimensions */
-    double text_height;
     double text_width;
+    double text_height;
 
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
@@ -464,8 +464,8 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
                                                    proposed_bounds,
                                                    pencil_size,
                                                    font_layout,
-                                                   &text_height,
-                                                   &text_width
+                                                   &text_width,
+                                                   &text_height
                                                  );
 
     /* get the bounds and inner space rectangles to modify */
@@ -563,8 +563,8 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
     double right_border;
 
     /* stereotype and name dimensions */
-    double text_height;
     double text_width;
+    double text_height;
 
     /* name the input data */
     const data_classifier_t *classifier;
@@ -600,8 +600,8 @@ void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_co
                                                    &proposed_bounds,
                                                    pencil_size,
                                                    font_layout,
-                                                   &text_height,
-                                                   &text_width
+                                                   &text_width,
+                                                   &text_height
                                                  );
 
     /* calculate the result */

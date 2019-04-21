@@ -50,16 +50,16 @@ static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_
  *  \param proposed_bounds proposed bounds for the text width and height
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_text_height height of the text is returned. NULL is not allowed.
  *  \param out_text_width width of the text is returned. NULL is not allowed.
+ *  \param out_text_height height of the text is returned. NULL is not allowed.
  */
 void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
                                                     const data_visible_classifier_t *visible_classifier,
                                                     const geometry_dimensions_t *proposed_bounds,
                                                     const pencil_size_t *pencil_size,
                                                     PangoLayout *font_layout,
-                                                    double *out_text_height,
-                                                    double *out_text_width
+                                                    double *out_text_width,
+                                                    double *out_text_height
                                                   );
 
 /*!

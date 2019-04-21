@@ -232,44 +232,14 @@ void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *t
 
     const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
 
-    double left = geometry_rectangle_get_left ( feature_bounds );
-    double top = geometry_rectangle_get_top ( feature_bounds );
-    double width = geometry_rectangle_get_width ( feature_bounds );
-    double height = geometry_rectangle_get_height ( feature_bounds );
+    const double left = geometry_rectangle_get_left ( feature_bounds );
+    const double top = geometry_rectangle_get_top ( feature_bounds );
+    const double width = geometry_rectangle_get_width ( feature_bounds );
+    const double height = geometry_rectangle_get_height ( feature_bounds );
 
-    double gap = pencil_size_get_standard_object_border( pencil_size );
+    //double gap = pencil_size_get_standard_object_border( pencil_size );
 
-    double port_icon_size;
-    port_icon_size = pencil_size_get_standard_font_size( pencil_size );
-    double port_icon_gap;
-    port_icon_gap = 0.5 * gap;
-
-    double box_left;
-    double box_top;
-    double box_height;
-    double box_width;
-
-    box_top = top + port_icon_gap + 0.5 * ( height - port_icon_size );
-    box_height = port_icon_size - 2.0 * port_icon_gap;
-    box_width = port_icon_size - 2.0 * port_icon_gap;
-
-    if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_label_direction( layouted_feature ) )
-    {
-        /* box to left, text to right */
-        box_left = left + port_icon_gap;
-
-        left += port_icon_size + gap;
-        width -= port_icon_size + gap;
-    }
-    else
-    {
-        /* box to right, text to left */
-        box_left = left + width - port_icon_size + port_icon_gap;
-
-        width -= port_icon_size + gap;
-    }
-
-    cairo_rectangle ( cr, box_left, box_top, box_width, box_height );
+    cairo_rectangle ( cr, left, top, width, height );
 
     cairo_set_source_rgba( cr, 1.0, 1.0, 1.0, 1.0 );  /* white background */
     cairo_fill_preserve (cr);
@@ -291,10 +261,10 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
 
     const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
 
-    double left = geometry_rectangle_get_left ( feature_bounds );
-    double top = geometry_rectangle_get_top ( feature_bounds );
-    double width = geometry_rectangle_get_width ( feature_bounds );
-    double height = geometry_rectangle_get_height ( feature_bounds );
+    const double left = geometry_rectangle_get_left ( feature_bounds );
+    const double top = geometry_rectangle_get_top ( feature_bounds );
+    const double width = geometry_rectangle_get_width ( feature_bounds );
+    const double height = geometry_rectangle_get_height ( feature_bounds );
 
     double bottom = top + height;
     double right = left + width;

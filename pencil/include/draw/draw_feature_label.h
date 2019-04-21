@@ -47,19 +47,17 @@ static inline void draw_feature_label_destroy( draw_feature_label_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param feature the feature data to draw
- *  \param proposed_bounds proposed bounds for the text width and height
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param out_text_height height of the text is returned. NULL is not allowed.
  *  \param out_text_width width of the text is returned. NULL is not allowed.
+ *  \param out_text_height height of the text is returned. NULL is not allowed.
  */
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
                                                        const data_feature_t *feature,
-                                                       const geometry_dimensions_t *proposed_bounds,
                                                        const pencil_size_t *pencil_size,
                                                        PangoLayout *font_layout,
-                                                       double *out_text_height,
-                                                       double *out_text_width
+                                                       double *out_text_width,
+                                                       double *out_text_height
                                                      );
 
 /*!

@@ -12,7 +12,6 @@ static inline void layout_feature_init ( layout_feature_t *this_,
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).icon_direction = PENCIL_LAYOUT_DIRECTION_CENTER;
-    (*this_).label_direction = PENCIL_LAYOUT_DIRECTION_CENTER;
     (*this_).data = feature_data;
     (*this_).classifier = classifier;
 }
@@ -42,16 +41,6 @@ static inline layout_direction_t layout_feature_get_icon_direction ( const layou
 static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, layout_direction_t direction )
 {
     (*this_).icon_direction = direction;
-}
-
-static inline layout_direction_t layout_feature_get_label_direction ( const layout_feature_t *this_ )
-{
-    return (*this_).label_direction;
-}
-
-static inline void layout_feature_set_label_direction ( layout_feature_t *this_, layout_direction_t direction )
-{
-    (*this_).label_direction = direction;
 }
 
 static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_feature_t *this_ )

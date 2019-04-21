@@ -120,7 +120,6 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 layout_feature_set_bounds ( feature_layout, c_bounds );
                 layout_feature_set_label_box ( feature_layout, c_bounds );
                 layout_feature_set_icon_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
-                layout_feature_set_label_direction ( feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
             }
             break;
         }
@@ -147,7 +146,6 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
     {
         layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
-        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         double c_right = geometry_rectangle_get_right( classifier_bounds );
         double c_top = geometry_rectangle_get_top( classifier_bounds );
         double c_height = geometry_rectangle_get_height( classifier_bounds );
@@ -165,7 +163,6 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type )
     {
         layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
-        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         double c_bottom = geometry_rectangle_get_bottom( classifier_bounds );
         double c_left = geometry_rectangle_get_left( classifier_bounds );
         double c_width = geometry_rectangle_get_width( classifier_bounds );
@@ -183,7 +180,6 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
     {
         layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
-        layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );
         layout_feature_set_bounds ( out_feature_layout, classifier_bounds );
         layout_feature_set_label_box ( out_feature_layout, classifier_bounds );
     }
@@ -226,8 +222,6 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     {
         if ( list_order < INT32_MIN/2 )  /* SHOW ON RIGHT BORDER */
         {
-            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
-
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
             port_icon_left = geometry_rectangle_get_right( &classifier_box ) - 0.5 * port_icon_size;
@@ -235,11 +229,6 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
         }
         else  /* SHOW ON TOP BORDER */
         {
-            layout_feature_set_label_direction ( out_feature_layout, (list_order < INT32_MIN/4)
-                                                                     ? PENCIL_LAYOUT_DIRECTION_UP_RIGHT
-                                                                     : PENCIL_LAYOUT_DIRECTION_UP_LEFT
-                                               );
-
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
@@ -250,8 +239,6 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
     {
         if ( list_order < INT32_MAX/2 )  /* SHOW ON LEFT BORDER */
         {
-            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
-
             double y_pos_rel = 0.0;
             y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) - 0.5 * port_icon_size;
@@ -259,11 +246,6 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
-            layout_feature_set_label_direction ( out_feature_layout, (list_order < (INT32_MAX/4)*3)
-                                                                     ? PENCIL_LAYOUT_DIRECTION_DOWN_LEFT
-                                                                     : PENCIL_LAYOUT_DIRECTION_DOWN_RIGHT
-                                               );
-
             double x_pos_rel = 0.0;
             x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
             port_icon_left = geometry_rectangle_get_left( &classifier_box ) + x_pos_rel * ( geometry_rectangle_get_width( &classifier_box ) - port_icon_size );
@@ -326,10 +308,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_RIGHT );
-            layout_feature_set_label_direction ( out_feature_layout, (list_order < (INT32_MIN/4)*3)
-                                                                     ? PENCIL_LAYOUT_DIRECTION_UP
-                                                                     : PENCIL_LAYOUT_DIRECTION_DOWN
-                                               );
         }
         else  /* SHOW ON TOP BORDER */
         {
@@ -345,7 +323,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
-            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
         }
     }
     else
@@ -364,10 +341,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_LEFT );
-            layout_feature_set_label_direction ( out_feature_layout, (list_order < INT32_MAX/4)
-                                                                     ? PENCIL_LAYOUT_DIRECTION_DOWN
-                                                                     : PENCIL_LAYOUT_DIRECTION_UP
-                                               );
         }
         else  /* SHOW ON BOTTOM BORDER */
         {
@@ -383,7 +356,6 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             layout_feature_set_bounds ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_DOWN );
-            layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_UP );
         }
     }
 
@@ -482,7 +454,6 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
     layout_feature_set_bounds ( out_feature_layout, &f_bounds );
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );  /* dummy direction */
-    layout_feature_set_label_direction ( out_feature_layout, PENCIL_LAYOUT_DIRECTION_CENTER );  /* dummy direction */
 
     TRACE_END();
 }

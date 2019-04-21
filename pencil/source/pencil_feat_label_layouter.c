@@ -29,10 +29,11 @@ void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_ )
+void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    assert( NULL != font_layout );
 
     universal_array_index_sorter_t sorted;
     universal_array_index_sorter_init( &sorted );
@@ -59,6 +60,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_ 
         /* propose options */
         pencil_feat_label_layouter_private_propose_solutions ( this_,
                                                                current_feature,
+                                                               font_layout,
                                                                SOLUTIONS_MAX,
                                                                solution,
                                                                &solutions_count
@@ -136,12 +138,14 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
 
 void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_layouter_t *this_,
                                                             layout_feature_t *current_feature,
+                                                            PangoLayout *font_layout,
                                                             uint32_t solutions_max,
                                                             geometry_rectangle_t out_solutions[],
                                                             uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
     assert( NULL != current_feature );
+    assert( NULL != font_layout );
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
@@ -158,6 +162,17 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     }
     else
     {
+        /* stereotype and name dimensions */
+        double text_width;
+        double text_height;
+        draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
+                                                         feature_data,
+                                                         (*this_).pencil_size,
+                                                         font_layout,
+                                                         &text_width,
+                                                         &text_height
+                                                       );
+
         /* dummy box */
         assert( solutions_max >= 1 );
         const geometry_rectangle_t * bounds = layout_feature_get_bounds_ptr ( current_feature );
