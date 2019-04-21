@@ -161,6 +161,7 @@ void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layout
     TRACE_BEGIN();
     assert( NULL != current_relation );
     assert( NULL != solutions );
+    assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
 
     static unsigned int random;

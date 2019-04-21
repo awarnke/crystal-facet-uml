@@ -171,7 +171,6 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     TRACE_END();
 }
 
-
 void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layouter_t *this_,
                                                           layout_feature_t *current_feature,
                                                           uint32_t solutions_count,
@@ -181,6 +180,7 @@ void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layo
     TRACE_BEGIN();
     assert( NULL != current_feature );
     assert( NULL != solutions );
+    assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
 
     static unsigned int random;
