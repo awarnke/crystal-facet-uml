@@ -162,7 +162,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     }
     else
     {
-        /* stereotype and name dimensions */
+        /* key and value dimensions */
         double text_width;
         double text_height;
         draw_feature_label_get_key_and_value_dimensions( &((*this_).draw_feature_label),
@@ -172,18 +172,76 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                                          &text_width,
                                                          &text_height
                                                        );
+        const double half_width = text_width/2.0;
+        const double half_height = text_height/2.0;
 
-        /* dummy box */
-        assert( solutions_max >= 1 );
+        const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
         const geometry_rectangle_t * bounds = layout_feature_get_bounds_ptr ( current_feature );
-        geometry_rectangle_init( &(out_solutions[0]),
-                                 geometry_rectangle_get_left(bounds) + 20,
-                                 geometry_rectangle_get_top(bounds) + 20,
-                                 200,
-                                 20
-                               );
-        *out_solutions_count = 1;
+        const double left = geometry_rectangle_get_left( bounds );
+        const double top = geometry_rectangle_get_top( bounds );
+        const double x_center = geometry_rectangle_get_x_center( bounds );
+        const double y_center = geometry_rectangle_get_y_center( bounds );
+        const double bottom = geometry_rectangle_get_bottom( bounds );
+        const double right = geometry_rectangle_get_right( bounds );
 
+        assert( solutions_max >= 8 );
+        /* top */
+        geometry_rectangle_init( &(out_solutions[0]),
+                                 x_center - half_width,
+                                 top - text_height - gap,
+                                 text_width,
+                                 text_height
+                               );
+        /* bottom */
+        geometry_rectangle_init( &(out_solutions[1]),
+                                 x_center - half_width,
+                                 bottom + gap,
+                                 text_width,
+                                 text_height
+                               );
+        /* left */
+        geometry_rectangle_init( &(out_solutions[2]),
+                                 left - text_width - gap,
+                                 y_center - half_height,
+                                 text_width,
+                                 text_height
+                               );
+        /* right */
+        geometry_rectangle_init( &(out_solutions[3]),
+                                 right + gap,
+                                 y_center - half_height,
+                                 text_width,
+                                 text_height
+                               );
+        /* top-left */
+        geometry_rectangle_init( &(out_solutions[4]),
+                                 left - text_width,
+                                 top - text_height,
+                                 text_width,
+                                 text_height
+                               );
+        /* top-right */
+        geometry_rectangle_init( &(out_solutions[5]),
+                                 right,
+                                 top - text_height,
+                                 text_width,
+                                 text_height
+                               );
+        /* bottom-left */
+        geometry_rectangle_init( &(out_solutions[6]),
+                                 left - text_width,
+                                 bottom,
+                                 text_width,
+                                 text_height
+                               );
+        /* bottom-right */
+        geometry_rectangle_init( &(out_solutions[7]),
+                                 right,
+                                 bottom,
+                                 text_width,
+                                 text_height
+                               );
+        *out_solutions_count = 8;
     }
 
     TRACE_END();
@@ -201,9 +259,120 @@ void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layo
     assert( solutions_count >= 1 );
     assert( NULL != out_index_of_best );
 
+    /* get draw area */
+    geometry_rectangle_t *diagram_draw_area;
+    {
+        layout_diagram_t *diagram_layout;
+        diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
+        diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
+    }
+
+    /* define potential solution and rating */
+    uint32_t index_of_best = 0;
+    double debts_of_best = DBL_MAX;
+
+    /* evaluate the solutions by their overlaps with classifiers */
+    for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
+    {
+        /* evalute the debts of this solution */
+        double debts_of_current = 0.0;
+        const geometry_rectangle_t * const current_solution = &(solutions[solution_idx]);
+
+        /* avoid alternating solutions in case their debts are identical */
+        debts_of_current += 0.1 * solution_idx;
+
+        /* add debts for overlap to diagram boundary */
+        if ( ! geometry_rectangle_is_containing( diagram_draw_area, current_solution ) )
+        {
+            debts_of_current += 100.0 * geometry_rectangle_get_area(diagram_draw_area); /* high debt */
+        }
+
+        /* iterate over all classifiers */
+        uint32_t count_clasfy;
+        count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+        for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
+        {
+            layout_visible_classifier_t *probe_classifier;
+            probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, clasfy_index );
+
+            geometry_rectangle_t *classifier_bounds;
+            classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
+            if ( geometry_rectangle_is_intersecting( current_solution, classifier_bounds ) )
+            {
+                debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_bounds ); /* low debt */
+            }
+
+            geometry_rectangle_t *classifier_label_box;
+            classifier_label_box = layout_visible_classifier_get_label_box_ptr( probe_classifier );
+            if ( geometry_rectangle_is_intersecting( current_solution, classifier_label_box ) )
+            {
+                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, classifier_label_box ); /* medium debt */
+            }
+        }
+
+        /* iterate over all features */
+        uint32_t count_feat;
+        count_feat = pencil_layout_data_get_feature_count ( (*this_).layout_data );
+        for ( uint32_t feat_index = 0; feat_index < count_feat; feat_index ++ )
+        {
+            layout_feature_t *probe_feature;
+            probe_feature = pencil_layout_data_get_feature_ptr( (*this_).layout_data, feat_index );
+
+            geometry_rectangle_t *feature_bounds;
+            feature_bounds = layout_feature_get_bounds_ptr( probe_feature );
+            if ( geometry_rectangle_is_intersecting( current_solution, feature_bounds ) )
+            {
+                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_bounds ); /* medium debt */
+            }
+
+            geometry_rectangle_t *feature_label_box;
+            feature_label_box = layout_feature_get_label_box_ptr( probe_feature );
+            if ( geometry_rectangle_is_intersecting( current_solution, feature_label_box ) )
+            {
+                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_label_box ); /* medium debt */
+            }
+        }
+
+        /* iterate over all relationships */
+        uint32_t count_relations;
+        count_relations = pencil_layout_data_get_relationship_count ( (*this_).layout_data );
+        for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
+        {
+            /* add debts if intersects */
+            layout_relationship_t *probe_relationship;
+            probe_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_index );
+
+            geometry_connector_t *probe_shape;
+            probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
+            if ( geometry_connector_is_intersecting_rectangle( probe_shape, current_solution ) )
+            {
+                debts_of_current += geometry_rectangle_get_area( current_solution );  /* relationship bounds intersects are not so bad ... low debt */
+            }
+
+            geometry_rectangle_t *relationship_label_box;
+            relationship_label_box = layout_relationship_get_label_box_ptr( probe_relationship );
+            if ( geometry_rectangle_is_intersecting( current_solution, relationship_label_box ) )
+            {
+                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, relationship_label_box ); /* medium debt */
+            }
+        }
+
+        /* update best solution */
+        if ( debts_of_current < debts_of_best )
+        {
+            index_of_best = solution_idx;
+            debts_of_best = debts_of_current;
+        }
+    }
+
+    /*
     static unsigned int random;
     random ++;
-    *out_index_of_best = random % solutions_count;
+    index_of_best = random % solutions_count;
+    */
+
+    /* output the best */
+    *out_index_of_best = index_of_best;
 
     TRACE_END();
 }

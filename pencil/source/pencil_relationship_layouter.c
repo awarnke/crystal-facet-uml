@@ -250,35 +250,27 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     }
 
     /* define potential solution and rating */
-    uint32_t index_of_best;
-    double debts_of_best;
-    index_of_best = 0;  /* in case of doubts, take the first solution */
-    debts_of_best = 1000000000.0;
+    uint32_t index_of_best = 0;
+    double debts_of_best = DBL_MAX;
 
     /* evaluate the solutions by their overlaps with classifiers */
     for ( uint32_t solution_idx = 0; solution_idx < solutions_count; solution_idx ++ )
     {
         /* evalute the debts of this solution */
-        double debts_of_current;
-        debts_of_current = 0.0;
+        double debts_of_current = 0.0;
+        const geometry_connector_t * const current_solution = &(solutions[solution_idx]);
 
         /* avoid alternating solutions in case their debts are identical */
         debts_of_current += 0.1 * solution_idx;
 
         /* the more length, the more unwanted... */
-        debts_of_current += geometry_connector_get_length( &(solutions[solution_idx]) );
+        debts_of_current += geometry_connector_get_length( current_solution );
 
         /* add debts for overlap to diagram boundary */
         {
             geometry_rectangle_t connectors_bounds;
-            connectors_bounds = geometry_connector_get_bounding_rectangle( &(solutions[solution_idx]) );
-
-            double current_area = geometry_rectangle_get_area ( &connectors_bounds );
-            geometry_rectangle_t intersect;
-            geometry_rectangle_init_by_intersect( &intersect, &connectors_bounds, diagram_draw_area );
-            double intersect_area = geometry_rectangle_get_area ( &intersect );
-
-            if ( (current_area - 0.1) > intersect_area )
+            connectors_bounds = geometry_connector_get_bounding_rectangle( current_solution );
+            if ( ! geometry_rectangle_is_containing( diagram_draw_area, &connectors_bounds ) )
             {
                 debts_of_current += 1000000.0;
             }
@@ -294,14 +286,14 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
-            if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_bounds ) )
+            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_bounds ) )
             {
                 debts_of_current += 100000.0;
             }
 
             geometry_rectangle_t *classifier_label_box;
             classifier_label_box = layout_visible_classifier_get_label_box_ptr( probe_classifier );
-            if ( geometry_connector_is_intersecting_rectangle( &(solutions[solution_idx]), classifier_label_box ) )
+            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_label_box ) )
             {
                 debts_of_current += 10000.0;
             }
@@ -318,7 +310,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             geometry_connector_t *probe_shape;
             probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
             uint32_t intersects;
-            intersects = geometry_connector_count_connector_intersects( &(solutions[solution_idx]), probe_shape );
+            intersects = geometry_connector_count_connector_intersects( current_solution, probe_shape );
             debts_of_current += 1000.0 * intersects;
         }
 

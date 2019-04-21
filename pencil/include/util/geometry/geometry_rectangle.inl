@@ -281,6 +281,13 @@ static inline bool geometry_rectangle_is_empty ( const geometry_rectangle_t *thi
     return ( ( (*this_).width < 0.000000001 )||( (*this_).height < 0.000000001 ) );
 }
 
+static inline double geometry_rectangle_get_intersect_area ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that )
+{
+    geometry_rectangle_t intersect;
+    geometry_rectangle_init_by_intersect( &intersect, this_, that );
+    return geometry_rectangle_get_area(&intersect);
+}
+
 static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, double delta_x, double delta_y )
 {
     (*this_).left += delta_x;

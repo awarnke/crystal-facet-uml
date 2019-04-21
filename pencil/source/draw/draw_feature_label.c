@@ -11,7 +11,6 @@
 #include <stdlib.h>
 #include <assert.h>
 
-static const int DRAW_LABEL_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_feature_label_get_key_and_value_dimensions ( const draw_feature_label_t *this_,
