@@ -179,6 +179,7 @@ static inline double geometry_rectangle_get_y_center ( const geometry_rectangle_
  *  \brief gets the area-value of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
+ *  \return space within the rectangle.
  */
 static inline double geometry_rectangle_get_area ( const geometry_rectangle_t *this_ );
 
@@ -227,6 +228,15 @@ static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t
  *  \return chess-distance from x/y to the rectangle; 0.0 if x/y is contained.
  */
 static inline double geometry_rectangle_calc_chess_distance ( const geometry_rectangle_t *this_, double x, double y );
+
+/*!
+ *  \brief gets the intersect area of two geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that pointer to others object attributes
+ *  \return space within the instersect of the rectangles.
+ */
+static inline double geometry_rectangle_get_intersect_area ( const geometry_rectangle_t *this_, const geometry_rectangle_t *that );
 
 /*!
  *  \brief moves the geometry_rectangle_t
