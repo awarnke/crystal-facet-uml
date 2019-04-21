@@ -15,6 +15,7 @@ void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
 
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
+    draw_feature_label_init( &((*this_).draw_feature_label) );
 
     TRACE_END();
 }
@@ -22,6 +23,8 @@ void pencil_feat_label_layouter_init( pencil_feat_label_layouter_t *this_,
 void pencil_feat_label_layouter_destroy( pencil_feat_label_layouter_t *this_ )
 {
     TRACE_BEGIN();
+
+    draw_feature_label_destroy( &((*this_).draw_feature_label) );
 
     TRACE_END();
 }

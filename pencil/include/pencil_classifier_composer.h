@@ -6,7 +6,7 @@
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Renders a classifier by composing it of draw_graphics, draw_symbol and draw_label commands
+ *  \brief Renders a classifier by composing it of draw_graphics, draw_classifier_symbol and draw_classifier_label commands
  */
 
 #include "pencil_marker.h"
@@ -14,9 +14,9 @@
 #include "pencil_feature_painter.h"
 #include "pencil_layout_data.h"
 #include "layout/layout_visible_classifier.h"
-#include "draw/draw_symbol.h"
-#include "draw/draw_label.h"
-#include "draw/draw_contour.h"
+#include "draw/draw_classifier_symbol.h"
+#include "draw/draw_classifier_label.h"
+#include "draw/draw_classifier_contour.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "util/geometry/geometry_h_align.h"
@@ -35,9 +35,9 @@
 struct pencil_classifier_composer_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
     data_rules_t data_rules;  /*!< own instance of data rules */
-    draw_symbol_t draw_symbol;  /*!< collection of draw symbol/icon functions */
-    draw_label_t draw_label;  /*!< collection of draw label functions */
-    draw_contour_t draw_contour;  /*!< collection of draw contour functions */
+    draw_classifier_symbol_t draw_classifier_symbol;  /*!< collection of draw symbol/icon functions */
+    draw_classifier_label_t draw_classifier_label;  /*!< collection of draw label functions */
+    draw_classifier_contour_t draw_classifier_contour;  /*!< collection of draw contour functions */
 };
 
 typedef struct pencil_classifier_composer_struct pencil_classifier_composer_t;

@@ -1,6 +1,6 @@
-/* File: draw_symbol.c; Copyright and License: see below */
+/* File: draw_classifier_symbol.c; Copyright and License: see below */
 
-#include "draw/draw_symbol.h"
+#include "draw/draw_classifier_symbol.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -12,7 +12,7 @@ const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 const double DRAW_SYMBOL_ARTIFACT_ICON_WIDTH_TO_HEIGHT = 0.7;
 const double DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT = 1.4;
 
-void draw_symbol_draw_component ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *this_,
                                   geometry_rectangle_t bounds,
                                   cairo_t *cr )
 {
@@ -54,7 +54,7 @@ void draw_symbol_draw_component ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this_,
                                  geometry_rectangle_t bounds,
                                  cairo_t *cr )
 {
@@ -84,7 +84,7 @@ void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_symbol_draw_actor ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
                               geometry_rectangle_t bounds,
                               cairo_t *cr )
 {
@@ -122,7 +122,7 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_symbol_draw_circle ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
                                geometry_rectangle_t bounds,
                                const pencil_size_t *pencil_size,
                                bool stroke,
@@ -216,7 +216,7 @@ void draw_symbol_draw_circle ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_symbol_draw_time ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
                              geometry_rectangle_t bounds,
                              cairo_t *cr )
 {
@@ -238,7 +238,7 @@ void draw_symbol_draw_time ( const draw_symbol_t *this_,
     TRACE_END();
 }
 
-void draw_symbol_draw_sync ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_sync ( const draw_classifier_symbol_t *this_,
                              geometry_rectangle_t bounds,
                              cairo_t *cr )
 {

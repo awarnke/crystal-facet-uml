@@ -14,6 +14,7 @@ void pencil_relationship_painter_init( pencil_relationship_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
+    draw_relationship_label_init( &((*this_).draw_relationship_label) );
 
     TRACE_END();
 }
@@ -22,6 +23,7 @@ void pencil_relationship_painter_destroy( pencil_relationship_painter_t *this_ )
 {
     TRACE_BEGIN();
 
+    draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
     TRACE_END();

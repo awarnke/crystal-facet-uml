@@ -1,7 +1,7 @@
-/* File: draw_label.h; Copyright and License: see below */
+/* File: draw_classifier_label.h; Copyright and License: see below */
 
-#ifndef DRAW_LABEL_H
-#define DRAW_LABEL_H
+#ifndef DRAW_CLASSIFIER_LABEL_H
+#define DRAW_CLASSIFIER_LABEL_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -22,25 +22,25 @@
 /*!
  *  \brief attributes of the draw label functions
  */
-struct draw_label_struct {
+struct draw_classifier_label_struct {
     data_rules_t data_rules;  /*!< own instance of data rules */
 };
 
-typedef struct draw_label_struct draw_label_t;
+typedef struct draw_classifier_label_struct draw_classifier_label_t;
 
 /*!
- *  \brief initializes the draw_label_t
+ *  \brief initializes the draw_classifier_label_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_label_init( draw_label_t *this_ );
+static inline void draw_classifier_label_init( draw_classifier_label_t *this_ );
 
 /*!
- *  \brief destroys the draw_label_t
+ *  \brief destroys the draw_classifier_label_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_label_destroy( draw_label_t *this_ );
+static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_ );
 
 /*!
  *  \brief determines the dimensions of the stereotype and name of the classifier.
@@ -53,7 +53,7 @@ static inline void draw_label_destroy( draw_label_t *this_ );
  *  \param out_text_height height of the text is returned. NULL is not allowed.
  *  \param out_text_width width of the text is returned. NULL is not allowed.
  */
-void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
+void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
                                                     const data_visible_classifier_t *visible_classifier,
                                                     const geometry_dimensions_t *proposed_bounds,
                                                     const pencil_size_t *pencil_size,
@@ -72,7 +72,7 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param cr the cairo drawing context.
  */
-void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
+void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
                                           const data_visible_classifier_t *visible_classifier,
                                           const geometry_rectangle_t *label_box,
                                           const pencil_size_t *pencil_size,
@@ -90,7 +90,7 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param cr the cairo drawing context.
  */
-void draw_label_draw_id( const draw_label_t *this_,
+void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
                          const data_visible_classifier_t *visible_classifier,
                          const geometry_rectangle_t *classifier_bounds,
                          const pencil_size_t *pencil_size,
@@ -98,9 +98,9 @@ void draw_label_draw_id( const draw_label_t *this_,
                          cairo_t *cr
                        );
 
-#include "draw_label.inl"
+#include "draw_classifier_label.inl"
 
-#endif  /* DRAW_LABEL_H */
+#endif  /* DRAW_CLASSIFIER_LABEL_H */
 
 
 /*

@@ -12,6 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_relationship.h"
+#include "draw/draw_relationship_label.h"
 #include "util/geometry/geometry_connector.h"
 #include "data_diagram.h"
 #include "set/data_visible_set.h"
@@ -25,6 +26,7 @@
  */
 struct pencil_relationship_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
+    draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
 };
 
 typedef struct pencil_relationship_painter_struct pencil_relationship_painter_t;

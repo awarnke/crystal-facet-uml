@@ -1,7 +1,7 @@
-/* File: draw_contour.h; Copyright and License: see below */
+/* File: draw_classifier_contour.h; Copyright and License: see below */
 
-#ifndef DRAW_CONTOUR_H
-#define DRAW_CONTOUR_H
+#ifndef DRAW_CLASSIFIER_CONTOUR_H
+#define DRAW_CLASSIFIER_CONTOUR_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -20,25 +20,25 @@
 /*!
  *  \brief attributes of the draw geometry functions
  */
-struct draw_contour_struct {
+struct draw_classifier_contour_struct {
     int dummy;  /*!< This object is a collection of stateless drawing functions */
 };
 
-typedef struct draw_contour_struct draw_contour_t;
+typedef struct draw_classifier_contour_struct draw_classifier_contour_t;
 
 /*!
- *  \brief initializes the draw_contour_t
+ *  \brief initializes the draw_classifier_contour_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_contour_init( draw_contour_t *this_ );
+static inline void draw_classifier_contour_init( draw_classifier_contour_t *this_ );
 
 /*!
- *  \brief destroys the draw_contour_t
+ *  \brief destroys the draw_classifier_contour_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_contour_destroy( draw_contour_t *this_ );
+static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ );
 
 /*!
  *  \brief determines the dimensions of the border of the classifier-shape.
@@ -53,7 +53,7 @@ static inline void draw_contour_destroy( draw_contour_t *this_ );
  *  \param out_bottom_border height of the bottom border is returned. NULL is not allowed.
  *  \param out_right_border width of the right border is returned. NULL is not allowed.
  */
-void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
+void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_contour_t *this_,
                                                data_classifier_type_t classifier_type,
                                                const pencil_size_t *pencil_size,
                                                double *out_top_border,
@@ -70,7 +70,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-static inline void draw_contour_draw_rect ( const draw_contour_t *this_,
+static inline void draw_classifier_contour_draw_rect ( const draw_classifier_contour_t *this_,
                                             const geometry_rectangle_t *outer_bounds,
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr
@@ -85,7 +85,7 @@ static inline void draw_contour_draw_rect ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_rounded_rect ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t *this_,
                                       const geometry_rectangle_t *outer_bounds,
                                       bool dashed_line,
                                       const pencil_size_t *pencil_size,
@@ -100,7 +100,7 @@ void draw_contour_draw_rounded_rect ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_ellipse ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr
@@ -114,7 +114,7 @@ void draw_contour_draw_ellipse ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_rhombus ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr
@@ -128,7 +128,7 @@ void draw_contour_draw_rhombus ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_3d_box ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this_,
                                 const geometry_rectangle_t *outer_bounds,
                                 const pencil_size_t *pencil_size,
                                 cairo_t *cr
@@ -142,7 +142,7 @@ void draw_contour_draw_3d_box ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_accept_event ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t *this_,
                                       const geometry_rectangle_t *outer_bounds,
                                       const pencil_size_t *pencil_size,
                                       cairo_t *cr
@@ -156,7 +156,7 @@ void draw_contour_draw_accept_event ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_send_signal ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t *this_,
                                      const geometry_rectangle_t *outer_bounds,
                                      const pencil_size_t *pencil_size,
                                      cairo_t *cr
@@ -170,7 +170,7 @@ void draw_contour_draw_send_signal ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_package ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr
@@ -184,7 +184,7 @@ void draw_contour_draw_package ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_diagram_ref ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t *this_,
                                      const geometry_rectangle_t *outer_bounds,
                                      const pencil_size_t *pencil_size,
                                      cairo_t *cr
@@ -198,7 +198,7 @@ void draw_contour_draw_diagram_ref ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-void draw_contour_draw_comment ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr
@@ -213,16 +213,16 @@ void draw_contour_draw_comment ( const draw_contour_t *this_,
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-static inline void draw_contour_draw_horizonal_line ( const draw_contour_t *this_,
+static inline void draw_classifier_contour_draw_horizonal_line ( const draw_classifier_contour_t *this_,
                                                       const geometry_rectangle_t *outer_bounds,
                                                       double y_coordinate,
                                                       const pencil_size_t *pencil_size,
                                                       cairo_t *cr
                                                     );
 
-#include "draw_contour.inl"
+#include "draw_classifier_contour.inl"
 
-#endif  /* DRAW_CONTOUR_H */
+#endif  /* DRAW_CLASSIFIER_CONTOUR_H */
 
 
 /*

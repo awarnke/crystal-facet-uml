@@ -1,19 +1,19 @@
-/* File: draw_symbol.inl; Copyright and License: see below */
+/* File: draw_classifier_symbol.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <assert.h>
 
-static inline void draw_symbol_init( draw_symbol_t *this_ )
+static inline void draw_classifier_symbol_init( draw_classifier_symbol_t *this_ )
 {
 
 }
 
-static inline void draw_symbol_destroy( draw_symbol_t *this_ )
+static inline void draw_classifier_symbol_destroy( draw_classifier_symbol_t *this_ )
 {
 
 }
 
-static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds ( const draw_classifier_symbol_t *this_,
                                                                       double x,
                                                                       double y,
                                                                       geometry_h_align_t h_align,
@@ -33,7 +33,7 @@ static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw
     return result;
 }
 
-static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( const draw_classifier_symbol_t *this_,
                                                                      double x,
                                                                      double y,
                                                                      geometry_h_align_t h_align,
@@ -53,7 +53,7 @@ static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_
     return result;
 }
 
-static inline geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( const draw_classifier_symbol_t *this_,
                                                                   double x,
                                                                   double y,
                                                                   geometry_h_align_t h_align,
@@ -73,7 +73,7 @@ static inline geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_sym
     return result;
 }
 
-static inline geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( const draw_classifier_symbol_t *this_,
                                                                    double x,
                                                                    double y,
                                                                    geometry_h_align_t h_align,
@@ -93,7 +93,7 @@ static inline geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_sy
     return result;
 }
 
-static inline geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( const draw_classifier_symbol_t *this_,
                                                                  double x,
                                                                  double y,
                                                                  geometry_h_align_t h_align,
@@ -113,7 +113,7 @@ static inline geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symb
     return result;
 }
 
-static inline geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_sync_bounds ( const draw_classifier_symbol_t *this_,
                                                                  double x,
                                                                  double y,
                                                                  geometry_h_align_t h_align,

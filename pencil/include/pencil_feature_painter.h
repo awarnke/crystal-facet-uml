@@ -12,6 +12,7 @@
 #include "pencil_marker.h"
 #include "pencil_size.h"
 #include "layout/layout_feature.h"
+#include "draw/draw_feature_label.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
 #include "data_diagram.h"
@@ -26,6 +27,7 @@
  */
 struct pencil_feature_painter_struct {
     pencil_marker_t marker;  /*!< own instance of a marker */
+    draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions */
 };
 
 typedef struct pencil_feature_painter_struct pencil_feature_painter_t;
@@ -113,22 +115,6 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
                                                           pencil_size_t *pencil_size,
                                                           cairo_t *cr
                                                         );
-
-/*!
- *  \brief draws the label of the feature
- *
- *  \param this_ pointer to own object attributes
- *  \param layouted_feature pointer to the layout-information and data to be drawn
- *  \param pencil_size set of sizes and colors for drawing lines and text
- *  \param layout structure to layout fonts
- *  \param cr a cairo drawing context
- */
-void pencil_feature_painter_private_draw_label ( pencil_feature_painter_t *this_,
-                                                 layout_feature_t *layouted_feature,
-                                                 pencil_size_t *pencil_size,
-                                                 PangoLayout *layout,
-                                                 cairo_t *cr
-                                               );
 
 /*!
  *  \brief determines the minumum feature bounds

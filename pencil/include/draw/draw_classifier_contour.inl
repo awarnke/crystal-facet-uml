@@ -1,19 +1,19 @@
-/* File: draw_contour.inl; Copyright and License: see below */
+/* File: draw_classifier_contour.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <assert.h>
 
-static inline void draw_contour_init( draw_contour_t *this_ )
+static inline void draw_classifier_contour_init( draw_classifier_contour_t *this_ )
 {
 
 }
 
-static inline void draw_contour_destroy( draw_contour_t *this_ )
+static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *this_ )
 {
 
 }
 
-static inline void draw_contour_draw_rect ( const draw_contour_t *this_,
+static inline void draw_classifier_contour_draw_rect ( const draw_classifier_contour_t *this_,
                                             const geometry_rectangle_t *outer_bounds,
                                             const pencil_size_t *pencil_size,
                                             cairo_t *cr )
@@ -30,7 +30,7 @@ static inline void draw_contour_draw_rect ( const draw_contour_t *this_,
     cairo_stroke (cr);
 }
 
-static inline void draw_contour_draw_horizonal_line ( const draw_contour_t *this_,
+static inline void draw_classifier_contour_draw_horizonal_line ( const draw_classifier_contour_t *this_,
                                                       const geometry_rectangle_t *outer_bounds,
                                                       double y_coordinate,
                                                       const pencil_size_t *pencil_size,

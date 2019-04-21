@@ -1,7 +1,7 @@
-/* File: draw_contour.c; Copyright and License: see below */
+/* File: draw_classifier_contour.c; Copyright and License: see below */
 
-#include "draw/draw_contour.h"
-#include "draw/draw_symbol.h"
+#include "draw/draw_classifier_contour.h"
+#include "draw/draw_classifier_symbol.h"
 #include "trace.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -10,7 +10,7 @@
 /*! where to place the control points of a bezier curve to get a good approximation for a 90 degree curve */
 const static double BEZIER_CTRL_POINT_FOR_90_DEGREE_CIRCLE = 0.552284749831;
 
-void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
+void draw_classifier_contour_get_shape_border_dimensions( const draw_classifier_contour_t *this_,
                                                 data_classifier_type_t classifier_type,
                                                 const pencil_size_t *pencil_size,
                                                 double *out_top_border,
@@ -172,7 +172,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
 
         default:
         {
-            TSLOG_ERROR("unknown data_classifier_type_t in draw_contour_get_shape_border_dimensions()");
+            TSLOG_ERROR("unknown data_classifier_type_t in draw_classifier_contour_get_shape_border_dimensions()");
             *out_top_border = 0.0;
             *out_left_border = 0.0;
             *out_bottom_border = 0.0;
@@ -183,7 +183,7 @@ void draw_contour_get_shape_border_dimensions( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_rounded_rect ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_rounded_rect ( const draw_classifier_contour_t *this_,
                                       const geometry_rectangle_t *outer_bounds,
                                       bool dashed_line,
                                       const pencil_size_t *pencil_size,
@@ -232,7 +232,7 @@ void draw_contour_draw_rounded_rect ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_ellipse ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_ellipse ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr )
@@ -265,7 +265,7 @@ void draw_contour_draw_ellipse ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_rhombus ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr )
@@ -294,7 +294,7 @@ void draw_contour_draw_rhombus ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_3d_box ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_3d_box ( const draw_classifier_contour_t *this_,
                                 const geometry_rectangle_t *outer_bounds,
                                 const pencil_size_t *pencil_size,
                                 cairo_t *cr )
@@ -328,7 +328,7 @@ void draw_contour_draw_3d_box ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_accept_event ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t *this_,
                                       const geometry_rectangle_t *outer_bounds,
                                       const pencil_size_t *pencil_size,
                                       cairo_t *cr )
@@ -358,7 +358,7 @@ void draw_contour_draw_accept_event ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_send_signal ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t *this_,
                                      const geometry_rectangle_t *outer_bounds,
                                      const pencil_size_t *pencil_size,
                                      cairo_t *cr )
@@ -388,7 +388,7 @@ void draw_contour_draw_send_signal ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_package ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_package ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr )
@@ -411,7 +411,7 @@ void draw_contour_draw_package ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_diagram_ref ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_diagram_ref ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr )
@@ -439,7 +439,7 @@ void draw_contour_draw_diagram_ref ( const draw_contour_t *this_,
     TRACE_END();
 }
 
-void draw_contour_draw_comment ( const draw_contour_t *this_,
+void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *this_,
                                  const geometry_rectangle_t *outer_bounds,
                                  const pencil_size_t *pencil_size,
                                  cairo_t *cr )

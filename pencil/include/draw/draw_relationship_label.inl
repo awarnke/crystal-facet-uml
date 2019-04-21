@@ -1,14 +1,14 @@
-/* File: draw_label.inl; Copyright and License: see below */
+/* File: draw_relationship_label.inl; Copyright and License: see below */
 
 #include "tslog.h"
 #include <assert.h>
 
-static inline void draw_label_init( draw_label_t *this_ )
+static inline void draw_relationship_label_init( draw_relationship_label_t *this_ )
 {
     data_rules_init ( &((*this_).data_rules) );
 }
 
-static inline void draw_label_destroy( draw_label_t *this_ )
+static inline void draw_relationship_label_destroy( draw_relationship_label_t *this_ )
 {
     data_rules_destroy ( &((*this_).data_rules) );
 }

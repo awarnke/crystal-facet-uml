@@ -1,6 +1,6 @@
-/* File: draw_label.c; Copyright and License: see below */
+/* File: draw_relationship_label.c; Copyright and License: see below */
 
-#include "draw/draw_label.h"
+#include "draw/draw_relationship_label.h"
 #include "trace.h"
 #include "data_classifier.h"
 #include "data_diagramelement.h"
@@ -14,23 +14,23 @@
 static const int DRAW_LABEL_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
-void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
-                                                    const data_visible_classifier_t *visible_classifier,
-                                                    const geometry_dimensions_t *proposed_bounds,
-                                                    const pencil_size_t *pencil_size,
-                                                    PangoLayout *font_layout,
-                                                    double *out_text_height,
-                                                    double *out_text_width )
+void draw_relationship_label_get_type_and_name_dimensions ( const draw_relationship_label_t *this_,
+                                                            const data_relationship_t *relationship,
+                                                            const geometry_dimensions_t *proposed_bounds,
+                                                            const pencil_size_t *pencil_size,
+                                                            PangoLayout *font_layout,
+                                                            double *out_text_height,
+                                                            double *out_text_width )
 {
     TRACE_BEGIN();
-    assert( NULL != visible_classifier );
+    assert( NULL != relationship );
     assert( NULL != proposed_bounds );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != out_text_height );
     assert( NULL != out_text_width );
-
-    if ( data_visible_classifier_is_valid( visible_classifier ) )
+#if 0
+    if ( data_relationship_is_valid( relationship ) )
     {
         const data_classifier_t *classifier;
         const data_diagramelement_t *diagramelement;
@@ -116,28 +116,29 @@ void draw_label_get_stereotype_and_name_dimensions( const draw_label_t *this_,
         *out_text_width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width;
     }
     else
+#endif
     {
-        TSLOG_ERROR("invalid visible classifier in draw_label_get_stereotype_and_name_dimensions()");
+        TSLOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
         *out_text_height = 0.0;
         *out_text_width = 0.0;
     }
     TRACE_END();
 }
 
-void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
-                                          const data_visible_classifier_t *visible_classifier,
-                                          const geometry_rectangle_t *label_box,
-                                          const pencil_size_t *pencil_size,
-                                          PangoLayout *font_layout,
-                                          cairo_t *cr )
+void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_t *this_,
+                                                  const data_relationship_t *relationship,
+                                                  const geometry_rectangle_t *label_box,
+                                                  const pencil_size_t *pencil_size,
+                                                  PangoLayout *font_layout,
+                                                  cairo_t *cr )
 {
     TRACE_BEGIN();
-    assert( NULL != visible_classifier );
+    assert( NULL != relationship );
     assert( NULL != label_box );
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != cr );
-
+#if 0
     /* define names for input data: */
     const data_classifier_t *classifier;
     const data_diagramelement_t *diagramelement;
@@ -199,7 +200,7 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
         pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
         pango_layout_set_width(font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
         pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-
+        visible
         /* draw text */
         cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
@@ -230,149 +231,13 @@ void draw_label_draw_stereotype_and_name( const draw_label_t *this_,
         cairo_move_to ( cr, left + 0.5*( width - text3_width ), top+text1_height+f_line_gap+text2_height+f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
     }
-
-    TRACE_END();
-}
-
-void draw_label_draw_id( const draw_label_t *this_,
-                         const data_visible_classifier_t *visible_classifier,
-                         const geometry_rectangle_t *classifier_bounds,
-                         const pencil_size_t *pencil_size,
-                         PangoLayout *font_layout,
-                         cairo_t *cr )
-{
-    TRACE_BEGIN();
-    assert( NULL != visible_classifier );
-    assert( NULL != classifier_bounds );
-    assert( NULL != pencil_size );
-    assert( NULL != font_layout );
-    assert( NULL != cr );
-
-    /* define names for input data: */
-    const double left = geometry_rectangle_get_left ( classifier_bounds );
-    const double top = geometry_rectangle_get_top ( classifier_bounds );
-    const double width = geometry_rectangle_get_width ( classifier_bounds );
-    const double height = geometry_rectangle_get_height ( classifier_bounds );
-    const double gap = pencil_size_get_standard_object_border( pencil_size );
-
-    const data_classifier_t *classifier;
-    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
-    
-    /* prepare text */
-    data_id_t the_id;
-    data_id_init( &the_id, DATA_TABLE_CLASSIFIER, data_classifier_get_id( classifier ) );
-
-    char id_buf[DATA_ID_MAX_UTF8STRING_SIZE+5];
-    utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
-    utf8stringbuf_copy_str( id_str, "{id=" );
-    data_id_to_utf8stringbuf( &the_id, id_str );
-    utf8stringbuf_append_str( id_str, "}" );
-
-    /* determine text dimension */
-    int text4_width;
-    int text4_height;
-    pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
-    pango_layout_set_text (font_layout, utf8stringbuf_get_string( id_str ), -1);
-    pango_layout_get_pixel_size (font_layout, &text4_width, &text4_height);
-
-    /* position the text */
-    int x_gap = 0;
-    int y_gap = 0;
-    switch ( classifier_type )
-    {
-        case DATA_CLASSIFIER_TYPE_BLOCK:
-        case DATA_CLASSIFIER_TYPE_FEATURE:
-        case DATA_CLASSIFIER_TYPE_REQUIREMENT:
-        case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_PART:
-        case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-        case DATA_CLASSIFIER_TYPE_UML_CLASS:
-        case DATA_CLASSIFIER_TYPE_UML_OBJECT:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
-        case DATA_CLASSIFIER_TYPE_UML_COMMENT:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT:
-        {
-            /* there is a border line */
-            x_gap = 2*gap;
-            y_gap = 2*gap;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
-        {
-            /* there is a 3D border line */
-            x_gap = 4*gap;
-            y_gap = 2*gap;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
-        case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
-        {
-            /* there is a border line with a round corner */
-            x_gap = 7*gap;
-            y_gap = 2*gap;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_ACTOR:
-        case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_FORK_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE:
-        case DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY:
-        case DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT:
-        {
-            /* position the text right-bottom of the icon */
-            x_gap = (width - pencil_size_get_classifier_symbol_height( pencil_size ))/2 - text4_width;
-            y_gap = 0;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
-        case DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE:
-        {
-            /* there is a chance that the bottom-right corner is empty */
-            x_gap = 0;
-            y_gap = 0;
-        }
-        break;
-
-        case DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL:
-        {
-            /* the send signal has a 45 degree edge */
-            x_gap = height/2;
-            y_gap = 2*gap;
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR("unknown data_classifier_type_t in pencil_classifier_composer_draw()");
-        }
-        break;
-    }
-
-    /* draw text */
-    GdkRGBA grey_color;
-    grey_color = pencil_size_get_gray_out_color( pencil_size );
-    cairo_set_source_rgba( cr, grey_color.red, grey_color.green, grey_color.blue, grey_color.alpha );
-    cairo_move_to ( cr, left + width - text4_width - x_gap, top + height - text4_height - y_gap );
-    pango_cairo_show_layout (cr, font_layout);
-
+#endif
     TRACE_END();
 }
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2017-2019 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

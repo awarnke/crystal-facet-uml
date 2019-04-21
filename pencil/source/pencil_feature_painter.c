@@ -16,6 +16,7 @@ void pencil_feature_painter_init( pencil_feature_painter_t *this_ )
     TRACE_BEGIN();
 
     pencil_marker_init( &((*this_).marker) );
+    draw_feature_label_init( &((*this_).draw_feature_label) );
 
     TRACE_END();
 }
@@ -24,6 +25,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ )
 {
     TRACE_BEGIN();
 
+    draw_feature_label_destroy( &((*this_).draw_feature_label) );
     pencil_marker_destroy( &((*this_).marker) );
 
     TRACE_END();
@@ -105,7 +107,14 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             break;
         }
 
-        pencil_feature_painter_private_draw_label ( this_, layouted_feature, pencil_size, layout, cr );
+        /* draw the label */
+        draw_feature_label_draw_key_and_value ( &((*this_).draw_feature_label),
+                                                layout_feature_get_data_ptr( layouted_feature ),
+                                                layout_feature_get_label_box_ptr( layouted_feature ),
+                                                pencil_size,
+                                                layout,
+                                                cr
+                                              );
 
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
         /* draw the rectangles */
@@ -350,130 +359,6 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
             TSLOG_ERROR( "unexpected value in layout_direction_t." );
         }
         break;
-    }
-
-    TRACE_END();
-}
-
-void pencil_feature_painter_private_draw_label ( pencil_feature_painter_t *this_,
-                                                 layout_feature_t *layouted_feature,
-                                                 pencil_size_t *pencil_size,
-                                                 PangoLayout *layout,
-                                                 cairo_t *cr )
-{
-    TRACE_BEGIN();
-    assert( NULL != pencil_size );
-    assert( NULL != layouted_feature );
-    assert( NULL != layout );
-    assert( NULL != cr );
-
-    const data_feature_t *the_feature = layout_feature_get_data_ptr( layouted_feature );
-    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
-
-    double gap = pencil_size_get_standard_object_border( pencil_size );  /* to remove the small gap */
-
-    double left = geometry_rectangle_get_left ( feature_bounds );
-    double top = geometry_rectangle_get_top ( feature_bounds );
-    double x_center = geometry_rectangle_get_x_center ( feature_bounds );
-    double y_center = geometry_rectangle_get_y_center ( feature_bounds );
-    double right = geometry_rectangle_get_right ( feature_bounds );
-    double bottom = geometry_rectangle_get_bottom ( feature_bounds );
-
-    /* draw text - except for lifelines */
-    if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type (the_feature) )
-    {
-        /* prepare text */
-        char label_text[DATA_FEATURE_MAX_KEY_SIZE + DATA_FEATURE_MAX_VALUE_SIZE + 2 ];
-        utf8stringbuf_t label_buf = UTF8STRINGBUF(label_text);
-        utf8stringbuf_copy_str( label_buf, data_feature_get_key_ptr( the_feature ) );
-        if ( data_feature_has_value( the_feature ) )
-        {
-            utf8stringbuf_append_str( label_buf, ": " );
-            utf8stringbuf_append_str( label_buf, data_feature_get_value_ptr( the_feature ) );
-        }
-
-        pango_layout_set_font_description (layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (layout, utf8stringbuf_get_string( label_buf ), -1);
-
-        /* precalculate text dimensions of the the text */
-        int text2_width;
-        int text2_height;
-        pango_layout_get_pixel_size (layout, &text2_width, &text2_height);
-        double text_half_width = text2_width / 2.0;
-        double text_half_height = text2_height / 2.0;
-
-        /* draw text */
-        switch ( layout_feature_get_label_direction( layouted_feature ) )
-        {
-            case PENCIL_LAYOUT_DIRECTION_CENTER:
-            {
-                cairo_move_to ( cr, x_center - text_half_width, y_center - text_half_height );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_LEFT:
-            {
-                cairo_move_to ( cr, left - text2_width, y_center - text_half_height );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_UP_LEFT:
-            {
-                cairo_move_to ( cr, left - text2_width, top - text2_height + gap );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_UP:
-            {
-                cairo_move_to ( cr, x_center - text_half_width, top - text2_height );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_UP_RIGHT:
-            {
-                cairo_move_to ( cr, right, top - text2_height + gap );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_RIGHT:
-            {
-                cairo_move_to ( cr, right, y_center - text_half_height );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_DOWN_RIGHT:
-            {
-                cairo_move_to ( cr, right, bottom - gap );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_DOWN:
-            {
-                cairo_move_to ( cr, x_center - text_half_width, bottom );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            case PENCIL_LAYOUT_DIRECTION_DOWN_LEFT:
-            {
-                cairo_move_to ( cr, left - text2_width, bottom - gap );
-                pango_cairo_show_layout (cr, layout);
-            }
-            break;
-
-            default:
-            {
-                TSLOG_ERROR( "layout_direction_t contains illegal value" );
-            }
-            break;
-        }
     }
 
     TRACE_END();

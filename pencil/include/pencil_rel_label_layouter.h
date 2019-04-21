@@ -11,7 +11,7 @@
 
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
-#include "draw/draw_label.h"
+#include "draw/draw_relationship_label.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
 #include "set/data_small_set.h"
@@ -28,7 +28,7 @@ struct pencil_rel_label_layouter_struct {
     pencil_layout_data_t *layout_data;  /* pointer to an instance of layout data */
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
-    draw_label_t draw_label;  /*!< collection of draw label functions */
+    draw_relationship_label_t draw_relationship_label;  /*!< collection of draw label functions */
 };
 
 typedef struct pencil_rel_label_layouter_struct pencil_rel_label_layouter_t;

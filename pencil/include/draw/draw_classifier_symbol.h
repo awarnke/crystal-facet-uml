@@ -1,7 +1,7 @@
-/* File: draw_symbol.h; Copyright and License: see below */
+/* File: draw_classifier_symbol.h; Copyright and License: see below */
 
-#ifndef DRAW_SYMBOL_H
-#define DRAW_SYMBOL_H
+#ifndef DRAW_CLASSIFIER_SYMBOL_H
+#define DRAW_CLASSIFIER_SYMBOL_H
 
 /* public file for the doxygen documentation: */
 /*!
@@ -24,25 +24,25 @@ extern const double DRAW_SYMBOL_COMPONENT_ICON_WIDTH_TO_HEIGHT;
 /*!
  *  \brief attributes of the draw symbol functions
  */
-struct draw_symbol_struct {
+struct draw_classifier_symbol_struct {
     int dummy;  /*!< This object is a collection of stateless drawing functions */
 };
 
-typedef struct draw_symbol_struct draw_symbol_t;
+typedef struct draw_classifier_symbol_struct draw_classifier_symbol_t;
 
 /*!
- *  \brief initializes the draw_symbol_t
+ *  \brief initializes the draw_classifier_symbol_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_symbol_init( draw_symbol_t *this_ );
+static inline void draw_classifier_symbol_init( draw_classifier_symbol_t *this_ );
 
 /*!
- *  \brief destroys the draw_symbol_t
+ *  \brief destroys the draw_classifier_symbol_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void draw_symbol_destroy( draw_symbol_t *this_ );
+static inline void draw_classifier_symbol_destroy( draw_classifier_symbol_t *this_ );
 
 /*!
  *  \brief calculates the bounding rectangle for component icon
@@ -55,7 +55,7 @@ static inline void draw_symbol_destroy( draw_symbol_t *this_ );
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds ( const draw_classifier_symbol_t *this_,
                                                                       double x,
                                                                       double y,
                                                                       geometry_h_align_t h_align,
@@ -70,7 +70,7 @@ static inline geometry_rectangle_t draw_symbol_get_component_bounds ( const draw
  *  \param bounds bounding rectangle of the icon
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_component ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *this_,
                                   geometry_rectangle_t bounds,
                                   cairo_t *cr
                                 );
@@ -86,7 +86,7 @@ void draw_symbol_draw_component ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( const draw_classifier_symbol_t *this_,
                                                                      double x,
                                                                      double y,
                                                                      geometry_h_align_t h_align,
@@ -101,7 +101,7 @@ static inline geometry_rectangle_t draw_symbol_get_artifact_bounds ( const draw_
  *  \param bounds bounding rectangle of the icon
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this_,
                                   geometry_rectangle_t bounds,
                                   cairo_t *cr
                                 );
@@ -117,7 +117,7 @@ void draw_symbol_draw_artifact ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( const draw_classifier_symbol_t *this_,
                                                                   double x,
                                                                   double y,
                                                                   geometry_h_align_t h_align,
@@ -132,7 +132,7 @@ static inline geometry_rectangle_t draw_symbol_get_actor_bounds ( const draw_sym
  *  \param bounds bounding rectangle of the icon
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_actor ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
                               geometry_rectangle_t bounds,
                               cairo_t *cr
                             );
@@ -148,7 +148,7 @@ void draw_symbol_draw_actor ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( const draw_classifier_symbol_t *this_,
                                                                    double x,
                                                                    double y,
                                                                    geometry_h_align_t h_align,
@@ -168,7 +168,7 @@ static inline geometry_rectangle_t draw_symbol_get_circle_bounds ( const draw_sy
  *  \param deep_history true if the H* character pir shall be drawn
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_circle ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
                                geometry_rectangle_t bounds,
                                const pencil_size_t *pencil_size,
                                bool stroke,
@@ -189,7 +189,7 @@ void draw_symbol_draw_circle ( const draw_symbol_t *this_,
  *  \param height size of the icon
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( const draw_classifier_symbol_t *this_,
                                                                  double x,
                                                                  double y,
                                                                  geometry_h_align_t h_align,
@@ -204,7 +204,7 @@ static inline geometry_rectangle_t draw_symbol_get_time_bounds ( const draw_symb
  *  \param bounds bounding rectangle of the icon
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_time ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
                              geometry_rectangle_t bounds,
                              cairo_t *cr
                            );
@@ -221,7 +221,7 @@ void draw_symbol_draw_time ( const draw_symbol_t *this_,
  *  \param pencil_size a set of size-values used for drawing elements in this diagram
  *  \return bounding box rectangle of the icon
  */
-static inline geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symbol_t *this_,
+static inline geometry_rectangle_t draw_classifier_symbol_get_sync_bounds ( const draw_classifier_symbol_t *this_,
                                                                  double x,
                                                                  double y,
                                                                  geometry_h_align_t h_align,
@@ -237,14 +237,14 @@ static inline geometry_rectangle_t draw_symbol_get_sync_bounds ( const draw_symb
  *  \param bounds bounding rectangle of the icon
  *  \param cr a cairo drawing context
  */
-void draw_symbol_draw_sync ( const draw_symbol_t *this_,
+void draw_classifier_symbol_draw_sync ( const draw_classifier_symbol_t *this_,
                              geometry_rectangle_t bounds,
                              cairo_t *cr
                            );
 
-#include "draw_symbol.inl"
+#include "draw_classifier_symbol.inl"
 
-#endif  /* DRAW_SYMBOL_H */
+#endif  /* DRAW_CLASSIFIER_SYMBOL_H */
 
 
 /*
