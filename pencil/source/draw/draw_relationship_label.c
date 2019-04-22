@@ -26,94 +26,86 @@ void draw_relationship_label_get_type_and_name_dimensions ( const draw_relations
     assert( NULL != font_layout );
     assert( NULL != out_text_width );
     assert( NULL != out_text_height );
-#if 0
+
     if ( data_relationship_is_valid( relationship ) )
     {
-        const data_classifier_t *classifier;
-        const data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
+        /* define names for input data */
+        const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
-        /* stereotype text */
-        int text1_height = 0;
-        int text1_width = 0;
-        {
-            if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
-            {
-                /* prepare text */
-                char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-                utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-                utf8stringbuf_copy_str( stereotype_buf, "<<" );
-                utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-                utf8stringbuf_append_str( stereotype_buf, ">>" );
-
-                /* determine text width and height */
-                pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-                pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-                pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
-            }
-        }
-
-        /* draw name text */
-        int text2_width;
-        int text2_height;
-        double space_for_line;
-        {
-            bool is_always_instance;
-            bool is_anonymous_instance;
-            is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
-            is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
-            int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
-
-            /* prepare text */
-            char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
-            utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( is_anonymous_instance && ( ! is_always_instance ) )
-            {
-                utf8stringbuf_copy_str( name_buf, ":" );
-            }
-            else
-            {
-                utf8stringbuf_clear( name_buf );
-            }
-            utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
-
-            /* determine text width and height */
-            pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-            pango_layout_set_width(font_layout, proposed_pango_width * PANGO_SCALE );
-            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-
-            /* restore pango context */
-            pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH );
-
-            /* for space between stereotype and name */
-            text2_height += pencil_size_get_font_line_gap( pencil_size );
-
-            /* for underscores under object instance names, add 2 * gap: */
-            space_for_line = 2.0 * pencil_size_get_standard_object_border( pencil_size );
-        }
-
-        /* draw description text */
-        int text3_width = 0;
+        /* calc dimensions of typename as stereotype, */
+        /* needed for relations that look like DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY */
         int text3_height = 0;
-        if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == data_classifier_get_main_type ( classifier ) )
-            || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == data_classifier_get_main_type ( classifier ) ))
+        int text3_width = 0;
+        {
+            const char *type_text;
+            switch ( data_relationship_get_main_type( relationship ) )
+            {
+                case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+                {
+                    type_text = "<<extends>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+                {
+                    type_text = "<<includes>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+                {
+                    type_text = "<<deploy>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+                {
+                    type_text = "<<manifest>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+                {
+                    type_text = "<<refine>>";
+                }
+                break;
+
+                case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+                {
+                    type_text = "<<trace>>";
+                }
+                break;
+
+                default:
+                {
+                    /* other types do not show their type */
+                    type_text = NULL;
+                }
+                break;
+            }
+
+            if ( NULL != type_text )
+            {
+                pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
+                pango_layout_set_text (font_layout, type_text, DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+                pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+            }
+        }
+
+        /* calc name text dimensions */
+        int text2_height = 0;
+        int text2_width = 0;
+        if ( 0 != utf8string_get_length( data_relationship_get_name_ptr( relationship ) ))
         {
             pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+            pango_layout_set_text (font_layout, data_relationship_get_name_ptr( relationship ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+            pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
         }
 
-        *out_text_height = text1_height + text2_height + space_for_line + text3_height;
-        double intermediate_max_w;
-        intermediate_max_w = ( text1_width > text2_width ) ? text1_width : text2_width;
-        *out_text_width = ( intermediate_max_w > text3_width ) ? intermediate_max_w : text3_width;
+        *out_text_height = text3_height + f_line_gap + text2_height;
+        *out_text_width = ( text2_width > text3_width ) ? text2_width : text3_width;
     }
     else
-#endif
     {
         TSLOG_ERROR("invalid relationship in draw_relationship_label_get_type_and_name_dimensions()");
         *out_text_width = 0.0;
@@ -135,100 +127,90 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     assert( NULL != pencil_size );
     assert( NULL != font_layout );
     assert( NULL != cr );
-#if 0
-    /* define names for input data: */
-    const data_classifier_t *classifier;
-    const data_diagramelement_t *diagramelement;
-    classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-    diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-    const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
-    const data_diagramelement_flag_t display_flags = data_diagramelement_get_display_flags( diagramelement );
 
-    const double left = geometry_rectangle_get_left( label_box );
+    /* define names for input data */
+    const double center_x = geometry_rectangle_get_x_center( label_box );
     const double top = geometry_rectangle_get_top( label_box );
-    const double width = geometry_rectangle_get_width( label_box );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 
-    /* draw stereotype text */
-    int text1_height = 0;
+    /* draw the typename as stereotype, */
+    /* needed for relations that look like DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY */
+    int text3_height = 0;
     {
-        if ( 0 != utf8string_get_length( data_classifier_get_stereotype_ptr( classifier ) ) )
+        const char *type_text;
+        switch ( data_relationship_get_main_type( relationship ) )
         {
-            /* prepare text */
-            char stereotype_text[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE+4];
-            utf8stringbuf_t stereotype_buf = UTF8STRINGBUF(stereotype_text);
-            utf8stringbuf_copy_str( stereotype_buf, "<<" );
-            utf8stringbuf_append_str( stereotype_buf, data_classifier_get_stereotype_ptr( classifier ) );
-            utf8stringbuf_append_str( stereotype_buf, ">>" );
+            case DATA_RELATIONSHIP_TYPE_UML_EXTEND:
+            {
+                type_text = "<<extends>>";
+            }
+            break;
 
-            int text1_width;
-            pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-            pango_layout_set_text (font_layout, utf8stringbuf_get_string( stereotype_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-            pango_layout_get_pixel_size (font_layout, &text1_width, &text1_height);
-            cairo_move_to ( cr, left + 0.5*( width - text1_width ), top );
+            case DATA_RELATIONSHIP_TYPE_UML_INCLUDE:
+            {
+                type_text = "<<includes>>";
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_DEPLOY:
+            {
+                type_text = "<<deploy>>";
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_MANIFEST:
+            {
+                type_text = "<<manifest>>";
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_REFINE:
+            {
+                type_text = "<<refine>>";
+            }
+            break;
+
+            case DATA_RELATIONSHIP_TYPE_UML_TRACE:
+            {
+                type_text = "<<trace>>";
+            }
+            break;
+
+            default:
+            {
+                /* other types do not show their type */
+                type_text = NULL;
+            }
+            break;
+        }
+
+        if ( NULL != type_text )
+        {
+            int text3_width;
+            pango_layout_set_font_description (font_layout, pencil_size_get_footnote_font_description(pencil_size) );
+            pango_layout_set_text (font_layout, type_text, DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+            pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+
+            /* draw text */
+            cairo_move_to ( cr, center_x - 0.5*text3_width, top );
             pango_cairo_show_layout (cr, font_layout);
         }
     }
 
     /* draw name text */
-    int text2_height = 0;
+    if ( 0 != utf8string_get_length( data_relationship_get_name_ptr( relationship ) ))
     {
-        bool is_always_instance;
-        bool is_anonymous_instance;
-        is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), classifier_type );
-        is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
-
-        /* prepare text */
-        char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
-        utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-        if ( is_anonymous_instance && ( ! is_always_instance ) )
-        {
-            utf8stringbuf_copy_str( name_buf, ":" );
-        }
-        else
-        {
-            utf8stringbuf_clear( name_buf );
-        }
-        utf8stringbuf_append_str( name_buf, data_classifier_get_name_ptr( classifier ) );
-
+        int text2_height;
         int text2_width;
-        double f_size = pencil_size_get_standard_font_size( pencil_size );
-        pango_layout_set_font_description (font_layout, pencil_size_get_title_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, utf8stringbuf_get_string( name_buf ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-        pango_layout_set_width(font_layout, (width+f_size) * PANGO_SCALE );  /* add gap to avoid line breaks by rounding errors and whitespace character widths */
-        pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
-        visible
-        /* draw text */
-        cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap );
-        pango_cairo_show_layout (cr, font_layout);
-
-        /* restore pango context */
-        pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH);
-
-        /* underline instances */
-        if ( is_always_instance || is_anonymous_instance )
-        {
-            cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap+text2_height );
-            cairo_line_to ( cr, left + 0.5*( width + text2_width ), top+text1_height+f_line_gap+text2_height );
-            cairo_stroke (cr);
-        }
-    }
-
-    /* draw description text */
-    if (( DATA_CLASSIFIER_TYPE_UML_COMMENT == classifier_type )
-        || ( DATA_CLASSIFIER_TYPE_REQUIREMENT == classifier_type ))
-    {
-        int text3_width;
-        int text3_height;
         pango_layout_set_font_description (font_layout, pencil_size_get_standard_font_description(pencil_size) );
-        pango_layout_set_text (font_layout, data_classifier_get_description_ptr( classifier ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH );
-        pango_layout_get_pixel_size (font_layout, &text3_width, &text3_height);
+        pango_layout_set_text (font_layout, data_relationship_get_name_ptr( relationship ), DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH);
+        pango_layout_get_pixel_size (font_layout, &text2_width, &text2_height);
 
         /* draw text */
-        cairo_move_to ( cr, left + 0.5*( width - text3_width ), top+text1_height+f_line_gap+text2_height+f_line_gap );
+        cairo_move_to ( cr, center_x - 0.5*text2_width, top + text3_height + f_line_gap );
         pango_cairo_show_layout (cr, font_layout);
     }
-#endif
+
     TRACE_END();
 }
 

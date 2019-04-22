@@ -23,7 +23,7 @@
 
 #ifndef NDEBUG
 /* make the layout visible for debugging: */
-#define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
+//#define PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
 #endif
 
 /*!

@@ -143,19 +143,86 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
+    const data_relationship_t *the_relationship = layout_relationship_get_data_ptr( current_relation );
+
     {
-        /* dummy box */
-        assert( solutions_max >= 1 );
+        /* determine label dimensions */
+        double text_width;
+        double text_height;
+        draw_relationship_label_get_type_and_name_dimensions ( &((*this_).draw_relationship_label),
+                                                               the_relationship,
+                                                               (*this_).pencil_size,
+                                                               font_layout,
+                                                               &text_width,
+                                                               &text_height
+                                                             );
+
+        /* get layout data */
+        const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+
+        /* get connector data */
         const geometry_connector_t * shape = layout_relationship_get_shape_ptr ( current_relation );
+        const double source_end_x = geometry_connector_get_source_end_x ( shape );
+        const double source_end_y = geometry_connector_get_source_end_y ( shape );
+        const double main_line_source_x = geometry_connector_get_main_line_source_x ( shape );
+        const double main_line_source_y = geometry_connector_get_main_line_source_y ( shape );
+        const double main_line_destination_x = geometry_connector_get_main_line_destination_x ( shape );
+        const double main_line_destination_y = geometry_connector_get_main_line_destination_y ( shape );
+        const double destination_end_x = geometry_connector_destination_end_x ( shape );
+        const double destination_end_y = geometry_connector_get_destination_end_y ( shape );
 
+        /* at main line source */
+        assert( solutions_max >= 8 );
         geometry_rectangle_init( &(out_solutions[0]),
-                                 geometry_connector_get_main_line_source_x(shape) + 20,
-                                 geometry_connector_get_main_line_source_y(shape) + 20,
-                                 100,
-                                 20
+                                 main_line_source_x - text_width - gap,
+                                 main_line_source_y - text_height - gap,
+                                 text_width,
+                                 text_height
                                );
-        *out_solutions_count = 1;
-
+        geometry_rectangle_init( &(out_solutions[1]),
+                                 main_line_source_x - text_width - gap,
+                                 main_line_source_y + gap,
+                                 text_width,
+                                 text_height
+                               );
+        geometry_rectangle_init( &(out_solutions[2]),
+                                 main_line_source_x + gap,
+                                 main_line_source_y - text_height - gap,
+                                 text_width,
+                                 text_height
+                               );
+        geometry_rectangle_init( &(out_solutions[3]),
+                                 main_line_source_x + gap,
+                                 main_line_source_y + gap,
+                                 text_width,
+                                 text_height
+                               );
+        /* at main line destination */
+        geometry_rectangle_init( &(out_solutions[4]),
+                                 main_line_destination_x - text_width - gap,
+                                 main_line_destination_y - text_height - gap,
+                                 text_width,
+                                 text_height
+                               );
+        geometry_rectangle_init( &(out_solutions[5]),
+                                 main_line_destination_x - text_width - gap,
+                                 main_line_destination_y + gap,
+                                 text_width,
+                                 text_height
+                               );
+        geometry_rectangle_init( &(out_solutions[6]),
+                                 main_line_destination_x + gap,
+                                 main_line_destination_y - text_height - gap,
+                                 text_width,
+                                 text_height
+                               );
+        geometry_rectangle_init( &(out_solutions[7]),
+                                 main_line_destination_x + gap,
+                                 main_line_destination_y + gap,
+                                 text_width,
+                                 text_height
+                               );
+        *out_solutions_count = 8;
     }
 
     TRACE_END();
