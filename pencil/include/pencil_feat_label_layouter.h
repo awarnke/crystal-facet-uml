@@ -11,6 +11,7 @@
 
 #include "pencil_size.h"
 #include "pencil_layout_data.h"
+#include "pencil_label_layout_helper.h"
 #include "draw/draw_feature_label.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_diagram.h"
@@ -29,6 +30,7 @@ struct pencil_feat_label_layouter_struct {
     pencil_size_t *pencil_size;  /*!< pointer to an instance of a pencil_size_t object, defining pen sizes, gap sizes, font sizes and colors */
 
     draw_feature_label_t draw_feature_label;  /*!< collection of draw label functions */
+    pencil_label_layout_helper_t label_layout_helper;   /*!< collection of layout label functions */
 };
 
 typedef struct pencil_feat_label_layouter_struct pencil_feat_label_layouter_t;
@@ -87,22 +89,6 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
                                                             geometry_rectangle_t out_solutions[],
                                                             uint32_t *out_solutions_count
                                                           );
-
-/*!
- *  \brief selects one solution to layout a feature-label
- *
- *  \param this_ pointer to own object attributes
- *  \param current_feature feature for which to select a solution
- *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
- *  \param solutions array of solutions
- *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
- */
-void pencil_feat_label_layouter_private_select_solution ( pencil_feat_label_layouter_t *this_,
-                                                          layout_feature_t *current_feature,
-                                                          uint32_t solutions_count,
-                                                          const geometry_rectangle_t solutions[],
-                                                          uint32_t *out_index_of_best
-                                                        );
 
 #endif  /* PENCIL_FEAT_LABEL_LAYOUTER_H */
 

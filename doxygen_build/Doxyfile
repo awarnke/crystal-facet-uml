@@ -765,7 +765,6 @@ INPUT                  = ../gui \
                          ../test \
                          ../universal \
                          ./source_code_doc.txt \
-                         ../architecture/doc/architecture.txt \
                          ../architecture/doc/programming_guidelines.txt
 
 # This tag can be used to specify the character encoding of the source files
@@ -835,7 +834,7 @@ EXCLUDE_SYMBOLS        =
 # command).
 # also used for verbinclude
 
-EXAMPLE_PATH           = ../architecture/doc
+EXAMPLE_PATH           =
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp and
@@ -855,7 +854,7 @@ EXAMPLE_RECURSIVE      = NO
 # that contain images that are to be included in the documentation (see the
 # \image command).
 
-IMAGE_PATH             = ../user_doc/doc ../architecture/doc ../gui/source
+IMAGE_PATH             = ../user_doc/doc ../gui/source
 
 # The INPUT_FILTER tag can be used to specify a program that doxygen should
 # invoke to filter for each input file. Doxygen will invoke the filter program
@@ -1105,7 +1104,6 @@ HTML_EXTRA_STYLESHEET  =
 # This tag requires that the tag GENERATE_HTML is set to YES.
 
 HTML_EXTRA_FILES       =
-#HTML_EXTRA_FILES       = ../architecture/doc/exported_diagrams/*.png
 
 # The HTML_COLORSTYLE_HUE tag controls the color of the HTML output. Doxygen
 # will adjust the colors in the stylesheet and background images according to
@@ -1656,7 +1654,6 @@ LATEX_FOOTER           =
 # This tag requires that the tag GENERATE_LATEX is set to YES.
 
 LATEX_EXTRA_FILES      =
-#LATEX_EXTRA_FILES      =  ../architecture/doc/exported_diagrams/*.pdf
 
 # If the PDF_HYPERLINKS tag is set to YES, the LaTeX that is generated is
 # prepared for conversion to PDF (using ps2pdf or pdflatex). The PDF file will

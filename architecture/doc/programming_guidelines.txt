@@ -46,9 +46,11 @@
  *  \section cfu-classes Classes and Objects
  *
  *  All files shall follow object-oriented design patterns in the following way:
- *  - Each header file declares one main type, a struct, with the same name as the file (prepended by _t).
+ *  - Each header file declares one main type, a struct, with the same name as the file (postfixed by _t).
  *    \n This struct is used like a class.
  *  .
+ *  Even functions that do not share a data-object shall declare such a class-like struct.
+ *  Besides conformity of style, this guideline makes dependencies between classes explicit.
  *
  *  \subsection cfu-methods Attributes and Methods
  *
@@ -96,7 +98,7 @@
  *  - Functions may accept object-parameters only if the assignment via memcpy is a valid copy-operation.
  *    \n Rationale: The caller will do an assignment like function(object_parameter); which produces a copy.
  *    Note that the caller is still responsible to destroy object_parameter and the callee to destroy the copy.
- *  - Functions may define memory locations for result-objects as parameter. The caller shall pre-initialize these.
+ *  - Functions may define memory locations for result-objects as "out_"-parameter. The caller shall pre-initialize these.
  *    \n Rationale: This allows to stick to the rule, who creates an object is responsible for destroying it.
  *  - Arrays: Objects in arrays shall be destroyed as all other objects.
  *  - Exceptions shall be documented.

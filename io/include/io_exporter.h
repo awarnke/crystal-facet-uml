@@ -87,7 +87,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
  *  \brief creates a document file
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
- *  \param output file object where to write the document to
+ *  \param target_folder directory where to write the document to
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_file( io_exporter_t *this_,
@@ -100,7 +100,6 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
  *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
- *  \param export_type image file format
  *  \param format_writer writer to format the data and stream it out to a file
  *  \result 0 in case of success, -1 otherwise
  */

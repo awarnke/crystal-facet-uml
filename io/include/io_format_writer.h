@@ -186,7 +186,6 @@ static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *t
  *  \param this_ pointer to own object attributes
  *  \param indent pattern, by which each line is indented; must not be NULL
  *  \param multiline_string string to write to out
- *  \param format_writer writer to format the data and stream it out to a file
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t *this_,
@@ -203,7 +202,6 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
  *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
  *  \param table table identifier
  *  \param row_id row identifier
- *  \param format_writer writer to format the data and stream it out to a file
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,

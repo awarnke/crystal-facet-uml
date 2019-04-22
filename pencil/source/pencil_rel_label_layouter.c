@@ -16,6 +16,7 @@ void pencil_rel_label_layouter_init( pencil_rel_label_layouter_t *this_,
     (*this_).layout_data = layout_data;
     (*this_).pencil_size = pencil_size;
     draw_relationship_label_init( &((*this_).draw_relationship_label) );
+    pencil_label_layout_helper_init ( &((*this_).label_layout_helper) );
 
     TRACE_END();
 }
@@ -24,6 +25,7 @@ void pencil_rel_label_layouter_destroy( pencil_rel_label_layouter_t *this_ )
 {
     TRACE_BEGIN();
 
+    pencil_label_layout_helper_destroy ( &((*this_).label_layout_helper) );
     draw_relationship_label_destroy( &((*this_).draw_relationship_label) );
 
     TRACE_END();
@@ -74,12 +76,12 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         }
         else
         {
-            pencil_rel_label_layouter_private_select_solution ( this_,
-                                                                current_relation,
-                                                                solutions_count,
-                                                                solution,
-                                                                &index_of_best
-                                                              );
+            pencil_label_layout_helper_select_solution ( &((*this_).label_layout_helper),
+                                                         (*this_).layout_data,
+                                                         solutions_count,
+                                                         solution,
+                                                         &index_of_best
+                                                       );
         }
 
         /* store best option to (*this_).layout_data */
@@ -155,25 +157,6 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         *out_solutions_count = 1;
 
     }
-
-    TRACE_END();
-}
-
-void pencil_rel_label_layouter_private_select_solution ( pencil_rel_label_layouter_t *this_,
-                                                         layout_relationship_t *current_relation,
-                                                         uint32_t solutions_count,
-                                                         const geometry_rectangle_t solutions[],
-                                                         uint32_t *out_index_of_best)
-{
-    TRACE_BEGIN();
-    assert( NULL != current_relation );
-    assert( NULL != solutions );
-    assert( solutions_count >= 1 );
-    assert( NULL != out_index_of_best );
-
-    static unsigned int random;
-    random ++;
-    *out_index_of_best = random % solutions_count;
 
     TRACE_END();
 }
