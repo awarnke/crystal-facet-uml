@@ -11,7 +11,7 @@ static inline void layout_feature_init ( layout_feature_t *this_,
 
     geometry_rectangle_init_empty( &((*this_).bounds) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
-    (*this_).icon_direction = PENCIL_LAYOUT_DIRECTION_CENTER;
+    (*this_).icon_direction = GEOMETRY_DIRECTION_CENTER;
     (*this_).data = feature_data;
     (*this_).classifier = classifier;
 }
@@ -33,12 +33,12 @@ static inline void layout_feature_set_bounds ( layout_feature_t *this_, const ge
     geometry_rectangle_replace( &((*this_).bounds), feature_bounds );
 }
 
-static inline layout_direction_t layout_feature_get_icon_direction ( const layout_feature_t *this_ )
+static inline geometry_direction_t layout_feature_get_icon_direction ( const layout_feature_t *this_ )
 {
     return (*this_).icon_direction;
 }
 
-static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, layout_direction_t direction )
+static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, geometry_direction_t direction )
 {
     (*this_).icon_direction = direction;
 }

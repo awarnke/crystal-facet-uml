@@ -182,7 +182,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     dashes[1] = 1.0 * pencil_size_get_line_dash_length( pencil_size );
     cairo_set_dash ( cr, dashes, 2, 0.0 );
 
-    if ( PENCIL_LAYOUT_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
+    if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lineline in timing diagrams */
         double y_center = geometry_rectangle_get_y_center ( feature_bounds );
@@ -191,7 +191,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
         cairo_line_to ( cr, left + width, y_center );
         cairo_stroke (cr);
     }
-    else if ( PENCIL_LAYOUT_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
+    else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
         double x_center = geometry_rectangle_get_x_center ( feature_bounds );
@@ -277,7 +277,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
 
     switch ( layout_feature_get_icon_direction( layouted_feature ) )
     {
-        case PENCIL_LAYOUT_DIRECTION_LEFT:
+        case GEOMETRY_DIRECTION_LEFT:
         {
             cairo_move_to ( cr, center_x, top );
             cairo_curve_to ( cr, right - ctrl_xoffset, top, right, top + ctrl_yoffset, right /* end point x */, center_y /* end point y */ );
@@ -286,7 +286,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
         }
         break;
 
-        case PENCIL_LAYOUT_DIRECTION_UP:
+        case GEOMETRY_DIRECTION_UP:
         {
             cairo_move_to ( cr, right, center_y );
             cairo_curve_to ( cr, right, bottom - ctrl_yoffset, right - ctrl_xoffset, bottom, center_x /* end point x */, bottom /* end point y */ );
@@ -295,7 +295,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
         }
         break;
 
-        case PENCIL_LAYOUT_DIRECTION_RIGHT:
+        case GEOMETRY_DIRECTION_RIGHT:
         {
             cairo_move_to ( cr, center_x, bottom );
             cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
@@ -304,7 +304,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
         }
         break;
 
-        case PENCIL_LAYOUT_DIRECTION_DOWN:
+        case GEOMETRY_DIRECTION_DOWN:
         {
             cairo_move_to ( cr, left, center_y );
             cairo_curve_to ( cr, left, top + ctrl_yoffset, left + ctrl_xoffset, top, center_x /* end point x */, top /* end point y */ );
@@ -313,7 +313,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
         }
         break;
 
-        case PENCIL_LAYOUT_DIRECTION_CENTER:
+        case GEOMETRY_DIRECTION_CENTER:
         {
             cairo_move_to ( cr, center_x, bottom );
             cairo_curve_to ( cr, left + ctrl_xoffset, bottom, left, bottom - ctrl_yoffset, left /* end point x */, center_y /* end point y */ );
@@ -326,7 +326,7 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
 
         default:
         {
-            TSLOG_ERROR( "unexpected value in layout_direction_t." );
+            TSLOG_ERROR( "unexpected value in geometry_direction_t." );
         }
         break;
     }

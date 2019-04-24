@@ -56,14 +56,14 @@ static inline void geometry_dimensions_copy ( geometry_dimensions_t *this_, cons
 static inline void geometry_dimensions_replace ( geometry_dimensions_t *this_, const geometry_dimensions_t *original );
 
 /*!
- *  \brief initializes the geometry_dimensions_t struct to an empty rect at position 0,0
+ *  \brief initializes the geometry_dimensions_t struct to an empty rect
  *
  *  \param this_ pointer to own object attributes
  */
 static inline void geometry_dimensions_init_empty ( geometry_dimensions_t *this_ );
 
 /*!
- *  \brief re-initializes the geometry_dimensions_t struct to an empty rect at position 0,0
+ *  \brief re-initializes the geometry_dimensions_t struct to an empty rect
  *
  *  \param this_ pointer to own object attributes
  */

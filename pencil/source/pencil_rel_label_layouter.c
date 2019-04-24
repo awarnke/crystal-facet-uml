@@ -1,6 +1,8 @@
 /* File: pencil_rel_label_layouter.c; Copyright and License: see below */
 
 #include "pencil_rel_label_layouter.h"
+#include "util/geometry/geometry_point.h"
+#include "util/geometry/geometry_direction.h"
 #include "trace.h"
 #include "util/string/utf8string.h"
 
@@ -56,8 +58,8 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
-        static const uint32_t SOLUTIONS_MAX = 8;
-        geometry_rectangle_t solution[8];
+        static const uint32_t SOLUTIONS_MAX = 16;
+        geometry_rectangle_t solution[16];
 
         /* propose options */
         pencil_rel_label_layouter_private_propose_solutions ( this_,
@@ -159,6 +161,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
 
         /* get layout data */
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
+        double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* get connector data */
         const geometry_connector_t * shape = layout_relationship_get_shape_ptr ( current_relation );
@@ -170,59 +173,224 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
         const double main_line_destination_y = geometry_connector_get_main_line_destination_y ( shape );
         const double destination_end_x = geometry_connector_destination_end_x ( shape );
         const double destination_end_y = geometry_connector_get_destination_end_y ( shape );
+        geometry_point_t src_end;
+        geometry_point_t main_src;
+        geometry_point_t main_dst;
+        geometry_point_t dst_end;
+        geometry_point_init ( &src_end, source_end_x, source_end_y );
+        geometry_point_init ( &main_src, main_line_source_x, main_line_source_y );
+        geometry_point_init ( &main_dst, main_line_destination_x, main_line_destination_y );
+        geometry_point_init ( &dst_end, destination_end_x, destination_end_y );
+        const geometry_direction_t src_dir = geometry_point_get_direction ( &src_end, &main_src );
+        const geometry_direction_t dst_dir = geometry_point_get_direction ( &main_dst, &dst_end );
+        geometry_rectangle_t main_line_rect;
+        geometry_rectangle_init_by_corners ( &main_line_rect, main_line_source_x, main_line_source_y, main_line_destination_x, main_line_destination_y );
 
-        /* at main line source */
-        assert( solutions_max >= 8 );
-        geometry_rectangle_init( &(out_solutions[0]),
-                                 main_line_source_x - text_width - gap,
-                                 main_line_source_y - text_height - gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[1]),
-                                 main_line_source_x - text_width - gap,
-                                 main_line_source_y + gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[2]),
-                                 main_line_source_x + gap,
-                                 main_line_source_y - text_height - gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[3]),
-                                 main_line_source_x + gap,
-                                 main_line_source_y + gap,
-                                 text_width,
-                                 text_height
-                               );
-        /* at main line destination */
-        geometry_rectangle_init( &(out_solutions[4]),
-                                 main_line_destination_x - text_width - gap,
-                                 main_line_destination_y - text_height - gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[5]),
-                                 main_line_destination_x - text_width - gap,
-                                 main_line_destination_y + gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[6]),
-                                 main_line_destination_x + gap,
-                                 main_line_destination_y - text_height - gap,
-                                 text_width,
-                                 text_height
-                               );
-        geometry_rectangle_init( &(out_solutions[7]),
-                                 main_line_destination_x + gap,
-                                 main_line_destination_y + gap,
-                                 text_width,
-                                 text_height
-                               );
-        *out_solutions_count = 8;
+        /* propose solutions */
+        assert( solutions_max >= 16 );
+        uint32_t solution_idx = 0;
+
+        /* there are 0..2 solutions at the src line segment */
+        if ( geometry_point_calc_chess_distance( &src_end, &main_src ) > object_dist )
+        {
+            /* this is a noteworthy line segment */
+            if ( ( src_dir == GEOMETRY_DIRECTION_UP ) || ( src_dir == GEOMETRY_DIRECTION_DOWN ) )
+            {
+                /* right */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         main_line_source_x + gap,
+                                         (source_end_y + main_line_source_y - text_height) / 2.0,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+
+                /* left */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         main_line_source_x - text_width - gap,
+                                         (source_end_y + main_line_source_y - text_height) / 2.0,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+            }
+            else
+            {
+                /* down */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         (source_end_x + main_line_source_x - text_width) / 2.0,
+                                         main_line_source_y + gap,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+
+                /* up */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         (source_end_x + main_line_source_x - text_width) / 2.0,
+                                         main_line_source_y - text_height - gap,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+
+            }
+        }
+
+        /* there are 4 solutions at the main line segment */
+        {
+            /* left */
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     geometry_rectangle_get_left(&main_line_rect) - text_width - gap,
+                                     (main_line_source_y + main_line_destination_y - text_height) / 2.0,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+
+            /* right */
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     geometry_rectangle_get_right(&main_line_rect) + gap,
+                                     (main_line_source_y + main_line_destination_y - text_height) / 2.0,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+
+            /* up */
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     (main_line_source_x + main_line_destination_x - text_width) / 2.0,
+                                     geometry_rectangle_get_top(&main_line_rect) - text_height - gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+
+            /* down */
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     (main_line_source_x + main_line_destination_x - text_width) / 2.0,
+                                     geometry_rectangle_get_bottom(&main_line_rect) + gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+        }
+
+        /* there are 0..2 solutions at the dst line segment */
+        if ( geometry_point_calc_chess_distance( &main_dst, &dst_end ) > object_dist )
+        {
+            /* this is a noteworthy line segment */
+            if ( ( dst_dir == GEOMETRY_DIRECTION_UP ) || ( dst_dir == GEOMETRY_DIRECTION_DOWN ) )
+            {
+                /* right */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         main_line_destination_x + gap,
+                                         (destination_end_y + main_line_destination_y - text_height) / 2.0,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+
+                /* left */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         main_line_destination_x - text_width - gap,
+                                         (destination_end_y + main_line_destination_y - text_height) / 2.0,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+            }
+            else
+            {
+                /* down */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         (destination_end_x + main_line_destination_x - text_width) / 2.0,
+                                         main_line_destination_y + gap,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+
+                /* up */
+                geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                         (destination_end_x + main_line_destination_x - text_width) / 2.0,
+                                         main_line_destination_y - text_height - gap,
+                                         text_width,
+                                         text_height
+                                       );
+                solution_idx ++;
+            }
+        }
+
+        /* 0..4 at main line source if source end line exists */
+        if ( src_dir != GEOMETRY_DIRECTION_CENTER )
+        {
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_source_x - text_width - gap,
+                                     main_line_source_y - text_height - gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_source_x - text_width - gap,
+                                     main_line_source_y + gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_source_x + gap,
+                                     main_line_source_y - text_height - gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_source_x + gap,
+                                     main_line_source_y + gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+        }
+
+        /* 0..4 at main line destination if destination end line exists */
+        if ( dst_dir != GEOMETRY_DIRECTION_CENTER )
+        {
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_destination_x - text_width - gap,
+                                     main_line_destination_y - text_height - gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_destination_x - text_width - gap,
+                                     main_line_destination_y + gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_destination_x + gap,
+                                     main_line_destination_y - text_height - gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+            geometry_rectangle_init( &(out_solutions[solution_idx]),
+                                     main_line_destination_x + gap,
+                                     main_line_destination_y + gap,
+                                     text_width,
+                                     text_height
+                                   );
+            solution_idx ++;
+        }
+
+        assert( solution_idx > 0 );
+        assert( solution_idx <= solutions_max );
+        *out_solutions_count = solution_idx;
     }
 
     TRACE_END();
