@@ -132,8 +132,8 @@ static inline int utf8stringbuf_equals_region_str( const utf8stringbuf_t this_, 
     if ( that != NULL ) {
         int thisLen = strlen(this_.buf);
         int thatLen = strlen(that);
-        int end = start + thatLen;
-        if (( 0 <= start )&&( start < end )&&( end <= thisLen )) {
+        unsigned int end = ((unsigned int)start) + ((unsigned int)thatLen);
+        if (( 0 <= start )&&( end <= thisLen )) {
             cmpResult = memcmp( &(this_.buf[start]), that, thatLen );
         }
     }
@@ -144,8 +144,8 @@ static inline int utf8stringbuf_equals_region_buf( const utf8stringbuf_t this_, 
     int cmpResult = -1;
     int thisLen = strlen(this_.buf);
     int thatLen = strlen(that.buf);
-    int end = start + thatLen;
-    if (( 0 <= start )&&( start < end )&&( end <= thisLen )) {
+    unsigned int end = ((unsigned int)start) + ((unsigned int)thatLen);
+    if (( 0 <= start )&&( end <= thisLen )) {
         cmpResult = memcmp( &(this_.buf[start]), that.buf, thatLen );
     }
     return ( cmpResult == 0 ) ? UTF8STRINGBUF_TRUE : UTF8STRINGBUF_FALSE;
