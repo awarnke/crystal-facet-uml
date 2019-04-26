@@ -1,4 +1,4 @@
-2019-04-xx 1.12.0 [xxxxxxx]
+2019-04-27 1.12.0 [xxxxxxx]
   + operations and properites do not overlap with class/interface compartments
   + linebreaks in classifier names are possible
   + component and artifact icons do not overlap with the label

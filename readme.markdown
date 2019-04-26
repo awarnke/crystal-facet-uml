@@ -23,6 +23,8 @@ debian/ubuntu/raspbian:
 > sudo apt install dblatex     # for user documentation
 >
 > sudo apt install xmlto       # for user documentation
+>
+> sudo apt install doxygen     # for source code documentation
 
 openSuSE:
 
@@ -37,6 +39,8 @@ openSuSE:
 > sudo zypper install dblatex     # for user documentation
 >
 > sudo zypper install xmlto       # for user documentation
+>
+> sudo zypper install doxygen     # for source code documentation
 
 all:
 

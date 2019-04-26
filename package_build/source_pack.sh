@@ -1,7 +1,8 @@
 #!/bin/sh
 VERSIONSTR=1.12.0
 echo "Building Archive Version $VERSIONSTR"
-
+echo "based on latest git commit. (Remember to commit your latest changes!)"
+echo "----"
 echo "clean up possibly broken previous build"
 test -e crystal-facet-uml_$VERIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERIONSTR.orig.tar.gz
 
