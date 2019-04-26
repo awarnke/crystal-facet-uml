@@ -1,7 +1,7 @@
 #!/bin/sh
 VERSIONSTR=1.12.0
 echo "Test Source Package Version $VERSIONSTR"
-echo "based on crystal-facet-uml-$VERSIONSTR"
+echo "based on crystal-facet-uml_$VERSIONSTR.orig.tar.gz"
 echo "----"
 echo "clean up possibly broken previous test-build"
 test -d crystal-facet-uml-$VERSIONSTR && rm -fr crystal-facet-uml-$VERSIONSTR

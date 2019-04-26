@@ -3,11 +3,6 @@ VERSIONSTR=1.12.0
 echo "Building Archive Version $VERSIONSTR"
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"
-echo "1.) Update the VERSIONSTR in this debian_pack.sh script"
-echo "2.) Copy the latest entry in debian_config/debian/changelog"
-echo "3.) cd debian_config && dch -i"
-echo "4.) vi debian/changelog"
-echo "----"
 echo "clean old files and directories"
 test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR

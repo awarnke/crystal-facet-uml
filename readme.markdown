@@ -44,10 +44,9 @@ openSuSE:
 
 all:
 
-> mkdir cmake_build && cd cmake_build
+> mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal-facet-uml-code/  # or
-> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # depending on the source directory
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # adapt the source directory name
 >
 > make crystal_facet_uml
 
