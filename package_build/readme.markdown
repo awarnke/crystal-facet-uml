@@ -1,37 +1,76 @@
+Install crystal_facet_uml
+=============
+
+This section is for users.
+It describes how to install a package.
+
+Debian/Ubuntu/Raspbian
+-----------
+
+>       sudo dpkg -i crystal-facet-uml_1.x.0-1_amd64.deb
+
+openSuSE
+-----------
+
+>       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
+
+Source
+-----------
+
+Installing a source package is described in the readme.markdown file contained in crystal-facet-uml_1.x.0.orig.tar.gz.
+
+
 
 Release crystal_facet_uml
 =============
 
-Releasing a version of crystal_facet_uml consists of several steps
+This section is for developers.
+It describes releasing a version of crystal_facet_uml.
 
 Prepare
 -----------
 
 Update all version numbers:
 
->       doxygen_build/Doxyfile : PROJECT_NUMBER 
->       main/include/meta/meta_info.h : META_INFO_VERSION_STR 
->       user_doc/doc/crystal_facet_user_documentation.xml : date 
->       package/build/source_pack.sh : VERSIONSTR 
->       package/build/source_test.sh : VERSIONSTR 
->       package/build/debian_pack.sh : VERSIONSTR 
->       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version 
->       release_notes.txt : new entry 
->       package_build/debian_config/debian/changelog : 
->               new entry, e.g. copy latest entry, then call dch -i from folder debian_config 
+>       doxygen_build/Doxyfile : PROJECT_NUMBER
+>       main/include/meta/meta_info.h : META_INFO_VERSION_STR
+>       user_doc/doc/crystal_facet_user_documentation.xml : date
+>       package/build/source_pack.sh : VERSIONSTR
+>       package/build/source_test.sh : VERSIONSTR
+>       package/build/debian_pack.sh : VERSIONSTR
+>       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version
+>       release_notes.txt : new entry
+>       package_build/debian_config/debian/changelog :
+>               new entry, e.g. copy latest entry, then call dch -i from folder debian_config
 
 
 Pack
 -----------
 
-> ./source_pack.sh
-> ./source_test.sh
-> ./debian_pack.sh
+>       # build and test source packet
+>       ./source_pack.sh
+>       ./source_test.sh
+>       # build and test for debian, ubuntu, raspbian:
+>       ./debian_pack.sh
+>       debsigs --sign=origin -k=DA4213C7 crystal-facet-uml_$VERSIONSTR-1_amd64.deb
+>       sudo dpkg -i crystal-facet-uml_$VERSIONSTR-1_amd64.deb
+>       # build and test for opensuse
+>       echo "for the oben suse build service, copy the source package and the spec file to a build directory."
+>       echo "create a crystal-facet-uml.changes file there"
+>       echo "run the osc (openSUSE build service command-line tool):"
+>       osc help signkey
+>       osc build --clean --local-package openSUSE_Tumbleweed
+>       sudo zypper install /var/tmp/.../crystal-facet-uml-$VERSIONSTR-1.x86_64.rpm
+>       echo "Note: the open build server seems to sign the packages, no need to do this locally"
+
 
 Document
 -----------
 
-> add a version tag to the git revision
-> write the git revision to release_notes.txt
+>       # add a version tag to the git revision:
+>       git tag -a v1.12.0 8f17811
+>       git push origin master --follow-tags 
+>       # write the git revision to release_notes.txt
+
 
 
