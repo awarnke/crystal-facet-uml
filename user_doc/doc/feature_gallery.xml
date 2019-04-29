@@ -105,12 +105,4 @@
         </para>
     </section>
 
-    <section>
-        <title>Other Examples</title>
-        <para>See
-            <ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/example_diagrams/quality.pdf" />
-            to get another view on how to use crystal_facet_uml.
-        </para>
-    </section>
-
 </section>

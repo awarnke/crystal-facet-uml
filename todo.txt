@@ -4,16 +4,22 @@ ideas for future versions:
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
-  [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
+  [ ] clicking into the current diagram in navigation view shall zoom to edit mode; duplicate eye button to get back
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
   [ ] Support Diagram-Types: Profile
-  [ ] function call to self (timing and sequence diagrams) looks ugly
+  [ ] ! function call to self (timing and sequence diagrams) looks ugly
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing
+  [ ] ! grey out arrows if source or destination classifier is greyed out
+  [ ] hide all features (except lifelines) in scenario-based and list diagrams; prevent selection, creation etc.
+  [ ] ! feature compartmenets in use-cases look ugly
+  [ ] ! change weighting of relationship-label solutions: the more close a label is - the better
+  @io
+  [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   @data
   [ ] nodes and artifacts can either be concepts or anonymous instances. named-instances are not yet supported.
   @ctrl
@@ -21,6 +27,7 @@ ideas for future versions:
   [ ] import XMI format
   @utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for long strings
-  [ ] remove the warnings from the opensuse build server
   @main
   [ ] remove the -f option again - db formats shall be converted automatically
+
+candidates for version 1.13.0 are marked with "!"
