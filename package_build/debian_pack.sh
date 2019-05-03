@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.12.0
+VERSIONSTR=1.12.1
 echo "Building Archive Version $VERSIONSTR"
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"
@@ -14,7 +14,8 @@ tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 cp -r debian_config/debian crystal-facet-uml-$VERSIONSTR/
 # note _ is not allowed in debian package names
 cd crystal-facet-uml-$VERSIONSTR
-debuild -i -us -uc -b
+#debuild -i -us -uc -b --lintian-opts -i # -us and -uc suppress signing
+debuild -i -b --lintian-opts -i # check man dpkg-buildpackage and man lintian for options
 cd ..
 echo Test the created archive by installing it:
 echo sudo dpkg -i crystal-facet-uml_$VERSIONSTR-1_amd64.deb

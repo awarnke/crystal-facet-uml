@@ -1,6 +1,6 @@
 all: crystal_facet_uml_user_documentation.pdf html crystal_facet_uml.1.gz
 
-crystal_facet_uml_user_documentation.pdf: doc/*.xml doc/feature_gallery_export/*.pdf doc/*.pdf
+crystal_facet_uml_user_documentation.pdf: doc/*.xml doc/feature_gallery_export/*.pdf doc/*.pdf doc/*.png
 	cd doc &&\
 	dblatex --type=pdf crystal_facet_uml_user_documentation.xml &&\
 	cd .. &&\

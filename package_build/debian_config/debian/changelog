@@ -1,9 +1,16 @@
+crystal-facet-uml (1.12.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Packageing issues addressed
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 May 2019 20:30:00 +0200
+
 crystal-facet-uml (1.12.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Auto-Layouting of classifiers improved
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 27 Apr 2019 21:33:01 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 27 Apr 2019 21:33:01 +0200
 
 crystal-facet-uml (1.11.0-1) UNRELEASED; urgency=medium
 
