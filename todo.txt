@@ -16,10 +16,12 @@ ideas for future versions:
   [ ] activity bars on lifelines missing
   [ ] ! grey out arrows if source or destination classifier is greyed out
   [ ] hide all features (except lifelines) in scenario-based and list diagrams; prevent selection, creation etc.
-  [ ] ! feature compartmenets in use-cases look ugly
+  [ ] hide some relationships in scenario-based and list diagrams; prevent selection, creation etc.
+  [ ] ! feature compartments in use-cases look ugly
   [ ] ! change weighting of relationship-label solutions: the more close a label is - the better
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
+  [ ] suppress exporting descriptions of hidden relationships and features
   @data
   [ ] nodes and artifacts can either be concepts or anonymous instances. named-instances are not yet supported.
   @ctrl

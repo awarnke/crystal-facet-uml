@@ -185,19 +185,19 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lineline in timing diagrams */
-        double y_center = geometry_rectangle_get_y_center ( feature_bounds );
+        double center_y = geometry_rectangle_get_center_y ( feature_bounds );
 
-        cairo_move_to ( cr, left, y_center );
-        cairo_line_to ( cr, left + width, y_center );
+        cairo_move_to ( cr, left, center_y );
+        cairo_line_to ( cr, left + width, center_y );
         cairo_stroke (cr);
     }
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
-        double x_center = geometry_rectangle_get_x_center ( feature_bounds );
+        double center_x = geometry_rectangle_get_center_x ( feature_bounds );
 
-        cairo_move_to ( cr, x_center, top );
-        cairo_line_to ( cr, x_center, top + height );
+        cairo_move_to ( cr, center_x, top );
+        cairo_line_to ( cr, center_x, top + height );
         cairo_stroke (cr);
     }
     else

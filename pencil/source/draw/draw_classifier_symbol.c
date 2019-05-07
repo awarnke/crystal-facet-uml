@@ -137,8 +137,8 @@ void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
 
     const double circle_top = geometry_rectangle_get_top( &bounds );
     const double circle_bottom = geometry_rectangle_get_bottom( &bounds );
-    const double center_x = geometry_rectangle_get_x_center( &bounds );
-    const double center_y = geometry_rectangle_get_y_center( &bounds );
+    const double center_x = geometry_rectangle_get_center_x( &bounds );
+    const double center_y = geometry_rectangle_get_center_y( &bounds );
     const double circle_left = geometry_rectangle_get_left( &bounds );
     const double circle_right = geometry_rectangle_get_right( &bounds );
     const double circle_width = geometry_rectangle_get_width( &bounds );

@@ -85,6 +85,10 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
  */
 static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
+/* static inline bool data_rules_diagram_shows_features ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
+/* static inline bool data_rules_diagram_shows_classifier_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
+/* static inline bool data_rules_diagram_shows_feature_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
+
 #include "data_rules.inl"
 
 #endif  /* DATA_RULES_H */

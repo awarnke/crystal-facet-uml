@@ -181,22 +181,22 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
         const geometry_rectangle_t * bounds = layout_feature_get_bounds_ptr ( current_feature );
         const double left = geometry_rectangle_get_left( bounds );
         const double top = geometry_rectangle_get_top( bounds );
-        const double x_center = geometry_rectangle_get_x_center( bounds );
-        const double y_center = geometry_rectangle_get_y_center( bounds );
+        const double center_x = geometry_rectangle_get_center_x( bounds );
+        const double center_y = geometry_rectangle_get_center_y( bounds );
         const double bottom = geometry_rectangle_get_bottom( bounds );
         const double right = geometry_rectangle_get_right( bounds );
 
         assert( solutions_max >= 8 );
         /* top */
         geometry_rectangle_init( &(out_solutions[0]),
-                                 x_center - half_width,
+                                 center_x - half_width,
                                  top - text_height - gap,
                                  text_width,
                                  text_height
                                );
         /* bottom */
         geometry_rectangle_init( &(out_solutions[1]),
-                                 x_center - half_width,
+                                 center_x - half_width,
                                  bottom + gap,
                                  text_width,
                                  text_height
@@ -204,14 +204,14 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
         /* left */
         geometry_rectangle_init( &(out_solutions[2]),
                                  left - text_width - gap,
-                                 y_center - half_height,
+                                 center_y - half_height,
                                  text_width,
                                  text_height
                                );
         /* right */
         geometry_rectangle_init( &(out_solutions[3]),
                                  right + gap,
-                                 y_center - half_height,
+                                 center_y - half_height,
                                  text_width,
                                  text_height
                                );

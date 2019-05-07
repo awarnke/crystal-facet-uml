@@ -234,12 +234,12 @@ static inline double geometry_rectangle_get_height ( const geometry_rectangle_t 
     return (*this_).height;
 }
 
-static inline double geometry_rectangle_get_x_center ( const geometry_rectangle_t *this_ )
+static inline double geometry_rectangle_get_center_x ( const geometry_rectangle_t *this_ )
 {
     return (*this_).left + 0.5*(*this_).width;
 }
 
-static inline double geometry_rectangle_get_y_center ( const geometry_rectangle_t *this_ )
+static inline double geometry_rectangle_get_center_y ( const geometry_rectangle_t *this_ )
 {
     return (*this_).top + 0.5*(*this_).height;
 }

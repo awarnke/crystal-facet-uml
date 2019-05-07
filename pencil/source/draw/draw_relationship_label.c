@@ -129,7 +129,7 @@ void draw_relationship_label_draw_type_and_name ( const draw_relationship_label_
     assert( NULL != cr );
 
     /* define names for input data */
-    const double center_x = geometry_rectangle_get_x_center( label_box );
+    const double center_x = geometry_rectangle_get_center_x( label_box );
     const double top = geometry_rectangle_get_top( label_box );
     const double f_line_gap = pencil_size_get_font_line_gap( pencil_size );
 

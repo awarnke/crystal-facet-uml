@@ -166,14 +166,14 @@ static inline double geometry_rectangle_get_height ( const geometry_rectangle_t 
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_x_center ( const geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_center_x ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the y-center of geometry_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline double geometry_rectangle_get_y_center ( const geometry_rectangle_t *this_ );
+static inline double geometry_rectangle_get_center_y ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the area-value of geometry_rectangle_t

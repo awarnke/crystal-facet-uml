@@ -729,7 +729,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                                 list_order = data_feature_get_list_order( data_feature );
                                 geometry_rectangle_t *feature_bounds;
                                 feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
-                                if ( y < geometry_rectangle_get_y_center( feature_bounds ) )
+                                if ( y < geometry_rectangle_get_center_y( feature_bounds ) )
                                 {
                                     if ( list_order < min_order_below ) { min_order_below = list_order; }
                                 }
@@ -778,8 +778,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                     closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );
                     double center_x;
                     double center_y;
-                    center_x = geometry_rectangle_get_x_center( closest_parent_bounds );
-                    center_y = geometry_rectangle_get_y_center( closest_parent_bounds );
+                    center_x = geometry_rectangle_get_center_x( closest_parent_bounds );
+                    center_y = geometry_rectangle_get_center_y( closest_parent_bounds );
                     double delta_x;
                     double delta_y;
                     delta_x = ( x < center_x ) ? (center_x - x) : (x - center_x);

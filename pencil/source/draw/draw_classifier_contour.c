@@ -281,14 +281,14 @@ void draw_classifier_contour_draw_rhombus ( const draw_classifier_contour_t *thi
     const double border_height = geometry_rectangle_get_height ( outer_bounds ) - gap - gap;
     const double border_bottom = border_top + border_height;
     const double border_right = border_left + border_width;
-    const double x_center = geometry_rectangle_get_x_center ( outer_bounds );
-    const double y_center = geometry_rectangle_get_y_center ( outer_bounds );
+    const double center_x = geometry_rectangle_get_center_x ( outer_bounds );
+    const double center_y = geometry_rectangle_get_center_y ( outer_bounds );
 
-    cairo_move_to ( cr, x_center, border_bottom );
-    cairo_line_to ( cr, border_left, y_center );
-    cairo_line_to ( cr, x_center, border_top );
-    cairo_line_to ( cr, border_right, y_center );
-    cairo_line_to ( cr, x_center, border_bottom );
+    cairo_move_to ( cr, center_x, border_bottom );
+    cairo_line_to ( cr, border_left, center_y );
+    cairo_line_to ( cr, center_x, border_top );
+    cairo_line_to ( cr, border_right, center_y );
+    cairo_line_to ( cr, center_x, border_bottom );
     cairo_stroke (cr);
 
     TRACE_END();
@@ -344,13 +344,13 @@ void draw_classifier_contour_draw_accept_event ( const draw_classifier_contour_t
     const double border_height = geometry_rectangle_get_height ( outer_bounds ) - gap - gap;
     const double border_bottom = border_top + border_height;
     const double border_right = border_left + border_width;
-    const double y_center = geometry_rectangle_get_y_center ( outer_bounds );
+    const double center_y = geometry_rectangle_get_center_y ( outer_bounds );
     const double x_indent = border_height / 2.0;
 
     cairo_move_to ( cr, border_right, border_bottom );
     cairo_line_to ( cr, border_right, border_top );
     cairo_line_to ( cr, border_left, border_top );
-    cairo_line_to ( cr, border_left + x_indent, y_center );
+    cairo_line_to ( cr, border_left + x_indent, center_y );
     cairo_line_to ( cr, border_left, border_bottom );
     cairo_line_to ( cr, border_right, border_bottom );
     cairo_stroke (cr);
@@ -374,11 +374,11 @@ void draw_classifier_contour_draw_send_signal ( const draw_classifier_contour_t 
     const double border_height = geometry_rectangle_get_height ( outer_bounds ) - gap - gap;
     const double border_bottom = border_top + border_height;
     const double border_right = border_left + border_width;
-    const double y_center = geometry_rectangle_get_y_center ( outer_bounds );
+    const double center_y = geometry_rectangle_get_center_y ( outer_bounds );
     const double x_indent = border_height / 2.0;
 
     cairo_move_to ( cr, border_right - x_indent, border_bottom );
-    cairo_line_to ( cr, border_right, y_center );
+    cairo_line_to ( cr, border_right, center_y );
     cairo_line_to ( cr, border_right - x_indent, border_top );
     cairo_line_to ( cr, border_left, border_top );
     cairo_line_to ( cr, border_left, border_bottom );

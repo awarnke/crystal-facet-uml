@@ -93,8 +93,8 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( classifier_layout );
 
-            double act_center_x = geometry_rectangle_get_x_center( classifier_bounds );
-            double act_center_y = geometry_rectangle_get_y_center( classifier_bounds );
+            double act_center_x = geometry_rectangle_get_center_x( classifier_bounds );
+            double act_center_y = geometry_rectangle_get_center_y( classifier_bounds );
             int32_t order_x = data_classifier_get_x_order( classifier2 );
             int32_t order_y = data_classifier_get_y_order( classifier2 );
             double center_x = geometry_non_linear_scale_get_location( (*this_).x_scale, order_x );

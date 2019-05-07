@@ -147,8 +147,8 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
             source_rect = layout_relationship_get_from_bounds_const ( current_relation );
             dest_rect = layout_relationship_get_to_bounds_const ( current_relation );
 
-            simpleness -= fabs ( geometry_rectangle_get_x_center(source_rect) - geometry_rectangle_get_x_center(dest_rect) );
-            simpleness -= fabs ( geometry_rectangle_get_y_center(source_rect) - geometry_rectangle_get_y_center(dest_rect) );
+            simpleness -= fabs ( geometry_rectangle_get_center_x(source_rect) - geometry_rectangle_get_center_x(dest_rect) );
+            simpleness -= fabs ( geometry_rectangle_get_center_y(source_rect) - geometry_rectangle_get_center_y(dest_rect) );
         }
 
         /* insert relation to sorted array, the simpler the more to the back */
@@ -351,17 +351,17 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
     uint32_t solutions_count = 0;
 
     double src_left = geometry_rectangle_get_left(source_rect);
-    double src_x_center = geometry_rectangle_get_x_center(source_rect);
+    double src_center_x = geometry_rectangle_get_center_x(source_rect);
     double src_right = geometry_rectangle_get_right(source_rect);
     double src_top = geometry_rectangle_get_top(source_rect);
-    double src_y_center = geometry_rectangle_get_y_center(source_rect);
+    double src_center_y = geometry_rectangle_get_center_y(source_rect);
     double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
     double dst_left = geometry_rectangle_get_left(dest_rect);
-    double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+    double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
     double dst_right = geometry_rectangle_get_right(dest_rect);
     double dst_top = geometry_rectangle_get_top(dest_rect);
-    double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+    double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
     double object_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
@@ -376,7 +376,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             bool space_found;
             geometry_rectangle_t search_rect;
-            geometry_rectangle_init_by_corners( &search_rect, src_left, src_y_center, dst_right, dst_y_center );
+            geometry_rectangle_init_by_corners( &search_rect, src_left, src_center_y, dst_right, dst_center_y );
             pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                        &search_rect,
                                                                        false /* horizontal_line */,
@@ -388,9 +388,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_left,
-                                                 src_y_center,
+                                                 src_center_y,
                                                  dst_right,
-                                                 dst_y_center,
+                                                 dst_center_y,
                                                  x_value
                                                );
             solutions_count ++;
@@ -401,7 +401,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             bool space_found;
             geometry_rectangle_t search_rect;
-            geometry_rectangle_init_by_corners( &search_rect, src_right, src_y_center, dst_left, dst_y_center );
+            geometry_rectangle_init_by_corners( &search_rect, src_right, src_center_y, dst_left, dst_center_y );
             pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                        &search_rect,
                                                                        false /* horizontal_line */,
@@ -413,9 +413,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             geometry_connector_reinit_vertical ( &(out_solutions[solutions_count]),
                                                  src_right,
-                                                 src_y_center,
+                                                 src_center_y,
                                                  dst_left,
-                                                 dst_y_center,
+                                                 dst_center_y,
                                                  x_value
                                                );
             solutions_count ++;
@@ -430,7 +430,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             bool space_found;
             geometry_rectangle_t search_rect;
-            geometry_rectangle_init_by_corners( &search_rect, src_x_center, src_top, dst_x_center, dst_bottom );
+            geometry_rectangle_init_by_corners( &search_rect, src_center_x, src_top, dst_center_x, dst_bottom );
             pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                        &search_rect,
                                                                        true /* horizontal_line */,
@@ -441,9 +441,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_top,
-                                                   dst_x_center,
+                                                   dst_center_x,
                                                    dst_bottom,
                                                    y_value
                                                  );
@@ -455,7 +455,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
 
             bool space_found;
             geometry_rectangle_t search_rect;
-            geometry_rectangle_init_by_corners( &search_rect, src_x_center, src_bottom, dst_x_center, dst_top );
+            geometry_rectangle_init_by_corners( &search_rect, src_center_x, src_bottom, dst_center_x, dst_top );
             pencil_relationship_layouter_private_find_space_for_line ( this_,
                                                                        &search_rect,
                                                                        true /* horizontal_line */,
@@ -466,9 +466,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
             geometry_rectangle_destroy( &search_rect );
 
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_bottom,
-                                                   dst_x_center,
+                                                   dst_center_x,
                                                    dst_top,
                                                    y_value
                                                  );
@@ -498,42 +498,42 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     uint32_t solutions_count = 0;
 
     double src_left = geometry_rectangle_get_left(source_rect);
-    double src_x_center = geometry_rectangle_get_x_center(source_rect);
+    double src_center_x = geometry_rectangle_get_center_x(source_rect);
     double src_right = geometry_rectangle_get_right(source_rect);
     double src_top = geometry_rectangle_get_top(source_rect);
-    double src_y_center = geometry_rectangle_get_y_center(source_rect);
+    double src_center_y = geometry_rectangle_get_center_y(source_rect);
     double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
     double dst_left = geometry_rectangle_get_left(dest_rect);
-    double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+    double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
     double dst_right = geometry_rectangle_get_right(dest_rect);
     double dst_top = geometry_rectangle_get_top(dest_rect);
-    double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+    double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
     double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* prevent that forward and retour are on same line */
-    if ( fabs( src_y_center - dst_y_center ) < 0.0001 )
+    if ( fabs( src_center_y - dst_center_y ) < 0.0001 )
     {
         /* forward way is identical to retour - may be a relation to self */
-        src_y_center += good_dist/2.0;
-        dst_y_center -= good_dist/2.0;
+        src_center_y += good_dist/2.0;
+        dst_center_y -= good_dist/2.0;
     }
-    if ( fabs( src_x_center - dst_x_center ) < 0.0001 )
+    if ( fabs( src_center_x - dst_center_x ) < 0.0001 )
     {
         /* forward way is identical to retour - may be a relation to self */
-        src_x_center -= good_dist/2.0;
-        dst_x_center += good_dist/2.0;
+        src_center_x -= good_dist/2.0;
+        dst_center_x += good_dist/2.0;
     }
 
     /* connect via left side */
     {
         geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
                                             src_left,
-                                            src_y_center,
+                                            src_center_y,
                                             dst_left,
-                                            dst_y_center,
+                                            dst_center_y,
                                             fmin( src_left, dst_left ) - good_dist
                                             );
         solutions_count ++;
@@ -543,9 +543,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     {
         geometry_connector_reinit_vertical( &(out_solutions[solutions_count]),
                                             src_right,
-                                            src_y_center,
+                                            src_center_y,
                                             dst_right,
-                                            dst_y_center,
+                                            dst_center_y,
                                             fmax( src_right, dst_right ) + good_dist
                                             );
         solutions_count ++;
@@ -554,9 +554,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     /* connect via top side */
     {
         geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
-                                                src_x_center,
+                                                src_center_x,
                                                 src_top,
-                                                dst_x_center,
+                                                dst_center_x,
                                                 dst_top,
                                                 fmin( src_top, dst_top ) - good_dist
                                             );
@@ -566,9 +566,9 @@ void pencil_relationship_layouter_private_connect_rectangles_by_UC ( pencil_rela
     /* connect via bottom side */
     {
         geometry_connector_reinit_horizontal( &(out_solutions[solutions_count]),
-                                                src_x_center,
+                                                src_center_x,
                                                 src_bottom,
-                                                dst_x_center,
+                                                dst_center_x,
                                                 dst_bottom,
                                                 fmax( src_bottom, dst_bottom ) + good_dist
                                             );
@@ -597,124 +597,124 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
     uint32_t solutions_count = 0;
 
     double src_left = geometry_rectangle_get_left(source_rect);
-    double src_x_center = geometry_rectangle_get_x_center(source_rect);
+    double src_center_x = geometry_rectangle_get_center_x(source_rect);
     double src_right = geometry_rectangle_get_right(source_rect);
     double src_top = geometry_rectangle_get_top(source_rect);
-    double src_y_center = geometry_rectangle_get_y_center(source_rect);
+    double src_center_y = geometry_rectangle_get_center_y(source_rect);
     double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
     double dst_left = geometry_rectangle_get_left(dest_rect);
-    double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+    double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
     double dst_right = geometry_rectangle_get_right(dest_rect);
     double dst_top = geometry_rectangle_get_top(dest_rect);
-    double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+    double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
     double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
     double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
     /* from source to left */
-    if ( dst_x_center + good_dist < src_left )
+    if ( dst_center_x + good_dist < src_left )
     {
-        if ( dst_bottom + good_dist < src_y_center )
+        if ( dst_bottom + good_dist < src_center_y )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
-                                                   src_y_center,
-                                                   dst_x_center,
+                                                   src_center_y,
+                                                   dst_center_x,
                                                    dst_bottom,
-                                                   src_y_center
+                                                   src_center_y
                                                  );
             solutions_count ++;
         }
-        else if ( dst_top - good_dist > src_y_center )
+        else if ( dst_top - good_dist > src_center_y )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_left,
-                                                   src_y_center,
-                                                   dst_x_center,
+                                                   src_center_y,
+                                                   dst_center_x,
                                                    dst_top,
-                                                   src_y_center
+                                                   src_center_y
                                                  );
             solutions_count ++;
         }
     }
 
     /* from source to right */
-    else if ( dst_x_center - good_dist > src_right )
+    else if ( dst_center_x - good_dist > src_right )
     {
-        if ( dst_bottom + good_dist < src_y_center )
+        if ( dst_bottom + good_dist < src_center_y )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_right,
-                                                   src_y_center,
-                                                   dst_x_center,
+                                                   src_center_y,
+                                                   dst_center_x,
                                                    dst_bottom,
-                                                   src_y_center
+                                                   src_center_y
                                                  );
             solutions_count ++;
         }
-        else if ( dst_top - good_dist > src_y_center )
+        else if ( dst_top - good_dist > src_center_y )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
                                                    src_right,
-                                                   src_y_center,
-                                                   dst_x_center,
+                                                   src_center_y,
+                                                   dst_center_x,
                                                    dst_top,
-                                                   src_y_center
+                                                   src_center_y
                                                  );
             solutions_count ++;
         }
     }
 
     /* from source to upwards */
-    if ( dst_y_center + good_dist < src_top )
+    if ( dst_center_y + good_dist < src_top )
     {
-        if ( dst_right + good_dist < src_x_center )
+        if ( dst_right + good_dist < src_center_x )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_top,
                                                    dst_right,
-                                                   dst_y_center,
-                                                   dst_y_center
+                                                   dst_center_y,
+                                                   dst_center_y
                                                  );
             solutions_count ++;
         }
-        else if ( dst_left - good_dist > src_x_center )
+        else if ( dst_left - good_dist > src_center_x )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_top,
                                                    dst_left,
-                                                   dst_y_center,
-                                                   dst_y_center
+                                                   dst_center_y,
+                                                   dst_center_y
                                                  );
             solutions_count ++;
         }
     }
 
     /* from source to downwards */
-    else if ( dst_y_center - good_dist > src_bottom )
+    else if ( dst_center_y - good_dist > src_bottom )
     {
-        if ( dst_right + good_dist < src_x_center )
+        if ( dst_right + good_dist < src_center_x )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_bottom,
                                                    dst_right,
-                                                   dst_y_center,
-                                                   dst_y_center
+                                                   dst_center_y,
+                                                   dst_center_y
                                                  );
             solutions_count ++;
         }
-        else if ( dst_left - good_dist > src_x_center )
+        else if ( dst_left - good_dist > src_center_x )
         {
             geometry_connector_reinit_horizontal ( &(out_solutions[solutions_count]),
-                                                   src_x_center,
+                                                   src_center_x,
                                                    src_bottom,
                                                    dst_left,
-                                                   dst_y_center,
-                                                   dst_y_center
+                                                   dst_center_y,
+                                                   dst_center_y
                                                  );
             solutions_count ++;
         }
@@ -743,13 +743,13 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
     double center;
     if ( horizontal_line )
     {
-        center = geometry_rectangle_get_y_center( search_rect );
+        center = geometry_rectangle_get_center_y( search_rect );
         smaller_probe = center;
         greater_probe = center;
     }
     else
     {
-        center = geometry_rectangle_get_x_center( search_rect );
+        center = geometry_rectangle_get_center_x( search_rect );
         smaller_probe = center;
         greater_probe = center;
     }
@@ -972,17 +972,17 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
 
             /* calculate coordinates */
             /*double src_left = geometry_rectangle_get_left(source_rect);*/
-            double src_x_center = geometry_rectangle_get_x_center(source_rect);
+            double src_center_x = geometry_rectangle_get_center_x(source_rect);
             /*double src_right = geometry_rectangle_get_right(source_rect);*/
             double src_top = geometry_rectangle_get_top(source_rect);
-            /*double src_y_center = geometry_rectangle_get_y_center(source_rect);*/
+            /*double src_center_y = geometry_rectangle_get_center_y(source_rect);*/
             double src_bottom = geometry_rectangle_get_bottom(source_rect);
 
             /*double dst_left = geometry_rectangle_get_left(dest_rect);*/
-            double dst_x_center = geometry_rectangle_get_x_center(dest_rect);
+            double dst_center_x = geometry_rectangle_get_center_x(dest_rect);
             /*double dst_right = geometry_rectangle_get_right(dest_rect);*/
             double dst_top = geometry_rectangle_get_top(dest_rect);
-            /*double dst_y_center = geometry_rectangle_get_y_center(dest_rect);*/
+            /*double dst_center_y = geometry_rectangle_get_center_y(dest_rect);*/
             double dst_bottom = geometry_rectangle_get_bottom(dest_rect);
 
             double src_y_value = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
@@ -992,9 +992,9 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             geometry_connector_t *relationship_shape;
             relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
             geometry_connector_init_horizontal ( relationship_shape,
-                                                 src_x_center,
+                                                 src_center_x,
                                                  src_y_value,
-                                                 dst_x_center,
+                                                 dst_center_x,
                                                  dst_y_value,
                                                  y_value
                                                );
@@ -1056,17 +1056,17 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
 
             /* calculate coordinates */
             double src_left = geometry_rectangle_get_left(source_rect);
-            /*double src_x_center = geometry_rectangle_get_x_center(source_rect);*/
+            /*double src_center_x = geometry_rectangle_get_center_x(source_rect);*/
             double src_right = geometry_rectangle_get_right(source_rect);
             /*double src_top = geometry_rectangle_get_top(source_rect);*/
-            double src_y_center = geometry_rectangle_get_y_center(source_rect);
+            double src_center_y = geometry_rectangle_get_center_y(source_rect);
             /*double src_bottom = geometry_rectangle_get_bottom(source_rect);*/
 
             double dst_left = geometry_rectangle_get_left(dest_rect);
-            /*double dst_x_center = geometry_rectangle_get_x_center(dest_rect);*/
+            /*double dst_center_x = geometry_rectangle_get_center_x(dest_rect);*/
             double dst_right = geometry_rectangle_get_right(dest_rect);
             /*double dst_top = geometry_rectangle_get_top(dest_rect);*/
-            double dst_y_center = geometry_rectangle_get_y_center(dest_rect);
+            double dst_center_y = geometry_rectangle_get_center_y(dest_rect);
             /*double dst_bottom = geometry_rectangle_get_bottom(dest_rect);*/
 
             double src_x_value = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
@@ -1077,9 +1077,9 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
             geometry_connector_init_vertical ( relationship_shape,
                                                src_x_value,
-                                               src_y_center,
+                                               src_center_y,
                                                dst_x_value,
-                                               dst_y_center,
+                                               dst_center_y,
                                                x_value
                                              );
         }
