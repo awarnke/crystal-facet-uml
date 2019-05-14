@@ -8,4 +8,4 @@ Terminal=false
 StartupNotify=false
 Type=Application
 Categories=Development;Documentation;
-
+Keywords=uml;diagram;architecture;sysml;
