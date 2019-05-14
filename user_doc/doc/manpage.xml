@@ -240,7 +240,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
           </listitem>
       </varlistentry>
     </variablelist>
-    <para><command>journalctl -f</command> allows to
+    <para><command>journalctl -f</command> allows one to
       read the syslog.</para>
     <!--
     <segmentedlist>

@@ -20,8 +20,6 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install devscripts  # for debian build, includes build-essential
 >
-> sudo apt install fakeroot    # for building debian packages without root access (optional)
->
 > sudo apt install debsigs     # for signing debian packages
 >
 > sudo apt install dblatex     # for user documentation
