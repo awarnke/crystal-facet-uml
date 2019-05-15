@@ -2,13 +2,30 @@
 crystal_facet_uml
 =============
 
-crystal_facet_uml is a tool to create diagrams for documenting software architecture.
+crystal_facet_uml creates diagrams to document software architecture.
 These diagrams are consistent in element naming and element hierarchies.
+Diagrams are exported as png, svg, pdf, ps
+to be used in text processing systems as docbook, html, latex.
 
-It is based on glib, gdk, gtk, cairo, pango, sqlite
+It is based on glib, gdk, gtk, cairo, pango, sqlite.
 
-How to build
+Install crystal_facet_uml
 -----------
+
+This section describes how to install a binary package.
+
+Debian/Ubuntu/Raspbian:
+
+>       sudo dpkg -i crystal-facet-uml_1.x.0-1_amd64.deb
+
+openSuSE:
+
+>       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
+
+How to build from source
+-----------
+
+Building and installing a source package is described in this section.
 
 debian/ubuntu/raspbian:
 

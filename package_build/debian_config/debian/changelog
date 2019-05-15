@@ -3,7 +3,7 @@ crystal-facet-uml (1.12.1-1) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * Packageing issues addressed
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 May 2019 20:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 15 May 2019 20:30:00 +0200
 
 crystal-facet-uml (1.12.0-1) UNRELEASED; urgency=medium
 

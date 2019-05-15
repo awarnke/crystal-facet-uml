@@ -1,5 +1,5 @@
-2019-05-xx 1.12.1 [xxxxxxx]
-  . tbd
+2019-05-15 1.12.1 [xxxxxxx]
+  . some packaging warnings of lintian addressed
 2019-04-27 1.12.0 [8f17811]
   + operations and properites do not overlap with class/interface compartments
   + linebreaks in classifier names are possible

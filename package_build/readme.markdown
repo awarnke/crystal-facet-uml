@@ -1,31 +1,9 @@
-Install crystal_facet_uml
-=============
-
-This section is for users.
-It describes how to install a package.
-
-Debian/Ubuntu/Raspbian
------------
-
->       sudo dpkg -i crystal-facet-uml_1.x.0-1_amd64.deb
-
-openSuSE
------------
-
->       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
-
-Source
------------
-
-Installing a source package is described in the readme.markdown file contained in crystal-facet-uml_1.x.0.orig.tar.gz.
-
-
 
 Release crystal_facet_uml
 =============
 
 This section is for developers.
-It describes releasing a version of crystal_facet_uml.
+It describes packaging and releasing a version of crystal_facet_uml.
 
 Prepare
 -----------
