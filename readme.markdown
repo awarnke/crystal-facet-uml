@@ -2,12 +2,18 @@
 crystal_facet_uml
 =============
 
-crystal_facet_uml creates diagrams to document software architecture.
-These diagrams are consistent in element naming and element hierarchies.
-Diagrams are exported as png, svg, pdf, ps
-to be used in text processing systems as docbook, html, latex.
+# What is it?
+crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
 
-It is based on glib, gdk, gtk, cairo, pango, sqlite.
+# For Whom? What can one do with it? Why does it help?
+As software architect, you can create a set of diagrams describing 
+use-cases, requirements, structural views, behavioral and deployment views.
+
+# How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment?
+crystal_facet_uml keeps element names and element hierarchies consistent.
+The tool exports diagrams as svg, pdf, ps and png formats
+to be used in text processing systems as docbook, html, latex.
+It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
 Install crystal_facet_uml
 -----------
@@ -25,7 +31,7 @@ openSuSE:
 How to build from source
 -----------
 
-Building and installing a source package is described in this section.
+Building from source is described in this section.
 
 debian/ubuntu/raspbian:
 

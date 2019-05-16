@@ -25,6 +25,13 @@ BuildRequires:  sqlite3-devel
 BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
+crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
+As software architect, you can create a set of diagrams describing 
+use-cases, requirements, structural views, behavioral and deployment views.
+crystal_facet_uml keeps element names and element hierarchies consistent.
+The tool exports diagrams as svg, pdf, ps and png formats
+to be used in text processing systems as docbook, html, latex.
+It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 crystal_facet_uml draws UML diagrams.
 
 %prep

@@ -1,5 +1,12 @@
-2019-05-15 1.12.1 [xxxxxxx]
-  . some packaging warnings of lintian addressed
+crystal-facet-uml (1.12.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Packageing warnings of lintian addressed
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 15 May 2019 20:30:00 +0200
+ 
+Old Changelog:
+    
 2019-04-27 1.12.0 [8f17811]
   + operations and properites do not overlap with class/interface compartments
   + linebreaks in classifier names are possible
