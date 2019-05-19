@@ -1,4 +1,11 @@
-crystal-facet-uml (1.12.1-1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.13.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * t.b.d.
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 May 2019 20:30:00 +0200
+
+crystal-facet-uml (1.12.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Packageing warnings of lintian addressed

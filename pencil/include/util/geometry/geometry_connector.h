@@ -13,6 +13,7 @@
  */
 
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_point.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -196,6 +197,19 @@ static inline double geometry_connector_destination_end_x ( const geometry_conne
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_connector_get_destination_end_y ( const geometry_connector_t *this_ );
+
+/*!
+ *  \brief calculates the the point of the connector line after distance_covered 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param distance_covered distance from source, expected values range from 0.0 .. geometry_connector_get_length
+ *  \return point on the connector line that has distance distance_covered from source end.
+ *          If distance_covered < 0.0, the source point is returned. 
+ *          If distance > geometry_connector_get_length, the destination point is returned.
+ */
+static inline geometry_point_t geometry_connector_calculate_waypoint ( const geometry_connector_t *this_,
+                                                                       double distance_covered 
+                                                                     );
 
 /*!
  *  \brief gets the length of the connector line

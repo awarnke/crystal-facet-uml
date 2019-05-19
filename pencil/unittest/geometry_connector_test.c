@@ -13,6 +13,8 @@ static void tear_down(void);
 static void test_base_methods(void);
 static void test_rectangle_related_methods(void);
 static void test_connector_intersects(void);
+static void test_calc_waypoint_good(void);
+static void test_calc_waypoint_zero(void);
 
 test_suite_t geometry_connector_test_get_list(void)
 {
@@ -21,6 +23,8 @@ test_suite_t geometry_connector_test_get_list(void)
     test_suite_add_test_case( &result, "test_base_methods", &test_base_methods );
     test_suite_add_test_case( &result, "test_rectangle_related_methods", &test_rectangle_related_methods );
     test_suite_add_test_case( &result, "test_connector_intersects", &test_connector_intersects );
+    test_suite_add_test_case( &result, "test_calc_waypoint_good", &test_calc_waypoint_good );
+    test_suite_add_test_case( &result, "test_calc_waypoint_zero", &test_calc_waypoint_zero );
     return result;
 }
 
@@ -243,6 +247,72 @@ static void test_connector_intersects(void)
 
     geometry_connector_destroy ( &my_connector_1 );
     geometry_connector_destroy ( &my_connector_2 );
+}
+
+static void test_calc_waypoint_good(void)
+{
+    geometry_connector_t my_connector_1;
+
+    geometry_connector_init_vertical ( &my_connector_1,
+                                       10.0 /*source_end_x*/,
+                                       10.0 /*source_end_y*/,
+                                       10.0 /*destination_end_x*/,
+                                       30.0 /*destination_end_y*/,
+                                       20.0 /*main_line_x*/
+                                     );
+    
+    geometry_point_t pos_before = geometry_connector_calculate_waypoint( &my_connector_1, -0.1 );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_before ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_before ) );
+
+    geometry_point_t pos_first = geometry_connector_calculate_waypoint( &my_connector_1, 1.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_first ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos_first ) );
+
+    geometry_point_t pos_main = geometry_connector_calculate_waypoint( &my_connector_1, 29.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos_main ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 29.0, geometry_point_get_y( &pos_main ) );
+    
+    geometry_point_t pos_third = geometry_connector_calculate_waypoint( &my_connector_1, 39.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 11.0, geometry_point_get_x( &pos_third ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_third ) );
+    
+    geometry_point_t pos_after = geometry_connector_calculate_waypoint( &my_connector_1, 40.1 );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos_after ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 30.0, geometry_point_get_y( &pos_after ) );
+}
+
+static void test_calc_waypoint_zero(void)
+{
+    geometry_connector_t my_connector_2; /* main line length = 0 */
+    geometry_connector_t my_connector_3; /* srd+dest end line length = 0 */
+
+    geometry_connector_init_horizontal ( &my_connector_2,
+                                       10.0 /*source_end_x*/,
+                                       10.0 /*source_end_y*/,
+                                       10.0 /*destination_end_x*/,
+                                       10.0 /*destination_end_y*/,
+                                       20.0 /*main_line_y*/
+                                     );
+    geometry_connector_init_horizontal ( &my_connector_3,
+                                       10.0 /*source_end_x*/,
+                                       10.0 /*source_end_y*/,
+                                       20.0 /*destination_end_x*/,
+                                       10.0 /*destination_end_y*/,
+                                       10.0 /*main_line_y*/
+                                     );
+    
+    geometry_point_t pos3_source = geometry_connector_calculate_waypoint( &my_connector_3, 0.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos3_source ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_source ) );
+
+    geometry_point_t pos2_main = geometry_connector_calculate_waypoint( &my_connector_2, 10.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_x( &pos2_main ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_y( &pos2_main ) );
+
+    geometry_point_t pos3_dest = geometry_connector_calculate_waypoint( &my_connector_3, 10.0 );
+    TEST_ASSERT_EQUAL_DOUBLE( 20.0, geometry_point_get_x( &pos3_dest ) );
+    TEST_ASSERT_EQUAL_DOUBLE( 10.0, geometry_point_get_y( &pos3_dest ) );
 }
 
 
