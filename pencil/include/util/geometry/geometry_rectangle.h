@@ -9,6 +9,7 @@
  *  \brief Stores coordinates of a rectangle
  */
 
+#include "util/geometry/geometry_point.h"
 #include <stdbool.h>
 
 /*!
@@ -174,6 +175,13 @@ static inline double geometry_rectangle_get_center_x ( const geometry_rectangle_
  *  \param this_ pointer to own object attributes
  */
 static inline double geometry_rectangle_get_center_y ( const geometry_rectangle_t *this_ );
+
+/*!
+ *  \brief gets the center of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline geometry_point_t geometry_rectangle_get_center ( const geometry_rectangle_t *this_ );
 
 /*!
  *  \brief gets the area-value of geometry_rectangle_t

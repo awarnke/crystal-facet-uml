@@ -53,6 +53,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_feature_t *current_feature;
         current_feature = pencil_layout_data_get_feature_ptr( (*this_).layout_data, index );
+        geometry_point_t feature_middle = layout_feature_get_middle ( current_feature );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -78,6 +79,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         {
             pencil_label_layout_helper_select_solution ( &((*this_).label_layout_helper),
                                                          (*this_).layout_data,
+                                                         feature_middle,
                                                          solutions_count,
                                                          solution,
                                                          &index_of_best

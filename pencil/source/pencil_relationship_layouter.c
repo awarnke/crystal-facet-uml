@@ -49,6 +49,12 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
     count_sorted = universal_array_index_sorter_get_count( &sorted );
     for ( uint32_t sort_index = 0; sort_index < count_sorted; sort_index ++ )
     {
+        /* determine pointer to the_relationship */
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
+        layout_relationship_t *current_relationship;
+        current_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
+
         /* declaration of list of options */
         uint32_t solutions_count = 0;
         static const uint32_t SOLUTIONS_MAX = 8;
@@ -81,13 +87,8 @@ void pencil_relationship_layouter_private_do_layout ( pencil_relationship_layout
         }
 
         /* store best option to (*this_).layout_data */
-        uint32_t index;
-        index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
-        /* copy the relationship shape */
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, index );
         geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+        relationship_shape = layout_relationship_get_shape_ptr( current_relationship );
         geometry_connector_copy( relationship_shape, &(solution[index_of_best]) );
     }
 

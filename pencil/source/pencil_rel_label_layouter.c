@@ -55,6 +55,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_relationship_t *current_relation;
         current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        geometry_point_t relation_middle = layout_relationship_get_middle ( current_relation );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -80,6 +81,7 @@ void pencil_rel_label_layouter_do_layout ( pencil_rel_label_layouter_t *this_, P
         {
             pencil_label_layout_helper_select_solution ( &((*this_).label_layout_helper),
                                                          (*this_).layout_data,
+                                                         relation_middle,
                                                          solutions_count,
                                                          solution,
                                                          &index_of_best

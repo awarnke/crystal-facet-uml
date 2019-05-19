@@ -20,6 +20,7 @@ void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ )
 
 void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
                                                   pencil_layout_data_t *layout_data,
+                                                  geometry_point_t target_point,
                                                   uint32_t solutions_count,
                                                   const geometry_rectangle_t solutions[],
                                                   uint32_t *out_index_of_best )
@@ -51,6 +52,10 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         /* avoid alternating solutions in case their debts are identical */
         debts_of_current += 0.1 * solution_idx;
 
+        /* check distance to target point */
+        const geometry_point_t solution_middle = geometry_rectangle_get_center( current_solution );
+        debts_of_current += geometry_point_calc_chess_distance ( &target_point, &solution_middle );
+        
         /* add debts for overlap to diagram boundary */
         if ( ! geometry_rectangle_is_containing( diagram_draw_area, current_solution ) )
         {

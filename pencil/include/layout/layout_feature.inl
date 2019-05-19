@@ -28,6 +28,16 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
     return &((*this_).bounds);
 }
 
+static inline geometry_point_t layout_feature_get_middle ( const layout_feature_t *this_ )
+{
+    geometry_point_t result;
+    geometry_point_init( &result, 
+                         geometry_rectangle_get_center_x( &((*this_).bounds) ), 
+                         geometry_rectangle_get_center_y( &((*this_).bounds) )
+                       );
+    return result;
+}
+
 static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds )
 {
     geometry_rectangle_replace( &((*this_).bounds), feature_bounds );

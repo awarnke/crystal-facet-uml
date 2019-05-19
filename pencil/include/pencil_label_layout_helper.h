@@ -11,6 +11,7 @@
 
 #include "pencil_layout_data.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_point.h"
 
 /*!
  *  \brief attributes of the label layout helper
@@ -40,12 +41,14 @@ void pencil_label_layout_helper_destroy( pencil_label_layout_helper_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param layout_data data that is already (partly) layouted - by which to select a solution
+ *  \param target_point point where the object is located to which the label belongs
  *  \param solutions_count number of proposed solutions; at least 1 shall be provided
  *  \param solutions array of solutions
  *  \param out_index_of_best index of the best solution; must not be NULL.
  */
 void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *this_,
                                                   pencil_layout_data_t *layout_data,
+                                                  geometry_point_t target_point,
                                                   uint32_t solutions_count,
                                                   const geometry_rectangle_t solutions[],
                                                   uint32_t *out_index_of_best

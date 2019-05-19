@@ -12,6 +12,7 @@
 #include "layout/layout_visible_classifier.h"
 #include "util/geometry/geometry_direction.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/geometry/geometry_point.h"
 #include "data_feature.h"
 
 /*!
@@ -53,6 +54,14 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ );
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ );
+
+/*!
+ *  \brief gets the middle location of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return point of middle of bounds.
+ */
+static inline geometry_point_t layout_feature_get_middle ( const layout_feature_t *this_ );
 
 /*!
  *  \brief sets the bounding box of the feature

@@ -244,6 +244,13 @@ static inline double geometry_rectangle_get_center_y ( const geometry_rectangle_
     return (*this_).top + 0.5*(*this_).height;
 }
 
+static inline geometry_point_t geometry_rectangle_get_center ( const geometry_rectangle_t *this_ )
+{
+    geometry_point_t result;
+    geometry_point_init ( &result, (*this_).left + 0.5*(*this_).width, (*this_).top + 0.5*(*this_).height );
+    return result;
+}
+
 static inline double geometry_rectangle_get_area ( const geometry_rectangle_t *this_ )
 {
     return (*this_).width * (*this_).height;

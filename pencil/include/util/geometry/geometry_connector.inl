@@ -163,10 +163,12 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
                                    + fabs( (*this_).main_line_destination_y - (*this_).destination_end_y );
   
     if ( distance_covered < source_end_length ) {
-        if ( distance_covered <= 0.0 ) {
+        if (( distance_covered <= 0.0 )||( source_end_length < 0.000000001 ))
+        {
             geometry_point_init ( &result, (*this_).source_end_x, (*this_).source_end_y );
         }
-        else {
+        else 
+        {
             geometry_point_init ( &result, (*this_).source_end_x, (*this_).source_end_y );
             const double segment_part1 = distance_covered / source_end_length;
             geometry_point_shift( &result, 
@@ -177,7 +179,8 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
     }
     else {
         const double shifted_distance = distance_covered - source_end_length;
-        if ( shifted_distance < main_line_length ) {
+        if (( shifted_distance < main_line_length )&&( main_line_length >= 0.000000001 ))
+        {
             geometry_point_init ( &result, (*this_).main_line_source_x, (*this_).main_line_source_y );
             const double segment_part2 = shifted_distance / main_line_length;
             geometry_point_shift( &result, 
@@ -185,9 +188,11 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
                                   segment_part2 * ( (*this_).main_line_destination_y - (*this_).main_line_source_y )
                                 );
         }
-        else {
+        else 
+        {
             const double shifted2_distance = shifted_distance - main_line_length;
-            if ( shifted2_distance < dest_end_length ) {
+            if (( shifted2_distance < dest_end_length )&&( dest_end_length >= 0.000000001 ))
+            {
                 geometry_point_init ( &result, (*this_).main_line_destination_x, (*this_).main_line_destination_y );
                 const double segment_part3 = shifted2_distance / dest_end_length;
                 geometry_point_shift( &result, 
@@ -195,7 +200,8 @@ static inline geometry_point_t geometry_connector_calculate_waypoint ( const geo
                                     segment_part3 * ( (*this_).destination_end_y - (*this_).main_line_destination_y )
                                     );
             }
-            else {
+            else 
+            {
                 geometry_point_init ( &result, (*this_).destination_end_x, (*this_).destination_end_y );
             }
         }
