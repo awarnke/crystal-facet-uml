@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.12.1
+VERSIONSTR=1.13.0
 echo "Building Archive Version $VERSIONSTR"
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"

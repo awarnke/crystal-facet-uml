@@ -6,14 +6,14 @@ crystal_facet_uml
 crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
 
 <!-- For Whom? What can one do with it? Why does it help? -->
-As software architect, you can create a set of diagrams describing 
+As software architect, you create a set of diagrams describing 
 use-cases, requirements, structural views, behavioral and deployment views.
 
 <!-- How does the tool solve the task? What is the data flow? Is it interoperable? input/output formats. required Environment? -->
 crystal_facet_uml keeps element names and element hierarchies consistent.
-The tool exports diagrams as svg, pdf, ps and png formats
-to be used in text processing systems as docbook, html, latex.
-It runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
+It exports diagrams in svg, pdf, ps and png formats
+to be used in text processing systems like docbook, html, latex.
+This tool runs on your local linux PC and is based on glib, gdk, gtk, cairo, pango, sqlite.
 
 Install crystal_facet_uml
 -----------

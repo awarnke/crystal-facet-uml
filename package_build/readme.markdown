@@ -18,8 +18,7 @@ Update all version numbers:
 >       package/build/debian_pack.sh : VERSIONSTR
 >       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version
 >       release_notes.txt : new entry
->       package_build/debian_config/debian/changelog :
->               new entry, e.g. copy latest entry, then call dch -i from folder debian_config
+>       package_build/debian_config/debian/changelog : new entry
 
 
 Pack
