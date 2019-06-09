@@ -81,7 +81,7 @@ void pencil_layouter_destroy( pencil_layouter_t *this_ )
     TRACE_END();
 }
 
-void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds )
+void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds )
 {
     TRACE_BEGIN();
 

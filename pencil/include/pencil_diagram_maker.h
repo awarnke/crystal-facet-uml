@@ -62,13 +62,13 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, dat
 static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ );
 
 /*!
- *  \brief layouts the grid / defines coordinates
+ *  \brief defines coordinates
  *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
+static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
                                                       data_visible_set_t *input_data,
                                                       geometry_rectangle_t diagram_bounds
                                                     );

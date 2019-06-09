@@ -37,12 +37,12 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     TRACE_END();
 }
 
-static inline void pencil_diagram_maker_layout_grid ( pencil_diagram_maker_t *this_,
+static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
                                                       data_visible_set_t *input_data,
                                                       geometry_rectangle_t diagram_bounds )
 {
     pencil_layouter_reinit ( &((*this_).layouter), input_data );
-    pencil_layouter_layout_grid ( &((*this_).layouter), diagram_bounds );
+    pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
 }
 
 static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t *this_, cairo_t *cr )

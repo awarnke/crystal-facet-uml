@@ -206,7 +206,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
 
     geometry_rectangle_t destination;
     geometry_rectangle_init( &destination, left, top, width, height );
-    pencil_diagram_maker_layout_grid ( &((*this_).painter),
+    pencil_diagram_maker_define_grid ( &((*this_).painter),
                                        &((*this_).painter_input_data),
                                        destination
                                      );

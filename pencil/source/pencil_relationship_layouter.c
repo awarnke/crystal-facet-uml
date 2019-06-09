@@ -369,7 +369,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
     double good_dist = 2.0 * object_dist;  /* duplicate distance: once for each side of the line */
     double gap_dist = 0.499 * object_dist;  /* half the object distance allows a line to pass between two objects */
 
-    /* main line is vertical */
+    /* if applicable, add a solution where main line is vertical */
     {
         if ( dst_right + good_dist < src_left )
         {
@@ -423,7 +423,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_ZN ( pencil_rela
         }
     }
 
-    /* main line is horizontal */
+    /* if applicable, add a solution where main line is horizontal */
     {
         if ( dst_bottom + good_dist < src_top )
         {
@@ -613,7 +613,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
 
     double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
-    /* from source to left */
+    /* if applicable, add a solution from source to left */
     if ( dst_center_x + good_dist < src_left )
     {
         if ( dst_bottom + good_dist < src_center_y )
@@ -640,7 +640,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
         }
     }
 
-    /* from source to right */
+    /* else-if applicable, add a solution from source to right */
     else if ( dst_center_x - good_dist > src_right )
     {
         if ( dst_bottom + good_dist < src_center_y )
@@ -667,7 +667,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
         }
     }
 
-    /* from source to upwards */
+    /* if applicable, add a solution from source to upwards */
     if ( dst_center_y + good_dist < src_top )
     {
         if ( dst_right + good_dist < src_center_x )
@@ -694,7 +694,7 @@ void pencil_relationship_layouter_private_connect_rectangles_by_L7 ( pencil_rela
         }
     }
 
-    /* from source to downwards */
+    /* else-if applicable, add a solution from source to downwards */
     else if ( dst_center_y - good_dist > src_bottom )
     {
         if ( dst_right + good_dist < src_center_x )
@@ -989,16 +989,34 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             double src_y_value = ( y_value < src_top ) ? src_top : ( y_value > src_bottom ) ? src_bottom : y_value;
             double dst_y_value = ( y_value < dst_top ) ? dst_top : ( y_value > dst_bottom ) ? dst_bottom : y_value;
 
+            /* determine minimum arrow size for message/call to self */
+            double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
             /* define relation */
             geometry_connector_t *relationship_shape;
             relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-            geometry_connector_init_horizontal ( relationship_shape,
-                                                 src_center_x,
-                                                 src_y_value,
-                                                 dst_center_x,
-                                                 dst_y_value,
-                                                 y_value
-                                               );
+            if ( fabs( src_center_x - dst_center_x ) < 0.0001 )
+            {
+                /* message/call to self */
+                geometry_connector_init_vertical ( relationship_shape,
+                                                   src_center_x,
+                                                   src_y_value - (good_dist/2.0),
+                                                   dst_center_x,
+                                                   dst_y_value + (good_dist/2.0),
+                                                   src_center_x + good_dist /* the main connector shall be right to the start/end points */
+                                                 );
+            }
+            else
+            {
+                /* normal message/call */
+                geometry_connector_init_horizontal ( relationship_shape,
+                                                     src_center_x,
+                                                     src_y_value,
+                                                     dst_center_x,
+                                                     dst_y_value,
+                                                     y_value
+                                                   );
+            }
         }
     }
 
@@ -1073,16 +1091,34 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             double src_x_value = ( x_value < src_left ) ? src_left : ( x_value > src_right ) ? src_right : x_value;
             double dst_x_value = ( x_value < dst_left ) ? dst_left : ( x_value > dst_right ) ? dst_right : x_value;
 
+            /* determine minimum arrow size for self transition */
+            double good_dist = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
             /* define relation */
             geometry_connector_t *relationship_shape;
             relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
-            geometry_connector_init_vertical ( relationship_shape,
-                                               src_x_value,
-                                               src_center_y,
-                                               dst_x_value,
-                                               dst_center_y,
-                                               x_value
-                                             );
+            if ( fabs( src_center_y - dst_center_y ) < 0.0001 )
+            {
+                /* transition to self */
+                geometry_connector_init_horizontal ( relationship_shape,
+                                                     src_x_value - (good_dist/2.0),
+                                                     src_center_y,
+                                                     dst_x_value + (good_dist/2.0),
+                                                     dst_center_y,
+                                                     src_center_y - good_dist /* the main connector shall be above the start/end points */
+                                                   );
+            }
+            else
+            {
+                /* normal transition */
+                geometry_connector_init_vertical ( relationship_shape,
+                                                   src_x_value,
+                                                   src_center_y,
+                                                   dst_x_value,
+                                                   dst_center_y,
+                                                   x_value
+                                                 );
+            }
         }
     }
 

@@ -106,7 +106,7 @@ int io_diagram_image_exporter_render_surface_to_file( io_diagram_image_exporter_
         cairo_fill (cr);
 
         /* layout diagram */
-        pencil_diagram_maker_layout_grid ( &((*this_).painter),
+        pencil_diagram_maker_define_grid ( &((*this_).painter),
                                            (*this_).input_data,
                                            (*this_).bounds
                                          );

@@ -83,12 +83,12 @@ void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input
 void pencil_layouter_destroy( pencil_layouter_t *this_ );
 
 /*!
- *  \brief layouts the grid
+ *  \brief defines the grid coordinates
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
-void pencil_layouter_layout_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds );
+void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_t diagram_bounds );
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
