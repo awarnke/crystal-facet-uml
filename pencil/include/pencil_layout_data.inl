@@ -30,14 +30,14 @@ static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr
 
 static inline uint32_t pencil_layout_data_get_feature_count ( pencil_layout_data_t *this_ )
 {
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     return (*this_).feature_count;
 }
 
 static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layout_data_t *this_, uint32_t index )
 {
     assert( index < (*this_).feature_count );
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     return &((*this_).feature_layout[index]);
 }
 

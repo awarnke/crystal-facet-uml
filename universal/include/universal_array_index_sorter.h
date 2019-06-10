@@ -16,7 +16,7 @@
  *  \brief constants for maximum values of universal_array_index_sorter_t
  */
 enum universal_array_index_sorter_max_enum {
-    UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE = 1024,  /*!< maximum number of indices to sort */
+    UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE = 2048,  /*!< maximum number of indices to sort */
 };
 
 /*!

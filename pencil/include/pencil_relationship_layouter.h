@@ -181,9 +181,18 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
                                                               );
 
 /*!
+ *  \brief make all relationships visible.
+ *
+ *  Sets either normal visibility or grayed out status.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship_layouter_t *this_ );
+
+/*!
  *  \brief layouts all relationships.
  *
- *  This functoin performs a standard layouting of relationships
+ *  This function performs a standard layouting of relationships
  *  suitable for most diagram types.
  *  Exceptions are LIST, BOX, SEQUENCE, TIMING, COMMUNICATION
  *

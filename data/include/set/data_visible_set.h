@@ -22,9 +22,9 @@
  *  \brief constants for maximum values of data_visible_set_t
  */
 enum data_visible_set_max_enum {
-    PENCIL_INPUT_DATA_MAX_CLASSIFIERS = 128,  /*!< maximum number of classifiers to be shown in one single diagram */
-    PENCIL_INPUT_DATA_MAX_FEATURES = 256,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
-    PENCIL_INPUT_DATA_MAX_RELATIONSHIPS = 1024,  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */
+    DATA_VISIBLE_SET_MAX_CLASSIFIERS = 128,  /*!< maximum number of classifiers to be shown in one single diagram */
+    DATA_VISIBLE_SET_MAX_FEATURES = 256,  /*!< maximum number of features linked to all visible classifiers, even invisible lifelines */
+    DATA_VISIBLE_SET_MAX_RELATIONSHIPS = 1024,  /*!< maximum number of relationships linked to all visible classifiers, even some of other diagrams */
 };
 
 /*!
@@ -33,13 +33,13 @@ enum data_visible_set_max_enum {
 struct data_visible_set_struct {
     data_diagram_t diagram;  /*!< the diagram record */
     uint32_t visible_classifier_count;  /*!< number of all contained visible classifier records */
-    data_visible_classifier_t visible_classifiers[PENCIL_INPUT_DATA_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
+    data_visible_classifier_t visible_classifiers[DATA_VISIBLE_SET_MAX_CLASSIFIERS];  /*!< all contained visible_classifier records */
     uint32_t feature_count;  /*!< number of all contained feature records */
-    data_feature_t features[PENCIL_INPUT_DATA_MAX_FEATURES];  /*!< all contained feature records */
+    data_feature_t features[DATA_VISIBLE_SET_MAX_FEATURES];  /*!< all contained feature records */
     uint32_t relationship_count;  /*!< number of all contained relationship records */
-    data_relationship_t relationships[PENCIL_INPUT_DATA_MAX_RELATIONSHIPS];  /*!< all contained relationship records */
+    data_relationship_t relationships[DATA_VISIBLE_SET_MAX_RELATIONSHIPS];  /*!< all contained relationship records */
 
-    bool containment_cache[PENCIL_INPUT_DATA_MAX_CLASSIFIERS][PENCIL_INPUT_DATA_MAX_CLASSIFIERS];  /*!< states if ancestor index classifier directly or indirectly contains child index classifier */
+    bool containment_cache[DATA_VISIBLE_SET_MAX_CLASSIFIERS][DATA_VISIBLE_SET_MAX_CLASSIFIERS];  /*!< states if ancestor index classifier directly or indirectly contains child index classifier */
 };
 
 typedef struct data_visible_set_struct data_visible_set_t;

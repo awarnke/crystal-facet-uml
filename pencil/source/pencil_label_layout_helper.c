@@ -55,7 +55,7 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
         /* check distance to target point */
         const geometry_point_t solution_middle = geometry_rectangle_get_center( current_solution );
         debts_of_current += geometry_point_calc_chess_distance ( &target_point, &solution_middle );
-        
+
         /* add debts for overlap to diagram boundary */
         if ( ! geometry_rectangle_is_containing( diagram_draw_area, current_solution ) )
         {
@@ -116,7 +116,8 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             /* add debts if intersects */
             layout_relationship_t *probe_relationship;
             probe_relationship = pencil_layout_data_get_relationship_ptr( layout_data, rel_index );
-            if ( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
+            if (( PENCIL_VISIBILITY_SHOW == layout_relationship_get_visibility( probe_relationship ) )
+                || ( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( probe_relationship ) ))
             {
                 geometry_connector_t *probe_shape;
                 probe_shape = layout_relationship_get_shape_ptr( probe_relationship );

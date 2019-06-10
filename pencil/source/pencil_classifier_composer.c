@@ -94,7 +94,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
             }
-            else if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT ))
+            else if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT ))
             {
                 foreground_color = pencil_size_get_gray_out_color( pencil_size );
             }

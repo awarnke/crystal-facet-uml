@@ -28,11 +28,14 @@
 
 /*!
  *  \brief constants for maximum values of pencil_layout_data_t
+ *
+ *  While the data_visible_set_t contains features and relationships just once,
+ *  pencil_layout_data_t contains these for every visible_classifier_t once per instance.
  */
 enum pencil_layout_data_max_enum {
-    PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS = PENCIL_INPUT_DATA_MAX_CLASSIFIERS,  /*!< maximum number of classifiers to be shown in one single diagram */
-    PENCIL_LAYOUT_DATA_MAX_FEATURES = PENCIL_INPUT_DATA_MAX_FEATURES,  /*!< maximum number of features to be shown in one single diagram */
-    PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS = PENCIL_INPUT_DATA_MAX_RELATIONSHIPS,  /*!< maximum number of relationships to be shown in one single diagram */
+    PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of classifiers to be shown in one single diagram */
+    PENCIL_LAYOUT_DATA_MAX_FEATURES = DATA_VISIBLE_SET_MAX_FEATURES + 32,  /*!< maximum number of features to be shown in one single diagram */
+    PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS = DATA_VISIBLE_SET_MAX_RELATIONSHIPS * 2,  /*!< maximum number of relationships to be shown in one single diagram */
 };
 
 /*!

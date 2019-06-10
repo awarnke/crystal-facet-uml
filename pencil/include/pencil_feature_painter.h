@@ -54,7 +54,7 @@ void pencil_feature_painter_destroy( pencil_feature_painter_t *this_ );
  *  \param mark_focused true if the object is to be marked as "focused"
  *  \param mark_highlighted true if the object is to be marked as "highlighted"
  *  \param mark_selected true if the object is to be marked as "selected"
- *  \param grey_out true if the object is to be marked as greyed out. Is ignored in case mark_highlighted is true.
+ *  \param gray_out true if the object is to be marked as grayed out. Is ignored in case mark_highlighted is true.
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param layout structure to layout fonts
  *  \param cr a cairo drawing context
@@ -64,7 +64,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
-                                   bool grey_out,
+                                   bool gray_out,
                                    pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr

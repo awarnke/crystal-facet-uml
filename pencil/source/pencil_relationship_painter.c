@@ -62,10 +62,16 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
             }
+            else if (( PENCIL_VISIBILITY_GRAY_OUT == layout_relationship_get_visibility( layouted_relationship ) )
+                || ( PENCIL_VISIBILITY_IMPLICIT == layout_relationship_get_visibility( layouted_relationship ) ))
+            {
+                foreground_color = pencil_size_get_gray_out_color( pencil_size );
+            }
             else
             {
                 foreground_color = pencil_size_get_standard_color( pencil_size );
             }
+
             cairo_set_source_rgba( cr, foreground_color.red, foreground_color.green, foreground_color.blue, foreground_color.alpha );
         }
 

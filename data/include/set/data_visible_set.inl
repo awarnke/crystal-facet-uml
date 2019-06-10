@@ -20,7 +20,7 @@ static inline void data_visible_set_invalidate ( data_visible_set_t *this_ )
 
 static inline void data_visible_set_private_destroy_visible_classifiers( data_visible_set_t *this_ )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
@@ -32,7 +32,7 @@ static inline void data_visible_set_private_destroy_visible_classifiers( data_vi
 
 static inline void data_visible_set_private_destroy_features( data_visible_set_t *this_ )
 {
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
 
     for ( int index = 0; index < (*this_).feature_count; index ++ )
     {
@@ -44,7 +44,7 @@ static inline void data_visible_set_private_destroy_features( data_visible_set_t
 
 static inline void data_visible_set_private_destroy_relationships( data_visible_set_t *this_ )
 {
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     for ( int index = 0; index < (*this_).relationship_count; index ++ )
     {
@@ -61,7 +61,7 @@ static inline uint32_t data_visible_set_get_visible_classifier_count ( data_visi
 
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_ptr ( data_visible_set_t *this_, uint32_t index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     data_visible_classifier_t *result;
     if ( index < (*this_).visible_classifier_count )
@@ -79,7 +79,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
 
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t diagramelement_id )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     data_visible_classifier_t *result = NULL;
 
     /* iterate over all visible classifiers */
@@ -103,7 +103,7 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
 
 static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     data_classifier_t *result = NULL;
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
@@ -126,7 +126,7 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
 
 static inline int32_t data_visible_set_get_classifier_index ( data_visible_set_t *this_, int64_t row_id )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     int32_t result = -1;
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
@@ -148,7 +148,7 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
 {
     assert ( NULL != classifier_ptr );  /* input parameters test */
     assert ( classifier_ptr >= &((*this_).visible_classifiers[0]) );  /* input parameters test */
-    assert ( classifier_ptr < &((*this_).visible_classifiers[PENCIL_INPUT_DATA_MAX_CLASSIFIERS]) );  /* input parameters test */
+    assert ( classifier_ptr < &((*this_).visible_classifiers[DATA_VISIBLE_SET_MAX_CLASSIFIERS]) );  /* input parameters test */
     assert ( 3 == &((*this_).visible_classifiers[3]) - (*this_).visible_classifiers );  /* compiler test */
     return ( classifier_ptr - (*this_).visible_classifiers );
 }
@@ -160,7 +160,7 @@ static inline uint32_t data_visible_set_get_feature_count ( data_visible_set_t *
 
 static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_set_t *this_, uint32_t index )
 {
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
 
     data_feature_t *result;
     if ( index < (*this_).feature_count )
@@ -178,7 +178,7 @@ static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_se
 
 static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     data_feature_t *result = NULL;
 
     for ( int index = 0; index < (*this_).feature_count; index ++ )
@@ -197,7 +197,7 @@ static inline data_feature_t *data_visible_set_get_feature_by_id_ptr ( data_visi
 
 static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visible_set_t *this_ )
 {
-    assert( (*this_).feature_count <= PENCIL_INPUT_DATA_MAX_FEATURES );
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
     return (*this_).features;
 }
 
@@ -208,7 +208,7 @@ static inline uint32_t data_visible_set_get_relationship_count ( data_visible_se
 
 static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_visible_set_t *this_, uint32_t index )
 {
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
 
     data_relationship_t *result;
     if ( index < (*this_).relationship_count )
@@ -226,7 +226,7 @@ static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_
 
 static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr ( data_visible_set_t *this_, int64_t row_id )
 {
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
     data_relationship_t *result = NULL;
 
     for ( int index = 0; index < (*this_).relationship_count; index ++ )
@@ -245,7 +245,7 @@ static inline data_relationship_t *data_visible_set_get_relationship_by_id_ptr (
 
 static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_set_t *this_, uint32_t ancestor_index, uint32_t descendant_index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     assert( ancestor_index < (*this_).visible_classifier_count );
     assert( descendant_index < (*this_).visible_classifier_count );
 
@@ -254,7 +254,7 @@ static inline bool data_visible_set_is_ancestor_by_index ( const data_visible_se
 
 static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_visible_set_t *this_, uint32_t classifier_index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     assert( classifier_index < (*this_).visible_classifier_count );
 
     uint32_t result = 0;
@@ -272,7 +272,7 @@ static inline uint32_t data_visible_set_count_ancestors_of_index ( const data_vi
 
 static inline uint32_t data_visible_set_count_descendants_of_index ( const data_visible_set_t *this_, uint32_t classifier_index )
 {
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     assert( classifier_index < (*this_).visible_classifier_count );
 
     uint32_t result = 0;

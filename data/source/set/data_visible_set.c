@@ -74,7 +74,7 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
         /* load classifiers */
         db_err = data_database_reader_get_classifiers_by_diagram_id ( db_reader,
                                                                       diagram_id,
-                                                                      PENCIL_INPUT_DATA_MAX_CLASSIFIERS,
+                                                                      DATA_VISIBLE_SET_MAX_CLASSIFIERS,
                                                                       &((*this_).visible_classifiers),
                                                                       &((*this_).visible_classifier_count)
                                                                     );
@@ -96,7 +96,7 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
         /* load features */
         db_err = data_database_reader_get_features_by_diagram_id ( db_reader,
                                                                    diagram_id,
-                                                                   PENCIL_INPUT_DATA_MAX_FEATURES,
+                                                                   DATA_VISIBLE_SET_MAX_FEATURES,
                                                                    &((*this_).features),
                                                                    &((*this_).feature_count)
                                                                  );
@@ -118,7 +118,7 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
         /* load relationships */
         db_err = data_database_reader_get_relationships_by_diagram_id ( db_reader,
                                                                         diagram_id,
-                                                                        PENCIL_INPUT_DATA_MAX_RELATIONSHIPS,
+                                                                        DATA_VISIBLE_SET_MAX_RELATIONSHIPS,
                                                                         &((*this_).relationships),
                                                                         &((*this_).relationship_count)
                                                                       );
@@ -147,8 +147,8 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
 void data_visible_set_private_update_containment_cache ( data_visible_set_t *this_ )
 {
     TRACE_BEGIN();
-    assert( (*this_).relationship_count <= PENCIL_INPUT_DATA_MAX_RELATIONSHIPS );
-    assert( (*this_).visible_classifier_count <= PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     /* reset the containment array */
     memset( &((*this_).containment_cache), '\0', sizeof( (*this_).containment_cache ) );

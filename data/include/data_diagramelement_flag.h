@@ -16,7 +16,7 @@ enum data_diagramelement_flag_enum {
     DATA_DIAGRAMELEMENT_FLAG_NONE = 0x0,  /*!< no flags set */
     DATA_DIAGRAMELEMENT_FLAG_INSTANCE = 0x01,  /*!< the classifier shall be drawn as an (anonymous) instance (colon and underline) */
     DATA_DIAGRAMELEMENT_FLAG_EMPHASIS = 0x1000000,  /*!< the classifier shall be marked by a color or other appropriate means */
-    DATA_DIAGRAMELEMENT_FLAG_GREY_OUT = 0x2000000,  /*!< the classifier shall be greyed out */
+    DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT = 0x2000000,  /*!< the classifier shall be greyed out */
 
     DATA_DIAGRAMELEMENT_FLAG_MASK_SEMANTICS = 0x0f,  /*!< mask for semantics bits */
     DATA_DIAGRAMELEMENT_FLAG_MASK_RELATIONS = 0xff00,  /*!< mask for related objects, like notes, relationships, parent-classifiers */

@@ -13,8 +13,9 @@
  *  \brief enumeration of all visibility types
  */
 enum pencil_visibility_enum {
-    PENCIL_VISIBILITY_HIDE,  /*!< object is not shown */
+    PENCIL_VISIBILITY_HIDE,  /*!< object is not shown, not even if mouse-over or if selected */
     PENCIL_VISIBILITY_IMPLICIT,  /*!< object need not be drawn explicitly unless required by conditions like mouse-over or selected */
+    PENCIL_VISIBILITY_GRAY_OUT,  /*!< object is shown but grayed out */
     PENCIL_VISIBILITY_SHOW,  /*!< object is shown */
 };
 

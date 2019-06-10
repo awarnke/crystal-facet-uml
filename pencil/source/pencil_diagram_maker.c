@@ -169,7 +169,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                       data_id_equals_id( &mark_focused, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
                                       data_id_equals_id( &mark_highlighted, DATA_TABLE_FEATURE, layout_feature_get_feature_id( the_feature ) ),
                                       data_small_set_contains_row_id( mark_selected, DATA_TABLE_FEATURE, layout_feature_get_feature_id(the_feature) ),
-                                      (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GREY_OUT )),
+                                      (0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT )),
                                       pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) ),
                                       layout,
                                       cr
@@ -237,7 +237,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
                 }
             }
         }
-        if ( PENCIL_VISIBILITY_SHOW == show_relation )
+        if (( PENCIL_VISIBILITY_SHOW == show_relation )||( PENCIL_VISIBILITY_GRAY_OUT == show_relation ))
         {
             pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
             pencil_relationship_painter_draw ( &((*this_).relationship_painter),

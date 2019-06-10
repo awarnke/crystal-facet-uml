@@ -36,7 +36,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
                                    bool mark_focused,
                                    bool mark_highlighted,
                                    bool mark_selected,
-                                   bool grey_out,
+                                   bool gray_out,
                                    pencil_size_t *pencil_size,
                                    PangoLayout *layout,
                                    cairo_t *cr )
@@ -61,7 +61,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
             {
                 foreground_color = pencil_size_get_highlight_color( pencil_size );
             }
-            else if ( grey_out )
+            else if ( gray_out )
             {
                 foreground_color = pencil_size_get_gray_out_color( pencil_size );
             }

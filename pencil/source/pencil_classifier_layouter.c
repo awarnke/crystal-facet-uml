@@ -294,7 +294,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
         visibility = layout_relationship_get_visibility( the_relationship );
 
         if (( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
-            && ( PENCIL_VISIBILITY_SHOW == visibility ))
+            && (( PENCIL_VISIBILITY_SHOW == visibility )||(PENCIL_VISIBILITY_GRAY_OUT == visibility) ))
         {
             layout_visible_classifier_t *from_classifier;
             layout_visible_classifier_t *to_classifier;
@@ -388,7 +388,7 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
-    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_INPUT_DATA_MAX_CLASSIFIERS );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
     uint32_t count_clasfy;
