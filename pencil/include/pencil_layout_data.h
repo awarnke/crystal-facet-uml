@@ -30,7 +30,7 @@
  *  \brief constants for maximum values of pencil_layout_data_t
  *
  *  While the data_visible_set_t contains features and relationships just once,
- *  pencil_layout_data_t contains these for every visible_classifier_t once per instance.
+ *  pencil_layout_data_t contains these once per instance of every visible_classifier_t.
  */
 enum pencil_layout_data_max_enum {
     PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of classifiers to be shown in one single diagram */
@@ -40,6 +40,13 @@ enum pencil_layout_data_max_enum {
 
 /*!
  *  \brief attributes of the pencil_layout_data_t
+ *
+ *  pencil_layout_data_t contains a consistent subset of the database model:
+ *  If a feature is contained, its classifier is contained.
+ *  If a relationship is contained, the classifiers of both ends are contained.
+ *
+ *  In case the data exceeds the limits of the member arrays, some data cannot be shown.
+ *  There is no guarantee for completeness.
  */
 struct pencil_layout_data_struct {
     /* diagram layout*/
