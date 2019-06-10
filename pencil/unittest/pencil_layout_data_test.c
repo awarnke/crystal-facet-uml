@@ -90,6 +90,8 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         PROG_ASSERT( data_visible_classifier_is_valid( current ) );
     }
 
+    const uint_fast32_t classifier_mod = ((classifiers/2)==0) ? 1 : (classifiers/2);
+
     /* initialize the fake_input_data.features */
     fake_input_data.feature_count = features;
     for ( uint_fast32_t f_idx = 0; f_idx < features; f_idx ++ )
@@ -99,7 +101,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         data_err = data_feature_init ( current,
                                        f_idx,  /* feature_id */
                                        DATA_FEATURE_TYPE_OPERATION,  /* feature_main_type */
-                                       f_idx % (classifiers/4+1),  /* classifier_id */
+                                       f_idx % classifier_mod,  /* classifier_id */
                                        "feature_key",
                                        "feature_value",
                                        "feature_description",
@@ -119,8 +121,8 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         data_err = data_relationship_init ( current,
                                             r_idx,  /* relationship_id */
                                             DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION,  /* relationship_main_type */
-                                            r_idx % (classifiers/4+1),  /* from_classifier_id */
-                                            r_idx % (classifiers/3+1),  /* to_classifier_id */
+                                            r_idx % classifier_mod,  /* from_classifier_id */
+                                            (r_idx*r_idx) % classifier_mod,  /* to_classifier_id */
                                             "relationship_name",
                                             "relationship_description",
                                             1500*r_idx,  /* list_order */
@@ -138,10 +140,14 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
     return &fake_input_data;
 }
 
+static const int DUPLICATE_PARENT_CLASSIFIER=2;
+static const int DUPLICATE_FROM_CLASSIFIER=2;
+static const int DUPLICATE_TO_CLASSIFIER=2;
+
 static void test_empty_model(void)
 {
     data_visible_set_t *fake_input_data;
-    fake_input_data = init_fake_input_data(0,0,0);
+    fake_input_data = init_fake_input_data(0,10,10);
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee );
@@ -165,12 +171,19 @@ static void test_normal_model(void)
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(15,30,20);
+    /* make the 0-th relation a from-feature-to-feature relation: */
+    data_relationship_t *linked_rel = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
+    data_relationship_set_from_feature_id ( linked_rel, 0 /* not DATA_ID_VOID_ID */ );
+    data_relationship_set_to_feature_id ( linked_rel, 0 /* not DATA_ID_VOID_ID */ );
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee );
-    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 15, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 30*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 20*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
@@ -186,9 +199,12 @@ static void test_too_big_model(void)
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee );
-    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_FEATURES, pencil_layout_data_get_feature_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );
@@ -198,12 +214,25 @@ static void test_inconsistent_model(void)
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(5,5,5);
+    /* make some wrong ids and links */
+    data_feature_t *illegal_feat1 = data_visible_set_get_feature_ptr ( fake_input_data, 4 /*index*/ );
+    data_feature_set_classifier_id ( illegal_feat1, 12000 /*non-existing classifier_id*/ );
+    data_relationship_t *illegal_rel1 = data_visible_set_get_relationship_ptr ( fake_input_data, 0 /*index*/ );
+    data_relationship_set_from_feature_id ( illegal_rel1, 1 /* feature id 1 does not belong to from classifier */ );
+    data_relationship_set_to_feature_id ( illegal_rel1, 0 /* not DATA_ID_VOID_ID */ );
+    data_relationship_t *illegal_rel2 = data_visible_set_get_relationship_ptr ( fake_input_data, 1 /*index*/ );
+    data_relationship_set_from_classifier_id ( illegal_rel2, 12000 /*non-existing classifier_id*/ );
+    data_relationship_t *illegal_rel3 = data_visible_set_get_relationship_ptr ( fake_input_data, 2 /*index*/ );
+    data_relationship_set_to_classifier_id ( illegal_rel3, 12000 /*non-existing classifier_id*/ );
 
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee );
-    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 5, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( (5-1)*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( (5-3)*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
 
     pencil_layout_data_destroy( &testee );

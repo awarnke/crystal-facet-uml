@@ -72,6 +72,8 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
         const uint32_t data_feature_count = data_visible_set_get_feature_count( input_data );
         uint32_t debug_dropped_features;
         debug_dropped_features = 0;
+        uint32_t warn_dropped_features;
+        warn_dropped_features = 0;
         (*this_).feature_count = 0;
 
         for ( uint32_t f_idx = 0; f_idx < data_feature_count; f_idx ++ )
@@ -140,7 +142,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                             }
                             else
                             {
-                                TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, some features not visible" );
+                                warn_dropped_features ++;
                             }
                         }
                     }
@@ -157,6 +159,10 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
         TRACE_INFO_INT ( "feature      data    objects:", data_feature_count );
         TRACE_INFO_INT ( "feature      ignored objects:", debug_dropped_features );
         TRACE_INFO_INT ( "feature      layout  objects:", (*this_).feature_count );
+        if ( 0 != warn_dropped_features )
+        {
+            TSLOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_FEATURES exceeded, features not visible:", warn_dropped_features );
+        }
     }
 
     /* init relationships */
@@ -164,6 +170,8 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
         const uint32_t data_relationship_count = data_visible_set_get_relationship_count( input_data );
         uint32_t debug_dropped_relationships;
         debug_dropped_relationships = 0;
+        uint32_t warn_dropped_relationships;
+        warn_dropped_relationships = 0;
         (*this_).relationship_count = 0;
 
         for ( uint32_t r_idx = 0; r_idx < data_relationship_count; r_idx ++ )
@@ -210,7 +218,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                         }
                                         else
                                         {
-                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                            warn_dropped_relationships ++;
                                         }
                                     }
                                 }
@@ -223,6 +231,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                     probe4_feature = &((*this_).feature_layout[f_idx4]);
 
                                     if ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) )  /* destination found */
+                                        /* TODO: check if the feature links to the right classifier */
                                     {
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
@@ -238,7 +247,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                         }
                                         else
                                         {
-                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                            warn_dropped_relationships ++;
                                         }
                                     }
                                 }
@@ -254,6 +263,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                         probe3_feature = &((*this_).feature_layout[f_idx3]);
 
                         if ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) )  /* source found */
+                            /* TODO: check if the feature links to the right classifier */
                         {
                             if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination in classifiers */
                             {
@@ -278,7 +288,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                         }
                                         else
                                         {
-                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                            warn_dropped_relationships ++;
                                         }
                                     }
                                 }
@@ -291,6 +301,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                     probe5_feature = &((*this_).feature_layout[f_idx5]);
 
                                     if ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) )  /* destination found */
+                                        /* TODO: check if the feature links to the right classifier */
                                     {
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
@@ -306,7 +317,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
                                         }
                                         else
                                         {
-                                            TSLOG_WARNING( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, some relationships not visible" );
+                                            warn_dropped_relationships ++;
                                         }
                                     }
                                 }
@@ -326,6 +337,10 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
         TRACE_INFO_INT ( "relationship data    objects:", data_relationship_count );
         TRACE_INFO_INT ( "relationship ignored objects:", debug_dropped_relationships );
         TRACE_INFO_INT ( "relationship layout  objects:", (*this_).relationship_count );
+        if ( 0 != warn_dropped_relationships )
+        {
+            TSLOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, relationships not visible:", warn_dropped_relationships );
+        }
     }
 
     assert ( pencil_layout_data_is_valid( this_ ) );
