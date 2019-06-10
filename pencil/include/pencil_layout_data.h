@@ -203,6 +203,16 @@ static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t
  */
 static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
 
+/* ================================ misc ================================ */
+
+/*!
+ *  \brief checks if the pencil_layout_data is initialized and consistent
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if this_ contains valid data for sketching a diagram
+ */
+bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ );
+
 #include "pencil_layout_data.inl"
 
 #endif  /* PENCIL_LAYOUT_DATA_H */

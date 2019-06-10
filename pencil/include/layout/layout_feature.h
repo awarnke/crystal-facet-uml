@@ -48,6 +48,14 @@ static inline void layout_feature_init ( layout_feature_t *this_,
 static inline void layout_feature_destroy ( layout_feature_t *this_ );
 
 /*!
+ *  \brief checks if the feature data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if (*this_).data points to valid data and is consistent with (*this_).classifier
+ */
+static inline bool layout_feature_is_valid ( layout_feature_t *this_ );
+
+/*!
  *  \brief gets the bounding box of the feature
  *
  *  \param this_ pointer to own object attributes

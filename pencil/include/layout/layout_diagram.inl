@@ -18,6 +18,20 @@ static inline void layout_diagram_destroy ( layout_diagram_t *this_ )
     (*this_).data = NULL;
 }
 
+static inline bool layout_diagram_is_valid ( layout_diagram_t *this_ )
+{
+    bool result;
+    if ( (*this_).data == NULL )
+    {
+        result = false;  /* cannot happen on initialized objects */
+    }
+    else
+    {
+        result = data_diagram_is_valid( (*this_).data );
+    }
+    return result;
+}
+
 static inline geometry_rectangle_t *layout_diagram_get_bounds_ptr ( layout_diagram_t *this_ )
 {
     return &((*this_).bounds);

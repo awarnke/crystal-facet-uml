@@ -23,6 +23,22 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ )
     (*this_).data = NULL;
 }
 
+static inline bool layout_feature_is_valid ( layout_feature_t *this_ )
+{
+    bool result;
+    if (( (*this_).data == NULL )||( (*this_).classifier == NULL ))
+    {
+        result = false;  /* cannot happen on initialized objects */
+    }
+    else
+    {
+        result = data_feature_is_valid( (*this_).data )
+            && layout_visible_classifier_is_valid( (*this_).classifier )
+            && ( data_feature_get_classifier_id( (*this_).data ) == layout_visible_classifier_get_classifier_id( (*this_).classifier ));
+    }
+    return result;
+}
+
 static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ )
 {
     return &((*this_).bounds);
@@ -31,8 +47,8 @@ static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_featu
 static inline geometry_point_t layout_feature_get_middle ( const layout_feature_t *this_ )
 {
     geometry_point_t result;
-    geometry_point_init( &result, 
-                         geometry_rectangle_get_center_x( &((*this_).bounds) ), 
+    geometry_point_init( &result,
+                         geometry_rectangle_get_center_x( &((*this_).bounds) ),
                          geometry_rectangle_get_center_y( &((*this_).bounds) )
                        );
     return result;

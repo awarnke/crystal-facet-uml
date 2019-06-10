@@ -328,6 +328,7 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
         TRACE_INFO_INT ( "relationship layout  objects:", (*this_).relationship_count );
     }
 
+    assert ( pencil_layout_data_is_valid( this_ ) );
     TRACE_END();
 }
 
@@ -356,6 +357,95 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
     }
 
     TRACE_END();
+}
+
+/* ================================ misc ================================ */
+
+bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ )
+{
+    bool result = true;
+
+    /* check input data */
+    if ( NULL == (*this_).input_data )
+    {
+        result = false;
+    }
+    else
+    {
+        if ( ! data_visible_set_is_valid( (*this_).input_data ) )
+        {
+            result = false;
+        }
+    }
+
+    /* check diagram */
+    if ( ! (*this_).diagram_valid )
+    {
+        result = false;
+    }
+    else
+    {
+        if ( ! layout_diagram_is_valid( &((*this_).diagram_layout) ) )
+        {
+            result = false;
+        }
+    }
+
+    /* check classifiers */
+    if ( (*this_).visible_classifier_count > PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS )
+    {
+        /* if the object is already initialized, this is a severe error */
+        result = false;
+    }
+    else
+    {
+        for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count;  c_idx ++ )
+        {
+            layout_visible_classifier_t *current = &((*this_).visible_classifier_layout[c_idx]);
+            if ( ! layout_visible_classifier_is_valid( current ) )
+            {
+                result = false;
+            }
+        }
+    }
+
+    /* check features */
+    if ( (*this_).feature_count > PENCIL_LAYOUT_DATA_MAX_FEATURES )
+    {
+        /* if the object is already initialized, this is a severe error */
+        result = false;
+    }
+    else
+    {
+        for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count;  f_idx ++ )
+        {
+            layout_feature_t *current = &((*this_).feature_layout[f_idx]);
+            if ( ! layout_feature_is_valid( current ) )
+            {
+                result = false;
+            }
+        }
+    }
+
+    /* check relationships */
+    if ( (*this_).relationship_count > PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+    {
+        /* if the object is already initialized, this is a severe error */
+        result = false;
+    }
+    else
+    {
+        for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count;  r_idx ++ )
+        {
+            layout_relationship_t *current = &((*this_).relationship_layout[r_idx]);
+            if ( ! layout_relationship_is_valid( current ) )
+            {
+                result = false;
+            }
+        }
+    }
+
+    return result;
 }
 
 

@@ -39,6 +39,14 @@ static inline void layout_diagram_init ( layout_diagram_t *this_, data_diagram_t
 static inline void layout_diagram_destroy ( layout_diagram_t *this_ );
 
 /*!
+ *  \brief checks if the diagram data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if (*this_).data points to valid data
+ */
+static inline bool layout_diagram_is_valid ( layout_diagram_t *this_ );
+
+/*!
  *  \brief gets the bounding box of the diagram
  *
  *  \param this_ pointer to own object attributes

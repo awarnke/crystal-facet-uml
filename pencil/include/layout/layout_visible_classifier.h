@@ -44,6 +44,14 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
 static inline void layout_visible_classifier_destroy ( layout_visible_classifier_t *this_ );
 
 /*!
+ *  \brief checks if the layout_visible_classifier data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if (*this_).data points to valid data
+ */
+static inline bool layout_visible_classifier_is_valid ( layout_visible_classifier_t *this_ );
+
+/*!
  *  \brief gets the bounding box of the classifier
  *
  *  \param this_ pointer to own object attributes

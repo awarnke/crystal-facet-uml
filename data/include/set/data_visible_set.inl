@@ -8,7 +8,7 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
     return &((*this_).diagram);
 }
 
-static inline bool data_visible_set_is_valid ( data_visible_set_t *this_ )
+static inline bool data_visible_set_is_valid ( const data_visible_set_t *this_ )
 {
     return data_diagram_is_valid( &((*this_).diagram) );
 }

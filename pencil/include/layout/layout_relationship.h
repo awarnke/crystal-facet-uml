@@ -57,6 +57,15 @@ static inline void layout_relationship_init ( layout_relationship_t *this_,
 static inline void layout_relationship_destroy ( layout_relationship_t *this_ );
 
 /*!
+ *  \brief checks if the relationship data is valid
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return true if (*this_).data points to valid data and is consistent with (*this_).from_classifier,
+ *          (*this_).to_classifier, (*this_).from_feature, (*this_).to_feature
+ */
+static inline bool layout_relationship_is_valid ( layout_relationship_t *this_ );
+
+/*!
  *  \brief gets the visibility of the relationship
  *
  *  \param this_ pointer to own object attributes

@@ -231,7 +231,7 @@ static inline uint32_t data_visible_set_count_descendants_of_index ( const data_
  *  \param this_ pointer to own object attributes
  *  \return true if this_ contains valid data for sketching a diagram
  */
-static inline bool data_visible_set_is_valid ( data_visible_set_t *this_ );
+static inline bool data_visible_set_is_valid ( const data_visible_set_t *this_ );
 
 /*!
  *  \brief invalidates the diagram data

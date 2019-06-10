@@ -142,12 +142,38 @@ static void test_empty_model(void)
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(0,0,0);
+
+    static pencil_layout_data_t testee;
+    pencil_layout_data_init( &testee );
+    TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) )
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
+    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
+    TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_destroy( &testee );
 }
 
 static void test_normal_model(void)
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(15,30,20);
+
+    static pencil_layout_data_t testee;
+    pencil_layout_data_init( &testee );
+    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_destroy( &testee );
 }
 
 static void test_too_big_model(void)
@@ -157,12 +183,30 @@ static void test_too_big_model(void)
                                             DATA_VISIBLE_SET_MAX_FEATURES,
                                             DATA_VISIBLE_SET_MAX_RELATIONSHIPS
                                           );
+
+    static pencil_layout_data_t testee;
+    pencil_layout_data_init( &testee );
+    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_destroy( &testee );
 }
 
 static void test_inconsistent_model(void)
 {
     data_visible_set_t *fake_input_data;
     fake_input_data = init_fake_input_data(5,5,5);
+
+    static pencil_layout_data_t testee;
+    pencil_layout_data_init( &testee );
+    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_reinit( &testee, fake_input_data );
+    TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
+
+    pencil_layout_data_destroy( &testee );
 }
 
 
