@@ -213,6 +213,34 @@ static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data
  */
 bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ );
 
+/*!
+ *  \brief initializes the diagram_layout member
+ *
+ *  \param this_ pointer to own object attributes, input_data shall be already initialized
+ */
+void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ );
+
+/*!
+ *  \brief initializes the visible_classifier_layout array
+ *
+ *  \param this_ pointer to own object attributes, input_data shall be already initialized
+ */
+void pencil_layout_data_private_init_classifiers( pencil_layout_data_t *this_ );
+
+/*!
+ *  \brief initializes the feature_layout array
+ *
+ *  \param this_ pointer to own object attributes, input_data and visible_classifier_layout shall be already initialized
+ */
+void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ );
+
+/*!
+ *  \brief initializes the relationship_layout array
+ *
+ *  \param this_ pointer to own object attributes, input_data and visible_classifier_layout and feature_layout shall be already initialized
+ */
+void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ );
+
 #include "pencil_layout_data.inl"
 
 #endif  /* PENCIL_LAYOUT_DATA_H */

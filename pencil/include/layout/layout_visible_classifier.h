@@ -34,7 +34,7 @@ typedef struct layout_visible_classifier_struct layout_visible_classifier_t;
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier_data pointer to data object which is layouted
  */
-static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data );
+static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, const data_visible_classifier_t *visible_classifier_data );
 
 /*!
  *  \brief destroys the layout_visible_classifier_t struct

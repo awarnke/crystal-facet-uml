@@ -896,9 +896,10 @@ void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship
         layout_relationship_t *the_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
         layout_visible_classifier_t *from_layout = layout_relationship_get_from_classifier_ptr ( the_relation );
         layout_visible_classifier_t *to_layout = layout_relationship_get_to_classifier_ptr ( the_relation );
+        assert( from_layout != NULL );
+        assert( to_layout != NULL );
 
-        if (( from_layout != NULL )&&( to_layout != NULL )) {
-            /* TODO is this question necesary ? */
+        {
             const data_visible_classifier_t *from_data = layout_visible_classifier_get_data_ptr( from_layout );
             const data_visible_classifier_t *to_data = layout_visible_classifier_get_data_ptr( to_layout );
             const data_diagramelement_t *from_diagele = data_visible_classifier_get_diagramelement_const( from_data );
@@ -914,11 +915,6 @@ void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship
             {
                 layout_relationship_set_visibility ( the_relation, PENCIL_VISIBILITY_SHOW );
             }
-        }
-        else
-        {
-            layout_relationship_set_visibility ( the_relation, PENCIL_VISIBILITY_HIDE );  /* from or to classifier not existing... */
-            TSLOG_ERROR( "pencil_relationship_layouter_t: (*this_).layout_data has inconsistent data model." );
         }
     }
 

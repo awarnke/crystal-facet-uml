@@ -75,6 +75,14 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
  *  \param this_ pointer to own object attributes
  *  \return pointer to current diagram cache
  */
+static inline const data_diagram_t *data_visible_set_get_diagram_const ( const data_visible_set_t *this_ );
+
+/*!
+ *  \brief gets the diagram within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to current diagram cache
+ */
 static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_set_t *this_ );
 
 /* ================================ classifiers ================================ */
@@ -84,7 +92,16 @@ static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_se
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t data_visible_set_get_visible_classifier_count ( data_visible_set_t *this_ );
+static inline uint32_t data_visible_set_get_visible_classifier_count ( const data_visible_set_t *this_ );
+
+/*!
+ *  \brief gets a visible classifier within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the visible classifier to retrieve; 0 <= index < data_visible_set_get_visible_classifier_count().
+ *  \return NULL if index >= data_visible_set_get_visible_classifier_count(); pointer to data_visible_classifier_t otherwise.
+ */
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_const ( const data_visible_set_t *this_, uint32_t index );
 
 /*!
  *  \brief gets a visible classifier within the painter input data
@@ -140,7 +157,16 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t data_visible_set_get_feature_count ( data_visible_set_t *this_ );
+static inline uint32_t data_visible_set_get_feature_count ( const data_visible_set_t *this_ );
+
+/*!
+ *  \brief gets a feature within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the feature to retrieve; 0 <= index < data_visible_set_get_feature_count().
+ *  \return NULL if index >= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
+ */
+static inline const data_feature_t *data_visible_set_get_feature_const ( const data_visible_set_t *this_, uint32_t index );
 
 /*!
  *  \brief gets a feature within the painter input data
@@ -175,7 +201,16 @@ static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visib
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t data_visible_set_get_relationship_count ( data_visible_set_t *this_ );
+static inline uint32_t data_visible_set_get_relationship_count ( const data_visible_set_t *this_ );
+
+/*!
+ *  \brief gets a relationship within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the relationship to retrieve; 0 <= index < data_visible_set_get_relationship_count().
+ *  \return NULL if index >= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
+ */
+static inline const data_relationship_t *data_visible_set_get_relationship_const ( const data_visible_set_t *this_, uint32_t index );
 
 /*!
  *  \brief gets a relationship within the painter input data

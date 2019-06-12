@@ -29,7 +29,7 @@ typedef struct layout_diagram_struct layout_diagram_t;
  *  \param this_ pointer to own object attributes
  *  \param diagram_data pointer to data object which is layouted
  */
-static inline void layout_diagram_init ( layout_diagram_t *this_, data_diagram_t *diagram_data );
+static inline void layout_diagram_init ( layout_diagram_t *this_, const data_diagram_t *diagram_data );
 
 /*!
  *  \brief destroys the layout_diagram_t struct

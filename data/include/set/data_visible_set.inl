@@ -3,6 +3,11 @@
 #include "tslog.h"
 #include <assert.h>
 
+static inline const data_diagram_t *data_visible_set_get_diagram_const ( const data_visible_set_t *this_ )
+{
+    return &((*this_).diagram);
+}
+
 static inline data_diagram_t *data_visible_set_get_diagram_ptr ( data_visible_set_t *this_ )
 {
     return &((*this_).diagram);
@@ -54,9 +59,27 @@ static inline void data_visible_set_private_destroy_relationships( data_visible_
     (*this_).relationship_count = 0;
 }
 
-static inline uint32_t data_visible_set_get_visible_classifier_count ( data_visible_set_t *this_ )
+static inline uint32_t data_visible_set_get_visible_classifier_count ( const data_visible_set_t *this_ )
 {
     return (*this_).visible_classifier_count;
+}
+
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_const ( const data_visible_set_t *this_, uint32_t index )
+{
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
+
+    const data_visible_classifier_t *result;
+    if ( index < (*this_).visible_classifier_count )
+    {
+        result = &((*this_).visible_classifiers[index]);
+    }
+    else
+    {
+        result = NULL;
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).visible_classifier_count)", index );
+    }
+
+    return result;
 }
 
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_ptr ( data_visible_set_t *this_, uint32_t index )
@@ -153,9 +176,27 @@ static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( cons
     return ( classifier_ptr - (*this_).visible_classifiers );
 }
 
-static inline uint32_t data_visible_set_get_feature_count ( data_visible_set_t *this_ )
+static inline uint32_t data_visible_set_get_feature_count ( const data_visible_set_t *this_ )
 {
     return (*this_).feature_count;
+}
+
+static inline const data_feature_t *data_visible_set_get_feature_const ( const data_visible_set_t *this_, uint32_t index )
+{
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
+
+    const data_feature_t *result;
+    if ( index < (*this_).feature_count )
+    {
+        result = &((*this_).features[index]);
+    }
+    else
+    {
+        result = NULL;
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
+    }
+
+    return result;
 }
 
 static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_set_t *this_, uint32_t index )
@@ -201,9 +242,27 @@ static inline data_feature_t *data_visible_set_get_feature_list_ptr ( data_visib
     return (*this_).features;
 }
 
-static inline uint32_t data_visible_set_get_relationship_count ( data_visible_set_t *this_ )
+static inline uint32_t data_visible_set_get_relationship_count ( const data_visible_set_t *this_ )
 {
     return (*this_).relationship_count;
+}
+
+static inline const data_relationship_t *data_visible_set_get_relationship_const ( const data_visible_set_t *this_, uint32_t index )
+{
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
+
+    const data_relationship_t *result;
+    if ( index < (*this_).relationship_count )
+    {
+        result = &((*this_).relationships[index]);
+    }
+    else
+    {
+        result = NULL;
+        TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
+    }
+
+    return result;
 }
 
 static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_visible_set_t *this_, uint32_t index )

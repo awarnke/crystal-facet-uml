@@ -2,7 +2,7 @@
 
 #include <assert.h>
 
-static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, data_visible_classifier_t *visible_classifier_data )
+static inline void layout_visible_classifier_init ( layout_visible_classifier_t *this_, const data_visible_classifier_t *visible_classifier_data )
 {
     assert ( NULL != visible_classifier_data );
 

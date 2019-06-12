@@ -881,7 +881,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t
         }
         else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
         {
-            /* TODO */
+            /* communication diagrams do not care about list_orders of relationships */
             layout_order_init_empty( out_layout_order );
         }
         else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diag_type )
@@ -926,7 +926,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t
         }
         else
         {
-            /* all other diagram types do not care about lit_orders of relationships */
+            /* all other diagram types do not care about list_orders of relationships */
             layout_order_init_empty( out_layout_order );
         }
     }
