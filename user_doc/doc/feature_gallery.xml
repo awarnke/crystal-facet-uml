@@ -17,10 +17,12 @@
                 <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0004_Relationships.png"/></imageobject>
             </mediaobject>
+            <!--
             <mediaobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0005_Diagrams.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0005_Diagrams.png"/></imageobject>
             </mediaobject>
+            -->
             <mediaobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0006_Classifier_instances.pdf" width="12cm"/></imageobject>
                 <imageobject><imagedata fileref="feature_gallery_export/D0006_Classifier_instances.png"/></imageobject>

@@ -1,0 +1,117 @@
+<!DOCTYPE section>
+<section id="diagrams_and_elements_main">
+    <title>Diagrams and Elements Spec</title>
+    <para>
+        <mediaobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.pdf" width="1cm"/></imageobject>
+            <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
+        </mediaobject>
+
+        This program creates diagrams that strive for compatibility to
+
+        <itemizedlist>
+            <listitem><para>UML 2.5</para></listitem>
+            <listitem><para>SysML 1.5</para></listitem>
+            <listitem><para>MOF 1.4.1</para></listitem>
+        </itemizedlist>
+
+        In some cases, it deviates from these standards for several reasons:
+
+        <itemizedlist>
+            <listitem><para>Reduce complexity to be able to handle such models in a small open source project</para></listitem>
+            <listitem><para>Reduce feature-set to improve understandability of diagrams even to non-software-architects</para></listitem>
+            <listitem><para>Reduce feature-set to enhance usability of the program</para></listitem>
+        </itemizedlist>
+    </para>
+
+    <section>
+        <title>Classifiers</title>
+        <para>
+            <informaltable frame='none'>
+                <tgroup cols='2'>
+                    <colspec colwidth='3cm'/>
+                    <colspec colwidth='11cm'/>
+                    <thead>
+                        <row><entry>Type</entry><entry>Spec</entry></row>
+                    </thead>
+                    <tbody>
+                        <row><entry>Actor</entry><entry>UML</entry></row>
+                        <row><entry>System Boundary</entry><entry>UML</entry></row>
+                        <row><entry>Use Case</entry><entry>UML</entry></row>
+                    </tbody>
+                </tgroup>
+            </informaltable>
+        </para>
+
+    </section>
+    <section>
+        <title>Features</title>
+        <para>
+
+        </para>
+
+    </section>
+    <section>
+        <title>Relationships</title>
+        <para>
+
+        </para>
+
+    </section>
+
+    <section>
+        <title>Diagrams</title>
+        <para>
+
+        </para>
+
+    </section>
+
+    <section>
+        <title>Maximum stringlengths</title>
+        <para>
+
+            All strings (names, descriptions, stereotypes) have a maximum length.
+        </para>
+        <para>
+            Ascii characters require one, most other characters two bytes.
+            Current sizes in bytes are:
+        </para>
+        <para>
+
+            Classifiers:
+            <itemizedlist>
+                <listitem><para>DATA_CLASSIFIER_MAX_NAME_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_CLASSIFIER_MAX_STEREOTYPE_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH = 4095,</para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+
+            Features:
+            <itemizedlist>
+                <listitem><para>DATA_FEATURE_MAX_KEY_LENGTH = 47,  (name)</para></listitem>
+                <listitem><para>DATA_FEATURE_MAX_VALUE_LENGTH = 255,  (type)</para></listitem>
+                <listitem><para>DATA_FEATURE_MAX_DESCRIPTION_LENGTH = 1023,</para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+
+            Relationships:
+            <itemizedlist>
+                <listitem><para>DATA_RELATIONSHIP_MAX_NAME_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_RELATIONSHIP_MAX_DESCRIPTION_LENGTH = 1023,</para></listitem>
+            </itemizedlist>
+        </para>
+        <para>
+
+            Diagrams:
+            <itemizedlist>
+                <listitem><para>DATA_DIAGRAM_MAX_NAME_LENGTH = 47,</para></listitem>
+                <listitem><para>DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH = 8191,</para></listitem>
+            </itemizedlist>
+        </para>
+
+    </section>
+
+</section>

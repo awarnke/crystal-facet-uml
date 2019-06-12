@@ -1,5 +1,6 @@
 <!DOCTYPE section>
-<section><title>Modelling Guidelines</title>
+<section>
+    <title>Modelling Guidelines</title>
 
     <para>
 
@@ -10,108 +11,108 @@
         This page helps in making use of the strenghts.
     </para>
 
-<section>
-    <title>crystal_facet_uml Hints</title>
-    <para>
-    </para>
+    <section>
+        <title>crystal_facet_uml Hints</title>
+        <para>
+        </para>
 
-<section>
-    <title>Tree Structure</title>
-    <para>
+        <section>
+            <title>Tree Structure</title>
+            <para>
 
-        Diagrams are organized as a tree.
+                Diagrams are organized as a tree.
 
-        Start the root of the tree explaining the document structure.
+                Start the root of the tree explaining the document structure.
 
-        At the second level of the tree, list the main areas to be shown,
-        for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
+                At the second level of the tree, list the main areas to be shown,
+                for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
 
-        <mediaobject>
-            <imageobject><imagedata fileref="modelling_hint_on_structure.png"/></imageobject>
-        </mediaobject>
-    </para>
+                <mediaobject>
+                    <imageobject><imagedata fileref="modelling_hint_on_structure.png"/></imageobject>
+                </mediaobject>
+            </para>
 
-</section>
-<section>
-    <title>Focus</title>
-    <para>
+        </section>
+        <section>
+            <title>Focus</title>
+            <para>
 
-        Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
+                Put only few elements into each diagram. This increases understandability of the main purpuse of the diagram.
 
-        Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
-        to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
-    </para>
+                Put further aspects of a topic into a separate diagram. Do not hesitate to copy an element from one diagram
+                to the next. This is what crystal_facet_uml is good at: it keeps the model in sync.
+            </para>
 
-</section>
-<section>
-    <title>Namespaces</title>
-    <para>
-        Put a prefix to all your elements denoting its namespace. You can then distinguish a GLOBAL_START_STATE from an AUDIO_START_STATE. Or global::start from audio::start.
-    </para>
-</section>
-<section>
-    <title>Attic/Storage room</title>
-    <para>
-        If you are not sure if you really want to delete elements, 1) copy them to an attic-diagram and then 2) delete them from the original diagram.
-    </para>
-</section>
-</section>
-<section>
-    <title>General Hints on Architecture Documentation</title>
-    <para>
-    </para>
+        </section>
+        <section>
+            <title>Namespaces</title>
+            <para>
+                Put a prefix to all your elements denoting its namespace. You can then distinguish a GLOBAL_START_STATE from an AUDIO_START_STATE. Or global::start from audio::start.
+            </para>
+        </section>
+        <section>
+            <title>Attic/Storage room</title>
+            <para>
+                If you are not sure if you really want to delete elements, 1) copy them to an attic-diagram and then 2) delete them from the original diagram.
+            </para>
+        </section>
+    </section>
+    <section>
+        <title>General Hints on Architecture Documentation</title>
+        <para>
+        </para>
 
-<section>
-    <title>Problem vs. Solution</title>
-    <para>
+        <section>
+            <title>Problem vs. Solution</title>
+            <para>
 
-        Distinguish things that are
-        <itemizedlist>
-        <listitem><para>given constraints (problem space),</para></listitem>
-        <listitem><para>decisions, chosen and rejected alternatives and</para></listitem>
-        <listitem><para>the designed solution</para></listitem>
-        </itemizedlist>
-    </para>
+                Distinguish things that are
+                <itemizedlist>
+                <listitem><para>given constraints (problem space),</para></listitem>
+                <listitem><para>decisions, chosen and rejected alternatives and</para></listitem>
+                <listitem><para>the designed solution</para></listitem>
+                </itemizedlist>
+            </para>
 
-</section>
-<section>
-    <title>Names</title>
-    <para>
+        </section>
+        <section>
+            <title>Names</title>
+            <para>
 
-        Names of things are crucial: If the reader gets a wrong understanding by the name of an element, a hundred correct sentences
-        of describing text cannot set this straight again.
-    </para>
+                Names of things are crucial: If the reader gets a wrong understanding by the name of an element, a hundred correct sentences
+                of describing text cannot set this straight again.
+            </para>
 
-</section>
-<section>
-    <title>Description</title>
-    <para>
+        </section>
+        <section>
+            <title>Description</title>
+            <para>
 
-        Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
-        Names alone cannot explain a system part.
-    </para>
+                Every design element needs a description, maybe a list of responsibilities: What shall this element do, what is it for?
+                Names alone cannot explain a system part.
+            </para>
 
-</section>
-<section>
-    <title>Precise sentences</title>
-    <para>
+        </section>
+        <section>
+            <title>Precise sentences</title>
+            <para>
 
-        Be precise: Write in active form, e.g. The persistence component shall store and retrieve
-        binary data records indentified by string-based keys.
-    </para>
+                Be precise: Write in active form, e.g. The persistence component shall store and retrieve
+                binary data records indentified by string-based keys.
+            </para>
 
-</section>
-<section>
-    <title>Distinguish similar things</title>
-    <para>
+        </section>
+        <section>
+            <title>Distinguish similar things</title>
+            <para>
 
-        Things that are similar but not the same shall be different entities when modelling.
-        E.g. The process in which an example application runs may
-        be different from the storage location and may be different from the software-component.
-        These are three things:
-        Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
-    </para>
+                Things that are similar but not the same shall be different entities when modelling.
+                E.g. The process in which an example application runs may
+                be different from the storage location and may be different from the software-component.
+                These are three things:
+                Example_App_Process (Type: Node), Example_App_ObjectFile (Type:Artifact) and Example_App_SWComponent (Type:Component).
+            </para>
 
-</section>
-</section>
+        </section>
+    </section>
 </section>

@@ -25,20 +25,20 @@
             <title>Install</title>
             <para>
                 The .deb and .rpm packages can be installed by the package installers of your system.
-	</para>
-	<para>
+    </para>
+    <para>
         For installation on ubuntu, debian or raspbian, you may e.g. invoke <userinput>sudo dpkg --install &lt;filename&gt;</userinput> on the command line:
-		<programlisting>
-    andi@debian1zotac:~/Downloads$ sudo dpkg --install crystal-facet-uml_1.12.0-1_amd64.deb 
-    
-		We trust you have received the usual lecture from the local System
-		Administrator. It usually boils down to these three things:
+        <programlisting>
+    andi@debian1zotac:~/Downloads$ sudo dpkg --install crystal-facet-uml_1.12.0-1_amd64.deb
+
+        We trust you have received the usual lecture from the local System
+        Administrator. It usually boils down to these three things:
 
     #1) Respect the privacy of others.
     #2) Think before you type.
     #3) With great power comes great responsibility.
 
-    [sudo] password for andi: 
+    [sudo] password for andi:
     Selecting previously unselected package crystal-facet-uml.
     (Reading database ... 198990 files and directories currently installed.)
     Preparing to unpack crystal-facet-uml_1.12.0-1_amd64.deb ...
@@ -48,7 +48,7 @@
     Processing triggers for desktop-file-utils (0.23-1) ...
     Processing triggers for mime-support (3.60) ...
     Processing triggers for man-db (2.7.6.1-2) ...
-    andi@debian1zotac:~/Downloads$ 
+    andi@debian1zotac:~/Downloads$
             </programlisting>
         </para>
         <para>

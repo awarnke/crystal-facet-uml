@@ -8,12 +8,13 @@
             <firstname>Andreas</firstname>
             <surname>Warnke</surname>
         </author>
-        <date>2019-05-19</date>
+        <date>2019-06-12</date>
     </articleinfo>
 
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="feature_gallery.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gui.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="diagrams_and_elements_spec.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modelling_guidelines.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix.xml" />
 
