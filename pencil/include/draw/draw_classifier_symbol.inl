@@ -14,11 +14,11 @@ static inline void draw_classifier_symbol_destroy( draw_classifier_symbol_t *thi
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds ( const draw_classifier_symbol_t *this_,
-                                                                      double x,
-                                                                      double y,
-                                                                      geometry_h_align_t h_align,
-                                                                      geometry_v_align_t v_align,
-                                                                      double height )
+                                                                                 double x,
+                                                                                 double y,
+                                                                                 geometry_h_align_t h_align,
+                                                                                 geometry_v_align_t v_align,
+                                                                                 double height )
 {
     geometry_rectangle_t result;
 
@@ -34,11 +34,11 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds (
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( const draw_classifier_symbol_t *this_,
-                                                                     double x,
-                                                                     double y,
-                                                                     geometry_h_align_t h_align,
-                                                                     geometry_v_align_t v_align,
-                                                                     double height )
+                                                                                double x,
+                                                                                double y,
+                                                                                geometry_h_align_t h_align,
+                                                                                geometry_v_align_t v_align,
+                                                                                double height )
 {
     geometry_rectangle_t result;
 
@@ -54,11 +54,11 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( 
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( const draw_classifier_symbol_t *this_,
-                                                                  double x,
-                                                                  double y,
-                                                                  geometry_h_align_t h_align,
-                                                                  geometry_v_align_t v_align,
-                                                                  double height )
+                                                                             double x,
+                                                                             double y,
+                                                                             geometry_h_align_t h_align,
+                                                                             geometry_v_align_t v_align,
+                                                                             double height )
 {
     geometry_rectangle_t result;
 
@@ -74,11 +74,11 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( con
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( const draw_classifier_symbol_t *this_,
-                                                                   double x,
-                                                                   double y,
-                                                                   geometry_h_align_t h_align,
-                                                                   geometry_v_align_t v_align,
-                                                                   double height )
+                                                                              double x,
+                                                                              double y,
+                                                                              geometry_h_align_t h_align,
+                                                                              geometry_v_align_t v_align,
+                                                                              double height )
 {
     geometry_rectangle_t result;
 
@@ -94,11 +94,11 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( co
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( const draw_classifier_symbol_t *this_,
-                                                                 double x,
-                                                                 double y,
-                                                                 geometry_h_align_t h_align,
-                                                                 geometry_v_align_t v_align,
-                                                                 double height )
+                                                                            double x,
+                                                                            double y,
+                                                                            geometry_h_align_t h_align,
+                                                                            geometry_v_align_t v_align,
+                                                                            double height )
 {
     geometry_rectangle_t result;
 
@@ -114,12 +114,12 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( cons
 }
 
 static inline geometry_rectangle_t draw_classifier_symbol_get_sync_bounds ( const draw_classifier_symbol_t *this_,
-                                                                 double x,
-                                                                 double y,
-                                                                 geometry_h_align_t h_align,
-                                                                 geometry_v_align_t v_align,
-                                                                 double height,
-                                                                 const pencil_size_t *pencil_size )
+                                                                            double x,
+                                                                            double y,
+                                                                            geometry_h_align_t h_align,
+                                                                            geometry_v_align_t v_align,
+                                                                            double height,
+                                                                            const pencil_size_t *pencil_size )
 {
     geometry_rectangle_t result;
 

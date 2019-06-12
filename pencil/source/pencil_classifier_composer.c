@@ -732,27 +732,27 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
             + ( count_properties * feature_height ) + ( 2.0 * gap );
 
 
-        draw_classifier_contour_draw_horizonal_line ( &((*this_).draw_classifier_contour),
-                                           classifier_bounds,
-                                           y_coordinate_1,
-                                           pencil_size,
-                                           cr
-                                         );
-        draw_classifier_contour_draw_horizonal_line ( &((*this_).draw_classifier_contour),
-                                           classifier_bounds,
-                                           y_coordinate_2,
-                                           pencil_size,
-                                           cr
-                                         );
+        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_bounds,
+                                                        y_coordinate_1,
+                                                        pencil_size,
+                                                        cr
+                                                      );
+        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_bounds,
+                                                        y_coordinate_2,
+                                                        pencil_size,
+                                                        cr
+                                                      );
         /*
         const double y_coordinate_3 = geometry_rectangle_get_top( classifier_space )
             + ( (count_properties+count_operations) * feature_height ) + ( 4.0 * gap );
-        draw_classifier_contour_draw_horizonal_line ( &((*this_).draw_classifier_contour),
-                                           classifier_bounds,
-                                           y_coordinate_3,
-                                           pencil_size,
-                                           cr
-                                         );
+        draw_classifier_contour_draw_compartment_line ( &((*this_).draw_classifier_contour),
+                                                        classifier_bounds,
+                                                        y_coordinate_3,
+                                                        pencil_size,
+                                                        cr
+                                                      );
         */
     }
 

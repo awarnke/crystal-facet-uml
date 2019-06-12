@@ -54,13 +54,13 @@ static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_
  *  \param out_text_height height of the text is returned. NULL is not allowed.
  */
 void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
-                                                    const data_visible_classifier_t *visible_classifier,
-                                                    const geometry_dimensions_t *proposed_bounds,
-                                                    const pencil_size_t *pencil_size,
-                                                    PangoLayout *font_layout,
-                                                    double *out_text_width,
-                                                    double *out_text_height
-                                                  );
+                                                               const data_visible_classifier_t *visible_classifier,
+                                                               const geometry_dimensions_t *proposed_bounds,
+                                                               const pencil_size_t *pencil_size,
+                                                               PangoLayout *font_layout,
+                                                               double *out_text_width,
+                                                               double *out_text_height
+                                                             );
 
 /*!
  *  \brief renders stereotype and name of the classifier.
@@ -73,12 +73,12 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
  *  \param cr the cairo drawing context.
  */
 void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
-                                          const data_visible_classifier_t *visible_classifier,
-                                          const geometry_rectangle_t *label_box,
-                                          const pencil_size_t *pencil_size,
-                                          PangoLayout *font_layout,
-                                          cairo_t *cr
-                                        );
+                                                     const data_visible_classifier_t *visible_classifier,
+                                                     const geometry_rectangle_t *label_box,
+                                                     const pencil_size_t *pencil_size,
+                                                     PangoLayout *font_layout,
+                                                     cairo_t *cr
+                                                   );
 
 /*!
  *  \brief renders the id of the classifier.
@@ -91,12 +91,12 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
  *  \param cr the cairo drawing context.
  */
 void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
-                         const data_visible_classifier_t *visible_classifier,
-                         const geometry_rectangle_t *classifier_bounds,
-                         const pencil_size_t *pencil_size,
-                         PangoLayout *font_layout,
-                         cairo_t *cr
-                       );
+                                    const data_visible_classifier_t *visible_classifier,
+                                    const geometry_rectangle_t *classifier_bounds,
+                                    const pencil_size_t *pencil_size,
+                                    PangoLayout *font_layout,
+                                    cairo_t *cr
+                                  );
 
 #include "draw_classifier_label.inl"
 

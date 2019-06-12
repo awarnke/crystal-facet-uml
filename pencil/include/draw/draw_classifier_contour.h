@@ -213,12 +213,12 @@ void draw_classifier_contour_draw_comment ( const draw_classifier_contour_t *thi
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param cr a cairo drawing context
  */
-static inline void draw_classifier_contour_draw_horizonal_line ( const draw_classifier_contour_t *this_,
-                                                      const geometry_rectangle_t *outer_bounds,
-                                                      double y_coordinate,
-                                                      const pencil_size_t *pencil_size,
-                                                      cairo_t *cr
-                                                    );
+static inline void draw_classifier_contour_draw_compartment_line ( const draw_classifier_contour_t *this_,
+                                                                   const geometry_rectangle_t *outer_bounds,
+                                                                   double y_coordinate,
+                                                                   const pencil_size_t *pencil_size,
+                                                                   cairo_t *cr
+                                                                 );
 
 #include "draw_classifier_contour.inl"
 

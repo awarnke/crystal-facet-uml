@@ -56,12 +56,12 @@ static inline void draw_classifier_symbol_destroy( draw_classifier_symbol_t *thi
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds ( const draw_classifier_symbol_t *this_,
-                                                                      double x,
-                                                                      double y,
-                                                                      geometry_h_align_t h_align,
-                                                                      geometry_v_align_t v_align,
-                                                                      double height
-                                                                    );
+                                                                                 double x,
+                                                                                 double y,
+                                                                                 geometry_h_align_t h_align,
+                                                                                 geometry_v_align_t v_align,
+                                                                                 double height
+                                                                               );
 
 /*!
  *  \brief draws the component icon into the bounds rect
@@ -71,9 +71,9 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_component_bounds (
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *this_,
-                                  geometry_rectangle_t bounds,
-                                  cairo_t *cr
-                                );
+                                             geometry_rectangle_t bounds,
+                                             cairo_t *cr
+                                           );
 
 /*!
  *  \brief calculates the bounding rectangle for the artifact icon
@@ -87,12 +87,12 @@ void draw_classifier_symbol_draw_component ( const draw_classifier_symbol_t *thi
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( const draw_classifier_symbol_t *this_,
-                                                                     double x,
-                                                                     double y,
-                                                                     geometry_h_align_t h_align,
-                                                                     geometry_v_align_t v_align,
-                                                                     double height
-                                                                   );
+                                                                                double x,
+                                                                                double y,
+                                                                                geometry_h_align_t h_align,
+                                                                                geometry_v_align_t v_align,
+                                                                                double height
+                                                                              );
 
 /*!
  *  \brief draws the artifact icon into the bounds rect
@@ -102,9 +102,9 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_artifact_bounds ( 
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this_,
-                                  geometry_rectangle_t bounds,
-                                  cairo_t *cr
-                                );
+                                            geometry_rectangle_t bounds,
+                                            cairo_t *cr
+                                          );
 
 /*!
  *  \brief calculates the bounding rectangle for the actor icon
@@ -118,12 +118,12 @@ void draw_classifier_symbol_draw_artifact ( const draw_classifier_symbol_t *this
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( const draw_classifier_symbol_t *this_,
-                                                                  double x,
-                                                                  double y,
-                                                                  geometry_h_align_t h_align,
-                                                                  geometry_v_align_t v_align,
-                                                                  double height
-                                                                );
+                                                                             double x,
+                                                                             double y,
+                                                                             geometry_h_align_t h_align,
+                                                                             geometry_v_align_t v_align,
+                                                                             double height
+                                                                           );
 
 /*!
  *  \brief draws the actor icon into the bounds rect
@@ -133,9 +133,9 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_actor_bounds ( con
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
-                              geometry_rectangle_t bounds,
-                              cairo_t *cr
-                            );
+                                         geometry_rectangle_t bounds,
+                                         cairo_t *cr
+                                       );
 
 /*!
  *  \brief calculates the bounding rectangle for the circle icon at the defined location
@@ -149,12 +149,12 @@ void draw_classifier_symbol_draw_actor ( const draw_classifier_symbol_t *this_,
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( const draw_classifier_symbol_t *this_,
-                                                                   double x,
-                                                                   double y,
-                                                                   geometry_h_align_t h_align,
-                                                                   geometry_v_align_t v_align,
-                                                                   double height
-                                                                 );
+                                                                              double x,
+                                                                              double y,
+                                                                              geometry_h_align_t h_align,
+                                                                              geometry_v_align_t v_align,
+                                                                              double height
+                                                                            );
 
 /*!
  *  \brief draws the circle icon into the bounds rect
@@ -169,14 +169,14 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_circle_bounds ( co
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
-                               geometry_rectangle_t bounds,
-                               const pencil_size_t *pencil_size,
-                               bool stroke,
-                               bool fill,
-                               bool shallow_history,
-                               bool deep_history,
-                               cairo_t *cr
-                             );
+                                          geometry_rectangle_t bounds,
+                                          const pencil_size_t *pencil_size,
+                                          bool stroke,
+                                          bool fill,
+                                          bool shallow_history,
+                                          bool deep_history,
+                                          cairo_t *cr
+                                        );
 
 /*!
  *  \brief calculates the bounding rectangle for the time icon
@@ -190,12 +190,12 @@ void draw_classifier_symbol_draw_circle ( const draw_classifier_symbol_t *this_,
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( const draw_classifier_symbol_t *this_,
-                                                                 double x,
-                                                                 double y,
-                                                                 geometry_h_align_t h_align,
-                                                                 geometry_v_align_t v_align,
-                                                                 double height
-                                                               );
+                                                                            double x,
+                                                                            double y,
+                                                                            geometry_h_align_t h_align,
+                                                                            geometry_v_align_t v_align,
+                                                                            double height
+                                                                          );
 
 /*!
  *  \brief draws the time icon into the bounds rect
@@ -205,9 +205,9 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_time_bounds ( cons
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
-                             geometry_rectangle_t bounds,
-                             cairo_t *cr
-                           );
+                                        geometry_rectangle_t bounds,
+                                        cairo_t *cr
+                                      );
 
 /*!
  *  \brief calculates the bounding rectangle for the sync icon
@@ -222,13 +222,13 @@ void draw_classifier_symbol_draw_time ( const draw_classifier_symbol_t *this_,
  *  \return bounding box rectangle of the icon
  */
 static inline geometry_rectangle_t draw_classifier_symbol_get_sync_bounds ( const draw_classifier_symbol_t *this_,
-                                                                 double x,
-                                                                 double y,
-                                                                 geometry_h_align_t h_align,
-                                                                 geometry_v_align_t v_align,
-                                                                 double height,
-                                                                 const pencil_size_t *pencil_size
-                                                               );
+                                                                            double x,
+                                                                            double y,
+                                                                            geometry_h_align_t h_align,
+                                                                            geometry_v_align_t v_align,
+                                                                            double height,
+                                                                            const pencil_size_t *pencil_size
+                                                                          );
 
 /*!
  *  \brief draws the sync icon into the bounds rect
@@ -238,9 +238,9 @@ static inline geometry_rectangle_t draw_classifier_symbol_get_sync_bounds ( cons
  *  \param cr a cairo drawing context
  */
 void draw_classifier_symbol_draw_sync ( const draw_classifier_symbol_t *this_,
-                             geometry_rectangle_t bounds,
-                             cairo_t *cr
-                           );
+                                        geometry_rectangle_t bounds,
+                                        cairo_t *cr
+                                      );
 
 #include "draw_classifier_symbol.inl"
 

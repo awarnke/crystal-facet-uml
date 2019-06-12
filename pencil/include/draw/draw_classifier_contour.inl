@@ -14,9 +14,9 @@ static inline void draw_classifier_contour_destroy( draw_classifier_contour_t *t
 }
 
 static inline void draw_classifier_contour_draw_rect ( const draw_classifier_contour_t *this_,
-                                            const geometry_rectangle_t *outer_bounds,
-                                            const pencil_size_t *pencil_size,
-                                            cairo_t *cr )
+                                                       const geometry_rectangle_t *outer_bounds,
+                                                       const pencil_size_t *pencil_size,
+                                                       cairo_t *cr )
 {
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );
@@ -30,11 +30,11 @@ static inline void draw_classifier_contour_draw_rect ( const draw_classifier_con
     cairo_stroke (cr);
 }
 
-static inline void draw_classifier_contour_draw_horizonal_line ( const draw_classifier_contour_t *this_,
-                                                      const geometry_rectangle_t *outer_bounds,
-                                                      double y_coordinate,
-                                                      const pencil_size_t *pencil_size,
-                                                      cairo_t *cr )
+static inline void draw_classifier_contour_draw_compartment_line ( const draw_classifier_contour_t *this_,
+                                                                   const geometry_rectangle_t *outer_bounds,
+                                                                   double y_coordinate,
+                                                                   const pencil_size_t *pencil_size,
+                                                                   cairo_t *cr )
 {
     assert ( NULL != outer_bounds );
     assert ( NULL != pencil_size );

@@ -15,12 +15,12 @@ static const int DRAW_LABEL_PANGO_UNLIMITED_WIDTH = -1;
 static const int DRAW_LABEL_PANGO_AUTO_DETECT_LENGTH = -1;
 
 void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classifier_label_t *this_,
-                                                    const data_visible_classifier_t *visible_classifier,
-                                                    const geometry_dimensions_t *proposed_bounds,
-                                                    const pencil_size_t *pencil_size,
-                                                    PangoLayout *font_layout,
-                                                    double *out_text_width,
-                                                    double *out_text_height )
+                                                               const data_visible_classifier_t *visible_classifier,
+                                                               const geometry_dimensions_t *proposed_bounds,
+                                                               const pencil_size_t *pencil_size,
+                                                               PangoLayout *font_layout,
+                                                               double *out_text_width,
+                                                               double *out_text_height )
 {
     TRACE_BEGIN();
     assert( NULL != visible_classifier );
@@ -125,11 +125,11 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
 }
 
 void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label_t *this_,
-                                          const data_visible_classifier_t *visible_classifier,
-                                          const geometry_rectangle_t *label_box,
-                                          const pencil_size_t *pencil_size,
-                                          PangoLayout *font_layout,
-                                          cairo_t *cr )
+                                                     const data_visible_classifier_t *visible_classifier,
+                                                     const geometry_rectangle_t *label_box,
+                                                     const pencil_size_t *pencil_size,
+                                                     PangoLayout *font_layout,
+                                                     cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != visible_classifier );
@@ -235,11 +235,11 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
 }
 
 void draw_classifier_label_draw_id( const draw_classifier_label_t *this_,
-                         const data_visible_classifier_t *visible_classifier,
-                         const geometry_rectangle_t *classifier_bounds,
-                         const pencil_size_t *pencil_size,
-                         PangoLayout *font_layout,
-                         cairo_t *cr )
+                                    const data_visible_classifier_t *visible_classifier,
+                                    const geometry_rectangle_t *classifier_bounds,
+                                    const pencil_size_t *pencil_size,
+                                    PangoLayout *font_layout,
+                                    cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != visible_classifier );

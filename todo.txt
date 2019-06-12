@@ -2,13 +2,14 @@ ideas for future versions:
   @gui
   [ ] paste: Allow to paste relationships
   [ ] paste: Keep structure of diagrams and contained elements when pasting objects
-  [?] lock classifiers: It shall be possible to lock classifiers so that they are not moved accidentially in many diagrams.
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] clicking into the current diagram in navigation view shall zoom to edit mode; duplicate eye button to get back
   [ ] the type drop down box needs icons to faster find the right type
   [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
+  [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
+  [ ] while dragging, show the grid lines to better explain the drag-result
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
@@ -17,7 +18,11 @@ ideas for future versions:
   [ ] activity bars on lifelines missing
   [ ] hide all features (except lifelines) in scenario-based and list diagrams; prevent selection, creation etc.
   [ ] hide some relationships in scenario-based and list diagrams; prevent selection, creation etc.
-  [ ] ! feature compartments in use-cases look ugly
+  [ ] feature compartments in use-cases look ugly
+  [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x dependency
+  [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
+  [ ] more relationship types needed: undirected ---- communication-path
+  [ ] sequence diagram needs if/loop-boxes
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] suppress exporting descriptions of hidden relationships and features
@@ -33,5 +38,3 @@ ideas for future versions:
   @main
   [ ] remove the -f option again - db formats shall be converted automatically
 
-candidates for version 1.13.0 are marked with "!"
-ideas that are likely to be rejected are marked with "?"
