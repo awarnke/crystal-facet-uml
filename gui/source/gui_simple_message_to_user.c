@@ -248,6 +248,30 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_UNCOND_RELATIONSHIPS:
+            {
+                utf8stringbuf_append_str( (*this_).content, "The current diagram type does not allow to create non-lifeline messages (unconditional relationships)." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS:
+            {
+                utf8stringbuf_append_str( (*this_).content, "The current diagram type does not allow to create relationships." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_NO_UNCOND_FEATURES:
+            {
+                utf8stringbuf_append_str( (*this_).content, "The current diagram type does not allow to create features." );
+            }
+            break;
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE:
+            {
+                utf8stringbuf_append_str( (*this_).content, "The current classifier type does not allow to remove the instance flag." );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");

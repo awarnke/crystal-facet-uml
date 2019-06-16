@@ -402,8 +402,48 @@ static inline bool data_rules_is_always_instance ( const data_rules_t *this_, da
 {
     bool result;
     result = (( classifier_type == DATA_CLASSIFIER_TYPE_UML_PART )
-              || ( classifier_type == DATA_CLASSIFIER_TYPE_UML_OBJECT ));
+             || ( classifier_type == DATA_CLASSIFIER_TYPE_UML_OBJECT ));
     return result;
+}
+
+static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+{
+    bool hide;
+    hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+    return ( ! hide );
+}
+
+static inline bool data_rules_diagram_shows_scenario_features ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+{
+    bool show;
+    show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+    return show;
+}
+
+static inline bool data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+{
+    bool hide;
+    hide = (( diagram_type == DATA_DIAGRAM_TYPE_LIST )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_BOX_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+    return ( ! hide );
+}
+
+static inline bool data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+{
+    bool show;
+    show = (( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+           || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+    return show;
 }
 
 

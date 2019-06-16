@@ -85,9 +85,41 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
  */
 static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
-/* static inline bool data_rules_diagram_shows_features ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
-/* static inline bool data_rules_diagram_shows_classifier_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
-/* static inline bool data_rules_diagram_shows_feature_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type ); */
+/*!
+ *  \brief determines if the unconditional features shall be visible in the given diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type the diagram type
+ *  \return true if an unconditional feature (non-lifeline) shall be visible, false otherwise.
+ */
+static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+/*!
+ *  \brief determines if the scenario-specific features shall be visible in the given diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type the diagram type
+ *  \return true if a lifeline shall be visible, false otherwise.
+ */
+static inline bool data_rules_diagram_shows_scenario_features ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+/*!
+ *  \brief determines if the unconditional relationships shall be visible in the given diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type the diagram type
+ *  \return true if an unconditional relationship (non-lifeline start+end) shall be visible, false otherwise.
+ */
+static inline bool data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+/*!
+ *  \brief determines if the scenario-specific relationships shall be visible in the given diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_type the diagram type
+ *  \return true if a scenario-specific relationship (start or end at lifeline) shall be visible, false otherwise.
+ */
+static inline bool data_rules_diagram_shows_scenario_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type );
 
 #include "data_rules.inl"
 

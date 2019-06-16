@@ -329,19 +329,19 @@
                         <row>
                             <entry><para>Property</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
-                            <entry><para>global</para></entry>
+                            <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: no SysML Flow-Properties refinement</para></entry>
                         </row>
                         <row>
                             <entry><para>Operation</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>global</para></entry>
+                            <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                         <row>
                             <entry><para>Port</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
-                            <entry><para>global</para></entry>
+                            <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: no SysML-compartment Notation supported</para>
                                 <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported</para>
                             </entry>
@@ -349,13 +349,13 @@
                         <row>
                             <entry><para>Provided Interface</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
-                            <entry><para>global</para></entry>
+                            <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                         <row>
                             <entry><para>Required Interface</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
-                            <entry><para>global</para></entry>
+                            <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                         <row>
@@ -373,7 +373,7 @@
                 <title>Legend</title>
                 <varlistentry>
                     <term>Scope</term>
-                    <listitem><para>scope is global if a feature belongs to a classifier unconditionally, scenario if only applicable in 1 diagram</para></listitem>
+                    <listitem><para>scope is unconditional if a feature belongs to a classifier unconditionally, scenario if only applicable in 1 diagram</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -527,7 +527,7 @@
                         <row>
                             <entry><para>Connector</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>Inernal Block Diag.</para></entry>
+                            <entry><para>Internal Block Diag.</para></entry>
                             <entry><para>not supported.</para>
                                 <para>Limitations: No Bi-directional Connectors</para><para>Note: SysML calls this BindingConnector</para>
                                 <para>Note: Use a Communication Path instead.</para>
@@ -666,19 +666,19 @@
                         <row>
                             <entry><para>Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>global relationships except containments(ro), global features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships except containments(ro), unconditional features (Scenario)</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                         <row>
                             <entry><para>Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>global relationships, global features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships, unconditional features (Scenario)</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                         <row>
                             <entry><para>Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>global relationships, global features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships, unconditional features (Scenario)</para></entry>
                             <entry><para>Limitations: -</para></entry>
                         </row>
                     </tbody>

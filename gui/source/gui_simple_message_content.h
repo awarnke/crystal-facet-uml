@@ -32,6 +32,10 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_DB_FILE_WRITE_ERROR,  /*!< database could not write to file */
     GUI_SIMPLE_MESSAGE_CONTENT_ANCESTOR_IS_NOT_DESCENDANT,  /*!< root/ancestor/parent diagram cannot move to descendant tree location */
     GUI_SIMPLE_MESSAGE_CONTENT_DEBUG_MODE,  /*!< program was compiled in debug mode and may therefore be slower */
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_UNCOND_RELATIONSHIPS,  /*!< current diagram type does not allow to create (unconditional) relationships */
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS,  /*!< current diagram type does not allow to create relationships */
+    GUI_SIMPLE_MESSAGE_CONTENT_NO_UNCOND_FEATURES,  /*!< current diagram type does not allow to create (unconditional) features */
+    GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE,  /*!< current classifier type does not allow to remove the instance flag */
 
     GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };
