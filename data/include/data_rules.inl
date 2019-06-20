@@ -2,6 +2,7 @@
 
 #include "trace.h"
 #include "tslog.h"
+#include <assert.h>
 
 static inline void data_rules_init ( data_rules_t *this_ )
 {
@@ -130,6 +131,7 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
         {
             TSLOG_ERROR("diagram_type out of range in data_rules_get_default_classifier_type");
             result = DATA_CLASSIFIER_TYPE_UML_COMMENT;
+            assert(false);
         }
         break;
     }
@@ -232,6 +234,7 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
         {
             TSLOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_relationship_type");
             result = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
+            assert(false);
         }
         break;
     }
@@ -334,6 +337,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
         {
             TSLOG_ERROR("data_classifier_type_t out of range in data_rules_get_default_feature_type");
             result = DATA_FEATURE_TYPE_PROPERTY;
+            assert(false);
         }
         break;
     }
@@ -341,7 +345,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
     return result;
 }
 
-static inline bool data_rules_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type )
+static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type )
 {
     bool result;
 
@@ -354,22 +358,22 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
         case DATA_CLASSIFIER_TYPE_UML_INTERFACE:
         case DATA_CLASSIFIER_TYPE_UML_CLASS:
         case DATA_CLASSIFIER_TYPE_UML_OBJECT:
+        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
+        case DATA_CLASSIFIER_TYPE_UML_NODE:
+        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
+        case DATA_CLASSIFIER_TYPE_UML_PART:
+        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
+        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         {
             result = true;
         }
         break;
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
-        case DATA_CLASSIFIER_TYPE_UML_USE_CASE:
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
         case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
         case DATA_CLASSIFIER_TYPE_UML_STATE:
         case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
-        case DATA_CLASSIFIER_TYPE_UML_NODE:
-        case DATA_CLASSIFIER_TYPE_UML_COMPONENT:
-        case DATA_CLASSIFIER_TYPE_UML_PART:
-        case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
-        case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
         case DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE:
@@ -391,6 +395,7 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
         {
             TSLOG_ERROR("data_classifier_type_t out of range in data_rules_has_features");
             result = false;
+            assert(false);
         }
         break;
     }
@@ -398,7 +403,7 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
     return result;
 }
 
-static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type )
+static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type )
 {
     bool result;
     result = (( classifier_type == DATA_CLASSIFIER_TYPE_UML_PART )

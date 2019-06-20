@@ -66,7 +66,7 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         {
             bool is_always_instance;
             bool is_anonymous_instance;
-            is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
+            is_always_instance = data_rules_classifier_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
             is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
             int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
 
@@ -177,7 +177,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     {
         bool is_always_instance;
         bool is_anonymous_instance;
-        is_always_instance = data_rules_is_always_instance( &((*this_).data_rules), classifier_type );
+        is_always_instance = data_rules_classifier_is_always_instance( &((*this_).data_rules), classifier_type );
         is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
 
         /* prepare text */

@@ -117,9 +117,9 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
  * \brief gets the address of the diagram within the painter input data of gui_sketch_card_t
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to diagram
+ *  \return pointer to diagram, never NULL
  */
-static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
+static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
 
 /*!
  *  \brief gets the object-id of the object at a given position.

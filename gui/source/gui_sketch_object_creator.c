@@ -265,11 +265,12 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
 }
 
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+                                                             data_diagram_type_t diag_type,
                                                              int64_t from_classifier_id,
-                                                             int64_t to_classifier_id,
-                                                             int32_t list_order,
                                                              int64_t from_feature_id,
+                                                             int64_t to_classifier_id,
                                                              int64_t to_feature_id,
+                                                             int32_t list_order,
                                                              int64_t *out_relationship_id )
 {
     TRACE_BEGIN();
@@ -336,6 +337,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
 }
 
 ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+                                                        data_diagram_type_t diag_type,
                                                         int64_t parent_classifier_id,
                                                         int32_t std_list_order,
                                                         int32_t port_list_order,

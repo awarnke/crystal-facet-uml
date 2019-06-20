@@ -38,7 +38,7 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
     (*this_).visible = visible;
 }
 
-static inline data_diagram_t *gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ )
+static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ )
 {
     return data_visible_set_get_diagram_ptr( &((*this_).painter_input_data) );
 }

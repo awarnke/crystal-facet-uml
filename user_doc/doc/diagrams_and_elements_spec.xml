@@ -1,8 +1,8 @@
 <!DOCTYPE section [
-<!ENTITY TODO "<inlinemediaobject>
-<imageobject><imagedata fileref='../../gui/source/resources/message_warn.pdf' width='0.5cm'/></imageobject>
-<imageobject><imagedata fileref='../../gui/source/resources/message_warn.png'/></imageobject>
-    </inlinemediaobject>">
+<!ENTITY TODO '<inlinemediaobject>
+<imageobject><imagedata fileref="../../gui/source/resources/message_warn.pdf" width="0.5cm"/></imageobject>
+<imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
+    </inlinemediaobject>'>
 ]>
 <section id="diagrams_and_elements_main">
     <title>Diagrams and Elements Spec</title>
@@ -39,16 +39,18 @@
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
-                <tgroup cols='4'>
+                <tgroup cols='5'>
                     <colspec colwidth='3*'/>
                     <colspec colwidth='2.5*'/>
-                    <colspec colwidth='2.5*'/>
-                    <colspec colwidth='5*'/>
+                    <colspec colwidth='1.5*'/>
+                    <colspec colwidth='2.0*'/>
+                    <colspec colwidth='4*'/>
                     <thead>
                         <row>
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
                             <entry><para>Concept</para></entry>
+                            <entry><para>&TODO; Filter</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
                     </thead>
@@ -57,12 +59,13 @@
                             <entry><para>Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para>I(+C)</para></entry>
+                            <entry><para>-</para></entry>
                             <entry>
-                                <para>Limitations: &TODO; Compartment Order is "properties, operations"
+                                <para>Limitations: Compartment Order is "properties, operations"
                                     instead of "constraints, operations, receptions, parts, (bound) references, values, properties,
-                                    &TODO; stereotype-tagged-values, behavior, namespace, structure"
+                                    stereotype-tagged-values, behavior, namespace, structure"
                                 </para>
-                                <para>Limitations: &TODO; No labeled compartments</para>
+                                <para>Limitations: No labeled compartments</para>
                                 <para>Limitations: no Multiplicities of Block-Instances.</para>
                             </entry>
                         </row>
@@ -70,211 +73,244 @@
                             <entry><para>Constraint Property/Equation</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 10.2.2--></para></entry>
                             <entry><para>dyn</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para>Limitations: Only the rounded-rect symbol is supported, ports are not completely inside the rounded-rect.</para></entry>
                         </row>
                         <row>
                             <entry><para>Node</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Component</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Part</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>I only</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Interface</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Package</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Class</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Object</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>I only</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Artifact</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Comment</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Feature</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>I(+C)</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para>Represents a group of requirements</para></entry>
                         </row>
                         <row>
                             <entry><para>Requirement</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>-</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Actor</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Use Case</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
                             <entry><para>dyn</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para>Limitations: No SysML extension points</para></entry>
                         </row>
                         <row>
                             <entry><para>System Boundary</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Diagram Reference</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>I(+C)</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Activity</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Interruptable Region</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Fork</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Join</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Accept Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Accept Time Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Send Signal</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Decision</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Initial Node</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para>
-                                <para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
                             </entry>
                         </row>
                         <row>
                             <entry><para>Final Node</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para>
-                                <para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
                             </entry>
                         </row>
                         <row>
                             <entry><para>State</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Shallow History</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Deep History</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>Limitations: &TODO; Has no features</para></entry>
+                            <entry><para>unconditional features</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Value Type</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para>C(+I)</para></entry>
-                            <entry><para>not supported.</para><para>Limitations: &TODO; Compartment Order of Classifiers is "properties, operations"
+                            <entry><para>-</para></entry>
+                            <entry><para>not supported.</para>
+                                <para>Limitations: Compartment Order of Classifiers is "properties, operations"
                                     instead of "operations, properties, stereotype-tagged-values"
-                                    </para>
+                                </para>
                             </entry>
                         </row>
                         <row>
                             <entry><para>Enumeration</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>C(+I)</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a class instead.</para></entry>
                         </row>
                         <row>
                             <entry><para>ActivityParameterNode</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para>not supported.</para></entry>
                         </row>
                         <row>
                             <entry><para>MergeNode</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
+                            <entry><para>unconditional features</para></entry>
                             <entry><para>not supported.</para><para>Note: Either directly connect to the target activity or use a decision node.</para></entry>
                         </row>
                         <row>
                             <entry><para>ActivityPartition</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>dyn</para></entry>
+                            <entry><para>unconditional features</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a parent activity instead.</para></entry>
                         </row>
                     </tbody>
@@ -301,6 +337,10 @@
                     <listitem><para>The classifier describes dynamic behavior.
                             Only the context of the diagram defines if a single-instance or a concept is described.</para>
                     </listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&TODO;</term>
+                    <listitem><para>TODO Marker</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -334,9 +374,9 @@
                         </row>
                         <row>
                             <entry><para>Operation</para></entry>
-                            <entry><para>UML, SysML (?)</para></entry>
+                            <entry><para>UML, SysML</para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Port</para></entry>
@@ -350,13 +390,13 @@
                             <entry><para>Provided Interface</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Required Interface</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Lifeline</para></entry>
@@ -403,31 +443,31 @@
                             <entry><para>Dependency</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1, 8.2.2--></para></entry>
                             <entry><para>any</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Containment</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para>Deployment, Package</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Deploy</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Deployment</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Manifest</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Deploy</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Communication Path</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
                             <entry><para>Component, Use Case</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Association</para></entry>
@@ -445,7 +485,6 @@
                             <entry><para>Class Diag</para></entry>
                             <entry>
                                 <para>Note: SysML calls this SharedAssociation</para>
-                                <para>Limitations: -</para>
                             </entry>
                         </row>
                         <row>
@@ -454,7 +493,6 @@
                             <entry><para>Class Diag</para></entry>
                             <entry>
                                 <para>Note: SysML calls this PartAssociation</para>
-                                <para>Limitations: -</para>
                             </entry>
                         </row>
                         <row>
@@ -467,20 +505,20 @@
                             <entry><para>Realization</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Class Diag</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
 
                         <row>
                             <entry><para>Trace</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>Requirement</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Refine</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>Requirement</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Extend</para></entry>
@@ -492,37 +530,37 @@
                             <entry><para>Include</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
                             <entry><para>Use Case</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Control Flow</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Object Flow</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>Activity</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Async. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
                             <entry><para>Sequence</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Sync. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
                             <entry><para>Sequence</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Return Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
                             <entry><para>Sequence</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Connector</para></entry>
@@ -589,43 +627,43 @@
                             <entry><para>Internal Block Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Parametric Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Deployment Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Component Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Composite Structure Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Package Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Class Diagram</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Profile Diagram</para></entry>
@@ -637,13 +675,13 @@
                             <entry><para>Requirements Diagram</para></entry>
                             <entry><para>SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Use Case Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Interaction Overview Diagram</para></entry>
@@ -655,31 +693,31 @@
                             <entry><para>Activity Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>State Machine Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships except containments(ro), unconditional features (Scenario)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>&TODO; unconditional relationships except containments(ro), unconditional features (Scenario)</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>unconditional relationships, unconditional features (Scenario)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>&TODO; unconditional relationships, unconditional features (Scenario)</para></entry>
+                            <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships, unconditional features (Scenario)</para></entry>
-                            <entry><para>Limitations: -</para></entry>
+                            <entry><para>&TODO; unconditional relationships, unconditional features (Scenario)</para></entry>
+                            <entry><para></para></entry>
                         </row>
                     </tbody>
                 </tgroup>
@@ -695,6 +733,10 @@
                 <varlistentry>
                     <term>Scenario</term>
                     <listitem><para>Diagrams show only relationships associated with the lifeline of visible classifiers.</para></listitem>
+                </varlistentry>
+                <varlistentry>
+                    <term>&TODO;</term>
+                    <listitem><para>TODO Marker</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>

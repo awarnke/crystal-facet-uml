@@ -112,20 +112,22 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
  *  \brief creates a new relationship
  *
  *  \param this_ pointer to own object attributes
+ *  \param diag_type diagram type where the relationship was constructed and shall be visible
  *  \param from_classifier_id id of the classifier where the new relationship shall start from
- *  \param to_classifier_id id of the classifier where the new relationship shall end at
- *  \param list_order order where the new relationship shall be located
  *  \param from_feature_id optional id of the feature where the new relationship shall start from; alternatively DATA_ID_VOID_ID
+ *  \param to_classifier_id id of the classifier where the new relationship shall end at
  *  \param to_feature_id optional id of the feature where the new relationship shall end at; alternatively DATA_ID_VOID_ID
+ *  \param list_order order where the new relationship shall be located
  *  \param out_relationship_id row_id of the newly created relationship
  *  \return CTRL_ERROR_NONE in case of success
  */
 ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_creator_t *this_,
+                                                             data_diagram_type_t diag_type,
                                                              int64_t from_classifier_id,
-                                                             int64_t to_classifier_id,
-                                                             int32_t list_order,
                                                              int64_t from_feature_id,
+                                                             int64_t to_classifier_id,
                                                              int64_t to_feature_id,
+                                                             int32_t list_order,
                                                              int64_t *out_relationship_id
                                                            );
 
@@ -133,6 +135,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
  *  \brief creates a new feature
  *
  *  \param this_ pointer to own object attributes
+ *  \param diag_type diagram type where the relationship was constructed and shall be visible
  *  \param parent_classifier_id id of the parent classifier where the new feature shall appear
  *  \param std_list_order order where the new feature shall be located, if not a port
  *  \param port_list_order order where the new feature shall be located, if a port
@@ -140,6 +143,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
  *  \return CTRL_ERROR_NONE in case of success, CTRL_ERROR_DUPLICATE_NAME in case of error
  */
 ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creator_t *this_,
+                                                        data_diagram_type_t diag_type,
                                                         int64_t parent_classifier_id,
                                                         int32_t std_list_order,
                                                         int32_t port_list_order,

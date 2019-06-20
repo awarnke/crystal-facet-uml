@@ -72,7 +72,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
  *  \param classifier_type the classifier type
  *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
  */
-static inline bool data_rules_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /*!
  *  \brief determines if the classifier type is always an instance
@@ -83,7 +83,7 @@ static inline bool data_rules_has_features ( const data_rules_t *this_, data_cla
  *  \param classifier_type the classifier type
  *  \return true if the classifier type cannot be an abstract concept but is always an instance.
  */
-static inline bool data_rules_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /*!
  *  \brief determines if the unconditional features shall be visible in the given diagram

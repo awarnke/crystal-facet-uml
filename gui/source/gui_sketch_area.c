@@ -1347,11 +1347,17 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     data_id_t destination_classifier;
                     destination_classifier = data_id_pair_get_secondary_id( &destination_object );
 
-                    if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) )
+                    gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
+                    if ( data_id_is_valid( &dragged_classifier ) && data_id_is_valid( &destination_classifier ) && ( NULL != target_card ))
                     {
                         if ( ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                             && ( DATA_TABLE_CLASSIFIER == data_id_get_table( &destination_classifier ) ) )
                         {
+                            /* get the diagram type */
+                            const data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                            assert ( target_diag != NULL );
+                            data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
+
                             /* determine source and destionation */
                             int64_t new_from_classifier_id;
                             int64_t new_to_classifier_id;
@@ -1380,8 +1386,6 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             /* propose a list_order for the relationship */
                             int32_t list_order_proposal = 0;
-                            gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
-                            if ( NULL != target_card )
                             {
                                 /* propose a list order */
                                 layout_order_t layout_order;
@@ -1401,11 +1405,12 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             int64_t new_relationship_id;
                             ctrl_error_t c_result;
                             c_result = gui_sketch_object_creator_create_relationship ( &((*this_).object_creator),
+                                                                                       diag_type,
                                                                                        new_from_classifier_id,
-                                                                                       new_to_classifier_id,
-                                                                                       list_order_proposal,
                                                                                        new_from_feature_id,
+                                                                                       new_to_classifier_id,
                                                                                        new_to_feature_id,
+                                                                                       list_order_proposal,
                                                                                        &new_relationship_id
                                                                                      );
 
@@ -1439,30 +1444,38 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     {
                         if ( DATA_TABLE_CLASSIFIER == data_id_get_table( &dragged_classifier ) )
                         {
-                            /* create a feature */
+                            /* get the diagram type */
+                            const data_diagram_t *target_diag = gui_sketch_card_get_diagram_ptr ( target_card );
+                            assert ( target_diag != NULL );
+                            data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
+
                             /* propose a list_order for the feature */
                             int32_t std_list_order_proposal = 0;
                             std_list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
                             int32_t port_list_order_proposal = 0;
-                            data_feature_init ( &((*this_).private_temp_fake_feature),
-                                                DATA_ID_VOID_ID,
-                                                DATA_FEATURE_TYPE_PORT,
-                                                data_id_get_row_id( &dragged_classifier ), /* classifier */
-                                                "FAKE_FEATURE",
-                                                "port-type",
-                                                "to determine the list order",
-                                                0 /* list_order */
-                                              );
-                            port_list_order_proposal = gui_sketch_card_get_feature_order_at_pos ( target_card,
-                                                                                                  &((*this_).private_temp_fake_feature),
-                                                                                                  x,
-                                                                                                  y
-                                                                                                );
-                            data_feature_destroy ( &((*this_).private_temp_fake_feature) );
+                            {
+                                data_feature_init ( &((*this_).private_temp_fake_feature),
+                                                    DATA_ID_VOID_ID,
+                                                    DATA_FEATURE_TYPE_PORT,
+                                                    data_id_get_row_id( &dragged_classifier ), /* classifier */
+                                                    "FAKE_FEATURE",
+                                                    "port-type",
+                                                    "to determine the list order",
+                                                    0 /* list_order */
+                                                );
+                                port_list_order_proposal = gui_sketch_card_get_feature_order_at_pos ( target_card,
+                                                                                                      &((*this_).private_temp_fake_feature),
+                                                                                                      x,
+                                                                                                      y
+                                                                                                    );
+                                data_feature_destroy ( &((*this_).private_temp_fake_feature) );
+                            }
 
+                            /* create a feature */
                             int64_t new_feature_id;
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
+                                                                                  diag_type,
                                                                                   data_id_get_row_id( &dragged_classifier ),
                                                                                   std_list_order_proposal,
                                                                                   port_list_order_proposal,
