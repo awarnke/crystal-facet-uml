@@ -345,6 +345,29 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
     return result;
 }
 
+/* ================================ DIAGRAM ================================ */
+
+static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, data_diagram_type_t diagram_type )
+{
+    bool result;
+    result = (( diagram_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
+             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
+             || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
+    return result;
+}
+
+/* ================================ CLASSIFIER ================================ */
+
+static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type )
+{
+    bool result;
+    result = (( classifier_type == DATA_CLASSIFIER_TYPE_UML_PART )
+             || ( classifier_type == DATA_CLASSIFIER_TYPE_UML_OBJECT ));
+    return result;
+}
+
+/* ================================ FEATURE ================================ */
+
 static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type )
 {
     bool result;
@@ -364,6 +387,8 @@ static inline bool data_rules_classifier_has_features ( const data_rules_t *this
         case DATA_CLASSIFIER_TYPE_UML_PART:
         case DATA_CLASSIFIER_TYPE_UML_PACKAGE:
         case DATA_CLASSIFIER_TYPE_UML_ARTIFACT:
+        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
+        case DATA_CLASSIFIER_TYPE_UML_STATE:
         {
             result = true;
         }
@@ -371,8 +396,6 @@ static inline bool data_rules_classifier_has_features ( const data_rules_t *this
 
         case DATA_CLASSIFIER_TYPE_UML_ACTOR:
         case DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY:
-        case DATA_CLASSIFIER_TYPE_UML_ACTIVITY:
-        case DATA_CLASSIFIER_TYPE_UML_STATE:
         case DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE:
         case DATA_CLASSIFIER_TYPE_UML_COMMENT:
         case DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION:
@@ -403,11 +426,10 @@ static inline bool data_rules_classifier_has_features ( const data_rules_t *this
     return result;
 }
 
-static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type )
+static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *this_, data_feature_type_t feature_type )
 {
     bool result;
-    result = (( classifier_type == DATA_CLASSIFIER_TYPE_UML_PART )
-             || ( classifier_type == DATA_CLASSIFIER_TYPE_UML_OBJECT ));
+    result = ( feature_type == DATA_FEATURE_TYPE_LIFELINE );
     return result;
 }
 
@@ -430,6 +452,8 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
            || ( diagram_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ));
     return show;
 }
+
+/* ================================ RELATIONSHIP ================================ */
 
 static inline bool data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
 {

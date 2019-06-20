@@ -65,14 +65,18 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
  */
 static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_, data_classifier_type_t parent_classifier_type );
 
+/* ================================ DIAGRAM ================================ */
+
 /*!
- *  \brief determines if the classifier type has features
+ *  \brief determines if the diagram type is scenario-based
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_type the classifier type
- *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
+ *  \param diagram_type the diagram type
+ *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM or DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM or DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM.
  */
-static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+/* ================================ CLASSIFIER ================================ */
 
 /*!
  *  \brief determines if the classifier type is always an instance
@@ -84,6 +88,26 @@ static inline bool data_rules_classifier_has_features ( const data_rules_t *this
  *  \return true if the classifier type cannot be an abstract concept but is always an instance.
  */
 static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+
+/* ================================ FEATURE ================================ */
+
+/*!
+ *  \brief determines if the classifier type has features
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_type the classifier type
+ *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
+ */
+static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+
+/*!
+ *  \brief determines if the feature type is scenario-conditional
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param feature_type the feature type
+ *  \return true if the feature type is DATA_FEATURE_TYPE_LIFELINE.
+ */
+static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *this_, data_feature_type_t feature_type );
 
 /*!
  *  \brief determines if the unconditional features shall be visible in the given diagram
@@ -102,6 +126,8 @@ static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t
  *  \return true if a lifeline shall be visible, false otherwise.
  */
 static inline bool data_rules_diagram_shows_scenario_features ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+
+/* ================================ RELATIONSHIP ================================ */
 
 /*!
  *  \brief determines if the unconditional relationships shall be visible in the given diagram

@@ -28,6 +28,11 @@ enum data_error_enum {
     DATA_ERROR_OBJECT_STILL_REFERENCED = (~(0x00ffffbf)),  /*!< 0x000040: object cannot be deleted, it is still referenced */
     DATA_ERROR_LEXICAL_STRUCTURE = (~(0x00ffff7f)),  /*!< 0x000080: the lexical structure of the input-string is corrupted */
     DATA_ERROR_PARSER_STRUCTURE = (~(0x00fffeff)),  /*!< 0x000100: the parser structure of the input-string is corrupted */
+
+    DATA_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = (~(0x00ffefff)),  /*!< 0x001000: the diagram type does not show the relationship type */
+    DATA_ERROR_DIAGRAM_HIDES_FEATURES = (~(0x00ffdfff)),  /*!< 0x002000: the diagram type does not show the feature type */
+    DATA_ERROR_CLASSIFIER_REFUSES_FEATURE = (~(0x00ffbfff)),  /*!< 0x004000: the classifier type does not allow the feature type */
+
     DATA_ERROR_AT_MUTEX = (~(0x00feffff)),  /*!< 0x010000: unexpected internal error at mutex */
     DATA_ERROR_AT_DB = (~(0x00fdffff)),  /*!< 0x020000: unexpected internal error at database */
     DATA_ERROR_DUPLICATE_ID = (~(0x00fbffff)),  /*!< 0x040000: unexpected internal error: an id is used twice */

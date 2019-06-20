@@ -51,7 +51,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     (*this_).marker = marker;
     gui_sketch_overlay_init( &((*this_).overlay) );
     gui_sketch_background_init( &((*this_).background), resources );
-    gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader );
+    gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
 
     /* define a new signal */
     if ( ! gui_sketch_area_glib_signal_initialized )
@@ -1416,7 +1416,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             if ( CTRL_ERROR_NONE != c_result )
                             {
-                                TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_relationship");
+                                TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_relationship",c_result);
                             }
                             else
                             {
@@ -1484,7 +1484,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                             if ( CTRL_ERROR_NONE != ctrl_err )
                             {
-                                TSLOG_ERROR("unexpected error at gui_sketch_object_creator_create_feature");
+                                TSLOG_ANOMALY_HEX("anomaly at gui_sketch_object_creator_create_feature",ctrl_err);
                             }
                             else
                             {

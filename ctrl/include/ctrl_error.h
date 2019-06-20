@@ -27,12 +27,20 @@ enum ctrl_error_enum {
     CTRL_ERROR_OBJECT_STILL_REFERENCED = DATA_ERROR_OBJECT_STILL_REFERENCED,  /*!< 0x000040: object cannot be deleted, it is still referenced */
     CTRL_ERROR_LEXICAL_STRUCTURE = DATA_ERROR_LEXICAL_STRUCTURE,  /*!< 0x000080: the lexical structure of the input-string is corrupted */
     CTRL_ERROR_PARSER_STRUCTURE = DATA_ERROR_PARSER_STRUCTURE,  /*!< 0x000100: the parser structure of the input-string is corrupted */
+
+    CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = DATA_ERROR_DIAGRAM_HIDES_RELATIONSHIPS,  /*!< 0x001000: the diagram type does not show the relationship type */
+    CTRL_ERROR_DIAGRAM_HIDES_FEATURES = DATA_ERROR_DIAGRAM_HIDES_FEATURES,  /*!< 0x002000: the diagram type does not show the feature type */
+    CTRL_ERROR_CLASSIFIER_REFUSES_FEATURE = DATA_ERROR_CLASSIFIER_REFUSES_FEATURE,  /*!< 0x004000: the classifier type does not allow the feature type */
+
     CTRL_ERROR_AT_MUTEX = DATA_ERROR_AT_MUTEX,  /*!< 0x010000: unexpected internal error at mutex */
     CTRL_ERROR_AT_DB = DATA_ERROR_AT_DB,  /*!< 0x020000: unexpected internal error at database */
     CTRL_ERROR_DUPLICATE_ID = DATA_ERROR_DUPLICATE_ID,  /*!< 0x040000: unexpected internal error: an id is used twice */
     CTRL_ERROR_DUPLICATE_NAME = DATA_ERROR_DUPLICATE_NAME,  /*!< 0x080000: internal error: a name is used twice */
     CTRL_ERROR_VALUE_OUT_OF_RANGE = DATA_ERROR_VALUE_OUT_OF_RANGE,  /*!< 0x100000: unexpected internal error: enum/integer out of range */
     CTRL_ERROR_NOT_YET_IMPLEMENTED = DATA_ERROR_NOT_YET_IMPLEMENTED,  /*!< 0x800000: internal error: function not yet implemented */
+
+
+
     CTRL_ERROR_MASK = DATA_ERROR_MASK,  /*!< 0xffffff: a mask to filter error bits after collecting possibly multiple errors */
 };
 

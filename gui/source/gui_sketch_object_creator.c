@@ -10,14 +10,16 @@
 #include <stdbool.h>
 
 void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
-                                     ctrl_controller_t *controller,
-                                     data_database_reader_t *db_reader )
+                                      ctrl_controller_t *controller,
+                                      data_database_reader_t *db_reader,
+                                      gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
     data_rules_init ( &((*this_).data_rules) );
+    (*this_).message_to_user = message_to_user;
 
     TRACE_END();
 }
@@ -26,6 +28,7 @@ void gui_sketch_object_creator_destroy ( gui_sketch_object_creator_t *this_ )
 {
     TRACE_BEGIN();
 
+    (*this_).message_to_user = NULL;
     data_rules_destroy ( &((*this_).data_rules) );
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -146,9 +149,11 @@ ctrl_error_t gui_sketch_object_creator_create_classifier ( gui_sketch_object_cre
                                                                    out_diagramelement_id
                                                                  );
 
+        /* cleanup */
         data_diagramelement_destroy ( &new_diagele );
     }
 
+    /* cleanup */
     data_classifier_destroy ( &((*this_).private_temp_classifier) );
 
     TRACE_END_ERR( c_result );
@@ -211,6 +216,8 @@ ctrl_error_t gui_sketch_object_creator_create_classifier_as_child ( gui_sketch_o
                                                                     true, /*=add_to_latest_undo_set*/
                                                                     out_relationship_id
                                                                   );
+
+        /* cleanup */
         data_relationship_destroy ( &((*this_).private_temp_relationship) );
     }
 
@@ -255,6 +262,7 @@ ctrl_error_t gui_sketch_object_creator_create_diagram ( gui_sketch_object_creato
                                                         out_diagram_id
                                                       );
 
+    /* cleanup */
     if ( d_err == DATA_ERROR_NONE )
     {
         data_diagram_destroy ( &((*this_).private_temp_diagram) );
@@ -306,7 +314,7 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
     data_relationship_type_t new_rel_type;
     new_rel_type = data_rules_get_default_relationship_type ( &((*this_).data_rules), from_class_type );
 
-    /* define relationship */
+    /* define relationship struct */
     data_error_t d_err;
     d_err = data_relationship_init ( &((*this_).private_temp_relationship),
                                      DATA_ID_VOID_ID,
@@ -324,12 +332,32 @@ ctrl_error_t gui_sketch_object_creator_create_relationship ( gui_sketch_object_c
         TSLOG_ERROR_HEX("data_relationship_init failed in gui_sketch_object_creator_create_relationship:",d_err);
     }
 
-    /* create relationship */
-    c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
-                                                                &((*this_).private_temp_relationship),
-                                                                false, /*=add_to_latest_undo_set*/
-                                                                out_relationship_id
-                                                              );
+    /* check preconditions */
+    const bool is_scenario = data_rules_diagram_is_scenario ( &((*this_).data_rules), diag_type )
+                             && (( from_feature_id != DATA_ID_VOID_ID )||( to_feature_id != DATA_ID_VOID_ID ));
+    const bool diagram_ok = is_scenario
+                            ? data_rules_diagram_shows_scenario_relationships ( &((*this_).data_rules), diag_type )
+                            : data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), diag_type );
+
+    if ( diagram_ok ) {
+        /* create relationship */
+        c_result = ctrl_classifier_controller_create_relationship ( classifier_control,
+                                                                    &((*this_).private_temp_relationship),
+                                                                    false, /*=add_to_latest_undo_set*/
+                                                                    out_relationship_id
+                                                                  );
+    }
+    else
+    {
+        /* notify error to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_RELATIONSHIPS
+                                               );
+        c_result = CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS;
+    }
+
+    /* cleanup */
     data_relationship_destroy ( &((*this_).private_temp_relationship) );
 
     TRACE_END_ERR( c_result );
@@ -395,7 +423,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     utf8stringbuf_t full_new_type = UTF8STRINGBUF( newtype_buf );
     gui_sketch_object_creator_private_propose_feature_name( this_, new_feature_type, full_new_name, full_new_type );
 
-    /* define feature */
+    /* define feature struct */
     data_error_t data_err;
     data_err = data_feature_init ( &((*this_).private_temp_feature),
                                    DATA_ID_VOID_ID, /* feature_id */
@@ -411,12 +439,43 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
         TSLOG_ERROR_HEX("data_feature_init failed in gui_sketch_object_creator_create_feature:",data_err);
     }
 
-    /* create feature */
-    c_result = ctrl_classifier_controller_create_feature ( classifier_control,
-                                                           &((*this_).private_temp_feature),
-                                                           false, /*=add_to_latest_undo_set*/
-                                                           out_feature_id
-                                                         );
+    /* check preconditions */
+    const bool classifier_ok = data_rules_classifier_has_features ( &((*this_).data_rules), parent_class_type );
+    const bool is_scenario = data_rules_feature_is_scenario_cond ( &((*this_).data_rules), new_feature_type );
+    assert ( ! is_scenario );  /* lifelines should not be created by this function */
+    const bool diagram_ok = is_scenario
+                            ? data_rules_diagram_shows_scenario_features ( &((*this_).data_rules), diag_type )
+                            : data_rules_diagram_shows_uncond_features ( &((*this_).data_rules), diag_type );
+
+    if ( diagram_ok && classifier_ok )
+    {
+        /* create feature */
+        c_result = ctrl_classifier_controller_create_feature ( classifier_control,
+                                                               &((*this_).private_temp_feature),
+                                                               false, /*=add_to_latest_undo_set*/
+                                                               out_feature_id
+                                                             );
+    }
+    else if ( ! classifier_ok )
+    {
+        /* notify error to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER
+                                               );
+        c_result = CTRL_ERROR_CLASSIFIER_REFUSES_FEATURE;
+    }
+    else
+    {
+        /* notify error to user */
+        gui_simple_message_to_user_show_message( (*this_).message_to_user,
+                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
+                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES
+                                               );
+        c_result = CTRL_ERROR_DIAGRAM_HIDES_FEATURES;
+    }
+
+    /* cleanup */
     data_feature_destroy ( &((*this_).private_temp_feature) );
 
     TRACE_END_ERR( c_result );

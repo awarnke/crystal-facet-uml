@@ -8,6 +8,7 @@
  *  \brief Creates new classifiers, diagrams, relationships and features
  */
 
+#include "gui_simple_message_to_user.h"
 #include "storage/data_database_reader.h"
 #include "data_diagram.h"
 #include "data_table.h"
@@ -23,6 +24,7 @@ struct gui_sketch_object_creator_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
 
     data_diagram_t private_temp_diagram;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
     data_classifier_t private_temp_classifier;  /*!< instance for temporary object data, exists here to avoid medium-sized objects on the stack */
@@ -38,10 +40,12 @@ typedef struct gui_sketch_object_creator_struct gui_sketch_object_creator_t;
  *  \param this_ pointer to own object attributes
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
+ *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
                                       ctrl_controller_t *controller,
-                                      data_database_reader_t *db_reader
+                                      data_database_reader_t *db_reader,
+                                      gui_simple_message_to_user_t *message_to_user
                                     );
 
 /*!

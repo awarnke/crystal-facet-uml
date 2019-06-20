@@ -50,7 +50,7 @@
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
                             <entry><para>Concept</para></entry>
-                            <entry><para>&TODO; Filter</para></entry>
+                            <entry><para>Filter</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
                     </thead>
@@ -185,7 +185,7 @@
                             <entry><para>Activity</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -257,7 +257,7 @@
                             <entry><para>State</para></entry>
                             <entry><para>UML, SysML</para></entry>
                             <entry><para>dyn</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -337,10 +337,6 @@
                     <listitem><para>The classifier describes dynamic behavior.
                             Only the context of the diagram defines if a single-instance or a concept is described.</para>
                     </listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>&TODO;</term>
-                    <listitem><para>TODO Marker</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>
@@ -608,13 +604,13 @@
                         <row>
                             <entry><para>List Diagram</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>&TODO; features, relationships</para></entry>
+                            <entry><para>features, relationships</para></entry>
                             <entry><para>This is an overview diagram showing only classifiers without features and without relationships</para></entry>
                         </row>
                         <row>
                             <entry><para>Box Diagram</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>&TODO; features, relationships</para></entry>
+                            <entry><para>features, relationships</para></entry>
                             <entry><para>This is an overview diagram showing only classifiers without features and without relationships</para></entry>
                         </row>
                         <row>

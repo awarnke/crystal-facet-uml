@@ -4,8 +4,11 @@ crystal-facet-uml (1.13.0) UNRELEASED; urgency=medium
   * improved auto-layout of relationship labels
   * call/transition to self is layouted nicely in sequence/timing diagrams
   * automatically grey out arrows if source or destination classifier is greyed out
+  * prevent creation of relationships if unsuitable diagram type
+  * prevent creation of features if unsuitable diagram type
+  * prevent creation of features if unsuitable classifier type
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 19 May 2019 20:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 21 Jun 2019 20:30:00 +0200
 
 crystal-facet-uml (1.12.1) UNRELEASED; urgency=medium
 
