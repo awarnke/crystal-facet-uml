@@ -8,7 +8,7 @@ crystal-facet-uml (1.13.0) UNRELEASED; urgency=medium
   * prevent creation of features if unsuitable diagram type
   * prevent creation of features if unsuitable classifier type
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 21 Jun 2019 20:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 21 Jun 2019 15:30:00 +0200
 
 crystal-facet-uml (1.12.1) UNRELEASED; urgency=medium
 

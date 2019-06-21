@@ -24,6 +24,7 @@ Update all version numbers:
 Pack
 -----------
 
+>       # commit all changes before packing.
 >       # build and test source packet
 >       ./source_pack.sh
 >       ./source_test.sh
@@ -47,7 +48,6 @@ Document
 >       # add a version tag to the git revision:
 >       git tag -a v1.12.0 8f17811
 >       git push origin master --follow-tags 
->       # write the git revision to release_notes.txt
 
 
 

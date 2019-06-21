@@ -38,5 +38,5 @@ ideas for future versions:
   @main
   [ ] remove the -f option again - db formats shall be converted automatically
   @ts_log/trace/test_fw
-  [ ] replace the int and %d printf stuff by uint64_t and PRIu64 macros
+  [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
