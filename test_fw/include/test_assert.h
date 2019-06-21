@@ -16,15 +16,21 @@
 #define TEST_FAIL()\
 {fprintf(stderr,"TEST FAILED at %s:%d\n",__FILE__,__LINE__);exit(-1);}
 
-#define TEST_ASSERT(COND) if (!(COND))\
+#define TEST_ASSERT(COND)\
+if (!(COND))\
 {fprintf(stderr,"TEST FAILED (!(%s)) at %s:%d\n",#COND,__FILE__,__LINE__);exit(-1);}
 
-#define TEST_ASSERT_EQUAL_INT(EXPECTED,ACTUAL) if ((EXPECTED)!=(ACTUAL))\
-{fprintf(stderr,"TEST FAILED ((%s)==%ld!=%ld==(%s)) at %s:%d\n",\
-    #EXPECTED,(int64_t)(EXPECTED),(int64_t)(ACTUAL),#ACTUAL,__FILE__,__LINE__);exit(-1);}
+#define TEST_ASSERT_EQUAL_INT(EXPECTED,ACTUAL)\
+{const int exp = (EXPECTED); const int act = (ACTUAL); if (exp!=act)\
+{fprintf(stderr,"TEST FAILED ((%s)==%d!=%d==(%s)) at %s:%d\n",\
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);}\
+}
 
-#define TEST_ASSERT_EQUAL_STRING(EXPECTED,ACTUAL) if (((EXPECTED)==NULL)||((ACTUAL)==NULL)||(0!=strcmp((EXPECTED),(ACTUAL))))\
-{fprintf(stderr,"TEST FAILED (%s!=%s) at %s:%d\n",#EXPECTED,#ACTUAL,__FILE__,__LINE__);exit(-1);}
+#define TEST_ASSERT_EQUAL_STRING(EXPECTED,ACTUAL)\
+{const char *exp = (EXPECTED); const char *act = (ACTUAL);\
+if ((exp==NULL)||(act==NULL)||(0!=strcmp(exp,act)))\
+{fprintf(stderr,"TEST FAILED ((%s)==%s!=%s==(%s)) at %s:%d\n",#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);}\
+}
 
 /* EPSILON(x) = 2.2204460493 e−016 */
 /* double precision of mantissa: 2.22e-16 - adding factor 100 to compensate rounding errors of previous calculations */
@@ -32,9 +38,12 @@
 /* TINIEST((x) = 4.9406564584 e−324 */
 /* double tiniest: 4.94e-324 - adding factor 100 to compensate rounding errors of previous calculations - relevant if EXPECTED==0.0 */
 #define TEST_DOUBLE_TINIEST 4.94e-322
-#define TEST_ASSERT_EQUAL_DOUBLE(EXPECTED,ACTUAL) if ( fabs((EXPECTED)-(ACTUAL)) > ((fabs(EXPECTED)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) )\
+#define TEST_ASSERT_EQUAL_DOUBLE(EXPECTED,ACTUAL)\
+{const double exp = (EXPECTED); const double act = (ACTUAL);\
+if ( fabs(exp-act) > ((fabs(exp)*TEST_DOUBLE_EPSILON)+TEST_DOUBLE_TINIEST) )\
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
-    #EXPECTED,(EXPECTED),(ACTUAL),#ACTUAL,__FILE__,__LINE__);exit(-1);}
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);}\
+}
 
 /* EPSILON(x) = 1.192092896 e-07 */
 /* float precision of mantissa: 1.19e-7 - adding factor 100 to compensate rounding errors of previous calculations */
@@ -42,9 +51,12 @@
 /* TINIEST((x) = 1.401298464 e−45 */
 /* float tiniest: 1.40e-45 - adding factor 100 to compensate rounding errors of previous calculations - relevant if EXPECTED==0.0 */
 #define TEST_FLOAT_TINIEST 1.40e-43
-#define TEST_ASSERT_EQUAL_FLOAT(EXPECTED,ACTUAL) if ( fabs((EXPECTED)-(ACTUAL)) > ((fabs(EXPECTED)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) )\
+#define TEST_ASSERT_EQUAL_FLOAT(EXPECTED,ACTUAL)\
+{const float exp = (EXPECTED); const float act = (ACTUAL);\
+if ( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) )\
 {fprintf(stderr,"TEST FAILED ((%s)==%f!=%f==(%s)) at %s:%d\n",\
-    #EXPECTED,(EXPECTED),(ACTUAL),#ACTUAL,__FILE__,__LINE__);exit(-1);}
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);}\
+}
 
 #endif  /* TEST_ASSERT_H */
 
