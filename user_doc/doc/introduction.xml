@@ -7,7 +7,11 @@
             <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml_80x80.png"/></imageobject>
         </mediaobject>
         <!-- What is it? -->
-        crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
+        crystal_facet_uml creates diagrams to document system and software architecture.
+
+        <mediaobject>
+            <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
+        </mediaobject>
     </para>
 
     <section>
@@ -18,7 +22,7 @@
                 <imageobject><imagedata fileref="../../gui/source/resources/crystal_facet_uml.png"/></imageobject>
             </mediaobject>
             <!-- For Whom? What can one do with it? Why does it help? -->
-            As software architect, you create a set of diagrams describing 
+            As software architect, you create a set of diagrams describing
             use-cases, requirements, structural views, behavioral and deployment views.
         </para>
         <para>
