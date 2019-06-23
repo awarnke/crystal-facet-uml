@@ -1,9 +1,16 @@
+crystal-facet-uml (1.13.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * sqlite3_db_cacheflush() is only called if on the build system and on the target system available (bugfix)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 23 Jun 2019 15:30:00 +0200
+
 crystal-facet-uml (1.13.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * improved auto-layout of relationship labels
   * call/transition to self is layouted nicely in sequence/timing diagrams
-  * automatically grey out arrows if source or destination classifier is greyed 
+  * automatically grey out arrows if source or destination classifier is greyed
     out
   * prevent creation of relationships if unsuitable diagram type
   * prevent creation of features if unsuitable diagram type

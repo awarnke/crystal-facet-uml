@@ -4,7 +4,7 @@
 
 Name:           crystal-facet-uml
 #Name of the contained application: crystal_facet_uml
-Version:        1.13.0
+Version:        1.13.1
 Release:        1
 License:        Apache-2.0
 Summary:        Draws UML Diagrams
@@ -26,7 +26,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-build
 
 %description
 crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
-As software architect, you can create a set of diagrams describing 
+As software architect, you can create a set of diagrams describing
 use-cases, requirements, structural views, behavioral and deployment views.
 crystal_facet_uml keeps element names and element hierarchies consistent.
 The tool exports diagrams as svg, pdf, ps and png formats

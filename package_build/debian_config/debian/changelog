@@ -1,3 +1,10 @@
+crystal-facet-uml (1.13.1-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * sqlite3_db_cacheflush() is only called if on the build system and on the target system available (bugfix)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 23 Jun 2019 15:30:00 +0200
+
 crystal-facet-uml (1.13.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

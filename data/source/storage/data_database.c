@@ -681,17 +681,27 @@ data_error_t data_database_flush_caches ( data_database_t *this_ )
 
     if ( (*this_).is_open )
     {
-        /* available if sqlite newer than 2016-01-06 (3.10.0) */
-#if ( SQLITE_VERSION_NUMBER >= 3010000 )
-        int sqlite_err;
-        TSLOG_EVENT( "sqlite3_db_cacheflush" );
-        sqlite_err = sqlite3_db_cacheflush( (*this_).db );
-        if ( SQLITE_OK != sqlite_err )
+        TSLOG_EVENT_INT( "sqlite3_libversion_number()", sqlite3_libversion_number() );
+        if ( sqlite3_libversion_number() >= 3010000 )
         {
-            TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
-            result = DATA_ERROR_AT_DB;
-        }
+            /* available if sqlite newer than 2016-01-06 (3.10.0) */
+#if ( SQLITE_VERSION_NUMBER >= 3010000 )
+            int sqlite_err;
+            TSLOG_EVENT( "sqlite3_db_cacheflush" );
+            sqlite_err = sqlite3_db_cacheflush( (*this_).db );
+            if ( SQLITE_OK != sqlite_err )
+            {
+                TSLOG_ERROR_INT( "sqlite3_db_cacheflush() failed:", sqlite_err );
+                result = DATA_ERROR_AT_DB;
+            }
+#else
+            TSLOG_WARNING_INT( "The compile-time version of sqlite3 did not provide the sqlite3_db_cacheflush() function.", SQLITE_VERSION_NUMBER );
 #endif
+        }
+        else
+        {
+            TSLOG_WARNING_INT( "The runtime-time version of sqlite3 does not provide the sqlite3_db_cacheflush() function.", sqlite3_libversion_number() );
+        }
     }
 
     TRACE_END_ERR( result );
