@@ -38,6 +38,12 @@
             Classifiers are the nodes in the model-graph.
         </para>
         <para>
+            The table shows the classifier types introduced by different specifications,
+            if they represent instances or concepts,
+            if they filter/hide their features
+            and a comment stating how this is implemented in crystal_facet_uml.
+        </para>
+        <para>
             <informaltable frame='all' pgwide="1">
                 <tgroup cols='5'>
                     <colspec colwidth='3*'/>
@@ -347,6 +353,11 @@
             Features are elements attached to one classifier.
         </para>
         <para>
+            The table shows the feature types introduced by different specifications,
+            if they are visible in any diagram or just once,
+            and a comment stating how this is implemented in crystal_facet_uml.
+        </para>
+        <para>
             <informaltable frame='all' pgwide="1">
                 <tgroup cols='4'>
                     <colspec colwidth='3*'/>
@@ -418,6 +429,11 @@
         <title>Relationships</title>
         <para>
             Relationships are the edges of the model-graph.
+        </para>
+        <para>
+            The table shows the relationship types introduced by different specifications,
+            a classification in which diagram type to use them preferably,
+            and a comment stating how this is implemented in crystal_facet_uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
@@ -584,6 +600,11 @@
         <title>Diagrams</title>
         <para>
             Diagrams are views on the model-graph. They select classifiers and may filter their features and relationships.
+        </para>
+        <para>
+            The table shows the diagram types introduced by different specifications,
+            if they filter/hide their features and/or relationships
+            and a comment stating how this is implemented in crystal_facet_uml.
         </para>
         <para>
             <informaltable frame='all' pgwide="1">

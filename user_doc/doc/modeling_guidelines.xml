@@ -1,6 +1,6 @@
 <!DOCTYPE section>
 <section>
-    <title>Modelling Guidelines</title>
+    <title>Modeling Guidelines</title>
 
     <para>
 
@@ -28,7 +28,18 @@
                 for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
 
                 <mediaobject>
-                    <imageobject><imagedata fileref="modelling_hint_on_structure.png"/></imageobject>
+                    <imageobject><imagedata fileref="modeling_hint_on_structure.png"/></imageobject>
+                </mediaobject>
+            </para>
+            <para>
+                In case you show several layers of abstraction, each building block may contain
+                its sub-blocks, sub-blocks may again show sub-sub-blocks.
+                In this case, structure the specification of the sub-blocks in the same way:
+                apply the proposed folder structure recursively,
+                omitting possibly empty or superfluous folders.
+
+                <mediaobject>
+                    <imageobject><imagedata fileref="modeling_hint_on_structure_rec.png"/></imageobject>
                 </mediaobject>
             </para>
 

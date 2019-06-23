@@ -40,3 +40,7 @@ ideas for future versions:
   @ts_log/trace/test_fw
   [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
+known issues:
+  [ ] If you create a new diagram, enter the name and then press submit, the program suddenly terminates (no data lost).
+      --> please do not use the submit button in versoin 1.13.0. Data is stored anyhow.
+  

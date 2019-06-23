@@ -15,7 +15,7 @@
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="feature_gallery.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gui.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="diagrams_and_elements_spec.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modelling_guidelines.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modeling_guidelines.xml" />
     <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix.xml" />
 
 </article>
