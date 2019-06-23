@@ -40,9 +40,4 @@ ideas for future versions:
   @ts_log/trace/test_fw
   [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
-known issues:
-  [x] If you create a new diagram, enter the name and then press submit, the program suddenly terminates (no data lost).
-      i: Problem is, that the program was compiled against an sqlite newer than 3.10.0, therefore it uses the function
-      sqlite3_db_cacheflush which does not exist in older versions
-      --> please do not use the submit button in version 1.13.0. Data is stored anyhow.
-
+  
