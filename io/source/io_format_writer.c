@@ -259,7 +259,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_ )
 }
 
 int io_format_writer_write_diagram( io_format_writer_t *this_,
-                                    data_diagram_t *diag_ptr,
+                                    const data_diagram_t *diag_ptr,
                                     const char *diagram_file_base_name )
 {
     TRACE_BEGIN();
@@ -375,7 +375,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ )
     return export_err;
 }
 
-int io_format_writer_write_classifier( io_format_writer_t *this_, data_classifier_t *classifier_ptr )
+int io_format_writer_write_classifier( io_format_writer_t *this_, const data_classifier_t *classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
@@ -448,7 +448,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, data_classifie
     return export_err;
 }
 
-int io_format_writer_write_feature( io_format_writer_t *this_, data_feature_t *feature_ptr )
+int io_format_writer_write_feature( io_format_writer_t *this_, const data_feature_t *feature_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
@@ -548,8 +548,8 @@ int io_format_writer_write_feature( io_format_writer_t *this_, data_feature_t *f
 }
 
 int io_format_writer_write_relationship( io_format_writer_t *this_,
-                                         data_relationship_t *relation_ptr,
-                                         data_classifier_t *dest_classifier_ptr )
+                                         const data_relationship_t *relation_ptr,
+                                         const data_classifier_t *dest_classifier_ptr )
 {
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );

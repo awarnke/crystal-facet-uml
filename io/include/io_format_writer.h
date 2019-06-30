@@ -86,7 +86,7 @@ int io_format_writer_start_diagram( io_format_writer_t *this_ );
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_diagram( io_format_writer_t *this_,
-                                    data_diagram_t *diag_ptr,
+                                    const data_diagram_t *diag_ptr,
                                     const char *diagram_file_base_name
                                   );
 
@@ -107,7 +107,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ );
  *  \param classifier_ptr pointer to classifier that shall be written
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_write_classifier( io_format_writer_t *this_, data_classifier_t *classifier_ptr );
+int io_format_writer_write_classifier( io_format_writer_t *this_, const data_classifier_t *classifier_ptr );
 
 /*!
  *  \brief writes a feature of the document
@@ -116,7 +116,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, data_classifie
  *  \param feature_ptr pointer to feature that shall be written
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_write_feature( io_format_writer_t *this_, data_feature_t *feature_ptr );
+int io_format_writer_write_feature( io_format_writer_t *this_, const data_feature_t *feature_ptr );
 
 /*!
  *  \brief writes a relationship of the document
@@ -127,8 +127,8 @@ int io_format_writer_write_feature( io_format_writer_t *this_, data_feature_t *f
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_relationship( io_format_writer_t *this_,
-                                         data_relationship_t *relation_ptr,
-                                         data_classifier_t *dest_classifier_ptr
+                                         const data_relationship_t *relation_ptr,
+                                         const data_classifier_t *dest_classifier_ptr
                                        );
 
 /*!

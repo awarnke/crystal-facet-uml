@@ -5,12 +5,10 @@
 
 static inline void draw_feature_label_init( draw_feature_label_t *this_ )
 {
-    data_rules_init ( &((*this_).data_rules) );
 }
 
 static inline void draw_feature_label_destroy( draw_feature_label_t *this_ )
 {
-    data_rules_destroy ( &((*this_).data_rules) );
 }
 
 

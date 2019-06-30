@@ -17,6 +17,7 @@
 #include "layout/layout_visible_classifier.h"
 #include "set/data_visible_set.h"
 #include "option/pencil_visibility.h"
+#include "data_rules.h"
 #include <cairo.h>
 #include <stdint.h>
 #include <stdbool.h>
@@ -67,6 +68,7 @@ struct pencil_layout_data_struct {
 
     /* input data */
     const data_visible_set_t *input_data;  /*!< the input data which is base for the layout data */
+    data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
 };
 
 typedef struct pencil_layout_data_struct pencil_layout_data_t;

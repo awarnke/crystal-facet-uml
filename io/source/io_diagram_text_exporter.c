@@ -14,6 +14,7 @@ void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, data_visi
     assert( NULL != input_data );
 
     (*this_).input_data = input_data;
+    data_rules_init ( &((*this_).filter_rules) );
 
     TRACE_END();
 }
@@ -22,6 +23,7 @@ void io_diagram_text_exporter_destroy( io_diagram_text_exporter_t *this_ )
 {
     TRACE_BEGIN();
 
+    data_rules_destroy ( &((*this_).filter_rules) );
     (*this_).input_data = NULL;
 
     TRACE_END();
@@ -34,8 +36,9 @@ int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_f
     int write_err = 0;
 
     /* write diagram */
-    data_diagram_t *diag_ptr;
-    diag_ptr = data_visible_set_get_diagram_ptr( (*this_).input_data );
+    const data_diagram_t *diag_ptr = data_visible_set_get_diagram_ptr( (*this_).input_data );
+    assert( diag_ptr != NULL );
+    assert( data_diagram_is_valid( diag_ptr ) );
     TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
     write_err |= io_format_writer_write_header( format_writer, "DUMMY_TITLE" );
@@ -61,6 +64,12 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
     assert( NULL != format_writer );
     int write_err = 0;
 
+    /* get diagram type */
+    const data_diagram_t *diag_ptr = data_visible_set_get_diagram_ptr( (*this_).input_data );
+    assert( diag_ptr != NULL );
+    assert( data_diagram_is_valid( diag_ptr ) );
+    const data_diagram_type_t diag_type = data_diagram_get_diagram_type ( diag_ptr );
+
     /* iterate over all classifiers */
     uint32_t count;
     count = data_visible_set_get_visible_classifier_count ( (*this_).input_data );
@@ -73,7 +82,7 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
         {
             data_classifier_t *classifier;
             classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-            int64_t classifier_id = data_classifier_get_id(classifier);
+            const int64_t classifier_id = data_classifier_get_id(classifier);
             TRACE_INFO_INT( "printing classifier with id", classifier_id );
 
             write_err |=  io_format_writer_start_classifier( format_writer );
@@ -81,13 +90,25 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
             write_err |=  io_format_writer_write_classifier( format_writer, classifier );
 
             /* print all features */
-            write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_, classifier_id, format_writer );
+            const data_classifier_type_t classifier_type = data_classifier_get_main_type( classifier );
+            write_err |= io_diagram_text_exporter_private_write_features_of_classifier( this_, 
+                                                                                        classifier_id, 
+                                                                                        classifier_type, 
+                                                                                        diag_type, 
+                                                                                        format_writer );
 
             /* print all relationships */
-            write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_, classifier_id, format_writer );
+            write_err |= io_diagram_text_exporter_private_write_relations_of_classifier( this_, 
+                                                                                         classifier_id, 
+                                                                                         diag_type, 
+                                                                                         format_writer );
 
             /* finish */
             write_err |=  io_format_writer_end_classifier( format_writer );
+        }
+        else
+        {
+            assert( false );
         }
     }
 
@@ -97,6 +118,8 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
 
 int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
                                                                     int64_t classifier_id,
+                                                                    data_classifier_type_t classifier_type,
+                                                                    data_diagram_type_t diagram_type,
                                                                     io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
@@ -114,13 +137,25 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
         feature = data_visible_set_get_feature_ptr ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
-            /* TODO filter features, depending on diagram-type and classifier-type */
-
-            if (( classifier_id == data_feature_get_classifier_id( feature ) )
-                && ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( feature ) ))
+            if ( classifier_id == data_feature_get_classifier_id( feature ) )
             {
-                write_err |=  io_format_writer_write_feature( format_writer, feature );
+                /* TODO filter features, depending on diagram-type and classifier-type */
+                const bool ok_by_classifier = data_rules_classifier_has_features ( &((*this_).filter_rules), classifier_type );
+                const bool is_scenario = data_rules_feature_is_scenario_cond ( &((*this_).filter_rules), 
+                                                                               data_feature_get_main_type ( feature ));
+                const bool ok_by_diagram = is_scenario
+                                           ? data_rules_diagram_shows_scenario_features ( &((*this_).filter_rules), diagram_type )            
+                                           : data_rules_diagram_shows_uncond_features ( &((*this_).filter_rules), diagram_type );
+            
+                if ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( feature ) )
+                {
+                    write_err |=  io_format_writer_write_feature( format_writer, feature );
+                }
             }
+        }
+        else
+        {
+            assert( false );
         }
     }
 
@@ -130,6 +165,7 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
 
 int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
                                                                      int64_t classifier_id,
+                                                                     data_diagram_type_t diagram_type,
                                                                      io_format_writer_t *format_writer )
 {
     TRACE_BEGIN();
@@ -161,11 +197,29 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                     {
                         data_classifier_t *dest_classifier;
                         dest_classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
-                        int64_t dest_classifier_id = data_classifier_get_id(dest_classifier);
+                        const int64_t dest_classifier_id = data_classifier_get_id(dest_classifier);
 
                         if ( dest_classifier_id == data_relationship_get_to_classifier_id( relation ) )
                         {
                             /* TODO filter relationships, depending on diagram-type and depending on feature-scenario-type */
+                            const int64_t src_feat_id = data_relationship_get_from_feature_id( relation );
+                            const int64_t dest_feat_id = data_relationship_get_to_feature_id( relation );
+                            const data_feature_t *from_feat_or_null = data_visible_set_get_feature_by_id_ptr( (*this_).input_data, 
+                                                                                                              src_feat_id );
+                            const data_feature_t *to_feat_or_null = data_visible_set_get_feature_by_id_ptr( (*this_).input_data, 
+                                                                                                            dest_feat_id );
+                            const data_feature_type_t from_feature_type = (NULL==from_feat_or_null) 
+                                                                          ? DATA_FEATURE_TYPE_VOID
+                                                                          : data_feature_get_main_type( from_feat_or_null );
+                            const data_feature_type_t to_feature_type = (NULL==to_feat_or_null) 
+                                                                        ? DATA_FEATURE_TYPE_VOID
+                                                                        : data_feature_get_main_type( to_feat_or_null );
+                            const bool is_scenario = data_rules_relationship_is_scenario_cond( &((*this_).filter_rules), 
+                                                                                               from_feature_type, 
+                                                                                               to_feature_type);
+                            const bool ok_by_diagram = is_scenario
+                                                       ? data_rules_diagram_shows_scenario_relationships ( &((*this_).filter_rules), diagram_type )            
+                                                       : data_rules_diagram_shows_uncond_relationships ( &((*this_).filter_rules), diagram_type );
 
                             /* destination classifier found, print the relation */
                             write_err |= io_format_writer_write_relationship( format_writer,
@@ -181,8 +235,16 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
                                               );
                         }
                     }
+                    else
+                    {
+                        assert( false );
+                    }
                 }
             }
+        }
+        else
+        {
+            assert( false );
         }
     }
 

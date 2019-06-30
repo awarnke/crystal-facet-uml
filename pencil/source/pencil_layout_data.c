@@ -15,6 +15,7 @@ void pencil_layout_data_init( pencil_layout_data_t *this_ )
     (*this_).feature_count = 0;
     (*this_).relationship_count = 0;
     (*this_).input_data = NULL;
+    data_rules_init ( &((*this_).filter_rules) );
 
     TRACE_END();
 }
@@ -435,6 +436,8 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
     assert( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+
+    data_rules_destroy ( &((*this_).filter_rules) );
 
     if ( (*this_).diagram_valid )
     {

@@ -130,6 +130,19 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
 /* ================================ RELATIONSHIP ================================ */
 
 /*!
+ *  \brief determines if the relationship type is scenario-conditional
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_feature_type the feature type of the source end, DATA_FEATURE_TYPE_VOID if source is not a feature
+ *  \param to_feature_type the feature type of the destination end, DATA_FEATURE_TYPE_VOID if destination is not a feature
+ *  \return true if the from_feature_type type is DATA_FEATURE_TYPE_LIFELINE and/or the to_feature_type is DATA_FEATURE_TYPE_LIFELINE.
+ */
+static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_, 
+                                                              data_feature_type_t from_feature_type, 
+                                                              data_feature_type_t to_feature_type
+                                                            );
+
+/*!
  *  \brief determines if the unconditional relationships shall be visible in the given diagram
  *
  *  \param this_ pointer to own object attributes

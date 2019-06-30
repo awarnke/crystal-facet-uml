@@ -14,7 +14,6 @@
 #include "pencil_size.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/geometry/geometry_dimensions.h"
-#include "data_rules.h"
 #include "data_feature.h"
 #include <cairo.h>
 #include <stdint.h>
@@ -23,7 +22,7 @@
  *  \brief attributes of the draw label functions
  */
 struct draw_feature_label_struct {
-    data_rules_t data_rules;  /*!< own instance of data rules */
+    int dummy;
 };
 
 typedef struct draw_feature_label_struct draw_feature_label_t;

@@ -455,6 +455,17 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
 
 /* ================================ RELATIONSHIP ================================ */
 
+static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_, 
+                                                              data_feature_type_t from_feature_type, 
+                                                              data_feature_type_t to_feature_type
+                                                            )
+{
+    bool result;
+    result = ( from_feature_type == DATA_FEATURE_TYPE_LIFELINE )
+             || ( to_feature_type == DATA_FEATURE_TYPE_LIFELINE );
+    return result;
+}
+
 static inline bool data_rules_diagram_shows_uncond_relationships ( const data_rules_t *this_, data_diagram_type_t diagram_type )
 {
     bool hide;

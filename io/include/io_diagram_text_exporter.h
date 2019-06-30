@@ -12,6 +12,7 @@
 #include "io_format_writer.h"
 #include "set/data_visible_set.h"
 #include "data_table.h"
+#include "data_rules.h"
 #include <stdio.h>
 
 /*!
@@ -19,6 +20,7 @@
  */
 struct io_diagram_text_exporter_struct {
     data_visible_set_t *input_data;  /*!< pointer to an external data cache */
+    data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
 };
 
 typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
@@ -61,24 +63,30 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier of which the features are written
+ *  \param classifier_type if a feature is filtered depends on the classifier type
+ *  \param diagram_type if a feature is filtered depends on the diagram type
  *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
                                                                     int64_t classifier_id,
+                                                                    data_classifier_type_t classifier_type,
+                                                                    data_diagram_type_t diagram_type,
                                                                     io_format_writer_t *format_writer
                                                                   );
 
 /*!
- *  \brief prints names and descriptions of the relathionships to the output stream
+ *  \brief prints names and descriptions of the relationships to the output stream
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier of which the relations are written
+ *  \param diagram_type if a relationship is filtered depends on the diagram type
  *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
                                                                      int64_t classifier_id,
+                                                                     data_diagram_type_t diagram_type,
                                                                      io_format_writer_t *format_writer
                                                                    );
 

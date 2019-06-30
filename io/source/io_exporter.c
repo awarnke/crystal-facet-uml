@@ -111,6 +111,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
     {
         /* load data to be drawn */
         data_visible_set_load( &((*this_).input_data), diagram_id, (*this_).db_reader );
+        assert( data_visible_set_is_valid ( &((*this_).input_data) ) );
         data_diagram_t *diag_ptr;
         diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).input_data) );
         const char *diag_name;
@@ -315,6 +316,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     {
         /* load data to be drawn */
         data_visible_set_load( &((*this_).input_data), diagram_id, (*this_).db_reader );
+        assert( data_visible_set_is_valid ( &((*this_).input_data) ) );
         data_diagram_t *diag_ptr;
         diag_ptr = data_visible_set_get_diagram_ptr ( &((*this_).input_data) );
         const char *diag_name;
