@@ -122,6 +122,8 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                 const bool one_parent_found = ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) );
                 if ( one_parent_found )
                 {
+                    /* TODO filter features, depending on diagram-type and classifier-type */
+
                     /* filter lifelines if they are not applicable */
                     const int64_t feature_id = data_feature_get_id( feature_data );
                     bool filter;
@@ -217,6 +219,9 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
     {
         const data_relationship_t *relationship_data;
         relationship_data = data_visible_set_get_relationship_const( (*this_).input_data, r_idx );
+
+        /* TODO filter relationships, depending on diagram-type */
+
         uint32_t layout_relationship_count = 0;
         if ( ( NULL != relationship_data ) && data_relationship_is_valid( relationship_data ) )
         {
@@ -245,6 +250,8 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
                                 const bool one_to_classifier_found =  ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
                                 if ( one_to_classifier_found )
                                 {
+                                    /* TODO filter relationships, depending on feature-scenario-type */
+
                                     if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                     {
                                         layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
@@ -277,6 +284,8 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
                                     const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe4_feature )) );
                                     if ( to_feature_ok )
                                     {
+                                        /* TODO filter relationships, depending on feature-scenario-type */
+
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
@@ -327,6 +336,8 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
                                     const bool one_to_classifier_found = ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) );
                                     if ( one_to_classifier_found )
                                     {
+                                        /* TODO filter relationships, depending on feature-scenario-type */
+
                                         if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                         {
                                             layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
@@ -359,6 +370,8 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
                                         const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe5_feature )) );
                                         if ( to_feature_ok )
                                         {
+                                            /* TODO filter relationships, depending on feature-scenario-type */
+
                                             if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
                                             {
                                                 layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),

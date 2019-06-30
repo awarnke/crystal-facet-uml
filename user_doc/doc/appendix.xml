@@ -25,10 +25,12 @@
             <title>Install</title>
             <para>
                 The .deb and .rpm packages can be installed by the package installers of your system.
-    </para>
-    <para>
-        For installation on ubuntu, debian or raspbian, you may e.g. invoke <userinput>sudo dpkg --install &lt;filename&gt;</userinput> on the command line:
-        <programlisting>
+            </para>
+            <para>
+                For installation on ubuntu, debian or raspbian, you may e.g. invoke
+                <userinput>sudo dpkg --install &lt;filename&gt;</userinput>
+                on the command line:
+                <programlisting>
     andi@debian1zotac:~/Downloads$ sudo dpkg --install crystal-facet-uml_1.12.0-1_amd64.deb
 
         We trust you have received the usual lecture from the local System
@@ -49,14 +51,44 @@
     Processing triggers for mime-support (3.60) ...
     Processing triggers for man-db (2.7.6.1-2) ...
     andi@debian1zotac:~/Downloads$
-            </programlisting>
-        </para>
-        <para>
-                Because the packages are not signed, you may want to ignore the warning.
-                <mediaobject>
-                    <imageobject><imagedata fileref="install_without_signature.png"/></imageobject>
-                </mediaobject>
+                </programlisting>
             </para>
+            <para>
+                    For installation you may use a gui-installation tool like yast.
+                    Because the packages are not signed, you may want to ignore the warning.
+                    <mediaobject>
+                        <imageobject><imagedata fileref="install_without_signature.png"/></imageobject>
+                    </mediaobject>
+            </para>
+            <para>
+                For installation on opeSuSE, you may e.g. invoke
+                <userinput>sudo zypper install &lt;filename&gt;</userinput>
+                on the command line:
+                <programlisting>
+    andi@linux-uv90:~/Downloads>  sudo zypper install old_versions/crystal-facet-uml-1.13.1-1.x86_64.rpm
+    [sudo] Passwort für root:
+    Repository-Daten werden geladen...
+    Installierte Pakete werden gelesen...
+    Paketabhängigkeiten werden aufgelöst...
+
+    Das folgende Paket wird aktualisiert:
+    crystal-facet-uml
+
+    1 Paket wird aktualisiert.
+    Gesamtgröße des Downloads: 698,6 KiB. Bereits im Cache gespeichert: 0 B. Nach der Operation werden zusätzlich 8,8 KiB belegt.
+    Fortfahren? [j/n/...? zeigt alle Optionen] (j): j
+    Paket crystal-facet-uml-1.13.1-1.x86_64 abrufen                                                                    (1/1), 698,6 KiB (  1,2 MiB entpackt)
+    crystal-facet-uml-1.13.1-1.x86_64.rpm:
+    Package is not signed!
+
+    crystal-facet-uml-1.13.1-1.x86_64 (Einfacher Cache für RPM-Dateien): Fehler beim Überprüfen der Signatur [6-File is unsigned]
+    Abbrechen, wiederholen, ignorieren? [a/w/i] (a): i
+    Überprüfung auf Dateikonflikte läuft: ..........................................................................................................[fertig]
+    (1/1) Installieren: crystal-facet-uml-1.13.1-1.x86_64 ..........................................................................................[fertig]
+    andi@linux-uv90:~/Downloads>
+                </programlisting>
+            </para>
+
             <para>
                 Alternatively, you may want to build the software from the .orig source-package
                 and then install it by <userinput>sudo make install</userinput>; see the readme file for more information.

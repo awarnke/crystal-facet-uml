@@ -114,6 +114,8 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
         feature = data_visible_set_get_feature_ptr ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
+            /* TODO filter features, depending on diagram-type and classifier-type */
+
             if (( classifier_id == data_feature_get_classifier_id( feature ) )
                 && ( DATA_FEATURE_TYPE_LIFELINE != data_feature_get_main_type( feature ) ))
             {
@@ -163,6 +165,8 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
 
                         if ( dest_classifier_id == data_relationship_get_to_classifier_id( relation ) )
                         {
+                            /* TODO filter relationships, depending on diagram-type and depending on feature-scenario-type */
+
                             /* destination classifier found, print the relation */
                             write_err |= io_format_writer_write_relationship( format_writer,
                                                                               relation,
