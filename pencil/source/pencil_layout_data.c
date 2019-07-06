@@ -129,43 +129,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                                                                          feature_id
                                                                        );
 
-                    /* filter lifelines if they are not applicable */
-                    /* TODO - is this duplicate? */
-                    bool filter;
-                    if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (feature_data) )
-                    {
-                        const data_diagramelement_t *diag_ele;
-                        diag_ele = layout_visible_classifier_get_diagramelement_ptr( parent_classifier );
-                        if ( feature_id == data_diagramelement_get_focused_feature_id( diag_ele ) )
-                        {
-                            const data_diagram_t *the_diagram;
-                            the_diagram = layout_diagram_get_data_ptr( &((*this_).diagram_layout) );
-                            data_diagram_type_t diag_type;
-                            diag_type = data_diagram_get_diagram_type( the_diagram );
-                            if (( diag_type == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM )
-                                || ( diag_type == DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM )
-                                || ( diag_type == DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM ))
-                            {
-                                filter = false;
-                            }
-                            else
-                            {
-                                /* wrong diagram type */
-                                filter = true;
-                            }
-                        }
-                        else
-                        {
-                            /* lifeline of other visible_classifier */
-                            filter = true;
-                        }
-                    }
-                    else
-                    {
-                        filter = false;
-                    }
-
-                    if ( show && ( ! filter ))
+                    if ( show )
                     {
                         if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
                         {
