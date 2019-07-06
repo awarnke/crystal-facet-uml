@@ -9,6 +9,7 @@
  *  \brief Defines constraints, invariants and recommendations for uml/sysml models
  */
 
+#include "set/data_visible_set.h"
 #include "data_classifier_type.h"
 #include "data_feature_type.h"
 #include "data_relationship_type.h"
@@ -43,27 +44,67 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
- *  \return default classifier type in the given diagram_type. DATA_CLASSIFIER_TYPE_UML_COMMENT if diagram_type is invalid.
+ *  \return default classifier type in the given diagram_type. 
+ *          DATA_CLASSIFIER_TYPE_UML_COMMENT if diagram_type is invalid.
  */
-static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_, data_diagram_type_t diagram_type );
+static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_, 
+                                                                              data_diagram_type_t diagram_type 
+                                                                            );
 
 /*!
  *  \brief gets the default relationship type of the given source(from) classifier type
  *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_type the classifier type where the relation starts from
- *  \return default relationship type of the given from(source) classifier type. DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY if from_classifier_type is invalid.
+ *  \return default relationship type of the given from(source) classifier type. 
+ *          DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY if from_classifier_type is invalid.
  */
-static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_, data_classifier_type_t from_classifier_type );
+static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_, 
+                                                                                  data_classifier_type_t from_classifier_type 
+                                                                                );
 
 /*!
  *  \brief gets the default feature type of the given parent classifier type
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_classifier_type the classifier type for which to create a feature
- *  \return default feature type of the given parent classifier type. DATA_FEATURE_TYPE_PROPERTY if parent_classifier_type is invalid.
+ *  \return default feature type of the given parent classifier type. 
+ *          DATA_FEATURE_TYPE_PROPERTY if parent_classifier_type is invalid.
  */
-static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_, data_classifier_type_t parent_classifier_type );
+static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_, 
+                                                                        data_classifier_type_t parent_classifier_type 
+                                                                      );
+
+/* ================================ VISIBLE_SET ================================ */
+
+/*!
+ *  \brief determines if the feature shall be visible in the diagram of the data_visible_set_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_set the data_visible_set_t containing the diagram data
+ *  \param feature_id the id of the feature
+ *  \return true if the feature shall be visible according to the data_rules
+ *          (and the diagram_set contains the feature and the related classifier)
+ */
+bool data_rules_diagram_shows_feature ( const data_rules_t *this_, 
+                                        const data_visible_set_t *diagram_set, 
+                                        int64_t feature_id 
+                                      );
+
+/*!
+ *  \brief determines if the relationship shall be visible in the diagram of the data_visible_set_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_set the data_visible_set_t containing the diagram data
+ *  \param relationship_id the id of the relationship
+ *  \return true if the relationship shall be visible according to the data_rules
+ *          (and the diagram_set contains the relationship and the related classifiers 
+ *          and the possibly related features)
+ */
+bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, 
+                                             const data_visible_set_t *diagram_set, 
+                                             int64_t relationship_id 
+                                           );
 
 /* ================================ DIAGRAM ================================ */
 
@@ -72,7 +113,8 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
- *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM or DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM or DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM.
+ *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM 
+ *          or DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM or DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM.
  */
 static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, data_diagram_type_t diagram_type );
 

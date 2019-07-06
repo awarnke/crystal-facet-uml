@@ -119,7 +119,25 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
  *  \param diagramelement_id id of the diagramelement for which to retrieve the visible classifier
  *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
  */
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, int64_t diagramelement_id );
+
+/*!
+ *  \brief gets a visible classifier within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagramelement_id id of the diagramelement for which to retrieve the visible classifier
+ *  \return NULL if id not existant; pointer to data_visible_classifier_t otherwise.
+ */
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t diagramelement_id );
+
+/*!
+ *  \brief gets the classifier within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the classifier to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_classifier_t otherwise.
+ */
+static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets the classifier within the painter input data
@@ -137,7 +155,7 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
  *  \param row_id id of the classifier to retrieve
  *  \return -1 if row_id not in cache; index of data_classifier_t otherwise.
  */
-static inline int32_t data_visible_set_get_classifier_index ( data_visible_set_t *this_, int64_t row_id );
+static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets the classifier index within the painter input data from a pointer
@@ -147,8 +165,8 @@ static inline int32_t data_visible_set_get_classifier_index ( data_visible_set_t
  *  \return index of data_classifier_t.
  */
 static inline uint32_t data_visible_set_get_classifier_index_from_pointer ( const data_visible_set_t *this_,
-                                                                             const data_visible_classifier_t *classifier_ptr
-                                                                           );
+                                                                            const data_visible_classifier_t *classifier_ptr
+                                                                          );
 
 /* ================================ features ================================ */
 
@@ -176,6 +194,15 @@ static inline const data_feature_t *data_visible_set_get_feature_const ( const d
  *  \return NULL if index >= data_visible_set_get_feature_count(); pointer to data_feature_t otherwise.
  */
 static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_set_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets a feature within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the feature to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_feature_t otherwise.
+ */
+static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets a feature within the painter input data
@@ -220,6 +247,15 @@ static inline const data_relationship_t *data_visible_set_get_relationship_const
  *  \return NULL if index >= data_visible_set_get_relationship_count(); pointer to data_relationship_t otherwise.
  */
 static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_visible_set_t *this_, uint32_t index );
+
+/*!
+ *  \brief gets a relationship within the painter input data
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param row_id id of the relationship to retrieve
+ *  \return NULL if row_id not in cache; pointer to data_relationship_t otherwise.
+ */
+static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, int64_t row_id );
 
 /*!
  *  \brief gets a relationship within the painter input data

@@ -123,10 +123,14 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                 const bool one_parent_found = ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) );
                 if ( one_parent_found )
                 {
-                    /* TODO filter features, depending on diagram-type and classifier-type */
+                    const int64_t feature_id = data_feature_get_id( feature_data );
+                    const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
+                                                                         (*this_).input_data,
+                                                                         feature_id
+                                                                       );
 
                     /* filter lifelines if they are not applicable */
-                    const int64_t feature_id = data_feature_get_id( feature_data );
+                    /* TODO - is this duplicate? */
                     bool filter;
                     if ( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type (feature_data) )
                     {
@@ -161,7 +165,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                         filter = false;
                     }
 
-                    if ( ! filter )
+                    if ( show && ( ! filter ))
                     {
                         if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
                         {
@@ -221,189 +225,20 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
         const data_relationship_t *relationship_data;
         relationship_data = data_visible_set_get_relationship_const( (*this_).input_data, r_idx );
 
-        /* TODO filter relationships, depending on diagram-type */
-
         uint32_t layout_relationship_count = 0;
         if ( ( NULL != relationship_data ) && data_relationship_is_valid( relationship_data ) )
         {
-            const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
-            const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
-            const int64_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
-            const int64_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
+            const bool show = data_rules_diagram_shows_relationship ( &((*this_).filter_rules),
+                                                                      (*this_).input_data,
+                                                                      data_relationship_get_id( relationship_data )
+            );
 
-            if ( DATA_ID_VOID_ID == from_feature_id )  /* search source(from) in classifiers */
+            if ( show )
             {
-                for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
-                {
-                    layout_visible_classifier_t *probe3_classifier;
-                    probe3_classifier = &((*this_).visible_classifier_layout[c_idx3]);
-
-                    const bool one_from_classifier_found = ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) );
-                    if ( one_from_classifier_found )
-                    {
-                        if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
-                        {
-                            for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
-                            {
-                                layout_visible_classifier_t *probe4_classifier;
-                                probe4_classifier = &((*this_).visible_classifier_layout[c_idx4]);
-
-                                const bool one_to_classifier_found =  ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
-                                if ( one_to_classifier_found )
-                                {
-                                    /* TODO filter relationships, depending on feature-scenario-type */
-
-                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
-                                    {
-                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                  data_visible_set_get_relationship_const( (*this_).input_data, r_idx ),
-                                                                  probe3_classifier,
-                                                                  probe4_classifier,
-                                                                  NULL,
-                                                                  NULL
-                                                                );
-                                        (*this_).relationship_count ++;
-                                        layout_relationship_count ++;
-                                    }
-                                    else
-                                    {
-                                        warn_dropped_relationships ++;
-                                    }
-                                }  /* one_to_classifier_found */
-                            }  /* end search-for to_classifier */
-                        }
-                        else  /* search destination(to) in features */
-                        {
-                            for ( uint32_t f_idx4 = 0; f_idx4 < (*this_).feature_count; f_idx4 ++ )
-                            {
-                                layout_feature_t *probe4_feature;
-                                probe4_feature = &((*this_).feature_layout[f_idx4]);
-
-                                const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) );
-                                if ( one_to_feature_found )
-                                {
-                                    const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe4_feature )) );
-                                    if ( to_feature_ok )
-                                    {
-                                        /* TODO filter relationships, depending on feature-scenario-type */
-
-                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
-                                        {
-                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      data_visible_set_get_relationship_const( (*this_).input_data, r_idx ),
-                                                                      probe3_classifier,
-                                                                      layout_feature_get_classifier_ptr( probe4_feature ),
-                                                                      NULL,
-                                                                      probe4_feature
-                                                                    );
-                                            (*this_).relationship_count ++;
-                                            layout_relationship_count ++;
-                                        }
-                                        else
-                                        {
-                                            warn_dropped_relationships ++;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
-                                    }
-                                }  /* one_to_feature_found */
-                            }  /* end search-for to_feature */
-                        }
-                    }  /* one_from_classifier_found */
-                }  /* end search-for from_classifier */
-            }
-            else  /* search source(from) in features */
-            {
-                for ( uint32_t f_idx3 = 0; f_idx3 < (*this_).feature_count; f_idx3 ++ )
-                {
-                    layout_feature_t *probe3_feature;
-                    probe3_feature = &((*this_).feature_layout[f_idx3]);
-
-                    const bool one_from_feature_found = ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) );
-                    if ( one_from_feature_found )
-                    {
-                        const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe3_feature )) );
-                        if ( from_feature_ok )
-                        {
-                            if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
-                            {
-                                for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
-                                {
-                                    layout_visible_classifier_t *probe5_classifier;
-                                    probe5_classifier = &((*this_).visible_classifier_layout[c_idx5]);
-
-                                    const bool one_to_classifier_found = ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) );
-                                    if ( one_to_classifier_found )
-                                    {
-                                        /* TODO filter relationships, depending on feature-scenario-type */
-
-                                        if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
-                                        {
-                                            layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                      data_visible_set_get_relationship_const( (*this_).input_data, r_idx ),
-                                                                      layout_feature_get_classifier_ptr( probe3_feature ),
-                                                                      probe5_classifier,
-                                                                      probe3_feature,
-                                                                      NULL
-                                                                    );
-                                            (*this_).relationship_count ++;
-                                            layout_relationship_count ++;
-                                        }
-                                        else
-                                        {
-                                            warn_dropped_relationships ++;
-                                        }
-                                    }  /* one_to_classifier_found */
-                                }  /* end search-for to_classifier */
-                            }
-                            else  /* search destination(to) in features */
-                            {
-                                for ( uint32_t f_idx5 = 0; f_idx5 < (*this_).feature_count; f_idx5 ++ )
-                                {
-                                    layout_feature_t *probe5_feature;
-                                    probe5_feature = &((*this_).feature_layout[f_idx5]);
-
-                                    const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) );
-                                    if ( one_to_feature_found )
-                                    {
-                                        const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe5_feature )) );
-                                        if ( to_feature_ok )
-                                        {
-                                            /* TODO filter relationships, depending on feature-scenario-type */
-
-                                            if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
-                                            {
-                                                layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
-                                                                          data_visible_set_get_relationship_const( (*this_).input_data, r_idx ),
-                                                                          layout_feature_get_classifier_ptr( probe3_feature ),
-                                                                          layout_feature_get_classifier_ptr( probe5_feature ),
-                                                                          probe3_feature,
-                                                                          probe5_feature
-                                                                        );
-                                                (*this_).relationship_count ++;
-                                                layout_relationship_count ++;
-                                            }
-                                            else
-                                            {
-                                                warn_dropped_relationships ++;
-                                            }
-                                        }
-                                        else
-                                        {
-                                            TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
-                                        }
-                                    }  /* one_to_feature_found */
-                                }  /* end search-for to_feature */
-                            }
-                        }
-                        else
-                        {
-                            TSLOG_ERROR("error in input_data: relationship links from feature and inconsistent classifier.");
-                        }
-                    }  /* one_from_feature_found */
-                }  /* end search-for from_feature */
+                layout_relationship_count = pencil_layout_data_private_init_relationship( this_,
+                                                                                          relationship_data,
+                                                                                          &warn_dropped_relationships
+                                                                                        );
             }
         }
         else
@@ -427,6 +262,192 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
         TSLOG_WARNING_INT( "PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS exceeded, layout_relationships not visible:", warn_dropped_relationships );
     }
 
+    TRACE_END();
+}
+
+uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *this_,
+                                                   const data_relationship_t *relationship_data,
+                                                   uint32_t *io_dropped_relationships )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).input_data );
+    assert ( NULL != relationship_data );
+    assert ( NULL != io_dropped_relationships );
+    uint32_t layout_relationship_count = 0;
+
+    const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relationship_data );
+    const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relationship_data );
+    const int64_t from_feature_id = data_relationship_get_from_feature_id( relationship_data );
+    const int64_t to_feature_id = data_relationship_get_to_feature_id( relationship_data );
+
+    if ( DATA_ID_VOID_ID == from_feature_id )  /* search source(from) in classifiers */
+    {
+        for ( uint32_t c_idx3 = 0; c_idx3 < (*this_).visible_classifier_count; c_idx3 ++ )
+        {
+            layout_visible_classifier_t *probe3_classifier;
+            probe3_classifier = &((*this_).visible_classifier_layout[c_idx3]);
+
+            const bool one_from_classifier_found = ( from_classifier_id == layout_visible_classifier_get_classifier_id( probe3_classifier ) );
+            if ( one_from_classifier_found )
+            {
+                if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
+                {
+                    for ( uint32_t c_idx4 = 0; c_idx4 < (*this_).visible_classifier_count; c_idx4 ++ )
+                    {
+                        layout_visible_classifier_t *probe4_classifier;
+                        probe4_classifier = &((*this_).visible_classifier_layout[c_idx4]);
+
+                        const bool one_to_classifier_found =  ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe4_classifier ) );
+                        if ( one_to_classifier_found )
+                        {
+                            if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                            {
+                                layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                          relationship_data,
+                                                          probe3_classifier,
+                                                          probe4_classifier,
+                                                          NULL,
+                                                          NULL
+                                                        );
+                                (*this_).relationship_count ++;
+                                layout_relationship_count ++;
+                            }
+                            else
+                            {
+                                (*io_dropped_relationships) ++;
+                            }
+                        }  /* one_to_classifier_found */
+                    }  /* end search-for to_classifier */
+                }
+                else  /* search destination(to) in features */
+                {
+                    for ( uint32_t f_idx4 = 0; f_idx4 < (*this_).feature_count; f_idx4 ++ )
+                    {
+                        layout_feature_t *probe4_feature;
+                        probe4_feature = &((*this_).feature_layout[f_idx4]);
+
+                        const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) );
+                        if ( one_to_feature_found )
+                        {
+                            const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe4_feature )) );
+                            if ( to_feature_ok )
+                            {
+                                if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                {
+                                    layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                              relationship_data,
+                                                              probe3_classifier,
+                                                              layout_feature_get_classifier_ptr( probe4_feature ),
+                                                              NULL,
+                                                              probe4_feature
+                                                            );
+                                    (*this_).relationship_count ++;
+                                    layout_relationship_count ++;
+                                }
+                                else
+                                {
+                                    (*io_dropped_relationships) ++;
+                                }
+                            }
+                            else
+                            {
+                                TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
+                            }
+                        }  /* one_to_feature_found */
+                    }  /* end search-for to_feature */
+                }
+            }  /* one_from_classifier_found */
+        }  /* end search-for from_classifier */
+    }
+    else  /* search source(from) in features */
+    {
+        for ( uint32_t f_idx3 = 0; f_idx3 < (*this_).feature_count; f_idx3 ++ )
+        {
+            layout_feature_t *probe3_feature;
+            probe3_feature = &((*this_).feature_layout[f_idx3]);
+
+            const bool one_from_feature_found = ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) );
+            if ( one_from_feature_found )
+            {
+                const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe3_feature )) );
+                if ( from_feature_ok )
+                {
+                    if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
+                    {
+                        for ( uint32_t c_idx5 = 0; c_idx5 < (*this_).visible_classifier_count; c_idx5 ++ )
+                        {
+                            layout_visible_classifier_t *probe5_classifier;
+                            probe5_classifier = &((*this_).visible_classifier_layout[c_idx5]);
+
+                            const bool one_to_classifier_found = ( to_classifier_id == layout_visible_classifier_get_classifier_id( probe5_classifier ) );
+                            if ( one_to_classifier_found )
+                            {
+                                if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                {
+                                    layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                              relationship_data,
+                                                              layout_feature_get_classifier_ptr( probe3_feature ),
+                                                              probe5_classifier,
+                                                              probe3_feature,
+                                                              NULL
+                                                            );
+                                    (*this_).relationship_count ++;
+                                    layout_relationship_count ++;
+                                }
+                                else
+                                {
+                                    (*io_dropped_relationships) ++;
+                                }
+                            }  /* one_to_classifier_found */
+                        }  /* end search-for to_classifier */
+                    }
+                    else  /* search destination(to) in features */
+                    {
+                        for ( uint32_t f_idx5 = 0; f_idx5 < (*this_).feature_count; f_idx5 ++ )
+                        {
+                            layout_feature_t *probe5_feature;
+                            probe5_feature = &((*this_).feature_layout[f_idx5]);
+
+                            const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) );
+                            if ( one_to_feature_found )
+                            {
+                                const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe5_feature )) );
+                                if ( to_feature_ok )
+                                {
+                                    if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
+                                    {
+                                        layout_relationship_init( &((*this_).relationship_layout[(*this_).relationship_count]),
+                                                                  relationship_data,
+                                                                  layout_feature_get_classifier_ptr( probe3_feature ),
+                                                                  layout_feature_get_classifier_ptr( probe5_feature ),
+                                                                  probe3_feature,
+                                                                  probe5_feature
+                                                                );
+                                        (*this_).relationship_count ++;
+                                        layout_relationship_count ++;
+                                    }
+                                    else
+                                    {
+                                        (*io_dropped_relationships) ++;
+                                    }
+                                }
+                                else
+                                {
+                                    TSLOG_ERROR("error in input_data: relationship links to feature and inconsistent classifier.");
+                                }
+                            }  /* one_to_feature_found */
+                        }  /* end search-for to_feature */
+                    }
+                }
+                else
+                {
+                    TSLOG_ERROR("error in input_data: relationship links from feature and inconsistent classifier.");
+                }
+            }  /* one_from_feature_found */
+        }  /* end search-for from_feature */
+    }  /* endif: search source(from) */
+
+    return layout_relationship_count;
     TRACE_END();
 }
 

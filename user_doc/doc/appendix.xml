@@ -65,7 +65,7 @@
                 <userinput>sudo zypper install &lt;filename&gt;</userinput>
                 on the command line:
                 <programlisting>
-    andi@linux-uv90:~/Downloads>  sudo zypper install old_versions/crystal-facet-uml-1.13.1-1.x86_64.rpm
+    andi@linux-uv90:~/Downloads>  sudo zypper install crystal-facet-uml-1.13.1-1.x86_64.rpm
     [sudo] Passwort für root:
     Repository-Daten werden geladen...
     Installierte Pakete werden gelesen...

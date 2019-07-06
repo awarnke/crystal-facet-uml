@@ -100,6 +100,30 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
     return result;
 }
 
+static inline const data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_const ( const data_visible_set_t *this_, int64_t diagramelement_id )
+{
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
+    const data_visible_classifier_t *result = NULL;
+
+    /* iterate over all visible classifiers */
+    for ( uint32_t index = 0; index < (*this_).visible_classifier_count; index ++ )
+    {
+        const data_visible_classifier_t *visible_classifier;
+        visible_classifier = &((*this_).visible_classifiers[index]);
+        assert ( data_visible_classifier_is_valid( visible_classifier ) );
+
+        const data_diagramelement_t *diagramelement;
+        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
+        if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
+        {
+            result = visible_classifier;
+            break;
+        }
+    }
+
+    return result;
+}
+
 static inline data_visible_classifier_t *data_visible_set_get_visible_classifier_by_id_ptr ( data_visible_set_t *this_, int64_t diagramelement_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
@@ -117,6 +141,29 @@ static inline data_visible_classifier_t *data_visible_set_get_visible_classifier
         if ( data_diagramelement_get_id( diagramelement ) == diagramelement_id )
         {
             result = visible_classifier;
+            break;
+        }
+    }
+
+    return result;
+}
+
+static inline const data_classifier_t *data_visible_set_get_classifier_by_id_const ( const data_visible_set_t *this_, int64_t row_id )
+{
+    assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
+    const data_classifier_t *result = NULL;
+
+    for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
+    {
+        const data_visible_classifier_t *visible_classifier;
+        visible_classifier = &((*this_).visible_classifiers[index]);
+        assert ( data_visible_classifier_is_valid( visible_classifier ) );
+
+        const data_classifier_t *probe;
+        probe = data_visible_classifier_get_classifier_const( visible_classifier );
+        if ( row_id == data_classifier_get_id( probe ) )
+        {
+            result = probe;
             break;
         }
     }
@@ -147,15 +194,15 @@ static inline data_classifier_t *data_visible_set_get_classifier_by_id_ptr ( dat
     return result;
 }
 
-static inline int32_t data_visible_set_get_classifier_index ( data_visible_set_t *this_, int64_t row_id )
+static inline int32_t data_visible_set_get_classifier_index ( const data_visible_set_t *this_, int64_t row_id )
 {
     assert( (*this_).visible_classifier_count <= DATA_VISIBLE_SET_MAX_CLASSIFIERS );
     int32_t result = -1;
 
     for ( int index = 0; index < (*this_).visible_classifier_count; index ++ )
     {
-        data_classifier_t *probe;
-        probe = data_visible_classifier_get_classifier_ptr( &((*this_).visible_classifiers[index]) );
+        const data_classifier_t *probe;
+        probe = data_visible_classifier_get_classifier_const( &((*this_).visible_classifiers[index]) );
         if ( row_id == data_classifier_get_id( probe ) )
         {
             result = index;
@@ -212,6 +259,25 @@ static inline data_feature_t *data_visible_set_get_feature_ptr ( data_visible_se
     {
         result = NULL;
         TSLOG_ERROR_INT( "index out of bounds (>=(*this_).feature_count)", index );
+    }
+
+    return result;
+}
+
+static inline const data_feature_t *data_visible_set_get_feature_by_id_const ( const data_visible_set_t *this_, int64_t row_id )
+{
+    assert( (*this_).feature_count <= DATA_VISIBLE_SET_MAX_FEATURES );
+    const data_feature_t *result = NULL;
+
+    for ( int index = 0; index < (*this_).feature_count; index ++ )
+    {
+        const data_feature_t *probe;
+        probe = &((*this_).features[index]);
+        if ( row_id == data_feature_get_id( probe ) )
+        {
+            result = probe;
+            break;
+        }
     }
 
     return result;
@@ -278,6 +344,25 @@ static inline data_relationship_t *data_visible_set_get_relationship_ptr ( data_
     {
         result = NULL;
         TSLOG_ERROR_INT( "index out of bounds (>=(*this_).relationship_count)", index );
+    }
+
+    return result;
+}
+
+static inline const data_relationship_t *data_visible_set_get_relationship_by_id_const ( const data_visible_set_t *this_, int64_t row_id )
+{
+    assert( (*this_).relationship_count <= DATA_VISIBLE_SET_MAX_RELATIONSHIPS );
+    const data_relationship_t *result = NULL;
+
+    for ( int index = 0; index < (*this_).relationship_count; index ++ )
+    {
+        const data_relationship_t *probe;
+        probe = &((*this_).relationships[index]);
+        if ( row_id == data_relationship_get_id( probe ) )
+        {
+            result = probe;
+            break;
+        }
     }
 
     return result;

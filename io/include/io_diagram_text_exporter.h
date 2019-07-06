@@ -63,15 +63,11 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier of which the features are written
- *  \param classifier_type if a feature is filtered depends on the classifier type
- *  \param diagram_type if a feature is filtered depends on the diagram type
  *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_text_exporter_t *this_,
                                                                     int64_t classifier_id,
-                                                                    data_classifier_type_t classifier_type,
-                                                                    data_diagram_type_t diagram_type,
                                                                     io_format_writer_t *format_writer
                                                                   );
 
@@ -79,14 +75,12 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
  *  \brief prints names and descriptions of the relationships to the output stream
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_id id of the classifier of which the relations are written
- *  \param diagram_type if a relationship is filtered depends on the diagram type
+ *  \param from_classifier_id id of the classifier of which the relationships are written
  *  \param format_writer writer to format the data and stream it out to a file
  *  \return -1 in case of error, 0 in case of success
  */
 int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_text_exporter_t *this_,
-                                                                     int64_t classifier_id,
-                                                                     data_diagram_type_t diagram_type,
+                                                                     int64_t from_classifier_id,
                                                                      io_format_writer_t *format_writer
                                                                    );
 

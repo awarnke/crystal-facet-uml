@@ -243,6 +243,19 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ );
  */
 void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ );
 
+/*!
+ *  \brief initializes all layout relationships for one data relationship
+ *
+ *  \param this_ pointer to own object attributes, input_data and visible_classifier_layout and feature_layout shall be already initialized
+ *  \param relationship_data pointer into the data set structure (*this_).input_data, pointing to the data relationship struct
+ *  \param io_dropped_relationships io parameter, counter that is increased for every non-instantiated layout relationship
+ *  \return number of created layout relationships
+ */
+uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *this_,
+                                                       const data_relationship_t *relationship_data,
+                                                       uint32_t *io_dropped_relationships
+                                                     );
+
 #include "pencil_layout_data.inl"
 
 #endif  /* PENCIL_LAYOUT_DATA_H */
