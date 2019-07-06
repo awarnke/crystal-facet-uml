@@ -105,13 +105,42 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
         const data_feature_type_t to_feature_type = (NULL==to_feat_or_null)
                                                     ? DATA_FEATURE_TYPE_VOID
                                                     : data_feature_get_main_type( to_feat_or_null );
+        const bool is_rel_scenario = data_rules_relationship_is_scenario_cond( this_, from_feature_type, to_feature_type);
 
-        /* evaluate filter */
-        const bool is_scenario = data_rules_relationship_is_scenario_cond( this_, from_feature_type, to_feature_type);
-        const bool ok_by_diagram = is_scenario
-                                   ? data_rules_diagram_shows_scenario_relationships ( this_, diagram_type )
-                                   : data_rules_diagram_shows_uncond_relationships ( this_, diagram_type );
-        result = ok_by_diagram;
+        if ( is_rel_scenario )
+        {
+            /* a scenario-typed feature that belongs to a different diagram is always filtered */
+            bool is_from_foreign_scenario = (NULL!=from_feat_or_null);
+            bool is_to_foreign_scenario = (NULL!=to_feat_or_null);
+            const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
+            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )
+            {
+                const data_visible_classifier_t *vc_probe = data_visible_set_get_visible_classifier_const ( diagram_set, vc_idx );
+                assert ( NULL != vc_probe );
+                const data_diagramelement_t *diag_ele = data_visible_classifier_get_diagramelement_const ( vc_probe );
+                assert ( NULL != diag_ele );
+                const int64_t diag_ele_feat_id = data_diagramelement_get_focused_feature_id( diag_ele );
+                if ( from_feat_id == diag_ele_feat_id )
+                {
+                    is_from_foreign_scenario = false;
+                }
+                if ( to_feat_id == diag_ele_feat_id )
+                {
+                    is_to_foreign_scenario = false;
+                }
+            }
+
+            /* evaluate filter */
+            const bool ok_by_diagram = data_rules_diagram_shows_scenario_relationships ( this_, diagram_type );
+            const bool ok_by_scenario = ( ! is_from_foreign_scenario )&&( ! is_to_foreign_scenario );
+            result = ok_by_diagram && ok_by_scenario;
+        }
+        else
+        {
+            /* evaluate filter */
+            const bool ok_by_diagram = data_rules_diagram_shows_uncond_relationships ( this_, diagram_type );
+            result = ok_by_diagram;
+        }
     }
     else
     {
