@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 
-__thread int trace_indent_depth = 0;
+__thread unsigned int trace_indent_depth = 0;
 
 const char trace_indent_pattern_begin[2*(TRACE_INDENT_MAX-1)+1] = "| | | | | | | | | | | | | | | | | | | | | | + \0";
 const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1] =   "| | | | | | | | | | | | | | | | | | | | | | \' \0";

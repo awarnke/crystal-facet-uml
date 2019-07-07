@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, data_visible_set_t *input_data )
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -75,12 +75,12 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get classifier */
-        data_visible_classifier_t *visible_classifier;
-        visible_classifier = data_visible_set_get_visible_classifier_ptr ( (*this_).input_data, index );
+        const data_visible_classifier_t *visible_classifier;
+        visible_classifier = data_visible_set_get_visible_classifier_const ( (*this_).input_data, index );
         if (( visible_classifier != NULL ) && ( data_visible_classifier_is_valid( visible_classifier ) ))
         {
-            data_classifier_t *classifier;
-            classifier = data_visible_classifier_get_classifier_ptr( visible_classifier );
+            const data_classifier_t *classifier;
+            classifier = data_visible_classifier_get_classifier_const( visible_classifier );
             const int64_t classifier_id = data_classifier_get_id(classifier);
             TRACE_INFO_INT( "printing classifier with id", classifier_id );
 
@@ -126,8 +126,8 @@ int io_diagram_text_exporter_private_write_features_of_classifier ( io_diagram_t
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get feature */
-        data_feature_t *feature;
-        feature = data_visible_set_get_feature_ptr ( (*this_).input_data, index );
+        const data_feature_t *feature;
+        feature = data_visible_set_get_feature_const ( (*this_).input_data, index );
         if (( feature != NULL ) && ( data_feature_is_valid( feature ) ))
         {
             if ( classifier_id == data_feature_get_classifier_id( feature ) )
@@ -168,8 +168,8 @@ int io_diagram_text_exporter_private_write_relations_of_classifier ( io_diagram_
     for ( uint32_t index = 0; index < count; index ++ )
     {
         /* get relationship */
-        data_relationship_t *relation;
-        relation = data_visible_set_get_relationship_ptr ( (*this_).input_data, index );
+        const data_relationship_t *relation;
+        relation = data_visible_set_get_relationship_const ( (*this_).input_data, index );
         if (( relation != NULL ) && ( data_relationship_is_valid( relation ) ))
         {
             if ( from_classifier_id == data_relationship_get_from_classifier_id( relation ) )

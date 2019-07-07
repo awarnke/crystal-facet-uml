@@ -1,9 +1,4 @@
-<!DOCTYPE section [
-<!ENTITY TODO '<inlinemediaobject>
-<imageobject><imagedata fileref="../../gui/source/resources/message_warn.pdf" width="0.5cm"/></imageobject>
-<imageobject><imagedata fileref="../../gui/source/resources/message_warn.png"/></imageobject>
-    </inlinemediaobject>'>
-]>
+<!DOCTYPE section>
 <section id="diagrams_and_elements_main">
     <title>Diagrams and Elements Spec</title>
     <para>
@@ -721,19 +716,19 @@
                         <row>
                             <entry><para>Communication Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships except containments(ro), &TODO; unconditional features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Sequence Diagram</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>unconditional relationships, &TODO; unconditional features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Timing Diagram</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional relationships, &TODO; unconditional features (Scenario)</para></entry>
+                            <entry><para>unconditional relationships (Scenario), unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                     </tbody>
@@ -749,11 +744,7 @@
                 </varlistentry>
                 <varlistentry>
                     <term>Scenario</term>
-                    <listitem><para>Diagrams show only relationships associated with the lifeline of visible classifiers.</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>&TODO;</term>
-                    <listitem><para>TODO Marker</para></listitem>
+                    <listitem><para>Diagrams show only relationships associated with a lifeline of a visible classifier.</para></listitem>
                 </varlistentry>
             </variablelist>
         </para>

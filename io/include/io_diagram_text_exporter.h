@@ -19,7 +19,7 @@
  *  \brief attributes of the description writer
  */
 struct io_diagram_text_exporter_struct {
-    data_visible_set_t *input_data;  /*!< pointer to an external data cache */
+    const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
     data_rules_t filter_rules;  /*!< own instance of uml and sysml consistency rules */
 };
 
@@ -31,7 +31,7 @@ typedef struct io_diagram_text_exporter_struct io_diagram_text_exporter_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be rendered
  */
-void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, data_visible_set_t *input_data );
+void io_diagram_text_exporter_init( io_diagram_text_exporter_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the io_diagram_text_exporter_t

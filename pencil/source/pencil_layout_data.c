@@ -411,8 +411,8 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
         }  /* end search-for from_feature */
     }  /* endif: search source(from) */
 
-    return layout_relationship_count;
     TRACE_END();
+    return layout_relationship_count;
 }
 
 void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
