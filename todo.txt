@@ -16,16 +16,13 @@ ideas for future versions:
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)
   [ ] activity bars on lifelines missing
-  [ ] hide all features (except lifelines) in scenario-based and list diagrams; prevent selection, creation etc.
-  [ ] hide some relationships in scenario-based and list diagrams; prevent selection, creation etc.
   [ ] feature compartments in use-cases look ugly
   [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x dependency
   [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
   [ ] more relationship types needed: undirected ---- communication-path
-  [ ] sequence diagram needs if/loop-boxes
+  [ ] sequence diagrams need if/loop-boxes
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
-  [ ] suppress exporting descriptions of hidden relationships and features
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
   @data
   [ ] nodes and artifacts can either be concepts or anonymous instances. Not both. And named-instances are not yet supported.
@@ -40,4 +37,4 @@ ideas for future versions:
   @ts_log/trace/test_fw
   [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
-  
+
