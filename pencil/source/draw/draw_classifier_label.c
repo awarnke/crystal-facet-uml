@@ -64,16 +64,12 @@ void draw_classifier_label_get_stereotype_and_name_dimensions( const draw_classi
         int text2_height;
         double space_for_line;
         {
-            bool is_always_instance;
-            bool is_anonymous_instance;
-            is_always_instance = data_rules_classifier_is_always_instance( &((*this_).data_rules), data_classifier_get_main_type ( classifier ) );
-            is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
             int proposed_pango_width = geometry_dimensions_get_width( proposed_bounds );
 
             /* prepare text */
             char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
             utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-            if ( is_anonymous_instance && ( ! is_always_instance ) )
+            if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
             {
                 utf8stringbuf_copy_str( name_buf, ":" );
             }
@@ -175,15 +171,10 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
     /* draw name text */
     int text2_height = 0;
     {
-        bool is_always_instance;
-        bool is_anonymous_instance;
-        is_always_instance = data_rules_classifier_is_always_instance( &((*this_).data_rules), classifier_type );
-        is_anonymous_instance = ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_INSTANCE ));
-
         /* prepare text */
         char name_text[DATA_CLASSIFIER_MAX_NAME_SIZE + 1 ];
         utf8stringbuf_t name_buf = UTF8STRINGBUF(name_text);
-        if ( is_anonymous_instance && ( ! is_always_instance ) )
+        if ( 0 != ( display_flags & DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE ) )
         {
             utf8stringbuf_copy_str( name_buf, ":" );
         }
@@ -208,7 +199,7 @@ void draw_classifier_label_draw_stereotype_and_name( const draw_classifier_label
         pango_layout_set_width(font_layout, DRAW_LABEL_PANGO_UNLIMITED_WIDTH);
 
         /* underline instances */
-        if ( is_always_instance || is_anonymous_instance )
+        if ( 0 != ( display_flags & ( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE ) ) )
         {
             cairo_move_to ( cr, left + 0.5*( width - text2_width ), top+text1_height+f_line_gap+text2_height );
             cairo_line_to ( cr, left + 0.5*( width + text2_width ), top+text1_height+f_line_gap+text2_height );

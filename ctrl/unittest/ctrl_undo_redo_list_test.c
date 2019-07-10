@@ -598,7 +598,7 @@ static void undo_redo_update_diagram(void)
     /* step 4a: update the diagramelement display_flags */
     ctrl_err = ctrl_diagram_controller_update_diagramelement_display_flags ( diag_ctrl,
                                                                              diagele_id,
-                                                                             DATA_DIAGRAMELEMENT_FLAG_INSTANCE,
+                                                                             DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE,
                                                                              false /* add_to_latest_undo_set */
                                                                            );
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NONE, ctrl_err );
@@ -673,7 +673,7 @@ static void undo_redo_update_diagram(void)
         data_err = data_database_reader_get_diagramelement_by_id ( &db_reader, diagele_id, &read_diagele );
         TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
         TEST_ASSERT_EQUAL_INT( diagele_id, data_diagramelement_get_id( &read_diagele ) );
-        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
+        TEST_ASSERT_EQUAL_INT( DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE, data_diagramelement_get_display_flags( &read_diagele ) );
         TEST_ASSERT_EQUAL_INT( DATA_ID_VOID_ID, data_diagramelement_get_focused_feature_id( &read_diagele ) );
     }
 }

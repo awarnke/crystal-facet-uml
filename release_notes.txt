@@ -6,6 +6,7 @@ crystal-facet-uml (1.14.0) UNRELEASED; urgency=medium
     diagrams
   * non-global relationships are hidden in scenario-based and all in box/list
     diagrams
+  * any classifier can be displayed as named instance or as anonymous instance.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 01 Jul 2019 15:30:00 +0200
 

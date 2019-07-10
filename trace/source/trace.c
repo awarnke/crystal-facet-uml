@@ -6,9 +6,12 @@
 
 __thread unsigned int trace_indent_depth = 0;
 
-const char trace_indent_pattern_begin[2*(TRACE_INDENT_MAX-1)+1] = "| | | | | | | | | | | | | | | | | | | | | | + \0";
-const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1] =   "| | | | | | | | | | | | | | | | | | | | | | \' \0";
-const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1] =  "| | | | | | | | | | | | | | | | | | | | | |   \0";
+const char trace_indent_pattern_begin[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE]
+    = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | + \0";
+const char trace_indent_pattern_end[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE]
+    = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | | \' \0";
+const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE]
+    = "| | | | | | | | | | | | | | | | | | | | | | | | | | | | | |   \0";
 
 
 /*

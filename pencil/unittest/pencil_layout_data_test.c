@@ -83,7 +83,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                    c_idx,  /* id */
                                    3,  /* diagram_id */
                                    c_idx/2,  /* classifier_id */
-                                   DATA_DIAGRAMELEMENT_FLAG_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,  /* display_flags */
+                                   DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_EMPHASIS,  /* display_flags */
                                    DATA_ID_VOID_ID  /* focused_feature_id */
                                  );
 

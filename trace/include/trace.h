@@ -13,14 +13,20 @@
 #include <time.h>
 
 #define TRACE_OUT_STREAM stdout
-#define TRACE_INDENT_MAX (24u)
+#define TRACE_INDENT_MOD (32u)
+#define TRACE_INDENT_MAX (31u)
+#define TRACE_INDENT_STEP (2u)
+#define TRACE_NULLTERM_SIZE (1u)
 extern __thread unsigned int trace_indent_depth;
-extern const char trace_indent_pattern_begin[2*(TRACE_INDENT_MAX-1)+1];
-extern const char trace_indent_pattern_end[2*(TRACE_INDENT_MAX-1)+1];
-extern const char trace_indent_pattern_info[2*(TRACE_INDENT_MAX-1)+1];
-#define TRACE_INDENT_BEGIN (&(trace_indent_pattern_begin[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
-#define TRACE_INDENT_END (&(trace_indent_pattern_end[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
-#define TRACE_INDENT_INFO (&(trace_indent_pattern_info[((16*TRACE_INDENT_MAX-1-trace_indent_depth)%TRACE_INDENT_MAX)*2]))
+extern const char trace_indent_pattern_begin[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE];
+extern const char trace_indent_pattern_end[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE];
+extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+TRACE_NULLTERM_SIZE];
+#define TRACE_INDENT_BEGIN \
+    (&(trace_indent_pattern_begin[((TRACE_INDENT_MAX-trace_indent_depth)%TRACE_INDENT_MOD)*TRACE_INDENT_STEP]))
+#define TRACE_INDENT_END \
+    (&(trace_indent_pattern_end[((TRACE_INDENT_MAX-trace_indent_depth)%TRACE_INDENT_MOD)*TRACE_INDENT_STEP]))
+#define TRACE_INDENT_INFO \
+    (&(trace_indent_pattern_info[((TRACE_INDENT_MAX-trace_indent_depth)%TRACE_INDENT_MOD)*TRACE_INDENT_STEP]))
 
 #ifndef NDEBUG  /* SWITCH */
 

@@ -44,11 +44,11 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
- *  \return default classifier type in the given diagram_type. 
+ *  \return default classifier type in the given diagram_type.
  *          DATA_CLASSIFIER_TYPE_UML_COMMENT if diagram_type is invalid.
  */
-static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_, 
-                                                                              data_diagram_type_t diagram_type 
+static inline data_classifier_type_t data_rules_get_default_classifier_type ( const data_rules_t *this_,
+                                                                              data_diagram_type_t diagram_type
                                                                             );
 
 /*!
@@ -56,11 +56,11 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
  *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_type the classifier type where the relation starts from
- *  \return default relationship type of the given from(source) classifier type. 
+ *  \return default relationship type of the given from(source) classifier type.
  *          DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY if from_classifier_type is invalid.
  */
-static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_, 
-                                                                                  data_classifier_type_t from_classifier_type 
+static inline data_relationship_type_t data_rules_get_default_relationship_type ( const data_rules_t *this_,
+                                                                                  data_classifier_type_t from_classifier_type
                                                                                 );
 
 /*!
@@ -68,11 +68,11 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_classifier_type the classifier type for which to create a feature
- *  \return default feature type of the given parent classifier type. 
+ *  \return default feature type of the given parent classifier type.
  *          DATA_FEATURE_TYPE_PROPERTY if parent_classifier_type is invalid.
  */
-static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_, 
-                                                                        data_classifier_type_t parent_classifier_type 
+static inline data_feature_type_t data_rules_get_default_feature_type ( const data_rules_t *this_,
+                                                                        data_classifier_type_t parent_classifier_type
                                                                       );
 
 /* ================================ VISIBLE_SET ================================ */
@@ -86,9 +86,9 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
  *  \return true if the feature shall be visible according to the data_rules
  *          (and the diagram_set contains the feature and the related classifier)
  */
-bool data_rules_diagram_shows_feature ( const data_rules_t *this_, 
-                                        const data_visible_set_t *diagram_set, 
-                                        int64_t feature_id 
+bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
+                                        const data_visible_set_t *diagram_set,
+                                        int64_t feature_id
                                       );
 
 /*!
@@ -98,12 +98,12 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
  *  \param diagram_set the data_visible_set_t containing the diagram data
  *  \param relationship_id the id of the relationship
  *  \return true if the relationship shall be visible according to the data_rules
- *          (and the diagram_set contains the relationship and the related classifiers 
+ *          (and the diagram_set contains the relationship and the related classifiers
  *          and the possibly related features)
  */
-bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, 
-                                             const data_visible_set_t *diagram_set, 
-                                             int64_t relationship_id 
+bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
+                                             const data_visible_set_t *diagram_set,
+                                             int64_t relationship_id
                                            );
 
 /* ================================ DIAGRAM ================================ */
@@ -113,23 +113,12 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
- *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM 
+ *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
  *          or DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM or DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM.
  */
 static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, data_diagram_type_t diagram_type );
 
 /* ================================ CLASSIFIER ================================ */
-
-/*!
- *  \brief determines if the classifier type is always an instance
- *
- *  This is true for part and object
- *
- *  \param this_ pointer to own object attributes
- *  \param classifier_type the classifier type
- *  \return true if the classifier type cannot be an abstract concept but is always an instance.
- */
-static inline bool data_rules_classifier_is_always_instance ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /* ================================ FEATURE ================================ */
 
@@ -179,8 +168,8 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
  *  \param to_feature_type the feature type of the destination end, DATA_FEATURE_TYPE_VOID if destination is not a feature
  *  \return true if the from_feature_type type is DATA_FEATURE_TYPE_LIFELINE and/or the to_feature_type is DATA_FEATURE_TYPE_LIFELINE.
  */
-static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_, 
-                                                              data_feature_type_t from_feature_type, 
+static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,
+                                                              data_feature_type_t from_feature_type,
                                                               data_feature_type_t to_feature_type
                                                             );
 

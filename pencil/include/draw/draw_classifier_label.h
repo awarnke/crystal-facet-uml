@@ -23,7 +23,7 @@
  *  \brief attributes of the draw label functions
  */
 struct draw_classifier_label_struct {
-    data_rules_t data_rules;  /*!< own instance of data rules */
+    int dummy;  /*!< This object is a collection of stateless drawing functions */
 };
 
 typedef struct draw_classifier_label_struct draw_classifier_label_t;

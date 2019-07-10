@@ -311,7 +311,10 @@ void gui_tools_highlight_btn_callback( GtkWidget* button, gpointer data )
 
     /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
-    gui_tools_private_toggle_display_flag_in_set( this_, set_to_be_highlighted, DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT );
+    gui_tools_private_toggle_display_flag_in_set( this_,
+                                                  set_to_be_highlighted,
+                                                  DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
+                                                );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -330,7 +333,10 @@ void gui_tools_instantiate_btn_callback( GtkWidget* button, gpointer data )
 
     /* do not check if set is empty; gui_tools_private_toggle_display_flag_in_set will do this */
 
-    gui_tools_private_toggle_display_flag_in_set( this_, set_to_be_instantiated, DATA_DIAGRAMELEMENT_FLAG_INSTANCE );
+    gui_tools_private_toggle_display_flag_in_set( this_,
+                                                  set_to_be_instantiated,
+                                                  DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE
+                                                );
 
     TRACE_TIMESTAMP();
     TRACE_END();

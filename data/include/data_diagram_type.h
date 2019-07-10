@@ -13,7 +13,7 @@
  *  \brief enumeration of all diagram types
  */
 enum data_diagram_type_enum {
-    DATA_DIAGRAM_TYPE_VOID = -1,  /*!< invalid diagram, reserved for future use */
+    /*DATA_DIAGRAM_TYPE_VOID = -1,*/  /* ! < invalid diagram, reserved for future use */
     DATA_DIAGRAM_TYPE_LIST = 0,
     DATA_DIAGRAM_TYPE_BOX_DIAGRAM = 1,
     DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM = 4,

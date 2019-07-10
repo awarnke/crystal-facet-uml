@@ -16,7 +16,7 @@
  *  \see https://sysml.org/docs/specs/OMGSysML-v1.5-17-05-01.pdf
  */
 enum data_classifier_type_enum {
-    DATA_CLASSIFIER_TYPE_VOID = -1,  /*!< invalid classifier, reserved for future use */
+    /*DATA_CLASSIFIER_TYPE_VOID = -1,*/  /* ! < invalid classifier, reserved for future use */
     /* Block + Internal Block Diagrams: */
     DATA_CLASSIFIER_TYPE_BLOCK = 90,  /* SysML */
     /* Parametric Diagram: */

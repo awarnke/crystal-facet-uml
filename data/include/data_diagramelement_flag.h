@@ -14,7 +14,8 @@
  */
 enum data_diagramelement_flag_enum {
     DATA_DIAGRAMELEMENT_FLAG_NONE = 0x0,  /*!< no flags set */
-    DATA_DIAGRAMELEMENT_FLAG_INSTANCE = 0x01,  /*!< the classifier shall be drawn as an (anonymous) instance (colon and underline) */
+    DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE = 0x01,  /*!< the classifier shall be drawn as a named instance (underline) */
+    DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE = 0x02,  /*!< the classifier shall be drawn as anonymous instance (colon-prefix and underline) */
     DATA_DIAGRAMELEMENT_FLAG_EMPHASIS = 0x1000000,  /*!< the classifier shall be marked by a color or other appropriate means */
     DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT = 0x2000000,  /*!< the classifier shall be greyed out */
 

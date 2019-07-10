@@ -40,17 +40,15 @@
         </para>
         <para>
             <informaltable frame='all' pgwide="1">
-                <tgroup cols='5'>
+                <tgroup cols='4'>
                     <colspec colwidth='3*'/>
                     <colspec colwidth='2.5*'/>
-                    <colspec colwidth='1.5*'/>
-                    <colspec colwidth='2.0*'/>
-                    <colspec colwidth='4*'/>
+                    <colspec colwidth='2.5*'/>
+                    <colspec colwidth='5*'/>
                     <thead>
                         <row>
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
-                            <entry><para>Concept</para></entry>
                             <entry><para>Filter</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
@@ -59,7 +57,6 @@
                         <row>
                             <entry><para>Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>-</para></entry>
                             <entry>
                                 <para>Limitations: Compartment Order is "properties, operations"
@@ -73,175 +70,150 @@
                         <row>
                             <entry><para>Constraint Property/Equation</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 10.2.2--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>Limitations: Only the rounded-rect symbol is supported, ports are not completely inside the rounded-rect.</para></entry>
                         </row>
                         <row>
                             <entry><para>Node</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Component</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Part</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>I only</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Interface</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Package</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Class</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Object</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>I only</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Artifact</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Comment</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Feature</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>Represents a group of requirements</para></entry>
                         </row>
                         <row>
                             <entry><para>Requirement</para></entry>
                             <entry><para>SysML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Actor</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Use Case</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>Limitations: No SysML extension points</para></entry>
                         </row>
                         <row>
                             <entry><para>System Boundary</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Diagram Reference</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>I(+C)</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Activity</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Interruptable Region</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Fork</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Join</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Accept Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Accept Time Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Send Signal</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Decision</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Initial Node</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
                             </entry>
@@ -249,7 +221,6 @@
                         <row>
                             <entry><para>Final Node</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
                             </entry>
@@ -257,28 +228,24 @@
                         <row>
                             <entry><para>State</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Shallow History</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Deep History</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>Value Type</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>not supported.</para>
                                 <para>Limitations: Compartment Order of Classifiers is "properties, operations"
@@ -289,28 +256,24 @@
                         <row>
                             <entry><para>Enumeration</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>C(+I)</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a class instead.</para></entry>
                         </row>
                         <row>
                             <entry><para>ActivityParameterNode</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>not supported.</para></entry>
                         </row>
                         <row>
                             <entry><para>MergeNode</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>not supported.</para><para>Note: Either directly connect to the target activity or use a decision node.</para></entry>
                         </row>
                         <row>
                             <entry><para>ActivityPartition</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>dyn</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a parent activity instead.</para></entry>
                         </row>
@@ -322,24 +285,19 @@
             <variablelist>
                 <title>Legend</title>
                 <varlistentry>
-                    <term>Concept</term>
-                    <listitem><para>Defines if the classifier can be abstract(class) and concrete (instance)</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>C</term>
-                    <listitem><para>The classifier is an abstract concept that can be instantiated</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>I</term>
-                    <listitem><para>The classifier is a concrete instance</para></listitem>
-                </varlistentry>
-                <varlistentry>
-                    <term>dyn</term>
-                    <listitem><para>The classifier describes dynamic behavior.
-                            Only the context of the diagram defines if a single-instance or a concept is described.</para>
-                    </listitem>
+                    <term>Filter</term>
+                    <listitem><para>Defines which elements related to a classifier are not visible</para></listitem>
                 </varlistentry>
             </variablelist>
+        </para>
+        <para>
+            An InstanceSpecification (UML<!--spec 2.5 chapter 9.8.4, 11.2.5-->) denotes an instantiation of a classifier.
+            crystal_facet_uml allows any classifier to appear in different diagrams
+            as classifier, as anonymous InstanceSpecification or as named InstanceSpecification.
+            (Rationale: If a classifier is an instance may depend on the context:
+            An M1-class may be an instance if shown in an M2-meta-class diagram,
+            an XML-parser-class may be an instance if shown in the context of stream processors.)
+            <!-- Other example: A swedish string comparator class is an instance of string comparator classes -->
         </para>
     </section>
     <section>

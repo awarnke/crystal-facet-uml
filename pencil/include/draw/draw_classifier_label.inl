@@ -5,12 +5,12 @@
 
 static inline void draw_classifier_label_init( draw_classifier_label_t *this_ )
 {
-    data_rules_init ( &((*this_).data_rules) );
+
 }
 
 static inline void draw_classifier_label_destroy( draw_classifier_label_t *this_ )
 {
-    data_rules_destroy ( &((*this_).data_rules) );
+
 }
 
 
