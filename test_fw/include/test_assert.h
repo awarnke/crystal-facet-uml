@@ -59,6 +59,12 @@ if ( fabs(exp-act) > ((fabs(exp)*TEST_FLOAT_EPSILON)+TEST_FLOAT_TINIEST) ) \
 #EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
 }
 
+/* Assertion to throw if test environment is wrong (not if test case failed). */
+/* In contrast to assert.h, this always terminates test execution, even in NDEBUG mode. */
+#define TEST_ENVIRONMENT_ASSERT(COND)\
+if (!(COND)) \
+{fprintf(stderr,"TEST ENVIRONMENT ERROR (!(%s)) at %s:%d\n",#COND,__FILE__,__LINE__);exit(-1);}
+
 #endif  /* TEST_ASSERT_H */
 
 

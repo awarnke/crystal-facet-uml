@@ -48,7 +48,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
         data_err = data_diagram_init ( &(fake_input_data.diagram),
                                        3,  /* diagram_id */
                                        DATA_ID_VOID_ID,  /* parent_diagram_id */
-                                       DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM,  /* diagram_type */
+                                       DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM,  /* diagram_type */
                                        "diagram_name",
                                        "diagram_description",
                                        32000  /* list_order */
@@ -69,7 +69,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
 
         data_err = data_classifier_init ( classifier,
                                           c_idx/2,  /* id */
-                                          DATA_CLASSIFIER_TYPE_UML_USE_CASE,  /* main_type */
+                                          DATA_CLASSIFIER_TYPE_UML_CLASS,  /* main_type */
                                           "stereotype",
                                           "name",
                                           "description",
