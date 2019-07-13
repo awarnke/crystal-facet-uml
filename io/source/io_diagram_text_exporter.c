@@ -62,12 +62,8 @@ int io_diagram_text_exporter_write_classifiers ( io_diagram_text_exporter_t *thi
 {
     TRACE_BEGIN();
     assert( NULL != format_writer );
+    assert( data_visible_set_is_valid( (*this_).input_data ) );
     int write_err = 0;
-
-    /* get diagram type */
-    const data_diagram_t *diag_ptr = data_visible_set_get_diagram_const( (*this_).input_data );
-    assert( diag_ptr != NULL );
-    assert( data_diagram_is_valid( diag_ptr ) );
 
     /* iterate over all classifiers */
     uint32_t count;

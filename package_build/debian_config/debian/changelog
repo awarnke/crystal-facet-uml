@@ -1,14 +1,20 @@
 crystal-facet-uml (1.14.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * all features (except lifelines) are hidden in scenario-based and box/list
+    diagrams
+  * non-global relationships are hidden in scenario-based and all in box/list
+    diagrams
+  * exporting descriptions of hidden relationships and features is suppressed
+  * any classifier can be displayed as named instance or as anonymous instance.
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 01 Jul 2019 15:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Jul 2019 11:30:00 +0200
 
  crystal-facet-uml (1.13.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * sqlite3_db_cacheflush() is only called if on the build system and on the target system available (bugfix)
+  * sqlite3_db_cacheflush() is only called if on the build system and on the 
+    target system available (bugfix)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 23 Jun 2019 15:30:00 +0200
 
