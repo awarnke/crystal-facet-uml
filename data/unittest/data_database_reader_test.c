@@ -6,9 +6,6 @@
 #include "test_assert.h"
 #include <errno.h>
 
-#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
-/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
-
 static void set_up(void);
 static void tear_down(void);
 static void test_search_diagrams(void);
@@ -54,7 +51,7 @@ static void set_up(void)
     /* remove old database files first */
     int err;
     err = remove( DATABASE_FILENAME );
-    PROG_ASSERT ( ( 0 == err )|| (( -1 == err )&&( errno == ENOENT )) );
+    TEST_ENVIRONMENT_ASSERT ( ( 0 == err )|| (( -1 == err )&&( errno == ENOENT )) );
 
     /* open a database and initialize a reader and a writer */
     data_database_init( &database );
@@ -76,10 +73,10 @@ static void set_up(void)
                                    "diagram_description-6",
                                    10444 /*=list_order*/
                                  );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &root_diagram, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     /* create a valid child diagram */
     data_diagram_t current_diagram;
@@ -91,10 +88,10 @@ static void set_up(void)
                                    "diagram_description-7",
                                    10555 /*=list_order*/
                                  );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_diagram ( &db_writer, &current_diagram, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     /* create two valid classifiers */
     data_classifier_t current_classifier;
@@ -108,10 +105,10 @@ static void set_up(void)
                                       -16000 /*=y_order*/,
                                       -7000 /*=list_order*/
                                     );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &current_classifier, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_classifier_t second_classifier;
     data_err = data_classifier_init ( &second_classifier,
@@ -124,10 +121,10 @@ static void set_up(void)
                                       -48000 /*=y_order*/,
                                       -58000 /*=list_order*/
                                     );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_classifier( &db_writer, &second_classifier, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     /* create four valid diagramelements */
     data_diagramelement_t first_diagramelement;
@@ -140,7 +137,7 @@ static void set_up(void)
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &first_diagramelement, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_diagramelement_t duplicate_diagramelement;
     data_diagramelement_init ( &duplicate_diagramelement,
@@ -152,7 +149,7 @@ static void set_up(void)
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &duplicate_diagramelement, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_diagramelement_t second_diagramelement;
     data_diagramelement_init ( &second_diagramelement,
@@ -164,7 +161,7 @@ static void set_up(void)
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &second_diagramelement, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_diagramelement_t third_diagramelement;
     data_diagramelement_init ( &third_diagramelement,
@@ -176,7 +173,7 @@ static void set_up(void)
                              );
 
     data_err = data_database_writer_create_diagramelement( &db_writer, &third_diagramelement, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     /* define two valid relationships */
     data_relationship_t v_relation;
@@ -191,10 +188,10 @@ static void set_up(void)
                                         17, /* from_feature_id */
                                         18 /* to_feature_id */
                                       );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &v_relation, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_relationship_t second_relation;
     data_err = data_relationship_init ( &second_relation,
@@ -208,10 +205,10 @@ static void set_up(void)
                                         DATA_ID_VOID_ID, /* from_feature_id */
                                         DATA_ID_VOID_ID /* to_feature_id */
                                       );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_relationship ( &db_writer, &second_relation, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     /* create three valid features */
     data_feature_t v_feature;
@@ -224,10 +221,10 @@ static void set_up(void)
                                    "time in nano seconds to start", /* feature_description */
                                    5000000 /* list order */
                                  );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &v_feature, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_feature_t second_feature;
     data_err = data_feature_init ( &second_feature,
@@ -239,10 +236,10 @@ static void set_up(void)
                                    "time in nano seconds to start", /* feature_description */
                                    5000000 /* list order */
                                  );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &second_feature, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_feature_t thrid_feature;
     data_err = data_feature_init ( &thrid_feature,
@@ -254,10 +251,10 @@ static void set_up(void)
                                    "time in nano seconds to shut down", /* feature_description */
                                    5000000 /* list order */
                                  );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 
     data_err = data_database_writer_create_feature ( &db_writer, &thrid_feature, NULL /*=out_new_id*/ );
-    PROG_ASSERT( DATA_ERROR_NONE == data_err );
+    TEST_ENVIRONMENT_ASSERT( DATA_ERROR_NONE == data_err );
 }
 
 static void tear_down(void)
@@ -271,7 +268,7 @@ static void tear_down(void)
     data_database_close( &database );
     data_database_destroy( &database );
     err = remove( DATABASE_FILENAME );
-    PROG_ASSERT( err == 0 );
+    TEST_ENVIRONMENT_ASSERT( err == 0 );
 }
 
 static void test_search_diagrams(void)

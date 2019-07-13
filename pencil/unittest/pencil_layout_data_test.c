@@ -5,9 +5,6 @@
 #include "set/data_visible_set.h"
 #include "test_assert.h"
 
-#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
-/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
-
 static void set_up(void);
 static void tear_down(void);
 static void test_empty_model(void);
@@ -53,7 +50,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                        "diagram_description",
                                        32000  /* list_order */
                                      );
-        PROG_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
     }
 
     /* initialize the fake_input_data.visible_classifiers */
@@ -77,7 +74,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                           -300*c_idx,  /* y_order */
                                           4000*c_idx  /* list_order */
                                         );
-        PROG_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
         data_diagramelement_init ( diagele,
                                    c_idx,  /* id */
@@ -87,7 +84,7 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                    DATA_ID_VOID_ID  /* focused_feature_id */
                                  );
 
-        PROG_ASSERT( data_visible_classifier_is_valid( current ) );
+        TEST_ENVIRONMENT_ASSERT( data_visible_classifier_is_valid( current ) );
     }
 
     const uint_fast32_t classifier_mod = ((classifiers/2)==0) ? 1 : (classifiers/2);
@@ -107,9 +104,9 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                        "feature_description",
                                        6000*f_idx  /* list_order */
                                      );
-        PROG_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
-        PROG_ASSERT( data_feature_is_valid( current ) );
+        TEST_ENVIRONMENT_ASSERT( data_feature_is_valid( current ) );
     }
 
     /* initialize the fake_input_data.relationships */
@@ -129,14 +126,14 @@ static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint
                                             DATA_ID_VOID_ID,  /* from_feature_id */
                                             DATA_ID_VOID_ID  /* to_feature_id */
                                           );
-        PROG_ASSERT( data_err == DATA_ERROR_NONE );
+        TEST_ENVIRONMENT_ASSERT( data_err == DATA_ERROR_NONE );
 
-        PROG_ASSERT( data_relationship_is_valid( current ) );
+        TEST_ENVIRONMENT_ASSERT( data_relationship_is_valid( current ) );
     }
 
     data_visible_set_private_update_containment_cache ( &fake_input_data );
 
-    PROG_ASSERT ( data_visible_set_is_valid ( &fake_input_data ) );
+    TEST_ENVIRONMENT_ASSERT ( data_visible_set_is_valid ( &fake_input_data ) );
     return &fake_input_data;
 }
 

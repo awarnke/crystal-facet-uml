@@ -4,9 +4,6 @@
 #include "json/json_tokenizer.h"
 #include "test_assert.h"
 
-#define PROG_ASSERT(cond) if (!(cond)) {exit(-1);}
-/* use TEST_ASSERT_* to check and report the test case result, use PROG_ASSERT() if the testing program could not be executed as expected */
-
 static void set_up(void);
 static void tear_down(void);
 static void test_skip_whitespace(void);
