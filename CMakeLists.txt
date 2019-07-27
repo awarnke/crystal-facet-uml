@@ -45,6 +45,7 @@ INCLUDE_DIRECTORIES(/usr/include/gdk-pixbuf-2.0)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/glib-2.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/gtk-3.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
+INCLUDE_DIRECTORIES(/usr/include/x86_64-linux-gnu)
 MESSAGE( "Note: if include directories are missing, run  pkg-config --cflags glib-2.0")
 
 LINK_DIRECTORIES(/opt/gnome/lib)
@@ -77,7 +78,7 @@ FILE(GLOB utestSource  main/unittest/*.c
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 if(NOT CMAKE_BUILD_TYPE)
-  message("Warn: CMAKE_BUILD_TYPE no set!                  set(CMAKE_BUILD_TYPE \"Release\")")
+  message( "Warn: CMAKE_BUILD_TYPE no set!                 setting(CMAKE_BUILD_TYPE \"Release\")")
   set(CMAKE_BUILD_TYPE "Release")
 endif(NOT CMAKE_BUILD_TYPE)
 MESSAGE( "Note:                                          CMAKE_BUILD_TYPE = ${CMAKE_BUILD_TYPE}" )

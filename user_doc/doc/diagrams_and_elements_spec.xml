@@ -34,7 +34,6 @@
         </para>
         <para>
             The table shows the classifier types introduced by different specifications,
-            if they represent instances or concepts,
             if they filter/hide their features
             and a comment stating how this is implemented in crystal_facet_uml.
         </para>

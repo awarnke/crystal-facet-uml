@@ -33,6 +33,7 @@ How to build from source
 
 Building from source is described in this section.
 
+
 debian/ubuntu/raspbian:
 
 > sudo apt install libgtk-3-dev
@@ -51,6 +52,14 @@ debian/ubuntu/raspbian:
 >
 > sudo apt install doxygen     # for source code documentation
 
+
+> mkdir my_build && cd my_build
+>
+> cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # adapt the source directory name
+>
+> make crystal_facet_uml
+
+
 openSuSE:
 
 > sudo zypper install gtk3-devel
@@ -67,13 +76,51 @@ openSuSE:
 >
 > sudo zypper install doxygen     # for source code documentation
 
-all:
 
 > mkdir my_build && cd my_build
 >
 > cmake -DCMAKE_BUILD_TYPE=Release ../crystal_facet_uml/       # adapt the source directory name
 >
 > make crystal_facet_uml
+
+
+wine:
+
+> sudo apt install cmake
+>
+> sudo apt install wine
+>
+> sudo apt install gcc-mingw-w64-i686
+>
+> sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
+
+
+
+> sudo dpkg --add-architecture i386
+>
+> sudo apt update
+>
+> sudo apt install wine32
+
+
+> sudo apt install curl
+>
+> git clone https://github.com/Microsoft/vcpkg
+>
+> cd vcpkg
+>
+> ./bootstrap-vcpkg.sh 
+>
+> ./vcpkg install gtk:x64-windows
+
+
+> mkdir my_build && cd my_build
+>
+> cmake -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=/usr/bin/i686-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/usr/bin/i686-w64-mingw32-g++ ../crystal-facet-uml/       # adapt the source directory name
+>
+> make crystal_facet_uml
+
+
 
 How to run
 -----------
