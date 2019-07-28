@@ -43,6 +43,7 @@ struct gui_resources_struct {
     GdkPixbuf *navigate_create_child;
     GdkPixbuf *navigate_create_sibling;
     GdkPixbuf *navigate_open_folder;
+    GdkPixbuf *background_column;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -249,6 +250,13 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_child ( gui_resources
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the background_column
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

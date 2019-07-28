@@ -135,6 +135,11 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resourc
     return (*this_).navigate_create_sibling;
 }
 
+static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ )
+{
+    return (*this_).background_column;
+}
+
 
 /*
 Copyright 2016-2019 Andreas Warnke

@@ -12,13 +12,13 @@ Update all version numbers:
 
 >       doxygen_build/Doxyfile : PROJECT_NUMBER
 >       main/include/meta/meta_info.h : META_INFO_VERSION_STR
->       user_doc/doc/crystal_facet_user_documentation.xml : date
 >       package/build/source_pack.sh : VERSIONSTR
 >       package/build/source_test.sh : VERSIONSTR
 >       package/build/debian_pack.sh : VERSIONSTR
 >       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version
->       release_notes.txt : new entry
 >       package_build/debian_config/debian/changelog : new entry
+>       release_notes.txt : new entry
+>       user_doc/doc/crystal_facet_user_documentation.xml : date
 
 
 Pack

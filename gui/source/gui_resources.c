@@ -39,6 +39,7 @@
 #include "resources/navigate_create_child.c"
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_open_folder.c"
+#include "resources/background_column.c"
 
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
@@ -368,6 +369,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         navigate_open_folder.width,
         navigate_open_folder.height,
         navigate_open_folder.width * navigate_open_folder.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).background_column = gdk_pixbuf_new_from_data(
+        &(background_column.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        background_column.width,
+        background_column.height,
+        background_column.width * background_column.bytes_per_pixel,
         NULL,
         NULL
     );
