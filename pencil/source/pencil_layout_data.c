@@ -114,22 +114,21 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
             const int64_t parent_id = data_feature_get_classifier_id( feature_data );
-
-            for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
+            const int64_t feature_id = data_feature_get_id( feature_data );
+            const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
+                                                                 (*this_).input_data,
+                                                                 feature_id
+                                                                );
+                    
+            if ( show )
             {
-                layout_visible_classifier_t *parent_classifier;
-                parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
-
-                const bool one_parent_found = ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) );
-                if ( one_parent_found )
+                for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
                 {
-                    const int64_t feature_id = data_feature_get_id( feature_data );
-                    const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
-                                                                         (*this_).input_data,
-                                                                         feature_id
-                                                                       );
+                    layout_visible_classifier_t *parent_classifier;
+                    parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
 
-                    if ( show )
+                    const bool one_parent_found = ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) );
+                    if ( one_parent_found )
                     {
                         if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
                         {
@@ -144,9 +143,9 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                         {
                             warn_dropped_features ++;
                         }
-                    }
-                }  /* one_parent_found */
-            }  /* end search-for parent_classifier */
+                    }  /* one_parent_found */
+                }  /* end search-for parent_classifier */
+            }
         }
         else
         {

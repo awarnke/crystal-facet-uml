@@ -18,13 +18,13 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
     assert( data_diagram_is_valid( diag_ptr ) );
     const data_diagram_type_t diagram_type = data_diagram_get_diagram_type ( diag_ptr );
 
-    const data_feature_t *feat_ptr = data_visible_set_get_feature_by_id_const ( diagram_set, feature_id );
+    const data_feature_t *feat_ptr = data_visible_set_get_feature_by_id_const ( diagram_set, feature_id );  /* SEARCH */
     assert( feat_ptr != NULL );
     assert( data_feature_is_valid( feat_ptr ) );
     const int64_t classifier_id = data_feature_get_classifier_id( feat_ptr );
     const data_feature_type_t feature_type = data_feature_get_main_type ( feat_ptr );
 
-    const data_classifier_t *classifier_ptr = data_visible_set_get_classifier_by_id_const ( diagram_set, classifier_id );
+    const data_classifier_t *classifier_ptr = data_visible_set_get_classifier_by_id_const ( diagram_set, classifier_id );  /* SEARCH */
     if ( classifier_ptr != NULL )
     {
         assert( data_classifier_is_valid( classifier_ptr ) );
@@ -36,7 +36,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
             /* a scenario-typed feature that belongs to a different diagram is always filtered */
             bool is_foreign_scenario = true;
             const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
-            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )
+            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )  /* SEARCH */
             {
                 const data_visible_classifier_t *vc_probe = data_visible_set_get_visible_classifier_const ( diagram_set, vc_idx );
                 assert ( NULL != vc_probe );
@@ -85,7 +85,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
     assert( data_diagram_is_valid( diag_ptr ) );
     const data_diagram_type_t diagram_type = data_diagram_get_diagram_type ( diag_ptr );
 
-    const data_relationship_t *relation_ptr = data_visible_set_get_relationship_by_id_const ( diagram_set, relationship_id );
+    const data_relationship_t *relation_ptr = data_visible_set_get_relationship_by_id_const ( diagram_set, relationship_id );  /* SEARCH */
     assert( relation_ptr != NULL );
     assert( data_relationship_is_valid( relation_ptr ) );
     const int64_t from_classifier_id = data_relationship_get_from_classifier_id( relation_ptr );
@@ -93,12 +93,12 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
     const int64_t to_classifier_id = data_relationship_get_to_classifier_id( relation_ptr );
     const int64_t to_feat_id = data_relationship_get_to_feature_id( relation_ptr );
 
-    const data_classifier_t *from_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, from_classifier_id );
-    const data_classifier_t *to_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, to_classifier_id );
+    const data_classifier_t *from_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, from_classifier_id );  /* SEARCH */
+    const data_classifier_t *to_classifier_or_null = data_visible_set_get_classifier_by_id_const( diagram_set, to_classifier_id );  /* SEARCH */
     if (( from_classifier_or_null != NULL )&&( to_classifier_or_null != NULL ))
     {
-        const data_feature_t *from_feat_or_null = data_visible_set_get_feature_by_id_const( diagram_set, from_feat_id );
-        const data_feature_t *to_feat_or_null = data_visible_set_get_feature_by_id_const( diagram_set, to_feat_id );
+        const data_feature_t *from_feat_or_null = data_visible_set_get_feature_by_id_const( diagram_set, from_feat_id );  /* SEARCH */
+        const data_feature_t *to_feat_or_null = data_visible_set_get_feature_by_id_const( diagram_set, to_feat_id );  /* SEARCH */
         const data_feature_type_t from_feature_type = (NULL==from_feat_or_null)
                                                       ? DATA_FEATURE_TYPE_VOID
                                                       : data_feature_get_main_type( from_feat_or_null );
@@ -113,7 +113,7 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_, const da
             bool is_from_foreign_scenario = (NULL!=from_feat_or_null);
             bool is_to_foreign_scenario = (NULL!=to_feat_or_null);
             const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
-            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )
+            for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )  /* SEARCH */
             {
                 const data_visible_classifier_t *vc_probe = data_visible_set_get_visible_classifier_const ( diagram_set, vc_idx );
                 assert ( NULL != vc_probe );
