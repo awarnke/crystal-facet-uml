@@ -45,7 +45,7 @@ INCLUDE_DIRECTORIES(/usr/include/gdk-pixbuf-2.0)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/glib-2.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/gtk-3.0/include)
 INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
-INCLUDE_DIRECTORIES(/usr/include/x86_64-linux-gnu)
+#INCLUDE_DIRECTORIES(/usr/include/x86_64-linux-gnu)
 MESSAGE( "Note: if include directories are missing, run  pkg-config --cflags glib-2.0")
 
 LINK_DIRECTORIES(/opt/gnome/lib)

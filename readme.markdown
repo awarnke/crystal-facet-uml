@@ -94,14 +94,13 @@ wine:
 >
 > sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
 
-
-
 > sudo dpkg --add-architecture i386
 >
 > sudo apt update
 >
 > sudo apt install wine32
 
+Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
 
 > sudo apt install curl
 >
@@ -120,6 +119,14 @@ wine:
 >
 > make crystal_facet_uml
 
+> echo download the sqlite sources (amalgamation) from https://sqlite.org/download.html
+> echo clone the git repositories
+> git clone https://github.com/GNOME/atk.git
+> git clone https://gitlab.freedesktop.org/cairo/cairo.git
+> git clone https://github.com/GNOME/gdk-pixbuf.git
+> git clone https://github.com/GNOME/glib.git
+> git clone https://github.com/GNOME/gtk.git
+> git clone https://github.com/GNOME/pango.git
 
 
 How to run

@@ -9,9 +9,11 @@
 
             Find the latest version at:
             <itemizedlist>
+            <listitem><para><ulink url="https://www.heise.de/download/product/crystal-facet-uml/"/></para></listitem>
             <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
             <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
             <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
+            <listitem><para><ulink url="https://salsa.debian.org/debian-edu-pkg-team/crystal-facet-uml"/></para></listitem>
             </itemizedlist>
 
             User documentation is available here:
