@@ -10,7 +10,7 @@ Prepare
 
 Update all version numbers:
 
->       doxygen_build/Doxyfile : PROJECT_NUMBER
+>       build_doxygen/Doxyfile : PROJECT_NUMBER
 >       main/include/meta/meta_info.h : META_INFO_VERSION_STR
 >       package/build/source_pack.sh : VERSIONSTR
 >       package/build/source_test.sh : VERSIONSTR
