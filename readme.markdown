@@ -99,6 +99,8 @@ wine:
 > sudo apt update
 >
 > sudo apt install wine32
+>
+> sudo apt install meson  # to configure the glib sources
 
 Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
 
@@ -127,6 +129,11 @@ Starting from here, this is a bit of exploratory try-and-error, no final solutio
 > git clone https://github.com/GNOME/glib.git
 > git clone https://github.com/GNOME/gtk.git
 > git clone https://github.com/GNOME/pango.git
+
+> mkdir build_glib
+> cd build_glib/
+> meson --cross-file ../../crystal-facet-uml-code/build_win/cross_file.txt ../glib
+
 
 
 How to run

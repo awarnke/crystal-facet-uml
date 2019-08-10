@@ -3,6 +3,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+MESSAGE( "call cmake with parameters:" )
+MESSAGE( "-DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=/usr/bin/i686-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/usr/bin/i686-w64-mingw32-g++" )
+
 INCLUDE_DIRECTORIES(../gui/source)
 INCLUDE_DIRECTORIES(../gui/include)
 INCLUDE_DIRECTORIES(../main/source)
