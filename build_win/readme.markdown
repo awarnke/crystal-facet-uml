@@ -5,7 +5,7 @@ crystal_facet_uml - build for windows/wine
 How to build from source using mingw for wine
 -----------
 
-wine:
+wine on debian/raspbian/ubuntu:
 
 > sudo apt install cmake
 >
@@ -15,6 +15,10 @@ wine:
 >
 > sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
 
+
+
+Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
+
 > sudo dpkg --add-architecture i386
 >
 > sudo apt update
@@ -23,7 +27,9 @@ wine:
 >
 > sudo apt install meson  # to configure the glib sources
 
+
 Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
+
 
 > sudo apt install curl
 >
@@ -65,6 +71,14 @@ This part here looks promising:
 > cd build_glib/
 >
 > meson --cross-file ../../crystal-facet-uml-code/build_win/cross_file.txt ../glib
+
+Another thread that looks promising:
+
+Download the gtk-everything archive from the internet ( e.g. gtk+-bundle_3.6.4-20130513_win64.zip (31.0 Mb) )
+
+download the sqlite sources (amalgamation) from https://sqlite.org/download.html
+
+
 
 
 

@@ -3,8 +3,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-MESSAGE( "call cmake with parameters:" )
-MESSAGE( "-DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=/usr/bin/i686-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/usr/bin/i686-w64-mingw32-g++" )
+SET(CMAKE_SYSTEM_NAME "Windows")
+SET(CMAKE_C_COMPILER "/usr/bin/i686-w64-mingw32-gcc")
+SET(CMAKE_CXX_COMPILER "/usr/bin/i686-w64-mingw32-g++")
 
 INCLUDE_DIRECTORIES(../gui/source)
 INCLUDE_DIRECTORIES(../gui/include)
@@ -26,15 +27,35 @@ INCLUDE_DIRECTORIES(../universal/include)
 
 SET(THIRD_PARTY_BASE "${CMAKE_BINARY_DIR}")
 
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/cairo")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/glib")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/build_glib")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/atk")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/pango")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gdk-pixbuf")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/glib/glib")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/cairo")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/glib")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/build_glib")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/atk")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/pango")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gdk-pixbuf")
+#INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/glib/glib")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/sqlite-amalgamation-3290000")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/lib/libffi-3.0.12/include")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/lib/glib-2.0/include")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/libpng15")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/libxml2")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gail-3.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/cairo")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gio-win32-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/pango-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/libcroco-0.6")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/jasper")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/glib-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/lzma")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gdk-pixbuf-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/atk-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/fontconfig")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gtk-3.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/librsvg-2.0")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/pixman-1")
+INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/freetype2")
 
 #SET(crystal_facet_uml_BINARY_DIR ./bin)
 #SET(crystal_facet_uml_SOURCE_DIR .)
@@ -49,7 +70,8 @@ FILE(GLOB commonSource ../gui/source/*.c
                        ../pencil/source/util/geometry/*.c
                        ../pencil/source/draw/*.c
                        ../io/source/*.c
-                       ../io/source/json/*.c)
+                       ../io/source/json/*.c
+                       ${THIRD_PARTY_BASE}/sqlite-amalgamation-3290000/sqlite3.c)
 FILE(GLOB appSource    ../main/source/*.c)
 FILE(GLOB utestSource  ../main/unittest/*.c
                        ../data/unittest/*.c
