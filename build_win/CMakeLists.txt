@@ -1,11 +1,14 @@
-PROJECT(crystal_facet_uml)
 CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+
+# ==== ==== ==== ==== ==== ==== ==== ==== Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+SET(CMAKE_C_COMPILER "/usr/bin/i686-w64-mingw32-gcc")
+SET(CMAKE_CXX_COMPILER "/usr/bin/i686-w64-mingw32-g++")
+SET(CMAKE_SYSTEM_NAME "Windows")
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-SET(CMAKE_SYSTEM_NAME "Windows")
-SET(CMAKE_C_COMPILER "/usr/bin/i686-w64-mingw32-gcc")
-SET(CMAKE_CXX_COMPILER "/usr/bin/i686-w64-mingw32-g++")
+PROJECT(crystal_facet_uml)
 
 INCLUDE_DIRECTORIES(../gui/source)
 INCLUDE_DIRECTORIES(../gui/include)
