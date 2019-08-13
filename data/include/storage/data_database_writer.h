@@ -27,7 +27,7 @@
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
-#include <pthread.h>
+//#include <pthread.h>
 
 /*!
  *  \brief all data attributes needed for the database functions
@@ -36,7 +36,8 @@ struct data_database_writer_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader which may be queried within write-transactions */
 
-    pthread_mutex_t private_lock; /*!< lock to ensure that all private attributes are used by only one thread */
+    /* no lock needed: the writer is used single-threaded - or is at least synchronized by the ctrl module */
+    //pthread_mutex_t private_lock; /*!< lock to ensure that string buffers are exclusively used */
     data_database_sql_builder_t sql_builder; /*!< own instance of an object that builds sql strings */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_writer_db_change_callback */
@@ -486,7 +487,7 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ );
+//static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ );
 
 /*!
  *  \brief releases the lock.
@@ -494,7 +495,7 @@ static inline data_error_t data_database_writer_private_lock ( data_database_wri
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
  */
-static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
+//static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
 
 #include "storage/data_database_writer.inl"
 

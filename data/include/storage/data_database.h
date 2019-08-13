@@ -14,6 +14,7 @@
 #include "util/string/utf8stringbuf.h"
 #include <sqlite3.h>
 #include <stdbool.h>
+#include <glib.h>
 
 /*!
  *  \brief constants of data_database_t
@@ -30,7 +31,7 @@ struct data_database_struct {
     sqlite3 *db;
     data_change_notifier_t notifier;  /*!< sends notifications at every change to the database */
 
-    pthread_mutex_t private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
+    GMutex private_lock; /*!< lock to ensure that db_file_name, is_open and listener_list are used by only one thread at a time */
     utf8stringbuf_t db_file_name;
     char private_db_file_name_buffer[GUI_DATABASE_MAX_FILEPATH];
     bool is_open;
@@ -129,7 +130,7 @@ data_error_t data_database_private_initialize_indexes( data_database_t *this_ );
 
 /*!
  *  \brief upgrades old tables from oder versions to current database scheme
- * 
+ *
  *  \param this_ pointer to own object attributes
  *  \return DATA_ERROR_AT_DB if the current database is not a database or is encrypted
  */

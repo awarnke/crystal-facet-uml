@@ -28,14 +28,8 @@ static inline void data_database_private_clear_db_listener_list( data_database_t
 static inline data_error_t data_database_private_lock ( data_database_t *this_ )
 {
     data_error_t result = DATA_ERROR_NONE;
-    int perr;
 
-    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-        result = DATA_ERROR_AT_MUTEX;
-    }
+    g_mutex_lock ( &((*this_).private_lock) );
 
     return result;
 }
@@ -43,14 +37,8 @@ static inline data_error_t data_database_private_lock ( data_database_t *this_ )
 static inline data_error_t data_database_private_unlock ( data_database_t *this_ )
 {
     data_error_t result = DATA_ERROR_NONE;
-    int perr;
 
-    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-        result = DATA_ERROR_AT_MUTEX;
-    }
+    g_mutex_unlock ( &((*this_).private_lock) );
 
     return result;
 }

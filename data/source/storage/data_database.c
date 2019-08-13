@@ -478,7 +478,6 @@ data_error_t data_database_upgrade_tables( data_database_t *this_ )
 void data_database_init ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    int perr;
 
     TSLOG_EVENT_STR( "sqlite3_libversion:", sqlite3_libversion() );
 
@@ -487,11 +486,7 @@ void data_database_init ( data_database_t *this_ )
 
     (*this_).is_open = false;
 
-    perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
-    }
+    g_mutex_init ( &((*this_).private_lock) );
 
     data_change_notifier_init ( &((*this_).notifier) );
     data_database_private_clear_db_listener_list( this_ );
@@ -656,7 +651,6 @@ data_error_t data_database_close ( data_database_t *this_ )
 void data_database_destroy ( data_database_t *this_ )
 {
     TRACE_BEGIN();
-    int perr;
 
     data_database_private_clear_db_listener_list( this_ );
     if ( (*this_).is_open )
@@ -665,11 +659,7 @@ void data_database_destroy ( data_database_t *this_ )
     }
     data_change_notifier_destroy( &((*this_).notifier) );
 
-    perr = pthread_mutex_destroy ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
-    }
+    /* g_mutex_clear ( &((*this_).private_lock) ); -- must not be called because this GMutex is not on the stack */
 
     TRACE_END();
 }

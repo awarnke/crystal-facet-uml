@@ -4,35 +4,35 @@
 
 /* ================================ private ================================ */
 
-static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ )
-{
-    data_error_t result = DATA_ERROR_NONE;
-    int perr;
+//static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ )
+//{
+//    data_error_t result = DATA_ERROR_NONE;
+//    int perr;
+//
+//    perr = pthread_mutex_lock ( &((*this_).private_lock) );
+//    if ( perr != 0 )
+//    {
+//        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
+//        result = DATA_ERROR_AT_MUTEX;
+//    }
+//
+//    return result;
+//}
 
-    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-        result = DATA_ERROR_AT_MUTEX;
-    }
-    
-    return result;
-}
-
-static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ )
-{
-    data_error_t result = DATA_ERROR_NONE;
-    int perr;
-
-    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-        result = DATA_ERROR_AT_MUTEX;
-    }
-    
-    return result;
-}
+//static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ )
+//{
+//    data_error_t result = DATA_ERROR_NONE;
+//    int perr;
+//
+//    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
+//    if ( perr != 0 )
+//    {
+//        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
+//        result = DATA_ERROR_AT_MUTEX;
+//    }
+//
+//    return result;
+//}
 
 
 /*

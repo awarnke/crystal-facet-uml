@@ -27,16 +27,16 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_re
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    int perr;
+    //int perr;
 
     (*this_).database = database;
     (*this_).db_reader = db_reader;
 
-    perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
-    }
+    //perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
+    //if ( perr != 0 )
+    //{
+    //    TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
+    //}
 
     data_database_sql_builder_init( &((*this_).sql_builder) );
 
@@ -49,17 +49,17 @@ void data_database_writer_init ( data_database_writer_t *this_, data_database_re
 void data_database_writer_destroy ( data_database_writer_t *this_ )
 {
     TRACE_BEGIN();
-    int perr;
+    //int perr;
 
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
 
     data_database_sql_builder_destroy( &((*this_).sql_builder) );
 
-    perr = pthread_mutex_destroy ( &((*this_).private_lock) );
-    if ( perr != 0 )
-    {
-        TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
-    }
+    //perr = pthread_mutex_destroy ( &((*this_).private_lock) );
+    //if ( perr != 0 )
+    //{
+    //    TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
+    //}
 
     (*this_).db_reader = NULL;
     (*this_).database = NULL;
@@ -103,9 +103,9 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     TRACE_BEGIN();
     assert( NULL != diagram );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id;
+    int64_t new_id = DATA_ID_VOID_ID;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_diagram_command( &((*this_).sql_builder), diagram );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -113,7 +113,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagrams ... ->", new_id );  /* do not log confidential information, only id */
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     int64_t parent_id;
@@ -148,7 +148,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
     uint32_t referencing_classifier_count;
     data_error_t reference_check_err;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -191,7 +191,7 @@ data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -213,7 +213,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
     assert( NULL != new_diagram_description );
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -231,7 +231,7 @@ data_error_t data_database_writer_update_diagram_description ( data_database_wri
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -253,7 +253,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
     assert( NULL != new_diagram_name );
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -271,7 +271,7 @@ data_error_t data_database_writer_update_diagram_name ( data_database_writer_t *
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -292,7 +292,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -310,7 +310,7 @@ data_error_t data_database_writer_update_diagram_type ( data_database_writer_t *
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -331,7 +331,7 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -349,7 +349,7 @@ data_error_t data_database_writer_update_diagram_list_order ( data_database_writ
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -370,7 +370,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -388,7 +388,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
@@ -412,9 +412,9 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     TRACE_BEGIN();
     assert( NULL != classifier );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id;
+    int64_t new_id = DATA_ID_VOID_ID;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_classifier_command( &((*this_).sql_builder), classifier );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -422,7 +422,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO classifiers ... ->", new_id );  /* do not log confidential information, only id */
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal( data_database_get_notifier_ptr( (*this_).database ),
@@ -457,7 +457,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
     uint32_t referencing_relationship_count;
     data_error_t reference_check_err;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -508,7 +508,7 @@ data_error_t data_database_writer_delete_classifier( data_database_writer_t *thi
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -529,7 +529,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -547,7 +547,7 @@ data_error_t data_database_writer_update_classifier_stereotype ( data_database_w
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -568,7 +568,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -586,7 +586,7 @@ data_error_t data_database_writer_update_classifier_description ( data_database_
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -607,7 +607,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -625,7 +625,7 @@ data_error_t data_database_writer_update_classifier_name ( data_database_writer_
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -646,7 +646,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -664,7 +664,7 @@ data_error_t data_database_writer_update_classifier_main_type ( data_database_wr
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -685,7 +685,7 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -703,7 +703,7 @@ data_error_t data_database_writer_update_classifier_x_order ( data_database_writ
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -724,7 +724,7 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -742,7 +742,7 @@ data_error_t data_database_writer_update_classifier_y_order ( data_database_writ
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -763,7 +763,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -781,7 +781,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -803,9 +803,9 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     TRACE_BEGIN();
     assert( NULL != diagramelement );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id;
+    int64_t new_id = DATA_ID_VOID_ID;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_diagramelement_command( &((*this_).sql_builder), diagramelement );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -813,7 +813,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO diagramelements ... ->", new_id );  /* do not log confidential information, only id */
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     int64_t diagram_id;
@@ -842,7 +842,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -860,7 +860,7 @@ data_error_t data_database_writer_delete_diagramelement( data_database_writer_t 
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -881,7 +881,7 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -899,7 +899,7 @@ data_error_t data_database_writer_update_diagramelement_display_flags ( data_dat
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -920,7 +920,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -938,7 +938,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -958,9 +958,9 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     TRACE_BEGIN();
     assert( NULL != feature );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id;
+    int64_t new_id = DATA_ID_VOID_ID;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_feature_command( &((*this_).sql_builder), feature );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -968,7 +968,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO features ... ->", new_id );  /* do not log confidential information, only id */
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     int64_t classifier_id;
@@ -995,7 +995,7 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1013,7 +1013,7 @@ data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1031,7 +1031,7 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1049,7 +1049,7 @@ data_error_t data_database_writer_update_feature_main_type ( data_database_write
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1067,7 +1067,7 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1085,7 +1085,7 @@ data_error_t data_database_writer_update_feature_key ( data_database_writer_t *t
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1103,7 +1103,7 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1121,7 +1121,7 @@ data_error_t data_database_writer_update_feature_value ( data_database_writer_t 
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1139,7 +1139,7 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1157,7 +1157,7 @@ data_error_t data_database_writer_update_feature_description ( data_database_wri
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1175,7 +1175,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1193,7 +1193,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1213,9 +1213,9 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     TRACE_BEGIN();
     assert( NULL != relationship );
     data_error_t result = DATA_ERROR_NONE;
-    int64_t new_id;
+    int64_t new_id = DATA_ID_VOID_ID;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_sql_builder_build_create_relationship_command( &((*this_).sql_builder), relationship );
     char *sql_cmd = data_database_sql_builder_get_string_ptr( &((*this_).sql_builder) );
@@ -1223,7 +1223,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
     result |= data_database_writer_private_execute_create_command( this_, sql_cmd, &new_id );
     TSLOG_EVENT_INT( "sqlite3_exec: INSERT INTO relationships ... ->", new_id );  /* do not log confidential information, only id */
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     int64_t from_classifier_id;
@@ -1250,7 +1250,7 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1268,7 +1268,7 @@ data_error_t data_database_writer_delete_relationship ( data_database_writer_t *
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1286,7 +1286,7 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1304,7 +1304,7 @@ data_error_t data_database_writer_update_relationship_main_type ( data_database_
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1322,7 +1322,7 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1340,7 +1340,7 @@ data_error_t data_database_writer_update_relationship_name ( data_database_write
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1358,7 +1358,7 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1376,7 +1376,7 @@ data_error_t data_database_writer_update_relationship_description ( data_databas
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
@@ -1394,7 +1394,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    result |= data_database_writer_private_lock( this_ );
+    //result |= data_database_writer_private_lock( this_ );
 
     result |= data_database_writer_private_transaction_begin ( this_ );
 
@@ -1412,7 +1412,7 @@ data_error_t data_database_writer_update_relationship_list_order ( data_database
 
     result |= data_database_writer_private_transaction_commit ( this_ );
 
-    result |= data_database_writer_private_unlock( this_ );
+    //result |= data_database_writer_private_unlock( this_ );
 
     /* notify listeners */
     data_change_notifier_emit_signal_without_parent( data_database_get_notifier_ptr( (*this_).database ),
