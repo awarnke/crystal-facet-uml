@@ -7,6 +7,8 @@
 #include <stdio.h>
 #include <string.h>
 
+#ifdef __linux__
+
 static void set_up(void);
 static void tear_down(void);
 static void test_write_indent_multiline_string_null(void);
@@ -133,6 +135,25 @@ static void test_write_indent_multiline_string_cr(void)
     /*fprintf( stdout, "check: \"%s\"\n", &my_out_buffer );*/
     TEST_ASSERT( 0 == memcmp( &my_out_buffer, "123_456\n123_789\n[", strlen("123_456\n123_789\n[") ) );
 }
+
+#else  //  __linux __
+
+static void set_up(void)
+{
+}
+
+static void tear_down(void)
+{
+}
+
+test_suite_t io_format_writer_test_get_list(void)
+{
+    test_suite_t result;
+    test_suite_init( &result, "io_format_writer_test_get_list", &set_up, &tear_down );
+    return result;
+}
+
+#endif  //  __linux__
 
 
 /*

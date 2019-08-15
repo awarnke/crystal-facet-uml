@@ -26,11 +26,11 @@ struct gui_file_export_dialog_struct {
 
     GtkWidget *export_file_chooser;  /*!< pointer to instance of a file chooser for export */
 
-    GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
+    //GtkWidget *format_asciidoc;  /*!< pointer to checkbox for export-format asciidoc */
     GtkWidget *format_docbook;  /*!< pointer to checkbox for export-format docbook */
-    GtkWidget *format_doxygen;  /*!< pointer to checkbox for export-format doxygen */
-    GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
-    GtkWidget *format_rtf;  /*!< pointer to checkbox for export-format rtf */
+    //GtkWidget *format_doxygen;  /*!< pointer to checkbox for export-format doxygen */
+    //GtkWidget *format_latex;  /*!< pointer to checkbox for export-format latex */
+    //GtkWidget *format_rtf;  /*!< pointer to checkbox for export-format rtf */
     GtkWidget *format_pdf;  /*!< pointer to checkbox for export-format pdf */
     GtkWidget *format_png;  /*!< pointer to checkbox for export-format png */
     GtkWidget *format_ps;  /*!< pointer to checkbox for export-format ps */
@@ -38,10 +38,8 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_txt;  /*!< pointer to checkbox for export-format txt */
     GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
 
-    GtkWidget *diagram_set_label;
-    //GtkFlowBox *flowbox_diagram_set;  /*!< pointer to flow box for export of many independant files */
-    GtkWidget *document_label;
-    //GtkFlowBox *flowbox_document;  /*!< pointer to checkbox for export of single or linked files */
+    GtkWidget *diagram_set_label;  /*!< the label for filetype-sets */
+    GtkWidget *document_label;  /*!< the label for document-types */
     GtkWidget *options_layout;  /*!< the grid layout container for the export options */
 };
 

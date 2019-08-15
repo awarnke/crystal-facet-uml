@@ -2,6 +2,8 @@ crystal-facet-uml (1.14.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * background image added to intro screen.
+  * compatibility to GTK 3.6 established, newer features replaced
+  * pthread dependency replaced by glib functions
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 28 Jul 2019 14:30:00 +0200
 

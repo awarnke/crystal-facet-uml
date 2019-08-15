@@ -52,8 +52,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     (*this_).format_txt = gtk_check_button_new_with_label ("txt");
 
     (*this_).options_layout = gtk_grid_new();
-    //(*this_).flowbox_diagram_set = GTK_FLOW_BOX( gtk_flow_box_new ());
-    //(*this_).flowbox_document = GTK_FLOW_BOX( gtk_flow_box_new ());
 
     (*this_).diagram_set_label = gtk_label_new ( "Diagram-sets:" );
     (*this_).document_label = gtk_label_new ( "Documents:" );
@@ -65,27 +63,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_misc_set_alignment (GTK_MISC( (*this_).diagram_set_label ), 0.0, 0.0 );
 #endif
 
-#if 0
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).document_label, -1 );
-    /*
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_asciidoc, -1 );
-    */
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_docbook, -1 );
-    /*
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_doxygen, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_latex, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_rtf, -1 );
-    */
-    gtk_flow_box_insert ( (*this_).flowbox_document, (*this_).format_xhtml, -1 );
-
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).diagram_set_label, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).format_pdf, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).format_png, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).format_ps, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).format_svg, -1 );
-    gtk_flow_box_insert ( (*this_).flowbox_diagram_set, (*this_).format_txt, -1 );
-#endif
-
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).options_layout), false );
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).options_layout), false );
@@ -94,6 +71,12 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_docbook, 2, 1, 2, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_xhtml, 4, 1, 2, 1 );
+    /*
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_asciidoc, 4, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_doxygen, 5, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_latex, 6, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_rtf, 7, 1, 1, 1 );
+    */
 
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_pdf, 2, 0, 1, 1 );
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_png, 3, 0, 1, 1 );
@@ -102,10 +85,6 @@ void gui_file_export_dialog_init ( gui_file_export_dialog_t *this_,
     gtk_grid_attach( GTK_GRID((*this_).options_layout), (*this_).format_txt, 6, 0, 1, 1 );
 
     gtk_container_add ( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).options_layout ) );
-    /*
-    gtk_container_add ( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).flowbox_diagram_set ) );
-    gtk_container_add ( GTK_CONTAINER(content_area), GTK_WIDGET( (*this_).flowbox_document ) );
-    */
     /* no need to g_object_unref( content_area ); here */
 
     io_exporter_init( &((*this_).file_exporter), db_reader );

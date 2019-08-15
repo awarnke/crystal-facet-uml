@@ -53,13 +53,14 @@ INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/includ
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/glib-2.0")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/lzma")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gdk-pixbuf-2.0")
-INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/atk-1.0")
+INCLUDE_DIRECTORIES("${THIRD_PART_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/atk-1.0")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/fontconfig")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/gtk-3.0")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/librsvg-2.0")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/pixman-1")
 INCLUDE_DIRECTORIES("${THIRD_PARTY_BASE}/gtk+-bundle_3.6.4-20130513_win64/include/freetype2")
 
+LINK_DIRECTORIES("${THIRD_PART_BASE}/gtk+-bundle_3.6.4-20130513_win64/bin/")
 #SET(crystal_facet_uml_BINARY_DIR ./bin)
 #SET(crystal_facet_uml_SOURCE_DIR .)
 FILE(GLOB commonSource ../gui/source/*.c
@@ -106,6 +107,7 @@ LIST(APPEND applicationSource ${commonSource} ${appSource})
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
+TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3-0 gdk-3-0 glib-2.0-0 cairo-2 pango-1.0-0 pangocairo-1.0.0 gobject-2.0-0 freetype-6 gdk_pixbuf-2.0-0 dl m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
@@ -127,6 +129,7 @@ LIST(APPEND unittestSource ${commonSource} ${utestSource})
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3-0 gdk-3-0 glib-2.0-0 cairo-2 pango-1.0-0 pangocairo-1.0.0 gobject-2.0-0 freetype-6 gdk_pixbuf-2.0-0 dl m)
 SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
