@@ -39,9 +39,10 @@ struct gui_file_export_dialog_struct {
     GtkWidget *format_xhtml;  /*!< pointer to checkbox for export-format xhtml */
 
     GtkWidget *diagram_set_label;
-    GtkFlowBox *flowbox_diagram_set;  /*!< pointer to flow box for export of many independant files */
+    //GtkFlowBox *flowbox_diagram_set;  /*!< pointer to flow box for export of many independant files */
     GtkWidget *document_label;
-    GtkFlowBox *flowbox_document;  /*!< pointer to checkbox for export of single or linked files */
+    //GtkFlowBox *flowbox_document;  /*!< pointer to checkbox for export of single or linked files */
+    GtkWidget *options_layout;  /*!< the grid layout container for the export options */
 };
 
 typedef struct gui_file_export_dialog_struct gui_file_export_dialog_t;

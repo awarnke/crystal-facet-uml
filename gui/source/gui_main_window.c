@@ -262,17 +262,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init the file choosers */
 
-    gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog), 
-                                  controller, 
-                                  database, 
+    gui_file_use_db_dialog_init ( &((*this_).file_use_db_dialog),
+                                  controller,
+                                  database,
                                   GTK_WINDOW( (*this_).window ),
-                                  &((*this_).message_to_user) 
+                                  &((*this_).message_to_user)
                                 );
-    gui_file_export_dialog_init( &((*this_).file_export_dialog), 
+    gui_file_export_dialog_init( &((*this_).file_export_dialog),
                                  database,
-                                 db_reader, 
+                                 db_reader,
                                  GTK_WINDOW( (*this_).window ),
-                                 &((*this_).message_to_user) 
+                                 &((*this_).message_to_user)
                                );
 
     TRACE_INFO("GTK+ Widgets are created.");
@@ -298,17 +298,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_about,-1);
 
     /* parameter info: gtk_grid_attach (GtkGrid *grid, GtkWidget *child, gint left, gint top, gint width, gint height); */
-    /*
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 4, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 0, 2, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 1, 2, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 2, 2, 2, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 0, 3, 3, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 3, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 4, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 4, 3, 1 );
-    */
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
@@ -435,7 +424,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     gui_file_export_dialog_destroy ( &((*this_).file_export_dialog) );
     gui_file_use_db_dialog_destroy ( &((*this_).file_use_db_dialog) );
-    
+
     TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
