@@ -72,9 +72,14 @@ This part here looks promising:
 >
 > meson --cross-file ../../crystal-facet-uml-code/build_win/cross_file.txt ../glib
 
+
 Another thread that looks promising:
 
-Download the gtk-everything archive from the internet ( e.g. gtk+-bundle_3.6.4-20130513_win64.zip (31.0 Mb) )
+Download the gtk-everything archive from the internet
+( e.g. gtk+-bundle_3.6.4-20130513_win64.zip (31.0 Mb) from http://www.tarnyko.net/dl/gtk.htm
+or sourceforge.net/projects/gtk-win )
+
+Or download
 
 download the sqlite sources (amalgamation) from https://sqlite.org/download.html
 
