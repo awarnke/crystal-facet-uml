@@ -31,21 +31,8 @@ Starting from here, this is a bit of exploratory try-and-error, no final solutio
 Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
 
 
-> sudo apt install curl
->
-> git clone https://github.com/Microsoft/vcpkg
->
-> cd vcpkg
->
-> ./bootstrap-vcpkg.sh
->
-> ./vcpkg install gtk:x64-windows
-
-This part here looks promising:
-
 > mkdir my_build && cd my_build
 >
-> cmake -DCMAKE_SYSTEM_NAME=Windows -DCMAKE_C_COMPILER=/usr/bin/i686-w64-mingw32-gcc -DCMAKE_CXX_COMPILER=/usr/bin/i686-w64-mingw32-g++ ../crystal-facet-uml/       # adapt the source directory name
 >
 > make crystal_facet_uml
 
@@ -66,20 +53,10 @@ This part here looks promising:
 > git clone https://github.com/GNOME/pango.git
 
 
-> mkdir build_glib
->
-> cd build_glib/
->
-> meson --cross-file ../../crystal-facet-uml-code/build_win/cross_file.txt ../glib
-
-
-Another thread that looks promising:
-
 Download the gtk-everything archive from the internet
-( e.g. gtk+-bundle_3.6.4-20130513_win64.zip (31.0 Mb) from http://www.tarnyko.net/dl/gtk.htm
+( e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
 or sourceforge.net/projects/gtk-win )
 
-Or download
 
 download the sqlite sources (amalgamation) from https://sqlite.org/download.html
 
@@ -90,5 +67,7 @@ download the sqlite sources (amalgamation) from https://sqlite.org/download.html
 How to run
 -----------
 
+> mv crystal_facet_uml.exe gtk+-bundle_3.6.4-20130513_win32/bin/
+> 
 > wine crystal_facet_uml.exe
 
