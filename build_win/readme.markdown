@@ -14,60 +14,30 @@ wine on debian/raspbian/ubuntu:
 > sudo apt install gcc-mingw-w64-i686
 >
 > sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
-
-
-
-Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
-
-> sudo dpkg --add-architecture i386
 >
-> sudo apt update
->
-> sudo apt install wine32
->
-> sudo apt install meson  # to configure the glib sources
-
-
-Starting from here, this is a bit of exploratory try-and-error, no final solution yet...
-
-
 > mkdir my_build && cd my_build
 >
+> echo Download the gtk+-bundle archive
+>
+> echo e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
+>
+> unzip gtk+-bundle_3.6.4-20130513_win32.zip -d gtk+-bundle_3.6.4-20130513_win32
+>
+> echo Download the sqlite sources (amalgamation) from https://sqlite.org/download.html
+>
+> unzip sqlite-amalgamation-3290000.zip -d sqlite-amalgamation-3290000
+>
+> cmake -DCMAKE_TOOLCHAIN_FILE=../crystal_facet_uml/build_win/mingw_wine_toolchain.cmake ../crystal_facet_uml/build_win
 >
 > make crystal_facet_uml
-
-> echo download the sqlite sources (amalgamation) from https://sqlite.org/download.html
->
-> echo clone the git repositories
->
-> git clone https://github.com/GNOME/atk.git
->
-> git clone https://gitlab.freedesktop.org/cairo/cairo.git
->
-> git clone https://github.com/GNOME/gdk-pixbuf.git
->
-> git clone https://github.com/GNOME/glib.git
->
-> git clone https://github.com/GNOME/gtk.git
->
-> git clone https://github.com/GNOME/pango.git
-
-
-Download the gtk-everything archive from the internet
-( e.g. gtk+-bundle_3.6.4-20130513_win32.zip (28.8 Mb) from http://www.tarnyko.net/dl/gtk.htm
-or sourceforge.net/projects/gtk-win )
-
-
-download the sqlite sources (amalgamation) from https://sqlite.org/download.html
-
-
-
 
 
 How to run
 -----------
 
-> mv crystal_facet_uml.exe gtk+-bundle_3.6.4-20130513_win32/bin/
-> 
-> wine crystal_facet_uml.exe
+>       mv crystal_facet_uml.exe gtk+-bundle_3.6.4-20130513_win32/bin
+>
+>       cd gtk+-bundle_3.6.4-20130513_win32/bin
+>
+>       wine crystal_facet_uml.exe
 

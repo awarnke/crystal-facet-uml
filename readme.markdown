@@ -28,6 +28,22 @@ openSuSE:
 
 >       sudo zypper install crystal-facet-uml-1.x.0-1.1.x86_64.rpm
 
+wine:
+
+>       echo download an gtk binary bundle,
+>
+>       echo e.g. gtk+-bundle_3.6.4-20130513_win32.zip from http://www.tarnyko.net/dl/gtk.htm
+>
+>       echo download crystal_facet_uml.exe
+>
+>       unzip gtk+-bundle_3.6.4-20130513_win32.zip -d gtk+-bundle_3.6.4-20130513_win32
+>
+>       mv crystal_facet_uml.exe gtk+-bundle_3.6.4-20130513_win32/bin
+>
+>       cd gtk+-bundle_3.6.4-20130513_win32/bin
+>
+>       wine crystal_facet_uml.exe
+
 How to build from source
 -----------
 
