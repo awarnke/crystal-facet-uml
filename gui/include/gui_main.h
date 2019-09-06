@@ -15,12 +15,10 @@
 /*!
  *  \brief initializes the gui widgets
  *
- *  \param argc number of command line arguments to this program
- *  \param argv list of command line arguments to this program
  *  \param controller pointer to a controller object which can modify the database
  *  \param database pointer to a database object
  */
-void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database );
+void gui_main ( ctrl_controller_t *controller, data_database_t *database );
 
 #endif  /* GUI_MAIN_H */
 

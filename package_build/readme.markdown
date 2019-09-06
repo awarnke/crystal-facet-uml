@@ -12,9 +12,9 @@ Update all version numbers:
 
 >       build_doxygen/Doxyfile : PROJECT_NUMBER
 >       main/include/meta/meta_info.h : META_INFO_VERSION_STR
+>       package/build/debian_pack.sh : VERSIONSTR
 >       package/build/source_pack.sh : VERSIONSTR
 >       package/build/source_test.sh : VERSIONSTR
->       package/build/debian_pack.sh : VERSIONSTR
 >       package_build/openSUSE_build_service_config/crystal_facet_uml.spec : Version
 >       package_build/debian_config/debian/changelog : new entry
 >       release_notes.txt : new entry
@@ -47,7 +47,7 @@ Document
 
 >       # add a version tag to the git revision:
 >       git tag -a v1.12.0 8f17811
->       git push origin master --follow-tags 
+>       git push origin master --follow-tags
 
 
 

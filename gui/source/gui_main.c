@@ -12,13 +12,11 @@
 
 static gui_window_manager_t window_manager;
 
-void gui_main ( int argc, char *argv[], ctrl_controller_t *controller, data_database_t *database ) {
+void gui_main ( ctrl_controller_t *controller, data_database_t *database ) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
     TRACE_INFO_INT("sizeof(gui_window_manager_t):",sizeof(gui_window_manager_t));
     TRACE_INFO("initializing gui thread...");
-
-    gtk_init(&argc, &argv);
 
     gui_window_manager_init( &window_manager, controller, database );
 

@@ -27,6 +27,7 @@
 #include "tslog.h"
 #include "meta/meta_info.h"
 #include "util/string/utf8string.h"
+#include <gtk/gtk.h>
 #include <stdbool.h>
 #include <test_runner.h>
 
@@ -73,6 +74,15 @@ int main (int argc, char *argv[]) {
         {
             do_unit_tests = true;
             do_module_tests = true;
+        }
+    }
+
+    /* initialize the base libraries: gobject, gio, glib, gdk and gtk */
+    {
+        gboolean success = gtk_init_check(&argc, &argv);
+        if ( ! success )
+        {
+            TSLOG_WARNING("gtk could not be initialized.");
         }
     }
 

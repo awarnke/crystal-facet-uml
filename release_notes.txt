@@ -1,3 +1,10 @@
+crystal-facet-uml (1.14.2) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * gtk is initialized before data and ctrl packages --> possible fix for wine
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 06 Sep 2019 19:30:00 +0200
+
 crystal-facet-uml (1.14.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

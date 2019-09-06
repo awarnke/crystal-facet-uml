@@ -7,6 +7,7 @@
 #include "tslog.h"
 #include "meta/meta_info.h"
 #include "util/string/utf8string.h"
+#include <gtk/gtk.h>
 #include <sys/types.h>
 #include <stdbool.h>
 #include <unistd.h>
@@ -76,6 +77,20 @@ int main (int argc, char *argv[]) {
         }
     }
 
+    /* initialize the base libraries: gobject, gio, glib, gdk and gtk */
+    if ( do_not_start )
+    {
+        gboolean success = gtk_init_check(&argc, &argv);
+        if ( ! success )
+        {
+            TSLOG_WARNING("gtk could not be initialized.");
+        }
+    }
+    else
+    {
+        gtk_init(&argc, &argv);
+    }
+
     /* repair database */
     if ( do_repair || do_check )
     {
@@ -137,7 +152,7 @@ int main (int argc, char *argv[]) {
 
         TRACE_TIMESTAMP();
         TRACE_INFO("running GUI...");
-        gui_main( argc, argv, &controller, &database );
+        gui_main( &controller, &database );
         TRACE_INFO("GUI stopped.");
 
         TRACE_TIMESTAMP();

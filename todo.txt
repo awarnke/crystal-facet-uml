@@ -10,6 +10,7 @@ ideas for future versions:
   [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   [ ] while dragging, show the grid lines to better explain the drag-result
+  [ ]  !  On wine, screens are not updated automatically, more precisely, caches are not reloaded
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   @pencil
