@@ -28,7 +28,7 @@
                 for example based on the arc42 template <ulink url="https://arc42.org/overview/"/> :
 
                 <mediaobject>
-                    <imageobject><imagedata fileref="modeling_hint_on_structure.png"/></imageobject>
+                    <imageobject><imagedata fileref="5_modeling_hint_on_structure.png"/></imageobject>
                 </mediaobject>
             </para>
             <para>
@@ -39,7 +39,7 @@
                 omitting possibly empty or superfluous folders.
 
                 <mediaobject>
-                    <imageobject><imagedata fileref="modeling_hint_on_structure_rec.png"/></imageobject>
+                    <imageobject><imagedata fileref="5_modeling_hint_on_structure_rec.png"/></imageobject>
                 </mediaobject>
             </para>
 

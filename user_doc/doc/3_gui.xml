@@ -25,8 +25,8 @@
         <title>Tool Bar</title>
         <para>
             <mediaobject>
-                <imageobject><imagedata fileref="main_window_sketch_1.pdf" width="4cm"/></imageobject>
-                <imageobject><imagedata fileref="main_window_sketch_1.png"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_1.pdf" width="4cm"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_1.png"/></imageobject>
             </mediaobject>
         </para>
 
@@ -267,8 +267,8 @@
         <para>
 
             <mediaobject>
-                <imageobject><imagedata fileref="main_window_sketch_2.pdf" width="4cm"/></imageobject>
-                <imageobject><imagedata fileref="main_window_sketch_2.png"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_2.pdf" width="4cm"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_2.png"/></imageobject>
             </mediaobject>
 
             Diagrams are layouted automatically. You can influence the locations of classifiers only.
@@ -338,8 +338,8 @@
                 </orderedlist>
 
                 <mediaobject>
-                    <imageobject><imagedata fileref="main_window_sketch_2_create.pdf" width="8cm"/></imageobject>
-                    <imageobject><imagedata fileref="main_window_sketch_2_create.png"/></imageobject>
+                    <imageobject><imagedata fileref="3_main_window_sketch_2_create.pdf" width="8cm"/></imageobject>
+                    <imageobject><imagedata fileref="3_main_window_sketch_2_create.png"/></imageobject>
                 </mediaobject>
             </para>
 
@@ -350,8 +350,8 @@
         <para>
 
             <mediaobject>
-                <imageobject><imagedata fileref="main_window_sketch_3.pdf" width="4cm"/></imageobject>
-                <imageobject><imagedata fileref="main_window_sketch_3.png"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_3.pdf" width="4cm"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_3.png"/></imageobject>
             </mediaobject>
 
             Edit the properties of the yellow-cornered object.
@@ -384,8 +384,8 @@
         <para>
 
             <mediaobject>
-                <imageobject><imagedata fileref="main_window_sketch_4.pdf" width="4cm"/></imageobject>
-                <imageobject><imagedata fileref="main_window_sketch_4.png"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_4.pdf" width="4cm"/></imageobject>
+                <imageobject><imagedata fileref="3_main_window_sketch_4.png"/></imageobject>
             </mediaobject>
         </para>
 

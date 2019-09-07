@@ -1,0 +1,54 @@
+<!DOCTYPE section>
+<section>
+    <title>Installation on Windows/Wine</title>
+    <para>
+        For Windows/Wine, the needed gtk libraries may possibly not be preinstalled.
+    </para>
+    <para>
+        One way to install the required libraries is to download a gtk+-bundle, e.g.
+        <computeroutput>gtk+-bundle_3.6.4-20130513_win32.zip</computeroutput>
+        (28.8 Mb)
+        from
+        <ulink url="http://www.tarnyko.net/dl/gtk.htm"/>
+        and unzip it.
+
+        This bundle contains
+        <programlisting>
+libatk-1.0-?.dll
+libcairo-?.dll
+libfontconfig-?.dll
+libgailutil-?.dll
+libgdk_pixbuf-2.0-?.dll
+libgdk-win32-3.0-?.dll
+libgio-2.0-?.dll
+libglib-2.0-?.dll
+libgmodule-2.0-?.dll
+libgobject-2.0-?.dll
+libgthread-2.0-?.dll
+libgtk-win32-3.0-?.dll
+libpango-1.0-?.dll
+libpangocairo-1.0-?.dll
+libpangoft2-1.0-?.dll
+libpangowin32-1.0-?.dll
+        </programlisting>
+
+        <itemizedlist>
+            <listitem><para>Either install the dlls to your <computeroutput>windows system</computeroutput> path</para></listitem>
+            <listitem><para>or move <computeroutput>crystal_facet_uml.exe</computeroutput> into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.</para></listitem>
+        </itemizedlist>
+
+    </para>
+    <para>
+        <mediaobject>
+            <imageobject><imagedata fileref="8_installation_wine.png"/></imageobject>
+        </mediaobject>
+        <itemizedlist>
+            <listitem><para>With the wine windows emulation, call <userinput>wine crystal_facet_uml.exe</userinput> to start,</para></listitem>
+            <listitem><para>on Windows, this was not yet tested, but a doubleclick on <userinput>crystal_facet_uml.exe</userinput> should be sufficient.</para></listitem>
+        </itemizedlist>
+    </para>
+    <para>
+        Comments by email are welcome: cfu-at-andreaswarnke-dot-de
+    </para>
+
+</section>

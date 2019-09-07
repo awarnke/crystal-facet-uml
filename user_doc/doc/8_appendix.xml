@@ -1,0 +1,45 @@
+<!DOCTYPE appendix>
+<appendix>
+    <title>Configuration</title>
+    <para>
+    </para>
+    <section>
+        <title>Download, Installation and License</title>
+        <para>
+        </para>
+            <section>
+            <title>Download Links</title>
+            <para>
+
+                Find the latest version of crystal_facet_uml at:
+                <itemizedlist>
+                <listitem><para><ulink url="https://www.heise.de/download/product/crystal-facet-uml/"/></para></listitem>
+                <listitem><para><ulink url="https://sourceforge.net/projects/crystal-facet-uml/"/></para></listitem>
+                <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml"/></para></listitem>
+                <listitem><para><ulink url="https://build.opensuse.org/package/show/home:awarnke/crystal_facet_uml"/></para></listitem>
+                <listitem><para><ulink url="https://salsa.debian.org/debian-edu-pkg-team/crystal-facet-uml"/></para></listitem>
+                </itemizedlist>
+
+                User documentation is available here:
+                <itemizedlist>
+                <listitem><para><ulink url="http://www.andreaswarnke.de/crystal_facet_uml/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
+                <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/blob/master/user_doc/crystal_facet_uml_user_documentation.pdf"/></para></listitem>
+                </itemizedlist>
+            </para>
+        </section>
+
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="8_installation_linux.xml" />
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="8_installation_win.xml" />
+
+        <section>
+            <title>License</title>
+            <para>
+
+                License of crystal_facet_uml is Apache-2.0.
+
+                (c) 2016-2019 Andreas Warnke; Email-contact: cfu-at-andreaswarnke-dot-de
+            </para>
+
+        </section>
+    </section>
+</appendix>

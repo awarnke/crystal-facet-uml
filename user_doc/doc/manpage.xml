@@ -122,7 +122,7 @@ man(1), man(7), http://www.tldp.org/HOWTO/Man-Page/
   </refsynopsisdiv>
   <refsect1 id="description">
     <title>DESCRIPTION</title>
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="1_non_tech_intro_para.xml" />
   </refsect1>
   <refsect1 id="options">
     <title>OPTIONS</title>

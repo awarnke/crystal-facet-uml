@@ -42,7 +42,7 @@
             </mediaobject>
         </para>
 
-        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="non_tech_intro_para.xml" />
+        <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="1_non_tech_intro_para.xml" />
 
     </section>
     <section>

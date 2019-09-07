@@ -11,11 +11,11 @@
         <date>2019-09-06</date>
     </articleinfo>
 
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="introduction.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="feature_gallery.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="gui.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="diagrams_and_elements_spec.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="modeling_guidelines.xml" />
-    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="appendix.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="1_introduction.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="2_feature_gallery.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="3_gui.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="4_diagrams_and_elements_spec.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="5_modeling_guidelines.xml" />
+    <xi:include xmlns:xi="http://www.w3.org/2001/XInclude" href="8_appendix.xml" />
 
 </article>
