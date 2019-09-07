@@ -10,7 +10,7 @@ echo "test archive"
 tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 
 echo "building doc"
-cd crystal-facet-uml-$VERSIONSTR/doxygen_build
+cd crystal-facet-uml-$VERSIONSTR/build_doxygen
 ./make.sh
 cd ../..
 
