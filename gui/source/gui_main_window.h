@@ -78,6 +78,7 @@ struct gui_main_window_struct {
 
     GtkAccelGroup *keyboard_shortcut_group;
 
+    GtkWidget *id_label;
     GtkWidget *name_label;
     GtkWidget *name_entry;
     GtkWidget *description_label;
@@ -88,6 +89,11 @@ struct gui_main_window_struct {
     GtkWidget *stereotype_entry;
     GtkWidget *edit_commit_icon;
     GtkWidget *edit_commit_button;
+
+    GtkWidget *search_label;
+    GtkWidget *search_entry;
+    GtkWidget *search_btn_icon;
+    GtkWidget *search_button;
 
     GtkWidget *message_text_label;
     GtkWidget *message_icon_image;

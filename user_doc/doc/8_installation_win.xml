@@ -20,7 +20,7 @@ libfontconfig-?.dll
 libgailutil-?.dll
 libgdk_pixbuf-2.0-?.dll
 libgdk-win32-3.0-?.dll
-libgio-2.0-?.dll
+libgio-2.0-?.dll+
 libglib-2.0-?.dll
 libgmodule-2.0-?.dll
 libgobject-2.0-?.dll
@@ -32,23 +32,24 @@ libpangoft2-1.0-?.dll
 libpangowin32-1.0-?.dll
         </programlisting>
 
+    </para>
+    <para>
+        Move <computeroutput>crystal_facet_uml.exe</computeroutput>
+        into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.
+        <!--
         <itemizedlist>
             <listitem><para>Either install the dlls to your <computeroutput>windows system</computeroutput> path</para></listitem>
             <listitem><para>or move <computeroutput>crystal_facet_uml.exe</computeroutput> into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.</para></listitem>
         </itemizedlist>
-
+        -->
     </para>
     <para>
         <mediaobject>
             <imageobject><imagedata fileref="8_installation_wine.png"/></imageobject>
         </mediaobject>
         <itemizedlist>
-            <listitem><para>With the wine windows emulation, call <userinput>wine crystal_facet_uml.exe</userinput> to start,</para></listitem>
-            <listitem><para>on Windows, this was not yet tested, but a doubleclick on <userinput>crystal_facet_uml.exe</userinput> should be sufficient.</para></listitem>
+            <listitem><para>On windows, doubleclick on <userinput>crystal_facet_uml.exe</userinput>,</para></listitem>
+            <listitem><para>or using the wine emulation, call <userinput>wine crystal_facet_uml.exe</userinput> to start.</para></listitem>
         </itemizedlist>
     </para>
-    <para>
-        Comments by email are welcome: cfu-at-andreaswarnke-dot-de
-    </para>
-
 </section>

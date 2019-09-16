@@ -15,8 +15,8 @@ const char *GUI_TOOLS_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 void gui_tools_init ( gui_tools_t *this_,
                              GtkToolItem *tool_navigate,
                              GtkToolItem *tool_edit,
-                             GtkToolItem *tool_new_obj,
-                             GtkToolItem *tool_new_view,
+                      GtkToolItem *tool_create,
+                      GtkToolItem *tool_search,
                              GtkClipboard *clipboard,
                              gui_marked_set_t *marker,
                              gui_simple_message_to_user_t *message_to_user,
@@ -26,8 +26,8 @@ void gui_tools_init ( gui_tools_t *this_,
     TRACE_BEGIN();
     assert( NULL != tool_navigate );
     assert( NULL != tool_edit );
-    assert( NULL != tool_new_obj );
-    assert( NULL != tool_new_view );
+    assert( NULL != tool_create );
+    assert( NULL != tool_search );
     assert( NULL != clipboard );
     assert( NULL != marker );
     assert( NULL != message_to_user );
@@ -42,8 +42,8 @@ void gui_tools_init ( gui_tools_t *this_,
     (*this_).controller = controller;
     (*this_).tool_navigate = tool_navigate;
     (*this_).tool_edit = tool_edit;
-    (*this_).tool_new_obj = tool_new_obj;
-    (*this_).tool_new_view = tool_new_view;
+    (*this_).tool_create = tool_create;
+    (*this_).tool_search = tool_search;
 
     gui_serializer_deserializer_init ( &((*this_).serdes),
                                        clipboard,
@@ -87,8 +87,8 @@ void gui_tools_destroy ( gui_tools_t *this_ )
     (*this_).message_to_user = NULL;
     (*this_).tool_navigate = NULL;
     (*this_).tool_edit = NULL;
-    (*this_).tool_new_obj = NULL;
-    (*this_).tool_new_view = NULL;
+    (*this_).tool_create = NULL;
+    (*this_).tool_search = NULL;
 
     TRACE_END();
 }

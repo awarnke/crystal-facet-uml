@@ -143,7 +143,7 @@ static inline bool data_id_is_valid ( const data_id_t *this_ );
 static inline bool data_id_equals_id ( const data_id_t *this_, data_table_t table, int64_t row_id );
 
 /*!
- *  \brief prints a textual representation of this id to a utf8stringbuf
+ *  \brief prints a textual representation of this id to an utf8stringbuf
  *
  *  \param this_ pointer to own object attributes
  *  \param out_str string to which to append the id

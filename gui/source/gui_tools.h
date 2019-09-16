@@ -41,8 +41,8 @@ struct gui_tools_struct {
 
     GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_new_obj;  /*!< pointer to external GtkRadioToolButton */
-    GtkToolItem *tool_new_view;  /*!< pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_create;  /*!< pointer to external GtkRadioToolButton */
+    GtkToolItem *tool_search;  /*!< pointer to external GtkRadioToolButton */
 };
 
 typedef struct gui_tools_struct gui_tools_t;
@@ -55,8 +55,8 @@ extern const char *GUI_TOOLS_GLIB_SIGNAL_NAME;
  *  \param this_ pointer to own object attributes
  *  \param tool_navigate the GTK widget
  *  \param tool_edit the GTK widget
- *  \param tool_new_obj the GTK widget
- *  \param tool_new_view the GTK widget
+ *  \param tool_create the GTK widget
+ *  \param tool_search the GTK widget
  *  \param clipboard pointer to the main/primary GtkClipboard
  *  \param marker pointer to the set of marked items
  *  \param message_to_user pointer to an object that can show a message to the user
@@ -64,16 +64,16 @@ extern const char *GUI_TOOLS_GLIB_SIGNAL_NAME;
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_tools_init ( gui_tools_t *this_,
-                             GtkToolItem *tool_navigate,
-                             GtkToolItem *tool_edit,
-                             GtkToolItem *tool_new_obj,
-                             GtkToolItem *tool_new_view,
-                             GtkClipboard *clipboard,
-                             gui_marked_set_t *marker,
-                             gui_simple_message_to_user_t *message_to_user,
-                             data_database_reader_t *db_reader,
-                             ctrl_controller_t *controller
-                           );
+                      GtkToolItem *tool_navigate,
+                      GtkToolItem *tool_edit,
+                      GtkToolItem *tool_create,
+                      GtkToolItem *tool_search,
+                      GtkClipboard *clipboard,
+                      gui_marked_set_t *marker,
+                      gui_simple_message_to_user_t *message_to_user,
+                      data_database_reader_t *db_reader,
+                      ctrl_controller_t *controller
+                    );
 
 /*!
  *  \brief destroys the gui_tools_t struct

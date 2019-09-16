@@ -10,6 +10,7 @@
 #include <stdbool.h>
 
 void gui_textedit_init ( gui_textedit_t *this_,
+                         GtkLabel *id_label,
                          GtkEntry *name_entry,
                          GtkEntry *stereotype_entry,
                          GtkComboBox *type_combo_box,
@@ -21,6 +22,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
                          gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
+    assert( NULL != id_label );
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
     assert( NULL != type_combo_box );
@@ -31,6 +33,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
     assert( NULL != db_reader );
     assert( NULL != message_to_user );
 
+    (*this_).id_label = id_label;
     (*this_).name_entry = name_entry;
     (*this_).stereotype_entry = stereotype_entry;
     (*this_).type_combo_box = type_combo_box;
@@ -275,9 +278,10 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     (*this_).controller = NULL;
     (*this_).message_to_user = NULL;
 
+    (*this_).id_label = NULL;
     (*this_).name_entry = NULL;
-    (*this_).description_text_view = NULL;
     (*this_).stereotype_entry = NULL;
+    (*this_).description_text_view = NULL;
 
     TRACE_END();
 }
@@ -286,6 +290,7 @@ void gui_textedit_update_widgets ( gui_textedit_t *this_ )
 {
     TRACE_BEGIN();
 
+    gui_textedit_private_id_update_view( this_ );
     gui_textedit_private_name_update_view ( this_ );
     gui_textedit_private_stereotype_update_view( this_ );
     gui_textedit_private_description_update_view( this_ );
@@ -360,6 +365,16 @@ void gui_textedit_trace ( const gui_textedit_t *this_ )
             TRACE_INFO( "- cached object: ERROR, ILLEGAL ENUM VALUE OF data_table_t" );
         }
         break;
+    }
+
+    /* id: */
+    if ( TRACE_ACTIVE )
+    {
+        GtkLabel *id_widget;
+        const char* text;
+        id_widget = GTK_LABEL( (*this_).id_label );
+        text = gtk_label_get_text( id_widget );
+        TRACE_INFO_STR( "- visible id:", text );
     }
 
     /* name: */
@@ -525,6 +540,33 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
+void gui_textedit_id_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( NULL != id );
+    assert ( GTK_LABEL( widget ) == GTK_LABEL( (*this_).id_label ) );
+
+    /* is a new object selected ? */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        /* store all changes (of the other widgets) on the old object */
+        gui_textedit_commit_changes( this_ );
+
+        /* load the new object */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id );
+
+        /* update all widgets now (only now,  after committing all changes) */
+        gui_textedit_update_widgets( this_ );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
@@ -627,6 +669,29 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
 
         /* update all widgets now (only now,  after committing all changes) */
         gui_textedit_update_widgets( this_ );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_id_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( NULL != msg );
+    assert ( GTK_LABEL( widget ) == GTK_LABEL( (*this_).id_label ) );
+
+    data_change_event_type_t evt_type;
+    evt_type = data_change_message_get_event ( msg );
+
+    if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+        /*|| ( data_id_equals( &id, &((*this_).selected_object_id) ) )*/)
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_id_update_view ( this_ );
     }
 
     TRACE_TIMESTAMP();
@@ -1440,6 +1505,28 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ )
         }
         break;
     }
+
+    TRACE_END();
+}
+
+void gui_textedit_private_id_update_view ( gui_textedit_t *this_ )
+{
+    TRACE_BEGIN();
+    GtkLabel *id_widget;
+    id_widget = GTK_LABEL( (*this_).id_label );
+
+    char data_id_string_buf[DATA_ID_MAX_UTF8STRING_SIZE];
+    utf8stringbuf_t data_id_string = UTF8STRINGBUF( data_id_string_buf );
+    utf8stringbuf_clear( data_id_string );
+    if ( data_id_is_valid( &((*this_).selected_object_id) ) )
+    {
+        utf8error_t str_err = data_id_to_utf8stringbuf ( &((*this_).selected_object_id), data_id_string );
+        if ( UTF8ERROR_SUCCESS != str_err )
+        {
+            TSLOG_ERROR_HEX( "data_id_to_utf8stringbuf failed:", str_err );
+        }
+    }
+    gtk_label_set_text ( id_widget, utf8stringbuf_get_string( data_id_string ) );
 
     TRACE_END();
 }

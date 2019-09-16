@@ -42,6 +42,7 @@ struct gui_textedit_struct {
     GtkListStore *feature_types;
     GtkListStore *feature_lifeline_type;
 
+    GtkLabel *id_label;  /*!< pointer to external id label widget */
     GtkEntry *name_entry;  /*!< pointer to external text entry widget */
     GtkEntry *stereotype_entry;  /*!< pointer to external text entry widget */
     GtkComboBox *type_combo_box;  /*!< pointer to external combo box widget */
@@ -66,6 +67,7 @@ typedef struct gui_textedit_struct gui_textedit_t;
  *  \param message_to_user pointer to the message_to_user object to use
  */
 void gui_textedit_init ( gui_textedit_t *this_,
+                         GtkLabel *id_label,
                          GtkEntry *name_entry,
                          GtkEntry *stereotype_entry,
                          GtkComboBox *type_combo_box,
@@ -137,6 +139,11 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 /*!
  *  \brief callback that informs that another object was selected
  */
+void gui_textedit_id_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
 void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
 
 /*!
@@ -153,6 +160,11 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
  *  \brief callback that informs that another object was selected
  */
 void gui_textedit_description_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an object changed
+ */
+void gui_textedit_id_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the data of an object changed
@@ -215,6 +227,13 @@ void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ );
+
+/*!
+ *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.
+ *
+ *  \param this_ pointer to own object attributes
+ */
+void gui_textedit_private_id_update_view ( gui_textedit_t *this_ );
 
 /*!
  *  \brief redraws the widget using the cached data loaded by gui_textedit_private_load_object from the database.

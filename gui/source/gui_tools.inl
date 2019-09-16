@@ -33,13 +33,13 @@ static inline void gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_t
 
         case GUI_TOOLS_SEARCH:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_view ), true );
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
         }
         break;
 
         case GUI_TOOLS_CREATE:
         {
-            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_new_obj ), true );
+            gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
         }
         break;
 

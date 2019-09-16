@@ -40,7 +40,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     /* init the message widgets */
 
     (*this_).message_text_label = gtk_label_new ("");
-#if (( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
     gtk_label_set_xalign (GTK_LABEL( (*this_).message_text_label ), 0.0 );
 #else
     gtk_misc_set_alignment (GTK_MISC( (*this_).message_text_label ), 0.0, 0.0 );
@@ -211,22 +211,25 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     /* init text edit widgets */
 
+    (*this_).id_label = gtk_label_new ( "" );
     (*this_).name_label = gtk_label_new ( "Name:" );
     (*this_).description_label = gtk_label_new ( "Specification:" );
     (*this_).stereotype_label = gtk_label_new ( "Stereotype/Valuetype:" );
     (*this_).type_label = gtk_label_new ( "Type:" );
-    (*this_).name_entry = gtk_entry_new();
-#if (( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
+    gtk_label_set_xalign (GTK_LABEL( (*this_).id_label ), 1.0 ); /* align right */
     gtk_label_set_xalign (GTK_LABEL( (*this_).name_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).description_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).stereotype_label ), 0.0 );
     gtk_label_set_xalign (GTK_LABEL( (*this_).type_label ), 0.0 );
 #else
+    gtk_misc_set_alignment (GTK_MISC( (*this_).id_label ), 1.0, 0.0 );
     gtk_misc_set_alignment (GTK_MISC( (*this_).name_label ), 0.0, 0.0 );
     gtk_misc_set_alignment (GTK_MISC( (*this_).description_label ), 0.0, 0.0 );
     gtk_misc_set_alignment (GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
     gtk_misc_set_alignment (GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
 #endif
+    (*this_).name_entry = gtk_entry_new();
     (*this_).description_text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                   GTK_WRAP_WORD_CHAR );
@@ -249,6 +252,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
     gui_textedit_init( &((*this_).text_editor),
+                       GTK_LABEL( (*this_).id_label ),
                        GTK_ENTRY( (*this_).name_entry ),
                        GTK_ENTRY( (*this_).stereotype_entry ),
                        GTK_COMBO_BOX( (*this_).type_combo_box ),
@@ -259,6 +263,20 @@ void gui_main_window_init ( gui_main_window_t *this_,
                        database,
                        &((*this_).message_to_user)
                      );
+
+    /* init search widgets */
+    (*this_).search_label = gtk_label_new ( "Search:" );
+#if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
+    gtk_label_set_xalign (GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
+#else
+    gtk_misc_set_alignment (GTK_MISC( (*this_).search_label ), 1.0, 0.0 );
+#endif
+    (*this_).search_entry = gtk_entry_new();
+    (*this_).search_button = gtk_button_new();
+    (*this_).search_btn_icon = gtk_image_new_from_pixbuf( gui_resources_get_tool_search( res ));
+    gtk_button_set_image ( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
+    gtk_button_set_label ( GTK_BUTTON((*this_).search_button), NULL );
+    gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
 
     /* init the file choosers */
 
@@ -280,9 +298,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_use_db,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_export,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_new_window,-1);
-    /*
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_search,-1);
-    */
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_create,-1);
@@ -301,28 +317,36 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_grid_set_column_homogeneous ( GTK_GRID((*this_).layout), false );
     gtk_grid_set_row_homogeneous ( GTK_GRID((*this_).layout), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).toolbar, 0, 0, 4, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 1, 3, 9 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_label, 0, 1, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_entry, 1, 1, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 10 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 1, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 2, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 3, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 4, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 3, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 5, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 4, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 6, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 5, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 7, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 6, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 8, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 7, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 9, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 3, 8, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 3, 10, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_text_view ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 9, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 11, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 10, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 10, 3, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 12, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 12, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
@@ -363,10 +387,12 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).id_label), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).id_label), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
