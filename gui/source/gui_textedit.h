@@ -136,6 +136,20 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
+#if 1
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an object changed
+ */
+void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
+
+#else
+
 /*!
  *  \brief callback that informs that another object was selected
  */
@@ -185,6 +199,8 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
  *  \brief callback that informs that the data of an object changed
  */
 void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
+
+#endif
 
 /* ================================ PRIVATE METHODS ================================ */
 

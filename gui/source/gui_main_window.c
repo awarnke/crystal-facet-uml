@@ -387,6 +387,11 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
+#if 1
+    g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_data_changed_callback), &((*this_).text_editor) );
+#else
+    /* above solution seems to work - not on the id_label but on the name_entry, delete solution below after testing */
     g_signal_connect( G_OBJECT((*this_).id_label), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
@@ -397,6 +402,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).description_text_view), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).type_combo_box), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_data_changed_callback), &((*this_).text_editor) );
+#endif
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");

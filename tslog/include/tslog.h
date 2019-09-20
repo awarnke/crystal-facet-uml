@@ -37,7 +37,7 @@
 #define WARN_DELAY 3
 #define ERR_DELAY 3
 
-#ifndef NDEBUG  /* SWITCH */
+#ifndef NDEBUG  /* SWITCH RELEASE/DEBUG */
 
 /*!
  *  \brief starts to log
@@ -129,7 +129,8 @@
  */
 #define TSLOG_EVENT_STR(x,s) { const char *string_test = x; const char *string2_test = s; fprintf(TSLOG_OUT_STREAM,"EVT : %s %s\n",string_test,string2_test); }
 
-#elseif __linux__  /* SWITCH */
+#else             /* SWITCH RELEASE/DEBUG */
+#ifdef __linux__  /* SWITCH RELEASE SYSLOG */
 
 /*!
  *  \brief starts to log
@@ -221,7 +222,7 @@
  */
 #define TSLOG_EVENT_STR(x,s) { const char *string_test __attribute__((unused)) = x; const char *string2_test __attribute__((unused)) = s; /*syslog(LOG_INFO,"EVT : %s %s",string_test,string2_test);*/ }
 
-#else  /* SWITCH */
+#else   /* SWITCH RELEASE SYSLOG */
 
 /*!
  *  \brief starts to log
@@ -313,7 +314,8 @@
  */
 #define TSLOG_EVENT_STR(x,s) {}
 
-#endif  /* SWITCH */
+#endif  /* SWITCH RELEASE SYSLOG */
+#endif  /* SWITCH RELEASE/DEBUG */
 
 #endif  /* TSLOG_H */
 

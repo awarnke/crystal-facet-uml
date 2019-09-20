@@ -540,6 +540,74 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
+#if 1
+
+void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( NULL != id );
+    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );  /* id_label does not accept signals */
+
+    /* is a new object selected ? */
+    if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
+    {
+        /* store all changes on the old object */
+        gui_textedit_commit_changes( this_ );
+
+        /* load the new object */
+        data_id_trace( id );
+        gui_textedit_private_load_object( this_, *id );
+
+        /* update all widgets now */
+        gui_textedit_update_widgets( this_ );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_textedit_t *this_;
+    this_ = (gui_textedit_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( NULL != msg );
+    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );  /* id_label does not accept signals */
+
+    data_id_t id;
+    data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE )
+    {
+        /* store all changes on the old object */
+        gui_textedit_commit_changes( this_ );
+    }
+    else if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        data_id_t nothing;
+        data_id_init_void( &nothing );
+        gui_textedit_private_load_object( this_, nothing );  /* clear cached data */
+        gui_textedit_update_widgets ( this_ );
+    }
+    else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
+    {
+        data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id );  /* checks if object still exists */
+        gui_textedit_update_widgets ( this_ );
+    }
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
+#else
+
 void gui_textedit_id_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
@@ -559,7 +627,7 @@ void gui_textedit_id_selected_object_changed_callback( GtkWidget *widget, data_i
         data_id_trace( id );
         gui_textedit_private_load_object( this_, *id );
 
-        /* update all widgets now (only now,  after committing all changes) */
+        /* update all widgets now (only now, after committing all changes) */
         gui_textedit_update_widgets( this_ );
     }
 
@@ -684,13 +752,21 @@ void gui_textedit_id_data_changed_callback( GtkWidget *widget, data_change_messa
     assert ( NULL != msg );
     assert ( GTK_LABEL( widget ) == GTK_LABEL( (*this_).id_label ) );
 
+    data_id_t id;
     data_change_event_type_t evt_type;
+    id = data_change_message_get_modified( msg );
     evt_type = data_change_message_get_event ( msg );
 
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE )
+    {
+        /* nothing to do: id is not editable */
+    }
+
     if (( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
-        /*|| ( data_id_equals( &id, &((*this_).selected_object_id) ) )*/)
+        || ( data_id_equals( &id, &((*this_).selected_object_id) ) ))
     {
         data_change_message_trace( msg );
+        gui_textedit_private_load_object( this_, id );  /* check if object still exists */
         gui_textedit_private_id_update_view ( this_ );
     }
 
@@ -825,6 +901,8 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
     TRACE_TIMESTAMP();
     TRACE_END();
 }
+
+#endif
 
 /* ================================ PRIVATE METHODS ================================ */
 
@@ -1002,6 +1080,9 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id )
         }
         break;
     }
+
+    /* after loading the current data, trace this_: */
+    gui_textedit_trace( this_ );
 
     TRACE_END();
 }
