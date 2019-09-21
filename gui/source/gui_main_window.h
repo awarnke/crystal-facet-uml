@@ -16,6 +16,7 @@
 #include "gui_textedit.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
+#include "gui_search_request.h"
 #include "storage/data_database.h"
 #include "storage/data_change_message.h"
 #include "ctrl_controller.h"
@@ -94,6 +95,7 @@ struct gui_main_window_struct {
     GtkWidget *search_entry;
     GtkWidget *search_btn_icon;
     GtkWidget *search_button;
+    gui_search_request_t search_request;  /*!<  own instance of gui_search_request_t */
 
     GtkWidget *message_text_label;
     GtkWidget *message_icon_image;
