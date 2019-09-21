@@ -8,26 +8,26 @@
  *  \brief Loads data to be drawn, layouts sketch cards, reacts on user input
  */
 
+#include "sketch_area/gui_sketch_card.h"
+#include "sketch_area/gui_sketch_nav_tree.h"
+#include "sketch_area/gui_sketch_result_list.h"
+#include "sketch_area/gui_sketch_drag_state.h"
+#include "sketch_area/gui_sketch_object_creator.h"
+#include "sketch_area/gui_sketch_overlay.h"
+#include "sketch_area/gui_sketch_background.h"
+#include "gui_toolbox.h"
+#include "gui_marked_set.h"
+#include "gui_resources.h"
+#include "gui_simple_message_to_user.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database_reader.h"
 #include "storage/data_change_message.h"
 #include "data_diagram.h"
 #include "data_table.h"
 #include "set/data_visible_set.h"
+#include "set/data_id_pair.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
-#include "set/data_id_pair.h"
-#include "gui_sketch_card.h"
-#include "gui_sketch_nav_tree.h"
-#include "gui_sketch_result_list.h"
-#include "gui_tools.h"
-#include "gui_marked_set.h"
-#include "gui_sketch_drag_state.h"
-#include "gui_sketch_object_creator.h"
-#include "gui_sketch_overlay.h"
-#include "gui_sketch_background.h"
-#include "gui_resources.h"
-#include "gui_simple_message_to_user.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
@@ -51,7 +51,7 @@ struct gui_sketch_area_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_resources_t *resources;  /*!< pointer to external resources */
-    gui_tools_t *tools;  /*!< pointer to external tools */
+    gui_toolbox_t *tools;  /*!< pointer to external tools */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_marked_set_t *marker;  /*!< pointer to external marker */
 
@@ -90,7 +90,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             gui_marked_set_t *marker,
-                            gui_tools_t *tools,
+                            gui_toolbox_t *tools,
                             gui_simple_message_to_user_t *message_to_user,
                             gui_resources_t *resources,
                             ctrl_controller_t *controller,
@@ -192,7 +192,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 /*!
  *  \brief callback that informs that the chosen tool changed
  */
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t tool, gpointer data );
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_t tool, gpointer data );
 
 /*!
  *  \brief sets a listener in the listener array

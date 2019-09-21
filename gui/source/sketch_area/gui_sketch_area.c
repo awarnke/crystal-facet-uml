@@ -1,6 +1,6 @@
 /* File: gui_sketch_area.c; Copyright and License: see below */
 
-#include "gui_sketch_area.h"
+#include "sketch_area/gui_sketch_area.h"
 #include "pencil_diagram_maker.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "data_table.h"
@@ -18,7 +18,7 @@ const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
 void gui_sketch_area_init( gui_sketch_area_t *this_,
                            gui_marked_set_t *marker,
-                           gui_tools_t *tools,
+                           gui_toolbox_t *tools,
                            gui_simple_message_to_user_t *message_to_user,
                            gui_resources_t *resources,
                            ctrl_controller_t *controller,
@@ -215,9 +215,9 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     gui_sketch_result_list_load_data( &((*this_).result_list), main_diagram_id, (*this_).db_reader );
     gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
 
-    gui_tools_tool_t selected_tool;
-    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
-    if (( GUI_TOOLS_NAVIGATE == selected_tool ) || ( GUI_TOOLS_SEARCH == selected_tool ))
+    gui_toolbox_tool_t selected_tool;
+    selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
+    if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
     {
         /* determine ids */
         int64_t selected_diagram_id;
@@ -325,10 +325,10 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    gui_tools_tool_t selected_tool;
-    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
+    gui_toolbox_tool_t selected_tool;
+    selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
-    /* pre-calculate numbers needed in case of GUI_TOOLS_NAVIGATE and GUI_TOOLS_SEARCH */
+    /* pre-calculate numbers needed in case of GUI_TOOLBOX_NAVIGATE and GUI_TOOLBOX_SEARCH */
     uint32_t width = shape_int_rectangle_get_width( &area_bounds );
     uint32_t height = shape_int_rectangle_get_height( &area_bounds );
     int32_t left = shape_int_rectangle_get_left( &area_bounds );
@@ -361,7 +361,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
         gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
         bool result_list_visible;
-        result_list_visible = ( GUI_TOOLS_SEARCH == selected_tool );
+        result_list_visible = ( GUI_TOOLBOX_SEARCH == selected_tool );
         gui_sketch_result_list_set_visible( &((*this_).result_list), result_list_visible );
         if ( result_list_visible )
         {
@@ -378,7 +378,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
         gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
         bool nav_tree_visible;
-        nav_tree_visible = ( GUI_TOOLS_NAVIGATE == selected_tool );
+        nav_tree_visible = ( GUI_TOOLBOX_NAVIGATE == selected_tool );
         gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), nav_tree_visible );
         if ( nav_tree_visible )
         {
@@ -396,7 +396,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
         {
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
         }
-        else if (( GUI_TOOLS_NAVIGATE == selected_tool ) || ( GUI_TOOLS_SEARCH == selected_tool ))
+        else if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
         {
             shape_int_rectangle_t card_bounds;
 
@@ -426,7 +426,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
             gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
             gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
         }
-        else /* ==gui_sketch_card_is_valid and not GUI_TOOLS_NAVIGATE and not GUI_TOOLS_SEARCH */
+        else /* ==gui_sketch_card_is_valid and not GUI_TOOLBOX_NAVIGATE and not GUI_TOOLBOX_SEARCH */
         {
             if ( card_idx == 0 )
             {
@@ -449,12 +449,12 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     /* layout background */
     {
         shape_int_rectangle_t background_bounds;
-        if ( GUI_TOOLS_SEARCH == selected_tool )
+        if ( GUI_TOOLBOX_SEARCH == selected_tool )
         {
             uint32_t ground_width = ( RESULT_LIST_WIDTH < width ) ? ( width - RESULT_LIST_WIDTH ) : 0;
             shape_int_rectangle_init( &background_bounds, left + RESULT_LIST_WIDTH, top, ground_width, height );
         }
-        else if ( GUI_TOOLS_NAVIGATE == selected_tool )
+        else if ( GUI_TOOLBOX_NAVIGATE == selected_tool )
         {
             uint32_t ground_width = ( NAV_TREE_WIDTH < width ) ? ( width - NAV_TREE_WIDTH ) : 0;
             shape_int_rectangle_init( &background_bounds, left + NAV_TREE_WIDTH, top, ground_width, height );
@@ -480,25 +480,25 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
     */
 
-    gui_tools_tool_t selected_tool;
-    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
+    gui_toolbox_tool_t selected_tool;
+    selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
     /* draw background */
-    if (( GUI_TOOLS_NAVIGATE == selected_tool ) || ( GUI_TOOLS_SEARCH == selected_tool ))
+    if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
     {
         unsigned int depth;
         unsigned int children;
         depth = ( gui_sketch_card_is_valid( &((*this_).cards[1]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
         children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
         gui_sketch_background_draw_navigation( &((*this_).background),
-                                               depth, children, (GUI_TOOLS_SEARCH == selected_tool),
+                                               depth, children, (GUI_TOOLBOX_SEARCH == selected_tool),
                                                cr
                                              );
     }
     else
     {
         gui_sketch_background_draw_edit( &((*this_).background),
-                                         (GUI_TOOLS_CREATE == selected_tool),
+                                         (GUI_TOOLBOX_CREATE == selected_tool),
                                          cr
                                        );
     }
@@ -578,11 +578,11 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     /* do highlight */
-    gui_tools_tool_t selected_tool;
-    selected_tool = gui_tools_get_selected_tool( (*this_).tools );
+    gui_toolbox_tool_t selected_tool;
+    selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
     switch ( selected_tool )
     {
-        case GUI_TOOLS_NAVIGATE:
+        case GUI_TOOLBOX_NAVIGATE:
         {
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
@@ -609,7 +609,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         }
         break;
 
-        case GUI_TOOLS_EDIT:
+        case GUI_TOOLBOX_EDIT:
         {
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
@@ -670,12 +670,12 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
         }
         break;
 
-        case GUI_TOOLS_SEARCH:
+        case GUI_TOOLBOX_SEARCH:
         {
         }
         break;
 
-        case GUI_TOOLS_CREATE:
+        case GUI_TOOLBOX_CREATE:
         {
             data_id_pair_t object_under_mouse;
             gui_sketch_area_private_get_object_id_at_pos ( this_, x, y, PENCIL_TYPE_FILTER_NONE, &object_under_mouse );
@@ -745,13 +745,13 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
         /* do action */
-        gui_tools_tool_t selected_tool;
-        selected_tool = gui_tools_get_selected_tool( (*this_).tools );
+        gui_toolbox_tool_t selected_tool;
+        selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
-            case GUI_TOOLS_NAVIGATE:
+            case GUI_TOOLBOX_NAVIGATE:
             {
-                TRACE_INFO( "GUI_TOOLS_NAVIGATE" );
+                TRACE_INFO( "GUI_TOOLBOX_NAVIGATE" );
 
                 /* search selected diagram */
                 data_id_t clicked_diagram_id;
@@ -856,9 +856,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             }
             break;
 
-            case GUI_TOOLS_EDIT:
+            case GUI_TOOLBOX_EDIT:
             {
-                TRACE_INFO( "GUI_TOOLS_EDIT" );
+                TRACE_INFO( "GUI_TOOLBOX_EDIT" );
 
                 /* determine the focused object */
                 data_id_pair_t focused_object;
@@ -899,15 +899,15 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             }
             break;
 
-            case GUI_TOOLS_SEARCH:
+            case GUI_TOOLBOX_SEARCH:
             {
-                TRACE_INFO( "GUI_TOOLS_SEARCH" );
+                TRACE_INFO( "GUI_TOOLBOX_SEARCH" );
             }
             break;
 
-            case GUI_TOOLS_CREATE:
+            case GUI_TOOLBOX_CREATE:
             {
-                TRACE_INFO( "GUI_TOOLS_CREATE" );
+                TRACE_INFO( "GUI_TOOLBOX_CREATE" );
 
                 /* what is the target location? */
                 gui_sketch_card_t *target_card = gui_sketch_area_get_card_at_pos ( this_, x, y );
@@ -1061,13 +1061,13 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
 
         /* do action */
-        gui_tools_tool_t selected_tool;
-        selected_tool = gui_tools_get_selected_tool( (*this_).tools );
+        gui_toolbox_tool_t selected_tool;
+        selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
-            case GUI_TOOLS_NAVIGATE:
+            case GUI_TOOLBOX_NAVIGATE:
             {
-                TRACE_INFO("GUI_TOOLS_NAVIGATE");
+                TRACE_INFO("GUI_TOOLBOX_NAVIGATE");
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
                     /* which diagram was dragged? */
@@ -1197,15 +1197,15 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                     }
                     else
                     {
-                        TSLOG_ANOMALY("GUI_TOOLS_NAVIGATE released mouse button but not a diagram clicked before");
+                        TSLOG_ANOMALY("GUI_TOOLBOX_NAVIGATE released mouse button but not a diagram clicked before");
                     }
                 }
             }
             break;
 
-            case GUI_TOOLS_EDIT:
+            case GUI_TOOLBOX_EDIT:
             {
-                TRACE_INFO("GUI_TOOLS_EDIT");
+                TRACE_INFO("GUI_TOOLBOX_EDIT");
 
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
@@ -1317,15 +1317,15 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             }
             break;
 
-            case GUI_TOOLS_SEARCH:
+            case GUI_TOOLBOX_SEARCH:
             {
-                TRACE_INFO("GUI_TOOLS_SEARCH");
+                TRACE_INFO("GUI_TOOLBOX_SEARCH");
             }
             break;
 
-            case GUI_TOOLS_CREATE:
+            case GUI_TOOLBOX_CREATE:
             {
-                TRACE_INFO("GUI_TOOLS_CREATE");
+                TRACE_INFO("GUI_TOOLBOX_CREATE");
 
                 if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
                 {
@@ -1540,24 +1540,26 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
     assert( NULL != this_ );
     gboolean result_event_handled = false;
 
+    /* keys that have to be handled locally in the gui_sketch_area */
+    /* becasue handling them globally would interfere with text entry fields */
     if ( (*evt).state == GDK_CONTROL_MASK )
     {
         if ( (*evt).keyval == GDK_KEY_x )
         {
             TRACE_INFO ( "key pressed: Ctrl-X" );
-            gui_tools_cut( (*this_).tools );
+            gui_toolbox_cut( (*this_).tools );
             result_event_handled = true;
         }
         else if ( (*evt).keyval == GDK_KEY_c )
         {
             TRACE_INFO ( "key pressed: Ctrl-C" );
-            gui_tools_copy( (*this_).tools );
+            gui_toolbox_copy( (*this_).tools );
             result_event_handled = true;
         }
         else if ( (*evt).keyval == GDK_KEY_v )
         {
             TRACE_INFO ( "key pressed: Ctrl-V" );
-            gui_tools_paste( (*this_).tools );
+            gui_toolbox_paste( (*this_).tools );
             result_event_handled = true;
         }
         /* other keys are out of scope */
@@ -1567,7 +1569,7 @@ gboolean gui_sketch_area_key_press_callback( GtkWidget* widget, GdkEventKey* evt
         if ( (*evt).keyval == GDK_KEY_Delete )
         {
             TRACE_INFO ( "key pressed: DEL" );
-            gui_tools_delete( (*this_).tools );
+            gui_toolbox_delete( (*this_).tools );
             result_event_handled = true;
         }
         /* other keys are out of scope */
@@ -1598,7 +1600,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     TRACE_END();
 }
 
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t tool, gpointer data )
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_t tool, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
@@ -1606,27 +1608,27 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tools_tool_t 
 
     switch ( tool )
     {
-        case GUI_TOOLS_NAVIGATE:
+        case GUI_TOOLBOX_NAVIGATE:
         {
-            TRACE_INFO("GUI_TOOLS_NAVIGATE");
+            TRACE_INFO("GUI_TOOLBOX_NAVIGATE");
         }
         break;
 
-        case GUI_TOOLS_EDIT:
+        case GUI_TOOLBOX_EDIT:
         {
-            TRACE_INFO("GUI_TOOLS_EDIT");
+            TRACE_INFO("GUI_TOOLBOX_EDIT");
         }
         break;
 
-        case GUI_TOOLS_SEARCH:
+        case GUI_TOOLBOX_SEARCH:
         {
-            TRACE_INFO("GUI_TOOLS_SEARCH");
+            TRACE_INFO("GUI_TOOLBOX_SEARCH");
         }
         break;
 
-        case GUI_TOOLS_CREATE:
+        case GUI_TOOLBOX_CREATE:
         {
-            TRACE_INFO("GUI_TOOLS_CREATE");
+            TRACE_INFO("GUI_TOOLBOX_CREATE");
         }
         break;
 

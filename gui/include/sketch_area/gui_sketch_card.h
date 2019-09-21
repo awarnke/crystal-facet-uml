@@ -14,8 +14,8 @@
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include "set/data_visible_set.h"
-#include "option/pencil_type_filter.h"
 #include "set/data_id_pair.h"
+#include "option/pencil_type_filter.h"
 #include "layout/layout_order.h"
 #include "universal_bool_list.h"
 #include <gtk/gtk.h>

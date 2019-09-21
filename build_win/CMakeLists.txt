@@ -5,23 +5,16 @@ SET(CMAKE_VERBOSE_MAKEFILE TRUE)
 
 PROJECT(crystal_facet_uml)
 
-INCLUDE_DIRECTORIES(../gui/source)
-INCLUDE_DIRECTORIES(../gui/include)
-INCLUDE_DIRECTORIES(../main/source)
-INCLUDE_DIRECTORIES(../main/include)
-INCLUDE_DIRECTORIES(../tslog/include)
-INCLUDE_DIRECTORIES(../trace/source)
-INCLUDE_DIRECTORIES(../trace/include)
-INCLUDE_DIRECTORIES(../ctrl/source)
-INCLUDE_DIRECTORIES(../ctrl/include)
-INCLUDE_DIRECTORIES(../data/source)
-INCLUDE_DIRECTORIES(../data/include)
-INCLUDE_DIRECTORIES(../utf8stringbuf/include)
-INCLUDE_DIRECTORIES(../pencil/source)
-INCLUDE_DIRECTORIES(../pencil/include)
-INCLUDE_DIRECTORIES(../io/source)
-INCLUDE_DIRECTORIES(../io/include)
-INCLUDE_DIRECTORIES(../universal/include)
+INCLUDE_DIRECTORIES(gui/include)
+INCLUDE_DIRECTORIES(main/include)
+INCLUDE_DIRECTORIES(tslog/include)
+INCLUDE_DIRECTORIES(trace/include)
+INCLUDE_DIRECTORIES(ctrl/include)
+INCLUDE_DIRECTORIES(data/include)
+INCLUDE_DIRECTORIES(utf8stringbuf/include)
+INCLUDE_DIRECTORIES(pencil/include)
+INCLUDE_DIRECTORIES(io/include)
+INCLUDE_DIRECTORIES(universal/include)
 
 SET(THIRD_PARTY_BASE "${CMAKE_BINARY_DIR}")
 SET(SQLITE_BASE "${CMAKE_BINARY_DIR}/sqlite-amalgamation-3290000")
@@ -51,6 +44,7 @@ INCLUDE_DIRECTORIES("${GTK_BUNDLE_BASE}/include/pixman-1")
 INCLUDE_DIRECTORIES("${GTK_BUNDLE_BASE}/include/freetype2")
 
 FILE(GLOB commonSource ../gui/source/*.c
+                       ../gui/source/sketch_area/*.c
                        ../trace/source/*.c
                        ../ctrl/source/*.c
                        ../data/source/*.c

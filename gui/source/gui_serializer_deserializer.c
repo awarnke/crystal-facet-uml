@@ -89,13 +89,13 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                     else
                     {
                         /* program internal error */
-                        TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
                     }
                 }
                 else
                 {
                     /* program internal error */
-                    TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -103,7 +103,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
             case DATA_TABLE_FEATURE:
             {
                 /* intentionally not supported */
-                TRACE_INFO( "gui_tools_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
+                TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
             }
             break;
 
@@ -120,7 +120,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                 else
                 {
                     /* program internal error */
-                    TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -163,19 +163,19 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                         else
                         {
                             /* program internal error */
-                            TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                            TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
                         }
                     }
                     else
                     {
                         /* program internal error */
-                        TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
                     }
                 }
                 else
                 {
                     /* program internal error */
-                    TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;
@@ -193,7 +193,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                 else
                 {
                     /* program internal error */
-                    TSLOG_ERROR( "gui_tools_private_copy_set_to_clipboard could not read all data of the set." );
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
                 }
             }
             break;

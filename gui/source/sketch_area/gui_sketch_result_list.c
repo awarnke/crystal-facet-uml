@@ -1,6 +1,6 @@
 /* File: gui_sketch_result_list.c; Copyright and License: see below */
 
-#include "gui_sketch_result_list.h"
+#include "sketch_area/gui_sketch_result_list.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
 #include "tslog.h"

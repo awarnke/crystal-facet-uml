@@ -1,43 +1,43 @@
-/* File: gui_tools.inl; Copyright and License: see below */
+/* File: gui_toolbox.inl; Copyright and License: see below */
 
-static inline gui_tools_tool_t gui_tools_get_selected_tool ( gui_tools_t *this_ )
+static inline gui_toolbox_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ )
 {
     return (*this_).selected_tool;
 }
 
-static inline void gui_tools_set_listener ( gui_tools_t *this_, GObject *listener )
+static inline void gui_toolbox_set_listener ( gui_toolbox_t *this_, GObject *listener )
 {
     (*this_).listener = listener;
 }
 
-static inline void gui_tools_remove_listener ( gui_tools_t *this_ )
+static inline void gui_toolbox_remove_listener ( gui_toolbox_t *this_ )
 {
     (*this_).listener = NULL;
 }
 
-static inline void gui_tools_set_selected_tool ( gui_tools_t *this_, gui_tools_tool_t tool )
+static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_toolbox_tool_t tool )
 {
     switch ( tool )
     {
-        case GUI_TOOLS_NAVIGATE:
+        case GUI_TOOLBOX_NAVIGATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_navigate ), true );
         }
         break;
 
-        case GUI_TOOLS_EDIT:
+        case GUI_TOOLBOX_EDIT:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_edit ), true );
         }
         break;
 
-        case GUI_TOOLS_SEARCH:
+        case GUI_TOOLBOX_SEARCH:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_search ), true );
         }
         break;
 
-        case GUI_TOOLS_CREATE:
+        case GUI_TOOLBOX_CREATE:
         {
             gtk_toggle_tool_button_set_active ( GTK_TOGGLE_TOOL_BUTTON( (*this_).tool_create ), true );
         }

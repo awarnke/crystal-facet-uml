@@ -9,10 +9,10 @@
  *  \brief Draws graphical elements on top of diagrams
  */
 
-#include "gui_sketch_drag_state.h"
-#include "gui_tools.h"
-#include "gui_sketch_card.h"
-#include "gui_sketch_nav_tree.h"
+#include "sketch_area/gui_sketch_card.h"
+#include "sketch_area/gui_sketch_nav_tree.h"
+#include "sketch_area/gui_sketch_drag_state.h"
+#include "gui_tool.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -52,7 +52,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ );
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
-                              gui_tools_tool_t selected_tool,
+                              gui_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
                               gui_sketch_nav_tree_t *nav_tree,

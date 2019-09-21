@@ -10,8 +10,8 @@
  */
 
 #include "gui_simple_message_to_user.h"
-#include "gui_sketch_area.h"
-#include "gui_tools.h"
+#include "sketch_area/gui_sketch_area.h"
+#include "gui_toolbox.h"
 #include "gui_resources.h"
 #include "gui_textedit.h"
 #include "gui_file_use_db_dialog.h"
@@ -29,7 +29,7 @@ struct gui_main_window_struct {
     GtkWidget *window;
     GtkWidget *sketcharea;
     gui_sketch_area_t sketcharea_data;  /*!< own instance of gui_sketch_area_t */
-    gui_tools_t tools_data;  /*!< own instance of gui_tools_t */
+    gui_toolbox_t tools_data;  /*!< own instance of gui_toolbox_t */
     gui_marked_set_t marker_data;  /*!< own instance of a marker */
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */

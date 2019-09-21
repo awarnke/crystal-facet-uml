@@ -1,6 +1,6 @@
 /* File: gui_sketch_overlay.c; Copyright and License: see below */
 
-#include "gui_sketch_overlay.h"
+#include "sketch_area/gui_sketch_overlay.h"
 #include "trace.h"
 #include <gtk/gtk.h>
 #include <assert.h>
@@ -25,7 +25,7 @@ void gui_sketch_overlay_destroy( gui_sketch_overlay_t *this_ )
 }
 
 void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
-                              gui_tools_tool_t selected_tool,
+                              gui_toolbox_tool_t selected_tool,
                               gui_sketch_drag_state_t *drag_state,
                               gui_sketch_card_t *card_under_mouse,
                               gui_sketch_nav_tree_t *nav_tree,
@@ -38,7 +38,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
     switch ( selected_tool )
     {
-        case GUI_TOOLS_NAVIGATE:
+        case GUI_TOOLBOX_NAVIGATE:
         {
             if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
             {
@@ -65,11 +65,11 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                                            (*this_).overlay_std_blue,
                                            (*this_).overlay_std_alpha
                                          );
-                    cairo_rectangle ( cr, 
+                    cairo_rectangle ( cr,
                                       shape_int_rectangle_get_left(&out_gap_line),
                                       shape_int_rectangle_get_top(&out_gap_line),
                                       shape_int_rectangle_get_width(&out_gap_line),
-                                      shape_int_rectangle_get_height(&out_gap_line) 
+                                      shape_int_rectangle_get_height(&out_gap_line)
                                     );
                     cairo_fill (cr);
                 }
@@ -81,7 +81,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         }
         break;
 
-        case GUI_TOOLS_EDIT:
+        case GUI_TOOLBOX_EDIT:
         {
             if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
             {
@@ -121,7 +121,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         }
         break;
 
-        case GUI_TOOLS_CREATE:
+        case GUI_TOOLBOX_CREATE:
         {
             if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
             {
@@ -217,7 +217,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
         }
         break;
 
-        case GUI_TOOLS_SEARCH:
+        case GUI_TOOLBOX_SEARCH:
         {
         }
         break;

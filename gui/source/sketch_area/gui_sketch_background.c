@@ -1,6 +1,6 @@
 /* File: gui_sketch_background.c; Copyright and License: see below */
 
-#include "gui_sketch_background.h"
+#include "sketch_area/gui_sketch_background.h"
 #include "meta/meta_info.h"
 #include "trace.h"
 #include <stdint.h>
@@ -79,7 +79,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
         //cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
         //cairo_rectangle ( cr, left, top, left+96, top+height );
         //cairo_fill (cr);
-        
+
         GdkPixbuf *bg_img = gui_resources_get_background_column( (*this_).resources );
         //double icon_width = gdk_pixbuf_get_width ( bg_img );
         //double icon_height = gdk_pixbuf_get_height ( bg_img );

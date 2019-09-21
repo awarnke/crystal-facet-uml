@@ -1,6 +1,6 @@
 /* File: gui_sketch_nav_tree.c; Copyright and License: see below */
 
-#include "gui_sketch_nav_tree.h"
+#include "sketch_area/gui_sketch_nav_tree.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "trace.h"
 #include "tslog.h"
@@ -313,8 +313,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( gap_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
         {
             /* formula differs from others because backwards order and index 0 reserved or self: */
-            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);  
-                
+            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);
+
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
                             data_diagram_get_parent_id( &((*this_).ancestor_diagrams[ancester_idx]) )
@@ -322,7 +322,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             *out_list_order = 0;
             ret_error = GUI_ERROR_NONE;
         }
-        
+
         /* is this the children region ? - note: every child has a gap before and after itself */
         else if ( ( gap_index >= (*this_).line_idx_children_start )
             && ( gap_index <= (*this_).line_idx_children_start + (*this_).line_cnt_children )
@@ -356,7 +356,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             }
             ret_error = GUI_ERROR_NONE;
         }
-        
+
         /* is this the first half of the siblings region ? - note: gaps exist on top of each sibling-before-and-self */
         else if ( ( gap_index >= (*this_).line_idx_siblings_start )
             && ( gap_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
@@ -379,7 +379,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             }
             ret_error = GUI_ERROR_NONE;
         }
-            
+
         /* is this the second half of the siblings region ? - note: gaps exist on top and bottom of each sibling-after */
         else if ( ( gap_index >= (*this_).line_idx_siblings_next_after_self )
             && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
@@ -407,7 +407,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
     {
         ret_error = GUI_ERROR_OUT_OF_BOUNDS;
     }
-    
+
     TRACE_END_ERR( ret_error );
     return ret_error;
 }
@@ -444,14 +444,14 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
             && ( line_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
         {
             /* formula differs from others because backwards order and index 0 reserved or self: */
-            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (line_index - (*this_).line_idx_ancestors_start);  
-                
+            uint32_t ancester_idx = (*this_).ancestors_count - 1 - (line_index - (*this_).line_idx_ancestors_start);
+
             data_id_reinit( out_selected_id,
                             DATA_TABLE_DIAGRAM,
                             data_diagram_get_id( &((*this_).ancestor_diagrams[ancester_idx]) )
                           );
         }
-        
+
         /* is this the children region */
         else if ( ( line_index >= (*this_).line_idx_children_start )
             && ( line_index < (*this_).line_idx_children_start + (*this_).line_cnt_children ))
@@ -462,7 +462,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                             data_diagram_get_id( &((*this_).child_diagrams[child_idx]) )
                           );
         }
-        
+
         /* is this the first half of the siblings region ? */
         else if ( ( line_index >= (*this_).line_idx_siblings_start )
             && ( line_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
@@ -473,7 +473,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
                             data_diagram_get_id( &((*this_).sibling_diagrams[sibl1_idx]) )
                           );
         }
-            
+
         /* is this the second half of the siblings region ? */
         else if ( ( line_index >= (*this_).line_idx_siblings_next_after_self )
             && ( line_index < (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
@@ -489,7 +489,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
     {
         data_id_reinit_void( out_selected_id );
     }
-    
+
     TRACE_END();
 }
 
