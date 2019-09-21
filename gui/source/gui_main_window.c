@@ -297,7 +297,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_use_db,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_export,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).file_new_window,-1);
+#ifndef NDEBUG
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_search,-1);
+#endif
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_navigate,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_edit,-1);
     gtk_toolbar_insert ( GTK_TOOLBAR((*this_).toolbar),(*this_).tool_create,-1);
