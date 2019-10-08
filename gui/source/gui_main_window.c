@@ -164,7 +164,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).tool_about = gtk_tool_button_new( (*this_).tool_about_icon, "About" );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).tool_about), "About" );
 
-    (*this_).toolbar = gtk_toolbar_new ();
+    (*this_).toolbar = gtk_toolbar_new();
 
     /* determine the current/main clipboard */
     GtkClipboard *current_clipboard;
@@ -178,16 +178,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
 
     gui_marked_set_init( &((*this_).marker_data) );
     gui_toolbox_init( &((*this_).tools_data),
-                    (*this_).tool_navigate,
-                    (*this_).tool_edit,
-                    (*this_).tool_create,
-                    (*this_).tool_search,
-                    current_clipboard,
-                    &((*this_).marker_data),
-                    &((*this_).message_to_user),
-                    db_reader,
-                    controller
-                  );
+                      (*this_).toolbar,
+                      (*this_).tool_navigate,
+                      (*this_).tool_edit,
+                      (*this_).tool_create,
+                      (*this_).tool_search,
+                      current_clipboard,
+                      &((*this_).marker_data),
+                      &((*this_).message_to_user),
+                      db_reader,
+                      controller
+                    );
 
     /* init sketch area */
 
@@ -199,6 +200,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_can_focus( GTK_WIDGET( (*this_).sketcharea ), TRUE );  /* this allows the text entry widgets to lose the focus */
     /*gtk_widget_set_focus_on_click( GTK_WIDGET( (*this_).sketcharea ), TRUE ); not yet existing: since GTK 3.2 */
     gui_sketch_area_init( &((*this_).sketcharea_data),
+                          (*this_).sketcharea,
                           &((*this_).marker_data),
                           &((*this_).tools_data),
                           &((*this_).message_to_user),
@@ -363,17 +365,16 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).sketcharea), "button_release_event", G_CALLBACK(gui_sketch_area_button_release_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "leave_notify_event", G_CALLBACK(gui_sketch_area_leave_notify_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_data_changed_callback), &((*this_).sketcharea_data) );
-    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), "key_press_event", G_CALLBACK(gui_sketch_area_key_press_callback), &((*this_).sketcharea_data) );
+    g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_sketch_area_tool_changed_callback), &((*this_).sketcharea_data) );
     g_signal_connect( G_OBJECT((*this_).file_use_db), "clicked", G_CALLBACK(gui_main_window_use_db_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_export), "clicked", G_CALLBACK(gui_main_window_export_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).file_new_window), "clicked", G_CALLBACK(gui_main_window_new_window_btn_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).tool_navigate), "clicked", G_CALLBACK(gui_toolbox_navigate_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).tool_edit), "clicked", G_CALLBACK(gui_toolbox_edit_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).tool_create), "clicked", G_CALLBACK(gui_toolbox_create_object_btn_callback), &((*this_).tools_data) );
-    /*
-    g_signal_connect( G_OBJECT((*this_).tool_search), "clicked", G_CALLBACK(gui_toolbox_create_diagram_btn_callback), &((*this_).tools_data) );
-    */
+    g_signal_connect( G_OBJECT((*this_).tool_create), "clicked", G_CALLBACK(gui_toolbox_create_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).tool_search), "clicked", G_CALLBACK(gui_toolbox_search_btn_callback), &((*this_).tools_data) );
+    g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), &((*this_).tools_data) );
@@ -389,15 +390,15 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
 #if 1
-    g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_data_changed_callback), &((*this_).text_editor) );
 #else
     /* above solution seems to work - not on the id_label but on the name_entry, delete solution below after testing */
-    g_signal_connect( G_OBJECT((*this_).id_label), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_selected_object_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).name_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_selected_object_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).description_text_view), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).type_combo_box), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_selected_object_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).stereotype_entry), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_type_selected_object_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_stereotype_selected_object_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).id_label), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_id_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_name_data_changed_callback), &((*this_).text_editor) );
     g_signal_connect( G_OBJECT((*this_).description_text_view), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_description_data_changed_callback), &((*this_).text_editor) );
@@ -413,11 +414,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    gui_toolbox_set_listener( &((*this_).tools_data), G_OBJECT((*this_).sketcharea) );
-    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 0, G_OBJECT((*this_).name_entry) );
-    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 1, G_OBJECT((*this_).description_text_view) );
-    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 2, G_OBJECT((*this_).stereotype_entry) );
-    gui_sketch_area_set_listener( &((*this_).sketcharea_data), 3, G_OBJECT((*this_).type_combo_box) );
+    data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).id_label) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
@@ -442,13 +439,9 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 0 );
-    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 1 );
-    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 2 );
-    gui_sketch_area_remove_listener( &((*this_).sketcharea_data), 3 );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    gui_toolbox_remove_listener( &((*this_).tools_data) );
+    data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).id_label) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );

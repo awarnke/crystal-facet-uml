@@ -549,7 +549,7 @@ void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );  /* id_label does not accept signals */
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -576,7 +576,7 @@ void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );  /* id_label does not accept signals */
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;
@@ -615,7 +615,7 @@ void gui_textedit_id_selected_object_changed_callback( GtkWidget *widget, data_i
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_LABEL( widget ) == GTK_LABEL( (*this_).id_label ) );
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -642,7 +642,7 @@ void gui_textedit_name_selected_object_changed_callback( GtkWidget *widget, data
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -669,7 +669,7 @@ void gui_textedit_stereotype_selected_object_changed_callback( GtkWidget *widget
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).stereotype_entry ) );
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -696,7 +696,7 @@ void gui_textedit_type_selected_object_changed_callback( GtkWidget *widget, data
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -723,7 +723,7 @@ void gui_textedit_description_selected_object_changed_callback( GtkWidget *widge
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
-    assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    assert ( NULL != widget );
 
     /* is a new object selected ? */
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
@@ -750,7 +750,7 @@ void gui_textedit_id_data_changed_callback( GtkWidget *widget, data_change_messa
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_LABEL( widget ) == GTK_LABEL( (*this_).id_label ) );
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;
@@ -781,7 +781,7 @@ void gui_textedit_name_data_changed_callback( GtkWidget *widget, data_change_mes
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;
@@ -813,7 +813,7 @@ void gui_textedit_stereotype_data_changed_callback( GtkWidget *widget, data_chan
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).stereotype_entry ) );
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;
@@ -845,7 +845,7 @@ void gui_textedit_type_data_changed_callback( GtkWidget *widget, data_change_mes
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;
@@ -877,7 +877,7 @@ void gui_textedit_description_data_changed_callback( GtkWidget *widget, data_cha
     this_ = (gui_textedit_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
-    assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
+    assert ( NULL != widget );
 
     data_id_t id;
     data_change_event_type_t evt_type;

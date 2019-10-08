@@ -8,6 +8,7 @@
  *  \brief Shows and hides a label, a query-entry and a search-button
  */
 
+#include "gui_tool.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -51,6 +52,11 @@ void gui_search_request_show ( gui_search_request_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 void gui_search_request_hide ( gui_search_request_t *this_ );
+
+/*!
+ *  \brief callback that informs that the chosen tool changed
+ */
+void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data );
 
 #endif  /* GUI_SEARCH_REQUEST_H */
 

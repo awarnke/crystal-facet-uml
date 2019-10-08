@@ -19,22 +19,6 @@ static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_
     return selected_diagram_id;
 }
 
-static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener )
-{
-    if ( index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS )
-    {
-        (*this_).listener[index] = listener;
-    }
-}
-
-static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index )
-{
-    if ( index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS )
-    {
-        (*this_).listener[index] = NULL;
-    }
-}
-
 static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
 {
     assert( (*this_).card_num <= GUI_SKETCH_AREA_CONST_MAX_CARDS );

@@ -52,6 +52,52 @@ void gui_search_request_hide ( gui_search_request_t *this_ )
     TRACE_END();
 }
 
+void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data )
+{
+    TRACE_BEGIN();
+    gui_search_request_t *this_ = data;
+    assert( NULL != this_ );
+
+    switch ( tool )
+    {
+        case GUI_TOOLBOX_NAVIGATE:
+        {
+            TRACE_INFO("GUI_TOOLBOX_NAVIGATE");
+            gui_search_request_hide( this_ );
+        }
+        break;
+
+        case GUI_TOOLBOX_EDIT:
+        {
+            TRACE_INFO("GUI_TOOLBOX_EDIT");
+            gui_search_request_hide( this_ );
+        }
+        break;
+
+        case GUI_TOOLBOX_SEARCH:
+        {
+            TRACE_INFO("GUI_TOOLBOX_SEARCH");
+            gui_search_request_show( this_ );
+        }
+        break;
+
+        case GUI_TOOLBOX_CREATE:
+        {
+            TRACE_INFO("GUI_TOOLBOX_CREATE");
+            gui_search_request_hide( this_ );
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR("selected_tool is out of range");
+        }
+        break;
+    }
+
+    TRACE_END();
+}
+
 
 /*
 Copyright 2019-2019 Andreas Warnke

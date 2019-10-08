@@ -17,6 +17,7 @@ static guint gui_sketch_area_glib_signal_id = 0;
 const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME = "cfu_object_selected";
 
 void gui_sketch_area_init( gui_sketch_area_t *this_,
+                           GtkWidget *drawing_area,
                            gui_marked_set_t *marker,
                            gui_toolbox_t *tools,
                            gui_simple_message_to_user_t *message_to_user,
@@ -25,6 +26,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
                            data_database_reader_t *db_reader )
 {
     TRACE_BEGIN();
+    assert( NULL != drawing_area );
     assert( NULL != marker );
     assert( NULL != tools );
     assert( NULL != message_to_user );
@@ -33,6 +35,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     assert( NULL != db_reader );
 
     /* init pointers to external objects */
+    (*this_).drawing_area = drawing_area;
     (*this_).tools = tools;
     (*this_).message_to_user = message_to_user;
     (*this_).resources = resources;
@@ -41,14 +44,10 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
 
     /* init instances of own objects */
     (*this_).card_num = 0;
+    (*this_).marker = marker;
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources );
     gui_sketch_result_list_init( &((*this_).result_list) );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
-    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
-    {
-        (*this_).listener[index] = NULL;
-    }
-    (*this_).marker = marker;
     gui_sketch_overlay_init( &((*this_).overlay) );
     gui_sketch_background_init( &((*this_).background), resources );
     gui_sketch_object_creator_init ( &((*this_).object_creator), controller, db_reader, message_to_user );
@@ -93,12 +92,6 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     }
     (*this_).card_num = 0;
 
-    /* reset all listeners */
-    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
-    {
-        (*this_).listener[index] = NULL;
-    }
-
     /* destroy instances of own objects */
     gui_sketch_object_creator_destroy ( &((*this_).object_creator) );
     gui_sketch_overlay_destroy( &((*this_).overlay) );
@@ -106,6 +99,7 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     gui_sketch_drag_state_destroy ( &((*this_).drag_state) );
 
     /* unset pointers to external objects */
+    (*this_).drawing_area = NULL;
     (*this_).marker = NULL;
     (*this_).tools = NULL;
     (*this_).message_to_user = NULL;
@@ -848,7 +842,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                             data_id_t focused_id;
                             data_id_init( &focused_id, DATA_TABLE_DIAGRAM, new_diag_id );
                             gui_marked_set_set_focused( (*this_).marker, focused_id );
-                            gui_sketch_area_private_notify_listener( this_, focused_id );
+                            gui_sketch_area_private_notify_listeners( this_, focused_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
                         }
                     }
@@ -891,7 +885,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                     {
                         real_object = data_id_pair_get_secondary_id( &focused_object );
                     }
-                    gui_sketch_area_private_notify_listener( this_, real_object );
+                    gui_sketch_area_private_notify_listeners( this_, real_object );
                 }
 
                 /* mark dirty rect */
@@ -941,7 +935,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         gui_marked_set_set_focused( (*this_).marker,
                                                        data_id_pair_get_primary_id( &clicked_object )
                                                      );
-                        gui_sketch_area_private_notify_listener( this_, data_id_pair_get_secondary_id( &clicked_object ) );
+                        gui_sketch_area_private_notify_listeners( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                     }
                     else /* clicked either into inner space of a classifier or at a relation or outside any classifier */
                     {
@@ -1008,7 +1002,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                             data_id_init( &focused_id, DATA_TABLE_DIAGRAMELEMENT, new_diagele_id );
                             data_id_init( &focused_real_id, DATA_TABLE_CLASSIFIER, new_classifier_id );
                             gui_marked_set_set_focused( (*this_).marker, focused_id );
-                            gui_sketch_area_private_notify_listener( this_, focused_real_id );
+                            gui_sketch_area_private_notify_listeners( this_, focused_real_id );
                             gui_marked_set_clear_selected_set( (*this_).marker );
 
                             TRACE_INFO_INT( "new_classifier_id:", new_classifier_id );
@@ -1189,7 +1183,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
 
                         /* notify listener */
                         gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
-                        gui_sketch_area_private_notify_listener( this_, dragged_diagram );
+                        gui_sketch_area_private_notify_listeners( this_, dragged_diagram );
                         gui_marked_set_clear_selected_set( (*this_).marker );
 
                         /* mark dirty rect */
@@ -1424,7 +1418,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 data_id_t focused_id;
                                 data_id_init( &focused_id, DATA_TABLE_RELATIONSHIP, new_relationship_id );
                                 gui_marked_set_set_focused( (*this_).marker, focused_id );
-                                gui_sketch_area_private_notify_listener( this_, focused_id );
+                                gui_sketch_area_private_notify_listeners( this_, focused_id );
                                 gui_marked_set_clear_selected_set( (*this_).marker );
                             }
                         }
@@ -1492,7 +1486,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 data_id_t new_focused_id;
                                 data_id_init( &new_focused_id, DATA_TABLE_FEATURE, new_feature_id );
                                 gui_marked_set_set_focused( (*this_).marker, new_focused_id );
-                                gui_sketch_area_private_notify_listener( this_, new_focused_id );
+                                gui_sketch_area_private_notify_listeners( this_, new_focused_id );
                                 gui_marked_set_clear_selected_set( (*this_).marker );
                             }
                         }
@@ -1590,12 +1584,13 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     assert( NULL != msg );
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert ( NULL != widget );
 
     /* load/reload data to be drawn */
     gui_sketch_area_private_refocus_and_reload_data( this_ );
 
     /* mark dirty rect */
-    gtk_widget_queue_draw( widget );
+    gtk_widget_queue_draw( (*this_).drawing_area );
 
     TRACE_END();
 }
@@ -1605,6 +1600,7 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
+    assert ( NULL != widget );
 
     switch ( tool )
     {
@@ -1643,23 +1639,17 @@ void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_
     gui_sketch_area_private_refocus_and_reload_data( this_ );
 
     /* mark dirty rect */
-    gtk_widget_queue_draw( widget );
+    gtk_widget_queue_draw( (*this_).drawing_area );
 
     TRACE_END();
 }
 
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_id_t modified_real_object_id )
+void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id_t modified_real_object_id )
 {
     TRACE_BEGIN();
 
-    for ( int index = 0; index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS; index ++ )
-    {
-        if ( (*this_).listener != NULL )
-        {
-            TRACE_INFO_INT( "g_signal_emit to listener", index );
-            g_signal_emit( (*this_).listener[index], gui_sketch_area_glib_signal_id, 0, &modified_real_object_id );
-        }
-    }
+    TRACE_INFO( "g_signal_emit to listeners" );
+    g_signal_emit( (*this_).drawing_area, gui_sketch_area_glib_signal_id, 0, &modified_real_object_id );
 
     TRACE_END();
 }

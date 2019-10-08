@@ -13,6 +13,7 @@ static guint gui_toolbox_glib_signal_id = 0;
 const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME = "cfu_tool_changed";
 
 void gui_toolbox_init ( gui_toolbox_t *this_,
+                        GtkWidget *toolbar,
                         GtkToolItem *tool_navigate,
                         GtkToolItem *tool_edit,
                         GtkToolItem *tool_create,
@@ -35,11 +36,14 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
     assert( NULL != controller );
 
     (*this_).selected_tool = GUI_TOOLBOX_NAVIGATE;
+#if 0
     (*this_).listener = NULL;
+#endif
     (*this_).marker = marker;
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
+    (*this_).toolbar = toolbar;
     (*this_).tool_navigate = tool_navigate;
     (*this_).tool_edit = tool_edit;
     (*this_).tool_create = tool_create;
@@ -82,9 +86,12 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ )
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
+#if 0
     (*this_).listener = NULL;
+#endif
     (*this_).marker = NULL;
     (*this_).message_to_user = NULL;
+    (*this_).toolbar = NULL;
     (*this_).tool_navigate = NULL;
     (*this_).tool_edit = NULL;
     (*this_).tool_create = NULL;
@@ -102,7 +109,7 @@ void gui_toolbox_navigate_btn_callback( GtkWidget* button, gpointer data )
 
     (*this_).selected_tool = GUI_TOOLBOX_NAVIGATE;
 
-    gui_toolbox_private_notify_listener( this_ );
+    gui_toolbox_private_notify_listeners( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -117,13 +124,13 @@ void gui_toolbox_edit_btn_callback( GtkWidget* button, gpointer data )
 
     (*this_).selected_tool = GUI_TOOLBOX_EDIT;
 
-    gui_toolbox_private_notify_listener( this_ );
+    gui_toolbox_private_notify_listeners( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_toolbox_create_object_btn_callback( GtkWidget* button, gpointer data )
+void gui_toolbox_create_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
@@ -132,13 +139,13 @@ void gui_toolbox_create_object_btn_callback( GtkWidget* button, gpointer data )
 
     (*this_).selected_tool = GUI_TOOLBOX_CREATE;
 
-    gui_toolbox_private_notify_listener( this_ );
+    gui_toolbox_private_notify_listeners( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_toolbox_create_diagram_btn_callback( GtkWidget* button, gpointer data )
+void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
@@ -147,7 +154,7 @@ void gui_toolbox_create_diagram_btn_callback( GtkWidget* button, gpointer data )
 
     (*this_).selected_tool = GUI_TOOLBOX_SEARCH;
 
-    gui_toolbox_private_notify_listener( this_ );
+    gui_toolbox_private_notify_listeners( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -352,7 +359,7 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
     gui_marked_set_clear_selected_set( (*this_).marker );
 
     /* trigger redraw */
-    gui_toolbox_private_notify_listener( this_ );
+    gui_toolbox_private_notify_listeners( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -544,15 +551,12 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_toolbox_private_notify_listener( gui_toolbox_t *this_ )
+void gui_toolbox_private_notify_listeners( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
 
-    if ( (*this_).listener != NULL )
-    {
-        TRACE_INFO( "g_signal_emit to listener" );
-        g_signal_emit( (*this_).listener, gui_toolbox_glib_signal_id, 0, (*this_).selected_tool );
-    }
+    TRACE_INFO( "g_signal_emit to listeners" );
+    g_signal_emit( (*this_).toolbar, gui_toolbox_glib_signal_id, 0, (*this_).selected_tool );
 
     TRACE_END();
 }

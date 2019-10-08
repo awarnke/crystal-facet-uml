@@ -40,7 +40,6 @@ enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
     GUI_SKETCH_AREA_CONST_SELECTED_CARD = 0,  /*!< index of the card showing the currently selected diagram */
     GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 30,  /*!< maximum size of temporary diagram buffer */
-    GUI_SKETCH_AREA_CONST_MAX_LISTENERS = 4,  /*!< maximum number of listeners */
 };
 
 /*!
@@ -54,6 +53,7 @@ struct gui_sketch_area_struct {
     gui_toolbox_t *tools;  /*!< pointer to external tools */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_marked_set_t *marker;  /*!< pointer to external marker */
+    GtkWidget *drawing_area;  /*!< pointer to the gtk drawing area, used as origin for selected-object-changed signals */
 
     /* helper objects */
     gui_sketch_drag_state_t drag_state;  /*!< own instance of the drag state */
@@ -69,7 +69,6 @@ struct gui_sketch_area_struct {
 
     /* internal data structures */
     data_diagram_t private_temp_diagram_buf[GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS];
-    GObject *(listener[GUI_SKETCH_AREA_CONST_MAX_LISTENERS]);  /*!< array of pointers to listeners on selecting objects */
     data_feature_t private_temp_fake_feature;
 };
 
@@ -81,6 +80,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_sketch_area_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param drawing_area pointer to the gtk drawing area, used as origin for selected-object-changed signals. Ownership remains at caller.
  *  \param marker pointer to an object which references all focused, highlichted and selected ojects
  *  \param tools pointer to an object which represents the tool buttons
  *  \param message_to_user pointer to an object that can show a message to the user
@@ -89,6 +89,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param resources pointer to a resource provider
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
+                            GtkWidget *drawing_area,
                             gui_marked_set_t *marker,
                             gui_toolbox_t *tools,
                             gui_simple_message_to_user_t *message_to_user,
@@ -195,23 +196,6 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_t tool, gpointer data );
 
 /*!
- *  \brief sets a listener in the listener array
- *
- *  \param this_ pointer to own object attributes
- *  \param index index in the array where to add the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
- *  \param listener listener object which is called when the focus changes
- */
-static inline void gui_sketch_area_set_listener ( gui_sketch_area_t *this_, unsigned int index, GObject *listener );
-
-/*!
- *  \brief removes a listener from the listener array
- *
- *  \param this_ pointer to own object attributes
- *  \param index index in the array where to remove the listener; 0 <= index < GUI_SKETCH_AREA_CONST_MAX_LISTENERS
- */
-static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, unsigned int index );
-
-/*!
  *  \brief notifies all listeners.
  *
  *  Sends the currently focused object id.
@@ -219,7 +203,7 @@ static inline void gui_sketch_area_remove_listener ( gui_sketch_area_t *this_, u
  *  \param this_ pointer to own object attributes
  *  \param modified_real_object_id id of the real object that was modified (the classifier, not the diagramelement)
  */
-void gui_sketch_area_private_notify_listener( gui_sketch_area_t *this_, data_id_t modified_real_object_id );
+void gui_sketch_area_private_notify_listeners( gui_sketch_area_t *this_, data_id_t modified_real_object_id );
 
 /*!
  *  \brief gets the diagram-id of the diagram at a given position

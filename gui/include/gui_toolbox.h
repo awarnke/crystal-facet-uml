@@ -21,13 +21,13 @@
  */
 struct gui_toolbox_struct {
     gui_toolbox_tool_t selected_tool;
-    GObject *listener;
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_marked_set_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_serializer_deserializer_t serdes;  /*!< own instance of a serializer deserializer object */
 
+    GtkWidget *toolbar;  /*!< pointer to external GObject which is used as origin of tool change signals */
     GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_edit;  /*!< pointer to external GtkRadioToolButton */
     GtkToolItem *tool_create;  /*!< pointer to external GtkRadioToolButton */
@@ -42,10 +42,11 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  *  \brief initializes the gui_toolbox_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param tool_navigate the GTK widget
- *  \param tool_edit the GTK widget
- *  \param tool_create the GTK widget
- *  \param tool_search the GTK widget
+ *  \param toolbar the GTK widget that contains the buttons. Ownership remains at caller.
+ *  \param tool_navigate the GTK widget. Ownership remains at caller.
+ *  \param tool_edit the GTK widget. Ownership remains at caller.
+ *  \param tool_create the GTK widget. Ownership remains at caller.
+ *  \param tool_search the GTK widget. Ownership remains at caller.
  *  \param clipboard pointer to the main/primary GtkClipboard
  *  \param marker pointer to the set of marked items
  *  \param message_to_user pointer to an object that can show a message to the user
@@ -53,16 +54,17 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  *  \param controller pointer to a controller object which can modify the database
  */
 void gui_toolbox_init ( gui_toolbox_t *this_,
-                      GtkToolItem *tool_navigate,
-                      GtkToolItem *tool_edit,
-                      GtkToolItem *tool_create,
-                      GtkToolItem *tool_search,
-                      GtkClipboard *clipboard,
-                      gui_marked_set_t *marker,
-                      gui_simple_message_to_user_t *message_to_user,
-                      data_database_reader_t *db_reader,
-                      ctrl_controller_t *controller
-                    );
+                        GtkWidget *toolbar,
+                        GtkToolItem *tool_navigate,
+                        GtkToolItem *tool_edit,
+                        GtkToolItem *tool_create,
+                        GtkToolItem *tool_search,
+                        GtkClipboard *clipboard,
+                        gui_marked_set_t *marker,
+                        gui_simple_message_to_user_t *message_to_user,
+                        data_database_reader_t *db_reader,
+                        ctrl_controller_t *controller
+                      );
 
 /*!
  *  \brief destroys the gui_toolbox_t struct
@@ -99,12 +101,12 @@ void gui_toolbox_edit_btn_callback( GtkWidget* button, gpointer data );
 /*!
  *  \brief callback that informs that the tool button was pressed
  */
-void gui_toolbox_create_object_btn_callback( GtkWidget* button, gpointer data );
+void gui_toolbox_create_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief callback that informs that the tool button was pressed
  */
-void gui_toolbox_create_diagram_btn_callback( GtkWidget* button, gpointer data );
+void gui_toolbox_search_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
  *  \brief callback that informs that the tool button was pressed
@@ -152,26 +154,11 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data );
 void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data );
 
 /*!
- *  \brief sets the listener
- *
- *  \param this_ pointer to own object attributes
- *  \param listener pointer the one listener to change tool events
- */
-static inline void gui_toolbox_set_listener ( gui_toolbox_t *this_, GObject *listener );
-
-/*!
- *  \brief removes the listener
+ *  \brief notifies the listeners
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void gui_toolbox_remove_listener ( gui_toolbox_t *this_ );
-
-/*!
- *  \brief notifies the listener
- *
- *  \param this_ pointer to own object attributes
- */
-void gui_toolbox_private_notify_listener( gui_toolbox_t *this_ );
+void gui_toolbox_private_notify_listeners( gui_toolbox_t *this_ );
 
 /*!
  *  \brief cuts the selected objects to the clipboard

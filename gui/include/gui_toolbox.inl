@@ -5,16 +5,6 @@ static inline gui_toolbox_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *
     return (*this_).selected_tool;
 }
 
-static inline void gui_toolbox_set_listener ( gui_toolbox_t *this_, GObject *listener )
-{
-    (*this_).listener = listener;
-}
-
-static inline void gui_toolbox_remove_listener ( gui_toolbox_t *this_ )
-{
-    (*this_).listener = NULL;
-}
-
 static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_toolbox_tool_t tool )
 {
     switch ( tool )
