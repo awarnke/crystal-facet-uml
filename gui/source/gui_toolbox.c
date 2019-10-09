@@ -69,7 +69,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
             g_cclosure_marshal_VOID__INT,
             G_TYPE_NONE,
             1,
-            G_TYPE_INT /* gui_toolbox_tool_t */
+            G_TYPE_INT /* gui_tool_t */
         );
         gui_toolbox_glib_signal_initialized = true;
         TRACE_INFO_INT( "g_signal_new(\"cfu_tool_changed\") returned new signal id", gui_toolbox_glib_signal_id );

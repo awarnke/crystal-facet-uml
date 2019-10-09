@@ -193,7 +193,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
 /*!
  *  \brief callback that informs that the chosen tool changed
  */
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_t tool, gpointer data );
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data );
 
 /*!
  *  \brief notifies all listeners.

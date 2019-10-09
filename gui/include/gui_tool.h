@@ -20,7 +20,6 @@ enum gui_tool_enum {
     GUI_TOOLBOX_SEARCH,
 };
 
-typedef enum gui_tool_enum gui_toolbox_tool_t;
 typedef enum gui_tool_enum gui_tool_t;
 
 #endif  /* GUI_TOOL_H */

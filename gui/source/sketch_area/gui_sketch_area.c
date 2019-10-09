@@ -209,7 +209,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     gui_sketch_result_list_load_data( &((*this_).result_list), main_diagram_id, (*this_).db_reader );
     gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
 
-    gui_toolbox_tool_t selected_tool;
+    gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
     if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
     {
@@ -319,7 +319,7 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    gui_toolbox_tool_t selected_tool;
+    gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
     /* pre-calculate numbers needed in case of GUI_TOOLBOX_NAVIGATE and GUI_TOOLBOX_SEARCH */
@@ -474,7 +474,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     int32_t height = shape_int_rectangle_get_height( &area_bounds );
     */
 
-    gui_toolbox_tool_t selected_tool;
+    gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
     /* draw background */
@@ -572,7 +572,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     }
 
     /* do highlight */
-    gui_toolbox_tool_t selected_tool;
+    gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
     switch ( selected_tool )
     {
@@ -739,7 +739,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
         gui_sketch_drag_state_set_to ( &((*this_).drag_state), x, y );
 
         /* do action */
-        gui_toolbox_tool_t selected_tool;
+        gui_tool_t selected_tool;
         selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
@@ -1055,7 +1055,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
         }
 
         /* do action */
-        gui_toolbox_tool_t selected_tool;
+        gui_tool_t selected_tool;
         selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
         switch ( selected_tool )
         {
@@ -1595,7 +1595,7 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     TRACE_END();
 }
 
-void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_toolbox_tool_t tool, gpointer data )
+void gui_sketch_area_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data )
 {
     TRACE_BEGIN();
     gui_sketch_area_t *this_ = data;

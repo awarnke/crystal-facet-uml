@@ -1,11 +1,11 @@
 /* File: gui_toolbox.inl; Copyright and License: see below */
 
-static inline gui_toolbox_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ )
+static inline gui_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ )
 {
     return (*this_).selected_tool;
 }
 
-static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_toolbox_tool_t tool )
+static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_tool_t tool )
 {
     switch ( tool )
     {

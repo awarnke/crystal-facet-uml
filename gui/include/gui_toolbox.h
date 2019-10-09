@@ -20,7 +20,7 @@
  *  \brief attributes of the sketch tools object
  */
 struct gui_toolbox_struct {
-    gui_toolbox_tool_t selected_tool;
+    gui_tool_t selected_tool;
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_marked_set_t *marker;  /*!< pointer to external sketch marker */
@@ -78,7 +78,7 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline gui_toolbox_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ );
+static inline gui_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *this_ );
 
 /*!
  *  \brief sets the selected tool
@@ -86,7 +86,7 @@ static inline gui_toolbox_tool_t gui_toolbox_get_selected_tool ( gui_toolbox_t *
  *  \param this_ pointer to own object attributes
  *  \param tool tool to be selected
  */
-static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_toolbox_tool_t tool );
+static inline void gui_toolbox_set_selected_tool ( gui_toolbox_t *this_, gui_tool_t tool );
 
 /*!
  *  \brief callback that informs that the tool button was pressed
