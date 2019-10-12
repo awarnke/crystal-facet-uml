@@ -497,6 +497,10 @@ static const double BLACK_R = 0.0;
 static const double BLACK_G = 0.0;
 static const double BLACK_B = 0.0;
 static const double BLACK_A = 1.0;
+static const double GREY_R = 0.8;
+static const double GREY_G = 0.8;
+static const double GREY_B = 0.8;
+static const double GREY_A = 1.0;
 
 void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
@@ -521,7 +525,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 
         /* draw the background */
         {
-            cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
+            cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
             cairo_rectangle ( cr, left, top, width, height );
             cairo_fill (cr);
         }

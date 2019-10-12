@@ -469,32 +469,48 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    /*
-    int32_t width = shape_int_rectangle_get_width( &area_bounds );
-    int32_t height = shape_int_rectangle_get_height( &area_bounds );
-    */
-
     gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
     /* draw background */
-    if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
+    switch( selected_tool )
     {
-        unsigned int depth;
-        unsigned int children;
-        depth = ( gui_sketch_card_is_valid( &((*this_).cards[1]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
-        children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
-        gui_sketch_background_draw_navigation( &((*this_).background),
-                                               depth, children, (GUI_TOOLBOX_SEARCH == selected_tool),
-                                               cr
-                                             );
-    }
-    else
-    {
-        gui_sketch_background_draw_edit( &((*this_).background),
-                                         (GUI_TOOLBOX_CREATE == selected_tool),
-                                         cr
-                                       );
+        case GUI_TOOLBOX_SEARCH:
+        {
+            gui_sketch_background_draw_search( &((*this_).background), cr );
+        }
+        break;
+        
+        case GUI_TOOLBOX_NAVIGATE:
+        {
+            unsigned int depth;
+            unsigned int children;
+            depth = ( gui_sketch_card_is_valid( &((*this_).cards[1]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
+            children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
+            gui_sketch_background_draw_navigation( &((*this_).background),
+                                                   depth, children,
+                                                   cr
+                                                 );
+        }
+        break;
+        
+        case GUI_TOOLBOX_EDIT:
+        {
+            gui_sketch_background_draw_edit( &((*this_).background), cr );
+        }
+        break;
+        
+        case GUI_TOOLBOX_CREATE:
+        {
+            gui_sketch_background_draw_create( &((*this_).background), cr );
+        }
+        break;
+        
+        default:
+        {
+            assert(false);
+        }
+        break;
     }
 
     /* draw result list */

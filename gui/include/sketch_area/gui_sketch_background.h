@@ -71,27 +71,53 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param tree_depth depth of the current diagram in the tree. 0 represents the root node or no valid diagram.
  *  \param num_children number of children at the current diagram.
- *  \param search_mode true if the user searhes items, false if navigation mode.
  *  \param cr cairo drawing context
  */
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int tree_depth,
                                             unsigned int num_children,
-                                            bool search_mode,
                                             cairo_t *cr
                                           );
+
+/*!
+ *  \brief draws background graphics to the cairo context for search mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_draw_search( gui_sketch_background_t *this_, cairo_t *cr );
 
 /*!
  *  \brief draws background graphics to the cairo context for edit mode
  *
  *  \param this_ pointer to own object attributes
- *  \param create_mode true if the user creates items, false if edit mode.
  *  \param cr cairo drawing context
  */
-void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
-                                      bool create_mode,
-                                      cairo_t *cr
-                                    );
+void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief draws background graphics to the cairo context for create mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief draws a welcome message and a how-to-start-message to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_private_draw_welcome_messages( gui_sketch_background_t *this_, cairo_t *cr );
+
+/*!
+ *  \brief draws a quick-introduction to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_background_private_draw_quick_introduction( gui_sketch_background_t *this_, cairo_t *cr );
 
 /*!
  *  \brief draws an icon and two lines of text

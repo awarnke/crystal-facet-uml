@@ -59,17 +59,12 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    int32_t left;
-    int32_t top;
-    uint32_t width;
-    uint32_t height;
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-    left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-    int text_area_start;
+    int32_t text_area_start;
 
     /* if there is enough space, draw a nice picture bar on the left side */
     if ( width > 192 )
@@ -99,12 +94,15 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
     cairo_rectangle ( cr, text_area_start, top, width-text_area_start, height );
     cairo_fill (cr);
 
+    const int TAB_ROW0_Y = 48;
+    const int TAB_ROW1_Y = 96;
+    const int TAB_ROW2_Y = 192;
     gui_sketch_background_private_draw_icon_and_message( this_,
                                                          gui_resources_get_crystal_facet_uml( (*this_).resources ),
                                                          "Welcome to",
                                                          META_INFO_PROGRAM_NAME_STR,
                                                          text_area_start+BORDER,
-                                                         top+BORDER+48,
+                                                         top+BORDER+TAB_ROW0_Y,
                                                          cr
                                                        );
 
@@ -113,7 +111,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                          "To begin, please",
                                                          "create or open a database file first.",
                                                          text_area_start+BORDER,
-                                                         top+BORDER+96,
+                                                         top+BORDER+TAB_ROW1_Y,
                                                          cr
                                                        );
 
@@ -122,7 +120,7 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
                                                          "The user manual crystal_facet_uml_user_documentation.pdf is available",
                                                          "in the net and locally at /usr/share/doc/(packages/)crystal-facet-uml",
                                                          text_area_start+BORDER,
-                                                         top+BORDER+192,
+                                                         top+BORDER+TAB_ROW2_Y,
                                                          cr
                                                        );
 
@@ -132,23 +130,16 @@ void gui_sketch_background_draw_introduction( gui_sketch_background_t *this_,
 void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
                                             unsigned int tree_depth,
                                             unsigned int num_children,
-                                            bool search_mode,
                                             cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    int32_t left;
-    int32_t top;
-    uint32_t width;
-    uint32_t height;
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-    left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-    int block_top = top;
     if ( 0 == tree_depth )
     {
         cairo_set_source_rgba( cr, LIGHT_R, LIGHT_G, LIGHT_B, LIGHT_A );
@@ -157,110 +148,143 @@ void gui_sketch_background_draw_navigation( gui_sketch_background_t *this_,
     {
         cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
     }
-    cairo_rectangle ( cr, left, block_top, width, (height*1)/4 );
-    cairo_fill (cr);
-    block_top += (height*1)/4;
-
-    cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
-    cairo_rectangle ( cr, left, block_top, width, (height*2)/4 );
-    cairo_fill (cr);
-    block_top += (height*2)/4;
-
-    cairo_set_source_rgba( cr, D_GREY_R, D_GREY_G, D_GREY_B, D_GREY_A );
-    cairo_rectangle ( cr, left, block_top, width, height-block_top );
+    cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
 
     if ( ( 0 == tree_depth )&&( 0 == num_children ))
     {
         /* this is a new, empty database */
 
-        /* print some guidance */
-        const int TAB_COL0_X = 14;
-        const int TAB_COL1_X = 112;
-        const int TAB_COL2_X = 320;
-        const int TAB_ROW0_Y = 0;
-        const int TAB_ROW1_Y = 48;
-        const int TAB_ROW2_Y = 96;
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_message_user_doc( (*this_).resources ),
-                                                             "Quick",
-                                                             "Intro:",
-                                                             left+TAB_COL0_X+BORDER,
-                                                             top+BORDER+TAB_ROW1_Y,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_navigate( (*this_).resources ),
-                                                             "Click on a diagram to navigate,",
-                                                             "on '+' to create a new diagram.",
-                                                             left+TAB_COL1_X+BORDER,
-                                                             top+BORDER+TAB_ROW0_Y,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_edit( (*this_).resources ),
-                                                             "Single click to focus,",
-                                                             "second click to mark items.",
-                                                             left+TAB_COL1_X+BORDER,
-                                                             top+BORDER+TAB_ROW1_Y,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_tool_create( (*this_).resources ),
-                                                             "Click to create items.",
-                                                             "Drag to create arrows.",
-                                                             left+TAB_COL1_X+BORDER,
-                                                             top+BORDER+TAB_ROW2_Y,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_file_export( (*this_).resources ),
-                                                             "Select the output folder",
-                                                             "to export all(!) diagrams.",
-                                                             left+TAB_COL2_X+BORDER,
-                                                             top+BORDER+TAB_ROW1_Y,
-                                                             cr
-                                                           );
-        gui_sketch_background_private_draw_icon_and_message( this_,
-                                                             gui_resources_get_edit_commit( (*this_).resources ),
-                                                             "Changes are stored automatically.",
-                                                             "Explicit safe action is optional.",
-                                                             left+TAB_COL2_X+BORDER,
-                                                             top+BORDER+TAB_ROW2_Y,
-                                                             cr
-                                                           );
+        gui_sketch_background_private_draw_quick_introduction( this_, cr );
     }
 
     TRACE_END();
 }
 
-void gui_sketch_background_draw_edit( gui_sketch_background_t *this_,
-                                      bool create_mode,
-                                      cairo_t *cr )
+void gui_sketch_background_draw_search( gui_sketch_background_t *this_, cairo_t *cr )
 {
     TRACE_BEGIN();
     assert( NULL != cr );
 
-    int32_t left;
-    int32_t top;
-    uint32_t width;
-    uint32_t height;
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-    left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
-
-    if ( create_mode )
-    {
-        cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
-    }
-    else
-    {
-        cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
-    }
+    cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
     cairo_rectangle ( cr, left, top, width, height );
     cairo_fill (cr);
+
+    TRACE_END();
+}
+
+void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+    cairo_set_source_rgba( cr, DARK_R, DARK_G, DARK_B, DARK_A );
+    cairo_rectangle ( cr, left, top, width, height );
+    cairo_fill (cr);
+
+    TRACE_END();
+}
+
+void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+    cairo_set_source_rgba( cr, ORANGE_R, ORANGE_G, ORANGE_B, ORANGE_A );
+    cairo_rectangle ( cr, left, top, width, height );
+    cairo_fill (cr);
+
+    TRACE_END();
+}
+
+void gui_sketch_background_private_draw_quick_introduction( gui_sketch_background_t *this_, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+
+    const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+    //const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+    //const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+    const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
+
+    const int32_t TAB_HEIGHT = 144 + BORDER;
+    const int32_t TAB_WIDTH = 600 + BORDER;
+    const int32_t TAB_X = left + 16;
+    const int32_t TAB_Y = height - TAB_HEIGHT - 16;
+    const int32_t TAB_COL0_X = TAB_X + BORDER + 14;
+    const int32_t TAB_COL1_X = TAB_X + BORDER + 112;
+    const int32_t TAB_COL2_X = TAB_X + BORDER + 320;
+    const int32_t TAB_ROW0_Y = TAB_Y + BORDER + 0;
+    const int32_t TAB_ROW1_Y = TAB_Y + BORDER + 48;
+    const int32_t TAB_ROW2_Y = TAB_Y + BORDER + 96;
+
+    cairo_set_source_rgba( cr, GREY_R, GREY_G, GREY_B, GREY_A );
+    cairo_rectangle ( cr, TAB_X, TAB_Y, TAB_WIDTH, TAB_HEIGHT );
+    cairo_fill (cr);
+
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_message_user_doc( (*this_).resources ),
+                                                         "Quick",
+                                                         "Intro:",
+                                                         TAB_COL0_X,
+                                                         TAB_ROW0_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_tool_navigate( (*this_).resources ),
+                                                         "Click on a diagram to navigate,",
+                                                         "on '+' to create a new diagram.",
+                                                         TAB_COL1_X,
+                                                         TAB_ROW0_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_tool_edit( (*this_).resources ),
+                                                         "Single click to focus,",
+                                                         "second click to mark items.",
+                                                         TAB_COL1_X,
+                                                         TAB_ROW1_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_tool_create( (*this_).resources ),
+                                                         "Click to create items.",
+                                                         "Drag to create arrows.",
+                                                         TAB_COL1_X,
+                                                         TAB_ROW2_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_file_export( (*this_).resources ),
+                                                         "Select the output folder",
+                                                         "to export all(!) diagrams.",
+                                                         TAB_COL2_X,
+                                                         TAB_ROW1_Y,
+                                                         cr
+                                                       );
+    gui_sketch_background_private_draw_icon_and_message( this_,
+                                                         gui_resources_get_edit_commit( (*this_).resources ),
+                                                         "Changes are stored automatically.",
+                                                         "Explicit safe action is optional.",
+                                                         TAB_COL2_X,
+                                                         TAB_ROW2_Y,
+                                                         cr
+                                                       );
 
     TRACE_END();
 }
@@ -279,8 +303,8 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
     assert( NULL != text_1 );
     assert( NULL != text_2 );
 
-    double icon_width = gdk_pixbuf_get_width ( icon_1 );
-    double icon_height = gdk_pixbuf_get_height ( icon_1 );
+    const double icon_width = gdk_pixbuf_get_width ( icon_1 );
+    const double icon_height = gdk_pixbuf_get_height ( icon_1 );
     gdk_cairo_set_source_pixbuf( cr, icon_1, x, y );
     cairo_rectangle ( cr, x, y, x+icon_width, y+icon_height );
     cairo_fill (cr);
