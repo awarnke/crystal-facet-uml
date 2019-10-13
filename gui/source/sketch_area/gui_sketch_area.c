@@ -202,8 +202,8 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     }
 
     /* load data to be drawn */
-    gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]) );
-    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]), main_diagram_id, (*this_).db_reader );
+    gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
+    gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
     gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
     gui_sketch_result_list_load_data( &((*this_).result_list), main_diagram_id, (*this_).db_reader );
@@ -217,18 +217,18 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
         int64_t selected_diagram_id;
         int64_t parent_diagram_id;
         data_diagram_t *selected_diag;
-        selected_diag = gui_sketch_area_get_selected_diagram_ptr( this_ );
+        selected_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
         selected_diagram_id = data_diagram_get_id( selected_diag );
         TRACE_INFO_INT( "selected_diagram_id:", selected_diagram_id );
         parent_diagram_id = data_diagram_get_parent_id( selected_diag );
         TRACE_INFO_INT( "parent_diagram_id:", parent_diagram_id );
 
-        /* load parent if there is any */
+        /* load parent even if there is no parent (-->VOID) */
         gui_sketch_card_init( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
         gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), parent_diagram_id, (*this_).db_reader );
         (*this_).card_num = 2;
 
-        /* load all children */
+        /* load all children (up to GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS)*/
         uint32_t c_count;
         db_err = data_database_reader_get_diagrams_by_parent_id( (*this_).db_reader,
                                                                  selected_diagram_id,
@@ -248,13 +248,20 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
         {
             for ( uint32_t index = 0; index < c_count; index ++ )
             {
-                int64_t current_child_id;
-                current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
-                gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
-                (*this_).card_num ++;
-                /* cleanup */
-                data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
+                if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
+                {
+                    int64_t current_child_id;
+                    current_child_id = data_diagram_get_id( &((*this_).private_temp_diagram_buf[index]) );
+                    gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
+                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), current_child_id, (*this_).db_reader );
+                    (*this_).card_num ++;
+                    /* cleanup */
+                    data_diagram_destroy( &((*this_).private_temp_diagram_buf[index]) );
+                }
+                else
+                {
+                    TSLOG_ERROR_INT( "more diagrams loaded than fit into cards array!", c_count );
+                }
             }
         }
     }
@@ -272,7 +279,7 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     //data_id_t former_focused_element;
     {
         data_diagram_t *former_diagram;
-        former_diagram = gui_sketch_area_get_selected_diagram_ptr ( this_ );
+        former_diagram = gui_sketch_area_get_focused_diagram_ptr ( this_ );
         former_diagram_id = data_diagram_get_id( former_diagram );
         former_parent_diagram_id = data_diagram_get_parent_id( former_diagram );
         TRACE_INFO_INT_INT( "former_diagram_id, former_parent_diagram_id:", former_diagram_id, former_parent_diagram_id );
@@ -283,13 +290,13 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     gui_sketch_area_private_load_data( this_, former_diagram_id );
 
     if (( DATA_ID_VOID_ID != former_diagram_id )
-        &&( DATA_ID_VOID_ID == gui_sketch_area_get_selected_diagram_id( this_ ) ))
+        &&( DATA_ID_VOID_ID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
     {
         /* the requested diagram was not loaded, try the parent: */
         gui_sketch_area_private_load_data( this_, former_parent_diagram_id );
 
         if (( DATA_ID_VOID_ID != former_parent_diagram_id )
-            &&( DATA_ID_VOID_ID == gui_sketch_area_get_selected_diagram_id( this_ ) ))
+            &&( DATA_ID_VOID_ID == gui_sketch_area_get_focused_diagram_id( this_ ) ))
         {
             /* the requested diagram was not loaded, go back to root diagram: */
             gui_sketch_area_private_load_data( this_, DATA_ID_VOID_ID );
@@ -309,10 +316,9 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
 
 static const gint RATIO_WIDTH = 36;
 static const gint RATIO_HEIGHT = 24;
-static const gint BORDER = 10;
-static const gint HALF_BORDER = 5;
+static const gint BORDER = 8;
 static const uint32_t NAV_TREE_WIDTH = 224;
-static const uint32_t RESULT_LIST_WIDTH = 160;
+static const uint32_t RESULT_LIST_WIDTH = 192;
 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr )
 {
@@ -322,143 +328,183 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
     gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).tools );
 
-    /* pre-calculate numbers needed in case of GUI_TOOLBOX_NAVIGATE and GUI_TOOLBOX_SEARCH */
-    uint32_t width = shape_int_rectangle_get_width( &area_bounds );
-    uint32_t height = shape_int_rectangle_get_height( &area_bounds );
-    int32_t left = shape_int_rectangle_get_left( &area_bounds );
-    int32_t top = shape_int_rectangle_get_top( &area_bounds );
+    /* fetch area bounds */
+    const uint32_t width = shape_int_rectangle_get_width( &area_bounds );
+    const uint32_t height = shape_int_rectangle_get_height( &area_bounds );
+    const int32_t left = shape_int_rectangle_get_left( &area_bounds );
+    const int32_t top = shape_int_rectangle_get_top( &area_bounds );
     TRACE_INFO_INT_INT( "width, height", width, height );
-    int32_t children_top;
-    uint32_t children_height;
-    uint32_t parent_left;
-    uint32_t parent_width;
-    uint32_t parent_height;
-    uint32_t self_width;
-    uint32_t self_height;
-    int32_t self_left;
-    int32_t self_top;
-    {
-        children_height = ( height * 1 ) / 4;
-        children_top = height - children_height;
-        parent_left = left;
-        parent_width = width;
-        parent_height = ( height * 1 ) / 4;
-        self_width = width;
-        self_left = left;
-        self_top = top + parent_height;
-        self_height = height - children_height - parent_height;
-    }
 
     /* layout result list */
+    const bool result_list_visible = ( GUI_TOOLBOX_SEARCH == selected_tool );
     {
         shape_int_rectangle_t result_list_bounds;
         shape_int_rectangle_init( &result_list_bounds, left, top, RESULT_LIST_WIDTH, height );
         gui_sketch_result_list_set_bounds( &((*this_).result_list ), result_list_bounds );
-        bool result_list_visible;
-        result_list_visible = ( GUI_TOOLBOX_SEARCH == selected_tool );
         gui_sketch_result_list_set_visible( &((*this_).result_list), result_list_visible );
-        if ( result_list_visible )
-        {
-            self_left = left + RESULT_LIST_WIDTH;
-            self_width = ( self_width < RESULT_LIST_WIDTH ) ? 0 : self_width - RESULT_LIST_WIDTH;
-            parent_left = self_left;
-            parent_width = self_width;
-        }
     }
 
     /* layout nav tree */
+    const bool nav_tree_visible = ( GUI_TOOLBOX_NAVIGATE == selected_tool );
     {
         shape_int_rectangle_t nav_tree_bounds;
         shape_int_rectangle_init( &nav_tree_bounds, left, top, NAV_TREE_WIDTH, height );
         gui_sketch_nav_tree_set_bounds( &((*this_).nav_tree), nav_tree_bounds );
-        bool nav_tree_visible;
-        nav_tree_visible = ( GUI_TOOLBOX_NAVIGATE == selected_tool );
         gui_sketch_nav_tree_set_visible( &((*this_).nav_tree), nav_tree_visible );
-        if ( nav_tree_visible )
-        {
-            self_left = left + NAV_TREE_WIDTH;
-            self_width = ( self_width < NAV_TREE_WIDTH ) ? 0 : self_width - NAV_TREE_WIDTH;
-            parent_left = self_left;
-            parent_width = self_width;
-        }
     }
 
-    /* layout all cards */
-    for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
+    /* calculate card area bounds */
+    const int32_t cards_left = left + (nav_tree_visible ? NAV_TREE_WIDTH : (result_list_visible ? RESULT_LIST_WIDTH : 0 ));
+    const uint32_t cards_width = (width > (cards_left-left)) ? (width - (cards_left-left)) : 0;
+
+    /* calculate card sizes */
+    uint32_t focus_card_height;
+    uint32_t focus_card_width;
     {
-        if ( ! gui_sketch_card_is_valid( &((*this_).cards[card_idx]) ))
+        const uint32_t focus_card_w_space = (cards_width * 7) / 10;
+        const uint32_t focus_card_h_space = (height * 4) / 10;
+        if ( (focus_card_w_space * RATIO_HEIGHT) > (focus_card_h_space * RATIO_WIDTH) )
         {
-            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
+            focus_card_height = focus_card_h_space;
+            focus_card_width = (focus_card_height * RATIO_WIDTH) / RATIO_HEIGHT;
         }
-        else if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
+        else
+        {
+            focus_card_width = focus_card_w_space;
+            focus_card_height = (focus_card_width * RATIO_HEIGHT) / RATIO_WIDTH;
+        }
+    }
+    const uint32_t parent_card_height = (focus_card_height * 6) / 10;
+    const uint32_t parent_card_width = (focus_card_width * 6) / 10;
+
+    /* layout cards */
+    switch( selected_tool )
+    {
+        case GUI_TOOLBOX_SEARCH:  /* or */
+        case GUI_TOOLBOX_NAVIGATE:
         {
             shape_int_rectangle_t card_bounds;
 
-            if ( card_idx == 0 )  /* self */
+            /* self */
+            assert((*this_).card_num > GUI_SKETCH_AREA_CONST_FOCUSED_CARD);
             {
-                shape_int_rectangle_init( &card_bounds, self_left, self_top, self_width, self_height );
-                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_LEFT, SHAPE_V_ALIGN_CENTER );
-            }
-            else if ( card_idx == 1 )  /* parent */
-            {
-                shape_int_rectangle_init( &card_bounds, parent_left, top, parent_width, parent_height );
-                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
-            }
-            else
-            {
-                int current_child = card_idx-2;
-                int max_children = (*this_).card_num-2;
-                shape_int_rectangle_init( &card_bounds, left+(width*current_child)/max_children, children_top, width/max_children, children_height );
-                shape_int_rectangle_shrink_by_border( &card_bounds, HALF_BORDER );
-                shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
+                const int32_t self_left = (left + width) - focus_card_width - BORDER;
+                const int32_t self_top = top + BORDER + (parent_card_height/2);
+                shape_int_rectangle_init( &card_bounds, self_left, self_top, focus_card_width, focus_card_height );
+                shape_int_rectangle_trace( &card_bounds );
+                gui_sketch_card_set_bounds( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), card_bounds );
+                const bool valid_card = gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
+                gui_sketch_card_do_layout( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), cr );
+                gui_sketch_card_set_visible( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), valid_card );
             }
 
-            shape_int_rectangle_trace( &card_bounds );
-            gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
-            gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
-            gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
-        }
-        else /* ==gui_sketch_card_is_valid and not GUI_TOOLBOX_NAVIGATE and not GUI_TOOLBOX_SEARCH */
-        {
-            if ( card_idx == 0 )
+            /* parent */
+            assert((*this_).card_num > GUI_SKETCH_AREA_CONST_PARENT_CARD);
             {
-                shape_int_rectangle_t card_bounds;
+                const int32_t parent_left = cards_left + BORDER;
+                const int32_t parent_top = top + BORDER;
+                shape_int_rectangle_init( &card_bounds, parent_left, parent_top, parent_card_width, parent_card_height );
+                shape_int_rectangle_trace( &card_bounds );
+                gui_sketch_card_set_bounds( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), card_bounds );
+                const bool valid_parent = gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) );
+                gui_sketch_card_do_layout( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), cr );
+                gui_sketch_card_set_visible( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]), valid_parent );
+            }
+
+            /* children */
+            assert((*this_).card_num >= GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD);
+            {
+                const int32_t children_top = top + focus_card_height + (parent_card_height/2) + 2*BORDER;
+                const uint32_t children_height = (height > (children_top-top)) ? (height - (children_top-top)) : 0;
+                shape_int_rectangle_init( &card_bounds, cards_left, children_top, cards_width, children_height );
+                gui_sketch_area_private_layout_card_list( this_,
+                                                          GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD,
+                                                          (*this_).card_num-GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD,
+                                                          card_bounds,
+                                                          cr
+                                                        );
+            }
+        }
+        break;
+
+        case GUI_TOOLBOX_EDIT:  /* or */
+        case GUI_TOOLBOX_CREATE:
+        {
+            shape_int_rectangle_t card_bounds;
+
+            assert((*this_).card_num == GUI_SKETCH_AREA_CONST_FOCUSED_CARD+1);
+            {
                 card_bounds = area_bounds;
                 shape_int_rectangle_shrink_by_border( &card_bounds, BORDER );
                 shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER, SHAPE_V_ALIGN_CENTER );
                 shape_int_rectangle_trace( &card_bounds );
-                gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
-                gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
-                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), true );
-            }
-            else
-            {
-                gui_sketch_card_set_visible( &((*this_).cards[card_idx]), false );
+                gui_sketch_card_set_bounds( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), card_bounds );
+                const bool valid_card = gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
+                gui_sketch_card_do_layout( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), cr );
+                gui_sketch_card_set_visible( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), valid_card );
             }
         }
+        break;
+
+        default:
+        {
+            assert(false);
+        }
+        break;
     }
 
     /* layout background */
     {
         shape_int_rectangle_t background_bounds;
-        if ( GUI_TOOLBOX_SEARCH == selected_tool )
+        shape_int_rectangle_init( &background_bounds, cards_left, top, cards_width, height );
+        gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
+    }
+
+    TRACE_END();
+}
+
+void gui_sketch_area_private_layout_card_list ( gui_sketch_area_t *this_, uint32_t first, uint32_t length, shape_int_rectangle_t bounds, cairo_t *cr )
+{
+    TRACE_BEGIN();
+    assert( NULL != cr );
+    assert( first + length <= GUI_SKETCH_AREA_CONST_MAX_CARDS );
+
+    /* fetch outer bounds */
+    const uint32_t width = shape_int_rectangle_get_width( &bounds );
+    const uint32_t height = shape_int_rectangle_get_height( &bounds );
+    const int32_t left = shape_int_rectangle_get_left( &bounds );
+    const int32_t top = shape_int_rectangle_get_top( &bounds );
+    TRACE_INFO_INT_INT( "width, height", width, height );
+
+    const uint32_t card_width = RATIO_WIDTH * 2;
+    const uint32_t card_height = RATIO_HEIGHT * 2;
+
+    /* layout all cards in range */
+    for ( int card_idx = first; card_idx < (first+length); card_idx ++ )
+    {
+        shape_int_rectangle_t card_bounds;
+
         {
-            uint32_t ground_width = ( RESULT_LIST_WIDTH < width ) ? ( width - RESULT_LIST_WIDTH ) : 0;
-            shape_int_rectangle_init( &background_bounds, left + RESULT_LIST_WIDTH, top, ground_width, height );
-        }
-        else if ( GUI_TOOLBOX_NAVIGATE == selected_tool )
-        {
-            uint32_t ground_width = ( NAV_TREE_WIDTH < width ) ? ( width - NAV_TREE_WIDTH ) : 0;
-            shape_int_rectangle_init( &background_bounds, left + NAV_TREE_WIDTH, top, ground_width, height );
-        }
-        else
-        {
-            shape_int_rectangle_init( &background_bounds, left, top, width, height );
+            int current_child = card_idx-first;
+            int max_children = length;
+            shape_int_rectangle_init( &card_bounds,
+                                      left + (((width-card_width)*current_child)/(max_children)),
+                                      top + (((height-card_height)*current_child)/(max_children)),
+                                      card_width,
+                                      card_height
+                                    );
+            /*
+            shape_int_rectangle_init( &card_bounds, cards_left+(cards_width*current_child)/max_children, children_top, cards_width/max_children, children_height );
+            shape_int_rectangle_shrink_by_border( &card_bounds, BORDER/2 );
+            shape_int_rectangle_shrink_to_ratio( &card_bounds, RATIO_WIDTH, RATIO_HEIGHT, SHAPE_H_ALIGN_CENTER,               SHAPE_V_ALIGN_CENTER );
+            */
         }
 
-        gui_sketch_background_set_bounds( &((*this_).background), background_bounds );
+        shape_int_rectangle_trace( &card_bounds );
+        gui_sketch_card_set_bounds( &((*this_).cards[card_idx]), card_bounds );
+        const bool valid_card = gui_sketch_card_is_valid( &((*this_).cards[card_idx]) );
+        gui_sketch_card_do_layout( &((*this_).cards[card_idx]), cr );
+        gui_sketch_card_set_visible( &((*this_).cards[card_idx]), valid_card );
     }
 
     TRACE_END();
@@ -480,12 +526,12 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
             gui_sketch_background_draw_search( &((*this_).background), cr );
         }
         break;
-        
+
         case GUI_TOOLBOX_NAVIGATE:
         {
             unsigned int depth;
             unsigned int children;
-            depth = ( gui_sketch_card_is_valid( &((*this_).cards[1]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
+            depth = ( gui_sketch_card_is_valid( &((*this_).cards[GUI_SKETCH_AREA_CONST_PARENT_CARD]) ) ) ? 1 : 0;  /* currently, only root and non-root can be distinguished */
             children = (*this_).card_num-2;  /* concept of card numbers to be updated in the future */
             gui_sketch_background_draw_navigation( &((*this_).background),
                                                    depth, children,
@@ -493,19 +539,19 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
                                                  );
         }
         break;
-        
+
         case GUI_TOOLBOX_EDIT:
         {
             gui_sketch_background_draw_edit( &((*this_).background), cr );
         }
         break;
-        
+
         case GUI_TOOLBOX_CREATE:
         {
             gui_sketch_background_draw_create( &((*this_).background), cr );
         }
         break;
-        
+
         default:
         {
             assert(false);
@@ -523,8 +569,8 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
         gui_sketch_nav_tree_draw( &((*this_).nav_tree), (*this_).marker, cr );
     }
 
-    /* draw all cards */
-    for ( int card_idx = 0; card_idx < (*this_).card_num; card_idx ++ )
+    /* draw all cards, backwords */
+    for ( signed int card_idx = (*this_).card_num-1; card_idx >= 0; card_idx -- )
     {
         gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
     }

@@ -3,20 +3,20 @@
 #include "tslog.h"
 #include <assert.h>
 
-static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ )
+static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sketch_area_t *this_ )
 {
     gui_sketch_card_t *result_card;
-    result_card = &((*this_).cards[GUI_SKETCH_AREA_CONST_SELECTED_CARD]);
+    result_card = &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]);
     return gui_sketch_card_get_diagram_ptr( result_card );
 }
 
-static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_t *this_ )
+static inline int64_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ )
 {
-    int64_t selected_diagram_id;
-    data_diagram_t *selected_diag;
-    selected_diag = gui_sketch_area_get_selected_diagram_ptr( this_ );
-    selected_diagram_id = data_diagram_get_id( selected_diag );
-    return selected_diagram_id;
+    int64_t focused_diagram_id;
+    data_diagram_t *focused_diag;
+    focused_diag = gui_sketch_area_get_focused_diagram_ptr( this_ );
+    focused_diagram_id = data_diagram_get_id( focused_diag );
+    return focused_diagram_id;
 }
 
 static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_t *this_, int32_t x, int32_t y )
@@ -41,6 +41,7 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
             data_diagram_t *selected_diag;
             selected_diag = gui_sketch_card_get_diagram_ptr( card );
             data_id_reinit( &result, DATA_TABLE_DIAGRAM, data_diagram_get_id( selected_diag ) );
+            break;
         }
     }
     return result;
@@ -66,6 +67,7 @@ static inline void gui_sketch_area_private_get_object_id_at_pos ( gui_sketch_are
         {
             data_id_pair_t out_surrounding_id;  /* dummy */
             gui_sketch_card_get_object_id_at_pos ( card, x, y, filter, out_selected_id, &out_surrounding_id );
+            break;
         }
     }
 }
@@ -92,6 +94,7 @@ static inline void gui_sketch_area_private_get_object_ids_at_pos ( gui_sketch_ar
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             gui_sketch_card_get_object_id_at_pos ( card, x, y, filter, out_selected_id, out_surrounding_id );
+            break;
         }
     }
 }
@@ -110,6 +113,7 @@ static inline gui_sketch_card_t *gui_sketch_area_get_card_at_pos ( gui_sketch_ar
         if ( shape_int_rectangle_contains( &card_bounds, x, y ) )
         {
             result = card;
+            break;
         }
     }
     return result;

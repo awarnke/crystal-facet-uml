@@ -1,6 +1,7 @@
 /* File: gui_sketch_card.inl; Copyright and License: see below */
 
 #include "tslog.h"
+#include "trace.h"
 
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
@@ -193,27 +194,34 @@ static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *thi
 
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )
 {
-    /* layout loaded classifiers */
-    int32_t left;
-    int32_t top;
-    uint32_t width;
-    uint32_t height;
+    if ( gui_sketch_card_is_valid( this_ ) )
+    {
+        /* layout loaded classifiers */
+        int32_t left;
+        int32_t top;
+        uint32_t width;
+        uint32_t height;
 
-    left = shape_int_rectangle_get_left( &((*this_).bounds) );
-    top = shape_int_rectangle_get_top( &((*this_).bounds) );
-    width = shape_int_rectangle_get_width( &((*this_).bounds) );
-    height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-    geometry_rectangle_t destination;
-    geometry_rectangle_init( &destination, left, top, width, height );
-    pencil_diagram_maker_define_grid ( &((*this_).painter),
-                                       &((*this_).painter_input_data),
-                                       destination
-                                     );
-    pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
-    (*this_).dirty_elements_layout = false;
+        geometry_rectangle_t destination;
+        geometry_rectangle_init( &destination, left, top, width, height );
+        pencil_diagram_maker_define_grid ( &((*this_).painter),
+                                        &((*this_).painter_input_data),
+                                        destination
+                                        );
+        pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
+        (*this_).dirty_elements_layout = false;
 
-    geometry_rectangle_destroy( &destination );
+        geometry_rectangle_destroy( &destination );
+    }
+    else
+    {
+        TRACE_INFO( "gui_sketch_card_do_layout called on invalid card." );
+    }
 }
 
 static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t *this_ )

@@ -38,7 +38,8 @@
 enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_MAX_CARDS = 32,  /*!< maximum number of diagrams to be shown in one single window */
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
-    GUI_SKETCH_AREA_CONST_SELECTED_CARD = 0,  /*!< index of the card showing the currently selected diagram */
+    GUI_SKETCH_AREA_CONST_FOCUSED_CARD = 0,  /*!< index of the card showing the currently focused diagram */
+    GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD = 2,  /*!< index of the card showing the furst child diagram */
     GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 30,  /*!< maximum size of temporary diagram buffer */
 };
 
@@ -128,9 +129,25 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
  *
  *  \param this_ pointer to own object attributes
  *  \param area_bounds bounding box within which the cards are layouted
- *  \param cr cairo drawing context, needed the determine the font metrics in the given drawing context
+ *  \param cr cairo drawing context, needed to determine the font metrics in the given drawing context
  */
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
+
+/*!
+ *  \brief layouts a list of cards into a bounding rectangle
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param first index of the first card (in cards array) to be layouted
+ *  \param length number of cards to be layouted
+ *  \param bounds bounding box within which the cards are layouted
+ *  \param cr cairo drawing context, needed to determine the font metrics in the given drawing context
+ */
+void gui_sketch_area_private_layout_card_list ( gui_sketch_area_t *this_,
+                                                uint32_t first,
+                                                uint32_t length,
+                                                shape_int_rectangle_t bounds,
+                                                cairo_t *cr
+                                              );
 
 /*!
  *  \brief draws all cards, nav_tree and result_list
@@ -142,18 +159,18 @@ void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape
 void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
- *  \brief gets the currently selected diagram
+ *  \brief gets the currently focused diagram
  *
  *  \param this_ pointer to own object attributes
  */
-static inline data_diagram_t *gui_sketch_area_get_selected_diagram_ptr ( gui_sketch_area_t *this_ );
+static inline data_diagram_t *gui_sketch_area_get_focused_diagram_ptr ( gui_sketch_area_t *this_ );
 
 /*!
- *  \brief gets the currently selected diagram id
+ *  \brief gets the currently focused diagram id
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int64_t gui_sketch_area_get_selected_diagram_id ( gui_sketch_area_t *this_ );
+static inline int64_t gui_sketch_area_get_focused_diagram_id ( gui_sketch_area_t *this_ );
 
 /*!
  *  \brief callback that redraws the sketch_area widget
