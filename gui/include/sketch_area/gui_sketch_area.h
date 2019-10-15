@@ -134,22 +134,6 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
 void gui_sketch_area_private_layout_subwidgets ( gui_sketch_area_t *this_, shape_int_rectangle_t area_bounds, cairo_t *cr );
 
 /*!
- *  \brief layouts a list of cards into a bounding rectangle
- *
- *  \param this_ pointer to own object attributes
- *  \param first index of the first card (in cards array) to be layouted
- *  \param length number of cards to be layouted
- *  \param bounds bounding box within which the cards are layouted
- *  \param cr cairo drawing context, needed to determine the font metrics in the given drawing context
- */
-void gui_sketch_area_private_layout_card_list ( gui_sketch_area_t *this_,
-                                                uint32_t first,
-                                                uint32_t length,
-                                                shape_int_rectangle_t bounds,
-                                                cairo_t *cr
-                                              );
-
-/*!
  *  \brief draws all cards, nav_tree and result_list
  *
  *  \param this_ pointer to own object attributes

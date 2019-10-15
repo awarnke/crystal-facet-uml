@@ -104,14 +104,6 @@ void gui_sketch_background_draw_edit( gui_sketch_background_t *this_, cairo_t *c
 void gui_sketch_background_draw_create( gui_sketch_background_t *this_, cairo_t *cr );
 
 /*!
- *  \brief draws a welcome message and a how-to-start-message to the cairo context
- *
- *  \param this_ pointer to own object attributes
- *  \param cr cairo drawing context
- */
-void gui_sketch_background_private_draw_welcome_messages( gui_sketch_background_t *this_, cairo_t *cr );
-
-/*!
  *  \brief draws a quick-introduction to the cairo context
  *
  *  \param this_ pointer to own object attributes

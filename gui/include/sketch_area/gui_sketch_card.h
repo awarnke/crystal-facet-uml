@@ -107,6 +107,8 @@ static inline void gui_sketch_card_set_visible( gui_sketch_card_t *this_, bool v
 /*!
  *  \brief draws a single diagram
  *
+ *  If gui_sketch_card_is_visible() is false, this method does nothing.
+ *
  *  \param this_ pointer to own object attributes
  *  \param marker set of all objects to be marked
  *  \param cr cairo drawing context
@@ -194,6 +196,8 @@ static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *thi
 
 /*!
  *  \brief lays out the diagram
+ *
+ *  This method may be called even if gui_sketch_card_is_valid() is false.
  *
  *  \param this_ pointer to own object attributes
  *  \param cr cairo drawing context, needed to determine the font metrics
