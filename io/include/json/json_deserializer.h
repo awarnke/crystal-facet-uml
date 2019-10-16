@@ -108,11 +108,11 @@ data_error_t json_deserializer_get_type_of_next_element ( json_deserializer_t *t
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
 data_error_t json_deserializer_get_next_classifier ( json_deserializer_t *this_,
-                                                          data_classifier_t *out_object,
-                                                          uint32_t max_out_array_size,
-                                                          data_feature_t (*out_feature)[],
-                                                          uint32_t *out_feature_count
-                                                        );
+                                                     data_classifier_t *out_object,
+                                                     uint32_t max_out_array_size,
+                                                     data_feature_t (*out_feature)[],
+                                                     uint32_t *out_feature_count
+                                                   );
 
 /*!
  *  \brief parses the next object as diagram
@@ -159,10 +159,10 @@ void json_deserializer_get_read_pos ( json_deserializer_t *this_, uint32_t *out_
  *          DATA_ERROR_NONE if structure of the input is valid.
  */
 data_error_t json_deserializer_private_get_next_feature_array ( json_deserializer_t *this_,
-                                                                     uint32_t max_out_array_size,
-                                                                     data_feature_t (*out_feature)[],
-                                                                     uint32_t *out_feature_count
-                                                                   );
+                                                                uint32_t max_out_array_size,
+                                                                data_feature_t (*out_feature)[],
+                                                                uint32_t *out_feature_count
+                                                              );
 
 /*!
  *  \brief parses the next object as feature

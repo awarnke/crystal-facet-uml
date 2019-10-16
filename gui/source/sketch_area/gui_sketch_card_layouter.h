@@ -11,6 +11,7 @@
 #include "sketch_area/gui_sketch_card.h"
 #include "gui_tool.h"
 #include "util/shape/shape_int_rectangle.h"
+#include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -66,9 +67,9 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
  */
 void gui_sketch_card_layouter_private_layout_to_grid ( gui_sketch_card_layouter_t *this_,
                                                        shape_int_rectangle_t *bounds,
-                                                       uint32_t max_card_height,
+                                                       uint_fast32_t max_card_height,
                                                        gui_sketch_card_t io_cards[],
-                                                       uint32_t cards_num,
+                                                       uint_fast32_t cards_num,
                                                        cairo_t *cr
                                                      );
 
