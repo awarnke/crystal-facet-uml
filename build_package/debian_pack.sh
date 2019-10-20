@@ -8,8 +8,8 @@ test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSI
 test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR
 echo "pack src archive"
 cd ..
-git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=package_build/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
-cd package_build
+git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build_package/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
+cd build_package
 tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
 cp -r debian_config/debian crystal-facet-uml-$VERSIONSTR/
 # note _ is not allowed in debian package names

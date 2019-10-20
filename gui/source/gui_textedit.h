@@ -56,7 +56,8 @@ typedef struct gui_textedit_struct gui_textedit_t;
  *  \brief initializes the gui_textedit_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param name_entry  pointer to text entry widget
+ *  \param id_label pointer to id-label widget
+ *  \param name_entry pointer to text entry widget
  *  \param stereotype_entry pointer to external text entry widget
  *  \param type_combo_box pointer to external combo box widget
  *  \param description_text_view pointer to text entry widget
