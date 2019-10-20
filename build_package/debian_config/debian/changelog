@@ -1,14 +1,15 @@
 crystal-facet-uml (1.15.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * The id of selected objects is displayed in the edit area
+  * Child diagrams are layouted in a grid (in navigation view)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 06 Sep 2019 19:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Oct 2019 12:30:00 +0200
 
 crystal-facet-uml (1.14.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * gtk is initialized before data and ctrl packages --> possible fix for wine
+  * gtk is initialized before data and ctrl packages --> fix for wine
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 06 Sep 2019 19:30:00 +0200
 
