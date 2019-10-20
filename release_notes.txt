@@ -1,3 +1,10 @@
+crystal-facet-uml (1.16.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * Diagram exports can be triggered from command line
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Oct 2019 19:30:00 +0200
+
 crystal-facet-uml (1.15.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

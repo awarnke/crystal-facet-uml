@@ -1,6 +1,8 @@
 /* File: main.c; Copyright and License: see below */
 
 #include "gui_main.h"
+#include "io_exporter.h"
+#include "io_file_format.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "trace.h"
@@ -13,6 +15,7 @@
 #include <unistd.h>
 #include <stdlib.h>
 #include <signal.h>
+#include <assert.h>
 
 static data_database_t database;
 static ctrl_controller_t controller;
@@ -26,10 +29,11 @@ int main (int argc, char *argv[]) {
     int exit_code = 0;
     TSLOG_INIT(META_INFO_PROGRAM_ID_STR);
     char *database_file = NULL;
+    char *export_directory = NULL;
     bool do_not_start = false;
     bool do_repair = false;
     bool do_check = false;
-    bool do_upgrade = false;
+    bool do_export = false;
 
     /* handle options */
     if ( argc == 2 )
@@ -40,7 +44,7 @@ int main (int argc, char *argv[]) {
             fprintf( stdout, "    %s -h for help\n", argv[0] );
             fprintf( stdout, "    %s -v for version\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
-            fprintf( stdout, "    %s -f <database_file> to convert a database file to format " META_INFO_VERSION_STR "\n", argv[0] );
+            fprintf( stdout, "    %s -e <database_file> <target_directory> to export diagrams of a database file\n", argv[0] );
             fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
             do_not_start = true;
@@ -69,11 +73,15 @@ int main (int argc, char *argv[]) {
         {
             database_file = argv[2];
         }
-        if ( utf8string_equals_str( argv[1], "-f" ) )
+    }
+    if ( argc == 4 )
+    {
+        if ( utf8string_equals_str( argv[1], "-e" ) )
         {
             database_file = argv[2];
-            /* do_not_start = true; */
-            do_upgrade = true;
+            export_directory = argv[3];
+            do_not_start = true;
+            do_export = true;
         }
     }
 
@@ -94,6 +102,7 @@ int main (int argc, char *argv[]) {
     /* repair database */
     if ( do_repair || do_check )
     {
+        assert( database_file != NULL );
         char repair_log_buffer[10000] = "";
         utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
 
@@ -118,8 +127,11 @@ int main (int argc, char *argv[]) {
         fprintf( stdout, "\n\n%s\n", utf8stringbuf_get_string(repair_log) );
     }
 
+    /*
     if ( do_upgrade )
     {
+        assert( database_file != NULL );
+
         TRACE_INFO("starting DB...");
         data_database_init( &database );
         data_database_open( &database, database_file );
@@ -128,6 +140,48 @@ int main (int argc, char *argv[]) {
         data_error_t up_err;
         up_err = data_database_upgrade_tables( &database );
         TRACE_INFO( ( DATA_ERROR_NONE == up_err ) ? "success" : "failure" );
+
+        TRACE_INFO("stopping DB...");
+        data_database_close( &database );
+        data_database_destroy( &database );
+    }
+    */
+    if ( do_export )
+    {
+        assert( database_file != NULL );
+        assert( export_directory != NULL );
+
+        TRACE_INFO("starting DB...");
+        data_database_init( &database );
+        data_database_open( &database, database_file );
+
+        TRACE_INFO("exporting DB...");
+        int export_err;
+        static const io_file_format_t selected_format = IO_FILE_FORMAT_PDF
+                                                        |IO_FILE_FORMAT_PNG
+                                                        |IO_FILE_FORMAT_PS
+                                                        |IO_FILE_FORMAT_SVG
+                                                        |IO_FILE_FORMAT_TXT
+                                                        |IO_FILE_FORMAT_DOCBOOK
+                                                        |IO_FILE_FORMAT_XHTML;
+        TRACE_INFO_STR( "chosen folder:", export_directory );
+        const char *document_filename = data_database_get_filename_ptr ( &database );
+
+        if ( data_database_is_open( &database ) )
+        {
+            io_exporter_t exporter;
+            data_database_reader_t db_reader;
+            data_database_reader_init( &db_reader, &database );
+            io_exporter_init( &exporter, &db_reader );
+            export_err = io_exporter_export_files( &exporter, selected_format, export_directory, document_filename );
+            data_database_reader_destroy( &db_reader );
+            io_exporter_destroy( &exporter );
+        }
+        else
+        {
+            export_err = -1;
+        }
+        TRACE_INFO( ( 0 == export_err ) ? "success" : "failure" );
 
         TRACE_INFO("stopping DB...");
         data_database_close( &database );
