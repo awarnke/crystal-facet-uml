@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.15.0
+VERSIONSTR=1.16.0
 echo "Test Source Package Version $VERSIONSTR"
 echo "based on crystal-facet-uml_$VERSIONSTR.orig.tar.gz"
 echo "----"
