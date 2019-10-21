@@ -55,4 +55,4 @@ How to pack
 >
 > cp ../crystal_facet_uml/installation_win/crystal_facet_uml_readme.txt crystal_facet_uml
 >
-> zip -r crystal-facet-uml_1.15.0_win32.zip crystal_facet_uml
+> zip -r crystal-facet-uml_1.15.0-1_win32.zip crystal_facet_uml
