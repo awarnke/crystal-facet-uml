@@ -1,8 +1,8 @@
 /* File: main.c; Copyright and License: see below */
 
+#include "main.h"
 #include "gui_main.h"
 #include "io_exporter.h"
-#include "io_file_format.h"
 #include "storage/data_database.h"
 #include "ctrl_controller.h"
 #include "trace.h"
@@ -20,9 +20,6 @@
 static data_database_t database;
 static ctrl_controller_t controller;
 
-/*!
- *  \brief main starts the gui
- */
 int main (int argc, char *argv[]) {
     TRACE_BEGIN();
     TRACE_TIMESTAMP();
@@ -34,6 +31,7 @@ int main (int argc, char *argv[]) {
     bool do_repair = false;
     bool do_check = false;
     bool do_export = false;
+    io_file_format_t export_format = 0;
 
     /* handle options */
     if ( argc == 2 )
@@ -44,8 +42,7 @@ int main (int argc, char *argv[]) {
             fprintf( stdout, "    %s -h for help\n", argv[0] );
             fprintf( stdout, "    %s -v for version\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
-            /*fprintf( stdout, "    %s -e <database_file> <export_format> <target_directory> to export all diagrams\n", argv[0] );*/
-            fprintf( stdout, "    %s -E <database_file> <target_directory> to export all diagrams in all formats\n", argv[0] );
+            fprintf( stdout, "    %s -e <database_file> <export_format> <target_directory> to export all diagrams\n", argv[0] );
             fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
             do_not_start = true;
@@ -75,12 +72,13 @@ int main (int argc, char *argv[]) {
             database_file = argv[2];
         }
     }
-    if ( argc == 4 )
+    if ( argc == 5 )
     {
-        if ( utf8string_equals_str( argv[1], "-E" ) )
+        if ( utf8string_equals_str( argv[1], "-e" ) )
         {
             database_file = argv[2];
-            export_directory = argv[3];
+            export_format = main_private_get_selected_format(argv[3]);
+            export_directory = argv[4];
             do_not_start = true;
             do_export = true;
         }
@@ -158,13 +156,6 @@ int main (int argc, char *argv[]) {
 
         TRACE_INFO("exporting DB...");
         int export_err;
-        static const io_file_format_t selected_format = IO_FILE_FORMAT_PDF
-                                                        |IO_FILE_FORMAT_PNG
-                                                        |IO_FILE_FORMAT_PS
-                                                        |IO_FILE_FORMAT_SVG
-                                                        |IO_FILE_FORMAT_TXT
-                                                        |IO_FILE_FORMAT_DOCBOOK
-                                                        |IO_FILE_FORMAT_XHTML;
         TRACE_INFO_STR( "chosen folder:", export_directory );
         const char *document_filename = data_database_get_filename_ptr ( &database );
 
@@ -174,7 +165,7 @@ int main (int argc, char *argv[]) {
             data_database_reader_t db_reader;
             data_database_reader_init( &db_reader, &database );
             io_exporter_init( &exporter, &db_reader );
-            export_err = io_exporter_export_files( &exporter, selected_format, export_directory, document_filename );
+            export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename );
             data_database_reader_destroy( &db_reader );
             io_exporter_destroy( &exporter );
         }
@@ -224,6 +215,22 @@ int main (int argc, char *argv[]) {
     TRACE_TIMESTAMP();
     TRACE_END_ERR(exit_code);
     return exit_code;
+}
+
+io_file_format_t main_private_get_selected_format( char *arg_fmt )
+{
+    TRACE_BEGIN();
+    assert( arg_fmt != NULL );
+    io_file_format_t result = 0;
+    result = IO_FILE_FORMAT_PDF
+             |IO_FILE_FORMAT_PNG
+             |IO_FILE_FORMAT_PS
+             |IO_FILE_FORMAT_SVG
+             |IO_FILE_FORMAT_TXT
+             |IO_FILE_FORMAT_DOCBOOK
+             |IO_FILE_FORMAT_XHTML;
+    TRACE_END();
+    return result;
 }
 
 

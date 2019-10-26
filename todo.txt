@@ -1,7 +1,7 @@
 ideas for future versions:
   @gui
-  [ ] paste: Allow to paste relationships
-  [ ] paste: Keep structure of diagrams and contained elements when pasting objects
+  [*] paste: Allow to paste relationships
+  [*] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
@@ -22,9 +22,13 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
+  [*] improve layouting of containments, e.g. consider labels, arrows and more gap-space
+  [*] calculate a default classifier size based on the grid-distances
+  [*] less overlaps of relationship-arrows
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
+  [ ] make the docbook and xhtml export formats more flexible to change the style, e.g. css
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
@@ -35,6 +39,7 @@ ideas for future versions:
   [ ] combine the static string allocation with dynamic additional buffers for long strings
       maybe use memory arenas of glibc (?)
   @main
+  [*] for export via command line: select file types to export
   @ts_log/trace/test_fw
   [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
