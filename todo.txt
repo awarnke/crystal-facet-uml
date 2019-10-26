@@ -39,7 +39,6 @@ ideas for future versions:
   [ ] combine the static string allocation with dynamic additional buffers for long strings
       maybe use memory arenas of glibc (?)
   @main
-  [*] for export via command line: select file types to export
   @ts_log/trace/test_fw
   [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 

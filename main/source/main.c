@@ -222,13 +222,36 @@ io_file_format_t main_private_get_selected_format( char *arg_fmt )
     TRACE_BEGIN();
     assert( arg_fmt != NULL );
     io_file_format_t result = 0;
-    result = IO_FILE_FORMAT_PDF
-             |IO_FILE_FORMAT_PNG
-             |IO_FILE_FORMAT_PS
-             |IO_FILE_FORMAT_SVG
-             |IO_FILE_FORMAT_TXT
-             |IO_FILE_FORMAT_DOCBOOK
-             |IO_FILE_FORMAT_XHTML;
+
+    if ( utf8string_equals_str( arg_fmt, "pdf" ) )
+    {
+        result = IO_FILE_FORMAT_PDF;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "png" ) )
+    {
+        result = IO_FILE_FORMAT_PNG;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "ps" ) )
+    {
+        result = IO_FILE_FORMAT_PS;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "svg" ) )
+    {
+        result = IO_FILE_FORMAT_SVG;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "txt" ) )
+    {
+        result = IO_FILE_FORMAT_TXT;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "docbook" ) )
+    {
+        result = IO_FILE_FORMAT_DOCBOOK;
+    }
+    else if ( utf8string_equals_str( arg_fmt, "xhtml" ) )
+    {
+        result = IO_FILE_FORMAT_XHTML;
+    }
+
     TRACE_END();
     return result;
 }
