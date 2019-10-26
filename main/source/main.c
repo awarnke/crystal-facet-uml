@@ -44,7 +44,8 @@ int main (int argc, char *argv[]) {
             fprintf( stdout, "    %s -h for help\n", argv[0] );
             fprintf( stdout, "    %s -v for version\n", argv[0] );
             fprintf( stdout, "    %s -u <database_file> to use/create a database file\n", argv[0] );
-            fprintf( stdout, "    %s -e <database_file> <target_directory> to export diagrams of a database file\n", argv[0] );
+            /*fprintf( stdout, "    %s -e <database_file> <export_format> <target_directory> to export all diagrams\n", argv[0] );*/
+            fprintf( stdout, "    %s -E <database_file> <target_directory> to export all diagrams in all formats\n", argv[0] );
             fprintf( stdout, "    %s -t <database_file> to test the database file\n", argv[0] );
             fprintf( stdout, "    %s -r <database_file> to test and repair the database file\n", argv[0] );
             do_not_start = true;
@@ -76,7 +77,7 @@ int main (int argc, char *argv[]) {
     }
     if ( argc == 4 )
     {
-        if ( utf8string_equals_str( argv[1], "-e" ) )
+        if ( utf8string_equals_str( argv[1], "-E" ) )
         {
             database_file = argv[2];
             export_directory = argv[3];
