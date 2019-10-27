@@ -28,7 +28,8 @@ void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
     (*this_).controller = controller;
     (*this_).the_clipboard = clipboard;
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
-                                                       (*this_).private_clipboard_buffer );
+                                                       (*this_).private_clipboard_buffer
+                                                     );
 
     TRACE_END();
 }
@@ -80,11 +81,11 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                                   &out_classifier,
-                                                                                   &((*this_).temp_features),
-                                                                                   out_feature_count,
-                                                                                   (*this_).clipboard_stringbuf
-                                                                                 );
+                                                                              &out_classifier,
+                                                                              &((*this_).temp_features),
+                                                                              out_feature_count,
+                                                                              (*this_).clipboard_stringbuf
+                                                                            );
                     }
                     else
                     {
@@ -112,7 +113,8 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                 data_relationship_t out_relation;
                 read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
                                                                            data_id_get_row_id( &current_id ),
-                                                                           &out_relation );
+                                                                           &out_relation
+                                                                         );
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     serialize_error |= json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
@@ -133,14 +135,16 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
                 read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
                                                                              data_id_get_row_id( &current_id ),
-                                                                             &out_diagramelement );
+                                                                             &out_diagramelement
+                                                                           );
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
 
                     read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
                                                                              classifier_id,
-                                                                             &out_classifier );
+                                                                             &out_classifier
+                                                                           );
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         uint32_t out_feature_count;
@@ -149,16 +153,16 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
                                                                                           &((*this_).temp_features),
                                                                                           &out_feature_count
-                        );
+                                                                                        );
 
                         if ( read_error == DATA_ERROR_NONE )
                         {
                             serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                                       &out_classifier,
-                                                                                       &((*this_).temp_features),
-                                                                                       out_feature_count,
-                                                                                       (*this_).clipboard_stringbuf
-                            );
+                                                                                  &out_classifier,
+                                                                                  &((*this_).temp_features),
+                                                                                  out_feature_count,
+                                                                                  (*this_).clipboard_stringbuf
+                                                                                );
                         }
                         else
                         {
@@ -185,7 +189,8 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                 data_diagram_t out_diagram;
                 read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
                                                                       data_id_get_row_id( &current_id ),
-                                                                      &out_diagram );
+                                                                      &out_diagram
+                                                                    );
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
@@ -217,7 +222,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-        );
+                                               );
     }
     TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
 
@@ -254,7 +259,7 @@ void gui_serializer_deserializer_clipboard_text_received_callback ( GtkClipboard
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
-        );
+                                               );
     }
 
     TRACE_TIMESTAMP();
@@ -266,7 +271,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_de
     TRACE_BEGIN();
 
     data_error_t diag_check_error;
-    static data_diagram_t test_diagram;  /* unsynchronized - but it is just a dummy ... */
+    static data_diagram_t test_diagram;
     diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, (*this_).destination_diagram_id, &test_diagram );
     if ( DATA_ERROR_NONE == diag_check_error )
     {
@@ -279,7 +284,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_de
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-        );
+                                               );
     }
 
     TRACE_END();
@@ -322,11 +327,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         data_classifier_t new_classifier;
                         uint32_t feature_count;
                         parse_error = json_deserializer_get_next_classifier ( &deserializer,
-                                                                                   &new_classifier,
-                                                                                   GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
-                                                                                   &((*this_).temp_features),
-                                                                                   &feature_count
-                                                                                 );
+                                                                              &new_classifier,
+                                                                              GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                              &((*this_).temp_features),
+                                                                              &feature_count
+                                                                            );
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
