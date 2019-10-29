@@ -477,7 +477,176 @@ data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this
     assert( NULL != out_object );
     data_error_t result = DATA_ERROR_NONE;
 
-    result = json_deserializer_skip_next_object( this_ );
+    char member_name_buf[24];
+    utf8stringbuf_t member_name = UTF8STRINGBUF( member_name_buf );
+
+    data_relationship_init_empty( out_object );
+    utf8stringbuf_clear( out_from_classifier_name );
+    utf8stringbuf_clear( out_from_feature_key );
+    utf8stringbuf_clear( out_to_classifier_name );
+    utf8stringbuf_clear( out_to_feature_key );
+
+    /* header */
+
+    result = json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP ) )
+        {
+            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+            result = DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = json_tokenizer_expect_begin_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+    }
+
+    /* members */
+
+    bool first_member_passed = false;
+    bool object_end = false;
+    static const int MAX_MEMBERS = 24;  /* mamimum number of members to parse */
+    if ( DATA_ERROR_NONE == result )
+    {
+        for ( int count = 0; ( ! object_end ) && ( count < MAX_MEMBERS ); count ++ )
+        {
+            result = json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+            if ( DATA_ERROR_NONE == result )
+            {
+                if ( ! object_end )
+                {
+                    if ( first_member_passed )
+                    {
+                        result = json_tokenizer_expect_value_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    else
+                    {
+                        first_member_passed = true;
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        result = json_tokenizer_expect_name_separator ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos) );
+                    }
+                    if ( DATA_ERROR_NONE == result )
+                    {
+                        if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_MAIN_TYPE ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_main_type ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_LIST_ORDER ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_list_order ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_DESCRIPTION ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_relationship_get_description_buf_ptr ( out_object );
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_NAME ) )
+                        {
+                            utf8stringbuf_t parsed_strbuf = data_relationship_get_name_buf_ptr ( out_object );
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), parsed_strbuf );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_from_classifier_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME ) )
+                        {
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), out_from_classifier_name );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_from_feature_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY ) )
+                        {
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), out_from_feature_key );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_to_classifier_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME ) )
+                        {
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), out_to_classifier_name );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_ID ) )
+                        {
+                            int64_t parsed_integer;
+                            result = json_tokenizer_get_int_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &parsed_integer );
+                            data_relationship_set_to_feature_id ( out_object, parsed_integer );
+                        }
+                        else if ( utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY ) )
+                        {
+                            result = json_tokenizer_get_string_value ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), out_to_feature_key );
+                        }
+                        else
+                        {
+                            TSLOG_ERROR_INT( "unexpected member name at character", (*this_).read_pos );
+                            result = DATA_ERROR_PARSER_STRUCTURE;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+                result = DATA_ERROR_PARSER_STRUCTURE;
+                object_end = true;
+            }
+        }
+    }
+
+    /* footer */
+
+    if ( DATA_ERROR_NONE == result )
+    {
+        result = json_tokenizer_is_end_object ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), &object_end );
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        if ( ! object_end )
+        {
+            TSLOG_ERROR_INT( "unexpected character at", (*this_).read_pos );
+            result = DATA_ERROR_PARSER_STRUCTURE;
+        }
+    }
+    if ( DATA_ERROR_NONE == result )
+    {
+        data_relationship_trace( out_object );
+    }
+
+    (*this_).after_first_array_entry = true;
 
     TRACE_END_ERR( result );
     return result;
