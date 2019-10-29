@@ -117,7 +117,57 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                          );
                 if ( read_error == DATA_ERROR_NONE )
                 {
-                    serialize_error |= json_serializer_append_relationship( &serializer, &out_relation, (*this_).clipboard_stringbuf );
+                    data_classifier_t from_classifier;
+                    data_classifier_t to_classifier;
+                    assert ( GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES >= 2 );
+
+                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                              data_relationship_get_from_classifier_id( &out_relation ),
+                                                                              &from_classifier
+                                                                            );
+                    if ( DATA_ID_VOID_ID == data_relationship_get_from_feature_id( &out_relation ) )
+                    {
+                        data_feature_init_empty( &((*this_).temp_features[0]) );
+                    }
+                    else
+                    {
+                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                               data_relationship_get_from_feature_id( &out_relation ),
+                                                                               &((*this_).temp_features[0])
+                                                                             );
+                    }
+                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                              data_relationship_get_to_classifier_id( &out_relation ),
+                                                                              &to_classifier
+                                                                            );
+                    if ( DATA_ID_VOID_ID == data_relationship_get_to_feature_id( &out_relation ) )
+                    {
+                        data_feature_init_empty( &((*this_).temp_features[1]) );
+                    }
+                    else
+                    {
+                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                               data_relationship_get_to_feature_id( &out_relation ),
+                                                                               &((*this_).temp_features[1])
+                                                                             );
+                    }
+
+                    if ( read_error == DATA_ERROR_NONE )
+                    {
+                        serialize_error |= json_serializer_append_relationship( &serializer,
+                                                                                &out_relation,
+                                                                                &from_classifier,
+                                                                                &((*this_).temp_features[0]),
+                                                                                &to_classifier,
+                                                                                &((*this_).temp_features[1]),
+                                                                                (*this_).clipboard_stringbuf
+                                                                              );
+                    }
+                    else
+                    {
+                        /* program internal error */
+                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                    }
                 }
                 else
                 {

@@ -7,7 +7,9 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
 {
     (*this_).id = DATA_ID_VOID_ID;
     (*this_).from_classifier_id = DATA_ID_VOID_ID;
+    (*this_).from_feature_id = DATA_ID_VOID_ID;
     (*this_).to_classifier_id = DATA_ID_VOID_ID;
+    (*this_).to_feature_id = DATA_ID_VOID_ID;
     (*this_).main_type = DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
@@ -16,8 +18,6 @@ static inline void data_relationship_init_empty ( data_relationship_t *this_ )
     utf8stringbuf_clear( (*this_).description );
 
     (*this_).list_order = 0;
-    (*this_).from_feature_id = DATA_ID_VOID_ID;
-    (*this_).to_feature_id = DATA_ID_VOID_ID;
 }
 
 static inline void data_relationship_reinit_empty ( data_relationship_t *this_ )
@@ -43,9 +43,11 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     data_error_t result = DATA_ERROR_NONE;
 
     (*this_).id = relationship_id;
-    (*this_).main_type = relationship_main_type;
     (*this_).from_classifier_id = from_classifier_id;
+    (*this_).from_feature_id = from_feature_id;
     (*this_).to_classifier_id = to_classifier_id;
+    (*this_).to_feature_id = to_feature_id;
+    (*this_).main_type = relationship_main_type;
 
     (*this_).name = utf8stringbuf_init( sizeof((*this_).private_name_buffer), (*this_).private_name_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
@@ -64,8 +66,6 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     }
 
     (*this_).list_order = list_order;
-    (*this_).from_feature_id = from_feature_id;
-    (*this_).to_feature_id = to_feature_id;
 
     return result;
 }
@@ -105,16 +105,6 @@ static inline void data_relationship_set_id ( data_relationship_t *this_, int64_
     (*this_).id = id;
 }
 
-static inline data_relationship_type_t data_relationship_get_main_type ( const data_relationship_t *this_ )
-{
-    return (*this_).main_type;
-}
-
-static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type )
-{
-    (*this_).main_type = main_type;
-}
-
 static inline int64_t data_relationship_get_from_classifier_id ( const data_relationship_t *this_ )
 {
     return (*this_).from_classifier_id;
@@ -125,6 +115,16 @@ static inline void data_relationship_set_from_classifier_id ( data_relationship_
     (*this_).from_classifier_id = from_classifier_id;
 }
 
+static inline int64_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ )
+{
+    return (*this_).from_feature_id;
+}
+
+static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id )
+{
+    (*this_).from_feature_id = from_feature_id;
+}
+
 static inline int64_t data_relationship_get_to_classifier_id ( const data_relationship_t *this_ )
 {
     return (*this_).to_classifier_id;
@@ -133,6 +133,26 @@ static inline int64_t data_relationship_get_to_classifier_id ( const data_relati
 static inline void data_relationship_set_to_classifier_id ( data_relationship_t *this_, int64_t to_classifier_id )
 {
     (*this_).to_classifier_id = to_classifier_id;
+}
+
+static inline int64_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ )
+{
+    return (*this_).to_feature_id;
+}
+
+static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id )
+{
+    (*this_).to_feature_id = to_feature_id;
+}
+
+static inline data_relationship_type_t data_relationship_get_main_type ( const data_relationship_t *this_ )
+{
+    return (*this_).main_type;
+}
+
+static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type )
+{
+    (*this_).main_type = main_type;
 }
 
 static inline const char *data_relationship_get_name_ptr ( const data_relationship_t *this_ )
@@ -191,26 +211,6 @@ static inline int32_t data_relationship_get_list_order ( const data_relationship
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order )
 {
     (*this_).list_order = list_order;
-}
-
-static inline int64_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ )
-{
-    return (*this_).from_feature_id;
-}
-
-static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id )
-{
-    (*this_).from_feature_id = from_feature_id;
-}
-
-static inline int64_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ )
-{
-    return (*this_).to_feature_id;
-}
-
-static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id )
-{
-    (*this_).to_feature_id = to_feature_id;
 }
 
 static inline bool data_relationship_is_valid ( const data_relationship_t *this_ )

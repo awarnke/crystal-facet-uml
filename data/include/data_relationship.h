@@ -32,16 +32,17 @@ enum data_relationship_max_enum {
  */
 struct data_relationship_struct {
     int64_t id;
-    data_relationship_type_t main_type;
     int64_t from_classifier_id;
+    int64_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
     int64_t to_classifier_id;
+    int64_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
+
+    data_relationship_type_t main_type;
     utf8stringbuf_t name;
     char private_name_buffer[DATA_RELATIONSHIP_MAX_NAME_SIZE];
     utf8stringbuf_t description;
     char private_description_buffer[DATA_RELATIONSHIP_MAX_DESCRIPTION_SIZE];
     int32_t list_order;
-    int64_t from_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
-    int64_t to_feature_id;  /*!< from_classifier_id is the master, from_feature_id is an optional information; DATA_ID_VOID_ID if not used */
 };
 
 typedef struct data_relationship_struct data_relationship_t;
@@ -127,22 +128,6 @@ static inline int64_t data_relationship_get_id ( const data_relationship_t *this
 static inline void data_relationship_set_id ( data_relationship_t *this_, int64_t id );
 
 /*!
- *  \brief gets the attribute main_type
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline data_relationship_type_t data_relationship_get_main_type ( const data_relationship_t *this_ );
-
-/*!
- *  \brief sets the attribute main_type
- *
- *  \param this_ pointer to own object attributes
- *  \param main_type new main_type of this object
- */
-static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type );
-
-/*!
  *  \brief gets the attribute from_classifier_id
  *
  *  \param this_ pointer to own object attributes
@@ -159,6 +144,22 @@ static inline int64_t data_relationship_get_from_classifier_id ( const data_rela
 static inline void data_relationship_set_from_classifier_id ( data_relationship_t *this_, int64_t from_classifier_id );
 
 /*!
+ *  \brief gets the attribute from_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline int64_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute from_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param from_feature_id new from_feature_id of this object
+ */
+static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id );
+
+/*!
  *  \brief gets the attribute to_classifier_id
  *
  *  \param this_ pointer to own object attributes
@@ -173,6 +174,38 @@ static inline int64_t data_relationship_get_to_classifier_id ( const data_relati
  *  \param to_classifier_id new to_classifier_id of this object
  */
 static inline void data_relationship_set_to_classifier_id ( data_relationship_t *this_, int64_t to_classifier_id );
+
+/*!
+ *  \brief gets the attribute to_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline int64_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute to_feature_id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param to_feature_id new to_feature_id of this object
+ */
+static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id );
+
+/*!
+ *  \brief gets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline data_relationship_type_t data_relationship_get_main_type ( const data_relationship_t *this_ );
+
+/*!
+ *  \brief sets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param main_type new main_type of this object
+ */
+static inline void data_relationship_set_main_type ( data_relationship_t *this_, data_relationship_type_t main_type );
 
 /*!
  *  \brief gets the attribute name
@@ -239,38 +272,6 @@ static inline int32_t data_relationship_get_list_order ( const data_relationship
  *  \param list_order new list_order of this object
  */
 static inline void data_relationship_set_list_order ( data_relationship_t *this_, int32_t list_order );
-
-/*!
- *  \brief gets the attribute from_feature_id
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline int64_t data_relationship_get_from_feature_id ( const data_relationship_t *this_ );
-
-/*!
- *  \brief sets the attribute from_feature_id
- *
- *  \param this_ pointer to own object attributes
- *  \param from_feature_id new from_feature_id of this object
- */
-static inline void data_relationship_set_from_feature_id ( data_relationship_t *this_, int64_t from_feature_id );
-
-/*!
- *  \brief gets the attribute to_feature_id
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline int64_t data_relationship_get_to_feature_id ( const data_relationship_t *this_ );
-
-/*!
- *  \brief sets the attribute to_feature_id
- *
- *  \param this_ pointer to own object attributes
- *  \param to_feature_id new to_feature_id of this object
- */
-static inline void data_relationship_set_to_feature_id ( data_relationship_t *this_, int64_t to_feature_id );
 
 /*!
  *  \brief checks if attribute id is not DATA_ID_VOID_ID

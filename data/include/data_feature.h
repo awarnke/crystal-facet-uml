@@ -34,8 +34,9 @@ enum data_feature_max_enum {
  */
 struct data_feature_struct {
     int64_t id;
-    data_feature_type_t main_type;
     int64_t classifier_id;
+
+    data_feature_type_t main_type;
     utf8stringbuf_t key;  /*!< name of the feature */
     char private_key_buffer[DATA_FEATURE_MAX_KEY_SIZE];
     utf8stringbuf_t value;  /*!< type of the feature */
@@ -124,22 +125,6 @@ static inline int64_t data_feature_get_id ( const data_feature_t *this_ );
 static inline void data_feature_set_id ( data_feature_t *this_, int64_t id );
 
 /*!
- *  \brief gets the attribute main_type
- *
- *  \param this_ pointer to own object attributes
- *  \return requested attribute of this object
- */
-static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ );
-
-/*!
- *  \brief sets the attribute main_type
- *
- *  \param this_ pointer to own object attributes
- *  \param main_type new main_type of this object
- */
-static inline void data_feature_set_main_type ( data_feature_t *this_, data_feature_type_t main_type );
-
-/*!
  *  \brief gets the attribute classifier_id
  *
  *  \param this_ pointer to own object attributes
@@ -154,6 +139,22 @@ static inline int64_t data_feature_get_classifier_id ( const data_feature_t *thi
  *  \param classifier_id new classifier_id of this object
  */
 static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64_t classifier_id );
+
+/*!
+ *  \brief gets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return requested attribute of this object
+ */
+static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ );
+
+/*!
+ *  \brief sets the attribute main_type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param main_type new main_type of this object
+ */
+static inline void data_feature_set_main_type ( data_feature_t *this_, data_feature_type_t main_type );
 
 /*!
  *  \brief gets the attribute key

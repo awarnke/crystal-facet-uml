@@ -67,7 +67,7 @@ data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t
  *  \brief appends a classifier to the stringbuffer
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the object to serialize
+ *  \param object a pointer to the classifier to serialize
  *  \param features array of features of the classifier
  *  \param feature_count number of feature records stored in features
  *  \param out stringbuffer where to write the result to
@@ -76,17 +76,17 @@ data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
 data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
-                                                      data_classifier_t *object,
-                                                      data_feature_t (*features)[],
-                                                      uint32_t feature_count,
-                                                      utf8stringbuf_t out
-                                                    );
+                                                 data_classifier_t *object,
+                                                 data_feature_t (*features)[],
+                                                 uint32_t feature_count,
+                                                 utf8stringbuf_t out
+                                               );
 
 /*!
  *  \brief appends a diagram to the stringbuffer
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the object to serialize
+ *  \param object a pointer to the diagram to serialize
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
@@ -98,19 +98,30 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
  *  \brief appends a relationship to the stringbuffer
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the object to serialize
+ *  \param object a pointer to the relationship to serialize
+ *  \param from_clas a pointer to the source classifier of the relationship to serialize
+ *  \param from_feat a pointer to the source feature of the relationship to serialize, pointer to DATA_ID_VOID_ID if not existant
+ *  \param to_clas a pointer to the destination classifier of the relationship to serialize
+ *  \param to_feat a pointer to the destination feature of the relationship to serialize, pointer to DATA_ID_VOID_ID if not existant
  *  \param out stringbuffer where to write the result to
  *  \return DATA_ERROR_NONE in case of success,
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was not yet called.
  */
-data_error_t json_serializer_append_relationship ( json_serializer_t *this_, data_relationship_t *object, utf8stringbuf_t out );
+data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
+                                                   data_relationship_t *object,
+                                                   data_classifier_t *from_clas,
+                                                   data_feature_t *from_feat,
+                                                   data_classifier_t *to_clas,
+                                                   data_feature_t *to_feat,
+                                                   utf8stringbuf_t out
+                                                 );
 
 /*!
  *  \brief appends a feature to the stringbuffer, intended for use within a classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param object a pointer to the object to serialize
+ *  \param object a pointer to the feature to serialize
  *  \param out stringbuffer where to write the result to
  *  \return UTF8ERROR_SUCCESS in case of success,
  *          negative value if stringbuffer exceeded

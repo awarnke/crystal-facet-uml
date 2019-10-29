@@ -13,6 +13,7 @@ ideas for future versions:
   [ ] gui_sketch_card_get_highest_list_order should take into account only features that are displayed in a list, not e.g. ports
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
+  [ ] Add Search Feature
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)

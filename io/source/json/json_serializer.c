@@ -108,10 +108,10 @@ data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t
 }
 
 data_error_t json_serializer_append_classifier ( json_serializer_t *this_,
-                                                      data_classifier_t *object,
-                                                      data_feature_t (*features)[],
-                                                      uint32_t feature_count,
-                                                      utf8stringbuf_t out )
+                                                 data_classifier_t *object,
+                                                 data_feature_t (*features)[],
+                                                 uint32_t feature_count,
+                                                 utf8stringbuf_t out )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
@@ -511,10 +511,20 @@ data_error_t json_serializer_append_diagram ( json_serializer_t *this_, data_dia
     return result;
 }
 
-data_error_t json_serializer_append_relationship ( json_serializer_t *this_, data_relationship_t *object, utf8stringbuf_t out )
+data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
+                                                   data_relationship_t *object,
+                                                   data_classifier_t *from_clas,
+                                                   data_feature_t *from_feat,
+                                                   data_classifier_t *to_clas,
+                                                   data_feature_t *to_feat,
+                                                   utf8stringbuf_t out )
 {
     TRACE_BEGIN();
     assert ( NULL != object );
+    assert ( NULL != from_clas );
+    assert ( NULL != from_feat );
+    assert ( NULL != to_clas );
+    assert ( NULL != to_feat );
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).in_array )
@@ -581,38 +591,6 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_, dat
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
-        /* from_classifier_id */
-        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        strerr |= utf8stringbuf_append_str( out,
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF );
-        strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_from_classifier_id( object ));
-        strerr |= utf8stringbuf_append_str( out,
-                                            JSON_CONSTANTS_NEXT_NL );
-
-        /* to_classifier_id */
-        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
-        strerr |= utf8stringbuf_append_str( out,
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_TAB
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID
-                                            JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_DEF );
-        strerr |= utf8stringbuf_append_int( out,
-                                            data_relationship_get_to_classifier_id( object ));
-        strerr |= utf8stringbuf_append_str( out,
-                                            JSON_CONSTANTS_NEXT_NL );
-
         /* name */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
         strerr |= utf8stringbuf_append_str( out,
@@ -671,6 +649,80 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_, dat
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
+        /* from_classifier_id */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_ID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_relationship_get_from_classifier_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_NEXT_NL );
+
+        /* from_classifier_name */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_CLASSIFIER_NAME
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_classifier_get_name_ptr( from_clas ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_NEXT_NL );
+
+        /* to_classifier_id */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_ID
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF );
+        strerr |= utf8stringbuf_append_int( out,
+                                            data_relationship_get_to_classifier_id( object ));
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_NEXT_NL );
+
+        /* to_classifier_name */
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_TAB
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_KEY_RELATIONSHIP_TO_CLASSIFIER_NAME
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_DEF
+                                            JSON_CONSTANTS_QUOTE );
+        out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+        strerr |= utf8stringbuf_append_str( out,
+                                            data_classifier_get_name_ptr( to_clas ));
+        strerr |= utf8stringbuf_replace_all( out,
+                                             JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+        strerr |= utf8stringbuf_append_str( out,
+                                            JSON_CONSTANTS_QUOTE
+                                            JSON_CONSTANTS_NEXT_NL );
+
         /* from_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
         strerr |= utf8stringbuf_append_str( out,
@@ -687,6 +739,30 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_, dat
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NEXT_NL );
 
+        /* from_feature_key */
+        if ( data_feature_get_id(from_feat) != DATA_ID_VOID_ID )
+        {
+            out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+            strerr |= utf8stringbuf_append_str( out,
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_KEY_RELATIONSHIP_FROM_FEATURE_KEY
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_DEF
+                                                JSON_CONSTANTS_QUOTE );
+            out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+            strerr |= utf8stringbuf_append_str( out,
+                                                data_feature_get_key_ptr( from_feat ));
+            strerr |= utf8stringbuf_replace_all( out,
+                                                 JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+            strerr |= utf8stringbuf_append_str( out,
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_NEXT_NL );
+        }
+
         /* to_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
         strerr |= utf8stringbuf_append_str( out,
@@ -702,6 +778,30 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_, dat
                                             data_relationship_get_to_feature_id( object ));
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_NL );  /* LAST, no NEXT */
+
+        /* to_feature_key */
+        if ( data_feature_get_id(to_feat) != DATA_ID_VOID_ID )
+        {
+            out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+            strerr |= utf8stringbuf_append_str( out,
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_TAB
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_KEY_RELATIONSHIP_TO_FEATURE_KEY
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_DEF
+                                                JSON_CONSTANTS_QUOTE );
+            out = utf8stringbuf_get_end( out );  /* goto end of buffer, to allow escaping only the string literal */
+            strerr |= utf8stringbuf_append_str( out,
+                                                data_feature_get_key_ptr( to_feat ));
+            strerr |= utf8stringbuf_replace_all( out,
+                                                 JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+            strerr |= utf8stringbuf_append_str( out,
+                                                JSON_CONSTANTS_QUOTE
+                                                JSON_CONSTANTS_NEXT_NL );
+        }
 
         /* end relationship */
         strerr |= utf8stringbuf_append_str( out,
@@ -798,7 +898,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_key_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                            JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -821,7 +921,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_value_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                            JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );
@@ -844,7 +944,7 @@ utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, d
     strerr |= utf8stringbuf_append_str( out,
                                         data_feature_get_description_ptr( object ));
     strerr |= utf8stringbuf_replace_all( out,
-                                            JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
+                                         JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
     strerr |= utf8stringbuf_append_str( out,
                                         JSON_CONSTANTS_QUOTE
                                         JSON_CONSTANTS_NEXT_NL );

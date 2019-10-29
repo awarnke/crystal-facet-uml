@@ -20,8 +20,9 @@ struct data_diagramelement_struct {
     int64_t id;  /*!< id of the diagramelement_t relation */
     int64_t diagram_id;  /*!< id of the referenced diagram_t */
     int64_t classifier_id;  /*!< id of the referenced classifier_t */
-    data_diagramelement_flag_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
     int64_t focused_feature_id;  /*!< focused_feature_id is optional; -1 if not used */
+
+    data_diagramelement_flag_t display_flags;  /*!< flags that influence the way how the classifier is displayed in the diagram. \see data_diagramelement_display_flag_enum */
 };
 
 typedef struct data_diagramelement_struct data_diagramelement_t;
@@ -165,22 +166,6 @@ static inline int64_t data_diagramelement_get_diagram_id ( const data_diagramele
 static inline int64_t data_diagramelement_get_classifier_id ( const data_diagramelement_t *this_ );
 
 /*!
- *  \brief gets the attribute display_flags
- *
- *  \param this_ pointer to own object attributes
- *  \return attribute display_flags
- */
-static inline data_diagramelement_flag_t data_diagramelement_get_display_flags ( const data_diagramelement_t *this_ );
-
-/*!
- *  \brief sets the attribute display_flags
- *
- *  \param this_ pointer to own object attributes
- *  \param display_flags new attribute display_flags
- */
-static inline void data_diagramelement_set_display_flags ( data_diagramelement_t *this_, data_diagramelement_flag_t display_flags );
-
-/*!
  *  \brief gets the attribute focused_feature_id
  *
  *  \param this_ pointer to own object attributes
@@ -195,6 +180,22 @@ static inline int64_t data_diagramelement_get_focused_feature_id ( const data_di
  *  \param focused_feature_id new attribute focused_feature_id
  */
 static inline void data_diagramelement_set_focused_feature_id ( data_diagramelement_t *this_, int64_t focused_feature_id );
+
+/*!
+ *  \brief gets the attribute display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return attribute display_flags
+ */
+static inline data_diagramelement_flag_t data_diagramelement_get_display_flags ( const data_diagramelement_t *this_ );
+
+/*!
+ *  \brief sets the attribute display_flags
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param display_flags new attribute display_flags
+ */
+static inline void data_diagramelement_set_display_flags ( data_diagramelement_t *this_, data_diagramelement_flag_t display_flags );
 
 #include "data_diagramelement.inl"
 

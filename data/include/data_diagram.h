@@ -32,6 +32,7 @@ enum data_diagram_max_enum {
 struct data_diagram_struct {
     int64_t id;
     int64_t parent_id;
+
     data_diagram_type_t diagram_type;
     utf8stringbuf_t name;
     char private_name_buffer[DATA_DIAGRAM_MAX_NAME_SIZE];

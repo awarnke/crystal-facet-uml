@@ -41,8 +41,8 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
     data_error_t result = DATA_ERROR_NONE;
 
     (*this_).id = feature_id;
-    (*this_).main_type = feature_main_type;
     (*this_).classifier_id = classifier_id;
+    (*this_).main_type = feature_main_type;
 
     (*this_).key = utf8stringbuf_init( sizeof((*this_).private_key_buffer), (*this_).private_key_buffer );
     strerr = utf8stringbuf_copy_str( (*this_).key, feature_key );
@@ -110,16 +110,6 @@ static inline void data_feature_set_id ( data_feature_t *this_, int64_t id )
     (*this_).id = id;
 }
 
-static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ )
-{
-    return (*this_).main_type;
-}
-
-static inline void data_feature_set_main_type ( data_feature_t *this_, data_feature_type_t main_type )
-{
-    (*this_).main_type = main_type;
-}
-
 static inline int64_t data_feature_get_classifier_id ( const data_feature_t *this_ )
 {
     return (*this_).classifier_id;
@@ -128,6 +118,16 @@ static inline int64_t data_feature_get_classifier_id ( const data_feature_t *thi
 static inline void data_feature_set_classifier_id ( data_feature_t *this_, int64_t classifier_id )
 {
     (*this_).classifier_id = classifier_id;
+}
+
+static inline data_feature_type_t data_feature_get_main_type ( const data_feature_t *this_ )
+{
+    return (*this_).main_type;
+}
+
+static inline void data_feature_set_main_type ( data_feature_t *this_, data_feature_type_t main_type )
+{
+    (*this_).main_type = main_type;
 }
 
 static inline const char *data_feature_get_key_ptr ( const data_feature_t *this_ )

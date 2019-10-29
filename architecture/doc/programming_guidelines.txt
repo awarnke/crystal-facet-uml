@@ -102,6 +102,8 @@
  *    \n Rationale: This allows to stick to the rule, who creates an object is responsible for destroying it.
  *  - Arrays: Objects in arrays shall be destroyed as all other objects.
  *  - Exceptions shall be documented.
+ *  - Avoid using NULL pointers, prefer using pointers to void objects.
+ *    \n Rationale: This avoids segmentation faults in case of not checking for NULL, software gets more robust.
  *  .
  *
  *  \section cfu-error Error Handling

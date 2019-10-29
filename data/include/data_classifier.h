@@ -35,6 +35,7 @@ enum data_classifier_max_enum {
  */
 struct data_classifier_struct {
     int64_t id;
+
     data_classifier_type_t main_type;
     utf8stringbuf_t stereotype;
     char private_stereotype_buffer[DATA_CLASSIFIER_MAX_STEREOTYPE_SIZE];
