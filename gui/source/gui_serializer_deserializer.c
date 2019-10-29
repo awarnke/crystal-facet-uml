@@ -476,6 +476,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                         {
                                             int64_t new_feature_id;
                                             data_feature_set_classifier_id( &((*this_).temp_features[f_index]), the_classifier_id );
+                                            /* TODO: Should we filter lifelines here? */
                                             write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
                                                                                                        &((*this_).temp_features[f_index]),
                                                                                                        true, /* = bool add_to_latest_undo_set */
@@ -563,7 +564,23 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
 
                     case DATA_TABLE_RELATIONSHIP:
                     {
-                        parse_error = json_deserializer_skip_next_object ( &deserializer );
+                        data_relationship_t new_relationship;
+                        char rel_from_clas_buf[DATA_CLASSIFIER_MAX_NAME_SIZE] = "";
+                        utf8stringbuf_t rel_from_clas = UTF8STRINGBUF(rel_from_clas_buf);
+                        char rel_from_feat_buf[DATA_FEATURE_MAX_KEY_SIZE] = "";
+                        utf8stringbuf_t rel_from_feat = UTF8STRINGBUF(rel_from_feat_buf);
+                        char rel_to_clas_buf[DATA_CLASSIFIER_MAX_NAME_SIZE] = "";
+                        utf8stringbuf_t rel_to_clas = UTF8STRINGBUF(rel_to_clas_buf);
+                        char rel_to_feat_buf[DATA_FEATURE_MAX_KEY_SIZE] = "";
+                        utf8stringbuf_t rel_to_feat = UTF8STRINGBUF(rel_to_feat_buf);
+                        parse_error = json_deserializer_get_next_relationship ( &deserializer,
+                                                                                &new_relationship,
+                                                                                rel_from_clas,
+                                                                                rel_from_feat,
+                                                                                rel_to_clas,
+                                                                                rel_to_feat
+                                                                              );
+
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */

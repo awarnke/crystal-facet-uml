@@ -465,6 +465,24 @@ data_error_t json_deserializer_get_next_diagram ( json_deserializer_t *this_, da
     return result;
 }
 
+data_error_t json_deserializer_get_next_relationship ( json_deserializer_t *this_,
+                                                       data_relationship_t *out_object,
+                                                       utf8stringbuf_t out_from_classifier_name,
+                                                       utf8stringbuf_t out_from_feature_key,
+                                                       utf8stringbuf_t out_to_classifier_name,
+                                                       utf8stringbuf_t out_to_feature_key
+                                                     )
+{
+    TRACE_BEGIN();
+    assert( NULL != out_object );
+    data_error_t result = DATA_ERROR_NONE;
+
+    result = json_deserializer_skip_next_object( this_ );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 data_error_t json_deserializer_skip_next_object ( json_deserializer_t *this_ )
 {
     TRACE_BEGIN();
