@@ -11,10 +11,10 @@
 #include <stdbool.h>
 
 void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
-                             GtkClipboard *clipboard,
-                             gui_simple_message_to_user_t *message_to_user,
-                             data_database_reader_t *db_reader,
-                             ctrl_controller_t *controller )
+                                        GtkClipboard *clipboard,
+                                        gui_simple_message_to_user_t *message_to_user,
+                                        data_database_reader_t *db_reader,
+                                        ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
     assert( NULL != clipboard );
@@ -55,6 +55,8 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
     utf8stringbuf_clear( (*this_).clipboard_stringbuf );
 
     serialize_error |= json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
+
+    /* first pass: serialize all elements in the set except relationships */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
     {
         data_id_t current_id;
@@ -68,6 +70,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                          data_id_get_row_id( &current_id ),
                                                                          &out_classifier
                                                                        );
+
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     uint32_t out_feature_count;
@@ -101,82 +104,6 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
             }
             break;
 
-            case DATA_TABLE_FEATURE:
-            {
-                /* intentionally not supported */
-                TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                data_relationship_t out_relation;
-                read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
-                                                                           data_id_get_row_id( &current_id ),
-                                                                           &out_relation
-                                                                         );
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    data_classifier_t from_classifier;
-                    data_classifier_t to_classifier;
-                    assert ( GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES >= 2 );
-
-                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_from_classifier_id( &out_relation ),
-                                                                              &from_classifier
-                                                                            );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_from_feature_id( &out_relation ) )
-                    {
-                        data_feature_init_empty( &((*this_).temp_features[0]) );
-                    }
-                    else
-                    {
-                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_from_feature_id( &out_relation ),
-                                                                               &((*this_).temp_features[0])
-                                                                             );
-                    }
-                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_to_classifier_id( &out_relation ),
-                                                                              &to_classifier
-                                                                            );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_to_feature_id( &out_relation ) )
-                    {
-                        data_feature_init_empty( &((*this_).temp_features[1]) );
-                    }
-                    else
-                    {
-                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_to_feature_id( &out_relation ),
-                                                                               &((*this_).temp_features[1])
-                                                                             );
-                    }
-
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        serialize_error |= json_serializer_append_relationship( &serializer,
-                                                                                &out_relation,
-                                                                                &from_classifier,
-                                                                                &((*this_).temp_features[0]),
-                                                                                &to_classifier,
-                                                                                &((*this_).temp_features[1]),
-                                                                                (*this_).clipboard_stringbuf
-                                                                              );
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
             case DATA_TABLE_DIAGRAMELEMENT:
             {
                 data_classifier_t out_classifier;
@@ -187,6 +114,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                              data_id_get_row_id( &current_id ),
                                                                              &out_diagramelement
                                                                            );
+
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
@@ -195,6 +123,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                              classifier_id,
                                                                              &out_classifier
                                                                            );
+
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         uint32_t out_feature_count;
@@ -241,6 +170,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                       data_id_get_row_id( &current_id ),
                                                                       &out_diagram
                                                                     );
+
                 if ( read_error == DATA_ERROR_NONE )
                 {
                     serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
@@ -253,6 +183,19 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
             }
             break;
 
+            case DATA_TABLE_FEATURE:
+            {
+                /* intentionally not supported */
+                TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
+            }
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                /* serializes in second pass */
+            }
+            break;
+
             default:
             {
                 serialize_error |= DATA_ERROR_VALUE_OUT_OF_RANGE;
@@ -260,6 +203,102 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
             break;
         }
     }
+
+    /* second pass: serialize all relationships after the source and destination classifiers */
+    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
+    {
+        data_id_t current_id;
+        current_id = data_small_set_get_id( set_to_be_copied, index );
+        switch ( data_id_get_table( &current_id ) )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            break;
+
+            case DATA_TABLE_FEATURE:
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            {
+                data_relationship_t out_relation;
+                read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
+                                                                           data_id_get_row_id( &current_id ),
+                                                                           &out_relation
+                                                                         );
+
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    data_classifier_t from_classifier;
+                    data_classifier_t to_classifier;
+                    assert ( GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES >= 2 );
+
+                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                              data_relationship_get_from_classifier_id( &out_relation ),
+                                                                              &from_classifier
+                                                                            );
+                    if ( DATA_ID_VOID_ID == data_relationship_get_from_feature_id( &out_relation ) )
+                    {
+                        data_feature_init_empty( &((*this_).temp_features[0]) );
+                    }
+                    else
+                    {
+                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                               data_relationship_get_from_feature_id( &out_relation ),
+                                                                               &((*this_).temp_features[0])
+                                                                             );
+                    }
+
+                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                              data_relationship_get_to_classifier_id( &out_relation ),
+                                                                              &to_classifier
+                                                                            );
+                    if ( DATA_ID_VOID_ID == data_relationship_get_to_feature_id( &out_relation ) )
+                    {
+                        data_feature_init_empty( &((*this_).temp_features[1]) );
+                    }
+                    else
+                    {
+                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                               data_relationship_get_to_feature_id( &out_relation ),
+                                                                               &((*this_).temp_features[1])
+                                                                             );
+                    }
+
+                    if ( read_error == DATA_ERROR_NONE )
+                    {
+                        serialize_error |= json_serializer_append_relationship( &serializer,
+                                                                                &out_relation,
+                                                                                &from_classifier,
+                                                                                &((*this_).temp_features[0]),
+                                                                                &to_classifier,
+                                                                                &((*this_).temp_features[1]),
+                                                                                (*this_).clipboard_stringbuf
+                                                                              );
+                    }
+                    else
+                    {
+                        /* program internal error */
+                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
+                    }
+                }
+                else
+                {
+                    /* program internal error */
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                }
+            }
+            break;
+
+            default:
+            break;
+        }
+    }
+
     serialize_error |= json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
 
     if ( serialize_error == DATA_ERROR_NONE )
@@ -357,7 +396,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
-        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* no not import more things than can be undone */
+        static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
         for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
