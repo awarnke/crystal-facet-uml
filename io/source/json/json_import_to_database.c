@@ -58,7 +58,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
     /* check if diagram id exists */
     static data_diagram_t dummy_diagram;
     parse_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &dummy_diagram );
-    if ( DATA_ERROR_NONE == parse_error )
+    if ( DATA_ERROR_NONE != parse_error )
     {
         TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", diagram_id );
     }

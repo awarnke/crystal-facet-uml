@@ -725,6 +725,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* from_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        const bool from_feat_valid = ( data_relationship_get_from_feature_id( object ) != DATA_ID_VOID_ID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -740,7 +741,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                             JSON_CONSTANTS_NEXT_NL );
 
         /* from_feature_key */
-        if ( data_feature_get_id(from_feat) != DATA_ID_VOID_ID )
+        if ( from_feat_valid )
         {
             out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
             strerr |= utf8stringbuf_append_str( out,
@@ -765,6 +766,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
 
         /* to_feature_id */
         out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
+        const bool to_feat_valid = ( data_relationship_get_to_feature_id( object ) != DATA_ID_VOID_ID );
         strerr |= utf8stringbuf_append_str( out,
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_TAB
@@ -777,10 +779,10 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
         strerr |= utf8stringbuf_append_int( out,
                                             data_relationship_get_to_feature_id( object ));
         strerr |= utf8stringbuf_append_str( out,
-                                            JSON_CONSTANTS_NL );  /* LAST, no NEXT */
+                                            to_feat_valid ? JSON_CONSTANTS_NEXT_NL : JSON_CONSTANTS_NL /* LAST, no NEXT */ );
 
         /* to_feature_key */
-        if ( data_feature_get_id(to_feat) != DATA_ID_VOID_ID )
+        if ( to_feat_valid )
         {
             out = utf8stringbuf_get_end( out );  /* goto end of buffer, do not care about already written data */
             strerr |= utf8stringbuf_append_str( out,
@@ -800,7 +802,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
                                                  JSON_SERIALIZER_PRIVATE_ENCODE_JSON_STRINGS );
             strerr |= utf8stringbuf_append_str( out,
                                                 JSON_CONSTANTS_QUOTE
-                                                JSON_CONSTANTS_NEXT_NL );
+                                                JSON_CONSTANTS_NL );  /* LAST, no NEXT */
         }
 
         /* end relationship */
