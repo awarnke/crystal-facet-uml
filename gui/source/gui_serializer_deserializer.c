@@ -192,7 +192,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
             case DATA_TABLE_RELATIONSHIP:
             {
-                /* serializes in second pass */
+                /* relationships are serialized in second pass */
             }
             break;
 
@@ -237,6 +237,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                     data_classifier_t to_classifier;
                     assert ( GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES >= 2 );
 
+                    /* get source */
                     read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
                                                                               data_relationship_get_from_classifier_id( &out_relation ),
                                                                               &from_classifier
@@ -253,6 +254,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                              );
                     }
 
+                    /* get destination */
                     read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
                                                                               data_relationship_get_to_classifier_id( &out_relation ),
                                                                               &to_classifier
@@ -269,6 +271,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
                                                                              );
                     }
 
+                    /* serialize */
                     if ( read_error == DATA_ERROR_NONE )
                     {
                         serialize_error |= json_serializer_append_relationship( &serializer,
@@ -437,20 +440,13 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
 
                                 data_error_t read_error;
                                 data_classifier_t existing_classifier;
-                                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                                         data_classifier_get_id( &new_classifier ),
-                                                                                         &existing_classifier
-                                                                                       );
-                                bool classifier_exists = false;
-                                if ( DATA_ERROR_NONE == read_error )
-                                {
-                                    /* if the name is equal, expect the objects to be equal */
-                                    if ( utf8string_equals_str( data_classifier_get_name_ptr( &new_classifier ),
-                                                                data_classifier_get_name_ptr( &existing_classifier ) ) )
-                                    {
-                                        classifier_exists = true;
-                                    }
-                                }
+                                read_error = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
+                                                                                           data_classifier_get_name( &new_classifier ),
+                                                                                           &existing_classifier
+                                                                                         );
+                                /* if the name is equal, expect the objects to be equal */
+                                const bool classifier_exists = ( DATA_ERROR_NONE == read_error );
+
                                 if ( ! classifier_exists )
                                 {
                                     ctrl_error_t write_error;
@@ -459,29 +455,23 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                                 ! is_first,
                                                                                                 &the_classifier_id
                                                                                               );
-                                    if ( CTRL_ERROR_DUPLICATE_NAME == write_error )
-                                    {
-                                        gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
-                                                                                             GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                                                             GUI_SIMPLE_MESSAGE_CONTENT_NAME_NOT_UNIQUE,
-                                                                                             data_classifier_get_name_ptr( &new_classifier )
-                                                                                           );
-                                        set_end = true;
-                                        parse_error = DATA_ERROR_DUPLICATE_NAME;
-                                    }
-                                    else if ( CTRL_ERROR_NONE == write_error )
+                                    if ( CTRL_ERROR_NONE == write_error )
                                     {
                                         /* create also the features */
                                         for ( int f_index = 0; f_index < feature_count; f_index ++ )
                                         {
+                                            data_feature_t *current_feature = &((*this_).temp_features[f_index]);
                                             int64_t new_feature_id;
-                                            data_feature_set_classifier_id( &((*this_).temp_features[f_index]), the_classifier_id );
-                                            /* TODO: Should we filter lifelines here? */
-                                            write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
-                                                                                                       &((*this_).temp_features[f_index]),
-                                                                                                       true, /* = bool add_to_latest_undo_set */
-                                                                                                       &new_feature_id
-                                                                                                     );
+                                            data_feature_set_classifier_id( current_feature, the_classifier_id );
+                                            /* filter lifelines */
+                                            if ( data_feature_get_main_type(current_feature) != DATA_FEATURE_TYPE_LIFELINE )
+                                            {
+                                                write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
+                                                                                                           current_feature,
+                                                                                                           true, /* = bool add_to_latest_undo_set */
+                                                                                                           &new_feature_id
+                                                                                                         );
+                                            }
                                         }
                                     }
                                     else
@@ -588,6 +578,10 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         }
                         else
                         {
+                            /* create relationship if not yet existing */
+
+                            /* TODO */
+
                             is_first = false;
                         }
                     }
