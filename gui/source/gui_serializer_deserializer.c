@@ -59,7 +59,51 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
     serialize_error |= json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
 
-    /* first pass: serialize all elements in the set except relationships */
+    /* first pass: serialize the diagram(s) if there is one/some */
+    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
+    {
+        data_id_t current_id;
+        current_id = data_small_set_get_id( set_to_be_copied, index );
+        switch ( data_id_get_table( &current_id ) )
+        {
+            case DATA_TABLE_CLASSIFIER:
+            break;
+
+            case DATA_TABLE_DIAGRAMELEMENT:
+            break;
+
+            case DATA_TABLE_DIAGRAM:
+            {
+                data_diagram_t out_diagram;
+                read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
+                                                                      data_id_get_row_id( &current_id ),
+                                                                      &out_diagram
+                                                                    );
+
+                if ( read_error == DATA_ERROR_NONE )
+                {
+                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
+                }
+                else
+                {
+                    /* program internal error */
+                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
+                }
+            }
+            break;
+
+            case DATA_TABLE_FEATURE:
+            break;
+
+            case DATA_TABLE_RELATIONSHIP:
+            break;
+
+            default:
+            break;
+        }
+    }
+
+    /* second pass: serialize all classifiers, diagram elements and features */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
     {
         data_id_t current_id;
@@ -168,21 +212,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
             case DATA_TABLE_DIAGRAM:
             {
-                data_diagram_t out_diagram;
-                read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                                      data_id_get_row_id( &current_id ),
-                                                                      &out_diagram
-                                                                    );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
+                /* diagrams are serialized in first pass */
             }
             break;
 
@@ -195,7 +225,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
 
             case DATA_TABLE_RELATIONSHIP:
             {
-                /* relationships are serialized in second pass */
+                /* relationships are serialized in third pass */
             }
             break;
 
@@ -207,7 +237,7 @@ void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deseriali
         }
     }
 
-    /* second pass: serialize all relationships after the source and destination classifiers */
+    /* third pass: serialize all relationships after the source and destination classifiers */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
     {
         data_id_t current_id;
@@ -394,6 +424,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
     TRACE_INFO ( json_text );
 
     json_deserializer_init( &deserializer, json_text );
+    int64_t current_diagram_id = diagram_id;
 
     parse_error = json_deserializer_expect_begin_set( &deserializer );
 
@@ -506,7 +537,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 int64_t new_element_id;
                                 data_diagramelement_t diag_ele;
                                 data_diagramelement_init_new ( &diag_ele,
-                                                               diagram_id,
+                                                               current_diagram_id,
                                                                the_classifier_id,
                                                                DATA_DIAGRAMELEMENT_FLAG_NONE,
                                                                DATA_ID_VOID_ID
@@ -554,6 +585,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                             {
                                 TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
                                 any_error = true;
+                            }
+                            else
+                            {
+                                /* insert all consecutive elements to this new diagram */
+                                current_diagram_id = new_diag_id;
                             }
                             is_first = false;
                         }
@@ -618,14 +654,26 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                                          );
                                         if ( DATA_ERROR_NONE == read_error2 )
                                         {
+                                            data_feature_t *best_match = NULL;  /* to compare in case multiple features match to the given name */
                                             for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
                                             {
                                                 data_feature_t *current_feature = &((*this_).temp_features[src_idx]);
                                                 if ( utf8stringbuf_equals_str( rel_from_feat,
                                                                                data_feature_get_key_ptr( current_feature ) ) )
                                                 {
-                                                    from_feature_id = data_feature_get_id( current_feature );
-                                                    TRACE_INFO_STR( "id found for src feature:", utf8stringbuf_get_string( rel_from_feat ) );
+                                                    bool better_match = ( best_match == NULL );
+                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules),
+                                                                                              data_feature_get_main_type( current_feature ) ) )
+                                                    {
+                                                        better_match = false;  /* lifelines are no good match */
+                                                        /* TODO lifeline would be ok if fitting to current diagram */
+                                                    }
+                                                    if ( better_match )
+                                                    {
+                                                        from_feature_id = data_feature_get_id( current_feature );
+                                                        best_match = current_feature;
+                                                        TRACE_INFO_STR( "id found for src feature:", utf8stringbuf_get_string( rel_from_feat ) );
+                                                    }
                                                 }
                                             }
                                         }
@@ -654,14 +702,26 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                                          );
                                         if ( DATA_ERROR_NONE == read_error2 )
                                         {
+                                            data_feature_t *best_match = NULL;  /* to compare in case multiple features match to the given name */
                                             for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
                                             {
                                                 data_feature_t *current_feature = &((*this_).temp_features[src_idx]);
                                                 if ( utf8stringbuf_equals_str( rel_to_feat,
                                                                                data_feature_get_key_ptr( current_feature ) ) )
                                                 {
-                                                    to_feature_id = data_feature_get_id( current_feature );
-                                                    TRACE_INFO_STR( "id found for dst feature:", utf8stringbuf_get_string( rel_to_feat ) );
+                                                    bool better_match = ( best_match == NULL );
+                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules),
+                                                                                              data_feature_get_main_type( current_feature ) ) )
+                                                    {
+                                                        better_match = false;  /* lifelines are no good match */
+                                                        /* TODO lifeline would be ok if fitting to current diagram */
+                                                    }
+                                                    if ( better_match )
+                                                    {
+                                                        to_feature_id = data_feature_get_id( current_feature );
+                                                        best_match = current_feature;
+                                                        TRACE_INFO_STR( "id found for dst feature:", utf8stringbuf_get_string( rel_to_feat ) );
+                                                    }
                                                 }
                                             }
                                         }
@@ -670,10 +730,65 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                             }
 
                             /* create relationship if not yet existing */
+                            if ( from_classifier_id == DATA_ID_VOID_ID )
+                            {
+                                TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
+                                                 utf8stringbuf_get_string( rel_from_clas )
+                                               );
+                            }
+                            else if ( to_classifier_id == DATA_ID_VOID_ID )
+                            {
+                                TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
+                                                 utf8stringbuf_get_string( rel_to_clas )
+                                               );
+                            }
+                            else
+                            {
+                                ctrl_error_t write_error4;
 
-                            /* TODO , remember to adhere to (*this_).data_rules */
+                                /* get classifier controller */
+                                ctrl_classifier_controller_t *classifier_control4;
+                                classifier_control4 = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
 
-                            /*is_first = false;*/
+                                /* update the json-parsed relationship struct */
+                                data_relationship_set_id ( &new_relationship, DATA_ID_VOID_ID );
+                                data_relationship_set_from_classifier_id ( &new_relationship, from_classifier_id );
+                                data_relationship_set_from_feature_id ( &new_relationship, from_feature_id );
+                                data_relationship_set_to_classifier_id ( &new_relationship, to_classifier_id );
+                                data_relationship_set_to_feature_id ( &new_relationship, to_feature_id );
+
+                                /* check preconditions */
+                                const bool diagram_ok = true;
+                                /* TODO , remember to adhere to (*this_).data_rules */
+                                /*
+                                const bool is_scenario = data_rules_diagram_is_scenario ( &((*this_).data_rules), diag_type )
+                                                        && (( from_feature_id != DATA_ID_VOID_ID )||( to_feature_id != DATA_ID_VOID_ID ));
+                                const bool diagram_ok = is_scenario
+                                                        ? data_rules_diagram_shows_scenario_relationships ( &((*this_).data_rules), diag_type )
+                                                        : data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), diag_type );
+                                */
+                                if ( diagram_ok ) {
+                                    /* create relationship */
+                                    int64_t relationship_id;
+                                    write_error4 = ctrl_classifier_controller_create_relationship ( classifier_control4,
+                                                                                                    &new_relationship,
+                                                                                                    ! is_first, /*=add_to_latest_undo_set*/
+                                                                                                    &relationship_id
+                                                                                                  );
+                                    if ( CTRL_ERROR_NONE != write_error4 )
+                                    {
+                                        TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                                        any_error = true;
+                                    }
+                                    is_first = false;
+                                }
+                                else
+                                {
+                                    TSLOG_WARNING( "1 relationship is not allowed in target diagram type" );
+                                }
+                            }
+                            /* cleanup */
+                            data_relationship_destroy ( &new_relationship );
                         }
                     }
                     break;
