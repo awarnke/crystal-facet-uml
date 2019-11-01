@@ -1,423 +1,52 @@
-/* File: gui_serializer_deserializer.c; Copyright and License: see below */
+/* File: json_import_to_database.c; Copyright and License: see below */
 
-#include "gui_serializer_deserializer.h"
-#include "trace.h"
+#include "json/json_import_to_database.h"
 #include "json/json_serializer.h"
 #include "json/json_deserializer.h"
 #include "ctrl_error.h"
 #include "util/string/utf8string.h"
+#include "trace.h"
 #include <assert.h>
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
-                                        GtkClipboard *clipboard,
-                                        gui_simple_message_to_user_t *message_to_user,
-                                        data_database_reader_t *db_reader,
-                                        ctrl_controller_t *controller )
+void json_import_to_database_init ( json_import_to_database_t *this_,
+                                    data_database_reader_t *db_reader,
+                                    ctrl_controller_t *controller )
 {
     TRACE_BEGIN();
-    assert( NULL != clipboard );
-    assert( NULL != message_to_user );
     assert( NULL != db_reader );
     assert( NULL != controller );
 
-    (*this_).destination_diagram_id = DATA_ID_VOID_ID;
-    (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
-    (*this_).the_clipboard = clipboard;
-    (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
-                                                       (*this_).private_clipboard_buffer
-                                                     );
+
     data_rules_init ( &((*this_).data_rules) );
 
     TRACE_END();
 }
 
-void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ )
+void json_import_to_database_destroy ( json_import_to_database_t *this_ )
 {
     TRACE_BEGIN();
 
     data_rules_destroy ( &((*this_).data_rules) );
+
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
-    (*this_).message_to_user = NULL;
 
     TRACE_END();
 }
 
-void gui_serializer_deserializer_copy_set_to_clipboard( gui_serializer_deserializer_t *this_, data_small_set_t *set_to_be_copied )
+data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
+                                                       const char *json_text,
+                                                       int64_t diagram_id,
+                                                       uint32_t *out_read_pos )
 {
     TRACE_BEGIN();
-    data_error_t serialize_error = DATA_ERROR_NONE;
-    data_error_t read_error;
-    json_serializer_t serializer;
+    assert( NULL != json_text );
+    assert( NULL != out_read_pos );
 
-    json_serializer_init( &serializer );
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
-
-    serialize_error |= json_serializer_begin_set( &serializer, (*this_).clipboard_stringbuf );
-
-    /* first pass: serialize the diagram(s) if there is one/some */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                data_diagram_t out_diagram;
-                read_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader,
-                                                                      data_id_get_row_id( &current_id ),
-                                                                      &out_diagram
-                                                                    );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    serialize_error |= json_serializer_append_diagram( &serializer, &out_diagram, (*this_).clipboard_stringbuf );
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            break;
-
-            default:
-            break;
-        }
-    }
-
-    /* second pass: serialize all classifiers, diagram elements and features */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            {
-                data_classifier_t out_classifier;
-                read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                         data_id_get_row_id( &current_id ),
-                                                                         &out_classifier
-                                                                       );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    uint32_t out_feature_count;
-                    read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                      data_id_get_row_id( &current_id ),
-                                                                                      GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
-                                                                                      &((*this_).temp_features),
-                                                                                      &out_feature_count
-                                                                                    );
-
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                              &out_classifier,
-                                                                              &((*this_).temp_features),
-                                                                              out_feature_count,
-                                                                              (*this_).clipboard_stringbuf
-                                                                            );
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            {
-                data_classifier_t out_classifier;
-                data_diagramelement_t out_diagramelement;
-                int64_t classifier_id;
-
-                read_error = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
-                                                                             data_id_get_row_id( &current_id ),
-                                                                             &out_diagramelement
-                                                                           );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    classifier_id = data_diagramelement_get_classifier_id( &out_diagramelement );
-
-                    read_error = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                             classifier_id,
-                                                                             &out_classifier
-                                                                           );
-
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        uint32_t out_feature_count;
-                        read_error = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
-                                                                                          classifier_id,
-                                                                                          GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
-                                                                                          &((*this_).temp_features),
-                                                                                          &out_feature_count
-                                                                                        );
-
-                        if ( read_error == DATA_ERROR_NONE )
-                        {
-                            serialize_error |= json_serializer_append_classifier( &serializer,
-                                                                                  &out_classifier,
-                                                                                  &((*this_).temp_features),
-                                                                                  out_feature_count,
-                                                                                  (*this_).clipboard_stringbuf
-                                                                                );
-                        }
-                        else
-                        {
-                            /* program internal error */
-                            TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                        }
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            {
-                /* diagrams are serialized in first pass */
-            }
-            break;
-
-            case DATA_TABLE_FEATURE:
-            {
-                /* intentionally not supported */
-                TRACE_INFO( "gui_toolbox_private_copy_set_to_clipboard does not copy single features, only complete classifiers." );
-            }
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                /* relationships are serialized in third pass */
-            }
-            break;
-
-            default:
-            {
-                serialize_error |= DATA_ERROR_VALUE_OUT_OF_RANGE;
-            }
-            break;
-        }
-    }
-
-    /* third pass: serialize all relationships after the source and destination classifiers */
-    for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
-    {
-        data_id_t current_id;
-        current_id = data_small_set_get_id( set_to_be_copied, index );
-        switch ( data_id_get_table( &current_id ) )
-        {
-            case DATA_TABLE_CLASSIFIER:
-            break;
-
-            case DATA_TABLE_DIAGRAMELEMENT:
-            break;
-
-            case DATA_TABLE_DIAGRAM:
-            break;
-
-            case DATA_TABLE_FEATURE:
-            break;
-
-            case DATA_TABLE_RELATIONSHIP:
-            {
-                data_relationship_t out_relation;
-                read_error = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
-                                                                           data_id_get_row_id( &current_id ),
-                                                                           &out_relation
-                                                                         );
-
-                if ( read_error == DATA_ERROR_NONE )
-                {
-                    data_classifier_t from_classifier;
-                    data_classifier_t to_classifier;
-                    assert ( GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES >= 2 );
-
-                    /* get source */
-                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_from_classifier_id( &out_relation ),
-                                                                              &from_classifier
-                                                                            );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_from_feature_id( &out_relation ) )
-                    {
-                        data_feature_init_empty( &((*this_).temp_features[0]) );
-                    }
-                    else
-                    {
-                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_from_feature_id( &out_relation ),
-                                                                               &((*this_).temp_features[0])
-                                                                             );
-                    }
-
-                    /* get destination */
-                    read_error |= data_database_reader_get_classifier_by_id ( (*this_).db_reader,
-                                                                              data_relationship_get_to_classifier_id( &out_relation ),
-                                                                              &to_classifier
-                                                                            );
-                    if ( DATA_ID_VOID_ID == data_relationship_get_to_feature_id( &out_relation ) )
-                    {
-                        data_feature_init_empty( &((*this_).temp_features[1]) );
-                    }
-                    else
-                    {
-                        read_error |= data_database_reader_get_feature_by_id ( (*this_).db_reader,
-                                                                               data_relationship_get_to_feature_id( &out_relation ),
-                                                                               &((*this_).temp_features[1])
-                                                                             );
-                    }
-
-                    /* serialize */
-                    if ( read_error == DATA_ERROR_NONE )
-                    {
-                        serialize_error |= json_serializer_append_relationship( &serializer,
-                                                                                &out_relation,
-                                                                                &from_classifier,
-                                                                                &((*this_).temp_features[0]),
-                                                                                &to_classifier,
-                                                                                &((*this_).temp_features[1]),
-                                                                                (*this_).clipboard_stringbuf
-                                                                              );
-                    }
-                    else
-                    {
-                        /* program internal error */
-                        TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all features of the classifier of the set." );
-                    }
-                }
-                else
-                {
-                    /* program internal error */
-                    TSLOG_ERROR( "gui_toolbox_private_copy_set_to_clipboard could not read all data of the set." );
-                }
-            }
-            break;
-
-            default:
-            break;
-        }
-    }
-
-    serialize_error |= json_serializer_end_set( &serializer, (*this_).clipboard_stringbuf );
-
-    if ( serialize_error == DATA_ERROR_NONE )
-    {
-        gtk_clipboard_set_text ( (*this_).the_clipboard, utf8stringbuf_get_string( (*this_).clipboard_stringbuf ), -1 );
-    }
-    else
-    {
-        /* error to be shown to the user */
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_STRING_TRUNCATED
-                                               );
-    }
-    TRACE_INFO( utf8stringbuf_get_string( (*this_).clipboard_stringbuf ) );
-
-    json_serializer_destroy( &serializer );
-
-    TRACE_END();
-}
-
-void gui_serializer_deserializer_request_clipboard_text( gui_serializer_deserializer_t *this_, int64_t destination_diagram_id )
-{
-    TRACE_BEGIN();
-
-    utf8stringbuf_clear( (*this_).clipboard_stringbuf );
-
-    (*this_).destination_diagram_id = destination_diagram_id;
-
-    /* this more complicated call (compared to gtk_clipboard_wait_for_text) avoids recursive calls of the gdk main loop */
-    gtk_clipboard_request_text ( (*this_).the_clipboard, (GtkClipboardTextReceivedFunc) gui_serializer_deserializer_clipboard_text_received_callback, this_ );
-
-    TRACE_END();
-}
-
-void gui_serializer_deserializer_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *clipboard_text, gpointer data )
-{
-    TRACE_BEGIN();
-    gui_serializer_deserializer_t *this_ = data;
-
-    if ( clipboard_text != NULL )
-    {
-        gui_serializer_deserializer_private_copy_clipboard_to_db( this_, clipboard_text );
-    }
-    else
-    {
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_INPUT_DATA
-                                               );
-    }
-
-    TRACE_TIMESTAMP();
-    TRACE_END();
-}
-
-void gui_serializer_deserializer_private_copy_clipboard_to_db( gui_serializer_deserializer_t *this_, const char *json_text )
-{
-    TRACE_BEGIN();
-
-    data_error_t diag_check_error;
-    static data_diagram_t test_diagram;
-    diag_check_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, (*this_).destination_diagram_id, &test_diagram );
-    if ( DATA_ERROR_NONE == diag_check_error )
-    {
-        TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
-        gui_serializer_deserializer_private_copy_clipboard_to_diagram( this_, json_text, (*this_).destination_diagram_id );
-    }
-    else
-    {
-        TSLOG_WARNING_INT ( "(*this_).destination_diagram_id is invalid:", (*this_).destination_diagram_id );
-        gui_simple_message_to_user_show_message( (*this_).message_to_user,
-                                                 GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                 GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-                                               );
-    }
-
-    TRACE_END();
-}
-
-void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializer_deserializer_t *this_, const char *json_text, int64_t diagram_id )
-{
-    TRACE_BEGIN();
     json_deserializer_t deserializer;
     data_error_t parse_error = DATA_ERROR_NONE;
 
@@ -426,7 +55,18 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
     json_deserializer_init( &deserializer, json_text );
     int64_t current_diagram_id = diagram_id;
 
-    parse_error = json_deserializer_expect_begin_set( &deserializer );
+    /* check if diagram id exists */
+    static data_diagram_t dummy_diagram;
+    parse_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &dummy_diagram );
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", diagram_id );
+    }
+
+    if ( DATA_ERROR_NONE == parse_error )
+    {
+        parse_error = json_deserializer_expect_begin_set( &deserializer );
+    }
 
     if ( DATA_ERROR_NONE == parse_error )
     {
@@ -455,7 +95,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         uint32_t feature_count;
                         parse_error = json_deserializer_get_next_classifier ( &deserializer,
                                                                               &new_classifier,
-                                                                              GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                              JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
                                                                               &((*this_).temp_features),
                                                                               &feature_count
                                                                             );
@@ -648,7 +288,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                         uint32_t feature_count;
                                         read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
                                                                                                            from_classifier_id,
-                                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                                           JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
                                                                                                            &((*this_).temp_features),
                                                                                                            &feature_count
                                                                                                          );
@@ -696,7 +336,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                         uint32_t feature_count;
                                         read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
                                                                                                            to_classifier_id,
-                                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                                           JSON_IMPORT_TO_DATABASE_MAX_FEATURES,
                                                                                                            &((*this_).temp_features),
                                                                                                            &feature_count
                                                                                                          );
@@ -813,20 +453,11 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
         parse_error = json_deserializer_expect_end_set( &deserializer );
     }
 
+    json_deserializer_get_read_pos ( &deserializer, out_read_pos );
     json_deserializer_destroy( &deserializer );
 
-    if ( DATA_ERROR_NONE != parse_error )
-    {
-        uint32_t read_pos;
-        json_deserializer_get_read_pos ( &deserializer, &read_pos );
-        gui_simple_message_to_user_show_message_with_int ( (*this_).message_to_user,
-                                                           GUI_SIMPLE_MESSAGE_TYPE_ERROR,
-                                                           GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                           read_pos
-                                                         );
-    }
-
-    TRACE_END();
+    TRACE_END_ERR( parse_error );
+    return parse_error;
 }
 
 

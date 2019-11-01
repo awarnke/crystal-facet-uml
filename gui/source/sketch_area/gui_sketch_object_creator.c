@@ -18,7 +18,7 @@ void gui_sketch_object_creator_init ( gui_sketch_object_creator_t *this_,
 
     (*this_).db_reader = db_reader;
     (*this_).controller = controller;
-    data_rules_init ( &((*this_).data_rules) );
+    data_rules_init ( &((*this_).data_rules ) );
     (*this_).message_to_user = message_to_user;
 
     TRACE_END();

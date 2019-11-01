@@ -11,7 +11,7 @@
 #include "gui_tool.h"
 #include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
-#include "gui_serializer_deserializer.h"
+#include "gui_clipboard.h"
 #include "ctrl_controller.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
@@ -25,7 +25,7 @@ struct gui_toolbox_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_marked_set_t *marker;  /*!< pointer to external sketch marker */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
-    gui_serializer_deserializer_t serdes;  /*!< own instance of a serializer deserializer object */
+    gui_clipboard_t clipboard;  /*!< own instance of a clipboard object */
 
     GtkWidget *toolbar;  /*!< pointer to external GObject which is used as origin of tool change signals */
     GtkToolItem *tool_navigate;  /*!< pointer to external GtkRadioToolButton */
@@ -47,7 +47,7 @@ extern const char *GUI_TOOLBOX_GLIB_SIGNAL_NAME;
  *  \param tool_edit the GTK widget. Ownership remains at caller.
  *  \param tool_create the GTK widget. Ownership remains at caller.
  *  \param tool_search the GTK widget. Ownership remains at caller.
- *  \param clipboard pointer to the main/primary GtkClipboard
+ *  \param gtk_clipboard pointer to the main/primary GtkClipboard
  *  \param marker pointer to the set of marked items
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param db_reader pointer to a database reader
@@ -59,7 +59,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
                         GtkToolItem *tool_edit,
                         GtkToolItem *tool_create,
                         GtkToolItem *tool_search,
-                        GtkClipboard *clipboard,
+                        GtkClipboard *gtk_clipboard,
                         gui_marked_set_t *marker,
                         gui_simple_message_to_user_t *message_to_user,
                         data_database_reader_t *db_reader,

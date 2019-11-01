@@ -18,7 +18,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
                         GtkToolItem *tool_edit,
                         GtkToolItem *tool_create,
                         GtkToolItem *tool_search,
-                        GtkClipboard *clipboard,
+                        GtkClipboard *gtk_clipboard,
                         gui_marked_set_t *marker,
                         gui_simple_message_to_user_t *message_to_user,
                         data_database_reader_t *db_reader,
@@ -29,7 +29,7 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
     assert( NULL != tool_edit );
     assert( NULL != tool_create );
     assert( NULL != tool_search );
-    assert( NULL != clipboard );
+    assert( NULL != gtk_clipboard );
     assert( NULL != marker );
     assert( NULL != message_to_user );
     assert( NULL != db_reader );
@@ -49,12 +49,12 @@ void gui_toolbox_init ( gui_toolbox_t *this_,
     (*this_).tool_create = tool_create;
     (*this_).tool_search = tool_search;
 
-    gui_serializer_deserializer_init ( &((*this_).serdes),
-                                       clipboard,
-                                       message_to_user,
-                                       db_reader,
-                                       controller
-                                     );
+    gui_clipboard_init ( &((*this_).clipboard),
+                         gtk_clipboard,
+                         message_to_user,
+                         db_reader,
+                         controller
+                       );
 
     /* define a new signal */
     if ( ! gui_toolbox_glib_signal_initialized )
@@ -82,7 +82,7 @@ void gui_toolbox_destroy ( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_serializer_deserializer_destroy ( &((*this_).serdes) );
+    gui_clipboard_destroy ( &((*this_).clipboard) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -180,9 +180,9 @@ void gui_toolbox_cut( gui_toolbox_t *this_ )
 
     set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
-    /* do not check if set is empty; gui_serializer_deserializer_copy_set_to_clipboard will do this */
+    /* do not check if set is empty; gui_clipboard_copy_set_to_clipboard will do this */
 
-    gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_cut );
+    gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_cut );
 
     gui_toolbox_private_delete_set( this_, set_to_be_cut );
 
@@ -220,7 +220,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         /* continue nonetheless, it is possible to copy an empty set to the clipboard */
     }
 
-    gui_serializer_deserializer_copy_set_to_clipboard( &((*this_).serdes), set_to_be_copied );
+    gui_clipboard_copy_set_to_clipboard( &((*this_).clipboard), set_to_be_copied );
 
     TRACE_END();
 }
@@ -242,7 +242,7 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
     int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
-    gui_serializer_deserializer_request_clipboard_text( &((*this_).serdes), destination_diagram_id );
+    gui_clipboard_request_clipboard_text( &((*this_).clipboard), destination_diagram_id );
 
     TRACE_END();
 }
