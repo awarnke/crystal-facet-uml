@@ -11,6 +11,7 @@
 #include "gui_marked_set.h"
 #include "gui_simple_message_to_user.h"
 #include "ctrl_controller.h"
+#include "data_rules.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
 
@@ -28,6 +29,7 @@ struct gui_serializer_deserializer_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external data_database_reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+    data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     int64_t destination_diagram_id;  /*!< id of the diagram to which the deserialized objects shal  be added */
 

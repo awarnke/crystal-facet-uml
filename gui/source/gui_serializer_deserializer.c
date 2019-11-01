@@ -30,6 +30,7 @@ void gui_serializer_deserializer_init ( gui_serializer_deserializer_t *this_,
     (*this_).clipboard_stringbuf = utf8stringbuf_init( sizeof((*this_).private_clipboard_buffer),
                                                        (*this_).private_clipboard_buffer
                                                      );
+    data_rules_init ( &((*this_).data_rules) );
 
     TRACE_END();
 }
@@ -38,9 +39,11 @@ void gui_serializer_deserializer_destroy ( gui_serializer_deserializer_t *this_ 
 {
     TRACE_BEGIN();
 
+    data_rules_destroy ( &((*this_).data_rules) );
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
     (*this_).message_to_user = NULL;
+
     TRACE_END();
 }
 
@@ -398,9 +401,10 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
     {
         data_table_t next_object_type;
         bool set_end = false;  /* end of data set reached or error at parsing */
+        bool any_error = false;  /* consolidation of parser errors and writer errors */
         bool is_first = true;  /* is this the first object in the database that is created? if false, database changes are appended to the last undo_redo_set */
         static const uint32_t MAX_LOOP_COUNTER = (CTRL_UNDO_REDO_LIST_MAX_SIZE/2)-2;  /* do not import more things than can be undone */
-        for ( int count = 0; ( ! set_end ) && ( count < MAX_LOOP_COUNTER ); count ++ )
+        for ( int count = 0; ( ! set_end ) && ( ! any_error ) && ( count < MAX_LOOP_COUNTER ); count ++ )
         {
             parse_error = json_deserializer_get_type_of_next_element( &deserializer, &next_object_type );
             if ( DATA_ERROR_NONE == parse_error )
@@ -427,7 +431,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
-                            set_end = true;
+                            any_error = true;
                         }
                         else
                         {
@@ -441,7 +445,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 data_error_t read_error;
                                 data_classifier_t existing_classifier;
                                 read_error = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
-                                                                                           data_classifier_get_name( &new_classifier ),
+                                                                                           data_classifier_get_name_ptr( &new_classifier ),
                                                                                            &existing_classifier
                                                                                          );
                                 /* if the name is equal, expect the objects to be equal */
@@ -464,6 +468,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                             int64_t new_feature_id;
                                             data_feature_set_classifier_id( current_feature, the_classifier_id );
                                             /* filter lifelines */
+                                            /* TODO , remember to adhere to all (*this_).data_rules */
                                             if ( data_feature_get_main_type(current_feature) != DATA_FEATURE_TYPE_LIFELINE )
                                             {
                                                 write_error |= ctrl_classifier_controller_create_feature ( classifier_ctrl,
@@ -472,12 +477,16 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                                            &new_feature_id
                                                                                                          );
                                             }
+                                            else
+                                            {
+                                                TRACE_INFO( "lifeline dropped at json import." );
+                                            }
                                         }
                                     }
-                                    else
+                                    if ( CTRL_ERROR_NONE != write_error )
                                     {
-                                        TSLOG_ERROR( "unexpected error" );
-                                        set_end = true;
+                                        TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_classifier/feature" );
+                                        any_error = true;
                                     }
                                     is_first = false;
                                 }
@@ -487,7 +496,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                 }
                             }
 
-                            if ( ! set_end )  /* no error */
+                            if ( ! any_error )  /* no error */
                             {
                                 /* link the classifier to the current diagram */
                                 ctrl_diagram_controller_t *diag_ctrl;
@@ -509,8 +518,8 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                              );
                                 if ( CTRL_ERROR_NONE != write_error2 )
                                 {
-                                    TSLOG_ERROR( "unexpected error" );
-                                    set_end = true;
+                                    TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagramelement" );
+                                    any_error = true;
                                 }
                                 is_first = false;
                             }
@@ -525,7 +534,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
-                            set_end = true;
+                            any_error = true;
                         }
                         else
                         {
@@ -543,10 +552,9 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                                                                                   );
                             if ( CTRL_ERROR_NONE != write_error3 )
                             {
-                                TSLOG_ERROR( "unexpected error" );
-                                set_end = true;
+                                TSLOG_ERROR( "unexpected error at ctrl_diagram_controller_create_diagram" );
+                                any_error = true;
                             }
-
                             is_first = false;
                         }
                     }
@@ -574,15 +582,98 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                         if ( DATA_ERROR_NONE != parse_error )
                         {
                             /* parser error, break loop: */
-                            set_end = true;
+                            any_error = true;
                         }
                         else
                         {
+                            int64_t from_classifier_id = DATA_ID_VOID_ID;
+                            int64_t from_feature_id = DATA_ID_VOID_ID;
+                            int64_t to_classifier_id = DATA_ID_VOID_ID;
+                            int64_t to_feature_id = DATA_ID_VOID_ID;
+
+                            /* determine ids in target database */
+                            {
+                                data_error_t read_error2;
+                                data_classifier_t found_classifier;
+
+                                /* search source classifier id */
+                                read_error2 = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
+                                                                                            utf8stringbuf_get_string( rel_from_clas ),
+                                                                                            &found_classifier
+                                                                                          );
+                                if ( DATA_ERROR_NONE == read_error2 )
+                                {
+                                    from_classifier_id = data_classifier_get_id( &found_classifier );
+                                    TRACE_INFO_STR( "id found for src classifier:", utf8stringbuf_get_string( rel_from_clas ) );
+
+                                    /* search source feature id */
+                                    if ( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                    {
+                                        uint32_t feature_count;
+                                        read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
+                                                                                                           from_classifier_id,
+                                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                                           &((*this_).temp_features),
+                                                                                                           &feature_count
+                                                                                                         );
+                                        if ( DATA_ERROR_NONE == read_error2 )
+                                        {
+                                            for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
+                                            {
+                                                data_feature_t *current_feature = &((*this_).temp_features[src_idx]);
+                                                if ( utf8stringbuf_equals_str( rel_from_feat,
+                                                                               data_feature_get_key_ptr( current_feature ) ) )
+                                                {
+                                                    from_feature_id = data_feature_get_id( current_feature );
+                                                    TRACE_INFO_STR( "id found for src feature:", utf8stringbuf_get_string( rel_from_feat ) );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+
+                                /* search destination classifier id */
+                                read_error2 = data_database_reader_get_classifier_by_name ( (*this_).db_reader,
+                                                                                            utf8stringbuf_get_string( rel_to_clas ),
+                                                                                            &found_classifier
+                                                                                          );
+                                if ( DATA_ERROR_NONE == read_error2 )
+                                {
+                                    to_classifier_id = data_classifier_get_id( &found_classifier );
+                                    TRACE_INFO_STR( "id found for dst classifier:", utf8stringbuf_get_string( rel_to_clas ) );
+
+                                    /* search destination feature id */
+                                    if ( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                    {
+                                        uint32_t feature_count;
+                                        read_error2 = data_database_reader_get_features_by_classifier_id ( (*this_).db_reader,
+                                                                                                           to_classifier_id,
+                                                                                                           GUI_SERIALIZER_DESERIALIZER_MAX_FEATURES,
+                                                                                                           &((*this_).temp_features),
+                                                                                                           &feature_count
+                                                                                                         );
+                                        if ( DATA_ERROR_NONE == read_error2 )
+                                        {
+                                            for ( int src_idx=0; src_idx < feature_count; src_idx ++ )
+                                            {
+                                                data_feature_t *current_feature = &((*this_).temp_features[src_idx]);
+                                                if ( utf8stringbuf_equals_str( rel_to_feat,
+                                                                               data_feature_get_key_ptr( current_feature ) ) )
+                                                {
+                                                    to_feature_id = data_feature_get_id( current_feature );
+                                                    TRACE_INFO_STR( "id found for dst feature:", utf8stringbuf_get_string( rel_to_feat ) );
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
                             /* create relationship if not yet existing */
 
-                            /* TODO */
+                            /* TODO , remember to adhere to (*this_).data_rules */
 
-                            is_first = false;
+                            /*is_first = false;*/
                         }
                     }
                     break;
@@ -590,14 +681,14 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
                     default:
                     {
                         TSLOG_ERROR( "unexpected error" );
-                        set_end = true;
+                        any_error = true;
                     }
                 }
             }
             else
             {
                 /* parser error, break loop: */
-                set_end = true;
+                any_error = true;
             }
         }
     }
@@ -609,11 +700,7 @@ void gui_serializer_deserializer_private_copy_clipboard_to_diagram( gui_serializ
 
     json_deserializer_destroy( &deserializer );
 
-    if ( DATA_ERROR_DUPLICATE_NAME == parse_error )
-    {
-        /* error message is already displayed */
-    }
-    else if ( DATA_ERROR_NONE != parse_error )
+    if ( DATA_ERROR_NONE != parse_error )
     {
         uint32_t read_pos;
         json_deserializer_get_read_pos ( &deserializer, &read_pos );

@@ -81,7 +81,7 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
  *  \brief determines if the feature shall be visible in the diagram of the data_visible_set_t
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_set the data_visible_set_t containing the diagram data
+ *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
  *  \param feature_id the id of the feature
  *  \return true if the feature shall be visible according to the data_rules
  *          (and the diagram_set contains the feature and the related classifier)
@@ -95,7 +95,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
  *  \brief determines if the relationship shall be visible in the diagram of the data_visible_set_t
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_set the data_visible_set_t containing the diagram data
+ *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
  *  \param relationship_id the id of the relationship
  *  \return true if the relationship shall be visible according to the data_rules
  *          (and the diagram_set contains the relationship and the related classifiers
