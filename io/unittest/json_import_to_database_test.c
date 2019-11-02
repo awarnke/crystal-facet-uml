@@ -106,11 +106,15 @@ static void insert_new_classifier_to_existing_diagram(void)
     json_import_to_database_init ( &importer, &db_reader, &controller );
 
     data_error_t d_err;
+    io_stat_t total;
+    io_stat_t dropped;
     uint32_t read_pos;
     static const char *json_text = "{\"set\":[]}";
     d_err = json_import_to_database_import_buf_to_db( &importer,
                                                       json_text,
                                                       root_diag_id,
+                                                      &total,
+                                                      &dropped,
                                                       &read_pos
                                                     );
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, d_err );

@@ -123,10 +123,14 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
 
     data_error_t parse_error;
+    io_stat_t total;
+    io_stat_t dropped;
     uint32_t read_err_pos;
     parse_error = json_import_to_database_import_buf_to_db( &((*this_).importer),
                                                             json_text,
                                                             (*this_).destination_diagram_id,
+                                                            &total,
+                                                            &dropped,
                                                             &read_err_pos
                                                           );
 

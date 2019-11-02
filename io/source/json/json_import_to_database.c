@@ -41,10 +41,14 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ )
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
                                                        int64_t diagram_id,
+                                                       io_stat_t *out_total,
+                                                       io_stat_t *out_dropped,
                                                        uint32_t *out_read_pos )
 {
     TRACE_BEGIN();
     assert( NULL != json_text );
+    assert( NULL != out_total );
+    assert( NULL != out_dropped );
     assert( NULL != out_read_pos );
 
     json_deserializer_t deserializer;
