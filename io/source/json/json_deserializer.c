@@ -37,7 +37,7 @@ void json_deserializer_destroy ( json_deserializer_t *this_ )
     TRACE_END();
 }
 
-data_error_t json_deserializer_expect_begin_set ( json_deserializer_t *this_ )
+data_error_t json_deserializer_expect_begin_data ( json_deserializer_t *this_ )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -49,7 +49,7 @@ data_error_t json_deserializer_expect_begin_set ( json_deserializer_t *this_ )
     if ( DATA_ERROR_NONE == result )
     {
         result = json_tokenizer_get_member_name ( &((*this_).tokenizer), (*this_).in_data, &((*this_).read_pos), member_name );
-        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_SET ) )
+        if ( ! utf8stringbuf_equals_str( member_name, JSON_CONSTANTS_KEY_DATA ) )
         {
             TSLOG_ERROR_INT( "unexpected object contents at character", (*this_).read_pos );
             result |= DATA_ERROR_PARSER_STRUCTURE;
@@ -70,7 +70,7 @@ data_error_t json_deserializer_expect_begin_set ( json_deserializer_t *this_ )
     return result;
 }
 
-data_error_t json_deserializer_expect_end_set ( json_deserializer_t *this_ )
+data_error_t json_deserializer_expect_end_data ( json_deserializer_t *this_ )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;

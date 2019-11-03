@@ -73,7 +73,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_begin_set( &deserializer );
+        parse_error = json_deserializer_expect_begin_data( &deserializer );
     }
 
     if ( DATA_ERROR_NONE == parse_error )
@@ -531,7 +531,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
 
     if ( DATA_ERROR_NONE == parse_error )
     {
-        parse_error = json_deserializer_expect_end_set( &deserializer );
+        parse_error = json_deserializer_expect_end_data( &deserializer );
     }
 
     json_deserializer_get_read_pos ( &deserializer, out_read_pos );

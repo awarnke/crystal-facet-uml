@@ -50,7 +50,7 @@ void json_serializer_destroy ( json_serializer_t *this_ );
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_begin_array() was already called.
  */
-data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t json_serializer_begin_data ( json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief ends a json object containing an array of objects
@@ -61,7 +61,7 @@ data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf
  *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded,
  *          DATA_ERROR_INVALID_REQUEST if json_serializer_end_array() was already called.
  */
-data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t out );
+data_error_t json_serializer_end_data ( json_serializer_t *this_, utf8stringbuf_t out );
 
 /*!
  *  \brief appends a classifier to the stringbuffer

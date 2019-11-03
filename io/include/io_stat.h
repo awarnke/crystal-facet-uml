@@ -41,6 +41,14 @@ static inline void io_stat_init( io_stat_t *this_ );
 static inline void io_stat_destroy( io_stat_t *this_ );
 
 /*!
+ *  \brief gets the sum of all values of the input/output statistics io_stat
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the sum of all values
+ */
+static inline uint32_t io_stat_get_sum( const io_stat_t *this_ );
+
+/*!
  *  \brief sets a value of the input/output statistics io_stat
  *
  *  \param this_ pointer to own object attributes

@@ -15,6 +15,18 @@ static inline void io_stat_destroy( io_stat_t *this_ )
 {
 }
 
+static inline uint32_t io_stat_get_sum( const io_stat_t *this_ )
+{
+    uint32_t result = (*this_).diagrams
+                      + (*this_).diagramelements
+                      + (*this_).classifiers
+                      + (*this_).uncond_features
+                      + (*this_).scenario_features
+                      + (*this_).uncond_relationships
+                      + (*this_).scenario_relationships;
+    return result;
+}
+
 static inline void io_stat_set_diagrams( io_stat_t *this_, uint32_t count )
 {
     (*this_).diagrams = count;

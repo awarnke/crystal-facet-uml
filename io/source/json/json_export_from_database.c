@@ -43,7 +43,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
     json_serializer_init( &serializer );
     utf8stringbuf_clear( out_buf);
 
-    serialize_error |= json_serializer_begin_set( &serializer, out_buf);
+    serialize_error |= json_serializer_begin_data( &serializer, out_buf);
 
     /* first pass: serialize the diagram(s) if there is one/some */
     for ( int index = 0; index < data_small_set_get_count( set_to_be_copied ); index ++ )
@@ -321,7 +321,7 @@ data_error_t json_export_from_database_export_set_to_buf( json_export_from_datab
         }
     }
 
-    serialize_error |= json_serializer_end_set( &serializer, out_buf);
+    serialize_error |= json_serializer_end_data( &serializer, out_buf);
 
     json_serializer_destroy( &serializer );
 

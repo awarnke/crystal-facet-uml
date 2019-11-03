@@ -42,7 +42,7 @@
 
 /* content */
 
-#define JSON_CONSTANTS_KEY_SET "set"
+#define JSON_CONSTANTS_KEY_DATA "data"
 
 #define JSON_CONSTANTS_KEY_DIAGRAM "diagram"
 #define JSON_CONSTANTS_KEY_DIAGRAM_ID "id"

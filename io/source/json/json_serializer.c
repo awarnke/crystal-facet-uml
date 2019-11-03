@@ -35,7 +35,7 @@ void json_serializer_destroy ( json_serializer_t *this_ )
     TRACE_END();
 }
 
-data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf_t out )
+data_error_t json_serializer_begin_data ( json_serializer_t *this_, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
@@ -50,7 +50,7 @@ data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf
                                             JSON_CONSTANTS_BEGIN_OBJECT_NL
                                             JSON_CONSTANTS_TAB
                                             JSON_CONSTANTS_QUOTE
-                                            JSON_CONSTANTS_KEY_SET
+                                            JSON_CONSTANTS_KEY_DATA
                                             JSON_CONSTANTS_QUOTE
                                             JSON_CONSTANTS_DEF
                                             JSON_CONSTANTS_NL
@@ -73,7 +73,7 @@ data_error_t json_serializer_begin_set ( json_serializer_t *this_, utf8stringbuf
     return result;
 }
 
-data_error_t json_serializer_end_set ( json_serializer_t *this_, utf8stringbuf_t out )
+data_error_t json_serializer_end_data ( json_serializer_t *this_, utf8stringbuf_t out )
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
