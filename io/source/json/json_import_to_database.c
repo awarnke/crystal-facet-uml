@@ -62,11 +62,13 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
     int64_t current_diagram_id = diagram_id;
 
     /* check if diagram id exists */
-    static data_diagram_t dummy_diagram;
-    parse_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &dummy_diagram );
-    if ( DATA_ERROR_NONE != parse_error )
     {
-        TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", diagram_id );
+        static data_diagram_t dummy_diagram;
+        parse_error = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &dummy_diagram );
+        if ( DATA_ERROR_NONE != parse_error )
+        {
+            TSLOG_ERROR_INT( "diagram id where to import json data does not exist (anymore)", diagram_id );
+        }
     }
 
     if ( DATA_ERROR_NONE == parse_error )
@@ -298,8 +300,10 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                         {
                             int64_t from_classifier_id = DATA_ID_VOID_ID;
                             int64_t from_feature_id = DATA_ID_VOID_ID;
+                            data_feature_type_t from_feature_type = DATA_FEATURE_TYPE_VOID;
                             int64_t to_classifier_id = DATA_ID_VOID_ID;
                             int64_t to_feature_id = DATA_ID_VOID_ID;
+                            data_feature_type_t to_feature_type = DATA_FEATURE_TYPE_VOID;
 
                             /* determine ids in target database */
                             {
@@ -332,11 +336,11 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
                                                 const int64_t current_feature_id = data_feature_get_id( current_feature );
-                                                if ( utf8stringbuf_equals_str( rel_from_feat,
-                                                                               data_feature_get_key_ptr( current_feature ) ) )
+                                                const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
+                                                const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
+                                                if ( utf8stringbuf_equals_str( rel_from_feat, current_feature_key ) )
                                                 {
-                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules),
-                                                                                              data_feature_get_main_type( current_feature ) ) )
+                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules), current_feature_type ) )
                                                     {
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
@@ -347,6 +351,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                         if ( visible )
                                                         {
                                                             from_feature_id = current_feature_id;
+                                                            from_feature_type = current_feature_type;
                                                             TRACE_INFO_STR( "id found for scenario src feature:", utf8stringbuf_get_string( rel_from_feat ) );
                                                         }
                                                         else
@@ -357,6 +362,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                     else
                                                     {
                                                         from_feature_id = current_feature_id;
+                                                        from_feature_type = current_feature_type;
                                                         TRACE_INFO_STR( "id found for unconditional src feature:", utf8stringbuf_get_string( rel_from_feat ) );
                                                     }
                                                 }
@@ -391,11 +397,11 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                             {
                                                 const data_feature_t *const current_feature = &((*this_).temp_features[src_idx]);
                                                 const int64_t current_feature_id = data_feature_get_id( current_feature );
-                                                if ( utf8stringbuf_equals_str( rel_to_feat,
-                                                                               data_feature_get_key_ptr( current_feature ) ) )
+                                                const char *const current_feature_key = data_feature_get_key_ptr( current_feature );
+                                                const data_feature_type_t current_feature_type = data_feature_get_main_type( current_feature );
+                                                 if ( utf8stringbuf_equals_str( rel_to_feat, current_feature_key ) )
                                                 {
-                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules),
-                                                                                              data_feature_get_main_type( current_feature ) ) )
+                                                    if ( data_rules_feature_is_scenario_cond( &((*this_).data_rules), current_feature_type ) )
                                                     {
                                                         /* lifeline is ok if visible in current diagram */
                                                         bool visible;
@@ -406,6 +412,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                         if ( visible )
                                                         {
                                                             to_feature_id = current_feature_id;
+                                                            to_feature_type = current_feature_type;
                                                             TRACE_INFO_STR( "id found for scenario dst feature:", utf8stringbuf_get_string( rel_from_feat ) );
                                                         }
                                                         else
@@ -416,6 +423,7 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                                     else
                                                     {
                                                         to_feature_id = current_feature_id;
+                                                        to_feature_type = current_feature_type;
                                                         TRACE_INFO_STR( "id found for unconditional dst feature:", utf8stringbuf_get_string( rel_from_feat ) );
                                                     }
                                                 }
@@ -425,18 +433,37 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 }
                             }
 
-                            /* create relationship if not yet existing */
+                            /* create relationship */
+                            bool dropped=false;
                             if ( from_classifier_id == DATA_ID_VOID_ID )
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the source classifier could not be found.",
                                                  utf8stringbuf_get_string( rel_from_clas )
                                                );
+                                dropped = true;
                             }
                             else if ( to_classifier_id == DATA_ID_VOID_ID )
                             {
                                 TSLOG_ERROR_STR( "A relationship could not be created because the destination classifier could not be found.",
                                                  utf8stringbuf_get_string( rel_to_clas )
                                                );
+                                dropped = true;
+                            }
+                            else if (( data_relationship_get_from_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                && ( from_feature_id == DATA_ID_VOID_ID ))
+                            {
+                                TSLOG_ERROR_STR( "A relationship could not be created because the source feature could not be found.",
+                                                 utf8stringbuf_get_string( rel_from_feat )
+                                               );
+                                dropped = true;
+                            }
+                            else if (( data_relationship_get_to_feature_id( &new_relationship ) != DATA_ID_VOID_ID )
+                                && ( to_feature_id == DATA_ID_VOID_ID ))
+                            {
+                                TSLOG_ERROR_STR( "A relationship could not be created because the destination feature could not be found.",
+                                                 utf8stringbuf_get_string( rel_to_feat )
+                                               );
+                                dropped = true;
                             }
                             else
                             {
@@ -453,38 +480,36 @@ data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t
                                 data_relationship_set_to_classifier_id ( &new_relationship, to_classifier_id );
                                 data_relationship_set_to_feature_id ( &new_relationship, to_feature_id );
 
-                                /* check preconditions */
-                                const bool diagram_ok = true;
-                                /* TODO , remember to adhere to (*this_).data_rules */
-                                /*
-                                const bool is_scenario = data_rules_diagram_is_scenario ( &((*this_).data_rules), diag_type )
-                                                        && (( from_feature_id != DATA_ID_VOID_ID )||( to_feature_id != DATA_ID_VOID_ID ));
-                                const bool diagram_ok = is_scenario
-                                                        ? data_rules_diagram_shows_scenario_relationships ( &((*this_).data_rules), diag_type )
-                                                        : data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), diag_type );
-                                */
-                                if ( diagram_ok ) {
-                                    /* create relationship */
-                                    int64_t relationship_id;
-                                    write_error4 = ctrl_classifier_controller_create_relationship ( classifier_control4,
-                                                                                                    &new_relationship,
-                                                                                                    ! is_first, /*=add_to_latest_undo_set*/
-                                                                                                    &relationship_id
-                                                                                                  );
-                                    if ( CTRL_ERROR_NONE != write_error4 )
-                                    {
-                                        TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
-                                        any_error = true;
-                                    }
-                                    is_first = false;
-                                }
-                                else
+                                /* create relationship */
+                                int64_t relationship_id;
+                                write_error4 = ctrl_classifier_controller_create_relationship ( classifier_control4,
+                                                                                                &new_relationship,
+                                                                                                ! is_first, /*=add_to_latest_undo_set*/
+                                                                                                &relationship_id
+                                                                                                );
+                                if ( CTRL_ERROR_NONE != write_error4 )
                                 {
-                                    TSLOG_WARNING( "1 relationship is not allowed in target diagram type" );
+                                    TSLOG_ERROR( "unexpected error at ctrl_classifier_controller_create_relationship" );
+                                    any_error = true;
                                 }
+                                is_first = false;
                             }
                             /* cleanup */
                             data_relationship_destroy ( &new_relationship );
+
+                            /* update statistics */
+                            if ( data_rules_relationship_is_scenario_cond ( &((*this_).data_rules),
+                                                                            from_feature_type,
+                                                                            to_feature_type ) )
+                            {
+                                io_stat_inc_scenario_relationships( out_total, 1 );
+                                io_stat_inc_scenario_relationships( out_dropped, dropped ? 1 : 0 );
+                            }
+                            else
+                            {
+                                io_stat_inc_uncond_relationships( out_total, 1 );
+                                io_stat_inc_uncond_relationships( out_dropped, dropped ? 1 : 0 );
+                            }
                         }
                     }
                     break;

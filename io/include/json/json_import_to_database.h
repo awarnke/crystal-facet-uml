@@ -62,9 +62,10 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param json_text null-terminated string in json format, not NULL
  *  \param diagram_id id of the diagram to which to attach the imported data
- *  \param out_total total number of data objects received in json_text; undefined in case of an error
+ *  \param out_total total number of data objects received in json_text; undefined in case of an error.
  *  \param out_dropped number of dropped data objects, e.g. due to unsuitable type or already existing or scenario-specific behavior;
- *                     undefined in case of an error
+ *                     undefined in case of an error.
+ *                     Note: the dropped counters are always lower than the total counters. The difference tells the number of created objects.
  *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
  *  \return DATA_ERROR_NONE in case of success, error code otherwise
  */
