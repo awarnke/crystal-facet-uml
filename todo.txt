@@ -1,7 +1,5 @@
 ideas for future versions:
   @gui
-  [*] paste: Allow to paste relationships
-  [*] paste: Keep structure of diagrams and contained elements when pasting objects
   [ ] performance optimization: redraw only when shown(=visible) items have changed.
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db

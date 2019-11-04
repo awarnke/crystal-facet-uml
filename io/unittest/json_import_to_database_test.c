@@ -23,7 +23,7 @@ static void insert_unconditional_relationships(void);
 static void insert_scenario_relationships_to_scenario(void);
 static void insert_scenario_relationships_to_non_scenario(void);
 
-static int64_t create_root_diag();
+static int64_t create_root_diag();  /* helper function */
 
 /*!
  *  \brief database instance on which the tests are performed
@@ -273,10 +273,10 @@ static void insert_invalid_json(void)
                                                          &dropped,
                                                          &read_pos
                                                        );
-    TEST_ASSERT_EQUAL_INT( DATA_ERROR_LEXICAL_STRUCTURE, data_err );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_PARSER_STRUCTURE, data_err );
     TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 0 );
     TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 0 );
-    TEST_ASSERT_EQUAL_INT( read_pos, 19 );
+    TEST_ASSERT_EQUAL_INT( read_pos, 20 );
 
     json_import_to_database_destroy ( &importer );
 }
@@ -498,14 +498,203 @@ static void insert_existing_classifier_to_new_diagram(void)
 
 static void insert_unconditional_relationships(void)
 {
+    int64_t root_diag_id = create_root_diag();
+
+    json_import_to_database_t importer;
+    json_import_to_database_init ( &importer, &db_reader, &controller );
+
+    data_error_t data_err;
+    io_stat_t total;
+    io_stat_t dropped;
+    uint32_t read_pos;
+    data_err = json_import_to_database_import_buf_to_db( &importer,
+                                                         test_json_own_diagram,
+                                                         root_diag_id,
+                                                         &total,
+                                                         &dropped,
+                                                         &read_pos
+                                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 6 );  /* as in test case insert_new_classifier_to_new_diagram */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 2 );  /* as in test case insert_new_classifier_to_new_diagram */
+    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_own_diagram) );
+
+    data_err = json_import_to_database_import_buf_to_db( &importer,
+                                                         test_json_no_diag,
+                                                         root_diag_id,
+                                                         &total,
+                                                         &dropped,
+                                                         &read_pos
+                                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_diagramelements( &total ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_classifiers( &total ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_uncond_features( &total ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_scenario_features( &total ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_uncond_relationships( &total ), 1 );  /* no names of auto-generated lifelines are mentioned */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 5 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_scenario_features( &dropped ), 1 );  /* lifeline (type 3) is dropped */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 1 );
+    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+
+    json_import_to_database_destroy ( &importer );
 }
+
+static const char *const test_scenario_relationship =
+    "{\n"
+    "  \"data\": \n"
+    "  [\n"
+    "    {\n"
+    "      \"diagram\": {\n"
+    "        \"id\": 3,\n"
+    "        \"diagram_type\": 13,\n"
+    "        \"name\": \"Sequence 1\",\n"
+    "        \"description\": \"\",\n"
+    "        \"list_order\": 65536\n"
+    "      }\n"
+    "    },\n"
+    "    {\n"
+    "      \"classifier\": {\n"
+    "        \"id\": 15,\n"
+    "        \"main_type\": 125,\n"
+    "        \"stereotype\": \"\",\n"
+    "        \"name\": \"\\\"the Serializer\\\"\",\n"
+    "        \"description\": \"hello\\nhello\",\n"
+    "        \"x_order\": -1087446901,\n"
+    "        \"y_order\": 359417528,\n"
+    "        \"list_order\": 446877143,\n"
+    "        \"features\": \n"
+    "        [\n"
+    "        ]\n"
+    "      }\n"
+    "    },\n"
+    "    {\n"
+    "      \"classifier\": {\n"
+    "        \"id\": 13,\n"
+    "        \"main_type\": 125,\n"
+    "        \"stereotype\": \"\",\n"
+    "        \"name\": \"New||RingBuffer{⅞[\\]}\",\n"
+    "        \"description\": \"world\\nworld\",\n"
+    "        \"x_order\": -1087446901,\n"
+    "        \"y_order\": 359417528,\n"
+    "        \"list_order\": 446877143,\n"
+    "        \"features\": \n"
+    "        [\n"
+    "        ]\n"
+    "      }\n"
+    "    },\n"
+    "    {\n"
+    "      \"relationship\": {\n"
+    "        \"id\": 25,\n"
+    "        \"main_type\": 221,\n"
+    "        \"name\": \"ping\",\n"
+    "        \"description\": \"\",\n"
+    "        \"list_order\": -244244146,\n"
+    "        \"from_classifier_id\": 15,\n"
+    "        \"from_classifier_name\": \"\\\"the Serializer\\\"\",\n"
+    "        \"to_classifier_id\": 13,\n"
+    "        \"to_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
+    "        \"from_feature_id\": 34,\n"
+    "        \"from_feature_key\": \"\",\n"
+    "        \"to_feature_id\": 33,\n"
+    "        \"to_feature_key\": \"\"\n"
+    "      }\n"
+    "    }\n"
+    "  ]\n"
+    "}\n";
 
 static void insert_scenario_relationships_to_scenario(void)
 {
+    int64_t root_diag_id = create_root_diag();
+
+    json_import_to_database_t importer;
+    json_import_to_database_init ( &importer, &db_reader, &controller );
+
+    data_error_t data_err;
+    io_stat_t total;
+    io_stat_t dropped;
+    uint32_t read_pos;
+    data_err = json_import_to_database_import_buf_to_db( &importer,
+                                                         test_scenario_relationship,
+                                                         root_diag_id,
+                                                         &total,
+                                                         &dropped,
+                                                         &read_pos
+                                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_diagrams( &total ), 1 );  /* type 13 == DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM; is scenario */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_diagramelements( &total ), 2 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_classifiers( &total ), 2 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_scenario_relationships( &total ), 1 );  /* source+dst feature exists and are an auto-generated lifelines */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 6 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 0 );
+    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_scenario_relationship) );
+
+    json_import_to_database_destroy ( &importer );
 }
+
+static const char *const test_json_scenario_self_relation =
+    "{\n"
+    "  \"data\": \n"
+    "  [\n"
+    "    {\n"
+    "      \"relationship\": {\n"
+    "        \"id\": 25,\n"
+    "        \"main_type\": 221,\n"
+    "        \"name\": \"ping\",\n"
+    "        \"description\": \"\",\n"
+    "        \"list_order\": 44244146,\n"
+    "        \"from_classifier_id\": 13,\n"
+    "        \"from_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
+    "        \"to_classifier_id\": 13,\n"
+    "        \"to_classifier_name\": \"New||RingBuffer{⅞[\\]}\",\n"
+    "        \"from_feature_id\": 33,\n"
+    "        \"from_feature_key\": \"\",\n"
+    "        \"to_feature_id\": 33,\n"
+    "        \"to_feature_key\": \"\"\n"
+    "      }\n"
+    "    }\n"
+    "  ]\n"
+    "}\n";
 
 static void insert_scenario_relationships_to_non_scenario(void)
 {
+    int64_t root_diag_id = create_root_diag();  /* root doag type is DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, no scenario */
+
+    json_import_to_database_t importer;
+    json_import_to_database_init ( &importer, &db_reader, &controller );
+
+    data_error_t data_err;
+    io_stat_t total;
+    io_stat_t dropped;
+    uint32_t read_pos;
+    data_err = json_import_to_database_import_buf_to_db( &importer,
+                                                         test_json_no_diag,
+                                                         root_diag_id,
+                                                         &total,
+                                                         &dropped,
+                                                         &read_pos
+                                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 5 );  /* as in test case insert_new_classifier_to_existing_diagram */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 2 );  /* as in test case insert_new_classifier_to_existing_diagram */
+    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_no_diag) );
+
+    data_err = json_import_to_database_import_buf_to_db( &importer,
+                                                         test_json_scenario_self_relation,
+                                                         root_diag_id,
+                                                         &total,
+                                                         &dropped,
+                                                         &read_pos
+                                                       );
+    TEST_ASSERT_EQUAL_INT( DATA_ERROR_NONE, data_err );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_uncond_relationships( &total ), 1 );  /* source+dst classifier have no lifeline, no evidence for scenario */
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &total ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_uncond_relationships( &dropped ), 1 );
+    TEST_ASSERT_EQUAL_INT( io_stat_get_sum( &dropped ), 1 );
+    TEST_ASSERT_EQUAL_INT( read_pos, strlen(test_json_scenario_self_relation) );
+
+    json_import_to_database_destroy ( &importer );
 }
 
 
