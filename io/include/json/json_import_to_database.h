@@ -67,7 +67,7 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *                     undefined in case of an error.
  *                     Note: the dropped counters are always lower than the total counters. The difference tells the number of created objects.
  *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
- *  \return DATA_ERROR_NONE in case of success, error code otherwise
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,

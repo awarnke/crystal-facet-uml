@@ -26,8 +26,8 @@ enum data_error_enum {
     DATA_ERROR_INVALID_REQUEST = (~(0x00ffffef)),  /*!< 0x000010: function call not allowed or parameters wrong */
     DATA_ERROR_INPUT_EMPTY = (~(0x00ffffdf)),  /*!< 0x000020: input parameter is empty or void */
     DATA_ERROR_OBJECT_STILL_REFERENCED = (~(0x00ffffbf)),  /*!< 0x000040: object cannot be deleted, it is still referenced */
-    DATA_ERROR_LEXICAL_STRUCTURE = (~(0x00ffff7f)),  /*!< 0x000080: the lexical structure of the input-string is corrupted */
-    DATA_ERROR_PARSER_STRUCTURE = (~(0x00fffeff)),  /*!< 0x000100: the parser structure of the input-string is corrupted */
+    DATA_ERROR_LEXICAL_STRUCTURE = (~(0x00ffff7f)),  /*!< 0x000080: the lexical structure of the input-string is corrupted (contains invalid tokens) */
+    DATA_ERROR_PARSER_STRUCTURE = (~(0x00fffeff)),  /*!< 0x000100: the parser structure of the input-string is corrupted (wrong order of tokens) */
 
     DATA_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = (~(0x00ffefff)),  /*!< 0x001000: the diagram type does not show the relationship type */
     DATA_ERROR_DIAGRAM_HIDES_FEATURES = (~(0x00ffdfff)),  /*!< 0x002000: the diagram type does not show the feature type */
