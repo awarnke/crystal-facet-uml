@@ -445,6 +445,24 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
     return show;
 }
 
+static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *this_,
+                                                           const data_visible_classifier_t *vis_classifier,
+                                                           const data_feature_t *feature )
+{
+    assert( vis_classifier != NULL );
+    assert( feature != NULL );
+    const bool valid = data_visible_classifier_is_valid ( vis_classifier ) && data_feature_is_valid ( feature );
+    const data_classifier_t *clasfy = data_visible_classifier_get_classifier_const ( vis_classifier );
+    const data_diagramelement_t *diagele = data_visible_classifier_get_diagramelement_const ( vis_classifier );
+    assert( clasfy != NULL );
+    assert( diagele != NULL );
+    const bool belongs = ( data_feature_get_classifier_id( feature ) == data_classifier_get_id( clasfy ) );
+    const bool scenario = data_rules_feature_is_scenario_cond( this_, data_feature_get_main_type( feature ) );
+    const bool focused = data_diagramelement_get_focused_feature_id( diagele ) == data_feature_get_id( feature );
+    const bool visible = data_rules_classifier_has_features( this_, data_classifier_get_main_type( clasfy ) );
+    return valid && belongs && ((!scenario)||(scenario&&focused)) && visible;
+}
+
 /* ================================ RELATIONSHIP ================================ */
 
 static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t *this_,

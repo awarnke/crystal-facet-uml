@@ -3,6 +3,8 @@ crystal-facet-uml (1.16.0) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * Diagram exports can be triggered from command line
   * Cut + paste of relationships is possible
+  * Fix: Scenario based diagrams showing multiple identical classifier
+    instances show not too many relationships
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Oct 2019 19:30:00 +0200
 

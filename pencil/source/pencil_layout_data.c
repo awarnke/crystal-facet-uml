@@ -113,13 +113,12 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
 
         if ( ( NULL != feature_data ) && data_feature_is_valid( feature_data ) )
         {
-            const int64_t parent_id = data_feature_get_classifier_id( feature_data );
             const int64_t feature_id = data_feature_get_id( feature_data );
             const bool show = data_rules_diagram_shows_feature ( &((*this_).filter_rules),
                                                                  (*this_).input_data,
                                                                  feature_id
-                                                                );
-                    
+                                                               );
+
             if ( show )
             {
                 for ( uint32_t c_idx2 = 0; c_idx2 < (*this_).visible_classifier_count; c_idx2 ++ )
@@ -127,7 +126,9 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                     layout_visible_classifier_t *parent_classifier;
                     parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
 
-                    const bool one_parent_found = ( parent_id == layout_visible_classifier_get_classifier_id( parent_classifier ) );
+                    const bool one_parent_found = data_rules_vis_classifier_has_feature ( &((*this_).filter_rules),
+                                                                                          layout_visible_classifier_get_data_ptr( parent_classifier ),
+                                                                                          feature_data );
                     if ( one_parent_found )
                     {
                         if ( (*this_).feature_count < PENCIL_LAYOUT_DATA_MAX_FEATURES )
@@ -229,8 +230,8 @@ void pencil_layout_data_private_init_relationships( pencil_layout_data_t *this_ 
 }
 
 uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *this_,
-                                                   const data_relationship_t *relationship_data,
-                                                   uint32_t *io_dropped_relationships )
+                                                       const data_relationship_t *relationship_data,
+                                                       uint32_t *io_dropped_relationships )
 {
     TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
@@ -293,6 +294,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                         if ( one_to_feature_found )
                         {
                             const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe4_feature )) );
+                            /* TODO: layout_feature_get_classifier_ptr returns a layout_visible_classifier_t - for lifelines, check if it is the focused_feature */
                             if ( to_feature_ok )
                             {
                                 if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
@@ -333,6 +335,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
             if ( one_from_feature_found )
             {
                 const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe3_feature )) );
+                /* TODO: layout_feature_get_classifier_ptr returns a layout_visible_classifier_t - for lifelines, check if it is the focused_feature */
                 if ( from_feature_ok )
                 {
                     if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
@@ -375,6 +378,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                             if ( one_to_feature_found )
                             {
                                 const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe5_feature )) );
+                                /* TODO: layout_feature_get_classifier_ptr returns a layout_visible_classifier_t - for lifelines, check if it is the focused_feature */
                                 if ( to_feature_ok )
                                 {
                                     if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )

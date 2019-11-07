@@ -158,6 +158,23 @@ static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t
  */
 static inline bool data_rules_diagram_shows_scenario_features ( const data_rules_t *this_, data_diagram_type_t diagram_type );
 
+/*!
+ *  \brief determines if the visible classifier has the feature
+ *
+ *  This method does not take into account if the diagram shows this kind of feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param vis_classifier the visible classifier
+ *  \param feature the feature
+ *  \return true if the feature belongs to the vis_classifier
+ *          and in the scenario case (lifeline), the feature is the focused feature
+ *          and data_rules_classifier_has_features()
+ */
+static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *this_,
+                                                           const data_visible_classifier_t *vis_classifier,
+                                                           const data_feature_t *feature
+                                                         );
+
 /* ================================ RELATIONSHIP ================================ */
 
 /*!
