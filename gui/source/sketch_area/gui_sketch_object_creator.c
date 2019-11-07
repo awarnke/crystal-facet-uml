@@ -440,7 +440,7 @@ ctrl_error_t gui_sketch_object_creator_create_feature ( gui_sketch_object_creato
     }
 
     /* check preconditions */
-    const bool classifier_ok = data_rules_classifier_has_features ( &((*this_).data_rules), parent_class_type );
+    const bool classifier_ok = data_rules_classifier_has_uncond_features ( &((*this_).data_rules), parent_class_type );
     const bool is_scenario = data_rules_feature_is_scenario_cond ( &((*this_).data_rules), new_feature_type );
     assert ( ! is_scenario );  /* lifelines should not be created by this function */
     const bool diagram_ok = is_scenario

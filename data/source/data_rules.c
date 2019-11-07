@@ -58,7 +58,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
         else
         {
             /* evaluate filter */
-            const bool ok_by_classifier = data_rules_classifier_has_features ( this_, classifier_type );
+            const bool ok_by_classifier = data_rules_classifier_has_uncond_features ( this_, classifier_type );
             const bool ok_by_diagram = data_rules_diagram_shows_uncond_features ( this_, diagram_type );
             result = ok_by_classifier && ok_by_diagram;
         }

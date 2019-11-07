@@ -123,13 +123,13 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 /* ================================ FEATURE ================================ */
 
 /*!
- *  \brief determines if the classifier type has features
+ *  \brief determines if the classifier type has unconditional features
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_type the classifier type
  *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
  */
-static inline bool data_rules_classifier_has_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
+static inline bool data_rules_classifier_has_uncond_features ( const data_rules_t *this_, data_classifier_type_t classifier_type );
 
 /*!
  *  \brief determines if the feature type is scenario-conditional
