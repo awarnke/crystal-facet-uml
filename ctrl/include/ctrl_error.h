@@ -25,8 +25,8 @@ enum ctrl_error_enum {
     CTRL_ERROR_INVALID_REQUEST = DATA_ERROR_INVALID_REQUEST,  /*!< 0x000010: function call not allowed or parameters wrong */
     CTRL_ERROR_INPUT_EMPTY = DATA_ERROR_INPUT_EMPTY,  /*!< 0x000020: input parameter is empty or void */
     CTRL_ERROR_OBJECT_STILL_REFERENCED = DATA_ERROR_OBJECT_STILL_REFERENCED,  /*!< 0x000040: object cannot be deleted, it is still referenced */
-    CTRL_ERROR_LEXICAL_STRUCTURE = DATA_ERROR_LEXICAL_STRUCTURE,  /*!< 0x000080: the lexical structure of the input-string is corrupted */
-    CTRL_ERROR_PARSER_STRUCTURE = DATA_ERROR_PARSER_STRUCTURE,  /*!< 0x000100: the parser structure of the input-string is corrupted */
+    CTRL_ERROR_LEXICAL_STRUCTURE = DATA_ERROR_LEXICAL_STRUCTURE,  /*!< 0x000080: the lexical structure of the input-string is corrupted (contains invalid tokens) */
+    CTRL_ERROR_PARSER_STRUCTURE = DATA_ERROR_PARSER_STRUCTURE,  /*!< 0x000100: the parser structure of the input-string is corrupted (wrong order of tokens) */
 
     CTRL_ERROR_DIAGRAM_HIDES_RELATIONSHIPS = DATA_ERROR_DIAGRAM_HIDES_RELATIONSHIPS,  /*!< 0x001000: the diagram type does not show the relationship type */
     CTRL_ERROR_DIAGRAM_HIDES_FEATURES = DATA_ERROR_DIAGRAM_HIDES_FEATURES,  /*!< 0x002000: the diagram type does not show the feature type */

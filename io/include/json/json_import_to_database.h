@@ -8,8 +8,10 @@
  *  \brief Serializes and deserializes a set of objects to/from the clipboard
  */
 
+#include "io_stat.h"
 #include "ctrl_controller.h"
 #include "data_rules.h"
+#include "set/data_visible_set.h"
 #include "storage/data_database_reader.h"
 #include "util/string/utf8stringbuf.h"
 
@@ -18,6 +20,7 @@
  */
 enum json_import_to_database_max_enum {
     JSON_IMPORT_TO_DATABASE_MAX_FEATURES = 64,  /*!< maximum number of features per classifier */
+    JSON_IMPORT_TO_DATABASE_MAX_DIAGELES = DATA_VISIBLE_SET_MAX_CLASSIFIERS,  /*!< maximum number of diagramelements per diagram */
 };
 
 /*!
@@ -29,6 +32,7 @@ struct json_import_to_database_struct {
     data_rules_t data_rules;  /*!< own instance of uml and sysml consistency rules */
 
     data_feature_t temp_features[JSON_IMPORT_TO_DATABASE_MAX_FEATURES];  /*!< temporary memory for feature list */
+    data_diagramelement_t temp_diageles[JSON_IMPORT_TO_DATABASE_MAX_DIAGELES];  /*!< temporary memory for diagramelement list */
 };
 
 typedef struct json_import_to_database_struct json_import_to_database_t;
@@ -58,13 +62,30 @@ void json_import_to_database_destroy ( json_import_to_database_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param json_text null-terminated string in json format, not NULL
  *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param out_total total number of data objects received in json_text; undefined in case of an error.
+ *  \param out_dropped number of dropped data objects, e.g. due to unsuitable type or already existing or scenario-specific behavior;
+ *                     undefined in case of an error.
+ *                     Note: the dropped counters are always lower than the total counters. The difference tells the number of created objects.
  *  \param out_read_pos read position in the stream, in case of an error, this may help finding the cause
+ *  \return DATA_ERROR_NONE in case of success, DATA_ERROR_DB_STRUCTURE if diagram_id does not exist, other error code otherwise
  */
 data_error_t json_import_to_database_import_buf_to_db( json_import_to_database_t *this_,
                                                        const char *json_text,
                                                        int64_t diagram_id,
+                                                       io_stat_t *out_total,
+                                                       io_stat_t *out_dropped,
                                                        uint32_t *out_read_pos
                                                      );
+
+/*!
+ *  \brief checks if a given lifeline (feature) is visible (focused) in the current diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to which to attach the imported data
+ *  \param feature_id id of the feature that shall be the focused_feature of the diagramelement (for a lifeline, this means being visible)
+ *  \return true if a matching diagramelement is found
+ */
+bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_to_database_t *this_, int64_t diagram_id, int64_t feature_id );
 
 #endif  /* JSON_IMPORT_TO_DATABASE_H */
 

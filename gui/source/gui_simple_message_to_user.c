@@ -272,6 +272,31 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             }
             break;
 
+            /*
+            case GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD_STATS:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Selection cut to clipboard: " );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+            */
+
+            /*
+            case GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD_STATS:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Selection copied to clipboard: " );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+            */
+
+            case GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD_STATS:
+            {
+                utf8stringbuf_append_str( (*this_).content, "Clipboard pasted: " );
+                utf8stringbuf_append_str( (*this_).content, string_param );
+            }
+            break;
+
             default:
             {
                 TSLOG_ERROR("unexptected gui_simple_message_content_t");

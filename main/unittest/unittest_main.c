@@ -17,6 +17,7 @@
 #include "geometry_non_linear_scale_test.h"
 #include "io_format_writer_test.h"
 #include "json_tokenizer_test.h"
+#include "json_import_to_database_test.h"
 #include "pencil_layout_data_test.h"
 #include "universal_array_index_sorter_test.h"
 #include "utf8stringbuf_test.h"
@@ -121,8 +122,8 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, ctrl_undo_redo_list_test_get_list() );
         test_runner_run_suite( &runner, ctrl_diagram_policy_enforcer_test_get_list() );
         test_runner_run_suite( &runner, ctrl_classifier_policy_enforcer_test_get_list() );
+        test_runner_run_suite( &runner, json_import_to_database_test_get_list() );
     }
-
 
     /* fetch failures */
     test_result_t res = test_get_result( &runner );

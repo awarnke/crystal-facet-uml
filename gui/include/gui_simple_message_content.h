@@ -36,6 +36,9 @@ enum gui_simple_message_content_enum {
     GUI_SIMPLE_MESSAGE_CONTENT_NO_FEATURES,  /*!< current diagram type does not allow to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_FEATURELESS_CLASSIFIER,  /*!< current classifier type does not allow to create features */
     GUI_SIMPLE_MESSAGE_CONTENT_IS_ALWAYS_INSTANCE,  /*!< current classifier type does not allow to remove the instance flag */
+    /* GUI_SIMPLE_MESSAGE_CONTENT_CUT_TO_CLIPBOARD_STATS, */  /*!< show statistics on successfully cut elements */
+    /* GUI_SIMPLE_MESSAGE_CONTENT_COPY_TO_CLIPBOARD_STATS, */  /*!< show statistics on successfully copied elements */
+    GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD_STATS,  /*!< show statistics on successfully pasted elements */
 
     GUI_SIMPLE_MESSAGE_CONTENT_NOT_YET_IMPLEMENTED,  /*!< the feature is not yet implemented */
 };

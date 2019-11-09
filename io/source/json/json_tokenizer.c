@@ -319,7 +319,7 @@ data_error_t json_tokenizer_get_value_type ( json_tokenizer_t *this_, const char
     else
     {
         *value_type = JSON_VALUE_TYPE_UNDEF;
-        result_err = DATA_ERROR_PARSER_STRUCTURE;
+        result_err = DATA_ERROR_PARSER_STRUCTURE;  /* this could also be a lexical error (invalid next token) instead of unexpected next token */
     }
 
     TRACE_END_ERR( result_err );

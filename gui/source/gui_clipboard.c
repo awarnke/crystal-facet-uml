@@ -123,10 +123,14 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
     TRACE_INFO_INT ( "(*this_).destination_diagram_id:", (*this_).destination_diagram_id );
 
     data_error_t parse_error;
+    io_stat_t total;
+    io_stat_t dropped;
     uint32_t read_err_pos;
     parse_error = json_import_to_database_import_buf_to_db( &((*this_).importer),
                                                             json_text,
                                                             (*this_).destination_diagram_id,
+                                                            &total,
+                                                            &dropped,
                                                             &read_err_pos
                                                           );
 
@@ -137,6 +141,40 @@ void gui_clipboard_private_copy_clipboard_to_db( gui_clipboard_t *this_, const c
                                                            GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
                                                            read_err_pos
                                                          );
+    }
+    else
+    {
+        char stat_buf[96] = "";
+        utf8stringbuf_t stat_msg = UTF8STRINGBUF( stat_buf );
+        utf8stringbuf_append_str( stat_msg, "New diagrams: " );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_diagrams( &total ) - io_stat_get_diagrams( &dropped ) );
+        utf8stringbuf_append_str( stat_msg, "/" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_diagrams( &total ) );
+        /* ignore diagramelements, this is not important for the user because obvious */
+        utf8stringbuf_append_str( stat_msg, ", new classifiers: " );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_classifiers( &total ) - io_stat_get_classifiers( &dropped ) );
+        utf8stringbuf_append_str( stat_msg, "/" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_classifiers( &total ) );
+        utf8stringbuf_append_str( stat_msg, ", new features: " );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_uncond_features( &total ) - io_stat_get_uncond_features( &dropped ) );
+        utf8stringbuf_append_str( stat_msg, "/" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_uncond_features( &total ) );
+        /* ignore scenario features, this should always be zero and not be relevant for the user */
+        utf8stringbuf_append_str( stat_msg, ", new relationships: " );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_uncond_relationships( &total ) - io_stat_get_uncond_relationships( &dropped ) );
+        utf8stringbuf_append_str( stat_msg, "+" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_scenario_relationships( &total ) - io_stat_get_scenario_relationships( &dropped ) );
+        utf8stringbuf_append_str( stat_msg, "/" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_uncond_relationships( &total ) );
+        utf8stringbuf_append_str( stat_msg, "+" );
+        utf8stringbuf_append_int( stat_msg, io_stat_get_scenario_relationships( &total ) );
+        utf8stringbuf_append_str( stat_msg, "." );
+
+        gui_simple_message_to_user_show_message_with_string ( (*this_).message_to_user,
+                                                              GUI_SIMPLE_MESSAGE_TYPE_INFO,
+                                                              GUI_SIMPLE_MESSAGE_CONTENT_PASTE_FROM_CLIPBOARD_STATS,
+                                                              utf8stringbuf_get_string( stat_msg )
+                                                            );
     }
 
     TRACE_END();
