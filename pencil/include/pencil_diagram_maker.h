@@ -72,6 +72,8 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
 /*!
  *  \brief defines coordinates
  *
+ *  Resets internal caches, changes in input_data are ok.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_bounds the diagram_bounds rectangle where to draw the diagram
  */
@@ -81,6 +83,8 @@ static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *th
 
 /*!
  *  \brief layouts the chosen diagram contents into the diagram_bounds area
+ *
+ *  No reset of internal caches, no structural changes in input_data are allowed - only updates of attributes.
  *
  *  \param this_ pointer to own object attributes
  *  \param cr a cairo drawing context, used to determine the font metrics in the given drawing context

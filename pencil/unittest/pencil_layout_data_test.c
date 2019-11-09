@@ -11,6 +11,7 @@ static void test_empty_model(void);
 static void test_normal_model(void);
 static void test_too_big_model(void);
 static void test_inconsistent_model(void);
+static data_visible_set_t* init_empty_input_data();
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships );
 
 test_suite_t pencil_layout_data_test_get_list(void)
@@ -30,6 +31,15 @@ static void set_up(void)
 
 static void tear_down(void)
 {
+}
+
+static data_visible_set_t* init_empty_input_data()
+{
+    static data_visible_set_t empty_input_data;
+    data_visible_set_init( &empty_input_data );
+    data_visible_set_private_update_containment_cache ( &empty_input_data );
+    TEST_ENVIRONMENT_ASSERT ( ! data_visible_set_is_valid ( &empty_input_data ) );
+    return &empty_input_data;
 }
 
 static data_visible_set_t* init_fake_input_data( uint_fast32_t classifiers, uint_fast32_t features, uint_fast32_t relationships )
@@ -143,16 +153,19 @@ static const int DUPLICATE_TO_CLASSIFIER=2;
 
 static void test_empty_model(void)
 {
-    data_visible_set_t *fake_input_data;
-    fake_input_data = init_fake_input_data(0,10,10);
+    data_visible_set_t* empty_input_data;
+    empty_input_data = init_empty_input_data();
 
     static pencil_layout_data_t testee;
-    pencil_layout_data_init( &testee, fake_input_data );
+    pencil_layout_data_init( &testee, empty_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) )
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
-    TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
+    TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
+
+    data_visible_set_t *fake_input_data;
+    fake_input_data = init_fake_input_data(0,10,10);
 
     pencil_layout_data_reinit( &testee, fake_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
