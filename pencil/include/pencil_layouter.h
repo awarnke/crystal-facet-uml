@@ -83,6 +83,13 @@ void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input
 void pencil_layouter_destroy( pencil_layouter_t *this_ );
 
 /*!
+ *  \brief resets previous layout data, synchronizes the internal layout data with the *input_data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ );
+
+/*!
  *  \brief defines the grid coordinates
  *
  *  \param this_ pointer to own object attributes

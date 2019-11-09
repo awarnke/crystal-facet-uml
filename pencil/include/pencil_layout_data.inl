@@ -3,6 +3,17 @@
 #include "tslog.h"
 #include <assert.h>
 
+static inline void pencil_layout_data_reinit( pencil_layout_data_t *this_, const data_visible_set_t *input_data )
+{
+    pencil_layout_data_destroy( this_ );
+    pencil_layout_data_init( this_, input_data );
+}
+
+static inline void pencil_layout_data_resync( pencil_layout_data_t *this_ )
+{
+    pencil_layout_data_reinit( this_, (*this_).input_data );
+}
+
 /* ================================ diagram ================================ */
 
 static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layout_data_t *this_ )

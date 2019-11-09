@@ -3,6 +3,11 @@
 #include "tslog.h"
 #include <assert.h>
 
+static inline void pencil_layouter_prepare ( pencil_layouter_t *this_ )
+{
+    pencil_layout_data_resync( &((*this_).layout_data) );
+}
+
 static inline pencil_layout_data_t *pencil_layouter_get_layout_data_ptr ( pencil_layouter_t *this_ )
 {
     return &((*this_).layout_data);

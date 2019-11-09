@@ -17,7 +17,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_d
     geometry_non_linear_scale_init( &((*this_).y_scale), 0.0, 1.0 );
     geometry_dimensions_init_empty( &((*this_).default_classifier_size) );
 
-    pencil_layout_data_init( &((*this_).layout_data) );
+    pencil_layout_data_init( &((*this_).layout_data), input_data );
 
     pencil_diagram_painter_init( &((*this_).diagram_painter) );
 

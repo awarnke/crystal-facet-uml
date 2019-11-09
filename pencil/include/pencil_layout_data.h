@@ -77,16 +77,20 @@ typedef struct pencil_layout_data_struct pencil_layout_data_t;
  *  \brief initializes the painter input data layout
  *
  *  \param this_ pointer to own object attributes
+ *  \param input_data pointer to the (cached) data to be layouted
  */
-void pencil_layout_data_init( pencil_layout_data_t *this_ );
+void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief re-initializes the painter input data layout
  *
+ *  reinit shall be called when the input_data set has changed
+ *  to ensure that the layout data reflects the input data
+ *
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be layouted
  */
-void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t *input_data );
+static inline void pencil_layout_data_reinit( pencil_layout_data_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the painter input data layout
@@ -94,6 +98,16 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
  *  \param this_ pointer to own object attributes
  */
 void pencil_layout_data_destroy( pencil_layout_data_t *this_ );
+
+/*!
+ *  \brief re-initializes the painter input data layout
+ *
+ *  resync shall be called when any element in the input_data set has changed
+ *  to ensure that the layout data reflects the input data
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline void pencil_layout_data_resync( pencil_layout_data_t *this_ );
 
 /* ================================ diagram ================================ */
 

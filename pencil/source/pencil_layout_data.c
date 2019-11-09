@@ -5,28 +5,13 @@
 #include "tslog.h"
 #include <assert.h>
 
-void pencil_layout_data_init( pencil_layout_data_t *this_ )
-{
-    TRACE_BEGIN();
-    TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
-
-    (*this_).diagram_valid = false;
-    (*this_).visible_classifier_count = 0;
-    (*this_).feature_count = 0;
-    (*this_).relationship_count = 0;
-    (*this_).input_data = NULL;
-    data_rules_init ( &((*this_).filter_rules) );
-
-    TRACE_END();
-}
-
-void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t *input_data )
+void pencil_layout_data_init( pencil_layout_data_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert ( NULL != input_data );
+    TRACE_INFO_INT( "sizeof(pencil_layout_data_t):", sizeof(pencil_layout_data_t) );
 
-    /* clean up */
-    pencil_layout_data_destroy( this_ );
+    data_rules_init ( &((*this_).filter_rules) );
 
     /* init input data */
     (*this_).input_data = input_data;
@@ -37,7 +22,10 @@ void pencil_layout_data_reinit( pencil_layout_data_t *this_, data_visible_set_t 
     pencil_layout_data_private_init_features( this_ );
     pencil_layout_data_private_init_relationships( this_ );
 
-    assert ( pencil_layout_data_is_valid( this_ ) );
+    if ( data_visible_set_is_valid( input_data ) )
+    {
+        assert ( pencil_layout_data_is_valid( this_ ) );
+    }
     TRACE_END();
 }
 
@@ -46,10 +34,10 @@ void pencil_layout_data_private_init_diagram( pencil_layout_data_t *this_ )
     TRACE_BEGIN();
     assert ( NULL != (*this_).input_data );
 
-    (*this_).diagram_valid = true;
     layout_diagram_init ( &((*this_).diagram_layout),
                           data_visible_set_get_diagram_const( (*this_).input_data )
                         );
+    (*this_).diagram_valid = layout_diagram_is_valid( &((*this_).diagram_layout) );
 
     TRACE_INFO_INT ( "diagram      data    objects:", 1 );
     TRACE_INFO_INT ( "diagram      ignored objects:", 0 );  /* we do not ignore diagram objects */

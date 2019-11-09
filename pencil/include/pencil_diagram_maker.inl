@@ -14,9 +14,19 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, dat
     pencil_relationship_painter_init( &((*this_).relationship_painter) );
     pencil_feature_painter_init( &((*this_).feature_painter) );
 
+    (*this_).input_data = input_data;
     pencil_layouter_init( &((*this_).layouter), input_data );
 
+    TRACE_END();
+}
+
+static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, data_visible_set_t *input_data )
+{
+    TRACE_BEGIN();
+    assert( NULL != input_data );
+
     (*this_).input_data = input_data;
+    pencil_layouter_reinit( &((*this_).layouter), input_data );
 
     TRACE_END();
 }
@@ -31,17 +41,15 @@ static inline void pencil_diagram_maker_destroy( pencil_diagram_maker_t *this_ )
     pencil_feature_painter_destroy( &((*this_).feature_painter) );
 
     pencil_layouter_destroy( &((*this_).layouter) );
-
     (*this_).input_data = NULL;
 
     TRACE_END();
 }
 
 static inline void pencil_diagram_maker_define_grid ( pencil_diagram_maker_t *this_,
-                                                      data_visible_set_t *input_data,
                                                       geometry_rectangle_t diagram_bounds )
 {
-    pencil_layouter_reinit ( &((*this_).layouter), input_data );
+    pencil_layouter_prepare ( &((*this_).layouter) );
     pencil_layouter_define_grid ( &((*this_).layouter), diagram_bounds );
 }
 

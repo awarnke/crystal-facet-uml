@@ -17,9 +17,9 @@ void io_diagram_image_exporter_init ( io_diagram_image_exporter_t *this_,
     TRACE_BEGIN();
     assert( NULL != input_data );
 
-    (*this_).input_data = input_data;
+    //(*this_).input_data = input_data;
     geometry_rectangle_init( &((*this_).bounds), 0.0, 0.0, 800.0, 600.0 );
-    pencil_diagram_maker_init( &((*this_).painter), (*this_).input_data );
+    pencil_diagram_maker_init( &((*this_).painter), input_data );
 
     TRACE_END();
 }
@@ -30,7 +30,7 @@ void io_diagram_image_exporter_destroy( io_diagram_image_exporter_t *this_ )
 
     pencil_diagram_maker_destroy( &((*this_).painter) );
     geometry_rectangle_destroy(&((*this_).bounds));
-    (*this_).input_data = NULL;
+    //(*this_).input_data = NULL;
 
     TRACE_END();
 }
@@ -107,7 +107,6 @@ int io_diagram_image_exporter_render_surface_to_file( io_diagram_image_exporter_
 
         /* layout diagram */
         pencil_diagram_maker_define_grid ( &((*this_).painter),
-                                           (*this_).input_data,
                                            (*this_).bounds
                                          );
         pencil_diagram_maker_layout_elements ( &((*this_).painter), cr );
