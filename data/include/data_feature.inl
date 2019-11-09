@@ -64,7 +64,7 @@ static inline data_error_t data_feature_init ( data_feature_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, feature_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -148,7 +148,7 @@ static inline data_error_t data_feature_set_key ( data_feature_t *this_, const c
     strerr = utf8stringbuf_copy_str( (*this_).key, key );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -177,7 +177,7 @@ static inline data_error_t data_feature_set_value ( data_feature_t *this_, const
     strerr = utf8stringbuf_copy_str( (*this_).value, value );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -201,7 +201,7 @@ static inline data_error_t data_feature_set_description ( data_feature_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;

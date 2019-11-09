@@ -1,6 +1,7 @@
 ideas for future versions:
   @gui
-  [ ] performance optimization: redraw only when shown(=visible) items have changed.
+  [ ] performance optimization: redraw only when shown(=visible) items have changed;
+      do not redraw 3 times when changing 3 attributes simultaneously.
   [ ] a very long description shall not resize the window. (maybe scrollbars, maybe smaller font size, ...)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] clicking into the current diagram in navigation view shall zoom to edit mode; duplicate eye button to get back
@@ -21,7 +22,6 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
-  [*] sequence charts: if one classifier exist multiple times, too many messages are drawn?
   [*] improve layouting of containments, e.g. consider labels, arrows and more gap-space
   [*] calculate a default classifier size based on the grid-distances
   [*] less overlaps of relationship-arrows
@@ -40,6 +40,5 @@ ideas for future versions:
       maybe use memory arenas of glibc (?)
   @main
   @ts_log/trace/test_fw
-  [ ] add or replace the int and %d printf stuff by uint64_t and PRIu64 macros
 
 

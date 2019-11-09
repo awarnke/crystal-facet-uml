@@ -24,7 +24,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, diagram_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -32,7 +32,7 @@ static inline data_error_t data_diagram_init_new ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, diagram_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -82,7 +82,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, diagram_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -90,7 +90,7 @@ static inline data_error_t data_diagram_init ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, diagram_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     (*this_).list_order = list_order;
@@ -183,7 +183,7 @@ static inline data_error_t data_diagram_set_name ( data_diagram_t *this_, const 
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -207,7 +207,7 @@ static inline data_error_t data_diagram_set_description ( data_diagram_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;

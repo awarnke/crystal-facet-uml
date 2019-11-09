@@ -53,7 +53,7 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).name, relationship_name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -61,7 +61,7 @@ static inline data_error_t data_relationship_init ( data_relationship_t *this_,
     strerr = utf8stringbuf_copy_str( (*this_).description, relationship_description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result |= DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
 
@@ -173,7 +173,7 @@ static inline data_error_t data_relationship_set_name ( data_relationship_t *thi
     strerr = utf8stringbuf_copy_str( (*this_).name, name );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
@@ -197,7 +197,7 @@ static inline data_error_t data_relationship_set_description ( data_relationship
     strerr = utf8stringbuf_copy_str( (*this_).description, description );
     if ( strerr != UTF8ERROR_SUCCESS )
     {
-        TSLOG_ERROR_INT( "utf8stringbuf_copy_str() failed:", strerr );
+        TSLOG_ERROR_HEX( "utf8stringbuf_copy_str() failed:", strerr );
         result = DATA_ERROR_STRING_BUFFER_EXCEEDED;
     }
     return result;
