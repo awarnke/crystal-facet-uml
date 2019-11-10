@@ -98,7 +98,7 @@ static void testClear(void)
     TEST_ASSERT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for clear\n", posixDiff, utf8sbDiff, CLOCKS_PER_SEC );
+    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for clear\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
@@ -146,7 +146,7 @@ static void testAppendStr(void)
     TEST_ASSERT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for append string\n", posixDiff, utf8sbDiff, CLOCKS_PER_SEC );
+    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for append string\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
@@ -186,7 +186,7 @@ static void testFindFirst(void)
     TEST_ASSERT_EQUAL_INT( -1, utf8sbLoc );
 
     /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for find string\n", posixDiff, utf8sbDiff, CLOCKS_PER_SEC );
+    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for find string\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_ASSERT( ( utf8sbDiff * 100 ) <= ( posixDiff * TEST_MAX_DURATION_PERCENT ) );
@@ -289,7 +289,7 @@ static void testInsertAndDelete(void) {
     TEST_ASSERT_EQUAL_INT( 0, equal );
 
     /* print the time measurement */
-    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for insert and delete\n", posixDiff, utf8sbDiff, CLOCKS_PER_SEC );
+    printf( "CPU-Time: %ld (POSIX) vs %ld (utf8stringbuf) [s/%ld] for insert and delete\n", (long)posixDiff, (long)utf8sbDiff, (long)CLOCKS_PER_SEC );
 
     /* We are at least TEST_MAX_DURATION_PERCENT as fast as POSIX: */
     TEST_ASSERT( ( utf8sbDiff ) <= ( posixDiff * TEST_MAX_DURATION_FACTOR ) );

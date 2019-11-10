@@ -52,11 +52,11 @@ Building from source is described in this section.
 
 debian/ubuntu/raspbian:
 
+> sudo apt install cmake
+>
 > sudo apt install libgtk-3-dev
 >
 > sudo apt install libsqlite3-dev
->
-> sudo apt install cmake
 >
 > sudo apt install devscripts  # for debian build, includes build-essential
 >
@@ -78,11 +78,15 @@ debian/ubuntu/raspbian:
 
 openSuSE:
 
+> sudo zypper install gcc
+>
+> sudo zypper install gcc-c++     # only needed to make cmake happy
+>
+> sudo zypper install cmake
+>
 > sudo zypper install gtk3-devel
 >
 > sudo zypper install sqlite3-devel
->
-> sudo zypper install cmake
 >
 > sudo zypper install devscripts  # for debian build, includes build-essential
 >
