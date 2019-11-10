@@ -23,7 +23,7 @@
  *  \brief constants of gui_sketch_area_t
  */
 enum gui_window_manager_max_enum {
-    GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS = 4,  /*!< maximum number of simultaneoulsy open main windows */
+    GUI_WINDOW_MANAGER_MAX_MAIN_WINDOWS = 3,  /*!< maximum number of simultaneoulsy open main windows */
 };
 
 /*!

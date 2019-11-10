@@ -36,11 +36,11 @@
  *  \brief constants of gui_sketch_area_t
  */
 enum gui_sketch_area_const_enum {
-    GUI_SKETCH_AREA_CONST_MAX_CARDS = 32,  /*!< maximum number of diagrams to be shown in one single window */
+    GUI_SKETCH_AREA_CONST_MAX_CARDS = 22,  /*!< maximum number of diagrams to be shown in one single window */
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
     GUI_SKETCH_AREA_CONST_FOCUSED_CARD = 0,  /*!< index of the card showing the currently focused diagram */
     GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD = 2,  /*!< index of the card showing the furst child diagram */
-    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 30,  /*!< maximum size of temporary diagram buffer */
+    GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 20,  /*!< maximum size of temporary diagram buffer */
 };
 
 /*!

@@ -102,8 +102,8 @@ int main (int argc, char *argv[]) {
     if ( do_repair || do_check )
     {
         assert( database_file != NULL );
-        char repair_log_buffer[10000] = "";
-        utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
+        static char repair_log_buffer[10000] = "";
+        static utf8stringbuf_t repair_log = UTF8STRINGBUF( repair_log_buffer );
 
         TRACE_INFO("starting DB...");
         data_database_init( &database );
@@ -158,11 +158,10 @@ int main (int argc, char *argv[]) {
         int export_err;
         TRACE_INFO_STR( "chosen folder:", export_directory );
         const char *document_filename = data_database_get_filename_ptr ( &database );
-
         if ( data_database_is_open( &database ) )
         {
-            io_exporter_t exporter;
-            data_database_reader_t db_reader;
+            static io_exporter_t exporter;
+            static data_database_reader_t db_reader;
             data_database_reader_init( &db_reader, &database );
             io_exporter_init( &exporter, &db_reader );
             export_err = io_exporter_export_files( &exporter, export_format, export_directory, document_filename );
