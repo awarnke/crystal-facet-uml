@@ -97,7 +97,11 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 /*!
  *  \brief traces a timestamp
  */
+#ifdef _WIN32
+#define TRACE_TIMESTAMP()
+#else
 #define TRACE_TIMESTAMP() { struct timespec tp; int err; err = clock_gettime(CLOCK_MONOTONIC,&tp); fprintf(TRACE_OUT_STREAM,"%s[%i.%06i %s]\n",TRACE_INDENT_INFO,(int)(tp.tv_sec),(int)(tp.tv_nsec/1000),(err!=0)?"?":"sec"); }
+#endif
 
 #else  /* SWITCH */
 
