@@ -101,7 +101,7 @@ extern const char trace_indent_pattern_info[TRACE_INDENT_STEP*TRACE_INDENT_MAX+T
 
 #else  /* SWITCH */
 
-#ifdef _GNUC
+#ifdef __GNUC__
 #define ATTR_UNUSED __attribute__((unused))
 #else
 #define ATTR_UNUSED
