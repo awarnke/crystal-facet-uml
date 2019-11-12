@@ -239,32 +239,25 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
 {
     TRACE_BEGIN();
 
-    /* get the diagram draw area */
-    double diagram_area;
+    /* determine grid cell size */
+    const double grid_width = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
+    const double grid_height = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
+    
+    /* determine standard gap between objects */
+    const double gap = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
+    
+    /* set the default size to grid cell minus a gap on each side, minus extra gap on top for containers */
+    geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
+    geometry_dimensions_reinit( default_size, grid_width, grid_height );
+    geometry_dimensions_expand ( default_size, -2.0 * gap, -4.0 * gap ); /* ensures non-negative values */
+    
+    /* for aesthetic reasons, ensure that the default dimension is more wide than high */
+    const double w = geometry_dimensions_get_width( default_size );
+    const double h = geometry_dimensions_get_height( default_size );
+    if ( w * 0.75 < h )
     {
-        layout_diagram_t *the_diagram;
-        the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-        geometry_rectangle_t *diagram_draw_area;
-        diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
-        diagram_area = geometry_rectangle_get_area( diagram_draw_area );
+        geometry_dimensions_reinit( default_size, w, w * 0.75 );
     }
-
-    /* adjust the default classifier rectangle */
-    uint32_t count_clasfy;
-    count_clasfy = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
-
-    double classifier_area;
-    if ( count_clasfy > 0 )
-    {
-        classifier_area = diagram_area / count_clasfy * (0.10);
-    }
-    else
-    {
-        classifier_area = diagram_area * (0.10);
-    }
-    double half_width = sqrt(classifier_area);
-    double half_height = half_width / 2.1;
-    geometry_dimensions_reinit( &((*this_).default_classifier_size), 2.0 * half_width, 2.0 * half_height );
 
     TRACE_END();
 }

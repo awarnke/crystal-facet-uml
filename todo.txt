@@ -23,7 +23,6 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
   [*] improve layouting of containments, e.g. consider labels, arrows and more gap-space
-  [*] calculate a default classifier size based on the grid-distances
   [*] less overlaps of relationship-arrows
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf

@@ -94,6 +94,22 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
  */
 static inline double geometry_non_linear_scale_get_closest_fix_location ( geometry_non_linear_scale_t *this_, double location );
 
+/*!
+ *  \brief gets the interval count between the points. 
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return (*this_).num_points - 1
+ */
+static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( geometry_non_linear_scale_t *this_ );
+
+/*!
+ *  \brief determines the average distance between grid points
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return (upper_bound-lower_bound)/(*this_).num_points
+ */
+static inline double geometry_non_linear_scale_get_grid_distances ( geometry_non_linear_scale_t *this_ );
+
 #include "util/geometry/geometry_non_linear_scale.inl"
 
 #endif  /* GEOMETRY_NON_LINEAR_SCALE_H */

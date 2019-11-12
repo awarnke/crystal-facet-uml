@@ -5,6 +5,7 @@ crystal-facet-uml (1.16.0) UNRELEASED; urgency=medium
   * Cut + paste of relationships is possible
   * Json format in clipboard slightly modified
     (set renamed to data, order required, relationship src/dst names added)
+  * The default classifier size is calculated based on the grid-distances
   * Fix: Scenario based diagrams showing multiple identical classifier
     instances show not too many relationships
 

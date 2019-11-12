@@ -145,6 +145,19 @@ static inline double geometry_non_linear_scale_get_closest_fix_location ( geomet
     return result;
 }
 
+static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( geometry_non_linear_scale_t *this_ )
+{
+    assert( (*this_).num_points >= 2 );
+    return ( (*this_).num_points - 1 );
+}
+
+static inline double geometry_non_linear_scale_get_grid_distances ( geometry_non_linear_scale_t *this_ )
+{
+    assert( (*this_).num_points >= 2 );
+    assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
+    return (( (*this_).location[(*this_).num_points-1] - (*this_).location[0] )/( (*this_).num_points - 1 ));
+}
+
 
 /*
 Copyright 2016-2019 Andreas Warnke
