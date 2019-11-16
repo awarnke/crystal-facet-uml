@@ -69,7 +69,7 @@ void gui_clipboard_request_clipboard_text( gui_clipboard_t *this_, int64_t desti
  *  \brief callback that informs that the text from the clipboard is now available
  *
  *  \param clipboard pointer to GtkClipboard
- *  \param this_ pointer to the clipboard text or NULL if there is no text
+ *  \param text pointer to the clipboard text or NULL if there is no text
  *  \param data this_ pointer to own object attributes
  */
 void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, const gchar *text, gpointer data );
