@@ -127,7 +127,8 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_cut.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Cut all pink-cornered elements to the clipboard (features of classifiers are cut independantly of their corner-colors)</para></listitem>
+                <listitem><para>Cut all pink-cornered elements to the clipboard
+                        (features of classifiers are copied if the classifier is selected)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -141,7 +142,8 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_copy.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Copy all pink-cornered elements to the clipboard (features of classifiers are copied independantly of their corner-colors)</para></listitem>
+                <listitem><para>Copy all pink-cornered elements to the clipboard
+                        (features of classifiers are copied if the classifier is selected)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -155,9 +157,13 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/edit_paste.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Pastes diagrams and classifiers from the clipboard to the uml model. (Relationships are not pasted)
-                    If id and name are identical to an existing element, an instance of the existing element is pasted to the diagram.
-                    Otherwise a new element is created.</para></listitem>
+                <listitem><para>If the clipboard contains a diagram, this diagram is pasted below the current diagram.
+                    All other elements are pasted into the new diagram.</para></listitem>
+                <listitem><para>If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
+                    are copied into the current diagram.</para></listitem>
+                <listitem><para>If the name of a classifier is identical to an existing one,
+                    an instance of the existing classifiers is pasted to the diagram.
+                    Otherwise a new classifier is created.</para></listitem>
                 </itemizedlist>
             </para>
 

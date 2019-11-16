@@ -1,9 +1,15 @@
 crystal-facet-uml (1.16.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * Diagram exports can be triggered from command line
+  * Cut + paste of relationships is possible
+  * Json format in clipboard slightly modified
+    (set renamed to data, order required, relationship src/dst names added)
+  * The default classifier size is calculated based on the grid-distances
+  * Fix: Scenario based diagrams showing multiple identical classifier
+    instances show not too many relationships
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 26 Oct 2019 18:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Nov 2019 19:30:00 +0100
 
 crystal-facet-uml (1.15.0-1) UNRELEASED; urgency=medium
 

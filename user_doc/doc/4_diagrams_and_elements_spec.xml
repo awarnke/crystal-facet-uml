@@ -48,7 +48,7 @@
                         <row>
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
-                            <entry><para>Filter</para></entry>
+                            <entry><para>Filter Features</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
                     </thead>
@@ -577,13 +577,13 @@
                         <row>
                             <entry><para>List Diagram</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>features, relationships</para></entry>
+                            <entry><para>any feature, any relationship</para></entry>
                             <entry><para>This is an overview diagram showing only classifiers without features and without relationships</para></entry>
                         </row>
                         <row>
                             <entry><para>Box Diagram</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>features, relationships</para></entry>
+                            <entry><para>any feature, any relationship</para></entry>
                             <entry><para>This is an overview diagram showing only classifiers without features and without relationships</para></entry>
                         </row>
                         <row>
