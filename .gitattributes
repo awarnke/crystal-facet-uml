@@ -1,4 +1,6 @@
 .gitattributes export-ignore
 example_diagrams export-ignore
 build_package export-ignore
+build_win export-ignore
+build_rpm export-ignore
 
