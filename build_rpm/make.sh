@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.16.0
+VERSIONSTR=1.17.0
 
 echo "prepare sources"
 test -e SOURCES && rm -fr SOURCES

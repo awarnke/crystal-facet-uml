@@ -1,6 +1,6 @@
 #!/bin/sh
-VERSIONSTR=1.17.0
-echo "Building Archive Version $VERSIONSTR"
+echo "Building Source Package Version $VERSIONSTR"
+if [ -z ${VERSIONSTR}]; then exit; fi
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"
 echo "clean up possibly broken previous build"

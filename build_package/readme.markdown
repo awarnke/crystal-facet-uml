@@ -11,11 +11,11 @@ Prepare
 Update all version numbers:
 
 >       build_doxygen/Doxyfile : PROJECT_NUMBER
->       build_package/debian_pack.sh : VERSIONSTR
->       build_package/source_pack.sh : VERSIONSTR
->       build_package/source_test.sh : VERSIONSTR
->       build_package/openSUSE_build_service_config/crystal_facet_uml.spec : Version
->       build_package/debian_config/debian/changelog : new entry
+>       build_package/make.sh : VERSIONSTR
+>       build_deb/make.sh : VERSIONSTR
+>       build_deb/debian/changelog : new entry
+>       build_rpm/make.sh : VERSIONSTR
+>       build_rpm/SPECS/crystal_facet_uml.spec : Version
 >       main/include/meta/meta_info.h : META_INFO_VERSION_STR
 >       release_notes.txt : new entry
 >       user_doc/doc/crystal_facet_user_documentation.xml : date
