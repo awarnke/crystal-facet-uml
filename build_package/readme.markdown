@@ -24,22 +24,10 @@ Update all version numbers:
 Pack
 -----------
 
->       # commit all changes before packing.
+>       # commit all changes before packing !
 >       # build and test source packet
 >       ./source_pack.sh
 >       ./source_test.sh
->       # build and test for debian, ubuntu, raspbian:
->       ./debian_pack.sh
->       debsigs --sign=origin -k=DA4213C7 crystal-facet-uml_$VERSIONSTR-1_amd64.deb
->       sudo dpkg -i crystal-facet-uml_$VERSIONSTR-1_amd64.deb
->       # build and test for opensuse
->       echo "for the oben suse build service, copy the source package and the spec file to a build directory."
->       echo "create a crystal-facet-uml.changes file there"
->       echo "run the osc (openSUSE build service command-line tool):"
->       osc help signkey
->       osc build --clean --local-package openSUSE_Tumbleweed
->       sudo zypper install /var/tmp/.../crystal-facet-uml-$VERSIONSTR-1.x86_64.rpm
->       echo "Note: the open build server seems to sign the packages, no need to do this locally"
 
 
 Document

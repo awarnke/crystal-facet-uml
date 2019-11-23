@@ -1,6 +1,7 @@
 <!DOCTYPE section>
 <section>
     <title>Installation on Windows/Wine</title>
+<!--
     <para>
         For Windows/Wine, the needed gtk libraries may possibly not be preinstalled.
     </para>
@@ -36,13 +37,8 @@ libpangowin32-1.0-?.dll
     <para>
         Move <computeroutput>crystal_facet_uml.exe</computeroutput>
         into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.
-        <!--
-        <itemizedlist>
-            <listitem><para>Either install the dlls to your <computeroutput>windows system</computeroutput> path</para></listitem>
-            <listitem><para>or move <computeroutput>crystal_facet_uml.exe</computeroutput> into the same folder as above listed <computeroutput>lib*.dll</computeroutput>files.</para></listitem>
-        </itemizedlist>
-        -->
     </para>
+-->
     <para>
         <mediaobject>
             <imageobject><imagedata fileref="8_installation_wine.png"/></imageobject>

@@ -162,7 +162,7 @@
                 <listitem><para>If the clipboard does not contain diagrams, classifiers and relationships from the clipboard
                     are copied into the current diagram.</para></listitem>
                 <listitem><para>If the name of a classifier is identical to an existing one,
-                    an instance of the existing classifiers is pasted to the diagram.
+                    an instance of the existing classifier is pasted to the diagram.
                     Otherwise a new classifier is created.</para></listitem>
                 </itemizedlist>
             </para>

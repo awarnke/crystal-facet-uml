@@ -1,5 +1,5 @@
 #!/bin/sh
-VERSIONSTR=1.16.0
+VERSIONSTR=1.17.0
 echo "Building Archive Version $VERSIONSTR"
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"
@@ -8,10 +8,10 @@ test -e crystal-facet-uml_$VERSIONSTR.orig.tar.gz && rm crystal-facet-uml_$VERSI
 test -d crystal-facet-uml-$VERSIONSTR && rm -r crystal-facet-uml-$VERSIONSTR
 echo "pack src archive"
 cd ..
-git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build_package/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
-cd build_package
+git archive --format tar.gz --prefix=crystal-facet-uml-$VERSIONSTR/ --output=build_deb/crystal-facet-uml_$VERSIONSTR.orig.tar.gz master
+cd build_deb
 tar -xzf crystal-facet-uml_$VERSIONSTR.orig.tar.gz
-cp -r debian_config/debian crystal-facet-uml-$VERSIONSTR/
+cp -r debian crystal-facet-uml-$VERSIONSTR/
 # note _ is not allowed in debian package names
 cd crystal-facet-uml-$VERSIONSTR
 #debuild -i -us -uc -b --lintian-opts -i # -us and -uc suppress signing
