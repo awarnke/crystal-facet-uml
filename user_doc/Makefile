@@ -1,16 +1,10 @@
-all: crystal_facet_uml_user_documentation.pdf crystal_facet_uml_installation_win.pdf html crystal_facet_uml.1.gz
+all: crystal_facet_uml_user_documentation.pdf html crystal_facet_uml.1.gz
 
 crystal_facet_uml_user_documentation.pdf: doc/*.xml doc/2_feature_gallery_export/*.pdf doc/*.pdf doc/*.png
 	cd doc &&\
 	dblatex --type=pdf crystal_facet_uml_user_documentation.xml &&\
 	cd .. &&\
 	mv doc/crystal_facet_uml_user_documentation.pdf .
-
-crystal_facet_uml_installation_win.pdf: doc/*.xml doc/8_installation_wine.png
-	cd doc &&\
-	dblatex --type=pdf crystal_facet_uml_installation_win.xml &&\
-	cd .. &&\
-	mv doc/crystal_facet_uml_installation_win.pdf .
 
 html: doc/*.xml doc/2_feature_gallery_export/*.png doc/*.png
 	xmlto --stringparam html.stylesheet=html.css -o html/ xhtml doc/crystal_facet_uml_user_documentation.xml &&\
