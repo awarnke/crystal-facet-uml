@@ -126,7 +126,5 @@ INSTALL(TARGETS crystal_facet_uml DESTINATION "/usr/bin/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/installation_linux/config/crystal_facet_uml.desktop" DESTINATION "/usr/share/applications/")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/gui/source/resources/crystal_facet_uml_80x80.png" DESTINATION "/usr/share/pixmaps/" RENAME "crystal_facet_uml.png")
 INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml.1.gz" DESTINATION "/usr/share/man/man1/")
-INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/crystal-facet-uml/")
-#INSTALL(FILES "${CMAKE_CURRENT_SOURCE_DIR}/user_doc/crystal_facet_uml_user_documentation.pdf" DESTINATION "/usr/share/doc/packages/crystal-facet-uml/") #for opensuse
 
 
