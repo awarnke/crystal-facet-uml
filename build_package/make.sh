@@ -1,4 +1,6 @@
 #!/bin/sh
-VERSIONSTR=1.16.1
+. ../main/include/meta/meta_version.inl
+VERSIONSTR=${META_VERSION_STR}
+
 . ./source_pack.sh
 . ./source_test.sh

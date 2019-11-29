@@ -1,5 +1,6 @@
 #!/bin/sh
-VERSIONSTR=1.16.1
+. ../main/include/meta/meta_version.inl
+VERSIONSTR=${META_VERSION_STR}
 
 echo "prepare sources"
 test -e SOURCES && rm -fr SOURCES

@@ -1,4 +1,7 @@
 #!/bin/sh
-echo "== building source code documentation =="
+. ../main/include/meta/meta_version.inl
+VERSIONSTR=${META_VERSION_STR}
+
+echo "== building source code documentation version ${VERSIONSTR} =="
 rm -fr ../build_doxygen/doc
-doxygen Doxyfile
+(cat Doxyfile; echo "PROJECT_NUMBER=${VERSIONSTR}") | doxygen -

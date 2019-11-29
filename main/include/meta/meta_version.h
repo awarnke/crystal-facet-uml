@@ -1,28 +1,23 @@
-/* File: meta_info.h; Copyright and License: see below */
+/* File: meta_version.h; Copyright and License: see below */
 
-#ifndef META_INFO_H
-#define META_INFO_H
+#ifndef META_VERSION_H
+#define META_VERSION_H
 
 /* public file for the doxygen documentation: */
 /*!
  *  \file
- *  \brief Defines the own program name
+ *  \brief Defines the current program version
  */
 
-#define META_INFO_PROGRAM_NAME_STR "crystal facet uml"
-#define META_INFO_PROGRAM_ID_STR "crystal_facet_uml"
-#define META_INFO_COPYRIGHT_STR "2016-2019 A.Warnke"
-#ifdef __linux__
-#define META_INFO_LICENSE_STR "Apache-2.0"  /* linked dynamicyally */
-#else  /* __linux__ */
-#define META_INFO_LICENSE_STR "Apache-2.0 (includes sqlite3 which is public domain)"  /* linked statically */
-#endif  /* __linux__ */
+static const char*
+#include "meta/meta_version.inl"
+;
 
-#endif  /* META_INFO_H */
+#endif  /* META_VERSION_H */
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2019-2019 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -10,13 +10,9 @@ Prepare
 
 Update all version numbers:
 
->       build_doxygen/Doxyfile : PROJECT_NUMBER
->       build_package/make.sh : VERSIONSTR
->       build_deb/make.sh : VERSIONSTR
 >       build_deb/debian/changelog : new entry
->       build_rpm/make.sh : VERSIONSTR
 >       build_rpm/SPECS/crystal_facet_uml.spec : Version
->       main/include/meta/meta_info.h : META_INFO_VERSION_STR
+>       main/include/meta/meta_version.inl : META_VERSION_STR
 >       release_notes.txt : new entry
 >       user_doc/doc/crystal_facet_user_documentation.xml : date
 

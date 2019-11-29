@@ -1,5 +1,7 @@
 #!/bin/sh
-VERSIONSTR=1.16.1
+. ../main/include/meta/meta_version.inl
+VERSIONSTR=${META_VERSION_STR}
+
 echo "Building Archive Version $VERSIONSTR"
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"

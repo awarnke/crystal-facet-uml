@@ -1,7 +1,7 @@
 crystal-facet-uml (1.16.1) unreleased; urgency=medium
 
   [ Andreas Warnke ]
-  * rpm package build scripts beautified
+  * rpm package build scripts beautified  
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 26 Nov 2019 19:30:00 +0100
 

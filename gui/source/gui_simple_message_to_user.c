@@ -4,6 +4,7 @@
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
+#include "meta/meta_version.h"
 #include <assert.h>
 
 void gui_simple_message_to_user_init ( gui_simple_message_to_user_t *this_, GtkWidget *text_label, GtkWidget *icon_image, gui_resources_t *res )
@@ -113,7 +114,13 @@ void gui_simple_message_to_user_show_message_with_string ( gui_simple_message_to
             case GUI_SIMPLE_MESSAGE_CONTENT_ABOUT:
             {
                 utf8stringbuf_append_str( (*this_).content,
-                                          "This is " META_INFO_PROGRAM_NAME_STR " version " META_INFO_VERSION_STR "\n"
+                                          "This is " META_INFO_PROGRAM_NAME_STR " version "
+                                        );
+                utf8stringbuf_append_str( (*this_).content,
+                                          META_VERSION_STR
+                                        );
+                utf8stringbuf_append_str( (*this_).content,
+                                          "\n"
                                           "Copyright: " META_INFO_COPYRIGHT_STR "\n"
                                           "License: " META_INFO_LICENSE_STR
                                         );

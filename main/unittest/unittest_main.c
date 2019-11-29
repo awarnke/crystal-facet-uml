@@ -27,6 +27,7 @@
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
+#include "meta/meta_version.h"
 #include "util/string/utf8string.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
@@ -44,7 +45,7 @@ int main (int argc, char *argv[]) {
 
     /* print id, license and copyrights */
     {
-        fprintf( stdout, "    + %s %s\n", META_INFO_PROGRAM_ID_STR, META_INFO_VERSION_STR );
+        fprintf( stdout, "    + %s %s\n", META_INFO_PROGRAM_ID_STR, META_VERSION_STR );
         fprintf( stdout, "    + Copyright: %s\n", META_INFO_COPYRIGHT_STR );
         fprintf( stdout, "    + License: %s\n", META_INFO_LICENSE_STR );
     }
