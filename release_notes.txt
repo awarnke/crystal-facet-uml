@@ -1,7 +1,7 @@
 crystal-facet-uml (1.16.1) unreleased; urgency=medium
 
   [ Andreas Warnke ]
-  * rpm package build scripts beautified  
+  * rpm package build scripts beautified
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 26 Nov 2019 19:30:00 +0100
 
@@ -85,156 +85,369 @@ crystal-facet-uml (1.12.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 15 May 2019 20:30:00 +0200
 
-Old Changelog:
+crystal-facet-uml (1.12.0) unreleased; urgency=medium
 
-2019-04-27 1.12.0 [8f17811]
-  + operations and properites do not overlap with class/interface compartments
-  + linebreaks in classifier names are possible
-  + component and artifact icons do not overlap with the label
-  + activities and states better embrace their children classifiers
-  + labels of ports and interfaces and relationships are layouted avoiding overlaps
-2019-03-10 1.11.0 [29089a8]
-  + export dialog allows to select multiple file formats simultaneously
-  + docbook export
-  + html export
-  . embunit replaced by own test functions to comply to debian packaging rules
-2019-02-03 1.10.0 [9899988]
-  + new classifier types for activity, state, Interaction-Overview and parametric diagrams
-  + part, artifact, node and object are automatically underlined as instance
-  + objects and parts are always instances
-  . sqlite3 is linked dynamically
-  + symbols for interruptable region, diagram reference, decision, fork, join, timeout, send-sig, rcv-event, history
-2019-01-17 1.9.0 [43d5e15]
-  + the database check can repair circular diagram-parent references
-  + user experience improvements at using text-edit widgets
-  + communication diagram does select/highlight classifiers in edit mode but lifelines in create mode
-  . lifeline properties cannot be changed anymore
-  + include, extends, deploy, manifest relationships show their stereotype
-  + refine and trace relations exist for requirements
-  + component interfaces are rendered as circle and half-circle
-  + new label-positioning of ports
-2019-01-01 1.8.0 [9dae9d7]
-  + in navigation mode, diagrams can be re-ordered by dragging their names in the tree view
-  . F7 workaround removed, key F7 is without function now
-  + in edit mode, features can be re-ordered, ports can be moved along the classifier border
-  + ids of diagrams and classifiers are shown
-2018-11-21 1.7.1 [8ebf36a]
-  . user-doc and manpages are generated from docbook now
-  + doubleclick on .cfu1 files starts crystal_facet_uml
-2018-11-01 1.7.0 [15274aa]
-  + tree view allows to navigate interactively
-  + new sibling and new child diagrams can be created in tree view
-  + when deleting a diagram, unfocused windows show parent diagram
-  + only local-scenario relationships are shown in timing, sequence and communication diagrams
-2018-10-15 1.6.1 [3d25d8a]
-  + debian archives are now build by dh_make and debuild
-  + fix for only partly visible background text
-2018-10-01 1.6.0 [4151f80]
-  + element configuration moved from bottom area to the right of the window
-  + tree view shows current diagram in hierarchy
-2018-08-26 1.5.1 [81c92e6]
-  . no automatic database upgrades anymore, use -f parameter
-  + fix for persisting moved relationships in sequence and timing diagrams
-2018-08-25 1.5.0 [b1fe3ca]
-  + Sequence and timing diagrams show messages/transitions
-  + In sequence and timing diagrams, messages/transitions can be moved
-  + Box and list diagrams hide all relationships
-  + List diagrams soft the classifiers by list_order now
-  . Database format changed (list_oder field for classifiers), up- and downwards compatible.
-2018-05-11 1.4.0 [66861a9]
-  + relationships can connect to ports
-  + the repair-database function can detect and repair broken focused_feature keys in diagramelements
-  + the repair-database function can detect and repair broken from/to_feature keys in relationships
-2018-04-01 1.3.0 [7bc9dff]
-  + lifelines are created and removed automatically for timing, sequence and communication diagrams
-  + lifelines are drawn and can be selected/edited
-  + ports can be created/selected/edited and are drawn
-2018-03-04 1.2.0 [78421df]
-  + all relations to/from multiple classifier instances are drawn
-2018-01-23 1.1.0 [086e559]
-  + greyed-out classifiers also grey-out their contained features
-  . sqlite updated from 3.10.2 to 3.21.0
-  . Database format changed.
-    A newer crystal_facet_uml can still open older database files (and immediately update the file format).
-    Older crystal_facet_uml cannot open database files created or opened by a newer crystal_facet_uml!
-  + relations where source and destination are identical are beautified
-  + for comments and requirements, the description is shown
-2018-01-03 1.0.0 [4262282]
-  + F7 in navigation view moves child diagram up and parent down
-  + The text export contains IDs
-2017-12-26 0.20.0 [534b171]
-  + navigation mode: a newly initialized database shows a quick guide
-  + navigation mode: root diagram has sky-blue background
-  + orange background color marks new-object and new-diagram modes
-  + link to the home page is added in the man page and on the startup screen
-  + The 2nd click on the about button removes the about message
-  + Ctrl-X/C/V,DEL work as expected during text editing
-  + edit mode: Pink-selects elements only at the second click
-2017-12-10 0.19.0 [221effc]
-  + The default-names of new classifiers match their type
-  + default-types of new objects fit to the diagram type and to the origin-classifier type now.
-  + default-names of new objects are unique, no duplicate name errors unless forced
-  + In new object mode, clicking into a possible parent classifiers creates a new child (depending on type)
-  + children of CONTAINMENT relations are automatically embraced by _any_ ancestor
-  + nicer layout when parents embrace CONTAINED children
-  + Easier selection of the right relation in GUI_SKETCH_TOOLS_EDIT mode
-  + Easier selection of classifiers in GUI_SKETCH_TOOLS_CREATE_OBJECT mode
-  + Nicer layout: space area shall depend on the classifier type
-2017-11-05 0.18.0 [2ac058e]
-  + parent classifiers can contain children
-2017-10-28 0.17.1 [c5ff71e]
-  + fix for include paths on openSuSE Tumbleweed i586
-2017-10-02 0.17.0 [fba4323]
-  + Key control is possible: CTRL+C,V,X,Y,Z
-  + Layout of relationships improved
-  + Man page added
-2017-09-11 0.16.2 [146b4e4]
-  + fix: install uses less global paths for app icon
-2017-09-10 0.16.1 [ce19eb3]
-  + fix: desktop file is included in src distribution
-2017-05-24 0.16 [ac34c09]
-  + Classifier drawings represent the classifier type
-2017-04-14 0.15 [69a0f6a]
-  + Arrow, line and feather types of connectors are determined by relation type
-  + A reset button clears the current selection
-  + Relations are auto-layouted in a nicer way
-2017-03-18 0.14 [097b793]
-  + Classifiers are layouted avoiding overlaps
-2017-02-25 0.13 [ff3b72f]
-  + The txt-file export contains features and relationships
-  + The user can export pdf and ps formats
-  + The user is able to import features from the clipboard
-  + The user is able to export relationships and features to the clipboard
-2017-02-12 0.12 [7e37cf9]
-  + Features can be created, modified, deleted (incl. undo/redo)
-2017-02-05 0.11 [655350d]
-  + Align objects vertically and horizontally (snap)
-  + Edit new classifiers or relationships immediately
-2017-01-28 0.10 [e93e7ec]
-  + Relationships can be created, modified, deleted (incl. undo/redo)
-  . DB format changed: features.key is not UNIQUE anymore (compatible change)
-2016-12-22 0.09 [6d5cfac]
-  + Mark and instantiate classifiers
-  + Test the database for errors and fix them
-  + Diagrams show also non-ascii names now
-2016-12-11 0.08 [225a0cf]
-  + Export of png and svg diagrams and txt descriptions
-  . DB format changed: classifier.name is UNIQUE, features.key is UNIQUE (compatible change)
-2016-11-26 0.07 [874f539]
-  + The user can move classifiers
-2016-10-06 0.06 [e2b0e01]
-  + cut+copy+paste allow to copy diagrams and classifiers to and from the clipboard
-2016-08-12 0.05 [fbae0f5]
-  + The program integrates into a freedesktop.org desktop
-  + rpm and deb installers are generated
-  + undo/redo works for creating, modifying and deleting objects
-2016-07-03 v004 [09e8ac4]
-  + The user can delete classifiers and diagrams
-  - DB format incompatible to version 0.03 (todo: in diagramelements, manually create the column "display_flags" as INTEGER)
-2016-05-22 v003 [e0c0196]
-  + The user can select and switch the database file
-2016-05-01 v002 [1d03746]
-  + The user can create and rename classifiers like classes
-  - DB format incompatible to version 0.01
-2016-03-31 v001 [b8be2bc]
-  + The user can create, rename and navigate diagrams
+  [ Andreas Warnke ]
+  * operations and properites do not overlap with class/interface compartments
+  * linebreaks in classifier names are possible
+  * component and artifact icons do not overlap with the label
+  * activities and states better embrace their children classifiers
+  * labels of ports and interfaces and relationships are layouted
+    avoiding overlaps
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Apr 26 20:17:44 2019 +0200
+
+crystal-facet-uml (1.11.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * export dialog allows to select multiple file formats simultaneously
+  * docbook export
+  * html export
+  * embunit replaced by own test functions to comply to debian packaging rules
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Mar 10 12:29:16 2019 +0100
+
+crystal-facet-uml (1.10.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * new classifier types for activity, state, Interaction-Overview
+    and parametric diagrams
+  * part, artifact, node and object are automatically underlined as instance
+  * objects and parts are always instances
+  * sqlite3 is linked dynamically
+  * symbols for interruptable region, diagram reference, decision, fork, join,
+    timeout, send-sig, rcv-event, history
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 3 17:26:24 2019 +0100
+
+crystal-facet-uml (1.9.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * the database check can repair circular diagram-parent references
+  * user experience improvements at using text-edit widgets
+  * communication diagram does select/highlight classifiers in edit mode
+    but lifelines in create mode
+  * lifeline properties cannot be changed anymore
+  * include, extends, deploy, manifest relationships show their stereotype
+  * refine and trace relations exist for requirements
+  * component interfaces are rendered as circle and half-circle
+  * new label-positioning of ports
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Jan 17 18:21:15 2019 +0100
+
+crystal-facet-uml (1.8.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * in navigation mode, diagrams can be re-ordered by dragging their names
+    in the tree view
+  * F7 workaround removed, key F7 is without function now
+  * in edit mode, features can be re-ordered, ports can be moved along
+    the classifier border
+  * ids of diagrams and classifiers are shown
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Jan 1 09:02:30 2019 +0100
+
+crystal-facet-uml (1.7.1) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * user-doc and manpages are generated from docbook now
+  * doubleclick on .cfu1 files starts crystal_facet_uml
+
+Date:   Wed Nov 21 19:30:59 2018 +0100
+
+crystal-facet-uml (1.7.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * tree view allows to navigate interactively
+  * new sibling and new child diagrams can be created in tree view
+  * when deleting a diagram, unfocused windows show parent diagram
+  * only local-scenario relationships are shown in timing,
+    sequence and communication diagrams
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Nov 1 16:08:58 2018 +0100
+
+crystal-facet-uml (1.6.1) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * debian archives are now build by dh_make and debuild
+  * fix for only partly visible background text
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 15 23:42:16 2018 +0200
+
+crystal-facet-uml (1.6.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * element configuration moved from bottom area to the right of the window
+  * tree view shows current diagram in hierarchy
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 1 20:41:27 2018 +0200
+
+crystal-facet-uml (1.5.1) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * no automatic database upgrades anymore, use -f parameter
+  * fix for persisting moved relationships in sequence and timing diagrams
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Aug 26 20:10:58 2018 +0200
+
+crystal-facet-uml (1.5.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Sequence and timing diagrams show messages/transitions
+  * In sequence and timing diagrams, messages/transitions can be moved
+  * Box and list diagrams hide all relationships
+  * List diagrams soft the classifiers by list_order now
+  * Database format changed (list_oder field for classifiers), up- and
+    downwards compatible.
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Aug 25 15:06:01 2018 +0200
+
+crystal-facet-uml (1.4.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships can connect to ports
+  * the repair-database function can detect and repair broken focused_feature
+    keys in diagramelements
+  * the repair-database function can detect and repair broken from/to_feature
+    keys in relationships
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri May 11 10:32:23 2018 +0200
+
+crystal-facet-uml (1.3.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * lifelines are created and removed automatically for timing, sequence and
+    communication diagrams
+  * lifelines are drawn and can be selected/edited
+  * ports can be created/selected/edited and are drawn
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Apr 1 11:22:16 2018 +0200
+
+crystal-facet-uml (1.2.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * all relations to/from multiple classifier instances are drawn
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Mar 4 13:34:26 2018 +0100
+
+crystal-facet-uml (1.1.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * greyed-out classifiers also grey-out their contained features
+  * sqlite updated from 3.10.2 to 3.21.0
+  * Database format changed.
+  * A newer crystal_facet_uml can still open older database files
+    (and immediately update the file format).
+  * Older crystal_facet_uml cannot open database files created or opened
+    by a newer crystal_facet_uml!
+  * relations where source and destination are identical are beautified
+  * for comments and requirements, the description is shown
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Jan 23 20:58:34 2018 +0100
+
+crystal-facet-uml (1.0.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * F7 in navigation view moves child diagram up and parent down
+  * The text export contains IDs
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed Jan 3 17:58:38 2018 +0100
+
+crystal-facet-uml (0.20.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * navigation mode: a newly initialized database shows a quick guide
+  * navigation mode: root diagram has sky-blue background
+  * orange background color marks new-object and new-diagram modes
+  * link to the home page is added in the man page and on the startup screen
+  * The 2nd click on the about button removes the about message
+  * Ctrl-X/C/V,DEL work as expected during text editing
+  * edit mode: Pink-selects elements only at the second click
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Dec 26 17:11:33 2017 +0100
+
+crystal-facet-uml (0.19.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The default-names of new classifiers match their type
+  * default-types of new objects fit to the diagram type and to the
+    origin-classifier type now.
+  * default-names of new objects are unique, no duplicate name errors unless
+    forced
+  * In new object mode, clicking into a possible parent classifiers creates
+    a new child (depending on type)
+  * children of CONTAINMENT relations are automatically embraced
+    by _any_ ancestor
+  * nicer layout when parents embrace CONTAINED children
+  * Easier selection of the right relation in GUI_SKETCH_TOOLS_EDIT mode
+  * Easier selection of classifiers in GUI_SKETCH_TOOLS_CREATE_OBJECT mode
+  * Nicer layout: space area shall depend on the classifier type
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Dec 10 11:36:30 2017 +0100
+
+crystal-facet-uml (0.18.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * parent classifiers can contain children
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Nov 4 18:55:43 2017 +0100
+
+crystal-facet-uml (0.17.1) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * fix for include paths on openSuSE Tumbleweed i586
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Oct 28 17:55:54 2017 +0200
+
+crystal-facet-uml (0.17.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Key control is possible: CTRL+C,V,X,Y,Z
+  * Layout of relationships improved
+  * Man page added
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 2 08:46:58 2017 +0200
+
+crystal-facet-uml (0.16.2) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * fix: install uses less global paths for app icon
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Sep 11 16:30:00 2017 +0200
+
+crystal-facet-uml (0.16.1) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * fix: desktop file is included in src distribution
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Sep 10 17:35:06 2017 +0200
+
+crystal-facet-uml (0.16.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Classifier drawings represent the classifier type
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed May 24 20:48:00 2017 +0200
+
+crystal-facet-uml (0.15.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Arrow, line and feather types of connectors are determined by relation type
+  * A reset button clears the current selection
+  * Relations are auto-layouted in a nicer way
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Apr 14 18:03:58 2017 +0200
+
+crystal-facet-uml (0.14.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Classifiers are layouted avoiding overlaps
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Mar 18 10:40:48 2017 +0100
+
+crystal-facet-uml (0.13.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The txt-file export contains features and relationships
+  * The user can export pdf and ps formats
+  * The user is able to import features from the clipboard
+  * The user is able to export relationships and features to the clipboard
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Feb 25 14:15:36 2017 +0100
+
+crystal-facet-uml (0.12.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Features can be created, modified, deleted (incl. undo/redo)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 12 16:11:30 2017 +0100
+
+crystal-facet-uml (0.11.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Align objects vertically and horizontally (snap)
+  * Edit new classifiers or relationships immediately
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 5 22:13:05 2017 +0100
+
+crystal-facet-uml (0.10.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Relationships can be created, modified, deleted (incl. undo/redo)
+  * DB format changed: features.key is not UNIQUE anymore (compatible change)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Jan 28 07:32:48 2017 +0100
+
+crystal-facet-uml (0.9.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Mark and instantiate classifiers
+  * Test the database for errors and fix them
+  * Diagrams show also non-ascii names now
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Dec 22 21:38:24 2016 +0100
+
+crystal-facet-uml (0.8.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * Export of png and svg diagrams and txt descriptions
+  * DB format changed: classifier.name is UNIQUE, features.key is UNIQUE
+    (compatible change)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Dec 11 00:08:44 2016 +0100
+
+crystal-facet-uml (0.7.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The user can move classifiers
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Nov 26 20:49:29 2016 +0100
+
+crystal-facet-uml (0.6.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * cut+copy+paste allow to copy diagrams and classifiers to and from the
+    clipboard
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Oct 6 21:27:21 2016 +0200
+
+crystal-facet-uml (0.5.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The program integrates into a freedesktop.org desktop
+  * rpm and deb installers are generated
+  * undo/redo works for creating, modifying and deleting objects
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Aug 12 05:56:31 2016 +0200
+
+crystal-facet-uml (0.4.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The user can delete classifiers and diagrams
+  * DB format incompatible to version 0.3.0
+    (todo: in diagramelements,
+    manually create the column "display_flags" as INTEGER)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Jul 3 11:52:47 2016 +0200
+
+crystal-facet-uml (0.3.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The user can select and switch the database file
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun May 22 15:22:46 2016 +0200
+
+crystal-facet-uml (0.2.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The user can create and rename classifiers like classes
+  * DB format incompatible to version 0.01
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun May 1 22:51:16 2016 +0200
+
+crystal-facet-uml (0.1.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * The user can create, rename and navigate diagrams
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Mar 31 20:28:08 2016 +0200
