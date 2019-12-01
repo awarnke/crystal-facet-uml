@@ -182,11 +182,13 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
     assert ( 1 <= solutions_max );  /* general requirement to report at least one option */
     assert ( 8 <= solutions_max );  /* current implementation requires at least 8 options */
 
-    uint32_t index;
-    index = universal_array_index_sorter_get_array_index( sorted, sort_index );
-
+    /* get current relation */
     layout_relationship_t *current_relation;
-    current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+    {
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( sorted, sort_index );
+        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+    }
 
     /* propose connections between source and destination */
     {
@@ -242,6 +244,16 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
     assert ( NULL != solutions );
     assert ( NULL != out_index_of_best );
     assert ( 1 <= solutions_count );
+
+    /* get current relation data */
+    const data_relationship_t *current_relation_data;
+    {
+        uint32_t index;
+        index = universal_array_index_sorter_get_array_index( sorted, sort_index );
+        const layout_relationship_t *current_relation;
+        current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
+        current_relation_data = layout_relationship_get_data_ptr ( current_relation );
+    }
 
     /* get draw area */
     geometry_rectangle_t *diagram_draw_area;
@@ -309,11 +321,23 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
             layout_relationship_t *probe_relationship;
             probe_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
-            geometry_connector_t *probe_shape;
-            probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
-            uint32_t intersects;
-            intersects = geometry_connector_count_connector_intersects( current_solution, probe_shape );
-            debts_of_current += 1000.0 * intersects;
+            const data_relationship_t *probe_relation_data;
+            probe_relation_data = layout_relationship_get_data_ptr ( probe_relationship );
+            const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
+                                     == data_relationship_get_main_type( current_relation_data ) );
+            const bool same_from = ( data_relationship_get_from_classifier_id( probe_relation_data )
+                                     == data_relationship_get_from_classifier_id( current_relation_data ) );
+            const bool same_to = ( data_relationship_get_to_classifier_id( probe_relation_data )
+                                     == data_relationship_get_to_classifier_id( current_relation_data ) );
+            /* if probe and current have same type and (same source classifier or same destination classifier), overlaps are ok */
+            if ( ! ( same_type && ( same_from || same_to ) ) )
+            {
+                geometry_connector_t *probe_shape;
+                probe_shape = layout_relationship_get_shape_ptr( probe_relationship );
+                uint32_t intersects;
+                intersects = geometry_connector_count_connector_intersects( current_solution, probe_shape );
+                debts_of_current += 1000.0 * intersects;
+            }
         }
 
         /* update best solution */

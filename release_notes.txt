@@ -1,7 +1,15 @@
+crystal-facet-uml (1.17.0) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships of same type and either same source or same destination
+    may overlap
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 1 Dec 2019 19:30:00 +0100
+
 crystal-facet-uml (1.16.1) unreleased; urgency=medium
 
   [ Andreas Warnke ]
-  * rpm package build scripts beautified
+  * rpm package build scripts beautified, doc installation excluded from cmake
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 26 Nov 2019 19:30:00 +0100
 

@@ -8,6 +8,7 @@
 #include "trace.h"
 #include "tslog.h"
 #include "meta/meta_info.h"
+#include "meta/meta_version.h"
 #include "util/string/utf8string.h"
 #include <gtk/gtk.h>
 #include <sys/types.h>
@@ -49,7 +50,7 @@ int main (int argc, char *argv[]) {
         }
         if ( utf8string_equals_str( argv[1], "-v" ) )
         {
-            fprintf( stdout, "\n%s\n", META_INFO_VERSION_STR );
+            fprintf( stdout, "\n%s\n", META_VERSION_STR );
             do_not_start = true;
         }
     }

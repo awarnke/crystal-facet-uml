@@ -103,6 +103,7 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ );
  *  \brief re-initializes the painter input data layout
  *
  *  resync shall be called when any element in the input_data set has changed
+ *  (but not the set itself)
  *  to ensure that the layout data reflects the input data
  *
  *  \param this_ pointer to own object attributes
