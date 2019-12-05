@@ -1,3 +1,10 @@
+crystal-facet-uml (1.16.2) unreleased; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships may overlap if same type and same direction
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 05 Dec 2019 21:30:00 +0100
+
 crystal-facet-uml (1.16.1) unreleased; urgency=medium
 
   [ Andreas Warnke ]
@@ -153,7 +160,7 @@ crystal-facet-uml (1.7.1) unreleased; urgency=medium
   * user-doc and manpages are generated from docbook now
   * doubleclick on .cfu1 files starts crystal_facet_uml
 
-Date:   Wed Nov 21 19:30:59 2018 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Wed Nov 21 19:30:59 2018 +0100
 
 crystal-facet-uml (1.7.0) unreleased; urgency=medium
 
