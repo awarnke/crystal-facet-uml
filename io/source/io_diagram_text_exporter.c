@@ -42,11 +42,12 @@ int io_diagram_text_exporter_write_all ( io_diagram_text_exporter_t *this_, io_f
     TRACE_INFO_INT("printing diagram with id",data_diagram_get_id(diag_ptr));
 
     write_err |= io_format_writer_write_header( format_writer, "DUMMY_TITLE" );
-    write_err |= io_format_writer_start_diagram( format_writer );
+    write_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_id(diag_ptr) );
     write_err |= io_format_writer_write_diagram( format_writer,
                                                  diag_ptr,
                                                  "NO_IMAGE_FILE"
                                                );
+
     /* write all classifiers */
     write_err |= io_diagram_text_exporter_write_classifiers( this_, format_writer );
 

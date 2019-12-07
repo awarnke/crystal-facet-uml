@@ -62,11 +62,15 @@ static const char DOCBOOK_DOC_END[]
 = "</book>\n";
 
 static const char DOCBOOK_CHAPTER_START[]
-= "    <chapter>\n";
+= "    <chapter id=\"";
+static const char DOCBOOK_CHAPTER_MIDDLE[]
+= "\">\n";
 static const char DOCBOOK_CHAPTER_END[]
 = "    </chapter>\n";
 static const char DOCBOOK_SECT_START[]
-= "    <section>\n";
+= "    <section id=\"";
+static const char DOCBOOK_SECT_MIDDLE[]
+= "\">\n";
 static const char DOCBOOK_SECT_TITLE_START[]
 = "        <title>";
 static const char DOCBOOK_SECT_TITLE_END[]
@@ -125,7 +129,9 @@ static const char XHTML_DOC_END[]
 
 enum XHTML_SECT_MAX { XHTML_SECT_MAX_DEPTH = 6, };
 static const char XHTML_SECT_START[]
-= "        <div>\n";
+= "        <div id=\"";
+static const char XHTML_SECT_MIDDLE[]
+= "\">\n";
 static const char *XHTML_SECT_TITLE_START[XHTML_SECT_MAX_DEPTH]
 = {"            <h1 class=\"title\">","            <h2 class=\"title\">","            <h3 class=\"title\">",
    "            <h4 class=\"title\">","            <h5 class=\"title\">","            <h6 class=\"title\">"};
@@ -213,7 +219,7 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
     return export_err;
 }
 
-int io_format_writer_start_diagram( io_format_writer_t *this_ )
+int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
 {
     TRACE_BEGIN();
     assert ( NULL != (*this_).output );
@@ -227,12 +233,16 @@ int io_format_writer_start_diagram( io_format_writer_t *this_ )
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_CHAPTER_START : DOCBOOK_SECT_START );
+            export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_CHAPTER_MIDDLE : DOCBOOK_SECT_MIDDLE );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_START );
+            export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_MIDDLE );
         }
         break;
 
@@ -895,6 +905,37 @@ int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
         data_id_init( &the_id, table, row_id );
         data_id_to_utf8stringbuf( &the_id, id_str );
         utf8stringbuf_append_str( id_str, "]" );
+
+        unsigned int len = utf8stringbuf_get_length(id_str);
+        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
+        if ( out_count != len )
+        {
+            TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
+            result = -1;
+        }
+    }
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
+int io_format_writer_private_write_plain_id ( io_format_writer_t *this_, data_table_t table, int64_t row_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != (*this_).output );
+    assert( DATA_TABLE_VOID != table );
+    assert( DATA_ID_VOID_ID != row_id );
+    int result = 0;
+    size_t out_count;  /* checks if the number of written characters matches the expectation */
+
+    /* print id */
+    {
+        char id_buf[DATA_ID_MAX_UTF8STRING_SIZE];
+        utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );
+        utf8stringbuf_clear( id_str );
+        data_id_t the_id;
+        data_id_init( &the_id, table, row_id );
+        data_id_to_utf8stringbuf( &the_id, id_str );
 
         unsigned int len = utf8stringbuf_get_length(id_str);
         out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );

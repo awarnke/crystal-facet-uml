@@ -73,9 +73,10 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
  *  This starts a section that contains a diagram and a list of classifiers
  *
  *  \param this_ pointer to own object attributes
+ *  \param diag_id row identifier of the diagram
  *  \result 0 in case of success, -1 otherwise
  */
-int io_format_writer_start_diagram( io_format_writer_t *this_ );
+int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id );
 
 /*!
  *  \brief writes a diagram of the document
@@ -194,7 +195,7 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
                                                            );
 
 /*!
- *  \brief prints an id with indentation prefix
+ *  \brief prints an id with indentation prefix and surrounding brackets
  *
  *  if the id is invalid, nothing is printed.
  *
@@ -209,6 +210,18 @@ int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
                                                data_table_t table,
                                                int64_t row_id
                                              );
+
+/*!
+ *  \brief prints an id
+ *
+ *  if the id is invalid, nothing is printed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table table identifier
+ *  \param row_id row identifier
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_private_write_plain_id ( io_format_writer_t *this_, data_table_t table, int64_t row_id );
 
 #include "io_format_writer.inl"
 

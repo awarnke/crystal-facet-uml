@@ -333,7 +333,7 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         io_exporter_private_append_valid_chars_to_filename( this_, diag_name, (*this_).temp_filename );
 
         /* write doc part */
-        export_err |= io_format_writer_start_diagram( format_writer );
+        export_err |= io_format_writer_start_diagram( format_writer, data_diagram_get_id( diag_ptr ) );
         export_err |= io_format_writer_write_diagram( format_writer,
                                                       diag_ptr,
                                                       utf8stringbuf_get_string( (*this_).temp_filename )
