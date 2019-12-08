@@ -49,11 +49,8 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
 
 static const char DOCBOOK_ENC[]
 = "<?xml version=\"1.0\" encoding=\"utf-8\"?>\n";
-static const char DOCBOOK_DTD[]
-= "<!DOCTYPE book PUBLIC \"-//OASIS//DTD DocBook V5.0/EN\" "
-"\"http://www.oasis-open.org/docbook/xml/5.0/docbook.dtd\">\n";
 static const char DOCBOOK_DOC_START[]
-= "<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\">\n";
+= "<book xmlns=\"http://docbook.org/ns/docbook\" version=\"5.0\" xml:lang=\"en\">\n";
 static const char DOCBOOK_DOC_TITLE_START[]
 = "    <title>";
 static const char DOCBOOK_DOC_TITLE_END[]
@@ -62,13 +59,13 @@ static const char DOCBOOK_DOC_END[]
 = "</book>\n";
 
 static const char DOCBOOK_CHAPTER_START[]
-= "    <chapter id=\"";
+= "    <chapter xml:id=\"";
 static const char DOCBOOK_CHAPTER_MIDDLE[]
 = "\">\n";
 static const char DOCBOOK_CHAPTER_END[]
 = "    </chapter>\n";
 static const char DOCBOOK_SECT_START[]
-= "    <section id=\"";
+= "    <section xml:id=\"";
 static const char DOCBOOK_SECT_MIDDLE[]
 = "\">\n";
 static const char DOCBOOK_SECT_TITLE_START[]
@@ -182,7 +179,6 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
         case IO_FILE_FORMAT_DOCBOOK:
         {
             export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ENC );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DTD );
             export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_START );
             export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_TITLE_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );

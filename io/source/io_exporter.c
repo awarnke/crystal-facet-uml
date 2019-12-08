@@ -78,12 +78,12 @@ int io_exporter_export_files( io_exporter_t *this_,
 
         if ( ( export_type & IO_FILE_FORMAT_DOCBOOK ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_DOCBOOK, target_folder );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_DOCBOOK, target_folder, document_file_name );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_XHTML ) != 0 )
         {
-            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name );
         }
     }
     else /* target_folder == NULL */
@@ -233,32 +233,36 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 
 int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
-                                              const char* target_folder )
+                                              const char* target_folder,
+                                              const char* document_file_name )
 {
     TRACE_BEGIN();
     assert ( NULL != target_folder );
+    assert ( NULL != document_file_name );
     int export_err = 0;
     FILE *output;
 
     /* open file */
     utf8stringbuf_copy_str( (*this_).temp_filename, target_folder );
+    utf8stringbuf_append_str( (*this_).temp_filename, "/" );
+    utf8stringbuf_append_str( (*this_).temp_filename, document_file_name );
     switch ( export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, "/document.xml" );
+            utf8stringbuf_append_str( (*this_).temp_filename, ".xml" );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, "/document.xhtml" );
+            utf8stringbuf_append_str( (*this_).temp_filename, ".xhtml" );
         }
         break;
 
         default:
         {
-            utf8stringbuf_append_str( (*this_).temp_filename, "/unknown_format" );
+            utf8stringbuf_append_str( (*this_).temp_filename, ".unknown_format" );
             TSLOG_ERROR("error: unknown_format.");
         }
         break;
@@ -276,7 +280,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
         /* write file */
         io_format_writer_init( &((*this_).temp_format_writer ), export_type, output );
-        write_err = io_format_writer_write_header( &((*this_).temp_format_writer), "Design Document" );
+        write_err = io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
         write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, &((*this_).temp_format_writer) );
         write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
         io_format_writer_destroy( &((*this_).temp_format_writer ) );

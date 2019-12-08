@@ -88,11 +88,13 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
  *  \param target_folder directory where to write the document to
+ *  \param document_file_name name of the central/main document file (without filename-suffix)
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_private_export_document_file( io_exporter_t *this_,
                                               io_file_format_t export_type,
-                                              const char* target_folder
+                                              const char* target_folder,
+                                              const char* document_file_name
                                             );
 
 /*!

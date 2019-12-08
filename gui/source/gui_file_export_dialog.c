@@ -2,6 +2,8 @@
 
 #include "gui_file_export_dialog.h"
 #include "trace.h"
+#include "util/string/utf8string.h"
+#include "util/string/utf8stringbuf.h"
 #include <gdk/gdk.h>
 #include <gtk/gtk.h>
 #include <stdio.h>
@@ -153,11 +155,22 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_docbook) )) { selected_format |= IO_FILE_FORMAT_DOCBOOK; }
             if ( gtk_toggle_button_get_active ( GTK_TOGGLE_BUTTON((*this_).format_xhtml) )) { selected_format |= IO_FILE_FORMAT_XHTML; }
 
-            const char *document_filename = data_database_get_filename_ptr ( (*this_).database );
+            /* determine the document name from the database file */
+            const char *db_path = data_database_get_filename_ptr ( (*this_).database );
+            assert( db_path != NULL );
+            const unsigned int db_path_len = utf8string_get_length( db_path );
+            const int db_path_suffix = utf8string_find_last_str( db_path, "." );
+            const int db_path_start_filename = utf8string_find_last_str( db_path, "/" );
+            const int start = (( db_path_start_filename == -1 ) ? 0 : (db_path_start_filename+1) );
+            const int length = (( db_path_suffix < start ) ? (db_path_len-start) : (db_path_suffix-start) );
+            char temp_filename_buf[64];
+            utf8stringbuf_t temp_filename = UTF8STRINGBUF(temp_filename_buf);
+            utf8stringbuf_clear( temp_filename );
+            utf8stringbuf_copy_region_from_str( temp_filename, db_path, start, length );
 
             if ( data_database_is_open((*this_).database) )
             {
-                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, document_filename );
+                export_err = io_exporter_export_files( &((*this_).file_exporter), selected_format, folder_path, utf8stringbuf_get_string(temp_filename) );
             }
             else
             {
