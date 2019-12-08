@@ -1,17 +1,10 @@
-crystal-facet-uml (1.16.3) unreleased; urgency=medium
-
-  [ Andreas Warnke ]
-  * cmake cleaned up?
-
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Dec 2019 21:30:00 +0100
-
 crystal-facet-uml (1.16.2) unreleased; urgency=medium
 
   [ Andreas Warnke ]
   * relationships may overlap if same type and same direction
   * title and filename of exported docbook and xhtml equals database file name
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Dec 2019 12:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 05 Dec 2019 21:30:00 +0100
 
 crystal-facet-uml (1.16.1) unreleased; urgency=medium
 
