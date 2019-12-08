@@ -1,4 +1,7 @@
 #!/bin/sh
+. ../main/include/meta/meta_version.inl
+VERSIONSTR=${META_VERSION_STR}
+
 echo "Testing Source Package Version $VERSIONSTR"
 if [ -z ${VERSIONSTR}]; then exit; fi
 echo "based on crystal-facet-uml_$VERSIONSTR.orig.tar.gz"
