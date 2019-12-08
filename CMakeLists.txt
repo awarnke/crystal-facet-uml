@@ -1,7 +1,13 @@
 PROJECT(crystal_facet_uml)
-CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
+CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+
+#helper to find include directories and libraries:
+find_package(PkgConfig)
+# TODO: use instead of hard-coded INCLUDE_DIRECTORIES
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+# crystal_facet_uml
 
 INCLUDE_DIRECTORIES(gui/include)
 INCLUDE_DIRECTORIES(main/include)
@@ -14,7 +20,12 @@ INCLUDE_DIRECTORIES(pencil/include)
 INCLUDE_DIRECTORIES(io/include)
 INCLUDE_DIRECTORIES(universal/include)
 
+#sqlite3 dependencies
+
 INCLUDE_DIRECTORIES(/usr/include)
+
+#gtk3 dependencies
+
 INCLUDE_DIRECTORIES(/usr/include/cairo)
 INCLUDE_DIRECTORIES(/usr/include/freetype2)
 INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0)
@@ -26,6 +37,7 @@ INCLUDE_DIRECTORIES(/opt/gnome/include/atk-1.0)
 INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0/gtk)
 INCLUDE_DIRECTORIES(/opt/gnome/include/pango-1.0)
 INCLUDE_DIRECTORIES(/usr/include/pango-1.0)
+INCLUDE_DIRECTORIES(/usr/include/harfbuzz)
 INCLUDE_DIRECTORIES(/usr/include/gio-unix-2.0)
 INCLUDE_DIRECTORIES(/usr/include/atk-1.0)
 INCLUDE_DIRECTORIES(/usr/lib/glib-3.0/include)
@@ -95,6 +107,8 @@ TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pan
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
+
+# crystal_facet_uml
 
 INCLUDE_DIRECTORIES(test_fw/include)
 INCLUDE_DIRECTORIES(data/unittest)

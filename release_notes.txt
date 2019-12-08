@@ -2,6 +2,7 @@ crystal-facet-uml (1.16.2) unreleased; urgency=medium
 
   [ Andreas Warnke ]
   * relationships may overlap if same type and same direction
+  * title and filename of exported docbook and xhtml equals database file name
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 05 Dec 2019 21:30:00 +0100
 
