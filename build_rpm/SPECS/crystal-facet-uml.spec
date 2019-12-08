@@ -1,26 +1,37 @@
 #
-# spec file for package: crystal-facet-uml
+# spec file for package crystal-facet-uml
 #
+# Copyright (c) 2019 SUSE LLC
+# Copyright (c) 2017-2019 Andreas Warnke cfu@andreaswarnke.de
+#
+# All modifications and additions to the file contributed by third parties
+# remain the property of their copyright owners, unless otherwise agreed
+# upon. The license for this file, and modifications and additions to the
+# file, is the same license as for the pristine package itself (unless the
+# license for the pristine package is not an Open Source License, in which
+# case the license is the MIT License). An "Open Source License" is a
+# license that conforms to the Open Source Definition (Version 1.9)
+# published by the Open Source Initiative.
+
+# Please submit bugfixes or comments via https://bugs.opensuse.org/
+#
+
 
 Name:           crystal-facet-uml
 #Name of the contained application: crystal_facet_uml
-Version:        1.16.1
-Release:        1
-License:        Apache-2.0
+Version:        1.16.2
+Release:        0
 Summary:        Draws UML/SysML Diagrams
-Url:            https://github.com/awarnke/crystal_facet_uml
+License:        Apache-2.0
 Group:          Development/Tools/Doc Generators
+URL:            https://github.com/awarnke/crystal_facet_uml
 Source:         crystal-facet-uml_%{version}.orig.tar.gz
-Requires:       gtk3
-Requires:       sqlite3
+BuildRequires:  cmake
 BuildRequires:  gcc
 BuildRequires:  gcc-c++
-BuildRequires:  cmake
 BuildRequires:  gtk3-devel
-BuildRequires:  tar
 BuildRequires:  sqlite3-devel
-Provides:       crystal-facet-uml1
-BuildRoot:      %{_tmppath}/%{name}-%{version}-build
+BuildRequires:  tar
 
 %description
 crystal_facet_uml creates sysml/uml diagrams to document system and software architecture.
@@ -36,33 +47,24 @@ crystal_facet_uml draws UML diagrams.
 %setup -q -n crystal-facet-uml-%{version}
 
 %build
-cmake -DCMAKE_BUILD_TYPE=Release .
-make %{?_smp_mflags}
+%cmake \
+  -DCMAKE_BUILD_TYPE=Release
+%make_jobs
+# %cmake_build -- Works with openSuSE_TumbleWeed but not with openSuSE_Leap_15.0
 
 %install
-mkdir -p %{buildroot}/usr/bin
-cp crystal_facet_uml %{buildroot}/usr/bin
-mkdir -p %{buildroot}/usr/share/applications
-cp ./installation_linux/config/crystal_facet_uml.desktop %{buildroot}/usr/share/applications
-mkdir -p %{buildroot}/usr/share/pixmaps
-cp ./gui/source/resources/crystal_facet_uml_80x80.png %{buildroot}/usr/share/pixmaps/crystal_facet_uml.png
-mkdir -p %{buildroot}/usr/share/man/man1
-cp ./user_doc/crystal_facet_uml.1.gz %{buildroot}/usr/share/man/man1
-mkdir -p %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
-cp ./user_doc/crystal_facet_uml_user_documentation.pdf %{buildroot}/usr/share/doc/packages/crystal-facet-uml/
+%cmake_install
 
 %check
-./crystal_facet_uml -v
-./unittest_crystal_facet_uml -a
+./build/crystal_facet_uml -v
+./build/unittest_crystal_facet_uml -a
 
 %files
-%defattr(-,root,root)
-%doc ./license.txt ./readme.markdown ./release_notes.txt
-/usr/bin/crystal_facet_uml
-/usr/share/pixmaps/crystal_facet_uml.png
-/usr/share/applications/crystal_facet_uml.desktop
-/usr/share/man/man1/crystal_facet_uml.1.gz
-/usr/share/doc/packages/crystal-facet-uml/crystal_facet_uml_user_documentation.pdf
+%license ./license.txt
+%doc ./readme.markdown ./release_notes.txt ./user_doc/crystal_facet_uml_user_documentation.pdf
+%{_bindir}/crystal_facet_uml
+%{_datadir}/pixmaps/crystal_facet_uml.png
+%{_datadir}/applications/crystal_facet_uml.desktop
+%{_mandir}/man1/crystal_facet_uml.1%{?ext_man}
 
 %changelog
-
