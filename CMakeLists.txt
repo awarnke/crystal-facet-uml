@@ -1,9 +1,9 @@
 PROJECT(crystal_facet_uml)
-CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
+CMAKE_MINIMUM_REQUIRED(VERSION 2.4)
 
 #helper to find include directories and libraries:
-find_package(PkgConfig)
-# TODO: use instead of hard-coded INCLUDE_DIRECTORIES
+#find_package(PkgConfig)
+# TODO: use PkgConfig instead of hard-coded INCLUDE_DIRECTORIES
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
