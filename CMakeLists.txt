@@ -2,8 +2,7 @@ PROJECT(crystal_facet_uml)
 CMAKE_MINIMUM_REQUIRED(VERSION 3.0)
 
 #helper to find include directories and libraries:
-find_package(PkgConfig)
-# TODO: use instead of hard-coded INCLUDE_DIRECTORIES
+find_package(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
@@ -22,36 +21,82 @@ INCLUDE_DIRECTORIES(universal/include)
 
 #sqlite3 dependencies
 
-INCLUDE_DIRECTORIES(/usr/include)
+pkg_search_module(SQLITE3 REQUIRED sqlite3)
+INCLUDE_DIRECTORIES(${SQLITE3_INCLUDE_DIRS})
+MESSAGE("SQLITE3: ${SQLITE3_INCLUDE_DIRS}")
+#INCLUDE_DIRECTORIES(/usr/include)
 
 #gtk3 dependencies
 
-INCLUDE_DIRECTORIES(/usr/include/cairo)
-INCLUDE_DIRECTORIES(/usr/include/freetype2)
-INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0)
-INCLUDE_DIRECTORIES(/opt/gnome/lib/gtk-3.0/include)
-INCLUDE_DIRECTORIES(/opt/gnome/include/glib-3.0)
-INCLUDE_DIRECTORIES(/opt/gnome/lib/glib-3.0/include)
-INCLUDE_DIRECTORIES(/usr/lib/glib-2.0/include)
-INCLUDE_DIRECTORIES(/opt/gnome/include/atk-1.0)
-INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0/gtk)
-INCLUDE_DIRECTORIES(/opt/gnome/include/pango-1.0)
-INCLUDE_DIRECTORIES(/usr/include/pango-1.0)
-INCLUDE_DIRECTORIES(/usr/include/harfbuzz)
-INCLUDE_DIRECTORIES(/usr/include/gio-unix-2.0)
-INCLUDE_DIRECTORIES(/usr/include/atk-1.0)
-INCLUDE_DIRECTORIES(/usr/lib/glib-3.0/include)
-INCLUDE_DIRECTORIES(/usr/lib/gtk-3.0/include)
-INCLUDE_DIRECTORIES(/usr/include/gtk-3.0)
-INCLUDE_DIRECTORIES(/usr/lib64/gtk-3.0/include)
-INCLUDE_DIRECTORIES(/usr/include/glib-2.0)
-INCLUDE_DIRECTORIES(/usr/lib64/glib-2.0/include)
-INCLUDE_DIRECTORIES(/usr/include/gdk-pixbuf-2.0)
-INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/glib-2.0/include)
-INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/gtk-3.0/include)
-INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
+pkg_search_module(GLIB2 REQUIRED glib-2.0)
+INCLUDE_DIRECTORIES(${GLIB2_INCLUDE_DIRS})
+MESSAGE("GLIB2:   ${GLIB2_INCLUDE_DIRS}")
+
+#pkg_search_module(PANGO REQUIRED pango)
+#INCLUDE_DIRECTORIES(${PANGO_INCLUDE_DIRS})
+#MESSAGE("PANGO:   ${PANGO_INCLUDE_DIRS}")
+
+#pkg_search_module(CAIRO REQUIRED cairo)
+#INCLUDE_DIRECTORIES(${CAIRO_INCLUDE_DIRS})
+#MESSAGE("CAIRO:   ${CAIRO_INCLUDE_DIRS}")
+
+#pkg_search_module(FTYPE2 REQUIRED freetype2)
+#INCLUDE_DIRECTORIES(${FTYPE2_INCLUDE_DIRS})
+#MESSAGE("FTYPE2:  ${FTYPE2_INCLUDE_DIRS}")
+
+#pkg_search_module(GIO2 REQUIRED gio-unix-2.0)
+#INCLUDE_DIRECTORIES(${GIO2_INCLUDE_DIRS})
+#MESSAGE("GIO2:    ${GIO2_INCLUDE_DIRS}")
+
+#pkg_search_module(GDK3 REQUIRED gdk-3.0)
+#INCLUDE_DIRECTORIES(${GDK3_INCLUDE_DIRS})
+#MESSAGE("GDK3:    ${GDK3_INCLUDE_DIRS}")
+
+#pkg_search_module(ATK REQUIRED atk)
+#INCLUDE_DIRECTORIES(${ATK_INCLUDE_DIRS})
+#MESSAGE("ATK:     ${ATK_INCLUDE_DIRS}")
+
+#pkg_search_module(HARFB REQUIRED harfbuzz)
+#INCLUDE_DIRECTORIES(${HARFB_INCLUDE_DIRS})
+#MESSAGE("HARFB:   ${HARFB_INCLUDE_DIRS}")
+
+pkg_search_module(GTK3 REQUIRED gtk+-3.0)
+INCLUDE_DIRECTORIES(${GTK3_INCLUDE_DIRS})
+MESSAGE("GTK3:    ${GTK3_INCLUDE_DIRS}")
+MESSAGE("GTK3:    ${GTK3_FOUND}")
+MESSAGE("GTK3:    ${GTK3_LIBRARIES}")
+MESSAGE("GTK3:    ${GTK3_LIBRARY_DIRS}")
+MESSAGE("GTK3:    ${GTK3_LDFLAGS}")
+MESSAGE("GTK3:    ${GTK3_LDFLAGS_OTHER}")
+MESSAGE("GTK3:    ${GTK3_CFLAGS}")
+MESSAGE("GTK3:    ${GTK3_CFLAGS_OTHER}")
+
+#INCLUDE_DIRECTORIES(/usr/include/cairo)
+#INCLUDE_DIRECTORIES(/usr/include/freetype2)
+#INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0)
+#INCLUDE_DIRECTORIES(/opt/gnome/lib/gtk-3.0/include)
+#INCLUDE_DIRECTORIES(/opt/gnome/include/glib-3.0)
+#INCLUDE_DIRECTORIES(/opt/gnome/lib/glib-3.0/include)
+#INCLUDE_DIRECTORIES(/usr/lib/glib-2.0/include)
+#INCLUDE_DIRECTORIES(/opt/gnome/include/atk-1.0)
+#INCLUDE_DIRECTORIES(/opt/gnome/include/gtk-3.0/gtk)
+#INCLUDE_DIRECTORIES(/opt/gnome/include/pango-1.0)
+#INCLUDE_DIRECTORIES(/usr/include/pango-1.0)
+#INCLUDE_DIRECTORIES(/usr/include/harfbuzz)
+#INCLUDE_DIRECTORIES(/usr/include/gio-unix-2.0)
+#INCLUDE_DIRECTORIES(/usr/include/atk-1.0)
+#INCLUDE_DIRECTORIES(/usr/lib/glib-3.0/include)
+#INCLUDE_DIRECTORIES(/usr/lib/gtk-3.0/include)
+#INCLUDE_DIRECTORIES(/usr/include/gtk-3.0)
+#INCLUDE_DIRECTORIES(/usr/lib64/gtk-3.0/include)
+#INCLUDE_DIRECTORIES(/usr/include/glib-2.0)
+#INCLUDE_DIRECTORIES(/usr/lib64/glib-2.0/include)
+#INCLUDE_DIRECTORIES(/usr/include/gdk-pixbuf-2.0)
+#INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/glib-2.0/include)
+#INCLUDE_DIRECTORIES(/usr/lib/arm-linux-gnueabihf/gtk-3.0/include)
+#INCLUDE_DIRECTORIES(/usr/lib/x86_64-linux-gnu/glib-2.0/include)
 #INCLUDE_DIRECTORIES(/usr/include/x86_64-linux-gnu)
-MESSAGE( "Note: if include directories are missing, run  pkg-config --cflags glib-2.0")
+#MESSAGE( "Note: if include directories are missing, run  pkg-config --cflags glib-2.0")
 
 LINK_DIRECTORIES(/opt/gnome/lib)
 LINK_DIRECTORIES(/opt/gnome/lib/gtk-3.0)
@@ -95,7 +140,7 @@ MESSAGE( "Note: to build with asserts and traces, run    cmake -DCMAKE_BUILD_TYP
 MESSAGE( "Note: then, to build using 4 cores, run        make -j4" )
 MESSAGE( "Note: to install, run                          sudo make install" )
 
-SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings" )
+SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Werror=format-security -Wall -Wno-overlength-strings ${GTK3_CFLAGS}" )
 # Note: The GIMP-generated images are longer that 4095 characters, therefore -Wno-overlength-strings is required here.
 
 LIST(APPEND applicationSource ${commonSource} ${appSource})
@@ -103,7 +148,8 @@ LIST(APPEND applicationSource ${commonSource} ${appSource})
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(crystal_facet_uml ${applicationSource})
-TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
+#TARGET_LINK_LIBRARIES(crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
+TARGET_LINK_LIBRARIES(crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Compiler Settings ==== ==== ==== ==== ==== ==== ==== ====
@@ -127,7 +173,8 @@ LIST(APPEND unittestSource ${commonSource} ${utestSource})
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
 ADD_EXECUTABLE(unittest_crystal_facet_uml ${unittestSource})
-TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
+#TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml gtk-3 gdk-3 glib-2.0 cairo pango-1.0 pangocairo-1.0 gobject-2.0 freetype gdk_pixbuf-2.0 pthread dl m sqlite3)
+TARGET_LINK_LIBRARIES(unittest_crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(unittest_crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Documentation Build Settings ==== ==== ==== ==== ==== ==== ==== ====
