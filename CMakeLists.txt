@@ -6,6 +6,10 @@ find_package(PkgConfig REQUIRED)
 
 # ==== ==== ==== ==== ==== ==== ==== ==== Build Environment Settings ==== ==== ==== ==== ==== ==== ==== ====
 
+set(COMPILE_IN_INCLUDE_DIR "" CACHE FILEPATH "Path to additional include directory")
+set(COMPILE_IN_SOURCE_FILE "" CACHE FILEPATH "Path to additional source file, e.g. sqlite3.c")
+INCLUDE_DIRECTORIES(${COMPILE_IN_INCLUDE_DIR})
+
 # crystal_facet_uml
 
 INCLUDE_DIRECTORIES(gui/include)
@@ -91,7 +95,7 @@ SET(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code crystal_facet_uml Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(crystal_facet_uml ${appSource} ${commonSource})
+ADD_EXECUTABLE(crystal_facet_uml ${appSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_LINK_LIBRARIES(crystal_facet_uml ${GTK3_LIBRARIES} ${GLIB2_LIBRARIES} ${SQLITE3_LIBRARIES} m)
 SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 
@@ -103,7 +107,7 @@ SET(CMAKE_C_FLAGS "-std=c11 -D_XOPEN_SOURCE=700 -O2 -pedantic -g -Wformat -Wall 
 
 # ==== ==== ==== ==== ==== ==== ==== ==== C-Code unittest Linker Settings ==== ==== ==== ==== ==== ==== ==== ====
 
-ADD_EXECUTABLE(unittest_crystal_facet_uml ${utestSource} ${commonSource})
+ADD_EXECUTABLE(unittest_crystal_facet_uml ${utestSource} ${commonSource} ${COMPILE_IN_SOURCE_FILE})
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC data/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC ctrl/unittest)
