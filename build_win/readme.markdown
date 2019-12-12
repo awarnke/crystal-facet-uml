@@ -11,6 +11,8 @@ wine on debian/raspbian/ubuntu:
 >
 > sudo apt install wine
 >
+> sudo dpkg --add-architecture i386 && apt-get update && apt-get install wine32
+>
 > sudo apt install gcc-mingw-w64-i686
 >
 > sudo apt install g++-mingw-w64-i686  # not needed but cmake searches for it
