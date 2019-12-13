@@ -71,6 +71,7 @@ FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/unittest/*.c
                        data/unittest/*.c
                        ctrl/unittest/*.c
+                       gui/unittest/*.c
                        io/unittest/*.c
                        pencil/unittest/*.c
                        universal/unittest/*.c
@@ -111,6 +112,7 @@ ADD_EXECUTABLE(unittest_crystal_facet_uml ${utestSource} ${commonSource} ${COMPI
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC test_fw/include)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC data/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC ctrl/unittest)
+TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC gui/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC io/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC pencil/unittest)
 TARGET_INCLUDE_DIRECTORIES(unittest_crystal_facet_uml PUBLIC universal/unittest)

@@ -289,21 +289,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         uint32_t gap_index;  /* index of the top-most border is 0, index of the first gap is 1 */
         uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
         gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
-
-        /* initialize the gap box */
-        {
-            int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
-            if ( gap_y_top < top )
-            {
-                gap_y_top = top;
-            }
-            shape_int_rectangle_init( out_gap_line,
-                                      shape_int_rectangle_get_left( &((*this_).bounds) ),
-                                      gap_y_top,
-                                      shape_int_rectangle_get_width( &((*this_).bounds) ),
-                                      2
-                                    );
-        }
+        uint32_t gap_depth = 0;  /* tree depth at gap position */
 
         /* default: no gap */
         ret_error = GUI_ERROR_OUT_OF_BOUNDS;
@@ -312,6 +298,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         if ( ( gap_index >= (*this_).line_idx_ancestors_start )
             && ( gap_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
         {
+            gap_depth = gap_index - (*this_).line_idx_ancestors_start;
+            
             /* formula differs from others because backwards order and index 0 reserved or self: */
             uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);
 
@@ -328,8 +316,9 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( gap_index <= (*this_).line_idx_children_start + (*this_).line_cnt_children )
             && ( (*this_).siblings_self_index >= 0 ) )
         {
+            gap_depth = (*this_).line_cnt_ancestors + 1;
+            
             uint32_t child_idx = gap_index - (*this_).line_idx_children_start;
-
             /* use self as parent id because this shall work even if there are no children */
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
@@ -361,6 +350,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         else if ( ( gap_index >= (*this_).line_idx_siblings_start )
             && ( gap_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
         {
+            gap_depth = (*this_).line_cnt_ancestors;
+            
             uint32_t sibl1_idx = gap_index - (*this_).line_idx_siblings_start;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
@@ -384,6 +375,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         else if ( ( gap_index >= (*this_).line_idx_siblings_next_after_self )
             && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
         {
+            gap_depth = (*this_).line_cnt_ancestors;
+            
             uint32_t sibl2_idx = gap_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
@@ -401,6 +394,22 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
                     ) / 2;
             }
             ret_error = GUI_ERROR_NONE;
+        }
+        
+        /* finally, initialize the gap box */
+        {
+            int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
+            if ( gap_y_top < top )
+            {
+                gap_y_top = top;
+            }
+            int32_t gap_x_left = gap_depth * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
+            shape_int_rectangle_init( out_gap_line,
+                                      shape_int_rectangle_get_left( &((*this_).bounds) ) + gap_x_left,
+                                      gap_y_top,
+                                      shape_int_rectangle_get_width( &((*this_).bounds) ) - gap_x_left,
+                                      2
+                                    );
         }
     }
     else

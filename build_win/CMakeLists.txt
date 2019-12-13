@@ -62,6 +62,7 @@ FILE(GLOB appSource    ../main/source/*.c)
 FILE(GLOB utestSource  ../main/unittest/*.c
                        ../data/unittest/*.c
                        ../ctrl/unittest/*.c
+                       ../gui/unittest/*.c
                        ../io/unittest/*.c
                        ../pencil/unittest/*.c
                        ../universal/unittest/*.c
@@ -116,6 +117,7 @@ SET_TARGET_PROPERTIES(crystal_facet_uml PROPERTIES LINKER_LANGUAGE C)
 INCLUDE_DIRECTORIES(../test_fw/include)
 INCLUDE_DIRECTORIES(../data/unittest)
 INCLUDE_DIRECTORIES(../ctrl/unittest)
+INCLUDE_DIRECTORIES(../gui/unittest)
 INCLUDE_DIRECTORIES(../io/unittest)
 INCLUDE_DIRECTORIES(../pencil/unittest)
 INCLUDE_DIRECTORIES(../universal/unittest)
