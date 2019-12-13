@@ -316,7 +316,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         /* is this the children region ? - note: every child has a gap before and after itself */
         else if ( ( gap_index >= (*this_).line_idx_children_start )
             && ( gap_index <= (*this_).line_idx_children_start + (*this_).line_cnt_children )
-            && ( (*this_).siblings_self_index >= 0 ) )
+            && ( (*this_).siblings_self_index >= 0 ) /* self exists */ )
         {
             gap_depth = (*this_).line_cnt_ancestors + 1;
             

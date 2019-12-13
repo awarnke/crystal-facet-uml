@@ -48,7 +48,7 @@ struct gui_sketch_nav_tree_struct {
     uint32_t children_count;
     data_diagram_t child_diagrams[GUI_SKETCH_NAV_TREE_CONST_MAX_CHILDREN];
 
-    /* layout information, what is shown where */
+    /* layout information, what is shown where, initialized by gui_sketch_nav_tree_private_do_layout */
     uint32_t line_idx_ancestors_start;  /*! always 0, even if there are no ancestors */
     uint32_t line_cnt_ancestors;  /*!< number of ancestors, excluding self */
     uint32_t line_idx_siblings_start;  /*! line of first sibling; undefined in case of program-internal error */
