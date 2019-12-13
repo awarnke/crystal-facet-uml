@@ -287,8 +287,10 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
         int32_t top;
         top = shape_int_rectangle_get_top( &((*this_).bounds) );
         uint32_t gap_index;  /* index of the top-most border is 0, index of the first gap is 1 */
-        uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
-        gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        {
+            uint32_t half_line_height = (GUI_SKETCH_NAV_TREE_LINE_HEIGHT/2);
+            gap_index = ( y + half_line_height - top ) / GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
+        }
         uint32_t gap_depth = 0;  /* tree depth at gap position */
 
         /* default: no gap */
@@ -373,7 +375,8 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
 
         /* is this the second half of the siblings region ? - note: gaps exist on top and bottom of each sibling-after */
         else if ( ( gap_index >= (*this_).line_idx_siblings_next_after_self )
-            && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self ))
+            && ( gap_index <= (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_after_self )
+            && ( (*this_).line_cnt_siblings_to_incl_self > 0) /* otherwise no self */ )
         {
             gap_depth = (*this_).line_cnt_ancestors;
             
@@ -403,7 +406,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             {
                 gap_y_top = top;
             }
-            int32_t gap_x_left = gap_depth * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
+            int32_t gap_x_left = gap_depth * GUI_SKETCH_NAV_TREE_INDENT;
             shape_int_rectangle_init( out_gap_line,
                                       shape_int_rectangle_get_left( &((*this_).bounds) ) + gap_x_left,
                                       gap_y_top,

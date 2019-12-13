@@ -184,8 +184,7 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
 }
 
 static const int GUI_SKETCH_NAV_TREE_LINE_HEIGHT = 16;
-static const int GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT = 12;
-static const int GUI_SKETCH_NAV_TREE_CHILD_INDENT = 12;
+static const int GUI_SKETCH_NAV_TREE_INDENT = 12;
 
 static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
@@ -250,7 +249,7 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bou
     uint32_t y_offset;
     y_offset = ( (*this_).line_idx_ancestors_start + descendant_count ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
     uint32_t x_offset;
-    x_offset = descendant_count * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
+    x_offset = descendant_count * GUI_SKETCH_NAV_TREE_INDENT;
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
 
@@ -286,12 +285,12 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
     else if ( sibling_index > (*this_).siblings_self_index )
     {
         y_offset = ( (*this_).line_idx_siblings_next_after_self + ( sibling_index - (*this_).siblings_self_index - 1 ) ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
-        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_INDENT;
     }
     else
     {
         y_offset = ( (*this_).line_idx_siblings_start + sibling_index ) * GUI_SKETCH_NAV_TREE_LINE_HEIGHT;
-        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_INDENT;
     }
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
@@ -327,7 +326,7 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds
     }
     else
     {
-        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_ANCESTOR_INDENT + GUI_SKETCH_NAV_TREE_CHILD_INDENT;
+        x_offset = ( (*this_).ancestors_count - 1 ) * GUI_SKETCH_NAV_TREE_INDENT + GUI_SKETCH_NAV_TREE_INDENT;
     }
 
     shape_int_rectangle_init( &result, left + x_offset, top + y_offset, width - x_offset, GUI_SKETCH_NAV_TREE_LINE_HEIGHT );
