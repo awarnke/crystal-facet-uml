@@ -30,7 +30,7 @@ void json_export_from_database_destroy ( json_export_from_database_t *this_ )
 }
 
 data_error_t json_export_from_database_export_set_to_buf( json_export_from_database_t *this_,
-                                                          data_small_set_t *set_to_be_copied,
+                                                          const data_small_set_t *set_to_be_copied,
                                                           utf8stringbuf_t out_buf )
 {
     TRACE_BEGIN();

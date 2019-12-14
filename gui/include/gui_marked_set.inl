@@ -31,7 +31,7 @@ static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t 
     return( (*this_).highlighted );
 }
 
-static inline data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ )
+static inline const data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ )
 {
     return ( &((*this_).selected_set) );
 }

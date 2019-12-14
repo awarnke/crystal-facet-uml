@@ -174,11 +174,10 @@ void gui_toolbox_cut_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_cut( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
-    data_small_set_t *set_to_be_cut;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_cut = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_clipboard_copy_set_to_clipboard will do this */
 
@@ -205,11 +204,10 @@ void gui_toolbox_copy_btn_callback( GtkWidget* button, gpointer data )
 void gui_toolbox_copy( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
-    data_small_set_t *set_to_be_copied;
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_copied = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_copied = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     if ( data_small_set_is_empty( set_to_be_copied ) )
     {
@@ -241,7 +239,7 @@ void gui_toolbox_paste( gui_toolbox_t *this_ )
     TRACE_BEGIN();
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
+    const int64_t destination_diagram_id = gui_marked_set_get_focused_diagram( (*this_).marker );
     gui_clipboard_request_clipboard_text( &((*this_).clipboard), destination_diagram_id );
 
     TRACE_END();
@@ -262,11 +260,9 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
 {
     TRACE_BEGIN();
 
-    data_small_set_t *set_to_be_deleted;
-
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_deleted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_deleted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_delete_set will do this */
 
@@ -277,7 +273,7 @@ void gui_toolbox_delete( gui_toolbox_t *this_ )
     TRACE_END();
 }
 
-void gui_toolbox_private_delete_set( gui_toolbox_t *this_, data_small_set_t *set_to_be_deleted )
+void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_deleted )
 {
     TRACE_BEGIN();
     ctrl_error_t ctrl_err;
@@ -310,18 +306,16 @@ void gui_toolbox_highlight_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
 
-    data_small_set_t *set_to_be_highlighted;
-
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_highlighted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_highlighted = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_toggle_display_flag_in_set will do this */
 
     gui_toolbox_private_toggle_display_flag_in_set( this_,
-                                                  set_to_be_highlighted,
-                                                  DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
-                                                );
+                                                    set_to_be_highlighted,
+                                                    DATA_DIAGRAMELEMENT_FLAG_EMPHASIS | DATA_DIAGRAMELEMENT_FLAG_GRAY_OUT
+                                                  );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -332,18 +326,16 @@ void gui_toolbox_instantiate_btn_callback( GtkWidget* button, gpointer data )
     TRACE_BEGIN();
     gui_toolbox_t *this_ = data;
 
-    data_small_set_t *set_to_be_instantiated;
-
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    set_to_be_instantiated = gui_marked_set_get_selected_set_ptr( (*this_).marker );
+    const data_small_set_t *const set_to_be_instantiated = gui_marked_set_get_selected_set_ptr( (*this_).marker );
 
     /* do not check if set is empty; gui_toolbox_private_toggle_display_flag_in_set will do this */
 
     gui_toolbox_private_toggle_display_flag_in_set( this_,
-                                                  set_to_be_instantiated,
-                                                  DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE
-                                                );
+                                                    set_to_be_instantiated,
+                                                    DATA_DIAGRAMELEMENT_FLAG_NAMED_INSTANCE | DATA_DIAGRAMELEMENT_FLAG_ANONYMOUS_INSTANCE
+                                                  );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -365,7 +357,7 @@ void gui_toolbox_reset_btn_callback( GtkWidget* button, gpointer data )
     TRACE_END();
 }
 
-void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
+void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle )
 {
     TRACE_BEGIN();
     ctrl_error_t error = CTRL_ERROR_NONE;

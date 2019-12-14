@@ -80,7 +80,7 @@ void gui_clipboard_clipboard_text_received_callback ( GtkClipboard *clipboard, c
  *  \param this_ pointer to own object attributes
  *  \param set_to_be_copied ids of the objects to be exported
  */
-void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, data_small_set_t *set_to_be_copied );
+void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied );
 
 /*!
  *  \brief copies the clipboard contents to the database

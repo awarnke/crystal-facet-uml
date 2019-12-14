@@ -27,15 +27,10 @@ static inline void gui_sketch_marker_prepare_draw ( const gui_sketch_marker_t *t
                                                     shape_int_rectangle_t rect,
                                                     cairo_t *cr )
 {
-    data_id_t focused_id;
-    int64_t focused_diagram_id;
-    data_id_t highlighted_id;
-    data_small_set_t *selected_set;
-
-    focused_id = gui_marked_set_get_focused ( marked_set );
-    focused_diagram_id = gui_marked_set_get_focused_diagram ( marked_set );
-    highlighted_id = gui_marked_set_get_highlighted ( marked_set );
-    selected_set = gui_marked_set_get_selected_set_ptr ( marked_set );
+    const data_id_t focused_id = gui_marked_set_get_focused ( marked_set );
+    const int64_t focused_diagram_id = gui_marked_set_get_focused_diagram ( marked_set );
+    const data_id_t highlighted_id = gui_marked_set_get_highlighted ( marked_set );
+    const data_small_set_t *const selected_set = gui_marked_set_get_selected_set_ptr ( marked_set );
 
     if ( DATA_TABLE_DIAGRAM == table )
     {

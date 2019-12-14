@@ -183,12 +183,12 @@ void gui_toolbox_delete( gui_toolbox_t *this_ );
 /*!
  *  \brief deletes a set of objects
  */
-void gui_toolbox_private_delete_set( gui_toolbox_t *this_, data_small_set_t *set_to_be_deleted );
+void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_deleted );
 
 /*!
  *  \brief toggles display flags in a set of objects
  */
-void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle );
+void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const data_small_set_t *set_to_be_toggled, data_diagramelement_flag_t flag_bits_to_toggle );
 
 #include "gui_toolbox.inl"
 

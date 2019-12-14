@@ -48,7 +48,7 @@ void gui_clipboard_destroy ( gui_clipboard_t *this_ )
     TRACE_END();
 }
 
-void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, data_small_set_t *set_to_be_copied )
+void gui_clipboard_copy_set_to_clipboard( gui_clipboard_t *this_, const data_small_set_t *set_to_be_copied )
 {
     TRACE_BEGIN();
     assert( NULL != set_to_be_copied );
