@@ -63,8 +63,6 @@ static inline data_id_t gui_marked_set_get_highlighted ( const gui_marked_set_t 
 /*!
  *  \brief gets the selected object ids.
  *
- *  Note: you may modify the set after retrieving the pointer to it.
- *
  *  \param this_ pointer to own object attributes
  */
 static inline const data_small_set_t *gui_marked_set_get_selected_set_ptr ( gui_marked_set_t *this_ );

@@ -165,33 +165,6 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_
     return result;
 }
 
-static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t *order )
-{
-    pencil_error_t pen_err;
-
-    pen_err = pencil_diagram_maker_move_object_to_order ( &((*this_).painter), obj_id, order );
-
-    switch ( pen_err )
-    {
-        case PENCIL_ERROR_NONE:
-        {
-            /* success */
-            (*this_).dirty_elements_layout = true;
-        }
-        break;
-        case PENCIL_ERROR_OUT_OF_BOUNDS:
-        {
-            TSLOG_ANOMALY( "PENCIL_ERROR_OUT_OF_BOUNDS in gui_sketch_card_move_object_to_order" );
-        }
-        break;
-        case PENCIL_ERROR_UNKNOWN_OBJECT:
-        {
-            TSLOG_ANOMALY( "PENCIL_ERROR_UNKNOWN_OBJECT in gui_sketch_card_move_object_to_order" );
-        }
-        break;
-    }
-}
-
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )
 {
     if ( gui_sketch_card_is_valid( this_ ) )

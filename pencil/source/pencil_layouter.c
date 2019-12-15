@@ -7,7 +7,7 @@
 #include <stdlib.h>
 #include <math.h>
 
-void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_data )
+void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -48,7 +48,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_d
     TRACE_END();
 }
 
-void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input_data )
+void pencil_layouter_reinit( pencil_layouter_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -242,15 +242,15 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     /* determine grid cell size */
     const double grid_width = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
     const double grid_height = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
-    
+
     /* determine standard gap between objects */
     const double gap = pencil_size_get_preferred_object_distance( &((*this_).pencil_size) );
-    
+
     /* set the default size to grid cell minus a gap on each side, minus extra gap on top for containers */
     geometry_dimensions_t *const default_size = &((*this_).default_classifier_size);
     geometry_dimensions_reinit( default_size, grid_width, grid_height );
     geometry_dimensions_expand ( default_size, -2.0 * gap, -4.0 * gap ); /* ensures non-negative values */
-    
+
     /* for aesthetic reasons, ensure that the default dimension is more wide than high */
     const double w = geometry_dimensions_get_width( default_size );
     const double h = geometry_dimensions_get_height( default_size );
@@ -625,7 +625,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *
 }
 
 pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *this_,
-                                                          data_feature_t *feature_ptr,
+                                                          const data_feature_t *feature_ptr,
                                                           double x,
                                                           double y,
                                                           layout_order_t* out_layout_order )

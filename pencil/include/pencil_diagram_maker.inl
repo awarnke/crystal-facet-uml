@@ -4,7 +4,7 @@
 #include "trace.h"
 #include <assert.h>
 
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, data_visible_set_t *input_data )
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );
@@ -20,7 +20,7 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, dat
     TRACE_END();
 }
 
-static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, data_visible_set_t *input_data )
+static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data )
 {
     TRACE_BEGIN();
     assert( NULL != input_data );

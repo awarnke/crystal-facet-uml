@@ -192,7 +192,10 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_
  *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
  *  \param order layout_order_t, where to move the object to
  */
-static inline void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_, data_id_t obj_id, layout_order_t *order );
+void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
+                                            data_id_t obj_id,
+                                            const layout_order_t *order
+                                          );
 
 /*!
  *  \brief lays out the diagram

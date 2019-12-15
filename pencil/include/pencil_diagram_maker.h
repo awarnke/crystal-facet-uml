@@ -34,7 +34,7 @@
  *  \brief attributes of the diagram painter
  */
 struct pencil_diagram_maker_struct {
-    data_visible_set_t *input_data;  /*!< pointer to an external data cache */
+    const data_visible_set_t *input_data;  /*!< pointer to an external data cache */
 
     pencil_layouter_t layouter;  /* own instance of a layouter */
 
@@ -52,7 +52,7 @@ typedef struct pencil_diagram_maker_struct pencil_diagram_maker_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  */
-static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, data_visible_set_t *input_data );
+static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief re-initializes the painter
@@ -60,7 +60,7 @@ static inline void pencil_diagram_maker_init( pencil_diagram_maker_t *this_, dat
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be drawn
  */
-static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, data_visible_set_t *input_data );
+static inline void pencil_diagram_maker_reinit( pencil_diagram_maker_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the painter
@@ -103,7 +103,7 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
 void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
                                  data_id_t mark_focused,
                                  data_id_t mark_highlighted,
-                                 data_small_set_t *mark_selected,
+                                 const data_small_set_t *mark_selected,
                                  cairo_t *cr
                                );
 
@@ -120,7 +120,7 @@ void pencil_diagram_maker_draw ( pencil_diagram_maker_t *this_,
 void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *this_,
                                                      data_id_t mark_focused,
                                                      data_id_t mark_highlighted,
-                                                     data_small_set_t *mark_selected,
+                                                     const data_small_set_t *mark_selected,
                                                      PangoLayout *layout,
                                                      cairo_t *cr
                                                    );
@@ -138,7 +138,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
                                                   data_id_t mark_focused,
                                                   data_id_t mark_highlighted,
-                                                  data_small_set_t *mark_selected,
+                                                  const data_small_set_t *mark_selected,
                                                   PangoLayout *layout,
                                                   cairo_t *cr
                                                 );
@@ -156,7 +156,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
 void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *this_,
                                                        data_id_t mark_focused,
                                                        data_id_t mark_highlighted,
-                                                       data_small_set_t *mark_selected,
+                                                       const data_small_set_t *mark_selected,
                                                        PangoLayout *layout,
                                                        cairo_t *cr
                                                      );
@@ -229,25 +229,11 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the parent classifier is not in the diagram
  */
 pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( pencil_diagram_maker_t *this_,
-                                                               data_feature_t *feature_ptr,
+                                                               const data_feature_t *feature_ptr,
                                                                double x,
                                                                double y,
                                                                layout_order_t* out_layout_order
                                                              );
-
-/*!
- *  \brief moves an object in the input_data cache. Does not persist the new order.
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object which to move to layout_order temporarily: classifiers, features and realtionships are supported.
- *  \param order order where to move the object to
- *  \return PENCIL_ERROR_UNKNOWN_OBJECT if the object does not exist in input_data,
- *          PENCIL_ERROR_OUT_OF_BOUNDS if the order is not valid
- */
-pencil_error_t pencil_diagram_maker_move_object_to_order ( pencil_diagram_maker_t *this_,
-                                                           data_id_t obj_id,
-                                                           layout_order_t *order
-                                                         );
 
 #include "pencil_diagram_maker.inl"
 

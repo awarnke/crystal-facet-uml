@@ -65,7 +65,7 @@ typedef struct pencil_layouter_struct pencil_layouter_t;
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the (cached) data to be layouted
  */
-void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_data );
+void pencil_layouter_init( pencil_layouter_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief re-initializes the layouter to layout new/other input_data
@@ -73,7 +73,7 @@ void pencil_layouter_init( pencil_layouter_t *this_, data_visible_set_t *input_d
  *  \param this_ pointer to own object attributes
  *  \param input_data pointer to the data to be layouted
  */
-void pencil_layouter_reinit( pencil_layouter_t *this_, data_visible_set_t *input_data );
+void pencil_layouter_reinit( pencil_layouter_t *this_, const data_visible_set_t *input_data );
 
 /*!
  *  \brief destroys the layouter
@@ -222,7 +222,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
 pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *this_,
-                                                          data_feature_t *feature_ptr,
+                                                          const data_feature_t *feature_ptr,
                                                           double x,
                                                           double y,
                                                           layout_order_t* out_layout_order

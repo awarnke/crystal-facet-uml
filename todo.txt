@@ -22,6 +22,7 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- and one-way x--> and no x--x association
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
+  [ ] activity diagrams need swimlanes/partitions
   [ ] improve layouting of containments, e.g. consider arrows and more gap-space
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
@@ -35,7 +36,6 @@ ideas for future versions:
   [ ] import XMI format
   @utf8stringbuf
   [ ] combine the static string allocation with dynamic additional buffers for long strings
-      maybe use memory arenas of glibc (?)
   @main
   @ts_log/trace/test_fw
 
