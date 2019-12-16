@@ -22,7 +22,7 @@ void geometry_non_linear_scale_init ( geometry_non_linear_scale_t *this_, double
     TRACE_END();
 }
 
-void geometry_non_linear_scale_trace ( geometry_non_linear_scale_t *this_ )
+void geometry_non_linear_scale_trace ( const geometry_non_linear_scale_t *this_ )
 {
     TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );

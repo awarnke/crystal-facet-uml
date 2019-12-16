@@ -120,6 +120,14 @@ static inline void pencil_layout_data_resync( pencil_layout_data_t *this_ );
  */
 static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layout_data_t *this_ );
 
+/*!
+ *  \brief gets the layouted diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to layout_diagram_t.
+ */
+static inline const layout_diagram_t *pencil_layout_data_get_diagram_const ( const pencil_layout_data_t *this_ );
+
 /* ================================ classifiers ================================ */
 
 /*!
@@ -127,7 +135,7 @@ static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layo
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_layout_data_get_classifier_count ( pencil_layout_data_t *this_ );
+static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief gets the layouted visible_classifier
@@ -138,6 +146,15 @@ static inline uint32_t pencil_layout_data_get_classifier_count ( pencil_layout_d
  */
 static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
+/*!
+ *  \brief gets the layouted visible_classifier
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
+ *  \return pointer to layout_visible_classifier_t.
+ */
+static inline const layout_visible_classifier_t *pencil_layout_data_get_classifier_const ( const pencil_layout_data_t *this_, uint32_t index );
+
 /* ================================ features ================================ */
 
 /*!
@@ -145,7 +162,7 @@ static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_layout_data_get_feature_count ( pencil_layout_data_t *this_ );
+static inline uint32_t pencil_layout_data_get_feature_count ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief gets the layouted feature
@@ -156,6 +173,15 @@ static inline uint32_t pencil_layout_data_get_feature_count ( pencil_layout_data
  */
 static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
+/*!
+ *  \brief gets the layouted feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted feature to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_FEATURES.
+ *  \return pointer to layout_feature_t.
+ */
+static inline const layout_feature_t *pencil_layout_data_get_feature_const ( const pencil_layout_data_t *this_, uint32_t index );
+
 /* ================================ relationships ================================ */
 
 /*!
@@ -165,7 +191,7 @@ static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layo
  *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
  *  \return true if visible.
  */
-static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index );
+static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( const pencil_layout_data_t *this_, uint32_t index );
 
 /*!
  *  \brief sets the visibility of a relationship
@@ -181,7 +207,7 @@ static inline void pencil_layout_data_set_relationship_visibility ( pencil_layou
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_layout_data_get_relationship_count ( pencil_layout_data_t *this_ );
+static inline uint32_t pencil_layout_data_get_relationship_count ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief gets the layouted relationship
@@ -193,6 +219,15 @@ static inline uint32_t pencil_layout_data_get_relationship_count ( pencil_layout
 static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
 /*!
+ *  \brief gets the layouted relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param index index of the layouted relationship to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
+ *  \return pointer to layout_relationship_t.
+ */
+static inline const layout_relationship_t *pencil_layout_data_get_relationship_const ( const pencil_layout_data_t *this_, uint32_t index );
+
+/*!
  *  \brief determines if ancestor is an ancestor of descendant
  *
  *  \param this_ pointer to own object attributes
@@ -200,7 +235,7 @@ static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( p
  *  \param descendant the descendant classifier
  *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within the data_visible_set object
  */
-static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant );
+static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant );
 
 /*!
  *  \brief counts the number of ancestors of a classifier
@@ -209,7 +244,7 @@ static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_,
  *  \param classifier the classifier of which to count ancestors
  *  \return number of ancestors of classifier which are listed in this_.
  */
-static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
+static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
 
 /*!
  *  \brief counts the number of descendants of a classifier
@@ -218,7 +253,7 @@ static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t
  *  \param classifier the classifier of which to count decendants
  *  \return number of descendants of classifier which are listed in this_.
  */
-static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
+static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
 
 /* ================================ misc ================================ */
 
@@ -228,7 +263,7 @@ static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data
  *  \param this_ pointer to own object attributes
  *  \return true if this_ contains valid data for sketching a diagram
  */
-bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ );
+bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief initializes the diagram_layout member

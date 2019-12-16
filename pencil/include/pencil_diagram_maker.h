@@ -172,7 +172,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
-static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
+static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const pencil_diagram_maker_t *this_,
                                                                          double x,
                                                                          double y,
                                                                          pencil_type_filter_t filter,
@@ -189,7 +189,7 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
  *  \param out_x_on_grid flag indicating if the given x position is on a grid line
  *  \param out_y_on_grid flag indicating if the given y position is on a grid line
  */
-static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_maker_t *this_,
                                                          double x,
                                                          double y,
                                                          bool *out_x_on_grid,
@@ -207,7 +207,7 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t 
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram
  */
-pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
                                                        data_id_t obj_id,
                                                        double x,
                                                        double y,
@@ -228,7 +228,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the parent classifier is not in the diagram
  */
-pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( pencil_diagram_maker_t *this_,
+pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diagram_maker_t *this_,
                                                                const data_feature_t *feature_ptr,
                                                                double x,
                                                                double y,

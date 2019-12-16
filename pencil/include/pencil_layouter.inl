@@ -18,7 +18,7 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
     return &((*this_).pencil_size);
 }
 
-static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
+static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *this_,
                                                     double x,
                                                     double y,
                                                     double snap_distance,

@@ -131,7 +131,7 @@ static inline pencil_size_t *pencil_layouter_get_pencil_size_ptr ( pencil_layout
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram.
  */
-pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
                                                       double snap_distance,
@@ -150,7 +150,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no classifier is at the given position x, y.
  */
-pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_layouter_t *this_,
                                                                   double x,
                                                                   double y,
                                                                   data_id_pair_t* out_selected_id,
@@ -168,7 +168,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no feature is at the given position x, y.
  */
-pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layouter_t *this_,
                                                                double x,
                                                                double y,
                                                                pencil_type_filter_t filter,
@@ -186,7 +186,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if no relationship is at the given position x, y.
  */
-pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil_layouter_t *this_,
                                                                     double x,
                                                                     double y,
                                                                     double snap_distance,
@@ -203,7 +203,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
  *  \param out_layout_order order at given position
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram
  */
-pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layouter_t *this_,
                                                              double x,
                                                              double y,
                                                              double snap_distance,
@@ -221,7 +221,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
-pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_t *this_,
                                                           const data_feature_t *feature_ptr,
                                                           double x,
                                                           double y,
@@ -239,7 +239,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
  *  \return PENCIL_ERROR_OUT_OF_BOUNDS if the given position x, y is not in the diagram,
  *          PENCIL_ERROR_UNKNOWN_OBJECT if the object is not in the diagram or has unsupported type
  */
-pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
                                                                int64_t relationship_id,
                                                                double x,
                                                                double y,
@@ -256,7 +256,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t
  *  \param out_x_on_grid flag indicating if the given x position is on a grid line
  *  \param out_y_on_grid flag indicating if the given y position is on a grid line
  */
-static inline void pencil_layouter_is_pos_on_grid ( pencil_layouter_t *this_,
+static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *this_,
                                                     double x,
                                                     double y,
                                                     double snap_distance,

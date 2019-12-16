@@ -23,7 +23,7 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ )
     (*this_).data = NULL;
 }
 
-static inline bool layout_feature_is_valid ( layout_feature_t *this_ )
+static inline bool layout_feature_is_valid ( const layout_feature_t *this_ )
 {
     bool result;
     if (( (*this_).data == NULL )||( (*this_).classifier == NULL ))
@@ -40,6 +40,11 @@ static inline bool layout_feature_is_valid ( layout_feature_t *this_ )
 }
 
 static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ )
+{
+    return &((*this_).bounds);
+}
+
+static inline const geometry_rectangle_t *layout_feature_get_bounds_const ( const layout_feature_t *this_ )
 {
     return &((*this_).bounds);
 }
@@ -74,6 +79,11 @@ static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_fe
     return &((*this_).label_box);
 }
 
+static inline const geometry_rectangle_t *layout_feature_get_label_box_const ( const layout_feature_t *this_ )
+{
+    return &((*this_).label_box);
+}
+
 static inline void layout_feature_set_label_box ( layout_feature_t *this_, const geometry_rectangle_t *label_box )
 {
     geometry_rectangle_replace( &((*this_).label_box), label_box );
@@ -84,7 +94,12 @@ static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_f
     return (*this_).data;
 }
 
-static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( const layout_feature_t *this_ )
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ )
+{
+    return (*this_).classifier;
+}
+
+static inline const layout_visible_classifier_t *layout_feature_get_classifier_const ( const layout_feature_t *this_ )
 {
     return (*this_).classifier;
 }

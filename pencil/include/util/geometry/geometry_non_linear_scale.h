@@ -59,7 +59,7 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
  *
  *  \param this_ pointer to own object attributes
  */
-void geometry_non_linear_scale_trace ( geometry_non_linear_scale_t *this_ );
+void geometry_non_linear_scale_trace ( const geometry_non_linear_scale_t *this_ );
 
 /*!
  *  \brief adds an order-value to the non-linear scale, updates the locations of all defined points
@@ -75,7 +75,7 @@ void geometry_non_linear_scale_add_order ( geometry_non_linear_scale_t *this_, i
  *  \param this_ pointer to own object attributes
  *  \param order order value for which the location shall be determined
  */
-static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order );
+static inline double geometry_non_linear_scale_get_location ( const geometry_non_linear_scale_t *this_, int32_t order );
 
 /*!
  *  \brief gets an order-value given a location
@@ -84,7 +84,7 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
  *  \param location location for which the order shall be determined
  *  \param snap_interval maximum distance from location to next point which snaps the location to the points location
  */
-static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location, double snap_interval );
+static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_linear_scale_t *this_, double location, double snap_interval );
 
 /*!
  *  \brief gets the location of the closest fix point
@@ -92,15 +92,15 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
  *  \param this_ pointer to own object attributes
  *  \param location location value for which the closest fix-point location shall be determined
  */
-static inline double geometry_non_linear_scale_get_closest_fix_location ( geometry_non_linear_scale_t *this_, double location );
+static inline double geometry_non_linear_scale_get_closest_fix_location ( const geometry_non_linear_scale_t *this_, double location );
 
 /*!
- *  \brief gets the interval count between the points. 
+ *  \brief gets the interval count between the points.
  *
  *  \param this_ pointer to own object attributes
  *  \return (*this_).num_points - 1
  */
-static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( geometry_non_linear_scale_t *this_ );
+static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( const geometry_non_linear_scale_t *this_ );
 
 /*!
  *  \brief determines the average distance between grid points
@@ -108,7 +108,7 @@ static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( geometry_n
  *  \param this_ pointer to own object attributes
  *  \return (upper_bound-lower_bound)/(*this_).num_points
  */
-static inline double geometry_non_linear_scale_get_grid_distances ( geometry_non_linear_scale_t *this_ );
+static inline double geometry_non_linear_scale_get_grid_distances ( const geometry_non_linear_scale_t *this_ );
 
 #include "util/geometry/geometry_non_linear_scale.inl"
 

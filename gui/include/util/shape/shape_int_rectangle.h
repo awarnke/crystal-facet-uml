@@ -49,14 +49,14 @@ static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ );
+static inline int32_t shape_int_rectangle_get_left ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the top coordinate of shape_int_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_ );
+static inline int32_t shape_int_rectangle_get_top ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the right coordinates of shape_int_rectangle_t
@@ -64,7 +64,7 @@ static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_
  *  \param this_ pointer to own object attributes
  *  \return left + width. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
-static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *this_ );
+static inline int32_t shape_int_rectangle_get_right ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the bottom coordinate of shape_int_rectangle_t
@@ -72,21 +72,21 @@ static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *thi
  *  \param this_ pointer to own object attributes
  *  \return top + height. We assume a coordinate system where integers denote pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  */
-static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *this_ );
+static inline int32_t shape_int_rectangle_get_bottom ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the width of shape_int_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ );
+static inline uint32_t shape_int_rectangle_get_width ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief gets the height of shape_int_rectangle_t
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ );
+static inline uint32_t shape_int_rectangle_get_height ( const shape_int_rectangle_t *this_ );
 
 /*!
  *  \brief determines if a given coordinate is within shape_int_rectangle_t
@@ -96,7 +96,7 @@ static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *t
  *  \param y a coordinate on pixel borders. 0 [pixel] 1 [pixel] 2 [pixel] 3 ...
  *  \return true if the pixel to the bottom-right of the denoted coordinate is within the rectangle.
  */
-static inline bool shape_int_rectangle_contains ( shape_int_rectangle_t *this_, int32_t x, int32_t y );
+static inline bool shape_int_rectangle_contains ( const shape_int_rectangle_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief shrinks the rectangle by border
@@ -127,7 +127,7 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void shape_int_rectangle_trace ( shape_int_rectangle_t *this_ );
+static inline void shape_int_rectangle_trace ( const shape_int_rectangle_t *this_ );
 
 #include "util/shape/shape_int_rectangle.inl"
 

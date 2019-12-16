@@ -14,7 +14,7 @@ static inline void geometry_non_linear_scale_destroy ( geometry_non_linear_scale
 {
 }
 
-static inline double geometry_non_linear_scale_get_location ( geometry_non_linear_scale_t *this_, int32_t order )
+static inline double geometry_non_linear_scale_get_location ( const geometry_non_linear_scale_t *this_, int32_t order )
 {
     TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
@@ -60,7 +60,7 @@ static inline double geometry_non_linear_scale_get_location ( geometry_non_linea
     return result;
 }
 
-static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_scale_t *this_, double location, double snap_interval )
+static inline int32_t geometry_non_linear_scale_get_order ( const geometry_non_linear_scale_t *this_, double location, double snap_interval )
 {
     TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
@@ -109,7 +109,7 @@ static inline int32_t geometry_non_linear_scale_get_order ( geometry_non_linear_
     return result;
 }
 
-static inline double geometry_non_linear_scale_get_closest_fix_location ( geometry_non_linear_scale_t *this_, double location )
+static inline double geometry_non_linear_scale_get_closest_fix_location ( const geometry_non_linear_scale_t *this_, double location )
 {
     TRACE_BEGIN();
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );
@@ -145,13 +145,13 @@ static inline double geometry_non_linear_scale_get_closest_fix_location ( geomet
     return result;
 }
 
-static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( geometry_non_linear_scale_t *this_ )
+static inline uint32_t geometry_non_linear_scale_get_grid_intervals ( const geometry_non_linear_scale_t *this_ )
 {
     assert( (*this_).num_points >= 2 );
     return ( (*this_).num_points - 1 );
 }
 
-static inline double geometry_non_linear_scale_get_grid_distances ( geometry_non_linear_scale_t *this_ )
+static inline double geometry_non_linear_scale_get_grid_distances ( const geometry_non_linear_scale_t *this_ )
 {
     assert( (*this_).num_points >= 2 );
     assert( (*this_).num_points <= GEOMETRY_NON_LINEAR_SCALE_MAX_POINTS );

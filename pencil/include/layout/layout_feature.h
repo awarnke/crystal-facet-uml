@@ -53,7 +53,7 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return true if (*this_).data points to valid data and is consistent with (*this_).classifier
  */
-static inline bool layout_feature_is_valid ( layout_feature_t *this_ );
+static inline bool layout_feature_is_valid ( const layout_feature_t *this_ );
 
 /*!
  *  \brief gets the bounding box of the feature
@@ -62,6 +62,14 @@ static inline bool layout_feature_is_valid ( layout_feature_t *this_ );
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ );
+
+/*!
+ *  \brief gets the bounding box of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_feature_get_bounds_const ( const layout_feature_t *this_ );
 
 /*!
  *  \brief gets the middle location of the feature
@@ -104,6 +112,14 @@ static inline void layout_feature_set_icon_direction ( layout_feature_t *this_, 
 static inline geometry_rectangle_t *layout_feature_get_label_box_ptr ( layout_feature_t *this_ );
 
 /*!
+ *  \brief gets the label bounds of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_feature_get_label_box_const ( const layout_feature_t *this_ );
+
+/*!
  *  \brief sets the label bounds of the feature
  *
  *  \param this_ pointer to own object attributes
@@ -125,7 +141,15 @@ static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_f
  *  \param this_ pointer to own object attributes
  *  \return a pointer to the parent layout_visible_classifier_t object
  */
-static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( const layout_feature_t *this_ );
+static inline layout_visible_classifier_t *layout_feature_get_classifier_ptr ( layout_feature_t *this_ );
+
+/*!
+ *  \brief gets the layout_visible_classifier_t object
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return a pointer to the parent layout_visible_classifier_t object
+ */
+static inline const layout_visible_classifier_t *layout_feature_get_classifier_const ( const layout_feature_t *this_ );
 
 /*!
  *  \brief gets the row id of the feature

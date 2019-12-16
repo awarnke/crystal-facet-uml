@@ -262,7 +262,7 @@ void pencil_layouter_private_propose_default_classifier_size ( pencil_layouter_t
     TRACE_END();
 }
 
-pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *this_,
                                                       double x,
                                                       double y,
                                                       double snap_distance,
@@ -277,14 +277,14 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     pencil_error_t result = PENCIL_ERROR_NONE;
     data_id_pair_reinit_void( out_selected_id );
     data_id_pair_reinit_void( out_surrounding_id );
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
+    const layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
     diagram_data = layout_diagram_get_data_ptr ( the_diagram );
 
     /* get bounding box */
-    geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+    const geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
 
     if ( geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -351,7 +351,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( pencil_layouter_t *this_,
     return result;
 }
 
-pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_layouter_t *this_,
                                                                   double x,
                                                                   double y,
                                                                   data_id_pair_t* out_selected_id,
@@ -364,10 +364,10 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     /* get draw area */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+    const layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
 
     if ( geometry_rectangle_contains( diagram_draw_area, x, y ) )
     {
@@ -378,12 +378,12 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
 
         for ( uint32_t index = 0; index < count; index ++ )
         {
-            layout_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), index );
-            geometry_rectangle_t *classifier_bounds;
-            geometry_rectangle_t *classifier_space;
-            classifier_bounds = layout_visible_classifier_get_bounds_ptr ( visible_classifier );
-            classifier_space = layout_visible_classifier_get_space_ptr ( visible_classifier );
+            const layout_visible_classifier_t *visible_classifier;
+            visible_classifier = pencil_layout_data_get_classifier_const ( &((*this_).layout_data), index );
+            const geometry_rectangle_t *classifier_bounds;
+            const geometry_rectangle_t *classifier_space;
+            classifier_bounds = layout_visible_classifier_get_bounds_const ( visible_classifier );
+            classifier_space = layout_visible_classifier_get_space_const ( visible_classifier );
 
             if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
             {
@@ -422,7 +422,7 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( pencil_layoute
     return result;
 }
 
-pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layouter_t *this_,
                                                                double x,
                                                                double y,
                                                                pencil_type_filter_t filter,
@@ -440,18 +440,18 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
     f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
     {
-        layout_feature_t *the_feature;
-        the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
-        geometry_rectangle_t *feature_bounds;
-        feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+        const layout_feature_t *the_feature;
+        the_feature = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+        const geometry_rectangle_t *feature_bounds;
+        feature_bounds = layout_feature_get_bounds_const ( the_feature );
 
         if ( geometry_rectangle_contains( feature_bounds, x, y ) )
         {
             /* feature is found */
             const data_feature_t *data_feature;
             data_feature = layout_feature_get_data_ptr ( the_feature );
-            layout_visible_classifier_t *layout_classifier;
-            layout_classifier = layout_feature_get_classifier_ptr ( the_feature );
+            const layout_visible_classifier_t *layout_classifier;
+            layout_classifier = layout_feature_get_classifier_const ( the_feature );
             if (( PENCIL_TYPE_FILTER_LIFELINE == filter )
                 &&( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( data_feature ) ))
             {
@@ -487,7 +487,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( pencil_layouter_t
     return result;
 }
 
-pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil_layouter_t *this_,
                                                                     double x,
                                                                     double y,
                                                                     double snap_distance,
@@ -503,18 +503,18 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
     uint32_t matching_relations_found = 0;
     for ( uint32_t rel_index = 0; rel_index < count_relations; rel_index ++ )
     {
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr( &((*this_).layout_data), rel_index );
-        geometry_connector_t *relationship_shape;
-        relationship_shape = layout_relationship_get_shape_ptr( the_relationship );
+        const layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_const( &((*this_).layout_data), rel_index );
+        const geometry_connector_t *relationship_shape;
+        relationship_shape = layout_relationship_get_shape_const( the_relationship );
 
         if ( geometry_connector_is_close( relationship_shape, x, y, snap_distance ) )
         {
             /* ensure that every relation at that location can be selected by small mouse movements */
             if ( ((uint32_t)(x+y))%(matching_relations_found+1) == 0 )
             {
-                layout_relationship_t *current_relation;
-                current_relation = pencil_layout_data_get_relationship_ptr ( &((*this_).layout_data), rel_index );
+                const layout_relationship_t *current_relation;
+                current_relation = pencil_layout_data_get_relationship_const ( &((*this_).layout_data), rel_index );
                 const data_relationship_t *relation_data;
                 relation_data = layout_relationship_get_data_ptr( current_relation );
 
@@ -534,7 +534,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( pencil_layou
     return result;
 }
 
-pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layouter_t *this_,
                                                              double x,
                                                              double y,
                                                              double snap_distance,
@@ -546,12 +546,12 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get the bounding box of the diagram */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
-    geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+    const layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
+    const geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
 
     /* get the diagram type */
     const data_diagram_t *diagram_data;
@@ -624,7 +624,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( pencil_layouter_t *
     return result;
 }
 
-pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_t *this_,
                                                           const data_feature_t *feature_ptr,
                                                           double x,
                                                           double y,
@@ -643,10 +643,10 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
     parent_classifier_id = data_feature_get_classifier_id ( feature_ptr );
 
     /* get the bounding box of the diagram */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
+    const layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
 
     if ( ! geometry_rectangle_contains( diagram_bounds, x, y ) )
     {
@@ -661,13 +661,13 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
     else
     {
         /* iterate over all classifiers, search the closest_parent_instance */
-        layout_visible_classifier_t *closest_parent_instance = NULL;
+        const layout_visible_classifier_t *closest_parent_instance = NULL;
         uint32_t classfy_count;
         classfy_count = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
         for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
         {
-            layout_visible_classifier_t *visible_classfy;
-            visible_classfy = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), classfy_index );
+            const layout_visible_classifier_t *visible_classfy;
+            visible_classfy = pencil_layout_data_get_classifier_const ( &((*this_).layout_data), classfy_index );
             int64_t classfy_id;
             classfy_id = layout_visible_classifier_get_classifier_id ( visible_classfy );
             if ( parent_classifier_id == classfy_id )
@@ -678,10 +678,10 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                 }
                 else
                 {
-                    geometry_rectangle_t *classfy_bounds;
-                    geometry_rectangle_t *closest_parent_bounds;
-                    classfy_bounds = layout_visible_classifier_get_bounds_ptr ( visible_classfy );
-                    closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );
+                    const geometry_rectangle_t *classfy_bounds;
+                    const geometry_rectangle_t *closest_parent_bounds;
+                    classfy_bounds = layout_visible_classifier_get_bounds_const ( visible_classfy );
+                    closest_parent_bounds = layout_visible_classifier_get_bounds_const ( closest_parent_instance );
                     double classfy_distance = geometry_rectangle_calc_chess_distance( classfy_bounds, x, y );
                     double closest_parent_distance = geometry_rectangle_calc_chess_distance( closest_parent_bounds, x, y );
                     if ( classfy_distance < closest_parent_distance )
@@ -707,10 +707,10 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
                     {
                         /* check if feature belongs to same parent classifier */
-                        layout_feature_t *the_feature;
-                        the_feature = pencil_layout_data_get_feature_ptr ( &((*this_).layout_data), f_idx );
-                        layout_visible_classifier_t *vis_classfy;
-                        vis_classfy = layout_feature_get_classifier_ptr ( the_feature );
+                        const layout_feature_t *the_feature;
+                        the_feature = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+                        const layout_visible_classifier_t *vis_classfy;
+                        vis_classfy = layout_feature_get_classifier_const ( the_feature );
                         if ( closest_parent_instance == vis_classfy )
                         {
                             /* check if feature is not the moved one */
@@ -720,8 +720,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                             {
                                 int32_t list_order;
                                 list_order = data_feature_get_list_order( data_feature );
-                                geometry_rectangle_t *feature_bounds;
-                                feature_bounds = layout_feature_get_bounds_ptr ( the_feature );
+                                const geometry_rectangle_t *feature_bounds;
+                                feature_bounds = layout_feature_get_bounds_const ( the_feature );
                                 if ( y < geometry_rectangle_get_center_y( feature_bounds ) )
                                 {
                                     if ( list_order < min_order_below ) { min_order_below = list_order; }
@@ -767,8 +767,8 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
                 case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
                 case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
                 {
-                    geometry_rectangle_t *closest_parent_bounds;
-                    closest_parent_bounds = layout_visible_classifier_get_bounds_ptr ( closest_parent_instance );
+                    const geometry_rectangle_t *closest_parent_bounds;
+                    closest_parent_bounds = layout_visible_classifier_get_bounds_const ( closest_parent_instance );
                     double center_x;
                     double center_y;
                     center_x = geometry_rectangle_get_center_x( closest_parent_bounds );
@@ -833,7 +833,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( pencil_layouter_t *thi
     return result;
 }
 
-pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t *this_,
+pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layouter_t *this_,
                                                                int64_t relationship_id,
                                                                double x,
                                                                double y,
@@ -845,12 +845,12 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( pencil_layouter_t
     pencil_error_t result = PENCIL_ERROR_NONE;
 
     /* get the bounding box of the diagram */
-    layout_diagram_t *the_diagram;
-    the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
-    geometry_rectangle_t *diagram_bounds;
-    diagram_bounds = layout_diagram_get_bounds_ptr( the_diagram );
-    geometry_rectangle_t *diagram_draw_area;
-    diagram_draw_area = layout_diagram_get_draw_area_ptr( the_diagram );
+    const layout_diagram_t *the_diagram;
+    the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
+    const geometry_rectangle_t *diagram_bounds;
+    diagram_bounds = layout_diagram_get_bounds_const( the_diagram );
+    const geometry_rectangle_t *diagram_draw_area;
+    diagram_draw_area = layout_diagram_get_draw_area_const( the_diagram );
 
     /* get the diagram type */
     const data_diagram_t *diagram_data;

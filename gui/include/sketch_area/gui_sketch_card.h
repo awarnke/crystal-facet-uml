@@ -70,7 +70,7 @@ static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ );
  *
  *  \param this_ pointer to own object attributes
  */
-static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ );
+static inline bool gui_sketch_card_is_valid( const gui_sketch_card_t *this_ );
 
 /*!
  *  \brief gets the bounds rectangle
@@ -78,7 +78,7 @@ static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return returns the bounding box of this sketch card
  */
-static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ );
+static inline shape_int_rectangle_t gui_sketch_card_get_bounds( const gui_sketch_card_t *this_ );
 
 /*!
  *  \brief sets the bounds rectangle
@@ -94,7 +94,7 @@ static inline void gui_sketch_card_set_bounds( gui_sketch_card_t *this_, shape_i
  *  \param this_ pointer to own object attributes
  *  \return true if this sketch card is currently visible
  */
-static inline bool gui_sketch_card_is_visible( gui_sketch_card_t *this_ );
+static inline bool gui_sketch_card_is_visible( const gui_sketch_card_t *this_ );
 
 /*!
  *  \brief sets the visible flag
@@ -121,6 +121,14 @@ void gui_sketch_card_draw ( gui_sketch_card_t *this_, gui_marked_set_t *marker, 
  *  \param this_ pointer to own object attributes
  *  \return pointer to diagram, never NULL
  */
+static inline const data_diagram_t * gui_sketch_card_get_diagram_const ( const gui_sketch_card_t *this_ );
+
+/*!
+ * \brief gets the address of the diagram within the painter input data of gui_sketch_card_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to diagram, never NULL
+ */
 static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card_t *this_ );
 
 /*!
@@ -136,7 +144,7 @@ static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  *  \param out_surrounding_id the id of the embracing object at the given location. The id is invalid if there is no object embracing the given location.
  */
-static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
+static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
                                                           int32_t x,
                                                           int32_t y,
                                                           pencil_type_filter_t filter,
@@ -154,7 +162,7 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
  *  \param y y-position
  *  \return the list order value at the given location
  */
-static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y );
+static inline layout_order_t gui_sketch_card_get_order_at_pos ( const gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y );
 
 /*!
  *  \brief gets the order value at a given position for a feature
@@ -168,8 +176,8 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_
  *  \param y y-position
  *  \return the list order value at the given location
  */
-static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card_t *this_,
-                                                                 data_feature_t *feature_ptr,
+static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketch_card_t *this_,
+                                                                 const data_feature_t *feature_ptr,
                                                                  int32_t x,
                                                                  int32_t y
                                                                );
@@ -182,7 +190,7 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card
  *  \param y y-position
  *  \return a pair of bool values indicating if x- and y- position values are on grid lines
  */
-static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y );
+static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y );
 
 /*!
  *  \brief moves an object to an order (without modifying the database)
@@ -213,7 +221,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
  *  \param this_ pointer to own object attributes
  *  \result highest list order. May be used to append a new item to the end of the list.
  */
-static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t *this_ );
+static inline int32_t gui_sketch_card_get_highest_list_order( const gui_sketch_card_t *this_ );
 
 #include "gui_sketch_card.inl"
 

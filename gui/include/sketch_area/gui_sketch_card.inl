@@ -14,12 +14,12 @@ static inline void gui_sketch_card_invalidate_data( gui_sketch_card_t *this_ )
     data_visible_set_invalidate( &((*this_).painter_input_data) );
 }
 
-static inline bool gui_sketch_card_is_valid( gui_sketch_card_t *this_ )
+static inline bool gui_sketch_card_is_valid( const gui_sketch_card_t *this_ )
 {
     return data_visible_set_is_valid( &((*this_).painter_input_data) );
 }
 
-static inline shape_int_rectangle_t gui_sketch_card_get_bounds( gui_sketch_card_t *this_ )
+static inline shape_int_rectangle_t gui_sketch_card_get_bounds( const gui_sketch_card_t *this_ )
 {
     return (*this_).bounds;
 }
@@ -29,7 +29,7 @@ static inline void gui_sketch_card_set_bounds( gui_sketch_card_t *this_, shape_i
     (*this_).bounds = bounds;
 }
 
-static inline bool gui_sketch_card_is_visible( gui_sketch_card_t *this_ )
+static inline bool gui_sketch_card_is_visible( const gui_sketch_card_t *this_ )
 {
     return (*this_).visible;
 }
@@ -44,7 +44,12 @@ static inline data_diagram_t * gui_sketch_card_get_diagram_ptr ( gui_sketch_card
     return data_visible_set_get_diagram_ptr( &((*this_).painter_input_data) );
 }
 
-static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *this_,
+static inline const data_diagram_t * gui_sketch_card_get_diagram_const ( const gui_sketch_card_t *this_ )
+{
+    return data_visible_set_get_diagram_const( &((*this_).painter_input_data) );
+}
+
+static inline void gui_sketch_card_get_object_id_at_pos ( const gui_sketch_card_t *this_,
                                                           int32_t x,
                                                           int32_t y,
                                                           pencil_type_filter_t filter,
@@ -80,7 +85,7 @@ static inline void gui_sketch_card_get_object_id_at_pos ( gui_sketch_card_t *thi
     }
 }
 
-static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
+static inline layout_order_t gui_sketch_card_get_order_at_pos ( const gui_sketch_card_t *this_, data_id_t obj_id, int32_t x, int32_t y )
 {
     layout_order_t result;
     pencil_error_t pen_err;
@@ -114,8 +119,8 @@ static inline layout_order_t gui_sketch_card_get_order_at_pos ( gui_sketch_card_
     return result;
 }
 
-static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card_t *this_,
-                                                                 data_feature_t *feature_ptr,
+static inline int32_t gui_sketch_card_get_feature_order_at_pos ( const gui_sketch_card_t *this_,
+                                                                 const data_feature_t *feature_ptr,
                                                                  int32_t x,
                                                                  int32_t y )
 {
@@ -153,7 +158,7 @@ static inline int32_t gui_sketch_card_get_feature_order_at_pos ( gui_sketch_card
     return layout_order_get_first( &result );
 }
 
-static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( gui_sketch_card_t *this_, int32_t x, int32_t y )
+static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_sketch_card_t *this_, int32_t x, int32_t y )
 {
     universal_bool_list_t result;
     bool x_on_grid;
@@ -196,7 +201,7 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     }
 }
 
-static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t *this_ )
+static inline int32_t gui_sketch_card_get_highest_list_order( const gui_sketch_card_t *this_ )
 {
     int32_t result = 0;
 
@@ -204,8 +209,8 @@ static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t 
     {
         for ( uint32_t f_idx = 0; f_idx < data_visible_set_get_feature_count( &((*this_).painter_input_data) ); f_idx ++ )
         {
-            data_feature_t *feat;
-            feat = data_visible_set_get_feature_ptr ( &((*this_).painter_input_data), f_idx );
+            const data_feature_t *feat;
+            feat = data_visible_set_get_feature_const ( &((*this_).painter_input_data), f_idx );
             if ( data_feature_get_list_order( feat ) > result )
             {
                 result = data_feature_get_list_order( feat );
@@ -213,8 +218,8 @@ static inline int32_t gui_sketch_card_get_highest_list_order( gui_sketch_card_t 
         }
         for ( uint32_t rs_idx = 0; rs_idx < data_visible_set_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
         {
-            data_relationship_t *relation;
-            relation = data_visible_set_get_relationship_ptr ( &((*this_).painter_input_data), rs_idx );
+            const data_relationship_t *relation;
+            relation = data_visible_set_get_relationship_const ( &((*this_).painter_input_data), rs_idx );
             if ( data_relationship_get_list_order( relation ) > result )
             {
                 result = data_relationship_get_list_order( relation );

@@ -102,7 +102,7 @@ void gui_sketch_nav_tree_load_data( gui_sketch_nav_tree_t *this_, int64_t diagra
  *  \param this_ pointer to own object attributes
  *  \return the id of the root diagram, DATA_ID_VOID_ID if no diagrams exist
  */
-static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( gui_sketch_nav_tree_t *this_ );
+static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the highest list order of the sibling diagrams
@@ -110,7 +110,7 @@ static inline int64_t gui_sketch_nav_tree_get_root_diagram_id ( gui_sketch_nav_t
  *  \param this_ pointer to own object attributes
  *  \return the highest list order of the siblings diagrams, 0 if no sibling diagrams exist
  */
-static inline int32_t gui_sketch_nav_tree_get_siblings_highest_order ( gui_sketch_nav_tree_t *this_ );
+static inline int32_t gui_sketch_nav_tree_get_siblings_highest_order ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the highest list order of the children diagrams
@@ -118,7 +118,7 @@ static inline int32_t gui_sketch_nav_tree_get_siblings_highest_order ( gui_sketc
  *  \param this_ pointer to own object attributes
  *  \return the highest list order of the children diagrams, 0 if no children diagrams exist
  */
-static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( gui_sketch_nav_tree_t *this_ );
+static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief checks if one diagram is a direct child or indirect descendant of the other
@@ -129,7 +129,7 @@ static inline int32_t gui_sketch_nav_tree_get_children_highest_order ( gui_sketc
  *  \param out_is_descendant true if probe_ancestor_id is an ancestor of probe_descendant_id.
  *  \return GUI_ERROR_NONE if both ids are in the cache, GUI_ERROR_UNKNOWN_OBJECT otherwise
  */
-static inline gui_error_t gui_sketch_nav_tree_is_descendant ( gui_sketch_nav_tree_t *this_,
+static inline gui_error_t gui_sketch_nav_tree_is_descendant ( const gui_sketch_nav_tree_t *this_,
                                                               int64_t probe_ancestor_id,
                                                               int64_t probe_descendant_id,
                                                               bool *out_is_descendant
@@ -155,7 +155,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return returns the bounding box of this sketch card
  */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds( gui_sketch_nav_tree_t *this_ );
+static inline shape_int_rectangle_t gui_sketch_nav_tree_get_bounds( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief sets the bounds rectangle
@@ -171,7 +171,7 @@ static inline void gui_sketch_nav_tree_set_bounds( gui_sketch_nav_tree_t *this_,
  *  \param this_ pointer to own object attributes
  *  \return true if this sketch card is currently visible
  */
-static inline bool gui_sketch_nav_tree_is_visible( gui_sketch_nav_tree_t *this_ );
+static inline bool gui_sketch_nav_tree_is_visible( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief sets the visible flag
@@ -187,7 +187,7 @@ static inline void gui_sketch_nav_tree_set_visible( gui_sketch_nav_tree_t *this_
  *  \param this_ pointer to own object attributes
  *  \return pointer to diagram
  */
-static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_nav_tree_t *this_ );
+static inline const data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( const gui_sketch_nav_tree_t *this_ );
 
 /*!
  *  \brief gets the action-id of the button at a given position.
@@ -197,7 +197,7 @@ static inline data_diagram_t *gui_sketch_nav_tree_get_diagram_ptr ( gui_sketch_n
  *  \param y y-position
  *  \param out_action_id the action id ofthe button at the given location. GUI_SKETCH_ACTION_NONE if there is no button at the given location.
  */
-static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t *this_,
+static inline void gui_sketch_nav_tree_get_button_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                            int32_t x,
                                                            int32_t y,
                                                            gui_sketch_action_t *out_action_id
@@ -211,7 +211,7 @@ static inline void gui_sketch_nav_tree_get_button_at_pos ( gui_sketch_nav_tree_t
  *  \param y y-position
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
-void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
+void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                 int32_t x,
                                                 int32_t y,
                                                 data_id_t *out_selected_id
@@ -231,7 +231,7 @@ void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
  *  \param out_gap_line the line coordinates to show a gap cursor bar.
  *  \return GUI_ERROR_NONE if x/y points to a valid gap, GUI_ERROR_OUT_OF_BOUNDS in case of out of bounds error
  */
-gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                       int32_t x,
                                                       int32_t y,
                                                       data_id_t *out_parent_id,
@@ -246,7 +246,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
  *  \param ancestor_index index of the ancestor
  *  \return bounding box of the diagram name
  */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bounds ( gui_sketch_nav_tree_t *this_,
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bounds ( const gui_sketch_nav_tree_t *this_,
                                                                                       uint32_t ancestor_index
                                                                                     );
 
@@ -257,7 +257,7 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_ancestor_bou
  *  \param sibling_index index of the sibling. siblings_count if the position after the last sibling shall be returned (for e.g. a "new" button).
  *  \return bounding box of the diagram name
  */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_bounds ( gui_sketch_nav_tree_t *this_,
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_bounds ( const gui_sketch_nav_tree_t *this_,
                                                                                      uint32_t sibling_index
                                                                                    );
 
@@ -268,7 +268,7 @@ static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_sibling_boun
  *  \param child_index index of the child. children_count if the position after the last child shall be returned (for e.g. a "new" button).
  *  \return bounding box of the diagram name
  */
-static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( gui_sketch_nav_tree_t *this_,
+static inline shape_int_rectangle_t gui_sketch_nav_tree_private_get_child_bounds ( const gui_sketch_nav_tree_t *this_,
                                                                                    uint32_t child_index
                                                                                  );
 

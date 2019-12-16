@@ -261,7 +261,7 @@ void gui_sketch_nav_tree_invalidate_data( gui_sketch_nav_tree_t *this_ )
     TRACE_END();
 }
 
-gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *this_,
+gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                       int32_t x,
                                                       int32_t y,
                                                       data_id_t *out_parent_id,
@@ -301,7 +301,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( gap_index < (*this_).line_idx_ancestors_start + (*this_).line_cnt_ancestors ))
         {
             gap_depth = gap_index - (*this_).line_idx_ancestors_start;
-            
+
             /* formula differs from others because backwards order and index 0 reserved or self: */
             uint32_t ancester_idx = (*this_).ancestors_count - 1 - (gap_index - (*this_).line_idx_ancestors_start);
 
@@ -319,7 +319,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( (*this_).siblings_self_index >= 0 ) /* self exists */ )
         {
             gap_depth = (*this_).line_cnt_ancestors + 1;
-            
+
             uint32_t child_idx = gap_index - (*this_).line_idx_children_start;
             /* use self as parent id because this shall work even if there are no children */
             data_id_reinit( out_parent_id,
@@ -353,7 +353,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( gap_index < (*this_).line_idx_siblings_start + (*this_).line_cnt_siblings_to_incl_self ))
         {
             gap_depth = (*this_).line_cnt_ancestors;
-            
+
             uint32_t sibl1_idx = gap_index - (*this_).line_idx_siblings_start;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
@@ -379,7 +379,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             && ( (*this_).line_cnt_siblings_to_incl_self > 0) /* otherwise no self */ )
         {
             gap_depth = (*this_).line_cnt_ancestors;
-            
+
             uint32_t sibl2_idx = gap_index - (*this_).line_idx_siblings_next_after_self + (*this_).line_cnt_siblings_to_incl_self;
             data_id_reinit( out_parent_id,
                             DATA_TABLE_DIAGRAM,
@@ -398,7 +398,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
             }
             ret_error = GUI_ERROR_NONE;
         }
-        
+
         /* finally, initialize the gap box */
         {
             int32_t gap_y_top = gap_index*GUI_SKETCH_NAV_TREE_LINE_HEIGHT-1;
@@ -424,7 +424,7 @@ gui_error_t gui_sketch_nav_tree_get_gap_info_at_pos ( gui_sketch_nav_tree_t *thi
     return ret_error;
 }
 
-void gui_sketch_nav_tree_get_object_id_at_pos ( gui_sketch_nav_tree_t *this_,
+void gui_sketch_nav_tree_get_object_id_at_pos ( const gui_sketch_nav_tree_t *this_,
                                                 int32_t x,
                                                 int32_t y,
                                                 data_id_t *out_selected_id )

@@ -63,7 +63,7 @@ static inline void layout_relationship_destroy ( layout_relationship_t *this_ );
  *  \return true if (*this_).data points to valid data and is consistent with (*this_).from_classifier,
  *          (*this_).to_classifier, (*this_).from_feature, (*this_).to_feature
  */
-static inline bool layout_relationship_is_valid ( layout_relationship_t *this_ );
+static inline bool layout_relationship_is_valid ( const layout_relationship_t *this_ );
 
 /*!
  *  \brief gets the visibility of the relationship
@@ -90,6 +90,14 @@ static inline void layout_relationship_set_visibility ( layout_relationship_t *t
 static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_relationship_t *this_ );
 
 /*!
+ *  \brief gets the shape of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_connector_t *layout_relationship_get_shape_const ( const layout_relationship_t *this_ );
+
+/*!
  *  \brief sets the shape of the relationship
  *
  *  \param this_ pointer to own object attributes
@@ -112,6 +120,14 @@ static inline geometry_point_t layout_relationship_get_middle ( const layout_rel
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ );
+
+/*!
+ *  \brief gets the label bounds of the relationship
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_relationship_get_label_box_const ( const layout_relationship_t *this_ );
 
 /*!
  *  \brief sets the label bounds of the relationship

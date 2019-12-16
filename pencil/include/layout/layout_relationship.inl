@@ -30,7 +30,7 @@ static inline void layout_relationship_destroy ( layout_relationship_t *this_ )
     (*this_).data = NULL;
 }
 
-static inline bool layout_relationship_is_valid ( layout_relationship_t *this_ )
+static inline bool layout_relationship_is_valid ( const layout_relationship_t *this_ )
 {
     bool result;
     if (( (*this_).data == NULL )||( (*this_).from_classifier == NULL )||( (*this_).to_classifier == NULL ))
@@ -75,6 +75,11 @@ static inline geometry_connector_t *layout_relationship_get_shape_ptr ( layout_r
     return &((*this_).shape);
 }
 
+static inline const geometry_connector_t *layout_relationship_get_shape_const ( const layout_relationship_t *this_ )
+{
+    return &((*this_).shape);
+}
+
 static inline void layout_relationship_set_shape ( layout_relationship_t *this_, const geometry_connector_t *shape )
 {
     geometry_connector_replace ( &((*this_).shape), shape );
@@ -87,6 +92,11 @@ static inline geometry_point_t layout_relationship_get_middle ( const layout_rel
 }
 
 static inline geometry_rectangle_t *layout_relationship_get_label_box_ptr ( layout_relationship_t *this_ )
+{
+    return &((*this_).label_box);
+}
+
+static inline const geometry_rectangle_t *layout_relationship_get_label_box_const ( const layout_relationship_t *this_ )
 {
     return &((*this_).label_box);
 }

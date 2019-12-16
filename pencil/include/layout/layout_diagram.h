@@ -44,7 +44,7 @@ static inline void layout_diagram_destroy ( layout_diagram_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return true if (*this_).data points to valid data
  */
-static inline bool layout_diagram_is_valid ( layout_diagram_t *this_ );
+static inline bool layout_diagram_is_valid ( const layout_diagram_t *this_ );
 
 /*!
  *  \brief gets the bounding box of the diagram
@@ -53,6 +53,14 @@ static inline bool layout_diagram_is_valid ( layout_diagram_t *this_ );
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_diagram_get_bounds_ptr ( layout_diagram_t *this_ );
+
+/*!
+ *  \brief gets the bounding box of the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_diagram_get_bounds_const ( const layout_diagram_t *this_ );
 
 /*!
  *  \brief gets the bounding box of the diagram
@@ -69,6 +77,14 @@ static inline void layout_diagram_set_bounds ( layout_diagram_t *this_, const ge
  *  \return pointer to geometry_rectangle_t.
  */
 static inline geometry_rectangle_t *layout_diagram_get_draw_area_ptr ( layout_diagram_t *this_ );
+
+/*!
+ *  \brief gets the draw area of the diagram
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline const geometry_rectangle_t *layout_diagram_get_draw_area_const ( const layout_diagram_t *this_ );
 
 /*!
  *  \brief gets the data_diagram_t object

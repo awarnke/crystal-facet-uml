@@ -700,7 +700,7 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                         int64_t new_diag_id;
 
                         {
-                            data_diagram_t *selected_diag;
+                            const data_diagram_t *selected_diag;
                             selected_diag = gui_sketch_nav_tree_get_diagram_ptr ( &((*this_).nav_tree) );
                             switch ( action_button_id )
                             {

@@ -14,37 +14,37 @@ static inline void shape_int_rectangle_destroy ( shape_int_rectangle_t *this_ )
 {
 }
 
-static inline int32_t shape_int_rectangle_get_left ( shape_int_rectangle_t *this_ )
+static inline int32_t shape_int_rectangle_get_left ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).left;
 }
 
-static inline int32_t shape_int_rectangle_get_top ( shape_int_rectangle_t *this_ )
+static inline int32_t shape_int_rectangle_get_top ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).top;
 }
 
-static inline int32_t shape_int_rectangle_get_right ( shape_int_rectangle_t *this_ )
+static inline int32_t shape_int_rectangle_get_right ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).left + (*this_).width;
 }
 
-static inline int32_t shape_int_rectangle_get_bottom ( shape_int_rectangle_t *this_ )
+static inline int32_t shape_int_rectangle_get_bottom ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).top + (*this_).height;
 }
 
-static inline uint32_t shape_int_rectangle_get_width ( shape_int_rectangle_t *this_ )
+static inline uint32_t shape_int_rectangle_get_width ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).width;
 }
 
-static inline uint32_t shape_int_rectangle_get_height ( shape_int_rectangle_t *this_ )
+static inline uint32_t shape_int_rectangle_get_height ( const shape_int_rectangle_t *this_ )
 {
     return (*this_).height;
 }
 
-static inline bool shape_int_rectangle_contains ( shape_int_rectangle_t *this_, int32_t x, int32_t y )
+static inline bool shape_int_rectangle_contains ( const shape_int_rectangle_t *this_, int32_t x, int32_t y )
 {
     bool result;
     result = ( x >= (*this_).left )&&( y >= (*this_).top )&&( x < (*this_).left+(*this_).width )&&( y < (*this_).top+(*this_).height );
@@ -141,7 +141,7 @@ static inline void shape_int_rectangle_shrink_to_ratio ( shape_int_rectangle_t *
     }
 }
 
-static inline void shape_int_rectangle_trace ( shape_int_rectangle_t *this_ )
+static inline void shape_int_rectangle_trace ( const shape_int_rectangle_t *this_ )
 {
     TRACE_INFO( "shape_int_rectangle_t" );
     TRACE_INFO_INT( "- left:", (*this_).left );

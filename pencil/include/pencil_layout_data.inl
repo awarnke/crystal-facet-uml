@@ -22,9 +22,15 @@ static inline layout_diagram_t *pencil_layout_data_get_diagram_ptr ( pencil_layo
     return &((*this_).diagram_layout);
 }
 
+static inline const layout_diagram_t *pencil_layout_data_get_diagram_const ( const pencil_layout_data_t *this_ )
+{
+    /*assert ( (*this_).diagram_valid );*/ /* we return the pointer even if diagram_layout is not yet initialized */
+    return &((*this_).diagram_layout);
+}
+
 /* ================================ classifiers ================================ */
 
-static inline uint32_t pencil_layout_data_get_classifier_count ( pencil_layout_data_t *this_ )
+static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_layout_data_t *this_ )
 {
     assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     return (*this_).visible_classifier_count;
@@ -37,9 +43,16 @@ static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr
     return &((*this_).visible_classifier_layout[index]);
 }
 
+static inline const layout_visible_classifier_t *pencil_layout_data_get_classifier_const ( const pencil_layout_data_t *this_, uint32_t index )
+{
+    assert( index < (*this_).visible_classifier_count );
+    assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+    return &((*this_).visible_classifier_layout[index]);
+}
+
 /* ================================ features ================================ */
 
-static inline uint32_t pencil_layout_data_get_feature_count ( pencil_layout_data_t *this_ )
+static inline uint32_t pencil_layout_data_get_feature_count ( const pencil_layout_data_t *this_ )
 {
     assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
     return (*this_).feature_count;
@@ -52,9 +65,16 @@ static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layo
     return &((*this_).feature_layout[index]);
 }
 
+static inline const layout_feature_t *pencil_layout_data_get_feature_const ( const pencil_layout_data_t *this_, uint32_t index )
+{
+    assert( index < (*this_).feature_count );
+    assert( (*this_).feature_count <= PENCIL_LAYOUT_DATA_MAX_FEATURES );
+    return &((*this_).feature_layout[index]);
+}
+
 /* ================================ relationships ================================ */
 
-static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index )
+static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( const pencil_layout_data_t *this_, uint32_t index )
 {
     assert( index < (*this_).relationship_count );
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
@@ -68,7 +88,7 @@ static inline void pencil_layout_data_set_relationship_visibility ( pencil_layou
     layout_relationship_set_visibility ( &((*this_).relationship_layout[index]), visible );
 }
 
-static inline uint32_t pencil_layout_data_get_relationship_count ( pencil_layout_data_t *this_ )
+static inline uint32_t pencil_layout_data_get_relationship_count ( const pencil_layout_data_t *this_ )
 {
     assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
     return (*this_).relationship_count;
@@ -81,7 +101,14 @@ static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( p
     return &((*this_).relationship_layout[index]);
 }
 
-static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant )
+static inline const layout_relationship_t *pencil_layout_data_get_relationship_const ( const pencil_layout_data_t *this_, uint32_t index )
+{
+    assert( index < (*this_).relationship_count );
+    assert( (*this_).relationship_count <= PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS );
+    return &((*this_).relationship_layout[index]);
+}
+
+static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant )
 {
     assert ( NULL != ancestor );
     assert ( NULL != descendant );
@@ -96,7 +123,7 @@ static inline bool pencil_layout_data_is_ancestor ( pencil_layout_data_t *this_,
     return data_visible_set_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
 }
 
-static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
+static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
 {
     assert ( NULL != classifier );
 
@@ -108,7 +135,7 @@ static inline uint32_t pencil_layout_data_count_ancestors ( pencil_layout_data_t
     return data_visible_set_count_ancestors_of_index ( (*this_).input_data, classifier_index );
 }
 
-static inline uint32_t pencil_layout_data_count_descendants ( pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
+static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
 {
     assert ( NULL != classifier );
 

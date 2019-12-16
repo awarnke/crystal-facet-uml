@@ -437,7 +437,7 @@ void pencil_layout_data_destroy( pencil_layout_data_t *this_ )
 
 /* ================================ misc ================================ */
 
-bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ )
+bool pencil_layout_data_is_valid ( const pencil_layout_data_t *this_ )
 {
     bool result = true;
 
@@ -477,7 +477,7 @@ bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ )
     {
         for ( uint_fast32_t c_idx = 0; c_idx < (*this_).visible_classifier_count;  c_idx ++ )
         {
-            layout_visible_classifier_t *current = &((*this_).visible_classifier_layout[c_idx]);
+            const layout_visible_classifier_t *current = &((*this_).visible_classifier_layout[c_idx]);
             if ( ! layout_visible_classifier_is_valid( current ) )
             {
                 result = false;
@@ -495,7 +495,7 @@ bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ )
     {
         for ( uint_fast32_t f_idx = 0; f_idx < (*this_).feature_count;  f_idx ++ )
         {
-            layout_feature_t *current = &((*this_).feature_layout[f_idx]);
+            const layout_feature_t *current = &((*this_).feature_layout[f_idx]);
             if ( ! layout_feature_is_valid( current ) )
             {
                 result = false;
@@ -513,7 +513,7 @@ bool pencil_layout_data_is_valid ( pencil_layout_data_t *this_ )
     {
         for ( uint_fast32_t r_idx = 0; r_idx < (*this_).relationship_count;  r_idx ++ )
         {
-            layout_relationship_t *current = &((*this_).relationship_layout[r_idx]);
+            const layout_relationship_t *current = &((*this_).relationship_layout[r_idx]);
             if ( ! layout_relationship_is_valid( current ) )
             {
                 result = false;

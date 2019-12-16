@@ -63,7 +63,7 @@ static inline void pencil_diagram_maker_layout_elements ( pencil_diagram_maker_t
     g_object_unref (font_layout);
 }
 
-static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_diagram_maker_t *this_,
+static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( const pencil_diagram_maker_t *this_,
                                                                          double x,
                                                                          double y,
                                                                          pencil_type_filter_t filter,
@@ -83,7 +83,7 @@ static inline pencil_error_t pencil_diagram_maker_get_object_id_at_pos ( pencil_
 static const double snap_to_grid_distance_for_drag_marker = 3.13;  /* smaller than snap_to_grid_distance_for_dropping */
                                                                    /* to ensure object really snaps when marked so */
 
-static inline void pencil_diagram_maker_is_pos_on_grid ( pencil_diagram_maker_t *this_,
+static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_maker_t *this_,
                                                          double x,
                                                          double y,
                                                          bool *out_x_on_grid,

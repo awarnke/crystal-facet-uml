@@ -257,7 +257,7 @@ static const double snap_to_grid_distance_for_dropping = 3.15;  /* plus/minus th
                                                                 /* this value is bigger than snap_to_grid_distance_for_drag_marker */
                                                                 /* to ensure object really snaps when marked so */
 
-pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *this_,
+pencil_error_t pencil_diagram_maker_get_order_at_pos ( const pencil_diagram_maker_t *this_,
                                                        data_id_t obj_id,
                                                        double x,
                                                        double y,
@@ -346,7 +346,7 @@ pencil_error_t pencil_diagram_maker_get_order_at_pos ( pencil_diagram_maker_t *t
     return result;
 }
 
-pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( pencil_diagram_maker_t *this_,
+pencil_error_t pencil_diagram_maker_get_feature_order_at_pos ( const pencil_diagram_maker_t *this_,
                                                                const data_feature_t *feature_ptr,
                                                                double x,
                                                                double y,
