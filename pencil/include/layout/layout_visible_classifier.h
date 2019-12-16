@@ -161,7 +161,7 @@ static inline void layout_visible_classifier_expand ( layout_visible_classifier_
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a data_visible_classifier_t object.
  */
-static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ );
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_const ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief gets the pointer to the const classifier
@@ -169,7 +169,7 @@ static inline const data_visible_classifier_t *layout_visible_classifier_get_dat
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a classifier.
  */
-static inline const data_classifier_t *layout_visible_classifier_get_classifier_ptr ( const layout_visible_classifier_t *this_ );
+static inline const data_classifier_t *layout_visible_classifier_get_classifier_const ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief gets the pointer to the const diagramelement
@@ -177,7 +177,7 @@ static inline const data_classifier_t *layout_visible_classifier_get_classifier_
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a diagramelement.
  */
-static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_ptr ( const layout_visible_classifier_t *this_ );
+static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_const ( const layout_visible_classifier_t *this_ );
 
 /*!
  *  \brief returns true if the classifier is drawn as fixed-size symbol

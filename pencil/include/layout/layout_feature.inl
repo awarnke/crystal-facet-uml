@@ -89,7 +89,7 @@ static inline void layout_feature_set_label_box ( layout_feature_t *this_, const
     geometry_rectangle_replace( &((*this_).label_box), label_box );
 }
 
-static inline const data_feature_t *layout_feature_get_data_ptr ( const layout_feature_t *this_ )
+static inline const data_feature_t *layout_feature_get_data_const ( const layout_feature_t *this_ )
 {
     return (*this_).data;
 }

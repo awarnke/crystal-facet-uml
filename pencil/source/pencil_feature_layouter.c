@@ -44,7 +44,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         diagram_layout = pencil_layout_data_get_diagram_ptr( (*this_).layout_data );
         diagram_draw_area = layout_diagram_get_draw_area_ptr( diagram_layout );
         const data_diagram_t *diagram_data;
-        diagram_data = layout_diagram_get_data_ptr ( diagram_layout );
+        diagram_data = layout_diagram_get_data_const ( diagram_layout );
         diag_type = data_diagram_get_diagram_type ( diagram_data );
     }
 
@@ -56,7 +56,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         layout_feature_t *feature_layout;
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *the_feature;
-        the_feature = layout_feature_get_data_ptr ( feature_layout );
+        the_feature = layout_feature_get_data_const ( feature_layout );
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
@@ -394,8 +394,8 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
             const layout_feature_t *f_probe_layout;
             f_probe_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_probe_idx );
             assert ( NULL != f_probe_layout );
-            layout_visible_classifier_t *probe_vis_classfy;
-            probe_vis_classfy = layout_feature_get_classifier_ptr ( f_probe_layout );
+            const layout_visible_classifier_t *probe_vis_classfy;
+            probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
             assert ( NULL != probe_vis_classfy );
 
             /* check if this f_probe_layout has the same diagram element id as the_feature */
@@ -404,7 +404,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                 /* this is a feature of the same visible_classifier_t */
                 /* define names for input data */
                 const data_feature_t *f_probe_data;
-                f_probe_data = layout_feature_get_data_ptr ( f_probe_layout );
+                f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
                 const bool property_or_operation = ( DATA_FEATURE_TYPE_PROPERTY == f_probe_type )
@@ -478,7 +478,7 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
         layout_feature_t *feature_layout;
         feature_layout = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, f_idx );
         const data_feature_t *the_feature;
-        the_feature = layout_feature_get_data_ptr ( feature_layout );
+        the_feature = layout_feature_get_data_const ( feature_layout );
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
         bool property_or_operation;

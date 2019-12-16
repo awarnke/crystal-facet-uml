@@ -143,7 +143,7 @@ static inline void layout_relationship_set_label_box ( layout_relationship_t *th
  *  \param this_ pointer to own object attributes
  *  \return a pointer to a data_relationship_t object.
  */
-static inline const data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ );
+static inline const data_relationship_t *layout_relationship_get_data_const ( const layout_relationship_t *this_ );
 
 /*!
  *  \brief gets the source layout_visible_classifier_t object
@@ -180,7 +180,7 @@ static inline layout_feature_t *layout_relationship_get_to_feature_ptr ( const l
 /*!
  *  \brief gets the row id of the relationship
  *
- *  This is a shortcut for data_relationship_get_id( layout_relationship_get_data_ptr ( X ) )
+ *  This is a shortcut for data_relationship_get_id( layout_relationship_get_data_const ( X ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the relationship

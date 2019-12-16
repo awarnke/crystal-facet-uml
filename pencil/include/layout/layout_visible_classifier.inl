@@ -106,17 +106,17 @@ static inline void layout_visible_classifier_expand ( layout_visible_classifier_
     geometry_rectangle_shift( &((*this_).label_box), dx, dy );
 }
 
-static inline const data_visible_classifier_t *layout_visible_classifier_get_data_ptr ( const layout_visible_classifier_t *this_ )
+static inline const data_visible_classifier_t *layout_visible_classifier_get_data_const ( const layout_visible_classifier_t *this_ )
 {
     return (*this_).data;
 }
 
-static inline const data_classifier_t *layout_visible_classifier_get_classifier_ptr ( const layout_visible_classifier_t *this_ )
+static inline const data_classifier_t *layout_visible_classifier_get_classifier_const ( const layout_visible_classifier_t *this_ )
 {
     return data_visible_classifier_get_classifier_const ( (*this_).data );
 }
 
-static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_ptr ( const layout_visible_classifier_t *this_ )
+static inline const data_diagramelement_t *layout_visible_classifier_get_diagramelement_const ( const layout_visible_classifier_t *this_ )
 {
     return data_visible_classifier_get_diagramelement_const ( (*this_).data );
 }

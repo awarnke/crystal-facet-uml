@@ -116,8 +116,8 @@ static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *
     /* get index */
     uint32_t ancestor_index;
     uint32_t descendant_index;
-    ancestor_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(ancestor) );
-    descendant_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(descendant) );
+    ancestor_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(ancestor) );
+    descendant_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(descendant) );
 
     /* ask input_data */
     return data_visible_set_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
@@ -129,7 +129,7 @@ static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_
 
     /* get index */
     uint32_t classifier_index;
-    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(classifier) );
 
     /* ask input_data */
     return data_visible_set_count_ancestors_of_index ( (*this_).input_data, classifier_index );
@@ -141,7 +141,7 @@ static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layou
 
     /* get index */
     uint32_t classifier_index;
-    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_ptr(classifier) );
+    classifier_index = data_visible_set_get_classifier_index_from_pointer ( (*this_).input_data, layout_visible_classifier_get_data_const(classifier) );
 
     /* ask input_data */
     return data_visible_set_count_descendants_of_index ( (*this_).input_data, classifier_index );

@@ -124,7 +124,7 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
         /* determine simpleness by relationship type */
         {
             data_relationship_type_t reltype;
-            reltype = data_relationship_get_main_type( layout_relationship_get_data_ptr ( current_relation ));
+            reltype = data_relationship_get_main_type( layout_relationship_get_data_const ( current_relation ));
             if (( DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY == reltype )
                 ||( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == reltype ))
             {
@@ -252,7 +252,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
         index = universal_array_index_sorter_get_array_index( sorted, sort_index );
         const layout_relationship_t *current_relation;
         current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-        current_relation_data = layout_relationship_get_data_ptr ( current_relation );
+        current_relation_data = layout_relationship_get_data_const ( current_relation );
     }
 
     /* get draw area */
@@ -322,7 +322,7 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             layout_relationship_t *probe_relationship;
             probe_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, probe_index );
             const data_relationship_t *probe_relation_data;
-            probe_relation_data = layout_relationship_get_data_ptr ( probe_relationship );
+            probe_relation_data = layout_relationship_get_data_const ( probe_relationship );
             const bool same_type = ( data_relationship_get_main_type( probe_relation_data )
                                      == data_relationship_get_main_type( current_relation_data ) );
             const bool same_from = ( data_relationship_get_from_classifier_id( probe_relation_data )
@@ -924,8 +924,8 @@ void pencil_relationship_layouter_private_make_all_visible ( pencil_relationship
         assert( to_layout != NULL );
 
         {
-            const data_visible_classifier_t *from_data = layout_visible_classifier_get_data_ptr( from_layout );
-            const data_visible_classifier_t *to_data = layout_visible_classifier_get_data_ptr( to_layout );
+            const data_visible_classifier_t *from_data = layout_visible_classifier_get_data_const( from_layout );
+            const data_visible_classifier_t *to_data = layout_visible_classifier_get_data_const( to_layout );
             const data_diagramelement_t *from_diagele = data_visible_classifier_get_diagramelement_const( from_data );
             const data_diagramelement_t *to_diagele = data_visible_classifier_get_diagramelement_const( to_data );
             data_diagramelement_flag_t from_flags = data_diagramelement_get_display_flags ( from_diagele );
@@ -1012,7 +1012,7 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
         /* calculate layout */
         {
             /* determine y-coordinate */
-            const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
+            const data_relationship_t *the_relationdata = layout_relationship_get_data_const( the_relationship );
             int32_t list_order = data_relationship_get_list_order ( the_relationdata );
             double y_value_rel = (list_order/((double)UINT32_MAX))+0.5;
             double draw_top = geometry_rectangle_get_top(diagram_draw_area);
@@ -1112,7 +1112,7 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
         /* calculate layout */
         {
             /* determine x-coordinate */
-            const data_relationship_t *the_relationdata = layout_relationship_get_data_ptr( the_relationship );
+            const data_relationship_t *the_relationdata = layout_relationship_get_data_const( the_relationship );
             int32_t list_order = data_relationship_get_list_order ( the_relationdata );
             double x_value_rel = (list_order/((double)UINT32_MAX))+0.5;
             double draw_left = geometry_rectangle_get_left(diagram_draw_area);

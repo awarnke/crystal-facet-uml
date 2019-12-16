@@ -92,12 +92,12 @@ static inline const geometry_rectangle_t *layout_diagram_get_draw_area_const ( c
  *  \param this_ pointer to own object attributes
  *  \return a pointer to the corresponding data_diagram_t object
  */
-static inline const data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ );
+static inline const data_diagram_t *layout_diagram_get_data_const ( const layout_diagram_t *this_ );
 
 /*!
  *  \brief gets the row id of the diagram
  *
- *  This is a shortcut for data_diagram_get_id( layout_diagram_get_data_ptr ( X ) )
+ *  This is a shortcut for data_diagram_get_id( layout_diagram_get_data_const ( X ) )
  *
  *  \param this_ pointer to own object attributes
  *  \return id of the diagram

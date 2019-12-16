@@ -17,7 +17,7 @@ static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_o
         visible_classifier_probe = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, c_idx );
 
         const data_classifier_t *classifier_probe;
-        classifier_probe = layout_visible_classifier_get_classifier_ptr( visible_classifier_probe );
+        classifier_probe = layout_visible_classifier_get_classifier_const( visible_classifier_probe );
 
         int err;
         double weight;

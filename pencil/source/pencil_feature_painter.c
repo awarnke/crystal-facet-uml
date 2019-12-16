@@ -47,7 +47,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     assert( NULL != layout );
     assert( NULL != cr );
 
-    const data_feature_t *the_feature = layout_feature_get_data_ptr( layouted_feature );
+    const data_feature_t *the_feature = layout_feature_get_data_const( layouted_feature );
     const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
 
     if ( data_feature_is_valid( the_feature ) )
@@ -109,7 +109,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
         /* draw the label */
         draw_feature_label_draw_key_and_value ( &((*this_).draw_feature_label),
-                                                layout_feature_get_data_ptr( layouted_feature ),
+                                                layout_feature_get_data_const( layouted_feature ),
                                                 layout_feature_get_label_box_ptr( layouted_feature ),
                                                 pencil_size,
                                                 layout,

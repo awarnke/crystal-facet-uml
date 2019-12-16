@@ -40,7 +40,7 @@ void pencil_diagram_painter_draw ( const pencil_diagram_painter_t *this_,
     assert( NULL != font_layout );
     assert( NULL != cr );
 
-    const data_diagram_t *the_diagram = layout_diagram_get_data_ptr( layouted_diagram );
+    const data_diagram_t *the_diagram = layout_diagram_get_data_const( layouted_diagram );
     const geometry_rectangle_t *diagram_bounds = layout_diagram_get_bounds_ptr( layouted_diagram );
 
     double left = geometry_rectangle_get_left ( diagram_bounds );

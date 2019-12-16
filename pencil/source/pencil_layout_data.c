@@ -115,7 +115,7 @@ void pencil_layout_data_private_init_features( pencil_layout_data_t *this_ )
                     parent_classifier = &((*this_).visible_classifier_layout[c_idx2]);
 
                     const bool one_parent_found = data_rules_vis_classifier_has_feature ( &((*this_).filter_rules),
-                                                                                          layout_visible_classifier_get_data_ptr( parent_classifier ),
+                                                                                          layout_visible_classifier_get_data_const( parent_classifier ),
                                                                                           feature_data );
                     if ( one_parent_found )
                     {
@@ -281,7 +281,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                         const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe4_feature ) );
                         if ( one_to_feature_found )
                         {
-                            const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe4_feature )) );
+                            const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_const( probe4_feature )) );
                             if ( to_feature_ok )
                             {
                                 if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )
@@ -321,7 +321,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
             const bool one_from_feature_found = ( from_feature_id == layout_feature_get_feature_id( probe3_feature ) );
             if ( one_from_feature_found )
             {
-                const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe3_feature )) );
+                const bool from_feature_ok = ( from_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_const( probe3_feature )) );
                 if ( from_feature_ok )
                 {
                     if ( DATA_ID_VOID_ID == to_feature_id )  /* search destination(to) in classifiers */
@@ -363,7 +363,7 @@ uint32_t pencil_layout_data_private_init_relationship( pencil_layout_data_t *thi
                             const bool one_to_feature_found = ( to_feature_id == layout_feature_get_feature_id( probe5_feature ) );
                             if ( one_to_feature_found )
                             {
-                                const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_ptr( probe5_feature )) );
+                                const bool to_feature_ok = ( to_classifier_id == data_feature_get_classifier_id(layout_feature_get_data_const( probe5_feature )) );
                                 if ( to_feature_ok )
                                 {
                                     if ( (*this_).relationship_count < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS )

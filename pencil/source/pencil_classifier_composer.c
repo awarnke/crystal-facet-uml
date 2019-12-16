@@ -53,7 +53,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
     assert( NULL != cr );
 
     const data_visible_classifier_t *visible_classifier;
-    visible_classifier = layout_visible_classifier_get_data_ptr( layouted_classifier );
+    visible_classifier = layout_visible_classifier_get_data_const( layouted_classifier );
     const geometry_rectangle_t *classifier_bounds;
     classifier_bounds = layout_visible_classifier_get_bounds_ptr( layouted_classifier );
     const data_classifier_t *classifier;
@@ -690,8 +690,8 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
             const layout_feature_t *f_probe_layout;
             f_probe_layout = pencil_layout_data_get_feature_ptr ( layout_data, f_probe_idx );
             assert ( NULL != f_probe_layout );
-            layout_visible_classifier_t *probe_vis_classfy;
-            probe_vis_classfy = layout_feature_get_classifier_ptr ( f_probe_layout );
+            const layout_visible_classifier_t *probe_vis_classfy;
+            probe_vis_classfy = layout_feature_get_classifier_const ( f_probe_layout );
             assert ( NULL != probe_vis_classfy );
 
             /* check if this f_probe_layout has the same diagram element id as the_feature */
@@ -700,7 +700,7 @@ void pencil_classifier_composer_private_draw_feature_compartments ( const pencil
                 /* this is a feature of the current layouted_classifier */
                 /* define names for input data */
                 const data_feature_t *f_probe_data;
-                f_probe_data = layout_feature_get_data_ptr ( f_probe_layout );
+                f_probe_data = layout_feature_get_data_const ( f_probe_layout );
                 assert ( NULL != f_probe_data );
                 const data_feature_type_t f_probe_type = data_feature_get_main_type ( f_probe_data );
 

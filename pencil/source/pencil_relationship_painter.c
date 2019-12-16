@@ -44,7 +44,7 @@ void pencil_relationship_painter_draw ( pencil_relationship_painter_t *this_,
     assert( NULL != layout );
     assert( NULL != cr );
 
-    const data_relationship_t *the_relationship = layout_relationship_get_data_ptr( layouted_relationship );
+    const data_relationship_t *the_relationship = layout_relationship_get_data_const( layouted_relationship );
     const geometry_connector_t *connector_shape = layout_relationship_get_shape_ptr( layouted_relationship );
 
     if ( data_relationship_is_valid( the_relationship ) )

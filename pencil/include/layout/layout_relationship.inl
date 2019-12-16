@@ -106,7 +106,7 @@ static inline void layout_relationship_set_label_box ( layout_relationship_t *th
     geometry_rectangle_replace( &((*this_).label_box), label_box );
 }
 
-static inline const data_relationship_t *layout_relationship_get_data_ptr ( const layout_relationship_t *this_ )
+static inline const data_relationship_t *layout_relationship_get_data_const ( const layout_relationship_t *this_ )
 {
     assert ( NULL != (*this_).data );
     return (*this_).data;

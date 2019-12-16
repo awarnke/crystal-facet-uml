@@ -109,7 +109,7 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
     {
         const layout_feature_t *current_feature;
         current_feature = pencil_layout_data_get_feature_ptr ( (*this_).layout_data, index );
-        const data_feature_t *feature_data = layout_feature_get_data_ptr ( current_feature );
+        const data_feature_t *feature_data = layout_feature_get_data_const ( current_feature );
         assert( NULL != feature_data );
         data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 
@@ -153,7 +153,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
-    const data_feature_t *feature_data = layout_feature_get_data_ptr ( current_feature );
+    const data_feature_t *feature_data = layout_feature_get_data_const ( current_feature );
     assert( NULL != feature_data );
     data_feature_type_t current_type = data_feature_get_main_type( feature_data );
 

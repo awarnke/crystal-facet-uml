@@ -89,7 +89,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
     layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    diagram_data = layout_diagram_get_data_const ( the_diagram );
 
     /* update the bounding rectangle */
     geometry_rectangle_trace ( &diagram_bounds );
@@ -126,7 +126,7 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
         layout_visible_classifier_t *visible_classifier;
         visible_classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), index );
         const data_classifier_t *classifier_data;
-        classifier_data = layout_visible_classifier_get_classifier_ptr( visible_classifier );
+        classifier_data = layout_visible_classifier_get_classifier_const( visible_classifier );
 
         /* adjust the non-linear scales for this classifier */
         geometry_non_linear_scale_add_order ( &((*this_).x_scale), data_classifier_get_x_order( classifier_data ) );
@@ -144,7 +144,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
     layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_ptr( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    diagram_data = layout_diagram_get_data_const ( the_diagram );
     data_diagram_type_t diag_type;
     diag_type = data_diagram_get_diagram_type ( diagram_data );
 
@@ -280,7 +280,7 @@ pencil_error_t pencil_layouter_get_object_id_at_pos ( const pencil_layouter_t *t
     const layout_diagram_t *the_diagram;
     the_diagram = pencil_layout_data_get_diagram_const( &((*this_).layout_data) );
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    diagram_data = layout_diagram_get_data_const ( the_diagram );
 
     /* get bounding box */
     const geometry_rectangle_t *diagram_bounds;
@@ -449,7 +449,7 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
         {
             /* feature is found */
             const data_feature_t *data_feature;
-            data_feature = layout_feature_get_data_ptr ( the_feature );
+            data_feature = layout_feature_get_data_const ( the_feature );
             const layout_visible_classifier_t *layout_classifier;
             layout_classifier = layout_feature_get_classifier_const ( the_feature );
             if (( PENCIL_TYPE_FILTER_LIFELINE == filter )
@@ -516,7 +516,7 @@ pencil_error_t pencil_layouter_private_get_relationship_id_at_pos ( const pencil
                 const layout_relationship_t *current_relation;
                 current_relation = pencil_layout_data_get_relationship_const ( &((*this_).layout_data), rel_index );
                 const data_relationship_t *relation_data;
-                relation_data = layout_relationship_get_data_ptr( current_relation );
+                relation_data = layout_relationship_get_data_const( current_relation );
 
                 data_id_pair_reinit_by_table_and_id ( out_selected_id,
                                                       DATA_TABLE_RELATIONSHIP,
@@ -555,7 +555,7 @@ pencil_error_t pencil_layouter_get_classifier_order_at_pos ( const pencil_layout
 
     /* get the diagram type */
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    diagram_data = layout_diagram_get_data_const ( the_diagram );
     data_diagram_type_t diag_type;
     diag_type = data_diagram_get_diagram_type ( diagram_data );
 
@@ -715,7 +715,7 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                         {
                             /* check if feature is not the moved one */
                             const data_feature_t *data_feature;
-                            data_feature = layout_feature_get_data_ptr ( the_feature );
+                            data_feature = layout_feature_get_data_const ( the_feature );
                             if ( data_feature_get_id ( feature_ptr ) != data_feature_get_id ( data_feature ) )
                             {
                                 int32_t list_order;
@@ -854,7 +854,7 @@ pencil_error_t pencil_layouter_get_relationship_order_at_pos ( const pencil_layo
 
     /* get the diagram type */
     const data_diagram_t *diagram_data;
-    diagram_data = layout_diagram_get_data_ptr ( the_diagram );
+    diagram_data = layout_diagram_get_data_const ( the_diagram );
     data_diagram_type_t diag_type;
     diag_type = data_diagram_get_diagram_type ( diagram_data );
 

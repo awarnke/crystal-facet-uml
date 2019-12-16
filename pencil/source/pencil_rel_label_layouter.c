@@ -111,7 +111,7 @@ void pencil_rel_label_layouter_private_propose_processing_order ( pencil_rel_lab
     {
         const layout_relationship_t *current_relation;
         current_relation = pencil_layout_data_get_relationship_ptr ( (*this_).layout_data, index );
-        const data_relationship_t *relation_data = layout_relationship_get_data_ptr ( current_relation );
+        const data_relationship_t *relation_data = layout_relationship_get_data_const ( current_relation );
         assert( NULL != relation_data );
 
         int64_t simpleness = 0;
@@ -148,7 +148,7 @@ void pencil_rel_label_layouter_private_propose_solutions ( pencil_rel_label_layo
     assert( NULL != out_solutions );
     assert( NULL != out_solutions_count );
 
-    const data_relationship_t *the_relationship = layout_relationship_get_data_ptr( current_relation );
+    const data_relationship_t *the_relationship = layout_relationship_get_data_const( current_relation );
 
     {
         /* determine label dimensions */

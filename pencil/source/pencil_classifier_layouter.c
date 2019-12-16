@@ -62,7 +62,7 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
         const data_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = layout_visible_classifier_get_data_ptr ( classifier_layout );
+        visible_classifier2 = layout_visible_classifier_get_data_const ( classifier_layout );
 
         /* set the bounds, space and label_box of the classifier layout */
         {
@@ -173,7 +173,7 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
     assert( NULL != the_relationship );
 
     data_relationship_type_t the_type;
-    the_type = data_relationship_get_main_type ( layout_relationship_get_data_ptr( the_relationship ));
+    the_type = data_relationship_get_main_type ( layout_relationship_get_data_const( the_relationship ));
 
     if ( DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT == the_type )
     {
@@ -286,7 +286,7 @@ void pencil_classifier_layouter_hide_relations_of_embraced_children( pencil_clas
         layout_relationship_t *the_relationship;
         the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
         const data_relationship_t *the_rel_data;
-        the_rel_data = layout_relationship_get_data_ptr( the_relationship );
+        the_rel_data = layout_relationship_get_data_const( the_relationship );
 
         data_relationship_type_t the_type;
         pencil_visibility_t visibility;
@@ -629,7 +629,7 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
 
             /* trace */
             const data_visible_classifier_t *visible_classifier_data;
-            visible_classifier_data = layout_visible_classifier_get_data_ptr ( the_probe );
+            visible_classifier_data = layout_visible_classifier_get_data_const ( the_probe );
             if (( visible_classifier_data != NULL ) && ( data_visible_classifier_is_valid( visible_classifier_data ) ))
             {
                 const data_classifier_t *classifier_p;
@@ -641,7 +641,7 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
 
     /* trace */
     const data_visible_classifier_t *visible_classifier;
-    visible_classifier = layout_visible_classifier_get_data_ptr ( the_classifier );
+    visible_classifier = layout_visible_classifier_get_data_const ( the_classifier );
     const data_classifier_t *classifier;
     classifier = data_visible_classifier_get_classifier_const( visible_classifier );
     TRACE_INFO_STR( "classifier:", data_classifier_get_name_ptr( classifier ) );
@@ -813,7 +813,7 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         layout_visible_classifier_get_data_const( visible_classifier2 ),
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2
@@ -878,7 +878,7 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         layout_visible_classifier_get_data_const( visible_classifier2 ),
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2
@@ -943,7 +943,7 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
 
         /* update inner space and label_box */
         pencil_classifier_composer_set_space_and_label ( &((*this_).classifier_composer),
-                                                         layout_visible_classifier_get_data_ptr( visible_classifier2 ),
+                                                         layout_visible_classifier_get_data_const( visible_classifier2 ),
                                                          (*this_).pencil_size,
                                                          font_layout,
                                                          visible_classifier2

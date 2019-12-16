@@ -57,7 +57,7 @@ static inline const geometry_rectangle_t *layout_diagram_get_draw_area_const ( c
     return &((*this_).draw_area);
 }
 
-static inline const data_diagram_t *layout_diagram_get_data_ptr ( const layout_diagram_t *this_ )
+static inline const data_diagram_t *layout_diagram_get_data_const ( const layout_diagram_t *this_ )
 {
     assert ( NULL != (*this_).data );
     return (*this_).data;

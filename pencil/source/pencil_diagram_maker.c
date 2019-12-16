@@ -103,7 +103,7 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
         classifier_layout = pencil_layout_data_get_classifier_ptr( layout_data, index );
         /*
         const data_visible_classifier_t *visible_classifier;
-        visible_classifier = layout_visible_classifier_get_data_ptr ( classifier_layout );
+        visible_classifier = layout_visible_classifier_get_data_const ( classifier_layout );
 
         const data_classifier_t *classifier;
         const data_diagramelement_t *diagramelement;
@@ -158,7 +158,7 @@ void pencil_diagram_maker_private_draw_features ( pencil_diagram_maker_t *this_,
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = layout_feature_get_classifier_ptr ( the_feature );
         const data_diagramelement_t *diagramelement;
-        diagramelement = layout_visible_classifier_get_diagramelement_ptr( classifier_layout );
+        diagramelement = layout_visible_classifier_get_diagramelement_const( classifier_layout );
         data_diagramelement_flag_t display_flags;
         display_flags = data_diagramelement_get_display_flags( diagramelement );
 
@@ -200,7 +200,7 @@ void pencil_diagram_maker_private_draw_relationships ( pencil_diagram_maker_t *t
         const data_relationship_t *the_relationship;
         layout_relationship_t *relationship_layout;
         relationship_layout = pencil_layout_data_get_relationship_ptr ( layout_data, index );
-        the_relationship = layout_relationship_get_data_ptr ( relationship_layout );
+        the_relationship = layout_relationship_get_data_const ( relationship_layout );
         show_relation = layout_relationship_get_visibility ( relationship_layout );
         if ( PENCIL_VISIBILITY_IMPLICIT == show_relation )
         {
