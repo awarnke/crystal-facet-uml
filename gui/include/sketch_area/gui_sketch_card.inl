@@ -2,6 +2,7 @@
 
 #include "tslog.h"
 #include "trace.h"
+#include <assert.h>
 
 static inline void gui_sketch_card_load_data( gui_sketch_card_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
 {
@@ -168,6 +169,25 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_s
 
     universal_bool_list_init_pair( &result, x_on_grid, y_on_grid );
     return result;
+}
+
+static inline void gui_sketch_card_get_grid_lines ( const gui_sketch_card_t *this_,
+                                                    int32_t *out_x0,
+                                                    int32_t *out_y0,
+                                                    int32_t *out_dx,
+                                                    int32_t *out_dy,
+                                                    uint32_t *out_x_count,
+                                                    uint32_t *out_y_count
+                                                  )
+{
+    assert( out_x0 != NULL );
+    assert( out_y0 != NULL );
+    assert( out_dx != NULL );
+    assert( out_dy != NULL );
+    assert( out_x_count != NULL );
+    assert( out_y_count != NULL );
+
+    pencil_diagram_maker_get_grid_lines( &((*this_).painter), out_x0, out_y0, out_dx, out_dy, out_x_count, out_y_count );
 }
 
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )

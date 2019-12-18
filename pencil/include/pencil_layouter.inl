@@ -35,6 +35,30 @@ static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *thi
     *out_y_on_grid = ((-snap_distance < y_dist)&&( y_dist < snap_distance));
 }
 
+static inline void pencil_layouter_get_grid_lines ( const pencil_layouter_t *this_,
+                                                    int32_t *out_x0,
+                                                    int32_t *out_y0,
+                                                    int32_t *out_dx,
+                                                    int32_t *out_dy,
+                                                    uint32_t *out_x_count,
+                                                    uint32_t *out_y_count )
+{
+    assert( out_x0 != NULL );
+    assert( out_y0 != NULL );
+    assert( out_dx != NULL );
+    assert( out_dy != NULL );
+    assert( out_x_count != NULL );
+    assert( out_y_count != NULL );
+
+    *out_x0 = (int32_t) geometry_non_linear_scale_get_location ( &((*this_).x_scale), /*order=*/ INT32_MIN );
+    *out_dx = (int32_t) geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
+    *out_x_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) ) + 1;
+
+    *out_y0 = (int32_t) geometry_non_linear_scale_get_location ( &((*this_).y_scale), /*order=*/ INT32_MIN );
+    *out_dy = (int32_t) geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
+    *out_y_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) ) + 1;
+}
+
 
 /*
 Copyright 2017-2019 Andreas Warnke

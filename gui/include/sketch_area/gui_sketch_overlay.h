@@ -59,6 +59,46 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
                               cairo_t *cr
                             );
 
+/*!
+ *  \brief draws overlay graphics for GUI_TOOLBOX_NAVIGATE mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drag_state current dragging status
+ *  \param nav_tree the navigation tree, not NULL
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
+                                               const gui_sketch_drag_state_t *drag_state,
+                                               const gui_sketch_nav_tree_t *nav_tree,
+                                               cairo_t *cr
+                                             );
+
+/*!
+ *  \brief draws overlay graphics for GUI_TOOLBOX_EDIT mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drag_state current dragging status
+ *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
+                                                const gui_sketch_drag_state_t *drag_state,
+                                                const gui_sketch_card_t *card_under_mouse,
+                                                cairo_t *cr
+                                              );
+
+/*!
+ *  \brief draws overlay graphics for GUI_TOOLBOX_CREATE mode to the cairo context
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param drag_state current dragging status
+ *  \param cr cairo drawing context
+ */
+void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
+                                                  const gui_sketch_drag_state_t *drag_state,
+                                                  cairo_t *cr
+                                                );
+
 #endif  /* GUI_SKETCH_OVERLAY_H */
 
 
