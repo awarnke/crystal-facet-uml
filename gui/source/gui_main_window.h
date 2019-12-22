@@ -84,6 +84,7 @@ struct gui_main_window_struct {
     GtkWidget *name_entry;
     GtkWidget *description_label;
     GtkWidget *description_text_view;
+    GtkWidget *description_scroll_win;
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
     GtkWidget *stereotype_label;

@@ -1,11 +1,12 @@
-crystal-facet-uml (1.16.3) unreleased; urgency=medium
+crystal-facet-uml (1.17.0) unreleased; urgency=medium
 
   [ Andreas Warnke ]
   * cmake build config is less platform dependend
   * nav-tree: dragging diagrams shows a tree-depth aware insert line
   * while dragging, grid lines are displayed
+  * the description text-view has scrollbars
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Dec 2019 21:30:00 +0100
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Dec 2019 21:30:00 +0100
 
 crystal-facet-uml (1.16.2) unreleased; urgency=medium
 

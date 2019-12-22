@@ -9,6 +9,7 @@
  *  \brief Defines the current program version
  */
 
+/* include the bash and c language independant version description */
 static const char*
 #include "meta/meta_version.inl"
 ;

@@ -233,6 +233,13 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).description_text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                   GTK_WRAP_WORD_CHAR );
+    /* need own scroll window container - otherwise the gtk_grid will manage the text view */
+    (*this_).description_scroll_win = gtk_scrolled_window_new (NULL, NULL);
+    gtk_container_add (GTK_CONTAINER ( (*this_).description_scroll_win ), (*this_).description_text_view );
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ), 
+                                     GTK_SCROLL_MINIMUM, 
+                                     GTK_SCROLL_MINIMUM 
+                                   );
     (*this_).stereotype_entry = gtk_entry_new();
     (*this_).edit_commit_button = gtk_button_new();
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
@@ -344,8 +351,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 9, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_text_view, 3, 10, 1, 1 );
-    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_text_view ), true );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 10, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_scroll_win ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 11, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 12, 1, 1 );
