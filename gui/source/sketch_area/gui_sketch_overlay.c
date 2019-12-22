@@ -172,23 +172,24 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                 && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
                 && ( diag_type != DATA_DIAGRAM_TYPE_LIST ))
             {
-                int32_t x0;
-                int32_t y0;
-                int32_t dx;
-                int32_t dy;
+                int32_t left;
+                int32_t top;
+                uint32_t width;
+                uint32_t height;
                 uint32_t x_count;
                 uint32_t y_count;
-                gui_sketch_card_get_grid_lines ( card_under_mouse, &x0, &y0, &dx, &dy, &x_count, &y_count );
+                gui_sketch_card_get_grid_area( card_under_mouse, &left, &top, &width, &height, &x_count, &y_count );
                 for ( uint32_t x_idx = 0; x_idx < x_count; x_idx ++ )
                 {
                     for ( uint32_t y_idx = 0; y_idx < y_count; y_idx ++ )
                     {
-                        const int32_t x = x0 + ( x_idx * dx );
-                        const int32_t y = y0 + ( y_idx * dy );
-                        cairo_move_to ( cr, x-8, y );
-                        cairo_line_to ( cr, x+8, y );
-                        cairo_move_to ( cr, x, y-8 );
-                        cairo_line_to ( cr, x, y+8 );
+                        const int32_t x = left + (( width * x_idx )/( x_count-1 ));
+                        const int32_t y = top + (( height * y_idx )/( y_count-1 ));
+                        static const int32_t HALF_LINE = 4;
+                        cairo_move_to ( cr, x-HALF_LINE, y );
+                        cairo_line_to ( cr, x+HALF_LINE, y );
+                        cairo_move_to ( cr, x, y-HALF_LINE );
+                        cairo_line_to ( cr, x, y+HALF_LINE );
                         cairo_stroke (cr);
                     }
                 }

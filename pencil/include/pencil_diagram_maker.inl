@@ -99,10 +99,10 @@ static inline void pencil_diagram_maker_is_pos_on_grid ( const pencil_diagram_ma
 }
 
 static inline void pencil_diagram_maker_get_grid_lines ( const pencil_diagram_maker_t *this_,
-                                                         int32_t *out_x0,
-                                                         int32_t *out_y0,
-                                                         int32_t *out_dx,
-                                                         int32_t *out_dy,
+                                                         double *out_x0,
+                                                         double *out_y0,
+                                                         double *out_dx,
+                                                         double *out_dy,
                                                          uint32_t *out_x_count,
                                                          uint32_t *out_y_count
                                                        )

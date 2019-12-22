@@ -196,21 +196,21 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_s
  *  \brief determines the grid lines
  *
  *  \param this_ pointer to own object attributes
- *  \param out_x0 x-position of leftmost grid line
- *  \param out_y0 y-position of topmost grid line
- *  \param out_dx width between grid lines
- *  \param out_dy height between grid lines
+ *  \param out_left x-position of leftmost grid line
+ *  \param out_top y-position of topmost grid line
+ *  \param out_width width of the grid area (distance from left line to right line)
+ *  \param out_height height of the grid area (distance from top line to bottom line)
  *  \param out_x_count number of x-position grid lines
  *  \param out_y_count number of y-position grid lines
  */
-static inline void gui_sketch_card_get_grid_lines ( const gui_sketch_card_t *this_,
-                                                    int32_t *out_x0,
-                                                    int32_t *out_y0,
-                                                    int32_t *out_dx,
-                                                    int32_t *out_dy,
-                                                    uint32_t *out_x_count,
-                                                    uint32_t *out_y_count
-                                                  );
+static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
+                                                   int32_t *out_left,
+                                                   int32_t *out_top,
+                                                   uint32_t *out_width,
+                                                   uint32_t *out_height,
+                                                   uint32_t *out_x_count,
+                                                   uint32_t *out_y_count
+                                                 );
 
 /*!
  *  \brief moves an object to an order (without modifying the database)

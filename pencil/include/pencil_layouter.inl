@@ -36,10 +36,10 @@ static inline void pencil_layouter_is_pos_on_grid ( const pencil_layouter_t *thi
 }
 
 static inline void pencil_layouter_get_grid_lines ( const pencil_layouter_t *this_,
-                                                    int32_t *out_x0,
-                                                    int32_t *out_y0,
-                                                    int32_t *out_dx,
-                                                    int32_t *out_dy,
+                                                    double *out_x0,
+                                                    double *out_y0,
+                                                    double *out_dx,
+                                                    double *out_dy,
                                                     uint32_t *out_x_count,
                                                     uint32_t *out_y_count )
 {
@@ -50,12 +50,12 @@ static inline void pencil_layouter_get_grid_lines ( const pencil_layouter_t *thi
     assert( out_x_count != NULL );
     assert( out_y_count != NULL );
 
-    *out_x0 = (int32_t) geometry_non_linear_scale_get_location ( &((*this_).x_scale), /*order=*/ INT32_MIN );
-    *out_dx = (int32_t) geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
+    *out_x0 = geometry_non_linear_scale_get_location ( &((*this_).x_scale), /*order=*/ INT32_MIN );
+    *out_dx = geometry_non_linear_scale_get_grid_distances ( &((*this_).x_scale) );
     *out_x_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).x_scale) ) + 1;
 
-    *out_y0 = (int32_t) geometry_non_linear_scale_get_location ( &((*this_).y_scale), /*order=*/ INT32_MIN );
-    *out_dy = (int32_t) geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
+    *out_y0 = geometry_non_linear_scale_get_location ( &((*this_).y_scale), /*order=*/ INT32_MIN );
+    *out_dy = geometry_non_linear_scale_get_grid_distances ( &((*this_).y_scale) );
     *out_y_count = geometry_non_linear_scale_get_grid_intervals ( &((*this_).y_scale) ) + 1;
 }
 
