@@ -4,7 +4,7 @@ ideas for future versions:
       do not redraw 3 times when changing 3 attributes simultaneously.
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] clicking into the current diagram in navigation view shall zoom to edit mode; duplicate eye button to get back
-  [ ] the type drop down box needs icons to faster find the right type
+  [*] the type drop down box needs icons to faster find the right type
   [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   @gui+ctrl

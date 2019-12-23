@@ -35,7 +35,7 @@ https://github.com/GNOME/libcroco
 - lzma (Public Domain)
 http://tukaani.org/xz/
 
-- crystal_facet_uml 1.15.0
+- crystal_facet_uml 1.17.0
 (Apache 2.0 License)
 - including sqlite3
 (Public Domain)

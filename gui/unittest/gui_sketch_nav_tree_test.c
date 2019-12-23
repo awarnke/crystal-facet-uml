@@ -61,8 +61,8 @@ static void tear_down(void)
 
 static void test_get_object_at_pos_on_no_diagram(void)
 {
-    /* init the testee */
-    gui_sketch_nav_tree_t testee;
+    /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
+    static gui_sketch_nav_tree_t testee;
     {
         gui_sketch_nav_tree_init( &testee, &res );
         gui_sketch_nav_tree_set_bounds( &testee, bounds );
@@ -111,8 +111,8 @@ static void test_get_object_at_pos_on_no_diagram(void)
 
 static void test_get_object_at_pos_on_single_diagram(void)
 {
-    /* init the testee */
-    gui_sketch_nav_tree_t testee;
+    /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
+    static gui_sketch_nav_tree_t testee;
     {
         gui_sketch_nav_tree_init( &testee, &res );
         gui_sketch_nav_tree_set_bounds( &testee, bounds );
@@ -188,7 +188,8 @@ static void test_get_object_at_pos_on_single_diagram(void)
 
 static void test_get_object_at_pos_on_1parent_1child_diagram(void)
 {
-    gui_sketch_nav_tree_t testee;
+    /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
+    static gui_sketch_nav_tree_t testee;
     {
         gui_sketch_nav_tree_init( &testee, &res );
         gui_sketch_nav_tree_set_bounds( &testee, bounds );
@@ -276,7 +277,8 @@ static void test_get_object_at_pos_on_1parent_1child_diagram(void)
 
 static void test_get_object_at_pos_on_2parent_2siblings_diagram(void)
 {
-    gui_sketch_nav_tree_t testee;
+    /* init the testee, because a gui_sketch_nav_tree_t contains some hundred diagrams, each abobe 10kB */
+    static gui_sketch_nav_tree_t testee;
     {
         gui_sketch_nav_tree_init( &testee, &res );
         gui_sketch_nav_tree_set_bounds( &testee, bounds );
