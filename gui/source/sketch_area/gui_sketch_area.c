@@ -1317,9 +1317,9 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                                 {
                                     list_order_proposal = layout_order_get_first( &layout_order );
                                 }
-                                else
+                                else  /* PENCIL_LAYOUT_ORDER_TYPE_NONE */
                                 {
-                                    list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
+                                    list_order_proposal = gui_sketch_card_get_highest_rel_list_order( target_card ) + 32768;
                                 }
                             }
 
@@ -1370,15 +1370,18 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             assert ( target_diag != NULL );
                             data_diagram_type_t diag_type = data_diagram_get_diagram_type ( target_diag );
 
+                            /* determine id of classifier to which the clicked object belongs */
+                            const int64_t classifier_id = data_id_get_row_id( &dragged_classifier );
+                            
                             /* propose a list_order for the feature */
                             int32_t std_list_order_proposal = 0;
-                            std_list_order_proposal = gui_sketch_card_get_highest_list_order( target_card ) + 32768;
+                            std_list_order_proposal = gui_sketch_card_get_highest_feat_list_order( target_card, classifier_id ) + 32768;
                             int32_t port_list_order_proposal = 0;
                             {
                                 data_feature_init ( &((*this_).private_temp_fake_feature),
                                                     DATA_ID_VOID_ID,
                                                     DATA_FEATURE_TYPE_PORT,
-                                                    data_id_get_row_id( &dragged_classifier ), /* classifier */
+                                                    classifier_id, /* classifier */
                                                     "FAKE_FEATURE",
                                                     "port-type",
                                                     "to determine the list order",
@@ -1397,7 +1400,7 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
                             ctrl_error_t ctrl_err;
                             ctrl_err = gui_sketch_object_creator_create_feature ( &((*this_).object_creator),
                                                                                   diag_type,
-                                                                                  data_id_get_row_id( &dragged_classifier ),
+                                                                                  classifier_id,
                                                                                   std_list_order_proposal,
                                                                                   port_list_order_proposal,
                                                                                   &new_feature_id

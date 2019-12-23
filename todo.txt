@@ -7,7 +7,6 @@ ideas for future versions:
   [ ] the type drop down box needs icons to faster find the right type
   [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
-  [ ] gui_sketch_card_get_highest_list_order should take into account only features that are displayed in a list, not e.g. ports
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] Add Search Feature

@@ -236,12 +236,25 @@ void gui_sketch_card_move_object_to_order ( gui_sketch_card_t *this_,
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr );
 
 /*!
- *  \brief determines the highest list order in the current diagram - relationships and features are taken into account.
+ *  \brief determines the highest list order of relationships in the current diagram.
  *
  *  \param this_ pointer to own object attributes
  *  \result highest list order. May be used to append a new item to the end of the list.
  */
-static inline int32_t gui_sketch_card_get_highest_list_order( const gui_sketch_card_t *this_ );
+static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sketch_card_t *this_ );
+
+/*!
+ *  \brief determines the highest list order of features in the current diagram.
+ * 
+ *  Features of type DATA_FEATURE_TYPE_PORT, DATA_FEATURE_TYPE_PROVIDED_INTERFACE and DATA_FEATURE_TYPE_REQUIRED_INTERFACE
+ *  are not taken into account because their order ids reflect a coordiante
+ *  instead of a list position
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id only features of this classifier are taken into account
+ *  \result highest list order. May be used to append a new item to the end of the list.
+ */
+static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, int64_t classifier_id );
 
 #include "gui_sketch_card.inl"
 

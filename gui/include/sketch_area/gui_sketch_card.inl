@@ -228,7 +228,27 @@ static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t 
     }
 }
 
-static inline int32_t gui_sketch_card_get_highest_list_order( const gui_sketch_card_t *this_ )
+static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sketch_card_t *this_ )
+{
+    int32_t result = 0;
+
+    if ( data_visible_set_is_valid( &((*this_).painter_input_data) ) )
+    {
+        for ( uint32_t rs_idx = 0; rs_idx < data_visible_set_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
+        {
+            const data_relationship_t *relation;
+            relation = data_visible_set_get_relationship_const ( &((*this_).painter_input_data), rs_idx );
+            if ( data_relationship_get_list_order( relation ) > result )
+            {
+                result = data_relationship_get_list_order( relation );
+            }
+        }
+    }
+
+    return result;
+}
+
+static inline int32_t gui_sketch_card_get_highest_feat_list_order( const gui_sketch_card_t *this_, int64_t classifier_id )
 {
     int32_t result = 0;
 
@@ -238,18 +258,17 @@ static inline int32_t gui_sketch_card_get_highest_list_order( const gui_sketch_c
         {
             const data_feature_t *feat;
             feat = data_visible_set_get_feature_const ( &((*this_).painter_input_data), f_idx );
-            if ( data_feature_get_list_order( feat ) > result )
+            const data_feature_type_t f_type = data_feature_get_main_type( feat );
+            if (( f_type != DATA_FEATURE_TYPE_PORT )&&( f_type != DATA_FEATURE_TYPE_PROVIDED_INTERFACE )
+                &&( f_type != DATA_FEATURE_TYPE_REQUIRED_INTERFACE ))
             {
-                result = data_feature_get_list_order( feat );
-            }
-        }
-        for ( uint32_t rs_idx = 0; rs_idx < data_visible_set_get_relationship_count( &((*this_).painter_input_data) ); rs_idx ++ )
-        {
-            const data_relationship_t *relation;
-            relation = data_visible_set_get_relationship_const ( &((*this_).painter_input_data), rs_idx );
-            if ( data_relationship_get_list_order( relation ) > result )
-            {
-                result = data_relationship_get_list_order( relation );
+                if ( data_feature_get_classifier_id( feat ) == classifier_id )
+                {
+                    if ( data_feature_get_list_order( feat ) > result )
+                    {
+                        result = data_feature_get_list_order( feat );
+                    }
+                }
             }
         }
     }
