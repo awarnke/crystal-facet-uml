@@ -196,18 +196,12 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_s
  *  \brief determines the grid lines
  *
  *  \param this_ pointer to own object attributes
- *  \param out_left x-position of leftmost grid line
- *  \param out_top y-position of topmost grid line
- *  \param out_width width of the grid area (distance from left line to right line)
- *  \param out_height height of the grid area (distance from top line to bottom line)
- *  \param out_x_count number of x-position grid lines
- *  \param out_y_count number of y-position grid lines
+ *  \param out_bounds bounding rectangle where the grid lines are distributed equal-distance
+ *  \param out_x_count number of x-position grid lines (vertical lines)
+ *  \param out_y_count number of y-position grid lines (horizontal lines)
  */
 static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
-                                                   int32_t *out_left,
-                                                   int32_t *out_top,
-                                                   uint32_t *out_width,
-                                                   uint32_t *out_height,
+                                                   shape_int_rectangle_t *out_bounds,
                                                    uint32_t *out_x_count,
                                                    uint32_t *out_y_count
                                                  );
@@ -245,7 +239,7 @@ static inline int32_t gui_sketch_card_get_highest_rel_list_order( const gui_sket
 
 /*!
  *  \brief determines the highest list order of features in the current diagram.
- * 
+ *
  *  Features of type DATA_FEATURE_TYPE_PORT, DATA_FEATURE_TYPE_PROVIDED_INTERFACE and DATA_FEATURE_TYPE_REQUIRED_INTERFACE
  *  are not taken into account because their order ids reflect a coordiante
  *  instead of a list position

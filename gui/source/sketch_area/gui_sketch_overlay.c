@@ -172,19 +172,18 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
                 && ( diag_type != DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM )
                 && ( diag_type != DATA_DIAGRAM_TYPE_LIST ))
             {
-                int32_t left;
-                int32_t top;
-                uint32_t width;
-                uint32_t height;
+                shape_int_rectangle_t bounds;
                 uint32_t x_count;
                 uint32_t y_count;
-                gui_sketch_card_get_grid_area( card_under_mouse, &left, &top, &width, &height, &x_count, &y_count );
+                gui_sketch_card_get_grid_area( card_under_mouse, &bounds, &x_count, &y_count );
                 for ( uint32_t x_idx = 0; x_idx < x_count; x_idx ++ )
                 {
                     for ( uint32_t y_idx = 0; y_idx < y_count; y_idx ++ )
                     {
-                        const int32_t x = left + (( width * x_idx )/( x_count-1 ));
-                        const int32_t y = top + (( height * y_idx )/( y_count-1 ));
+                        const int32_t x = shape_int_rectangle_get_left(&bounds)
+                                          + (( shape_int_rectangle_get_width(&bounds) * x_idx )/( x_count-1 ));
+                        const int32_t y = shape_int_rectangle_get_top(&bounds)
+                                          + (( shape_int_rectangle_get_height(&bounds) * y_idx )/( y_count-1 ));
                         static const int32_t HALF_LINE = 4;
                         cairo_move_to ( cr, x-HALF_LINE, y );
                         cairo_line_to ( cr, x+HALF_LINE, y );

@@ -172,18 +172,12 @@ static inline universal_bool_list_t gui_sketch_card_is_pos_on_grid ( const gui_s
 }
 
 static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this_,
-                                                   int32_t *out_left,
-                                                   int32_t *out_top,
-                                                   uint32_t *out_width,
-                                                   uint32_t *out_height,
+                                                   shape_int_rectangle_t *out_bounds,
                                                    uint32_t *out_x_count,
                                                    uint32_t *out_y_count
                                                  )
 {
-    assert( out_left != NULL );
-    assert( out_top != NULL );
-    assert( out_width != NULL );
-    assert( out_height != NULL );
+    assert( out_bounds != NULL );
     assert( out_x_count != NULL );
     assert( out_y_count != NULL );
 
@@ -191,10 +185,12 @@ static inline void gui_sketch_card_get_grid_area ( const gui_sketch_card_t *this
 
     pencil_diagram_maker_get_grid_lines( &((*this_).painter), &x0, &y0, &dx, &dy, out_x_count, out_y_count );
 
-    *out_left = (int32_t) x0;
-    *out_top = (int32_t) y0;
-    *out_width = (int32_t) ((*out_x_count>2) ? ((*out_x_count-1)*dx) : dx );
-    *out_height = (int32_t) ((*out_y_count>2) ? ((*out_y_count-1)*dy) : dy );
+    shape_int_rectangle_init( out_bounds,
+                              (int32_t) x0,
+                              (int32_t) y0,
+                              (uint32_t) ((*out_x_count>2) ? ((*out_x_count-1)*dx) : dx),
+                              (uint32_t) ((*out_y_count>2) ? ((*out_y_count-1)*dy) : dy)
+                            );
 }
 
 static inline void gui_sketch_card_do_layout( gui_sketch_card_t *this_, cairo_t *cr )
