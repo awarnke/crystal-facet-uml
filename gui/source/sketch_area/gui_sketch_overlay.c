@@ -52,7 +52,7 @@ void gui_sketch_overlay_draw( gui_sketch_overlay_t *this_,
 
         case GUI_TOOLBOX_CREATE:
         {
-            gui_sketch_overlay_private_draw_create_mode( this_, drag_state, cr );
+            gui_sketch_overlay_private_draw_create_mode( this_, drag_state, card_under_mouse, cr );
         }
         break;
 
@@ -83,10 +83,8 @@ void gui_sketch_overlay_private_draw_nav_mode( gui_sketch_overlay_t *this_,
 
     if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
     {
-        int32_t to_x;
-        int32_t to_y;
-        to_x = gui_sketch_drag_state_get_to_x ( drag_state );
-        to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+        const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+        const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
         data_id_t out_parent_id;
         int32_t out_list_order;
         shape_int_rectangle_t out_gap_line;
@@ -136,10 +134,8 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
         if ( NULL != card_under_mouse )
         {
             universal_bool_list_t is_snapped;
-            int32_t to_x;
-            int32_t to_y;
-            to_x = gui_sketch_drag_state_get_to_x ( drag_state );
-            to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+            const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+            const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
             is_snapped = gui_sketch_card_is_pos_on_grid ( card_under_mouse, to_x, to_y );
 
             cairo_set_source_rgba( cr,
@@ -205,6 +201,7 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
 
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
+                                                  const gui_sketch_card_t *card_under_mouse,
                                                   cairo_t *cr )
 {
     TRACE_BEGIN();
@@ -214,14 +211,10 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     if ( gui_sketch_drag_state_is_dragging ( drag_state ) )
     {
         /* draw a line */
-        int32_t from_x;
-        int32_t from_y;
-        int32_t to_x;
-        int32_t to_y;
-        from_x = gui_sketch_drag_state_get_from_x ( drag_state );
-        from_y = gui_sketch_drag_state_get_from_y ( drag_state );
-        to_x = gui_sketch_drag_state_get_to_x ( drag_state );
-        to_y = gui_sketch_drag_state_get_to_y ( drag_state );
+        const int32_t from_x = gui_sketch_drag_state_get_from_x ( drag_state );
+        const int32_t from_y = gui_sketch_drag_state_get_from_y ( drag_state );
+        const int32_t to_x = gui_sketch_drag_state_get_to_x ( drag_state );
+        const int32_t to_y = gui_sketch_drag_state_get_to_y ( drag_state );
         cairo_set_source_rgba( cr,
                                 (*this_).overlay_std_red,
                                 (*this_).overlay_std_green,
@@ -234,8 +227,8 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
 
         /* draw the arrow tip */
         int clock_direction;  /* the gdk coordinate system if bottom up - and out clock is also mirrored! */
-        int32_t x_dist = to_x - from_x;
-        int32_t y_dist = to_y - from_y;
+        const int32_t x_dist = to_x - from_x;
+        const int32_t y_dist = to_y - from_y;
         if ( x_dist == 0 )
         {
             clock_direction = ( y_dist < 0 ) ? 6 : 0;
@@ -300,7 +293,44 @@ void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
     }
     else /* ! gui_sketch_drag_state_is_dragging() */
     {
-        /* for this case, there are currently no redraw triggers implemented */
+        if ( NULL != card_under_mouse )
+        {
+            /* get coordinates */
+            const int32_t cur_x = gui_sketch_drag_state_get_to_x ( drag_state );
+            const int32_t cur_y = gui_sketch_drag_state_get_to_y ( drag_state );
+            cairo_set_source_rgba( cr,
+                                    (*this_).overlay_std_red,
+                                    (*this_).overlay_std_green,
+                                    (*this_).overlay_std_blue,
+                                    (*this_).overlay_std_alpha
+            );
+            static const int32_t ICON_UNIT = 2;
+            static const int32_t DIST = 12;
+
+            /* box */
+            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-8*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-2*ICON_UNIT );
+
+            /* star */
+            cairo_move_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-4*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-2*ICON_UNIT, cur_y-DIST-8*ICON_UNIT );
+            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-0*ICON_UNIT, cur_y-DIST-7*ICON_UNIT );
+            cairo_move_to ( cr, cur_x-4*ICON_UNIT, cur_y-DIST-7*ICON_UNIT );
+            cairo_line_to ( cr, cur_x-0*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
+
+            /* arrow */
+            cairo_move_to ( cr, cur_x+2*ICON_UNIT, cur_y-DIST-0*ICON_UNIT );
+            cairo_line_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+            cairo_line_to ( cr, cur_x+5*ICON_UNIT, cur_y-DIST-5*ICON_UNIT );
+            cairo_move_to ( cr, cur_x+8*ICON_UNIT, cur_y-DIST-6*ICON_UNIT );
+            cairo_line_to ( cr, cur_x+7*ICON_UNIT, cur_y-DIST-3*ICON_UNIT );
+
+            cairo_stroke (cr);
+        }
     }
 
     TRACE_END();

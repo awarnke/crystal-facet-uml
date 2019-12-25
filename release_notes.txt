@@ -6,6 +6,7 @@ crystal-facet-uml (1.17.0) unreleased; urgency=medium
   * while dragging, grid lines are displayed
   * the description text-view has scrollbars
   * in nav view, a click into the current diagram zooms to edit mode
+  * in create view, an icon next to the mouse cursor shows options
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Dec 2019 21:30:00 +0100
 

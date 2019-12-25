@@ -434,7 +434,7 @@ void gui_sketch_area_private_draw_subwidgets ( gui_sketch_area_t *this_, shape_i
         gui_sketch_nav_tree_draw( &((*this_).nav_tree), (*this_).marker, cr );
     }
 
-    /* draw all cards, backwords */
+    /* draw all cards, backwards */
     for ( signed int card_idx = (*this_).card_num-1; card_idx >= 0; card_idx -- )
     {
         gui_sketch_card_draw( &((*this_).cards[card_idx]), (*this_).marker, cr );
@@ -618,6 +618,11 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
             else if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
             {
                 /* always redraw while dragging */
+                gtk_widget_queue_draw( widget );
+            }
+            else
+            {
+                /* always redraw while moving the mouse to move the new-box-and-arrow icon */
                 gtk_widget_queue_draw( widget );
             }
         }

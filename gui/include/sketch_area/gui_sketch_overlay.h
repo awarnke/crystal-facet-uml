@@ -92,10 +92,12 @@ void gui_sketch_overlay_private_draw_edit_mode( gui_sketch_overlay_t *this_,
  *
  *  \param this_ pointer to own object attributes
  *  \param drag_state current dragging status
+ *  \param card_under_mouse the sketch card under the current mouse position or NULL if no card there
  *  \param cr cairo drawing context
  */
 void gui_sketch_overlay_private_draw_create_mode( gui_sketch_overlay_t *this_,
                                                   const gui_sketch_drag_state_t *drag_state,
+                                                  const gui_sketch_card_t *card_under_mouse,
                                                   cairo_t *cr
                                                 );
 
