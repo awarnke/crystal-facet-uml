@@ -51,7 +51,7 @@ struct gui_sketch_area_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     gui_resources_t *resources;  /*!< pointer to external resources */
-    gui_toolbox_t *tools;  /*!< pointer to external tools */
+    gui_toolbox_t *toolbox;  /*!< pointer to external tool box */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
     gui_marked_set_t *marker;  /*!< pointer to external marker */
     GtkWidget *drawing_area;  /*!< pointer to the gtk drawing area, used as origin for selected-object-changed signals */
@@ -83,7 +83,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param this_ pointer to own object attributes
  *  \param drawing_area pointer to the gtk drawing area, used as origin for selected-object-changed signals. Ownership remains at caller.
  *  \param marker pointer to an object which references all focused, highlichted and selected ojects
- *  \param tools pointer to an object which represents the tool buttons
+ *  \param toolbox pointer to an object which represents the tool buttons
  *  \param message_to_user pointer to an object that can show a message to the user
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
@@ -92,7 +92,7 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             GtkWidget *drawing_area,
                             gui_marked_set_t *marker,
-                            gui_toolbox_t *tools,
+                            gui_toolbox_t *toolbox,
                             gui_simple_message_to_user_t *message_to_user,
                             gui_resources_t *resources,
                             ctrl_controller_t *controller,

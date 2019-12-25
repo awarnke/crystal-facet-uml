@@ -5,6 +5,7 @@ crystal-facet-uml (1.17.0) unreleased; urgency=medium
   * nav-tree: dragging diagrams shows a tree-depth aware insert line
   * while dragging, grid lines are displayed
   * the description text-view has scrollbars
+  * in nav view, a click into the current diagram zooms to edit mode
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 22 Dec 2019 21:30:00 +0100
 
