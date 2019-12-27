@@ -85,9 +85,9 @@ extern const char *GUI_SKETCH_AREA_GLIB_SIGNAL_NAME;
  *  \param marker pointer to an object which references all focused, highlichted and selected ojects
  *  \param toolbox pointer to an object which represents the tool buttons
  *  \param message_to_user pointer to an object that can show a message to the user
+ *  \param resources pointer to a resource provider
  *  \param controller pointer to a controller object which can modify the database
  *  \param db_reader pointer to a database reader object
- *  \param resources pointer to a resource provider
  */
 void gui_sketch_area_init ( gui_sketch_area_t *this_,
                             GtkWidget *drawing_area,

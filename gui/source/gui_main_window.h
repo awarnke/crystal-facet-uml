@@ -13,7 +13,7 @@
 #include "sketch_area/gui_sketch_area.h"
 #include "gui_toolbox.h"
 #include "gui_resources.h"
-#include "gui_textedit.h"
+#include "gui_attributes_editor.h"
 #include "gui_file_use_db_dialog.h"
 #include "gui_file_export_dialog.h"
 #include "gui_search_request.h"
@@ -34,7 +34,7 @@ struct gui_main_window_struct {
     gui_marked_set_t marker_data;  /*!< own instance of a marker */
     GtkWidget *layout;
     data_change_notifier_t *data_notifier;  /*!< pointer to external data change notifier */
-    gui_textedit_t text_editor;  /*!<  own instance of gui_text_edit_t */
+    gui_attributes_editor_t attributes_editor;  /*!<  own instance of gui_attributes_editor_t */
     observer_t *window_close_observer;  /*!< pointer to external observer_t listener object */
     observer_t *window_open_observer;  /*!< pointer to external observer_t listener object */
     gui_file_use_db_dialog_t file_use_db_dialog;  /*!<  own instance of gui_file_use_db_dialog_t */
@@ -87,6 +87,7 @@ struct gui_main_window_struct {
     GtkWidget *description_scroll_win;
     GtkWidget *type_label;
     GtkWidget *type_combo_box;
+    GtkWidget *type_icon_grid;
     GtkWidget *stereotype_label;
     GtkWidget *stereotype_entry;
     GtkWidget *edit_commit_icon;

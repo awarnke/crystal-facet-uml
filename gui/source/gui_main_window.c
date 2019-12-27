@@ -229,18 +229,22 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_misc_set_alignment (GTK_MISC( (*this_).stereotype_label ), 0.0, 0.0 );
     gtk_misc_set_alignment (GTK_MISC( (*this_).type_label ), 0.0, 0.0 );
 #endif
+
     (*this_).name_entry = gtk_entry_new();
+
     (*this_).description_text_view = gtk_text_view_new ();
     gtk_text_view_set_wrap_mode ( GTK_TEXT_VIEW( (*this_).description_text_view ),
                                   GTK_WRAP_WORD_CHAR );
     /* need own scroll window container - otherwise the gtk_grid will manage the text view */
     (*this_).description_scroll_win = gtk_scrolled_window_new (NULL, NULL);
     gtk_container_add (GTK_CONTAINER ( (*this_).description_scroll_win ), (*this_).description_text_view );
-    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ), 
-                                     GTK_SCROLL_MINIMUM, 
-                                     GTK_SCROLL_MINIMUM 
+    gtk_scrolled_window_set_policy ( GTK_SCROLLED_WINDOW( (*this_).description_scroll_win ),
+                                     GTK_SCROLL_MINIMUM,
+                                     GTK_SCROLL_MINIMUM
                                    );
+
     (*this_).stereotype_entry = gtk_entry_new();
+
     (*this_).edit_commit_button = gtk_button_new();
     (*this_).edit_commit_icon = gtk_image_new_from_pixbuf( gui_resources_get_edit_commit( res ));
     gtk_button_set_image ( GTK_BUTTON((*this_).edit_commit_button), (*this_).edit_commit_icon );
@@ -253,18 +257,24 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                  GDK_CONTROL_MASK,
                                  GTK_ACCEL_VISIBLE
                                );
+
     (*this_).type_combo_box = gtk_combo_box_new();
     GtkCellRenderer *column;
     column = gtk_cell_renderer_text_new();
     gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
-    gui_textedit_init( &((*this_).text_editor),
+
+    (*this_).type_icon_grid = gtk_icon_view_new();
+
+    gui_attributes_editor_init( &((*this_).attributes_editor),
                        GTK_LABEL( (*this_).id_label ),
                        GTK_ENTRY( (*this_).name_entry ),
                        GTK_ENTRY( (*this_).stereotype_entry ),
                        GTK_COMBO_BOX( (*this_).type_combo_box ),
+                       GTK_ICON_VIEW( (*this_).type_icon_grid ),
                        GTK_TEXT_VIEW( (*this_).description_text_view ),
                        GTK_BUTTON( (*this_).edit_commit_button ),
+                       res,
                        controller,
                        db_reader,
                        database,
@@ -333,7 +343,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 10 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 11 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 2, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
@@ -349,20 +359,23 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 8, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 9, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_icon_grid, 3, 9, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 10, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 10, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 11, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_scroll_win ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 11, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 12, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 12, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 12, 3, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 13, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 13, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");
 
     /* inject dependencies by signals */
 
+    /* parameter info: g_signal_connect( instance-that-emits-the-signal, signal-name, callback-handler, data-to-be-passed-to-callback-handler) */
     g_signal_connect( G_OBJECT((*this_).window), "delete_event", G_CALLBACK(gui_main_window_delete_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), "destroy", G_CALLBACK(gui_main_window_destroy_event_callback), this_ );
     g_signal_connect( G_OBJECT((*this_).window), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_main_window_data_changed_callback), this_ );
@@ -391,13 +404,13 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_reset), "clicked", G_CALLBACK(gui_toolbox_reset_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_undo), "clicked", G_CALLBACK(gui_toolbox_undo_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_redo), "clicked", G_CALLBACK(gui_toolbox_redo_btn_callback), &((*this_).tools_data) );
-    g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_textedit_name_focus_lost_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_textedit_description_focus_lost_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_textedit_type_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_textedit_stereotype_focus_lost_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_textedit_commit_clicked_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_selected_object_changed_callback), &((*this_).text_editor) );
-    g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_textedit_data_changed_callback), &((*this_).text_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), "focus-out-event", G_CALLBACK(gui_attributes_editor_name_focus_lost_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).description_text_view), "focus-out-event", G_CALLBACK(gui_attributes_editor_description_focus_lost_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).type_combo_box), "changed", G_CALLBACK(gui_attributes_editor_type_changed_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).stereotype_entry), "focus-out-event", G_CALLBACK(gui_attributes_editor_stereotype_focus_lost_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_attributes_editor_commit_clicked_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_selected_object_changed_callback), &((*this_).attributes_editor) );
+    g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
@@ -416,7 +429,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
 
     gtk_widget_show_all((*this_).window);
-    gui_textedit_update_widgets( &((*this_).text_editor) );  /* hide some widgets again */
+    gui_attributes_editor_update_widgets( &((*this_).attributes_editor) );  /* hide some widgets again */
 #ifdef NDEBUG
     gui_simple_message_to_user_hide( &((*this_).message_to_user) );
 #else
@@ -451,7 +464,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_toolbox_destroy( &((*this_).tools_data) );
     gui_marked_set_destroy( &((*this_).marker_data) );
-    gui_textedit_destroy( &((*this_).text_editor) );
+    gui_attributes_editor_destroy( &((*this_).attributes_editor) );
     gui_simple_message_to_user_destroy( &((*this_).message_to_user) );
     (*this_).database = NULL;
 

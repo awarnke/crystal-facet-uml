@@ -1,6 +1,6 @@
-/* File: gui_textedit.c; Copyright and License: see below */
+/* File: gui_attributes_editor.c; Copyright and License: see below */
 
-#include "gui_textedit.h"
+#include "gui_attributes_editor.h"
 #include "util/gtk_helper/gtk_helper_tree_model.h"
 #include "trace.h"
 #include "data_table.h"
@@ -9,26 +9,30 @@
 #include <gtk/gtk.h>
 #include <stdbool.h>
 
-void gui_textedit_init ( gui_textedit_t *this_,
-                         GtkLabel *id_label,
-                         GtkEntry *name_entry,
-                         GtkEntry *stereotype_entry,
-                         GtkComboBox *type_combo_box,
-                         GtkTextView *description_text_view,
-                         GtkButton *commit_button,
-                         ctrl_controller_t *controller,
-                         data_database_reader_t *db_reader,
-                         data_database_t *database,
-                         gui_simple_message_to_user_t *message_to_user )
+void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
+                                  GtkLabel *id_label,
+                                  GtkEntry *name_entry,
+                                  GtkEntry *stereotype_entry,
+                                  GtkComboBox *type_combo_box,
+                                  GtkIconView *type_icon_grid,
+                                  GtkTextView *description_text_view,
+                                  GtkButton *commit_button,
+                                  gui_resources_t *resources,
+                                  ctrl_controller_t *controller,
+                                  data_database_reader_t *db_reader,
+                                  data_database_t *database,
+                                  gui_simple_message_to_user_t *message_to_user )
 {
     TRACE_BEGIN();
     assert( NULL != id_label );
     assert( NULL != name_entry );
     assert( NULL != stereotype_entry );
     assert( NULL != type_combo_box );
+    assert( NULL != type_icon_grid );
     assert( NULL != description_text_view );
     assert( NULL != commit_button );
 
+    assert( NULL != resources );
     assert( NULL != controller );
     assert( NULL != db_reader );
     assert( NULL != message_to_user );
@@ -37,6 +41,7 @@ void gui_textedit_init ( gui_textedit_t *this_,
     (*this_).name_entry = name_entry;
     (*this_).stereotype_entry = stereotype_entry;
     (*this_).type_combo_box = type_combo_box;
+    (*this_).type_icon_grid = type_icon_grid;
     (*this_).description_text_view = description_text_view;
     (*this_).commit_button = commit_button;
 
@@ -50,203 +55,15 @@ void gui_textedit_init ( gui_textedit_t *this_,
     data_relationship_init_empty( &((*this_).private_relationship_cache) );
     data_id_init_void( &((*this_).selected_object_id) );
 
-    {
-        GtkTreeIter iter;
-        (*this_).no_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        gtk_list_store_append( (*this_).no_types, &iter);
-        gtk_list_store_set ( (*this_).no_types, &iter, 0, 0x0, 1, "-- n/a --", -1 );
-    }
-
-    {
-        GtkTreeIter iter;
-        (*this_).diagram_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        /* order: structural from abstract to concrete, behavioral from abstract to concrete */
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "Block Definition Diagram (SysML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_INTERNAL_BLOCK_DIAGRAM, 1, "Internal Block Diagram (SysML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_PARAMETRIC_DIAGRAM, 1, "Parametric Diagram (SysML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "Deployment Diagram (UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 1, "Component Diagram (UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, 1, "Composite Structure Diagram (UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, 1, "Package Diagram (SysML, UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "Class Diagram (UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "Profile Diagram (UML)", -1 );
-        /* requirements diagram: */
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_REQUIREMENTS_DIAGRAM, 1, "Requirements Diagram (SysML)", -1 );
-        /* behavioral diagrams: */
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, 1, "Use Case Diagram (SysML, UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "Interaction Overview Diagram (UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, 1, "Activity Diagram (SysML, UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "State Machine Diagram (SysML, UML)", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "Communication Diagram (UML), Scenario", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "Sequence Diagram (SysML, UML), Scenario", -1 );
-        gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "Timing Diagram (UML), Scenario", -1 );
-    }
-
-    {
-        GtkTreeIter iter;
-        (*this_).classifier_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        /* order: structural from abstract to concrete, behavioral from abstract to concrete */
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_BLOCK, 1, "Block", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_CONSTRAINT_PROPERTY, 1, "Constraint Property/Equation (parametric)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_NODE, 1, "Node (deployment)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMPONENT, 1, "Component", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PART, 1, "Part (component instance)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_INTERFACE, 1, "Interface", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PACKAGE, 1, "Package", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_CLASS, 1, "Class", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_OBJECT, 1, "Object (class instance)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ARTIFACT, 1, "Artifact", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_COMMENT, 1, "Comment", -1 );
-        /* requirements classifiers: */
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_FEATURE, 1, "Feature", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_REQUIREMENT, 1, "Requirement", -1 );
-        /* behavioral classifiers: */
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "Actor (use case)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_USE_CASE, 1, "Use Case (use case)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY, 1, "System Boundary (use case)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE, 1, "Diagram Reference (interaction overview)", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTIVITY, 1, "Activity", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, 1, "Interruptable Region", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_FORK_NODE, 1, "Fork", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE, 1, "Join", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, 1, "Accept Event", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, 1, "Accept Time Event", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, 1, "Send Signal", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE, 1, "Decision", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE, 1, "Initial Node", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE, 1, "Final Node", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_STATE, 1, "State", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY, 1, "Shallow History", -1 );
-        gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, 1, "Deep History", -1 );
-    }
-
-    {
-        GtkTreeIter iter;
-        (*this_).feature_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        /* order: from close to far */
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "Property", -1 );
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "Operation", -1 );
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "Port", -1 );
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROVIDED_INTERFACE, 1, "Provided Interface", -1 );
-        gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_REQUIRED_INTERFACE, 1, "Required Interface", -1 );
-    }
-
-    {
-        GtkTreeIter iter;
-        (*this_).feature_lifeline_type = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        gtk_list_store_append( (*this_).feature_lifeline_type, &iter);
-        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "Lifeline", -1 );
-    }
-
-    {
-        GtkTreeIter iter;
-        (*this_).relationship_types = gtk_list_store_new( 2, G_TYPE_INT, G_TYPE_STRING );
-        /* order: structural from abstract to concrete, behavioral from abstract to concrete */
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, 1, "Dependency", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "Containment (deployment, package), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "Deploy (deployment), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "Manifest (deployment), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, 1, "Communication Path (component)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "Association (class, use-case)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_AGGREGATION, 1, "Aggregation (class), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMPOSITION, 1, "Composition (class), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_GENERALIZATION, 1, "Generalization (class), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REALIZATION, 1, "Realization (class), no cycles", -1 );
-        /* requirements relationships: */
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_TRACE, 1, "Trace (requirement), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_REFINE, 1, "Refine (requirement), no cycles", -1 );
-        /* behavioral relationships: */
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_EXTEND, 1, "Extend (use-case), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_INCLUDE, 1, "Include (use-case), no cycles", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTROL_FLOW, 1, "Control Flow (activity)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_OBJECT_FLOW, 1, "Object Flow (activity)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASYNC_CALL, 1, "Async. Call (sequence)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_SYNC_CALL, 1, "Sync. Call (sequence)", -1 );
-        gtk_list_store_append( (*this_).relationship_types, &iter);
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, 1, "Return Call (sequence)", -1 );
-    }
+    gui_attributes_editor_types_init( &((*this_).type_lists), resources );
 
     /* update widgets */
-    gui_textedit_update_widgets( this_ );
+    gui_attributes_editor_update_widgets( this_ );
 
     TRACE_END();
 }
 
-void gui_textedit_destroy ( gui_textedit_t *this_ )
+void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -256,23 +73,7 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     data_feature_destroy( &((*this_).private_feature_cache) );
     data_relationship_destroy( &((*this_).private_relationship_cache) );
 
-    g_object_unref((*this_).diagram_types);
-    (*this_).diagram_types = NULL;
-
-    g_object_unref((*this_).no_types);
-    (*this_).no_types = NULL;
-
-    g_object_unref((*this_).classifier_types);
-    (*this_).classifier_types = NULL;
-
-    g_object_unref((*this_).relationship_types);
-    (*this_).relationship_types = NULL;
-
-    g_object_unref((*this_).feature_types);
-    (*this_).feature_types = NULL;
-
-    g_object_unref((*this_).feature_lifeline_type);
-    (*this_).feature_lifeline_type = NULL;
+    gui_attributes_editor_types_destroy( &((*this_).type_lists) );
 
     (*this_).db_reader = NULL;
     (*this_).controller = NULL;
@@ -281,40 +82,42 @@ void gui_textedit_destroy ( gui_textedit_t *this_ )
     (*this_).id_label = NULL;
     (*this_).name_entry = NULL;
     (*this_).stereotype_entry = NULL;
+    (*this_).type_combo_box = NULL;
+    (*this_).type_icon_grid = NULL;
     (*this_).description_text_view = NULL;
 
     TRACE_END();
 }
 
-void gui_textedit_update_widgets ( gui_textedit_t *this_ )
+void gui_attributes_editor_update_widgets ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_textedit_private_id_update_view( this_ );
-    gui_textedit_private_name_update_view ( this_ );
-    gui_textedit_private_stereotype_update_view( this_ );
-    gui_textedit_private_description_update_view( this_ );
-    gui_textedit_private_type_update_view( this_ );
+    gui_attributes_editor_private_id_update_view( this_ );
+    gui_attributes_editor_private_name_update_view ( this_ );
+    gui_attributes_editor_private_stereotype_update_view( this_ );
+    gui_attributes_editor_private_description_update_view( this_ );
+    gui_attributes_editor_private_type_update_view( this_ );
 
     TRACE_END();
 }
 
-void gui_textedit_commit_changes ( gui_textedit_t *this_ )
+void gui_attributes_editor_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_textedit_private_name_commit_changes ( this_ );
-    gui_textedit_private_stereotype_commit_changes ( this_ );
-    gui_textedit_private_description_commit_changes ( this_ );
+    gui_attributes_editor_private_name_commit_changes ( this_ );
+    gui_attributes_editor_private_stereotype_commit_changes ( this_ );
+    gui_attributes_editor_private_description_commit_changes ( this_ );
 
     TRACE_END();
 }
 
-void gui_textedit_trace ( const gui_textedit_t *this_ )
+void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
-    TRACE_INFO( "gui_textedit_t" );
+    TRACE_INFO( "gui_attributes_editor_t" );
     TRACE_INFO( "- selected_object_id:" );
     data_id_trace( &((*this_).selected_object_id) );
 
@@ -430,76 +233,76 @@ void gui_textedit_trace ( const gui_textedit_t *this_ )
 
 /* ================================ USER INPUT CALLBACKS ================================ */
 
-gboolean gui_textedit_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
 
-    gui_textedit_private_name_commit_changes( this_ );
+    gui_attributes_editor_private_name_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 
-gboolean gui_textedit_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).stereotype_entry ) );
 
-    gui_textedit_private_stereotype_commit_changes( this_ );
+    gui_attributes_editor_private_stereotype_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 
-void gui_textedit_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
+void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
 
-    gui_textedit_private_type_commit_changes( this_ );
+    gui_attributes_editor_private_type_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-gboolean gui_textedit_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
+gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
 
-    gui_textedit_private_description_commit_changes( this_ );
+    gui_attributes_editor_private_description_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
 }
 
-void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data )
+void gui_attributes_editor_commit_clicked_callback (GtkButton *button, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_BUTTON( button ) == GTK_BUTTON( (*this_).commit_button ) );
 
     gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-    gui_textedit_commit_changes ( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
 
     data_error_t d_err;
     d_err = DATA_ERROR_NONE;
@@ -540,11 +343,11 @@ void gui_textedit_commit_clicked_callback (GtkButton *button, gpointer user_data
 
 /* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
 
-void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
+void gui_attributes_editor_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != id );
     assert ( NULL != widget );
@@ -553,25 +356,25 @@ void gui_textedit_selected_object_changed_callback( GtkWidget *widget, data_id_t
     if ( ! data_id_equals ( &((*this_).selected_object_id), id ) )
     {
         /* store all changes on the old object */
-        gui_textedit_commit_changes( this_ );
+        gui_attributes_editor_commit_changes( this_ );
 
         /* load the new object */
         data_id_trace( id );
-        gui_textedit_private_load_object( this_, *id );
+        gui_attributes_editor_private_load_object( this_, *id );
 
         /* update all widgets now */
-        gui_textedit_update_widgets( this_ );
+        gui_attributes_editor_update_widgets( this_ );
     }
 
     TRACE_TIMESTAMP();
     TRACE_END();
 }
 
-void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
+void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
-    gui_textedit_t *this_;
-    this_ = (gui_textedit_t*) user_data;
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( NULL != msg );
     assert ( NULL != widget );
@@ -584,20 +387,20 @@ void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_
     if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_PREPARE_CLOSE )
     {
         /* store all changes on the old object */
-        gui_textedit_commit_changes( this_ );
+        gui_attributes_editor_commit_changes( this_ );
     }
     else if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
         data_id_t nothing;
         data_id_init_void( &nothing );
-        gui_textedit_private_load_object( this_, nothing );  /* clear cached data */
-        gui_textedit_update_widgets ( this_ );
+        gui_attributes_editor_private_load_object( this_, nothing );  /* clear cached data */
+        gui_attributes_editor_update_widgets ( this_ );
     }
     else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
         data_change_message_trace( msg );
-        gui_textedit_private_load_object( this_, id );  /* checks if object still exists */
-        gui_textedit_update_widgets ( this_ );
+        gui_attributes_editor_private_load_object( this_, id );  /* checks if object still exists */
+        gui_attributes_editor_update_widgets ( this_ );
     }
 
     TRACE_TIMESTAMP();
@@ -606,12 +409,12 @@ void gui_textedit_data_changed_callback( GtkWidget *widget, data_change_message_
 
 /* ================================ PRIVATE METHODS ================================ */
 
-void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id )
+void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_, data_id_t id )
 {
     TRACE_BEGIN();
 
     /* before overwriting the current data, trace this_: */
-    gui_textedit_trace( this_ );
+    gui_attributes_editor_trace( this_ );
 
     switch ( data_id_get_table(&id) )
     {
@@ -782,12 +585,12 @@ void gui_textedit_private_load_object ( gui_textedit_t *this_, data_id_t id )
     }
 
     /* after loading the current data, trace this_: */
-    gui_textedit_trace( this_ );
+    gui_attributes_editor_trace( this_ );
 
     TRACE_END();
 }
 
-void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_name_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -933,7 +736,7 @@ void gui_textedit_private_name_commit_changes ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -1033,7 +836,7 @@ void gui_textedit_private_stereotype_commit_changes ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
@@ -1145,7 +948,7 @@ void gui_textedit_private_type_commit_changes ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_description_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
     GtkTextView *description_widget;
@@ -1290,7 +1093,7 @@ void gui_textedit_private_description_commit_changes ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_id_update_view ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_id_update_view ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
     GtkLabel *id_widget;
@@ -1312,7 +1115,7 @@ void gui_textedit_private_id_update_view ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_name_update_view ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_name_update_view ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
     GtkEntry *name_widget;
@@ -1384,7 +1187,7 @@ void gui_textedit_private_name_update_view ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_stereotype_update_view ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_stereotype_update_view ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
     GtkEntry *stereotype_widget;
@@ -1462,7 +1265,7 @@ void gui_textedit_private_stereotype_update_view ( gui_textedit_t *this_ )
     TRACE_END();
 }
 
-void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
     GtkComboBox *type_widget;
@@ -1472,7 +1275,8 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
     {
         case DATA_TABLE_VOID:
         {
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).no_types ) );
+            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             /* prevent that a user accitentially enters a type for a non-existing object */
             gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
         }
@@ -1482,11 +1286,10 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
         {
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
-            data_classifier_type_t class_type;
-            class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).classifier_types ), 0, class_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).classifier_types ) );
+            const data_classifier_type_t class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+            const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
+            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( classifier_type_list ) );
             gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
         }
         break;
@@ -1495,20 +1298,19 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
         {
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
-            data_feature_type_t feature_type;
-            feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            const data_feature_type_t feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
             if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
             {
-                int index2;
-                index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_lifeline_type ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).feature_lifeline_type ) );
+                const GtkListStore * const lifeline_type_list = gui_attributes_editor_types_get_feature_lifeline( &((*this_).type_lists) );
+                const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( lifeline_type_list ) );
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
             }
             else
             {
-                int index;
-                index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).feature_types ), 0, feature_type );
-                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).feature_types ) );
+                const GtkListStore * const feature_type_list = gui_attributes_editor_types_get_features( &((*this_).type_lists) );
+                const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
+                gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( feature_type_list ) );
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
         }
@@ -1518,18 +1320,18 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
         {
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
-            data_relationship_type_t relationship_type;
-            relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).relationship_types ), 0, relationship_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).relationship_types ) );
+            const data_relationship_type_t relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
+            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
             gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).no_types ) );
+            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
         }
         break;
@@ -1538,11 +1340,10 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
         {
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
-            data_diagram_type_t diag_type;
-            diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-            int index;
-            index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( (*this_).diagram_types ), 0, diag_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( (*this_).diagram_types ) );
+            const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
+            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
+            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( undef_type_list ), 0, diag_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
         }
         break;
@@ -1554,10 +1355,17 @@ void gui_textedit_private_type_update_view ( gui_textedit_t *this_ )
         break;
     }
 
+    /* the icon grid: */
+    const GtkListStore * const short_type_list = gui_attributes_editor_types_get_shortlist( &((*this_).type_lists) );
+    gtk_icon_view_set_model( (*this_).type_icon_grid, GTK_TREE_MODEL( short_type_list ) );
+    gtk_icon_view_set_tooltip_column( (*this_).type_icon_grid, 1 );
+    gtk_icon_view_set_pixbuf_column( (*this_).type_icon_grid, 2 );
+    gtk_icon_view_set_selection_mode( (*this_).type_icon_grid, GTK_SELECTION_NONE );
+
     TRACE_END();
 }
 
-void gui_textedit_private_description_update_view ( gui_textedit_t *this_ )
+void gui_attributes_editor_private_description_update_view ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
