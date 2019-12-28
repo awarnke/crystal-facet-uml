@@ -98,7 +98,13 @@ ctrl_error_t ctrl_undo_redo_list_undo ( ctrl_undo_redo_list_t *this_ )
             else
             {
                 TRACE_INFO("undo");
+                const uint32_t current_before = (*this_).current;
                 result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), true );
+                if ( (*this_).current != current_before )
+                {
+                     TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing undo.");
+                     /* try to continue undo, this is the most likely way to get the db back to a consistent state */
+                }
             }
         }
     }
@@ -144,7 +150,14 @@ ctrl_error_t ctrl_undo_redo_list_redo ( ctrl_undo_redo_list_t *this_ )
             if ( ! finished )
             {
                 TRACE_INFO("redo");
+                const uint32_t current_before = (*this_).current;
                 result |= ctrl_undo_redo_list_private_do_action( this_, &((*this_).buffer[index]), false );
+                if ( (*this_).current != current_before )
+                {
+                    TSLOG_ERROR("ctrl_undo_redo_list_t was modified while performing redo.");
+                    result |= CTRL_ERROR_INVALID_REQUEST;
+                    finished = true;
+                }
             }
         }
     }

@@ -1290,7 +1290,9 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( classifier_type_list ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            if ( index != -1 ) {
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            }
         }
         break;
 
@@ -1304,14 +1306,18 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 const GtkListStore * const lifeline_type_list = gui_attributes_editor_types_get_feature_lifeline( &((*this_).type_lists) );
                 const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( lifeline_type_list ) );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
+                if ( index2 != -1 ) {
+                    gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
+                }
             }
             else
             {
                 const GtkListStore * const feature_type_list = gui_attributes_editor_types_get_features( &((*this_).type_lists) );
                 const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( feature_type_list ) );
-                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+                if ( index != -1 ) {
+                    gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+                }
             }
         }
         break;
@@ -1324,7 +1330,9 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            if ( index != -1 ) {
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            }
         }
         break;
 
@@ -1341,10 +1349,12 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-            const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
-            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( undef_type_list ), 0, diag_type );
-            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-            gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            const GtkListStore * const diagram_type_list = gui_attributes_editor_types_get_diagrams( &((*this_).type_lists) );
+            const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( diagram_type_list ), 0, diag_type );
+            gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( diagram_type_list ) );
+            if ( index != -1 ) {
+                gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
+            }
         }
         break;
 

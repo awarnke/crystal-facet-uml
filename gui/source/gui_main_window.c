@@ -259,27 +259,33 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                );
 
     (*this_).type_combo_box = gtk_combo_box_new();
-    GtkCellRenderer *column;
-    column = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column, TRUE);
-    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column, "text", 1, NULL);
+#if 0
+    GtkCellRenderer *column1;
+    column1 = gtk_cell_renderer_pixbuf_new();
+    gtk_cell_layout_pack_end(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, "pixbuf", 2, NULL);
+#endif
+    GtkCellRenderer *column2;
+    column2 = gtk_cell_renderer_text_new();
+    gtk_cell_layout_pack_end(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
+    gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
     (*this_).type_icon_grid = gtk_icon_view_new();
 
     gui_attributes_editor_init( &((*this_).attributes_editor),
-                       GTK_LABEL( (*this_).id_label ),
-                       GTK_ENTRY( (*this_).name_entry ),
-                       GTK_ENTRY( (*this_).stereotype_entry ),
-                       GTK_COMBO_BOX( (*this_).type_combo_box ),
-                       GTK_ICON_VIEW( (*this_).type_icon_grid ),
-                       GTK_TEXT_VIEW( (*this_).description_text_view ),
-                       GTK_BUTTON( (*this_).edit_commit_button ),
-                       res,
-                       controller,
-                       db_reader,
-                       database,
-                       &((*this_).message_to_user)
-                     );
+                                GTK_LABEL( (*this_).id_label ),
+                                GTK_ENTRY( (*this_).name_entry ),
+                                GTK_ENTRY( (*this_).stereotype_entry ),
+                                GTK_COMBO_BOX( (*this_).type_combo_box ),
+                                GTK_ICON_VIEW( (*this_).type_icon_grid ),
+                                GTK_TEXT_VIEW( (*this_).description_text_view ),
+                                GTK_BUTTON( (*this_).edit_commit_button ),
+                                res,
+                                controller,
+                                db_reader,
+                                database,
+                                &((*this_).message_to_user)
+                              );
 
     /* init search widgets */
     (*this_).search_label = gtk_label_new ( "Search:" );
