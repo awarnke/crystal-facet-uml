@@ -17,6 +17,7 @@
  */
 struct gui_resources_struct {
     GdkPixbuf *crystal_facet_uml;
+    GdkPixbuf *edit_attributes_sect;
     GdkPixbuf *edit_commit;
     GdkPixbuf *edit_copy;
     GdkPixbuf *edit_cut;
@@ -44,6 +45,7 @@ struct gui_resources_struct {
     GdkPixbuf *navigate_create_sibling;
     GdkPixbuf *navigate_open_folder;
     GdkPixbuf *background_column;
+    GdkPixbuf *type_undef;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -68,6 +70,13 @@ void gui_resources_destroy ( gui_resources_t *this_ );
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the edit_attributes_sect
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_edit_attributes_sect ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the edit_commit
@@ -257,6 +266,13 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resourc
  *  \param this_ pointer to own object attributes
  */
 static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_undef
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

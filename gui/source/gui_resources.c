@@ -13,6 +13,7 @@
 #endif
 
 #include "resources/crystal_facet_uml.c"
+#include "resources/edit_attributes_sect.c"
 #include "resources/edit_commit.c"
 #include "resources/edit_copy.c"
 #include "resources/edit_cut.c"
@@ -40,6 +41,7 @@
 #include "resources/navigate_create_sibling.c"
 #include "resources/navigate_open_folder.c"
 #include "resources/background_column.c"
+#include "resources/type_undef.c"
 
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
@@ -57,6 +59,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         crystal_facet_uml.width,
         crystal_facet_uml.height,
         crystal_facet_uml.width * crystal_facet_uml.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).edit_attributes_sect = gdk_pixbuf_new_from_data(
+        &(edit_attributes_sect.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        edit_attributes_sect.width,
+        edit_attributes_sect.height,
+        edit_attributes_sect.width * edit_attributes_sect.bytes_per_pixel,
         NULL,
         NULL
     );
@@ -381,6 +395,18 @@ void gui_resources_init ( gui_resources_t *this_ )
         background_column.width,
         background_column.height,
         background_column.width * background_column.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).type_undef = gdk_pixbuf_new_from_data(
+        &(type_undef.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        type_undef.width,
+        type_undef.height,
+        type_undef.width * type_undef.bytes_per_pixel,
         NULL,
         NULL
     );

@@ -5,6 +5,11 @@ static inline GdkPixbuf *gui_resources_get_crystal_facet_uml ( gui_resources_t *
     return (*this_).crystal_facet_uml;
 }
 
+static inline GdkPixbuf *gui_resources_get_edit_attributes_sect ( gui_resources_t *this_ )
+{
+    return (*this_).edit_attributes_sect;
+}
+
 static inline GdkPixbuf *gui_resources_get_edit_commit ( gui_resources_t *this_ )
 {
     return (*this_).edit_commit;
@@ -138,6 +143,11 @@ static inline GdkPixbuf *gui_resources_get_navigate_create_sibling ( gui_resourc
 static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *this_ )
 {
     return (*this_).background_column;
+}
+
+static inline GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ )
+{
+    return (*this_).type_undef;
 }
 
 

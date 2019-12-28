@@ -207,11 +207,11 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
 
     {
         GtkTreeIter iter;
-        (*this_).shortlist_types = gtk_list_store_new( 3, G_TYPE_INT, GDK_TYPE_PIXBUF, G_TYPE_STRING );
+        (*this_).shortlist_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
         gtk_list_store_append( (*this_).shortlist_types, &iter);
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", 2, gui_resources_get_tool_search( (*this_).resources ), -1 );
+        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", 2, gui_resources_get_type_undef( (*this_).resources ), -1 );
         gtk_list_store_append( (*this_).shortlist_types, &iter);
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", 2, gui_resources_get_tool_navigate( (*this_).resources ), -1 );
+        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", 2, gui_resources_get_type_undef( (*this_).resources ), -1 );
     }
 
     TRACE_END();
