@@ -42,6 +42,10 @@
 #include "resources/navigate_open_folder.c"
 #include "resources/background_column.c"
 #include "resources/type_undef.c"
+#include "resources/type_diag_box.c"
+#include "resources/type_diag_list.c"
+#include "resources/type_diag_state.c"
+#include "resources/type_diag_usecase.c"
 
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
@@ -407,6 +411,54 @@ void gui_resources_init ( gui_resources_t *this_ )
         type_undef.width,
         type_undef.height,
         type_undef.width * type_undef.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).type_diag_box = gdk_pixbuf_new_from_data(
+        &(type_diag_box.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        type_diag_box.width,
+        type_diag_box.height,
+        type_diag_box.width * type_diag_box.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).type_diag_list = gdk_pixbuf_new_from_data(
+        &(type_diag_list.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        type_diag_list.width,
+        type_diag_list.height,
+        type_diag_list.width * type_diag_list.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).type_diag_state = gdk_pixbuf_new_from_data(
+        &(type_diag_state.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        type_diag_state.width,
+        type_diag_state.height,
+        type_diag_state.width * type_diag_state.bytes_per_pixel,
+        NULL,
+        NULL
+    );
+
+    (*this_).type_diag_usecase = gdk_pixbuf_new_from_data(
+        &(type_diag_usecase.pixel_data[0]),
+        GDK_COLORSPACE_RGB,
+        true /* alpha */,
+        8,
+        type_diag_usecase.width,
+        type_diag_usecase.height,
+        type_diag_usecase.width * type_diag_usecase.bytes_per_pixel,
         NULL,
         NULL
     );

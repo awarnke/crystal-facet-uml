@@ -1327,7 +1327,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
 
             const data_relationship_type_t relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-            const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
+            const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_relationships( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
             if ( index != -1 ) {

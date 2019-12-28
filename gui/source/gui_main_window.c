@@ -209,8 +209,10 @@ void gui_main_window_init ( gui_main_window_t *this_,
                           db_reader
                         );
 
-    /* init text edit widgets */
+    /* init attribute editor widgets */
 
+    (*this_).attr_section_icon = gtk_image_new_from_pixbuf ( gui_resources_get_edit_attributes_sect( res ) );
+    gtk_widget_set_halign( (*this_).attr_section_icon, GTK_ALIGN_START );
     (*this_).id_label = gtk_label_new ( "" );
     (*this_).name_label = gtk_label_new ( "Name:" );
     (*this_).description_label = gtk_label_new ( "Specification:" );
@@ -259,18 +261,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
                                );
 
     (*this_).type_combo_box = gtk_combo_box_new();
-#if 0
     GtkCellRenderer *column1;
     column1 = gtk_cell_renderer_pixbuf_new();
-    gtk_cell_layout_pack_end(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, /*expand:*/ FALSE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column1, "pixbuf", 2, NULL);
-#endif
     GtkCellRenderer *column2;
     column2 = gtk_cell_renderer_text_new();
-    gtk_cell_layout_pack_end(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
+    gtk_cell_layout_pack_start(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, /*expand:*/ TRUE);
     gtk_cell_layout_set_attributes(GTK_CELL_LAYOUT((*this_).type_combo_box), column2, "text", 1, NULL);
 
     (*this_).type_icon_grid = gtk_icon_view_new();
+    gtk_widget_set_halign( (*this_).type_icon_grid, GTK_ALIGN_END );
 
     gui_attributes_editor_init( &((*this_).attributes_editor),
                                 GTK_LABEL( (*this_).id_label ),
@@ -349,32 +350,34 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_entry ), false );
     gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).search_button, 2, 1, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).search_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 11 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).sketcharea, 0, 2, 3, 12 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).sketcharea ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 2, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).attr_section_icon, 3, 2, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 3, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).id_label, 3, 3, 1, 1 );
+    gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).id_label ), false );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_label, 3, 4, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 4, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).name_entry, 3, 5, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).name_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 5, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_label, 3, 6, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 6, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).stereotype_entry, 3, 7, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).stereotype_entry ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 7, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_label, 3, 8, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 8, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_combo_box, 3, 9, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_combo_box ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_icon_grid, 3, 9, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).type_icon_grid, 3, 10, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).type_icon_grid ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 10, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_label, 3, 11, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_label ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 11, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).description_scroll_win, 3, 12, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).description_scroll_win ), true );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 12, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).edit_commit_button, 3, 13, 1, 1 );
     gtk_widget_set_vexpand ( GTK_WIDGET( (*this_).edit_commit_button ), false );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 13, 1, 1 );
-    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 13, 3, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_icon_image, 0, 14, 1, 1 );
+    gtk_grid_attach( GTK_GRID((*this_).layout), (*this_).message_text_label, 1, 14, 3, 1 );
     gtk_container_add(GTK_CONTAINER((*this_).window), (*this_).layout);
 
     TRACE_INFO("GTK+ Widgets are added to containers.");

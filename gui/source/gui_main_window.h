@@ -79,6 +79,7 @@ struct gui_main_window_struct {
 
     GtkAccelGroup *keyboard_shortcut_group;
 
+    GtkWidget *attr_section_icon;
     GtkWidget *id_label;
     GtkWidget *name_label;
     GtkWidget *name_entry;

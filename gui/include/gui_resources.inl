@@ -145,9 +145,29 @@ static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *
     return (*this_).background_column;
 }
 
-static inline GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ )
+static inline const GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ )
 {
     return (*this_).type_undef;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_box;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_list;
+}
+
+static inline const GdkPixbuf *gui_resources_type_diag_state ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_state;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_usecase;
 }
 
 

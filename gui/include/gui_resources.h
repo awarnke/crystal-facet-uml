@@ -45,7 +45,11 @@ struct gui_resources_struct {
     GdkPixbuf *navigate_create_sibling;
     GdkPixbuf *navigate_open_folder;
     GdkPixbuf *background_column;
-    GdkPixbuf *type_undef;
+    const GdkPixbuf *type_undef;
+    const GdkPixbuf *type_diag_box;
+    const GdkPixbuf *type_diag_list;
+    const GdkPixbuf *type_diag_state;
+    const GdkPixbuf *type_diag_usecase;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -272,7 +276,35 @@ static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *
  *
  *  \param this_ pointer to own object attributes
  */
-static inline GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
+static inline const GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_box
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_list
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_state
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_type_diag_state ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_usecase
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 
