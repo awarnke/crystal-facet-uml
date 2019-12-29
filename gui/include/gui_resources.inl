@@ -150,9 +150,29 @@ static inline const GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *t
     return (*this_).type_undef;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_diag_activity ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_activity;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_block ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_block;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ )
 {
     return (*this_).type_diag_box;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_deployment;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_internal ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_internal;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ )
@@ -160,7 +180,32 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_
     return (*this_).type_diag_list;
 }
 
-static inline const GdkPixbuf *gui_resources_type_diag_state ( gui_resources_t *this_ )
+static inline const GdkPixbuf *gui_resources_get_type_diag_overview ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_overview;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_package ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_package ;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_parametric ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_parametric ;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_profile ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_profile;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_requirement ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_requirement;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_state ( gui_resources_t *this_ )
 {
     return (*this_).type_diag_state;
 }

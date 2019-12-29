@@ -46,8 +46,17 @@ struct gui_resources_struct {
     GdkPixbuf *navigate_open_folder;
     GdkPixbuf *background_column;
     const GdkPixbuf *type_undef;
+    const GdkPixbuf *type_diag_activity;
+    const GdkPixbuf *type_diag_block;
     const GdkPixbuf *type_diag_box;
+    const GdkPixbuf *type_diag_deployment;
+    const GdkPixbuf *type_diag_internal;
     const GdkPixbuf *type_diag_list;
+    const GdkPixbuf *type_diag_overview;
+    const GdkPixbuf *type_diag_package;
+    const GdkPixbuf *type_diag_parametric;
+    const GdkPixbuf *type_diag_profile;
+    const GdkPixbuf *type_diag_requirement;
     const GdkPixbuf *type_diag_state;
     const GdkPixbuf *type_diag_usecase;
 };
@@ -279,11 +288,39 @@ static inline GdkPixbuf *gui_resources_get_background_column ( gui_resources_t *
 static inline const GdkPixbuf *gui_resources_get_type_undef ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_diag_activity
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_activity ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_block
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_block ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_diag_box
  *
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_deployment
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_internal
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_internal ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_list
@@ -293,11 +330,46 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t
 static inline const GdkPixbuf *gui_resources_get_type_diag_list ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_diag_overview
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_overview ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_package
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_package ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_parametric
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_parametric ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_profile
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_profile ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_diag_requirement
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_diag_requirement ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_diag_state
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_type_diag_state ( gui_resources_t *this_ );
+static inline const GdkPixbuf *gui_resources_get_type_diag_state ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_diag_usecase
