@@ -165,6 +165,26 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_box ( gui_resources_t
     return (*this_).type_diag_box;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_diag_class ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_class;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_communication ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_communication;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_component ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_component;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_composite ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_composite;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_diag_deployment ( gui_resources_t *this_ )
 {
     return (*this_).type_diag_deployment;
@@ -205,9 +225,19 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_requirement ( gui_res
     return (*this_).type_diag_requirement;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_diag_sequence ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_sequence;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_diag_state ( gui_resources_t *this_ )
 {
     return (*this_).type_diag_state;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resources_t *this_ )
+{
+    return (*this_).type_diag_timing;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ )

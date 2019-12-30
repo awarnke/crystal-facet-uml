@@ -45,6 +45,10 @@
 #include "resources/type_diag_activity.c"
 #include "resources/type_diag_block.c"
 #include "resources/type_diag_box.c"
+#include "resources/type_diag_class.c"
+#include "resources/type_diag_communication.c"
+#include "resources/type_diag_component.c"
+#include "resources/type_diag_composite.c"
 #include "resources/type_diag_deployment.c"
 #include "resources/type_diag_internal.c"
 #include "resources/type_diag_list.c"
@@ -53,7 +57,9 @@
 #include "resources/type_diag_parametric.c"
 #include "resources/type_diag_profile.c"
 #include "resources/type_diag_requirement.c"
+#include "resources/type_diag_sequence.c"
 #include "resources/type_diag_state.c"
+#include "resources/type_diag_timing.c"
 #include "resources/type_diag_usecase.c"
 
 #if __GNUC__ >= 8
@@ -111,6 +117,10 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_activity = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_activity ) );
     (*this_).type_diag_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_block ) );
     (*this_).type_diag_box = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_box ) );
+    (*this_).type_diag_class = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_class ) );
+    (*this_).type_diag_communication = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_communication ) );
+    (*this_).type_diag_component = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_component ) );
+    (*this_).type_diag_composite = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_composite ) );
     (*this_).type_diag_deployment = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_deployment ) );
     (*this_).type_diag_internal = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_internal ) );
     (*this_).type_diag_list = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_list ) );
@@ -119,7 +129,9 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_parametric = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_parametric ) );
     (*this_).type_diag_profile = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_profile ) );
     (*this_).type_diag_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_requirement ) );
+    (*this_).type_diag_sequence = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_sequence ) );
     (*this_).type_diag_state = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_state ) );
+    (*this_).type_diag_timing = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
     (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
     TRACE_END();

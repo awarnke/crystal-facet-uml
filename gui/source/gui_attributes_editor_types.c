@@ -36,7 +36,6 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", 2, icon_diag_box, -1 );
 
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
         const GdkPixbuf *icon_diag_block = gui_resources_get_type_diag_block ( (*this_).resources );
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_SYSML_BLOCK_DEFINITION_DIAGRAM, 1, "Block Definition Diagram (SysML)", 2, icon_diag_block, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
@@ -49,14 +48,17 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const GdkPixbuf *icon_diag_deployment = gui_resources_get_type_diag_deployment ( (*this_).resources );
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_DEPLOYMENT_DIAGRAM, 1, "Deployment Diagram (UML)", 2, icon_diag_deployment, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 1, "Component Diagram (UML)", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_component = gui_resources_get_type_diag_component ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPONENT_DIAGRAM, 1, "Component Diagram (UML)", 2, icon_diag_component, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, 1, "Composite Structure Diagram (UML)", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_composite = gui_resources_get_type_diag_composite ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMPOSITE_STRUCTURE_DIAGRAM, 1, "Composite Structure Diagram (UML)", 2, icon_diag_composite, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         const GdkPixbuf *icon_diag_package = gui_resources_get_type_diag_package ( (*this_).resources );
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PACKAGE_DIAGRAM, 1, "Package Diagram (SysML, UML)", 2, icon_diag_package, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "Class Diagram (UML)", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_class = gui_resources_get_type_diag_class ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_CLASS_DIAGRAM, 1, "Class Diagram (UML)", 2, icon_diag_class, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
         const GdkPixbuf *icon_diag_profile = gui_resources_get_type_diag_profile( (*this_).resources );
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_PROFILE_DIAGRAM, 1, "Profile Diagram (UML)", 2, icon_diag_profile, -1 );
@@ -80,11 +82,14 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const GdkPixbuf *icon_diag_state  = gui_resources_get_type_diag_state ( (*this_).resources );
         gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "State Machine Diagram (SysML, UML)", 2, icon_diag_state, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "Communication Diagram (UML), Scenario", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_communication = gui_resources_get_type_diag_communication ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM, 1, "Communication Diagram (UML), Scenario", 2, icon_diag_communication, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "Sequence Diagram (SysML, UML), Scenario", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_sequence = gui_resources_get_type_diag_sequence ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM, 1, "Sequence Diagram (SysML, UML), Scenario", 2, icon_diag_sequence, -1 );
         gtk_list_store_append( (*this_).diagram_types, &iter);
-        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "Timing Diagram (UML), Scenario", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_diag_timing = gui_resources_get_type_diag_timing ( (*this_).resources );
+        gtk_list_store_set ( (*this_).diagram_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM, 1, "Timing Diagram (UML), Scenario", 2, icon_diag_timing, -1 );
     }
 
     {
