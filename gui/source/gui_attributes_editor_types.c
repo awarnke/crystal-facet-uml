@@ -166,24 +166,28 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         (*this_).feature_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
         /* order: from close to far */
         gtk_list_store_append( (*this_).feature_types, &iter);
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "Property", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_property = gui_resources_get_type_feat_property( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROPERTY, 1, "Property", 2, icon_feat_property, -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "Operation", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_operation = gui_resources_get_type_feat_operation( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_OPERATION, 1, "Operation", 2, icon_feat_operation, -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "Port", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_port = gui_resources_get_type_feat_port( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PORT, 1, "Port", 2, icon_feat_port, -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROVIDED_INTERFACE, 1, "Provided Interface", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_provide = gui_resources_get_type_feat_provide( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_PROVIDED_INTERFACE, 1, "Provided Interface", 2, icon_feat_provide, -1 );
         gtk_list_store_append( (*this_).feature_types, &iter);
-        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_REQUIRED_INTERFACE, 1, "Required Interface", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_require = gui_resources_get_type_feat_require( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_types, &iter, 0, DATA_FEATURE_TYPE_REQUIRED_INTERFACE, 1, "Required Interface", 2, icon_feat_require, -1 );
     }
 
     {
         GtkTreeIter iter;
         (*this_).feature_lifeline_type = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
         gtk_list_store_append( (*this_).feature_lifeline_type, &iter);
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
-        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "Lifeline", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_feat_life = gui_resources_get_type_feat_life( (*this_).resources );
+        gtk_list_store_set ( (*this_).feature_lifeline_type, &iter, 0, DATA_FEATURE_TYPE_LIFELINE, 1, "Lifeline", 2, icon_feat_life, -1 );
     }
 
     {

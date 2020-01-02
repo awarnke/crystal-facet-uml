@@ -245,6 +245,36 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resourc
     return (*this_).type_diag_usecase;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_life;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_operation ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_operation;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_port ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_port;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_property ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_property;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_provide;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ )
+{
+    return (*this_).type_feat_require;
+}
+
 
 /*
 Copyright 2016-2019 Andreas Warnke

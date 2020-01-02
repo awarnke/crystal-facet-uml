@@ -45,6 +45,7 @@ struct gui_resources_struct {
     GdkPixbuf *navigate_create_sibling;
     GdkPixbuf *navigate_open_folder;
     GdkPixbuf *background_column;
+
     const GdkPixbuf *type_undef;
     const GdkPixbuf *type_diag_activity;
     const GdkPixbuf *type_diag_block;
@@ -65,6 +66,13 @@ struct gui_resources_struct {
     const GdkPixbuf *type_diag_state;
     const GdkPixbuf *type_diag_timing;
     const GdkPixbuf *type_diag_usecase;
+
+    const GdkPixbuf *type_feat_life;
+    const GdkPixbuf *type_feat_operation;
+    const GdkPixbuf *type_feat_port;
+    const GdkPixbuf *type_feat_property;
+    const GdkPixbuf *type_feat_provide;
+    const GdkPixbuf *type_feat_require;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -425,6 +433,48 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resource
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_life
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_operation
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_operation ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_port
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_port ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_property
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_property ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_provide
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_feat_require
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 
