@@ -67,12 +67,16 @@ struct gui_resources_struct {
     const GdkPixbuf *type_diag_timing;
     const GdkPixbuf *type_diag_usecase;
 
+    const GdkPixbuf *type_clas_package;
+
     const GdkPixbuf *type_feat_life;
     const GdkPixbuf *type_feat_operation;
     const GdkPixbuf *type_feat_port;
     const GdkPixbuf *type_feat_property;
     const GdkPixbuf *type_feat_provide;
     const GdkPixbuf *type_feat_require;
+
+    const GdkPixbuf *type_rel_depend;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -435,6 +439,13 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resource
 static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_package
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_feat_life
  *
  *  \param this_ pointer to own object attributes
@@ -475,6 +486,13 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resourc
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_depend
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 

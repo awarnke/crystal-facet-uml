@@ -110,7 +110,8 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_INTERFACE, 1, "Interface", 2, icon_undef_type, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PACKAGE, 1, "Package", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_package = gui_resources_get_type_clas_package( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_PACKAGE, 1, "Package", 2, icon_clas_package, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_CLASS, 1, "Class", 2, icon_undef_type, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
@@ -195,9 +196,10 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         (*this_).relationship_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
-        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, 1, "Dependency", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_rel_depend = gui_resources_get_type_rel_depend( (*this_).resources );
+        gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPENDENCY, 1, "Dependency", 2, icon_rel_depend, -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
+        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT, 1, "Containment (deployment, package), no cycles", 2, icon_undef_type, -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_DEPLOY, 1, "Deploy (deployment), no cycles", 2, icon_undef_type, -1 );

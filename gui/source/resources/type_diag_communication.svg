@@ -46,7 +46,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -54,7 +54,7 @@
      inkscape:label="Ebene 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(0,0)">
+     transform="translate(0,2.0)">
     <rect
        style="fill:none;stroke:#7f7f7f;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4554"
@@ -77,7 +77,7 @@
        y="13.271596" />
     <path
        style="fill:none;stroke:#7f7f7f;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       d="m 3.6138603,20.480006 v 2.065063 H 30.553546 V 3.537103 L 28.582349,3.49017"
+       d="m 3.5199938,1.6129817 v -2.065063 H 30.459679 V 18.555885 l -1.971197,0.04693"
        id="path4517"
        inkscape:connector-curvature="0" />
     <text

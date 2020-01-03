@@ -245,6 +245,11 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resourc
     return (*this_).type_diag_usecase;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_package;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ )
 {
     return (*this_).type_feat_life;
@@ -273,6 +278,11 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resourc
 static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ )
 {
     return (*this_).type_feat_require;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_depend;
 }
 
 

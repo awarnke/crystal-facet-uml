@@ -63,12 +63,16 @@
 #include "resources/type_diag_timing.c"
 #include "resources/type_diag_usecase.c"
 
+#include "resources/type_clas_package.c"
+
 #include "resources/type_feat_life.c"
 #include "resources/type_feat_operation.c"
 #include "resources/type_feat_port.c"
 #include "resources/type_feat_property.c"
 #include "resources/type_feat_provide.c"
 #include "resources/type_feat_require.c"
+
+#include "resources/type_rel_depend.c"
 
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
@@ -142,12 +146,16 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_timing = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
     (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
+    (*this_).type_clas_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_package ) );
+
     (*this_).type_feat_life = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_life ) );
     (*this_).type_feat_operation = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
     (*this_).type_feat_port = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_port ) );
     (*this_).type_feat_property = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_property ) );
     (*this_).type_feat_provide = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
     (*this_).type_feat_require = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_require ) );
+
+    (*this_).type_rel_depend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_depend ) );
 
     TRACE_END();
 }
