@@ -72,7 +72,21 @@
 #include "resources/type_feat_provide.c"
 #include "resources/type_feat_require.c"
 
+#include "resources/type_rel_aggregate.c"
+#include "resources/type_rel_associate.c"
+#include "resources/type_rel_compose.c"
+#include "resources/type_rel_contain.c"
 #include "resources/type_rel_depend.c"
+#include "resources/type_rel_deploy.c"
+#include "resources/type_rel_extend.c"
+#include "resources/type_rel_generalize.c"
+#include "resources/type_rel_include.c"
+#include "resources/type_rel_manifest.c"
+#include "resources/type_rel_realize.c"
+#include "resources/type_rel_refine.c"
+#include "resources/type_rel_return.c"
+#include "resources/type_rel_sync.c"
+#include "resources/type_rel_trace.c"
 
 #if __GNUC__ >= 8
 #pragma GCC diagnostic pop
@@ -155,7 +169,21 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_feat_provide = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_provide ) );
     (*this_).type_feat_require = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_require ) );
 
+    (*this_).type_rel_aggregate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_aggregate ) );
+    (*this_).type_rel_associate = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_associate ) );
+    (*this_).type_rel_compose = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_compose ) );
+    (*this_).type_rel_contain = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_contain ) );
     (*this_).type_rel_depend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_depend ) );
+    (*this_).type_rel_deploy = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_deploy ) );
+    (*this_).type_rel_extend = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_extend ) );
+    (*this_).type_rel_generalize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_generalize ) );
+    (*this_).type_rel_include = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_include ) );
+    (*this_).type_rel_manifest = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_manifest ) );
+    (*this_).type_rel_realize = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_realize ) );
+    (*this_).type_rel_refine = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_refine ) );
+    (*this_).type_rel_return = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_return ) );
+    (*this_).type_rel_sync = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_sync ) );
+    (*this_).type_rel_trace = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_rel_trace ) );
 
     TRACE_END();
 }

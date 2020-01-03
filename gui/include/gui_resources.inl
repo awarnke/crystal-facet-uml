@@ -280,9 +280,79 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resourc
     return (*this_).type_feat_require;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_rel_aggregate ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_aggregate;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_associate;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_compose;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_contain;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ )
 {
     return (*this_).type_rel_depend;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_deploy ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_deploy;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_extend ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_extend;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_generalize ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_generalize;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_include;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_manifest;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_realize ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_realize;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_refine ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_refine;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_return ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_return;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_sync ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_sync;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_rel_trace ( gui_resources_t *this_ )
+{
+    return (*this_).type_rel_trace;
 }
 
 

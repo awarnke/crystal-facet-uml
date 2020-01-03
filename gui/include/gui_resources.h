@@ -76,7 +76,21 @@ struct gui_resources_struct {
     const GdkPixbuf *type_feat_provide;
     const GdkPixbuf *type_feat_require;
 
+    const GdkPixbuf *type_rel_aggregate;
+    const GdkPixbuf *type_rel_associate;
+    const GdkPixbuf *type_rel_compose;
+    const GdkPixbuf *type_rel_contain;
     const GdkPixbuf *type_rel_depend;
+    const GdkPixbuf *type_rel_deploy;
+    const GdkPixbuf *type_rel_extend;
+    const GdkPixbuf *type_rel_generalize;
+    const GdkPixbuf *type_rel_include;
+    const GdkPixbuf *type_rel_manifest;
+    const GdkPixbuf *type_rel_realize;
+    const GdkPixbuf *type_rel_refine;
+    const GdkPixbuf *type_rel_return;
+    const GdkPixbuf *type_rel_sync;
+    const GdkPixbuf *type_rel_trace;
 };
 
 typedef struct gui_resources_struct gui_resources_t;
@@ -488,11 +502,109 @@ static inline const GdkPixbuf *gui_resources_get_type_feat_provide ( gui_resourc
 static inline const GdkPixbuf *gui_resources_get_type_feat_require ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_rel_aggregate
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_aggregate ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_associate
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_associate ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_compose
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_compose ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_contain
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_contain ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_rel_depend
  *
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_rel_depend ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_deploy
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_deploy ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_extend
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_extend ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_generalize
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_generalize ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_include
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_include ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_manifest
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_manifest ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_realize
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_realize ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_refine
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_refine ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_return
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_return ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_sync
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_sync ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_rel_trace
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_rel_trace ( gui_resources_t *this_ );
 
 #include "gui_resources.inl"
 
