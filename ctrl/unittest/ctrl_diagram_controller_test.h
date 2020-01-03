@@ -17,7 +17,7 @@ test_suite_t ctrl_diagram_controller_test_get_list(void);
 
 
 /*
- * Copyright 2016-2019 Andreas Warnke
+ * Copyright 2016-2020 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

@@ -434,7 +434,7 @@ static inline uint32_t data_visible_set_count_descendants_of_index ( const data_
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2016-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

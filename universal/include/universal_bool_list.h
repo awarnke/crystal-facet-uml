@@ -107,7 +107,7 @@ static inline void universal_bool_list_trace ( const universal_bool_list_t *this
 
 
 /*
-Copyright 2017-2019 Andreas Warnke
+Copyright 2017-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

@@ -4,7 +4,7 @@
  *  \file utf8codepoint.c
  *
  *  \note License: Use this code according to the license: Apache 2.0.
- *  \author (c) 2012-2019 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
+ *  \author Copyright 2012-2020 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
 #include "util/string/utf8codepoint.h"
@@ -138,7 +138,7 @@ utf8codepoint_t utf8codepoint_private_init_from_multi_byte( const char *that, un
 
 
 /*
- * Copyright 2012-2019 Andreas Warnke
+ * Copyright 2012-2020 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

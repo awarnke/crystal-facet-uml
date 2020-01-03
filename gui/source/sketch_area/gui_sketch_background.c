@@ -321,7 +321,7 @@ void gui_sketch_background_private_draw_icon_and_message( gui_sketch_background_
 
 
 /*
-Copyright 2017-2019 Andreas Warnke
+Copyright 2017-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

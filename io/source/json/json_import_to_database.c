@@ -577,7 +577,7 @@ bool json_import_to_database_private_is_feature_focused_in_diagram( json_import_
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2016-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

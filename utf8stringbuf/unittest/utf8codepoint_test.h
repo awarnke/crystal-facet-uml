@@ -11,7 +11,7 @@ test_suite_t utf8codepoint_test_get_list(void);
 
 
 /*
- * Copyright 2012-2019 Andreas Warnke
+ * Copyright 2012-2020 Andreas Warnke
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.

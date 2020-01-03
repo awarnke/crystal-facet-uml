@@ -106,7 +106,7 @@ void draw_feature_label_draw_key_and_value ( const draw_feature_label_t *this_,
 
 
 /*
-Copyright 2017-2019 Andreas Warnke
+Copyright 2017-2020 Andreas Warnke
     http://www.apache.org/licenses/LICENSE-2.0
 
 Licensed under the Apache License, Version 2.0 (the "License");

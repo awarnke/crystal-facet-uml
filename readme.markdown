@@ -133,6 +133,6 @@ Meta-Information
 
 > Version: see META_INFO_VERSION_STR in main/include/meta/meta_info.h
 >
-> Author+Copyright: 2016-2019 Andreas Warnke
+> Author+Copyright: 2016-2020 Andreas Warnke
 >
 > License: Apache 2.0 License

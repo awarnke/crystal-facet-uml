@@ -211,7 +211,7 @@ data_error_t json_deserializer_private_get_next_feature ( json_deserializer_t *t
 
 
 /*
-Copyright 2016-2019 Andreas Warnke
+Copyright 2016-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

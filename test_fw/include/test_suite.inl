@@ -67,7 +67,7 @@ static inline const char* test_suite_get_test_case_name( test_suite_t *this_, un
 
 
 /*
-Copyright 2019-2019 Andreas Warnke
+Copyright 2019-2020 Andreas Warnke
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
