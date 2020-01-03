@@ -245,9 +245,29 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resourc
     return (*this_).type_diag_usecase;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_decision;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_initial;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_final;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_package;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_part;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ )

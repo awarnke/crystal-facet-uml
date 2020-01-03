@@ -67,7 +67,11 @@ struct gui_resources_struct {
     const GdkPixbuf *type_diag_timing;
     const GdkPixbuf *type_diag_usecase;
 
+    const GdkPixbuf *type_clas_decision;
+    const GdkPixbuf *type_clas_final;
+    const GdkPixbuf *type_clas_initial;
     const GdkPixbuf *type_clas_package;
+    const GdkPixbuf *type_clas_part;
 
     const GdkPixbuf *type_feat_life;
     const GdkPixbuf *type_feat_operation;
@@ -453,11 +457,39 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resource
 static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_decision
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_initial
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_final
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_package
  *
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_part
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_feat_life

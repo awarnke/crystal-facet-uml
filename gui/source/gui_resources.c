@@ -63,7 +63,11 @@
 #include "resources/type_diag_timing.c"
 #include "resources/type_diag_usecase.c"
 
+#include "resources/type_clas_decision.c"
+#include "resources/type_clas_initial.c"
+#include "resources/type_clas_final.c"
 #include "resources/type_clas_package.c"
+#include "resources/type_clas_part.c"
 
 #include "resources/type_feat_life.c"
 #include "resources/type_feat_operation.c"
@@ -160,7 +164,11 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_timing = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
     (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
+    (*this_).type_clas_decision = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
+    (*this_).type_clas_initial = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
+    (*this_).type_clas_final = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_final ) );
     (*this_).type_clas_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_package ) );
+    (*this_).type_clas_part = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_part ) );
 
     (*this_).type_feat_life = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_life ) );
     (*this_).type_feat_operation = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
