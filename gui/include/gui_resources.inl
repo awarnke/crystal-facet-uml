@@ -245,6 +245,41 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resourc
     return (*this_).type_diag_usecase;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_clas_artifact ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_artifact;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_block ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_block;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_boundary ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_boundary;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_class ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_class;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_comment ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_comment;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_component ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_component;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_constraint ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_constraint;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_decision;
@@ -260,6 +295,11 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources
     return (*this_).type_clas_final;
 }
 
+static inline const GdkPixbuf *gui_resources_get_type_clas_node ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_node;
+}
+
 static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_package;
@@ -268,6 +308,16 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resourc
 static inline const GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ )
 {
     return (*this_).type_clas_part;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_requirement ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_requirement;
+}
+
+static inline const GdkPixbuf *gui_resources_get_type_clas_usecase ( gui_resources_t *this_ )
+{
+    return (*this_).type_clas_usecase;
 }
 
 static inline const GdkPixbuf *gui_resources_get_type_feat_life ( gui_resources_t *this_ )

@@ -63,11 +63,21 @@
 #include "resources/type_diag_timing.c"
 #include "resources/type_diag_usecase.c"
 
+#include "resources/type_clas_artifact.c"
+#include "resources/type_clas_block.c"
+#include "resources/type_clas_boundary.c"
+#include "resources/type_clas_class.c"
+#include "resources/type_clas_comment.c"
+#include "resources/type_clas_component.c"
+#include "resources/type_clas_constraint.c"
 #include "resources/type_clas_decision.c"
 #include "resources/type_clas_initial.c"
 #include "resources/type_clas_final.c"
+#include "resources/type_clas_node.c"
 #include "resources/type_clas_package.c"
 #include "resources/type_clas_part.c"
+#include "resources/type_clas_requirement.c"
+#include "resources/type_clas_usecase.c"
 
 #include "resources/type_feat_life.c"
 #include "resources/type_feat_operation.c"
@@ -164,11 +174,21 @@ void gui_resources_init ( gui_resources_t *this_ )
     (*this_).type_diag_timing = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_timing ) );
     (*this_).type_diag_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_diag_usecase ) );
 
+    (*this_).type_clas_artifact = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_artifact ) );
+    (*this_).type_clas_block = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_block ) );
+    (*this_).type_clas_boundary = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_boundary ) );
+    (*this_).type_clas_class = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_class ) );
+    (*this_).type_clas_comment = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_comment ) );
+    (*this_).type_clas_component = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_component ) );
+    (*this_).type_clas_constraint = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_constraint ) );
     (*this_).type_clas_decision = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_decision ) );
     (*this_).type_clas_initial = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_initial ) );
     (*this_).type_clas_final = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_final ) );
+    (*this_).type_clas_node = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_node ) );
     (*this_).type_clas_package = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_package ) );
     (*this_).type_clas_part = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_part ) );
+    (*this_).type_clas_requirement = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_requirement ) );
+    (*this_).type_clas_usecase = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_clas_usecase ) );
 
     (*this_).type_feat_life = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_life ) );
     (*this_).type_feat_operation = gdk_pixbuf_new_from_data( GIMP_PIXBUF_DATA( type_feat_operation ) );
