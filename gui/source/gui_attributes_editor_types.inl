@@ -30,11 +30,6 @@ static inline const GtkListStore* gui_attributes_editor_types_get_feature_lifeli
     return (*this_).feature_lifeline_type;
 }
 
-static inline const GtkListStore* gui_attributes_editor_types_get_shortlist ( const gui_attributes_editor_types_t *this_ )
-{
-    return (*this_).shortlist_types;
-}
-
 
 /*
 Copyright 2019-2020 Andreas Warnke

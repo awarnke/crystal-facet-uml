@@ -95,9 +95,8 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     {
         GtkTreeIter iter;
         (*this_).classifier_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
-        /* order: structural from abstract to concrete, behavioral from abstract to concrete */
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
 
+        /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_block = gui_resources_get_type_clas_block( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_BLOCK, 1, "Block", 2, icon_clas_block, -1 );
@@ -279,32 +278,6 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_RETURN_CALL, 1, "Return Call (sequence)", 2, icon_rel_return, -1 );
     }
 
-    {
-        GtkTreeIter iter;
-        (*this_).shortlist_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", 2, icon_undef_type, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", 2, icon_undef_type, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        const GdkPixbuf *icon_diag_list = gui_resources_get_type_diag_list ( (*this_).resources );
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_LIST, 1, "List Diagram", 2, icon_diag_list, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        const GdkPixbuf *icon_diag_box = gui_resources_get_type_diag_box ( (*this_).resources );
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_BOX_DIAGRAM, 1, "Box Diagram", 2, icon_diag_box, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        const GdkPixbuf *icon_diag_usecase = gui_resources_get_type_diag_usecase ( (*this_).resources );
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_USE_CASE_DIAGRAM, 1, "Use Case Diagram (SysML, UML)", 2, icon_diag_usecase, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_INTERACTION_OVERVIEW_DIAGRAM, 1, "Interaction Overview Diagram (UML)", 2, icon_undef_type, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_ACTIVITY_DIAGRAM, 1, "Activity Diagram (SysML, UML)", 2, icon_undef_type, -1 );
-        gtk_list_store_append( (*this_).shortlist_types, &iter);
-        const GdkPixbuf *icon_diag_state  = gui_resources_get_type_diag_state ( (*this_).resources );
-        gtk_list_store_set ( (*this_).shortlist_types, &iter, 0, DATA_DIAGRAM_TYPE_UML_STATE_MACHINE_DIAGRAM, 1, "State Machine Diagram (SysML, UML)", 2, icon_diag_state, -1 );
-    }
-
     TRACE_END();
 }
 
@@ -329,9 +302,6 @@ void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ 
 
     g_object_unref((*this_).relationship_types);
     (*this_).relationship_types = NULL;
-
-    g_object_unref((*this_).shortlist_types);
-    (*this_).shortlist_types = NULL;
 
     (*this_).resources = NULL;
 

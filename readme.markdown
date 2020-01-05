@@ -31,10 +31,6 @@ openSuSE:
 wine:
 
 >       unzip crystal-facet-uml_1.17.0-1_win32.zip
->
->       cd crystal_facet_uml/bin
->
->       wine crystal_facet_uml.exe
 
 How to build from source
 -----------

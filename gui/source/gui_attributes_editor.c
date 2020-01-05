@@ -277,6 +277,28 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     TRACE_END();
 }
 
+void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( GTK_ICON_VIEW( iconview ) == GTK_ICON_VIEW( (*this_).type_icon_grid ) );
+
+    /* get index from path */
+    assert( NULL != path );
+    assert( gtk_tree_path_get_depth(path) == 1);
+    const gint * const indices = gtk_tree_path_get_indices(path);
+    assert( NULL != indices );
+    const uint32_t index = indices[0];
+    TRACE_INFO_INT( "selected:", index );
+
+    gui_attributes_editor_private_type_commit_shortlist_action ( this_, index );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
@@ -948,6 +970,114 @@ void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t
     TRACE_END();
 }
 
+void gui_attributes_editor_private_type_commit_shortlist_action ( gui_attributes_editor_t *this_, uint32_t shortlist_index )
+{
+    TRACE_BEGIN();
+
+    int obj_type;
+    obj_type = gtk_helper_tree_model_get_id( gtk_icon_view_get_model( (*this_).type_icon_grid ), 0, shortlist_index );
+
+    TRACE_INFO_INT( "obj_type:", obj_type );
+
+    ctrl_error_t ctrl_err;
+    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
+    {
+        case DATA_TABLE_VOID:
+        {
+            /* nothing to do */
+            TRACE_INFO( "no object selected where type can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_CLASSIFIER:
+        {
+            data_classifier_type_t unchanged_main_type;
+            unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_FEATURE:
+        {
+            data_feature_type_t unchanged_main_type;
+            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_RELATIONSHIP:
+        {
+            data_relationship_type_t unchanged_main_type;
+            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
+            if ( obj_type != unchanged_main_type )
+            {
+                ctrl_classifier_controller_t *class_ctrl;
+                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAMELEMENT:
+        {
+            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
+            TSLOG_WARNING( "no object selected where type can be updated." );
+        }
+        break;
+
+        case DATA_TABLE_DIAGRAM:
+        {
+            data_diagram_type_t unchanged_type;
+            unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
+            if ( obj_type != unchanged_type )
+            {
+                ctrl_diagram_controller_t *diag_ctrl;
+                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
+
+                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
+                if ( CTRL_ERROR_NONE != ctrl_err )
+                {
+                    TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
+                }
+            }
+        }
+        break;
+
+        default:
+        {
+            TSLOG_ERROR( "invalid data in data_id_t." );
+        }
+        break;
+    }
+
+    TRACE_END();
+}
+
 void gui_attributes_editor_private_description_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
@@ -1270,22 +1400,26 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
     TRACE_BEGIN();
     GtkComboBox *type_widget;
     type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
+    GtkIconView *type_icon_grid;
+    type_icon_grid = (*this_).type_icon_grid;
 
     switch ( data_id_get_table( &((*this_).selected_object_id ) ) )
     {
         case DATA_TABLE_VOID:
         {
+            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
             /* prevent that a user accitentially enters a type for a non-existing object */
-            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
+
+            /* the icon grid: */
+            gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
+            gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( undef_type_list ) );
         }
         break;
 
         case DATA_TABLE_CLASSIFIER:
         {
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
-
             const data_classifier_type_t class_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
             const GtkListStore * const classifier_type_list = gui_attributes_editor_types_get_classifiers( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
@@ -1293,13 +1427,16 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             if ( index != -1 ) {
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            /* the icon grid: */
+            gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( classifier_type_list ) );
+            gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
         }
         break;
 
         case DATA_TABLE_FEATURE:
         {
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
-
             const data_feature_type_t feature_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
             if ( DATA_FEATURE_TYPE_LIFELINE == feature_type )
             {
@@ -1309,6 +1446,11 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 if ( index2 != -1 ) {
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
                 }
+                gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+                /* the icon grid: */
+                gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
+                gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( lifeline_type_list ) );
             }
             else
             {
@@ -1318,14 +1460,17 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 if ( index != -1 ) {
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
                 }
+                gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+                /* the icon grid: */
+                gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( feature_type_list ) );
+                gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
             }
         }
         break;
 
         case DATA_TABLE_RELATIONSHIP:
         {
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
-
             const data_relationship_type_t relationship_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
             const GtkListStore * const relationship_type_list = gui_attributes_editor_types_get_relationships( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
@@ -1333,21 +1478,28 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             if ( index != -1 ) {
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            /* the icon grid: */
+            gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( relationship_type_list ) );
+            gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
         }
         break;
 
         case DATA_TABLE_DIAGRAMELEMENT:
         {
+            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
             const GtkListStore * const undef_type_list = gui_attributes_editor_types_get_undef( &((*this_).type_lists) );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( undef_type_list ) );
-            gtk_widget_hide ( GTK_WIDGET ( type_widget ) );
+
+            /* the icon grid: */
+            gtk_widget_hide ( GTK_WIDGET ( type_icon_grid ) );
+            gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( undef_type_list ) );
         }
         break;
 
         case DATA_TABLE_DIAGRAM:
         {
-            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
-
             const data_diagram_type_t diag_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
             const GtkListStore * const diagram_type_list = gui_attributes_editor_types_get_diagrams( &((*this_).type_lists) );
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( diagram_type_list ), 0, diag_type );
@@ -1355,6 +1507,11 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             if ( index != -1 ) {
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
+            gtk_widget_show ( GTK_WIDGET ( type_widget ) );
+
+            /* the icon grid: */
+            gtk_icon_view_set_model( type_icon_grid, GTK_TREE_MODEL( diagram_type_list ) );
+            gtk_widget_show ( GTK_WIDGET ( type_icon_grid ) );
         }
         break;
 
@@ -1364,13 +1521,6 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
         }
         break;
     }
-
-    /* the icon grid: */
-    const GtkListStore * const short_type_list = gui_attributes_editor_types_get_shortlist( &((*this_).type_lists) );
-    gtk_icon_view_set_model( (*this_).type_icon_grid, GTK_TREE_MODEL( short_type_list ) );
-    gtk_icon_view_set_tooltip_column( (*this_).type_icon_grid, 1 );
-    gtk_icon_view_set_pixbuf_column( (*this_).type_icon_grid, 2 );
-    gtk_icon_view_set_selection_mode( (*this_).type_icon_grid, GTK_SELECTION_NONE );
 
     TRACE_END();
 }

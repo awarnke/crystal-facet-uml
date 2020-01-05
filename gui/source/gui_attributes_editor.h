@@ -127,6 +127,11 @@ gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widge
 void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data );
 
 /*!
+ *  \brief callback that informs that an entry of the shortlist of type icons was activated
+ */
+void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkTreePath *path, gpointer user_data );
+
+/*!
  *  \brief callback that informs that the focus of a widget is lost
  */
 gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
@@ -181,6 +186,15 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
  *  \param this_ pointer to own object attributes
  */
 void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_ );
+
+/*!
+ *  \brief commits shortlist selection of objects type to the controller.
+ *
+ *  If the type is not modified, nothing happens.
+ *  \param this_ pointer to own object attributes
+ *  \param shortlist_index index of the selected item in the shortlist
+ */
+void gui_attributes_editor_private_type_commit_shortlist_action ( gui_attributes_editor_t *this_, uint32_t shortlist_index );
 
 /*!
  *  \brief commits changes to the objects description to the controller.

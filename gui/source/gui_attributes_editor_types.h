@@ -27,8 +27,6 @@ struct gui_attributes_editor_types_struct {
     GtkListStore *relationship_types;
     GtkListStore *feature_types;
     GtkListStore *feature_lifeline_type;
-
-    GtkListStore *shortlist_types;
 };
 
 typedef struct gui_attributes_editor_types_struct gui_attributes_editor_types_t;
@@ -95,14 +93,6 @@ static inline const GtkListStore* gui_attributes_editor_types_get_features ( con
  *  \return pointer to a GtkListStore that holds the name of feature_lifeline type
  */
 static inline const GtkListStore* gui_attributes_editor_types_get_feature_lifeline ( const gui_attributes_editor_types_t *this_ );
-
-/*!
- *  \brief fetches the shortlist
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to a GtkListStore that holds the names and icons of the type shortlist
- */
-static inline const GtkListStore* gui_attributes_editor_types_get_shortlist ( const gui_attributes_editor_types_t *this_ );
 
 #include "gui_attributes_editor_types.inl"
 
