@@ -97,7 +97,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         (*this_).classifier_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         const GdkPixbuf *icon_undef_type = gui_resources_get_type_undef( (*this_).resources );
-        
+
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_block = gui_resources_get_type_clas_block( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_BLOCK, 1, "Block", 2, icon_clas_block, -1 );
@@ -137,7 +137,8 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_REQUIREMENT, 1, "Requirement", 2, icon_clas_requirement, -1 );
         /* behavioral classifiers: */
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "Actor (use case)", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_actor = gui_resources_get_type_clas_actor( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTOR, 1, "Actor (use case)", 2, icon_clas_actor, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_usecase = gui_resources_get_type_clas_usecase( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_USE_CASE, 1, "Use Case (use case)", 2, icon_clas_usecase, -1 );
@@ -145,21 +146,29 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const GdkPixbuf *icon_clas_boundary = gui_resources_get_type_clas_boundary( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_SYSTEM_BOUNDARY, 1, "System Boundary (use case)", 2, icon_clas_boundary, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE, 1, "Diagram Reference (interaction overview)", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_diagram = gui_resources_get_type_clas_diagram( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_DIAGRAM_REFERENCE, 1, "Diagram Reference (interaction overview)", 2, icon_clas_diagram, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTIVITY, 1, "Activity", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_state = gui_resources_get_type_clas_state( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_ACTIVITY, 1, "Activity", 2, icon_clas_state, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, 1, "Interruptable Region", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_region = gui_resources_get_type_clas_region( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_INTERRUPTABLE_REGION, 1, "Interruptable Region", 2, icon_clas_region, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_FORK_NODE, 1, "Fork", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_fork = gui_resources_get_type_clas_fork( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_FORK_NODE, 1, "Fork", 2, icon_clas_fork, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE, 1, "Join", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_join = gui_resources_get_type_clas_join( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_JOIN_NODE, 1, "Join", 2, icon_clas_join, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, 1, "Accept Event", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_accept = gui_resources_get_type_clas_accept( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_EVENT, 1, "Accept Event", 2, icon_clas_accept, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, 1, "Accept Time Event", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_time = gui_resources_get_type_clas_time( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_ACCEPT_TIME_EVENT, 1, "Accept Time Event", 2, icon_clas_time, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, 1, "Send Signal", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_send = gui_resources_get_type_clas_send( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, 1, "Send Signal", 2, icon_clas_send, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_decision = gui_resources_get_type_clas_decision( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE, 1, "Decision", 2, icon_clas_decision, -1 );
@@ -170,11 +179,13 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const GdkPixbuf *icon_clas_final = gui_resources_get_type_clas_final( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_FINAL_NODE, 1, "Final Node", 2, icon_clas_final, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_STATE, 1, "State", 2, icon_undef_type, -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_UML_STATE, 1, "State", 2, icon_clas_state, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY, 1, "Shallow History", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_history = gui_resources_get_type_clas_history( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SHALLOW_HISTORY, 1, "Shallow History", 2, icon_clas_history, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, 1, "Deep History", 2, icon_undef_type, -1 );
+        const GdkPixbuf *icon_clas_deephistory = gui_resources_get_type_clas_deephistory( (*this_).resources );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DEEP_HISTORY, 1, "Deep History", 2, icon_clas_deephistory, -1 );
     }
 
     {
@@ -209,6 +220,8 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     {
         GtkTreeIter iter;
         (*this_).relationship_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
+        const GdkPixbuf *icon_simple_arrow = gui_resources_get_type_rel_associate( (*this_).resources );
+
         /* order: structural from abstract to concrete, behavioral from abstract to concrete */
         gtk_list_store_append( (*this_).relationship_types, &iter);
         const GdkPixbuf *icon_rel_depend = gui_resources_get_type_rel_depend( (*this_).resources );
@@ -223,7 +236,6 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         const GdkPixbuf *icon_rel_manifest = gui_resources_get_type_rel_manifest( (*this_).resources );
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_MANIFEST, 1, "Manifest (deployment), no cycles", 2, icon_rel_manifest, -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
-        const GdkPixbuf *icon_simple_arrow = gui_resources_get_type_rel_associate( (*this_).resources );
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_COMMUNICATION_PATH, 1, "Communication Path (component)", 2, icon_simple_arrow, -1 );
         gtk_list_store_append( (*this_).relationship_types, &iter);
         gtk_list_store_set ( (*this_).relationship_types, &iter, 0, DATA_RELATIONSHIP_TYPE_UML_ASSOCIATION, 1, "Association (class, use-case)", 2, icon_simple_arrow, -1 );

@@ -67,6 +67,8 @@ struct gui_resources_struct {
     const GdkPixbuf *type_diag_timing;
     const GdkPixbuf *type_diag_usecase;
 
+    const GdkPixbuf *type_clas_accept;
+    const GdkPixbuf *type_clas_actor;
     const GdkPixbuf *type_clas_artifact;
     const GdkPixbuf *type_clas_block;
     const GdkPixbuf *type_clas_boundary;
@@ -75,12 +77,21 @@ struct gui_resources_struct {
     const GdkPixbuf *type_clas_component;
     const GdkPixbuf *type_clas_constraint;
     const GdkPixbuf *type_clas_decision;
+    const GdkPixbuf *type_clas_deephistory;
+    const GdkPixbuf *type_clas_diagram;
     const GdkPixbuf *type_clas_final;
+    const GdkPixbuf *type_clas_fork;
+    const GdkPixbuf *type_clas_history;
     const GdkPixbuf *type_clas_initial;
+    const GdkPixbuf *type_clas_join;
     const GdkPixbuf *type_clas_node;
     const GdkPixbuf *type_clas_package;
     const GdkPixbuf *type_clas_part;
+    const GdkPixbuf *type_clas_region;
     const GdkPixbuf *type_clas_requirement;
+    const GdkPixbuf *type_clas_send;
+    const GdkPixbuf *type_clas_state;
+    const GdkPixbuf *type_clas_time;
     const GdkPixbuf *type_clas_usecase;
 
     const GdkPixbuf *type_feat_life;
@@ -467,6 +478,20 @@ static inline const GdkPixbuf *gui_resources_get_type_diag_timing ( gui_resource
 static inline const GdkPixbuf *gui_resources_get_type_diag_usecase ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_accept
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_accept ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_actor
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_actor ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_artifact
  *
  *  \param this_ pointer to own object attributes
@@ -523,11 +548,18 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_constraint ( gui_reso
 static inline const GdkPixbuf *gui_resources_get_type_clas_decision ( gui_resources_t *this_ );
 
 /*!
- *  \brief gets the type_clas_initial
+ *  \brief gets the type_clas_deephistory
  *
  *  \param this_ pointer to own object attributes
  */
-static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+static inline const GdkPixbuf *gui_resources_get_type_clas_deephistory ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_diagram
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_diagram ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_final
@@ -535,6 +567,34 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resourc
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_clas_final ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_fork
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_fork ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_history
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_history ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_initial
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_initial ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_join
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_join ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_node
@@ -558,11 +618,39 @@ static inline const GdkPixbuf *gui_resources_get_type_clas_package ( gui_resourc
 static inline const GdkPixbuf *gui_resources_get_type_clas_part ( gui_resources_t *this_ );
 
 /*!
+ *  \brief gets the type_clas_region
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_region ( gui_resources_t *this_ );
+
+/*!
  *  \brief gets the type_clas_requirement
  *
  *  \param this_ pointer to own object attributes
  */
 static inline const GdkPixbuf *gui_resources_get_type_clas_requirement ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_send
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_send ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_state
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_state ( gui_resources_t *this_ );
+
+/*!
+ *  \brief gets the type_clas_time
+ *
+ *  \param this_ pointer to own object attributes
+ */
+static inline const GdkPixbuf *gui_resources_get_type_clas_time ( gui_resources_t *this_ );
 
 /*!
  *  \brief gets the type_clas_usecase
