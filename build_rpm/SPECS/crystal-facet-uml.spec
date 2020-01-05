@@ -19,7 +19,7 @@
 
 Name:           crystal-facet-uml
 #Name of the contained application: crystal_facet_uml
-Version:        1.16.2
+Version:        1.17.0
 Release:        0
 Summary:        Draws UML/SysML Diagrams
 License:        Apache-2.0
