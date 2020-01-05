@@ -1,7 +1,7 @@
-crystal-facet-uml (1.17.0) unreleased; urgency=medium
+crystal-facet-uml (1.17.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * cmake build config is less platform dependend
+  * cmake build config is less platform dependent
   * nav-tree: dragging diagrams shows a tree-depth aware insert line
   * while dragging, grid lines are displayed
   * the description text-view has scrollbars
@@ -9,11 +9,11 @@ crystal-facet-uml (1.17.0) unreleased; urgency=medium
   * in create view, an icon next to the mouse cursor shows options
   * fix: type dropdown box does not change DB automatically if unknown type id
   * the type drop down box shows icons to faster find the right type
-  * an icon grid allows to change types quickly
+  * an icon grid allows one to change types quickly
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Jan 2020 20:30:00 +0100
 
-crystal-facet-uml (1.16.2) unreleased; urgency=medium
+crystal-facet-uml (1.16.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships may overlap if same type and same direction
@@ -21,14 +21,14 @@ crystal-facet-uml (1.16.2) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Dec 2019 11:30:00 +0100
 
-crystal-facet-uml (1.16.1) unreleased; urgency=medium
+crystal-facet-uml (1.16.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * rpm package build scripts beautified, doc installation excluded from cmake
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 26 Nov 2019 19:30:00 +0100
 
-crystal-facet-uml (1.16.0) unreleased; urgency=medium
+crystal-facet-uml (1.16.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Diagram exports can be triggered from command line
@@ -41,7 +41,7 @@ crystal-facet-uml (1.16.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Nov 2019 19:30:00 +0100
 
-crystal-facet-uml (1.15.0) unreleased; urgency=medium
+crystal-facet-uml (1.15.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The id of selected objects is displayed in the edit area
@@ -49,14 +49,14 @@ crystal-facet-uml (1.15.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Oct 2019 12:30:00 +0200
 
-crystal-facet-uml (1.14.2) unreleased; urgency=medium
+crystal-facet-uml (1.14.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * gtk is initialized before data and ctrl packages --> fix for wine
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 06 Sep 2019 19:30:00 +0200
 
-crystal-facet-uml (1.14.1) unreleased; urgency=medium
+crystal-facet-uml (1.14.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * background image added to intro screen.
@@ -66,7 +66,7 @@ crystal-facet-uml (1.14.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 02 Sep 2019 21:30:00 +0200
 
-crystal-facet-uml (1.14.0) unreleased; urgency=medium
+crystal-facet-uml (1.14.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * all features (except lifelines) are hidden in scenario-based and box/list
@@ -78,7 +78,7 @@ crystal-facet-uml (1.14.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Jul 2019 11:30:00 +0200
 
-crystal-facet-uml (1.13.1) unreleased; urgency=medium
+crystal-facet-uml (1.13.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * sqlite3_db_cacheflush() is only called if on the build system and on the
@@ -88,7 +88,7 @@ crystal-facet-uml (1.13.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 23 Jun 2019 15:30:00 +0200
 
-crystal-facet-uml (1.13.0) unreleased; urgency=medium
+crystal-facet-uml (1.13.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * improved auto-layout of relationship labels
@@ -101,14 +101,14 @@ crystal-facet-uml (1.13.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 21 Jun 2019 15:30:00 +0200
 
-crystal-facet-uml (1.12.1) unreleased; urgency=medium
+crystal-facet-uml (1.12.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Packageing warnings of lintian addressed
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 15 May 2019 20:30:00 +0200
 
-crystal-facet-uml (1.12.0) unreleased; urgency=medium
+crystal-facet-uml (1.12.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * operations and properites do not overlap with class/interface compartments
@@ -120,7 +120,7 @@ crystal-facet-uml (1.12.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Apr 26 20:17:44 2019 +0200
 
-crystal-facet-uml (1.11.0) unreleased; urgency=medium
+crystal-facet-uml (1.11.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * export dialog allows to select multiple file formats simultaneously
@@ -130,7 +130,7 @@ crystal-facet-uml (1.11.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Mar 10 12:29:16 2019 +0100
 
-crystal-facet-uml (1.10.0) unreleased; urgency=medium
+crystal-facet-uml (1.10.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * new classifier types for activity, state, Interaction-Overview
@@ -143,7 +143,7 @@ crystal-facet-uml (1.10.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 3 17:26:24 2019 +0100
 
-crystal-facet-uml (1.9.0) unreleased; urgency=medium
+crystal-facet-uml (1.9.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * the database check can repair circular diagram-parent references
@@ -158,7 +158,7 @@ crystal-facet-uml (1.9.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Jan 17 18:21:15 2019 +0100
 
-crystal-facet-uml (1.8.0) unreleased; urgency=medium
+crystal-facet-uml (1.8.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * in navigation mode, diagrams can be re-ordered by dragging their names
@@ -170,7 +170,7 @@ crystal-facet-uml (1.8.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Jan 1 09:02:30 2019 +0100
 
-crystal-facet-uml (1.7.1) unreleased; urgency=medium
+crystal-facet-uml (1.7.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * user-doc and manpages are generated from docbook now
@@ -178,7 +178,7 @@ crystal-facet-uml (1.7.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed Nov 21 19:30:59 2018 +0100
 
-crystal-facet-uml (1.7.0) unreleased; urgency=medium
+crystal-facet-uml (1.7.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * tree view allows to navigate interactively
@@ -189,7 +189,7 @@ crystal-facet-uml (1.7.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Nov 1 16:08:58 2018 +0100
 
-crystal-facet-uml (1.6.1) unreleased; urgency=medium
+crystal-facet-uml (1.6.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * debian archives are now build by dh_make and debuild
@@ -197,7 +197,7 @@ crystal-facet-uml (1.6.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 15 23:42:16 2018 +0200
 
-crystal-facet-uml (1.6.0) unreleased; urgency=medium
+crystal-facet-uml (1.6.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * element configuration moved from bottom area to the right of the window
@@ -205,7 +205,7 @@ crystal-facet-uml (1.6.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 1 20:41:27 2018 +0200
 
-crystal-facet-uml (1.5.1) unreleased; urgency=medium
+crystal-facet-uml (1.5.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * no automatic database upgrades anymore, use -f parameter
@@ -213,7 +213,7 @@ crystal-facet-uml (1.5.1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Aug 26 20:10:58 2018 +0200
 
-crystal-facet-uml (1.5.0) unreleased; urgency=medium
+crystal-facet-uml (1.5.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Sequence and timing diagrams show messages/transitions
@@ -225,7 +225,7 @@ crystal-facet-uml (1.5.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Aug 25 15:06:01 2018 +0200
 
-crystal-facet-uml (1.4.0) unreleased; urgency=medium
+crystal-facet-uml (1.4.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * relationships can connect to ports
@@ -236,7 +236,7 @@ crystal-facet-uml (1.4.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri May 11 10:32:23 2018 +0200
 
-crystal-facet-uml (1.3.0) unreleased; urgency=medium
+crystal-facet-uml (1.3.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * lifelines are created and removed automatically for timing, sequence and
@@ -246,14 +246,14 @@ crystal-facet-uml (1.3.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Apr 1 11:22:16 2018 +0200
 
-crystal-facet-uml (1.2.0) unreleased; urgency=medium
+crystal-facet-uml (1.2.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * all relations to/from multiple classifier instances are drawn
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Mar 4 13:34:26 2018 +0100
 
-crystal-facet-uml (1.1.0) unreleased; urgency=medium
+crystal-facet-uml (1.1.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * greyed-out classifiers also grey-out their contained features
@@ -268,7 +268,7 @@ crystal-facet-uml (1.1.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Jan 23 20:58:34 2018 +0100
 
-crystal-facet-uml (1.0.0) unreleased; urgency=medium
+crystal-facet-uml (1.0.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * F7 in navigation view moves child diagram up and parent down
@@ -276,7 +276,7 @@ crystal-facet-uml (1.0.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed Jan 3 17:58:38 2018 +0100
 
-crystal-facet-uml (0.20.0) unreleased; urgency=medium
+crystal-facet-uml (0.20.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * navigation mode: a newly initialized database shows a quick guide
@@ -289,7 +289,7 @@ crystal-facet-uml (0.20.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue Dec 26 17:11:33 2017 +0100
 
-crystal-facet-uml (0.19.0) unreleased; urgency=medium
+crystal-facet-uml (0.19.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The default-names of new classifiers match their type
@@ -308,21 +308,21 @@ crystal-facet-uml (0.19.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Dec 10 11:36:30 2017 +0100
 
-crystal-facet-uml (0.18.0) unreleased; urgency=medium
+crystal-facet-uml (0.18.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * parent classifiers can contain children
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Nov 4 18:55:43 2017 +0100
 
-crystal-facet-uml (0.17.1) unreleased; urgency=medium
+crystal-facet-uml (0.17.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * fix for include paths on openSuSE Tumbleweed i586
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Oct 28 17:55:54 2017 +0200
 
-crystal-facet-uml (0.17.0) unreleased; urgency=medium
+crystal-facet-uml (0.17.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Key control is possible: CTRL+C,V,X,Y,Z
@@ -331,28 +331,28 @@ crystal-facet-uml (0.17.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Oct 2 08:46:58 2017 +0200
 
-crystal-facet-uml (0.16.2) unreleased; urgency=medium
+crystal-facet-uml (0.16.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * fix: install uses less global paths for app icon
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon Sep 11 16:30:00 2017 +0200
 
-crystal-facet-uml (0.16.1) unreleased; urgency=medium
+crystal-facet-uml (0.16.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * fix: desktop file is included in src distribution
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Sep 10 17:35:06 2017 +0200
 
-crystal-facet-uml (0.16.0) unreleased; urgency=medium
+crystal-facet-uml (0.16.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Classifier drawings represent the classifier type
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed May 24 20:48:00 2017 +0200
 
-crystal-facet-uml (0.15.0) unreleased; urgency=medium
+crystal-facet-uml (0.15.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Arrow, line and feather types of connectors are determined by relation type
@@ -361,14 +361,14 @@ crystal-facet-uml (0.15.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Apr 14 18:03:58 2017 +0200
 
-crystal-facet-uml (0.14.0) unreleased; urgency=medium
+crystal-facet-uml (0.14.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Classifiers are layouted avoiding overlaps
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Mar 18 10:40:48 2017 +0100
 
-crystal-facet-uml (0.13.0) unreleased; urgency=medium
+crystal-facet-uml (0.13.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The txt-file export contains features and relationships
@@ -378,14 +378,14 @@ crystal-facet-uml (0.13.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Feb 25 14:15:36 2017 +0100
 
-crystal-facet-uml (0.12.0) unreleased; urgency=medium
+crystal-facet-uml (0.12.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Features can be created, modified, deleted (incl. undo/redo)
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 12 16:11:30 2017 +0100
 
-crystal-facet-uml (0.11.0) unreleased; urgency=medium
+crystal-facet-uml (0.11.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Align objects vertically and horizontally (snap)
@@ -393,7 +393,7 @@ crystal-facet-uml (0.11.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Feb 5 22:13:05 2017 +0100
 
-crystal-facet-uml (0.10.0) unreleased; urgency=medium
+crystal-facet-uml (0.10.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Relationships can be created, modified, deleted (incl. undo/redo)
@@ -401,7 +401,7 @@ crystal-facet-uml (0.10.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Jan 28 07:32:48 2017 +0100
 
-crystal-facet-uml (0.9.0) unreleased; urgency=medium
+crystal-facet-uml (0.9.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Mark and instantiate classifiers
@@ -410,7 +410,7 @@ crystal-facet-uml (0.9.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Dec 22 21:38:24 2016 +0100
 
-crystal-facet-uml (0.8.0) unreleased; urgency=medium
+crystal-facet-uml (0.8.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Export of png and svg diagrams and txt descriptions
@@ -419,14 +419,14 @@ crystal-facet-uml (0.8.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Dec 11 00:08:44 2016 +0100
 
-crystal-facet-uml (0.7.0) unreleased; urgency=medium
+crystal-facet-uml (0.7.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The user can move classifiers
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat Nov 26 20:49:29 2016 +0100
 
-crystal-facet-uml (0.6.0) unreleased; urgency=medium
+crystal-facet-uml (0.6.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * cut+copy+paste allow to copy diagrams and classifiers to and from the
@@ -434,7 +434,7 @@ crystal-facet-uml (0.6.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu Oct 6 21:27:21 2016 +0200
 
-crystal-facet-uml (0.5.0) unreleased; urgency=medium
+crystal-facet-uml (0.5.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The program integrates into a freedesktop.org desktop
@@ -443,7 +443,7 @@ crystal-facet-uml (0.5.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri Aug 12 05:56:31 2016 +0200
 
-crystal-facet-uml (0.4.0) unreleased; urgency=medium
+crystal-facet-uml (0.4.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The user can delete classifiers and diagrams
@@ -453,14 +453,14 @@ crystal-facet-uml (0.4.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun Jul 3 11:52:47 2016 +0200
 
-crystal-facet-uml (0.3.0) unreleased; urgency=medium
+crystal-facet-uml (0.3.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The user can select and switch the database file
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun May 22 15:22:46 2016 +0200
 
-crystal-facet-uml (0.2.0) unreleased; urgency=medium
+crystal-facet-uml (0.2.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The user can create and rename classifiers like classes
@@ -468,7 +468,7 @@ crystal-facet-uml (0.2.0) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun May 1 22:51:16 2016 +0200
 
-crystal-facet-uml (0.1.0) unreleased; urgency=medium
+crystal-facet-uml (0.1.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The user can create, rename and navigate diagrams

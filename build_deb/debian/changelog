@@ -1,11 +1,34 @@
-crystal-facet-uml (1.16.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.17.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * cmake build config is less platform dependent
+  * nav-tree: dragging diagrams shows a tree-depth aware insert line
+  * while dragging, grid lines are displayed
+  * the description text-view has scrollbars
+  * in nav view, a click into the current diagram zooms to edit mode
+  * in create view, an icon next to the mouse cursor shows options
+  * fix: type dropdown box does not change DB automatically if unknown type id
+  * the type drop down box shows icons to faster find the right type
+  * an icon grid allows one to change types quickly
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 05 Jan 2020 20:30:00 +0100
+
+crystal-facet-uml (1.16.2-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * relationships may overlap if same type and same direction
+  * title and filename of exported docbook and xhtml equals database file name
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 08 Dec 2019 11:30:00 +0100
+
+crystal-facet-uml (1.16.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * rpm package build scripts beautified
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 26 Nov 2019 19:30:00 +0100
 
-crystal-facet-uml (1.16.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.16.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Diagram exports can be triggered from command line
@@ -18,7 +41,7 @@ crystal-facet-uml (1.16.0-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 16 Nov 2019 19:30:00 +0100
 
-crystal-facet-uml (1.15.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.15.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * The id of selected objects is displayed in the edit area
@@ -26,14 +49,14 @@ crystal-facet-uml (1.15.0-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 20 Oct 2019 12:30:00 +0200
 
-crystal-facet-uml (1.14.2-1) unreleased; urgency=medium
+crystal-facet-uml (1.14.2-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * gtk is initialized before data and ctrl packages --> fix for wine
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 06 Sep 2019 19:30:00 +0200
 
-crystal-facet-uml (1.14.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.14.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * background image added to intro screen.
@@ -43,7 +66,7 @@ crystal-facet-uml (1.14.1-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 02 Sep 2019 21:30:00 +0200
 
-crystal-facet-uml (1.14.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.14.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * all features (except lifelines) are hidden in scenario-based and box/list
@@ -55,7 +78,7 @@ crystal-facet-uml (1.14.0-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 14 Jul 2019 11:30:00 +0200
 
-crystal-facet-uml (1.13.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.13.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * sqlite3_db_cacheflush() is only called if on the build system and on the
@@ -63,7 +86,7 @@ crystal-facet-uml (1.13.1-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 23 Jun 2019 15:30:00 +0200
 
-crystal-facet-uml (1.13.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.13.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * improved auto-layout of relationship labels
@@ -76,55 +99,55 @@ crystal-facet-uml (1.13.0-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Fri, 21 Jun 2019 15:30:00 +0200
 
-crystal-facet-uml (1.12.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.12.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Packageing issues addressed
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 15 May 2019 20:30:00 +0200
 
-crystal-facet-uml (1.12.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.12.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * Auto-Layouting of classifiers improved
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 27 Apr 2019 21:33:01 +0200
 
-crystal-facet-uml (1.11.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.11.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * New version 1.11.0 exports docbook and html formats
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 10 Mar 2019 11:33:01 +0100
 
-crystal-facet-uml (1.10.0-1ubuntu1) unreleased; urgency=medium
+crystal-facet-uml (1.10.0-1ubuntu1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * New version 1.10.0 provides more classifiers for activity diagrams
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 03 Feb 2019 17:32:01 +0100
 
-crystal-facet-uml (1.9.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.9.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * New version 1.9.0 supports interfaces at components
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 17 Jan 2019 20:06:11 +0100
 
-crystal-facet-uml (1.8.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.8.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * New version 1.8.0 supports re-ordering features and diagrams
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Tue, 01 Jan 2019 08:57:14 +0100
 
-crystal-facet-uml (1.7.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.7.1-1) UNRELEASED; urgency=medium
 
   * User documentation is generated from docbook.
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Wed, 21 Nov 2018 21:00:00 +0100
 
-crystal-facet-uml (1.7.0-1) unreleased; urgency=medium
+crystal-facet-uml (1.7.0-1) UNRELEASED; urgency=medium
 
   * tree view allows to navigate interactively
   * new sibling and new child diagrams can be created in tree view
@@ -134,7 +157,7 @@ crystal-facet-uml (1.7.0-1) unreleased; urgency=medium
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Thu, 01 Nov 2018 15:42:20 +0100
 
-crystal-facet-uml (1.6.1-1) unreleased; urgency=medium
+crystal-facet-uml (1.6.1-1) UNRELEASED; urgency=medium
 
   * Restructure deb packet generation from CPACK to dh_make tool.
 
