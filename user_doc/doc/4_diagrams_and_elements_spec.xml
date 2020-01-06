@@ -128,9 +128,9 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.png"/></imageobject></mediaobject>
                                 Class</para></entry>
-                            <entry><para>UML</para></entry>
+                            <entry><para>UML<!--spec 2.5 chapter 11.4--></para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: No active classes</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -173,7 +173,7 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.png"/></imageobject></mediaobject>
                                 Requirement</para></entry>
-                            <entry><para>SysML</para></entry>
+                            <entry><para>SysML<!--spec 1.5 chapter 16.2--></para></entry>
                             <entry><para>-</para></entry>
                             <entry><para></para></entry>
                         </row>
@@ -218,9 +218,9 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
                                 Activity</para></entry>
-                            <entry><para>UML</para></entry>
+                            <entry><para>UML 2.5 (ch15.2)</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: Object Node Pin notation not supported, draw the object between activities</para></entry>
                         </row>
                         <row>
                             <entry><para>
@@ -280,19 +280,21 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.png"/></imageobject></mediaobject>
-                                Decision</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
+                                Decision/Choice</para></entry>
+                            <entry><para>UML 2.5 (ch14.2.4,15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>In activity diagrams, this is called decision, in statesmachines it is called choice</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.png"/></imageobject></mediaobject>
                                 Initial Node</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
+                            <entry><para>UML 2.5 (ch14.2.4)<!--spec 2.5 chapter 14.2.4-->, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
+                                <para>Limitations: There is no separate entryPoint state-type</para>
                             </entry>
                         </row>
                         <row>
@@ -300,9 +302,10 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.png"/></imageobject></mediaobject>
                                 Final Node</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
+                            <entry><para>UML 2.5 (ch14.2.4), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
+                                <para>Limitations: There is no separate exitPoint and terminate state-type</para>
                             </entry>
                         </row>
                         <row>
@@ -310,16 +313,18 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
                                 State</para></entry>
-                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>UML 2.5 (ch14.2), SysML</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states</para>
+                                <para>Limitations: entry/exit/do list</para>
+                                <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line</para></entry>
                         </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.png"/></imageobject></mediaobject>
                                 Shallow History</para></entry>
-                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
@@ -328,7 +333,7 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.png"/></imageobject></mediaobject>
                                 Deep History</para></entry>
-                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
                             <entry><para>unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
@@ -367,10 +372,12 @@
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
-                                MergeNode</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
+                                MergeNode/Junction</para></entry>
+                            <entry><para>UML 2.5 (ch15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
                             <entry><para>unconditional features</para></entry>
-                            <entry><para>not supported.</para><para>Note: Either directly connect to the target activity or use a decision node.</para></entry>
+                            <entry><para>In activity diagrams, it is called merge, in state diagrams junction node. This is not supported.</para>
+                                <para>Note: You may directly connect the arrows to the target activity/state.</para>
+                            </entry>
                         </row>
                         <row>
                             <entry><para>
@@ -453,10 +460,12 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_port.png"/></imageobject></mediaobject>
                                     Port</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
+                            <entry><para>UML<!--spec 2.5 chapter 11.3-->, SysML<!--spec 1.5 chapter 9.2.1--></para></entry>
                             <entry><para>unconditional</para></entry>
                             <entry><para>Limitations: no SysML-compartment Notation supported</para>
                                 <para>Limitations: no SysML-nested-ports, SysML-proxy-port, SysML full-ports supported</para>
+                                <para>Limitations: no flow property, no compartment notation, no port-compartments</para>
+                                <para>Limitations: no UML behavior ports</para>
                             </entry>
                         </row>
                         <row>
@@ -482,9 +491,12 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_feat_life.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_feat_life.png"/></imageobject></mediaobject>
                                     Lifeline</para></entry>
-                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>UML 2.5 (ch17.2), SysML</para></entry>
                             <entry><para>scenario, 1 per diagram</para></entry>
-                            <entry><para>Limitations: One lifeline is visible only in one diagram</para></entry>
+                            <entry><para>Limitations: One lifeline is visible only in one diagram</para>
+                                <para>Limitations: Lifelines start and end only at diagram border</para>
+                                <para>Limitations: ExecutionSpecification (ActivityBar) are not supported</para>
+                            </entry>
                         </row>
                     </tbody>
                 </tgroup>
@@ -576,12 +588,14 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
                                 Association</para></entry>
-                            <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
+                            <entry><para>UML<!--spec 2.5 chapter 11.5-->, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
                             <entry><para>Class Diag</para></entry>
                             <entry>
                                 <para>Note: SysML calls this ReferenceAssociation</para>
                                 <para>Limitations: no AssociationClass(SysML: ParticipantProperty) exists.</para>
-                                <para>Limitations: no AssociationEnd Classes exist, no Multiplicities, no Roles.</para>
+                                <para>Limitations: no AssociationEnd Classes exist, no multiplicities, no roles, no ownership (dot notation).</para>
+                                <para>Limitations: no ternary associations (only two ends supported).</para>
+                                <para>Limitations: no non-navigateable ends (crosses) suported yet - see todo.txt.</para>
                             </entry>
                         </row>
                         <row>
@@ -727,6 +741,16 @@
                             <entry><para>Block Definition</para></entry>
                             <entry><para>not supported.</para>
                                 <para>Note: Use an Object Flow instead.</para>
+                            </entry>
+                        </row>
+                        <row>
+                            <entry><para>
+                                <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_undef.pdf" width="1cm"/></imageobject>
+                                <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
+                                Exception Flow</para></entry>
+                            <entry><para>UML 2.5 (ch15.5)</para></entry>
+                            <entry><para>Block Definition</para></entry>
+                            <entry><para>not yet supported, see todo.txt.</para>
                             </entry>
                         </row>
                     </tbody>
@@ -891,9 +915,9 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_diag_activity.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_diag_activity.png"/></imageobject></mediaobject>
                                 Activity Diagram</para></entry>
-                            <entry><para>UML, SysML</para></entry>
+                            <entry><para>UML 2.5 (ch15.2), SysML</para></entry>
                             <entry><para>lifelines</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Limitations: Swimlanes not supported</para></entry>
                         </row>
                         <row>
                             <entry><para>

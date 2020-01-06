@@ -170,7 +170,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_SEND_SIGNAL, 1, "Send Signal", 2, icon_clas_send, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_decision = gui_resources_get_type_clas_decision( (*this_).resources );
-        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE, 1, "Decision", 2, icon_clas_decision, -1 );
+        gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_DECISION_NODE, 1, "Decision/Choice", 2, icon_clas_decision, -1 );
         gtk_list_store_append( (*this_).classifier_types, &iter);
         const GdkPixbuf *icon_clas_initial = gui_resources_get_type_clas_initial( (*this_).resources );
         gtk_list_store_set ( (*this_).classifier_types, &iter, 0, DATA_CLASSIFIER_TYPE_DYN_INITIAL_NODE, 1, "Initial Node", 2, icon_clas_initial, -1 );
