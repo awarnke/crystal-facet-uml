@@ -9,6 +9,8 @@
  */
 
 #include "gui_tool.h"
+#include "data_id.h"
+#include "storage/data_change_message.h"
 #include <gtk/gtk.h>
 
 /*!
@@ -53,10 +55,29 @@ void gui_search_request_show ( gui_search_request_t *this_ );
  */
 void gui_search_request_hide ( gui_search_request_t *this_ );
 
+/* ================================ TOOL CHANGED OR BUTTON CALLBACKS ================================ */
+
 /*!
  *  \brief callback that informs that the chosen tool changed
  */
 void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data );
+
+/*!
+ *  \brief callback that informs that the search button was pressed
+ */
+void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data );
+
+/* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
+
+/*!
+ *  \brief callback that informs that another object was selected
+ */
+void gui_search_request_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that the data of an object changed
+ */
+void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
 #endif  /* GUI_SEARCH_REQUEST_H */
 
