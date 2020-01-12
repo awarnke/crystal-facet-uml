@@ -166,8 +166,9 @@
                                 Feature</para></entry>
                             <entry><para>-</para></entry>
                             <entry><para>-</para></entry>
-                            <entry><para>Represents a group of requirements</para></entry>
-                        </row>
+                            <entry><para>Represents a group of requirements, can be used for SysML Composite Requirements
+                                    </para></entry>
+^                        </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>
@@ -644,7 +645,7 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_trace.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_trace.png"/></imageobject></mediaobject>
                                 Trace</para></entry>
-                            <entry><para>SysML</para></entry>
+                            <entry><para>SysML<!-- see also https://re-magazine.ireb.org/articles/modeling-requirements-with-sysml -->^</para></entry>
                             <entry><para>Requirement</para></entry>
                             <entry><para></para></entry>
                         </row>
@@ -653,7 +654,7 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_refine.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_refine.png"/></imageobject></mediaobject>
                                 Refine</para></entry>
-                            <entry><para>SysML</para></entry>
+                        <entry><para>SysML</para></entry>
                             <entry><para>Requirement</para></entry>
                             <entry><para></para></entry>
                         </row>
