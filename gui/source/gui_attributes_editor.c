@@ -271,6 +271,9 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     assert ( NULL != this_ );
     assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
 
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
     gui_attributes_editor_private_type_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
@@ -284,6 +287,9 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     this_ = (gui_attributes_editor_t*) user_data;
     assert ( NULL != this_ );
     assert ( GTK_ICON_VIEW( iconview ) == GTK_ICON_VIEW( (*this_).type_icon_grid ) );
+
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
 
     /* get index from path */
     assert( NULL != path );

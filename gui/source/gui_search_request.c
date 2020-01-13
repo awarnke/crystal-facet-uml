@@ -101,21 +101,21 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
 void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    TSLOG_ERROR("callback not yet implemented.");
+    TRACE_INFO("callback not yet implemented.");
     TRACE_END();
 }
 
 void gui_search_request_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
 {
     TRACE_BEGIN();
-    TSLOG_ERROR("callback not yet implemented.");
+    TRACE_INFO("callback not yet implemented.");
     TRACE_END();
 }
 
 void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data )
 {
     TRACE_BEGIN();
-    TSLOG_ERROR("callback not yet implemented.");
+    TRACE_INFO("callback not yet implemented.");
     TRACE_END();
 }
 
