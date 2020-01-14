@@ -637,9 +637,8 @@ static inline utf8error_t utf8stringbuf_insert_str( utf8stringbuf_t this_, int s
 static inline utf8error_t utf8stringbuf_insert_buf( utf8stringbuf_t this_, int start, const utf8stringbuf_t insert );
 
 /*!
- * \brief Splits a string buffer into an ignored first part and the terminating zero part
+ * \brief Splits a string buffer into an ignored first part and the unfilled terminating part
  *
- * The end part can be modified till the original/whole string buffer is modified.
  * This function may be useful when building an string using the append functions:
  * Future append calls are faster because the utf8stringbuf is smaller and you may modify the last
  * appended part by the replace functions without touching the first part.

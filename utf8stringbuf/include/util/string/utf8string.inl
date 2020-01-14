@@ -10,11 +10,14 @@
 /*#ifndef UTF8STRING_INL_*/
 /*#define UTF8STRING_INL_*/
 
+#include "util/string/utf8codepoint.h"
+#include "util/string/utf8stringbuf.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8stringbuf.h"
+#include <stdlib.h>
+#include <errno.h>
+#include <limits.h>
 
 #ifdef __cplusplus
 extern "C" {
@@ -224,6 +227,40 @@ static inline utf8codepoint_t utf8string_get_char_at( const char *this_, unsigne
     }
     return result;
 }
+
+static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int *out_byte_length, int64_t *out_number )
+{
+    utf8error_t result = UTF8ERROR_SUCCESS;
+    if (( this_ != NULL )&&( out_number != NULL )) {
+        char *endptr;
+        long int parseResult = strtol( this_, &endptr, 10 /* base */);
+        if (( parseResult==LONG_MAX )||( parseResult==LONG_MIN )) {
+            if ( errno == ERANGE ) {
+                result = UTF8ERROR_OUT_OF_RANGE;
+            }
+        }
+        unsigned int length;
+        if ( endptr == NULL ) {
+            length = utf8string_get_length( this_ );
+        }
+        else {
+            length = (int)(endptr-this_);
+        }
+        if ( out_byte_length != NULL ) {
+            *out_byte_length = length;
+        }
+        if ( length == 0 )
+        {
+            result = UTF8ERROR_NOT_FOUND;
+        }
+        *out_number = parseResult;
+    }
+    else {
+        result = UTF8ERROR_NULL_PARAM;
+    }
+    return result;
+}
+
 
 #ifdef __cplusplus
 }

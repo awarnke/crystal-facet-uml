@@ -297,7 +297,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
                               );
 
     /* init search widgets */
-    (*this_).search_label = gtk_label_new ( "Search:" );
+    (*this_).search_label = gtk_label_new ( "Search ID:" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
     gtk_label_set_xalign (GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
 #else
@@ -412,7 +412,6 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).toolbar), GUI_TOOLBOX_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_tool_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_data_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).search_button), "clicked", G_CALLBACK(gui_search_request_search_btn_callback), &((*this_).search_request) );
-    g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_search_request_selected_object_changed_callback), &((*this_).search_request) );
     g_signal_connect( G_OBJECT((*this_).edit_cut), "clicked", G_CALLBACK(gui_toolbox_cut_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_copy), "clicked", G_CALLBACK(gui_toolbox_copy_btn_callback), &((*this_).tools_data) );
     g_signal_connect( G_OBJECT((*this_).edit_paste), "clicked", G_CALLBACK(gui_toolbox_paste_btn_callback), &((*this_).tools_data) );
@@ -430,6 +429,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     g_signal_connect( G_OBJECT((*this_).edit_commit_button), "clicked", G_CALLBACK(gui_attributes_editor_commit_clicked_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).sketcharea), GUI_SKETCH_AREA_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_selected_object_changed_callback), &((*this_).attributes_editor) );
     g_signal_connect( G_OBJECT((*this_).name_entry), DATA_CHANGE_NOTIFIER_GLIB_SIGNAL_NAME, G_CALLBACK(gui_attributes_editor_data_changed_callback), &((*this_).attributes_editor) );
+        /* ^-- name is the  proxy for all widgets of attributes_editor */
     g_signal_connect( G_OBJECT((*this_).tool_about), "clicked", G_CALLBACK(gui_main_window_about_btn_callback), this_ );
 
     TRACE_INFO("GTK+ Callbacks are connected to widget events.");
@@ -439,11 +439,8 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).data_notifier = data_database_get_notifier_ptr( database );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    //data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).id_label) );
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
-    //data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
-    //data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
-    //data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).type_combo_box) );
+        /* ^-- name is the  proxy for all widgets of attributes_editor */
     data_change_notifier_add_listener( (*this_).data_notifier, G_OBJECT((*this_).search_entry) );
 
     TRACE_INFO("GTK+ Widgets are registered as listeners at signal emitter.");
@@ -467,11 +464,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
 
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).window) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).sketcharea) );
-    //data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).id_label) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).name_entry) );
-    //data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).description_text_view) );
-    //data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).stereotype_entry) );
-    //data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).type_combo_box) );
     data_change_notifier_remove_listener( (*this_).data_notifier, G_OBJECT((*this_).search_entry) );
 
     TRACE_INFO("GTK+ Widgets are unregistered as listeners from data module.");

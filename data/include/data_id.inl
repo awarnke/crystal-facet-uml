@@ -2,11 +2,85 @@
 
 #include "trace.h"
 #include "tslog.h"
+#include <util/string/utf8string.h>
 
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id )
 {
     (*this_).table = table;
     (*this_).row_id = row_id;
+}
+
+static inline void data_id_init_by_string ( data_id_t *this_, const char* string_to_parse )
+{
+    if ( string_to_parse == NULL )
+    {
+        (*this_).table = DATA_TABLE_VOID;
+        (*this_).row_id = DATA_ID_VOID_ID;
+    }
+    else
+    {
+        switch ( string_to_parse[0] )
+        {
+            case 'C':
+            {
+                (*this_).table = DATA_TABLE_CLASSIFIER;
+            }
+            break;
+
+            case 'F':
+            {
+                (*this_).table = DATA_TABLE_FEATURE;
+
+            }
+            break;
+
+            case 'R':
+            {
+                (*this_).table = DATA_TABLE_RELATIONSHIP;
+
+            }
+            break;
+
+            case 'E':
+            {
+                (*this_).table = DATA_TABLE_DIAGRAMELEMENT;
+
+            }
+            break;
+
+            case 'D':
+            {
+                (*this_).table = DATA_TABLE_DIAGRAM;
+
+            }
+            break;
+
+            default:
+            {
+                (*this_).table = DATA_TABLE_VOID;
+            }
+            break;
+        }
+
+        if ( (*this_).table == DATA_TABLE_VOID )
+        {
+            (*this_).row_id = DATA_ID_VOID_ID;
+        }
+        else
+        {
+            const char* int_to_parse = string_to_parse+1;
+            unsigned int byte_length;
+            int64_t number;
+            utf8error_t u8err = utf8string_parse_int( int_to_parse, &byte_length, &number );
+            if (( u8err == UTF8ERROR_SUCCESS )&&( byte_length >= 4 )) {
+                (*this_).row_id = number;
+            }
+            else {
+                (*this_).table = DATA_TABLE_VOID;
+                (*this_).row_id = DATA_ID_VOID_ID;
+            }
+        }
+    }
 }
 
 static inline void data_id_reinit ( data_id_t *this_, data_table_t table, int64_t row_id )

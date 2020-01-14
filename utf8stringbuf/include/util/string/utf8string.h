@@ -222,6 +222,20 @@ static inline int utf8string_find_next_str( const char *this_, const char *patte
  */
 static inline utf8codepoint_t utf8string_get_char_at( const char *this_, unsigned int byte_index );
 
+/*!
+ * \brief Parses a signed integer from a string in decimal format
+ *
+ * \note Performance-Rating: [ ]single-operation   [ ]fast   [x]medium   [ ]slow ;   Performance-Class: O(n), n:strlen
+ * \param this_ A 0-terminated c string. In case of NULL, this function returns UTF8ERROR_NULL_PARAM.
+ * \param out_byte_length The number of bytes parsed. (In utf8, this is identical to the number of code points)
+ * \param out_number The parsed integer
+ * \return UTF8ERROR_SUCCESS in case of success: An integer number has been parsed.
+ *         UTF8ERROR_NOT_FOUND in case there is no decimal integer.
+ *         UTF8ERROR_NULL_PARAM in this_ or out_number is NULL
+ *         UTF8ERROR_OUT_OF_RANGE in case there is a decimal integer which does not fit into int64_t.
+ */
+static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int *out_byte_length, int64_t *out_number );
+
 #ifdef __cplusplus
 }
 #endif

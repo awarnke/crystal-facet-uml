@@ -67,12 +67,7 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
  */
 void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data );
 
-/* ================================ SELECTION or MODEL CHANGED CALLBACKS ================================ */
-
-/*!
- *  \brief callback that informs that another object was selected
- */
-void gui_search_request_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data );
+/* ================================ MODEL CHANGED CALLBACKS ================================ */
 
 /*!
  *  \brief callback that informs that the data of an object changed

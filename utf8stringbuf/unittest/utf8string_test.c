@@ -20,6 +20,7 @@ static void testFindNext(void);
 static void testFindLast(void);
 static void testCharAt(void);
 static void testCharAtLoops(void);
+static void testParseInt(void);
 
 test_suite_t utf8string_test_get_list(void)
 {
@@ -36,6 +37,7 @@ test_suite_t utf8string_test_get_list(void)
     test_suite_add_test_case( &result, "testFindLast", &testFindLast );
     test_suite_add_test_case( &result, "testCharAt", &testCharAt );
     test_suite_add_test_case( &result, "testCharAtLoops", &testCharAtLoops );
+    test_suite_add_test_case( &result, "testParseInt", &testParseInt );
     return result;
 }
 
@@ -481,6 +483,70 @@ static void testCharAtLoops(void) {
         }
     }
     TEST_ASSERT_EQUAL_INT( 3, countCodePoints );
+}
+
+static void testParseInt(void)
+{
+    unsigned int byte_length;
+    int64_t number;
+    utf8error_t u8err;
+
+    u8err = utf8string_parse_int( NULL, &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_NULL_PARAM, u8err );
+
+    u8err = utf8string_parse_int( "", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_ASSERT_EQUAL_INT( 0, byte_length );
+    TEST_ASSERT_EQUAL_INT( 0, number );
+
+    u8err = utf8string_parse_int( " void", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_NOT_FOUND, u8err );
+    TEST_ASSERT_EQUAL_INT( 0, byte_length );
+    TEST_ASSERT_EQUAL_INT( 0, number );
+
+    u8err = utf8string_parse_int( "0", NULL, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 0, number );
+
+    u8err = utf8string_parse_int( "-9223372036854775808", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_ASSERT_EQUAL_INT( 20, byte_length );
+    TEST_ASSERT_EQUAL_INT( LONG_MIN, number );
+
+    u8err = utf8string_parse_int( "+9223372036854775807", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
+    TEST_ASSERT_EQUAL_INT( 20, byte_length );
+    TEST_ASSERT_EQUAL_INT( LONG_MAX, number );
+
+    u8err = utf8string_parse_int( "15", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 2, byte_length );
+    TEST_ASSERT_EQUAL_INT( 15, number );
+
+    u8err = utf8string_parse_int( "-15", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 3, byte_length );
+    TEST_ASSERT_EQUAL_INT( -15, number );
+
+    u8err = utf8string_parse_int( "+2000111222", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 11, byte_length );
+    TEST_ASSERT( +2000111222 == number );
+
+    u8err = utf8string_parse_int( "-2000111222", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 11, byte_length );
+    TEST_ASSERT( -2000111222 == number );
+
+    u8err = utf8string_parse_int( "  15 cm", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 4, byte_length );
+    TEST_ASSERT_EQUAL_INT( 15, number );
+
+    u8err = utf8string_parse_int( " -015 cm", &byte_length, &number );
+    TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
+    TEST_ASSERT_EQUAL_INT( 5, byte_length );
+    TEST_ASSERT_EQUAL_INT( -15, number );
 }
 
 

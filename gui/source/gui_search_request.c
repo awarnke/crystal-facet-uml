@@ -101,14 +101,20 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
 void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data )
 {
     TRACE_BEGIN();
-    TRACE_INFO("callback not yet implemented.");
-    TRACE_END();
-}
+    gui_search_request_t *this_ = data;
+    assert( NULL != this_ );
 
-void gui_search_request_selected_object_changed_callback( GtkWidget *widget, data_id_t *id, gpointer user_data )
-{
-    TRACE_BEGIN();
-    TRACE_INFO("callback not yet implemented.");
+
+    TRACE_INFO("callback ----------------------------------------------");
+
+    const char* text;
+    text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );
+
+    data_id_t search_id;
+    data_id_init_by_string ( &search_id, text );
+
+    data_id_trace ( &search_id );
+
     TRACE_END();
 }
 

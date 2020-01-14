@@ -50,6 +50,16 @@ typedef struct data_id_struct data_id_t;
 static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t row_id );
 
 /*!
+ *  \brief initializes the data_id_t struct
+ *
+ *  In case of error, data_id_is_valid() is false afterwards.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param string_to_parse a pointer to a 0-terminated character sequence or NULL
+ */
+static inline void data_id_init_by_string ( data_id_t *this_, const char* string_to_parse );
+
+/*!
  *  \brief re-initializes the data_id_t struct
  *
  *  \param this_ pointer to own object attributes
