@@ -14,7 +14,7 @@
 #include <gtk/gtk.h>
 
 /*!
- *  \brief attributes of the simple_message_to_user widget-set
+ *  \brief attributes of the search request widget-set
  */
 struct gui_search_request_struct {
     GtkWidget *search_label;  /*!< pointer to external GtkWidget */

@@ -30,28 +30,24 @@ static inline void data_id_init_by_string ( data_id_t *this_, const char* string
             case 'F':
             {
                 (*this_).table = DATA_TABLE_FEATURE;
-
             }
             break;
 
             case 'R':
             {
                 (*this_).table = DATA_TABLE_RELATIONSHIP;
-
             }
             break;
 
             case 'E':
             {
                 (*this_).table = DATA_TABLE_DIAGRAMELEMENT;
-
             }
             break;
 
             case 'D':
             {
                 (*this_).table = DATA_TABLE_DIAGRAM;
-
             }
             break;
 

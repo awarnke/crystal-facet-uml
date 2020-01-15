@@ -11,11 +11,11 @@
  *  \author Copyright 2012-2020 A.Warnke; Email-contact: utf8stringbuf-at-andreaswarnke-dot-de
  */
 
+#include "util/string/utf8codepoint.h"
+#include "util/string/utf8stringbuf.h"
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>
-#include "util/string/utf8codepoint.h"
-#include "util/string/utf8stringbuf.h"
 
 #ifdef __cplusplus
 extern "C" {

@@ -426,6 +426,7 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
     }
     else if ( data_id_equals( &id, &((*this_).selected_object_id) ) )
     {
+        /* DO NOT STORE DATA IN A DATA CHANGED CALLBACK - MAY CAUSE ENDLESS RECURSION */
         data_change_message_trace( msg );
         gui_attributes_editor_private_load_object( this_, id );  /* checks if object still exists */
         gui_attributes_editor_update_widgets ( this_ );
