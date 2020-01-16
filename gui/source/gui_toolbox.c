@@ -214,7 +214,7 @@ void gui_toolbox_copy( gui_toolbox_t *this_ )
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-        );
+                                               );
         /* continue nonetheless, it is possible to copy an empty set to the clipboard */
     }
 
@@ -284,14 +284,14 @@ void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-        );
+                                               );
     }
     else if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & ctrl_err ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_DELETING_NOT_POSSIBLE
-        );
+                                               );
     }
     else if ( CTRL_ERROR_NONE != ctrl_err )
     {
@@ -472,7 +472,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_SET_PARTLY_UNSUITABLE
-        );
+                                               );
     }
     else if ( 0 == data_small_set_get_count( set_to_be_toggled ) )
     {
@@ -480,7 +480,7 @@ void gui_toolbox_private_toggle_display_flag_in_set( gui_toolbox_t *this_, const
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
-        );
+                                               );
     }
 
     TRACE_END();
@@ -507,7 +507,7 @@ void gui_toolbox_undo_btn_callback( GtkWidget* button, gpointer data )
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_UNDO_NOT_POSSIBLE
-        );
+                                               );
     }
     else
     {
@@ -532,7 +532,7 @@ void gui_toolbox_redo_btn_callback( GtkWidget* button, gpointer data )
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_WARNING,
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_MORE_REDO
-        );
+                                               );
     }
     else
     {

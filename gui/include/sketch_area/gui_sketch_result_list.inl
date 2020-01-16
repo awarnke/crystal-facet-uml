@@ -2,7 +2,9 @@
 
 #include "tslog.h"
 
-static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_, int64_t diagram_id, data_database_reader_t *db_reader )
+static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
+                                                     data_small_set_t *list_of_diagrams,
+                                                     data_database_reader_t *db_reader )
 {
 }
 

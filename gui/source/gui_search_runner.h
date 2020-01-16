@@ -5,19 +5,36 @@
 
 /* public file for the doxygen documentation: */
 /*! \file
- *  \brief Shows and hides a label, a query-entry and a search-button
+ *  \brief Gets a search query string, performs the search and provides the search result.
  */
 
-#include "gui_tool.h"
-#include "data_id.h"
-#include "storage/data_change_message.h"
-#include <gtk/gtk.h>
+#include "sketch_area/gui_sketch_area.h"
+#include "storage/data_database_reader.h"
+#include "set/data_small_set.h"
+#include "data_diagramelement.h"
+#include "data_feature.h"
+#include "data_relationship.h"
+#include "gui_simple_message_to_user.h"
 
 /*!
- *  \brief attributes of the simple_message_to_user widget-set
+ *  \brief constants for maximum values of gui_search_runner_t
+ */
+enum gui_search_runner_max_enum {
+    GUI_SEARCH_RUNNER_MAX_DIAGRAMS = 64,  /*!< maximum number of diagrams which may contain a classifier */
+};
+
+/*!
+ *  \brief attributes of the gui_search_runner
  */
 struct gui_search_runner_struct {
-    int dummy;
+    data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    gui_sketch_area_t *result_consumer;  /*!< pointer to external gui_sketch_area_t which is informed on search results */
+    gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
+
+    data_small_set_t temp_result_set;  /*!< memory for the result set */
+    data_diagramelement_t temp_diagramelement[GUI_SEARCH_RUNNER_MAX_DIAGRAMS];  /*!< memory to read a set of diagram elements */
+    data_feature_t temp_feature;  /*!< memory to read a feature */
+    data_relationship_t temp_relationship;  /*!< memory to read a relationship */
 };
 
 typedef struct gui_search_runner_struct gui_search_runner_t;
@@ -26,11 +43,15 @@ typedef struct gui_search_runner_struct gui_search_runner_t;
  *  \brief initializes the gui_search_runner_t struct
  *
  *  \param this_ pointer to own object attributes
- *  \param search_label pointer to GTK label widget
- *  \param search_entry pointer to GTK text entry widget
- *  \param search_button pointer to GTK search button widget
+ *  \param message_to_user pointer to external message-displayer
+ *  \param db_reader pointer to external database reader
+ *  \param result_consumer pointer to external gui_sketch_area_t which is informed on search results
  */
-void gui_search_runner_init ( gui_search_runner_t *this_, GtkWidget *search_label, GtkWidget *search_entry, GtkWidget *search_button );
+void gui_search_runner_init ( gui_search_runner_t *this_,
+                              gui_simple_message_to_user_t *message_to_user,
+                              data_database_reader_t *db_reader,
+                              gui_sketch_area_t *result_consumer
+                            );
 
 /*!
  *  \brief destroys the gui_search_runner_t struct
@@ -38,6 +59,14 @@ void gui_search_runner_init ( gui_search_runner_t *this_, GtkWidget *search_labe
  *  \param this_ pointer to own object attributes
  */
 void gui_search_runner_destroy ( gui_search_runner_t *this_ );
+
+/*!
+ *  \brief performs a search and informs the result_consumer of result set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param search_string search query, 0-terminated
+ */
+void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string );
 
 #endif  /* GUI_SEARCH_RUNNER_H */
 

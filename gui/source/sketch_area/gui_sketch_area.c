@@ -112,6 +112,25 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set_t *list_of_diagrams )
+{
+    TRACE_BEGIN();
+    assert( NULL != list_of_diagrams );
+
+    gui_sketch_result_list_load_data( &((*this_).result_list), list_of_diagrams, (*this_).db_reader );
+
+    /* DEMO */
+    if ( data_small_set_get_count( list_of_diagrams ) > 0 )
+    {
+        data_id_t show_id;
+        show_id = data_small_set_get_id( list_of_diagrams, 0 );
+        gui_marked_set_set_focused_diagram( (*this_).marker, data_id_get_row_id(&show_id) );
+        gui_sketch_area_private_load_data ( this_, data_id_get_row_id(&show_id) );
+    }
+
+    TRACE_END();
+}
+
 gboolean gui_sketch_area_draw_callback( GtkWidget *widget, cairo_t *cr, gpointer data )
 {
     TRACE_BEGIN();
@@ -208,7 +227,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
     gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
-    gui_sketch_result_list_load_data( &((*this_).result_list), main_diagram_id, (*this_).db_reader );
+    gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
     gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
 
     gui_tool_t selected_tool;

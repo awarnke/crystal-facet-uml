@@ -107,6 +107,14 @@ void gui_sketch_area_init ( gui_sketch_area_t *this_,
 void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
 
 /*!
+ *  \brief shows the list of search results
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param list_of_diagrams list of diagram ids to be shown
+ */
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set_t *list_of_diagrams );
+
+/*!
  *  \brief loads the cards, nav_tree and result_list data to be shown
  *
  *  \param this_ pointer to own object attributes

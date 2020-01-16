@@ -309,7 +309,17 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gtk_button_set_image ( GTK_BUTTON((*this_).search_button), (*this_).search_btn_icon );
     gtk_button_set_label ( GTK_BUTTON((*this_).search_button), NULL );
     gtk_widget_set_tooltip_text( GTK_WIDGET((*this_).search_button), "Search" );
-    gui_search_request_init( &((*this_).search_request), (*this_).search_label, (*this_).search_entry, (*this_).search_button );
+    gui_search_runner_init( &((*this_).search_runner),
+                            &((*this_).message_to_user),
+                            db_reader,
+                            &((*this_).sketcharea_data)
+                          );
+    gui_search_request_init( &((*this_).search_request),
+                             (*this_).search_label,
+                             (*this_).search_entry,
+                             (*this_).search_button,
+                             &((*this_).search_runner)
+                           );
 
     /* init the file choosers */
 
@@ -475,6 +485,7 @@ void gui_main_window_destroy( gui_main_window_t *this_ )
     TRACE_INFO("GTK+ hidden windows are destroyed.");
 
     gui_search_request_destroy( &((*this_).search_request) );
+    gui_search_runner_destroy( &((*this_).search_runner) );
     gui_sketch_area_destroy( &((*this_).sketcharea_data) );
     gui_toolbox_destroy( &((*this_).tools_data) );
     gui_marked_set_destroy( &((*this_).marker_data) );

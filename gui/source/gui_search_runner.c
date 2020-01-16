@@ -5,12 +5,19 @@
 #include "tslog.h"
 #include <assert.h>
 
-void gui_search_runner_init ( gui_search_runner_t *this_, GtkWidget *search_label, GtkWidget *search_entry, GtkWidget *search_button )
+void gui_search_runner_init ( gui_search_runner_t *this_,
+                              gui_simple_message_to_user_t *message_to_user,
+                              data_database_reader_t *db_reader,
+                              gui_sketch_area_t *result_consumer )
 {
     TRACE_BEGIN();
-    assert ( search_label != NULL );
-    assert ( search_entry != NULL );
-    assert ( search_button != NULL );
+    assert ( message_to_user != NULL );
+    assert ( db_reader != NULL );
+    assert ( result_consumer != NULL );
+
+    (*this_).message_to_user = message_to_user;
+    (*this_).db_reader = db_reader;
+    (*this_).result_consumer = result_consumer;
 
     TRACE_END();
 }
@@ -18,6 +25,90 @@ void gui_search_runner_init ( gui_search_runner_t *this_, GtkWidget *search_labe
 void gui_search_runner_destroy ( gui_search_runner_t *this_ )
 {
     TRACE_BEGIN();
+
+    (*this_).message_to_user = NULL;
+    (*this_).db_reader = NULL;
+    (*this_).result_consumer = NULL;
+
+    TRACE_END();
+}
+
+void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string )
+{
+    TRACE_BEGIN();
+
+    if ( search_string != NULL )
+    {
+        data_id_t search_id;
+        data_id_init_by_string ( &search_id, search_string );
+        data_id_trace ( &search_id );
+
+        if ( data_id_is_valid( &search_id ))
+        {
+            gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+            data_small_set_init( &((*this_).temp_result_set) );
+            data_error_t d_err = DATA_ERROR_NONE;
+
+            switch ( data_id_get_table(&search_id) )
+            {
+                case DATA_TABLE_CLASSIFIER:
+                {
+
+                }
+                break;
+
+                case DATA_TABLE_FEATURE:
+                {
+
+                }
+                break;
+
+                case DATA_TABLE_RELATIONSHIP:
+                {
+
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAMELEMENT:
+                {
+
+                }
+                break;
+
+                case DATA_TABLE_DIAGRAM:
+                {
+                    d_err = data_small_set_add_obj ( &((*this_).temp_result_set), search_id );
+                }
+                break;
+
+                default:
+                {
+                    assert(false);  /* data_id_is_valid should have been false already */
+                }
+                break;
+            }
+
+            if ( d_err == DATA_ERROR_NONE )
+            {
+                gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_set) );
+            }
+
+            data_small_set_destroy( &((*this_).temp_result_set) );
+        }
+        else
+        {
+            gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
+                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
+                                                              GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
+                                                              0 /* pos of error */
+                                                            );
+        }
+    }
+    else
+    {
+        assert(false);
+    }
 
     TRACE_END();
 }

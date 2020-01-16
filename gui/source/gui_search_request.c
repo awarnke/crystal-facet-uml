@@ -5,16 +5,22 @@
 #include "tslog.h"
 #include <assert.h>
 
-void gui_search_request_init ( gui_search_request_t *this_, GtkWidget *search_label, GtkWidget *search_entry, GtkWidget *search_button )
+void gui_search_request_init ( gui_search_request_t *this_,
+                               GtkWidget *search_label,
+                               GtkWidget *search_entry,
+                               GtkWidget *search_button,
+                               gui_search_runner_t *search_runner )
 {
     TRACE_BEGIN();
     assert ( search_label != NULL );
     assert ( search_entry != NULL );
     assert ( search_button != NULL );
+    assert ( search_runner != NULL );
 
     (*this_).search_label = search_label;
     (*this_).search_entry = search_entry;
     (*this_).search_button = search_button;
+    (*this_).search_runner = search_runner;
 
     TRACE_END();
 }
@@ -26,6 +32,7 @@ void gui_search_request_destroy ( gui_search_request_t *this_ )
     (*this_).search_label = NULL;
     (*this_).search_entry = NULL;
     (*this_).search_button = NULL;
+    (*this_).search_runner = NULL;
 
     TRACE_END();
 }
@@ -104,16 +111,13 @@ void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data )
     gui_search_request_t *this_ = data;
     assert( NULL != this_ );
 
-
-    TRACE_INFO("callback ----------------------------------------------");
-
     const char* text;
     text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );
 
-    data_id_t search_id;
-    data_id_init_by_string ( &search_id, text );
-
-    data_id_trace ( &search_id );
+    if ( text != NULL )
+    {
+        gui_search_runner_run ( (*this_).search_runner, text );
+    }
 
     TRACE_END();
 }

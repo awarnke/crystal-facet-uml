@@ -45,10 +45,13 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_id id of the diagram to load
+ *  \param list_of_diagrams list of diagram ids to load
  *  \param db_reader pointer to a database reader object
  */
-static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_, int64_t diagram_id, data_database_reader_t *db_reader );
+static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
+                                                     data_small_set_t *list_of_diagrams,
+                                                     data_database_reader_t *db_reader
+                                                   );
 
 /*!
  *  \brief marks the diagram data as invalid

@@ -9,6 +9,7 @@
  */
 
 #include "gui_tool.h"
+#include "gui_search_runner.h"
 #include "data_id.h"
 #include "storage/data_change_message.h"
 #include <gtk/gtk.h>
@@ -20,6 +21,7 @@ struct gui_search_request_struct {
     GtkWidget *search_label;  /*!< pointer to external GtkWidget */
     GtkWidget *search_entry;  /*!< pointer to external GtkWidget */
     GtkWidget *search_button;  /*!< pointer to external GtkWidget */
+    gui_search_runner_t *search_runner;  /*!< pointer to external search runner */
 };
 
 typedef struct gui_search_request_struct gui_search_request_t;
@@ -31,8 +33,14 @@ typedef struct gui_search_request_struct gui_search_request_t;
  *  \param search_label pointer to GTK label widget
  *  \param search_entry pointer to GTK text entry widget
  *  \param search_button pointer to GTK search button widget
+ *  \param search_runner pointer to search runner
  */
-void gui_search_request_init ( gui_search_request_t *this_, GtkWidget *search_label, GtkWidget *search_entry, GtkWidget *search_button );
+void gui_search_request_init ( gui_search_request_t *this_,
+                               GtkWidget *search_label,
+                               GtkWidget *search_entry,
+                               GtkWidget *search_button,
+                               gui_search_runner_t *search_runner
+                             );
 
 /*!
  *  \brief destroys the gui_search_request_t struct
