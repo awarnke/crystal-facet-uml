@@ -117,8 +117,8 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set
     TRACE_BEGIN();
     assert( NULL != list_of_diagrams );
 
+    /* load new data */
     gui_sketch_result_list_load_data( &((*this_).result_list), list_of_diagrams, (*this_).db_reader );
-
     int64_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
     gui_sketch_area_private_load_data_set ( this_, list_of_diagrams, go_back_id );
 
@@ -345,6 +345,7 @@ void gui_sketch_area_private_load_data_set ( gui_sketch_area_t *this_, data_smal
     TRACE_BEGIN();
     assert( NULL != diagram_list );
 
+    /* even in search mode, load the focused card whcih is not displayed */
     gui_sketch_area_private_load_data ( this_, back_diagram_id );
 
     assert ( (*this_).card_num == GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD );
@@ -559,6 +560,7 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
     selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
     switch ( selected_tool )
     {
+        case GUI_TOOLBOX_SEARCH:  /* or */
         case GUI_TOOLBOX_NAVIGATE:
         {
             if ( gui_sketch_drag_state_is_dragging ( &((*this_).drag_state) ) )
@@ -644,11 +646,6 @@ gboolean gui_sketch_area_mouse_motion_callback( GtkWidget* widget, GdkEventMotio
                     }
                 }
             }
-        }
-        break;
-
-        case GUI_TOOLBOX_SEARCH:
-        {
         }
         break;
 
@@ -884,6 +881,20 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             case GUI_TOOLBOX_SEARCH:
             {
                 TRACE_INFO( "GUI_TOOLBOX_SEARCH" );
+
+                /* search selected diagram */
+                data_id_t clicked_diagram_id;
+                clicked_diagram_id = gui_sketch_area_get_diagram_id_at_pos ( this_, x, y );
+                data_id_trace( &clicked_diagram_id );
+
+                /* store diagram id to drag_state */
+                if ( data_id_is_valid( &clicked_diagram_id ) )
+                {
+                    /* update drag state */
+                    data_id_pair_t dragged_object;
+                    data_id_pair_init_solo ( &dragged_object, clicked_diagram_id );
+                    gui_sketch_drag_state_start_dragging_when_move ( &((*this_).drag_state), dragged_object );
+                }
             }
             break;
 
@@ -1312,6 +1323,34 @@ gboolean gui_sketch_area_button_release_callback( GtkWidget* widget, GdkEventBut
             case GUI_TOOLBOX_SEARCH:
             {
                 TRACE_INFO("GUI_TOOLBOX_SEARCH");
+
+                if ( gui_sketch_drag_state_is_waiting_for_move( &((*this_).drag_state) ) )
+                {
+                    /* click on diagram without drag */
+                    data_id_pair_t *dragged_object;
+                    dragged_object = gui_sketch_drag_state_get_dragged_object_ptr ( &((*this_).drag_state) );
+                    data_id_t dragged_diagram;
+                    dragged_diagram = data_id_pair_get_primary_id( dragged_object );
+                    if ( DATA_TABLE_DIAGRAM == data_id_get_table( &dragged_diagram ) )
+                    {
+                        const int64_t drag_id = data_id_get_row_id( &dragged_diagram );
+
+                        /* load/reload data to be drawn */
+                        gui_sketch_area_private_load_data( this_, drag_id );
+
+                        /* notify listener */
+                        gui_marked_set_set_focused( (*this_).marker, dragged_diagram );
+                        gui_sketch_area_private_notify_listeners( this_, dragged_diagram );
+                        gui_marked_set_clear_selected_set( (*this_).marker );
+
+                        /* if clicked diagram is already the focused diagram, switch to edit mode */
+                        gui_toolbox_set_selected_tool( (*this_).toolbox, GUI_TOOLBOX_EDIT );
+                    }
+                    else
+                    {
+                        TRACE_INFO("GUI_TOOLBOX_SEARCH released mouse button but not a diagram clicked before");
+                    }
+                }
             }
             break;
 
