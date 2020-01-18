@@ -126,6 +126,17 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set
         show_id = data_small_set_get_id( list_of_diagrams, 0 );
         gui_marked_set_set_focused_diagram( (*this_).marker, data_id_get_row_id(&show_id) );
         gui_sketch_area_private_load_data ( this_, data_id_get_row_id(&show_id) );
+
+        /* notify listener */
+        data_id_t void_id;
+        data_id_init_void(&void_id);
+        gui_marked_set_set_focused( (*this_).marker, void_id );
+        gui_marked_set_set_focused_diagram( (*this_).marker, DATA_ID_VOID_ID );
+        gui_sketch_area_private_notify_listeners( this_, void_id );
+        gui_marked_set_clear_selected_set( (*this_).marker );
+
+        /* mark dirty rect */
+        gtk_widget_queue_draw( (*this_).drawing_area );
     }
 
     TRACE_END();
@@ -828,8 +839,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
                 {
                     /* store focused object and notify listener */
                     gui_marked_set_set_focused ( (*this_).marker,
-                                                    focused_object_visible
-                                                  );
+                                                 focused_object_visible
+                                               );
 
                     data_id_t real_object = focused_object_visible;
                     if ( DATA_TABLE_DIAGRAMELEMENT == data_id_get_table( &real_object ) )
@@ -884,8 +895,8 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
 
                         /* set focused object (either a diagramelement or a feature) and notify listener */
                         gui_marked_set_set_focused( (*this_).marker,
-                                                       data_id_pair_get_primary_id( &clicked_object )
-                                                     );
+                                                     data_id_pair_get_primary_id( &clicked_object )
+                                                   );
                         gui_sketch_area_private_notify_listeners( this_, data_id_pair_get_secondary_id( &clicked_object ) );
                     }
                     else /* clicked either into inner space of a classifier or at a relation or outside any classifier */

@@ -32,7 +32,8 @@ struct gui_search_runner_struct {
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
     data_small_set_t temp_result_set;  /*!< memory for the result set */
-    data_diagramelement_t temp_diagramelement[GUI_SEARCH_RUNNER_MAX_DIAGRAMS];  /*!< memory to read a set of diagram elements */
+    data_diagram_t temp_diagrams[GUI_SEARCH_RUNNER_MAX_DIAGRAMS];  /*!< memory to read a set of diagram */
+    data_diagramelement_t temp_diagramelement;  /*!< memory to read a diagram element */
     data_feature_t temp_feature;  /*!< memory to read a feature */
     data_relationship_t temp_relationship;  /*!< memory to read a relationship */
 };
@@ -67,6 +68,16 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ );
  *  \param search_string search query, 0-terminated
  */
 void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_string );
+
+/*!
+ *  \brief searches diagrams in which a given classifier is visible and adds their ids to a result set
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param classifier_id row id of the classifier to search
+ *  \param io_set set to which to add found diagrams
+ */
+void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_, int64_t classifier_id, data_small_set_t *io_set );
+
 
 #endif  /* GUI_SEARCH_RUNNER_H */
 

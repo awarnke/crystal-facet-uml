@@ -76,6 +76,20 @@
 
         </section>
         <section>
+            <title>Search</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                <listitem><para>Find diagrams that contain the searched object ids.</para></listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
+        <section>
             <title>Navigate</title>
             <para>
 

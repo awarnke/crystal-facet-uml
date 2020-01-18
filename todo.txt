@@ -26,6 +26,7 @@ ideas for future versions:
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
+  [ ] simplify error handling, too complex is: if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
   @ctrl
   [ ] export XMI format
   [ ] import XMI format

@@ -48,37 +48,93 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
             gui_simple_message_to_user_hide( (*this_).message_to_user );
 
             data_small_set_init( &((*this_).temp_result_set) );
+            const int64_t search_row_id = data_id_get_row_id(&search_id);
             data_error_t d_err = DATA_ERROR_NONE;
 
             switch ( data_id_get_table(&search_id) )
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-
+                    gui_search_runner_private_add_diagrams_of_classifier( this_, search_row_id, &((*this_).temp_result_set) );
                 }
                 break;
 
                 case DATA_TABLE_FEATURE:
                 {
+                    d_err = data_database_reader_get_feature_by_id ( (*this_).db_reader,
+                                                                     search_row_id,
+                                                                     &((*this_).temp_feature)
+                                                                   );
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        int64_t classifier_id = data_feature_get_classifier_id( &((*this_).temp_feature) );
+                        gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
 
+                        data_feature_destroy( &((*this_).temp_feature) );
+                    }
+                    else
+                    {
+                        TRACE_INFO( "feature does not exist or database not open." );
+                    }
                 }
                 break;
 
                 case DATA_TABLE_RELATIONSHIP:
                 {
+                    d_err = data_database_reader_get_relationship_by_id ( (*this_).db_reader,
+                                                                          search_row_id,
+                                                                          &((*this_).temp_relationship)
+                                                                        );
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        int64_t classifier_id = data_relationship_get_from_classifier_id( &((*this_).temp_relationship) );
+                        gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
 
+                        data_relationship_destroy( &((*this_).temp_relationship) );
+                    }
+                    else
+                    {
+                        TRACE_INFO( "relationship does not exist or database not open." );
+                    }
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAMELEMENT:
                 {
+                    d_err = data_database_reader_get_diagramelement_by_id ( (*this_).db_reader,
+                                                                            search_row_id,
+                                                                            &((*this_).temp_diagramelement)
+                                                                          );
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        d_err = data_small_set_add_row_id ( &((*this_).temp_result_set),
+                                                            DATA_TABLE_DIAGRAM,
+                                                            data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
+                                                          );
 
+                        data_diagramelement_destroy( &((*this_).temp_diagramelement) );
+                    }
+                    else
+                    {
+                        TRACE_INFO( "diagramelement does not exist or database not open." );
+                    }
                 }
                 break;
 
                 case DATA_TABLE_DIAGRAM:
                 {
-                    d_err = data_small_set_add_obj ( &((*this_).temp_result_set), search_id );
+                    assert( GUI_SEARCH_RUNNER_MAX_DIAGRAMS > 0 );
+                    d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagrams[0]) );
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        d_err = data_small_set_add_obj ( &((*this_).temp_result_set), search_id );
+
+                        data_diagram_destroy( &((*this_).temp_diagrams[0]) );
+                    }
+                    else
+                    {
+                        TRACE_INFO( "diagram does not exist or database not open." );
+                    }
                 }
                 break;
 
@@ -108,6 +164,56 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
     else
     {
         assert(false);
+    }
+
+    TRACE_END();
+}
+
+void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_, int64_t classifier_id, data_small_set_t *io_set )
+{
+    TRACE_BEGIN();
+    data_error_t d_err = DATA_ERROR_NONE;
+
+    uint32_t diagram_count;
+    d_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader,
+                                                                 classifier_id,
+                                                                 GUI_SEARCH_RUNNER_MAX_DIAGRAMS,
+                                                                 &((*this_).temp_diagrams),
+                                                                 &diagram_count
+                                                               );
+    if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+    {
+        TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at searching diagrams" );
+    }
+
+    if (( d_err == DATA_ERROR_NONE )||( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED ))
+    {
+        assert ( diagram_count <= GUI_SEARCH_RUNNER_MAX_DIAGRAMS );
+        for ( uint32_t idx = 0; idx < diagram_count; idx ++ )
+        {
+            data_id_t current_id;
+            data_id_init( &current_id, DATA_TABLE_DIAGRAM, data_diagram_get_id ( &((*this_).temp_diagrams[idx]) ));
+            d_err = data_small_set_add_obj ( io_set, current_id );
+            if ( d_err == DATA_ERROR_DUPLICATE_ID )
+            {
+                /* not a bug: a duplicate diagram is caused by a classifier that exists twice in a diagram */
+                d_err = DATA_ERROR_NONE;
+            }
+            else if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
+            {
+                TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting diagram ids to a set" );
+            }
+            else if ( d_err != DATA_ERROR_NONE )
+            {
+                TSLOG_WARNING_HEX( "other error at inserting diagram ids to a set", d_err );
+            }
+
+            data_diagram_destroy( &((*this_).temp_diagrams[idx]) );
+        }
+    }
+    else
+    {
+        TRACE_INFO( "diagram does not exist or database not open." );
     }
 
     TRACE_END();
