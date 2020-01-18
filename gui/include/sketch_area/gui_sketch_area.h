@@ -26,6 +26,7 @@
 #include "data_table.h"
 #include "set/data_visible_set.h"
 #include "set/data_id_pair.h"
+#include "set/data_small_set.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include <gtk/gtk.h>
@@ -39,7 +40,8 @@ enum gui_sketch_area_const_enum {
     GUI_SKETCH_AREA_CONST_MAX_CARDS = 22,  /*!< maximum number of diagrams to be shown in one single window */
     GUI_SKETCH_AREA_CONST_PARENT_CARD = 1,  /*!< index of the card showing the parent diagram */
     GUI_SKETCH_AREA_CONST_FOCUSED_CARD = 0,  /*!< index of the card showing the currently focused diagram */
-    GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD = 2,  /*!< index of the card showing the furst child diagram */
+    GUI_SKETCH_AREA_CONST_FIRST_CHILD_CARD = 2,  /*!< index of the card showing the first child diagram */
+    GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD = 1,  /*!< index of the card showing the first search result diagram */
     GUI_SKETCH_AREA_CONST_MAX_TEMP_DIAGRAMS = 20,  /*!< maximum size of temporary diagram buffer */
 };
 
@@ -121,6 +123,15 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set
  *  \param main_diagram_id id of the main diagram to be shown or DATA_ID_VOID_ID for root diagram
  */
 void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_diagram_id );
+
+/*!
+ *  \brief loads the cards and result_list data to be shown in seach mode
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_list list of diagram ids to be displayed
+ *  \param back_diagram_id id of the previously visible diagram or DATA_ID_VOID_ID for none
+ */
+void gui_sketch_area_private_load_data_set ( gui_sketch_area_t *this_, data_small_set_t *diagram_list, int64_t back_diagram_id );
 
 /*!
  *  \brief re-loads the cards, nav_tree and result_list data to be shown

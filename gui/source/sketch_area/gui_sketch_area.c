@@ -119,25 +119,19 @@ void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set
 
     gui_sketch_result_list_load_data( &((*this_).result_list), list_of_diagrams, (*this_).db_reader );
 
-    /* DEMO */
-    if ( data_small_set_get_count( list_of_diagrams ) > 0 )
-    {
-        data_id_t show_id;
-        show_id = data_small_set_get_id( list_of_diagrams, 0 );
-        gui_marked_set_set_focused_diagram( (*this_).marker, data_id_get_row_id(&show_id) );
-        gui_sketch_area_private_load_data ( this_, data_id_get_row_id(&show_id) );
+    int64_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
+    gui_sketch_area_private_load_data_set ( this_, list_of_diagrams, go_back_id );
 
-        /* notify listener */
-        data_id_t void_id;
-        data_id_init_void(&void_id);
-        gui_marked_set_set_focused( (*this_).marker, void_id );
-        gui_marked_set_set_focused_diagram( (*this_).marker, DATA_ID_VOID_ID );
-        gui_sketch_area_private_notify_listeners( this_, void_id );
-        gui_marked_set_clear_selected_set( (*this_).marker );
+    /* notify listener */
+    data_id_t void_id;
+    data_id_init_void(&void_id);
+    gui_marked_set_set_focused( (*this_).marker, void_id );
+    gui_marked_set_set_focused_diagram( (*this_).marker, DATA_ID_VOID_ID );
+    gui_sketch_area_private_notify_listeners( this_, void_id );
+    gui_marked_set_clear_selected_set( (*this_).marker );
 
-        /* mark dirty rect */
-        gtk_widget_queue_draw( (*this_).drawing_area );
-    }
+    /* mark dirty rect */
+    gtk_widget_queue_draw( (*this_).drawing_area );
 
     TRACE_END();
 }
@@ -243,7 +237,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
 
     gui_tool_t selected_tool;
     selected_tool = gui_toolbox_get_selected_tool( (*this_).toolbox );
-    if (( GUI_TOOLBOX_NAVIGATE == selected_tool ) || ( GUI_TOOLBOX_SEARCH == selected_tool ))
+    if ( GUI_TOOLBOX_NAVIGATE == selected_tool )
     {
         /* determine ids */
         int64_t selected_diagram_id;
@@ -341,6 +335,38 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     {
         /* restore the focused element */
         //vi gui_marked_set_set_focused( (*this_).marker, former_focused_element );
+    }
+
+    TRACE_END();
+}
+
+void gui_sketch_area_private_load_data_set ( gui_sketch_area_t *this_, data_small_set_t *diagram_list, int64_t back_diagram_id )
+{
+    TRACE_BEGIN();
+    assert( NULL != diagram_list );
+
+    gui_sketch_area_private_load_data ( this_, back_diagram_id );
+
+    assert ( (*this_).card_num == GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD );
+
+    const uint32_t d_count = data_small_set_get_count( diagram_list );
+
+    for ( uint32_t index = 0; index < d_count; index ++ )
+    {
+        if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
+        {
+            const data_id_t diag_id = data_small_set_get_id( diagram_list, index );
+            int64_t diag_row_id = data_id_get_row_id( &diag_id );
+            {
+                gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
+                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_row_id, (*this_).db_reader );
+            }
+            (*this_).card_num ++;
+        }
+        else
+        {
+            TSLOG_ERROR_INT( "more diagrams in set than fit into cards array!", d_count );
+        }
     }
 
     TRACE_END();

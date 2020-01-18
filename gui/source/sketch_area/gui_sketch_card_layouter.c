@@ -63,11 +63,46 @@ void gui_sketch_card_layouter_layout ( gui_sketch_card_layouter_t *this_,
     }
     const uint_fast32_t parent_card_height = (focus_card_height * 6) / 10;
     const uint_fast32_t parent_card_width = (focus_card_width * 6) / 10;
+    const uint_fast32_t back_card_height = (focus_card_height * 4) / 10;
+    const uint_fast32_t back_card_width = (focus_card_width * 4) / 10;
 
     /* layout cards */
     switch( selected_tool )
     {
-        case GUI_TOOLBOX_SEARCH:  /* or */
+        case GUI_TOOLBOX_SEARCH:
+        {
+            shape_int_rectangle_t card_bounds;
+
+            /* self */
+            assert(cards_num > GUI_SKETCH_AREA_CONST_FOCUSED_CARD);
+            {
+                const int_fast32_t back_left = (left + width) - back_card_width - BORDER;
+                const int_fast32_t back_top = top + BORDER;
+                shape_int_rectangle_init( &card_bounds, back_left, back_top, back_card_width, back_card_height );
+                shape_int_rectangle_trace( &card_bounds );
+                gui_sketch_card_set_bounds( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), card_bounds );
+                const bool valid_card = gui_sketch_card_is_valid( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]) );
+                gui_sketch_card_do_layout( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), cr );
+                gui_sketch_card_set_visible( &(io_cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), valid_card );
+            }
+
+            /* search results */
+            assert(cards_num >= GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD);
+            {
+                const int_fast32_t resultcard_top = top + back_card_height + 2*BORDER;
+                const uint_fast32_t resultcard_height = (height > (resultcard_top-top)) ? (height - (resultcard_top-top)) : 0;
+                shape_int_rectangle_init( &card_bounds, left, resultcard_top, width, resultcard_height );
+                gui_sketch_card_layouter_private_layout_to_grid( this_,
+                                                                 &card_bounds,
+                                                                 focus_card_height,
+                                                                 &(io_cards[GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD]),
+                                                                 cards_num-GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD,
+                                                                 cr
+                                                               );
+            }
+        }
+        break;
+
         case GUI_TOOLBOX_NAVIGATE:
         {
             shape_int_rectangle_t card_bounds;
