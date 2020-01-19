@@ -83,6 +83,10 @@ openSuSE:
 > sudo zypper install xmlto       # for user documentation
 >
 > sudo zypper install doxygen     # for source code documentation
+>
+> sudo zypper install fakeroot    # to build debian archives
+>
+> sudo zypper install debhelper   # to build debian archives
 
 
 > mkdir my_build && cd my_build
