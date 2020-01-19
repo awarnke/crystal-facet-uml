@@ -1,7 +1,7 @@
 crystal-facet-uml (1.18.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * the search view allows to search for object ids
+  * the search view allows one to search for object ids
   * bugfix: when changing type of an object, lastest changes to name
     or description are not lost
   * pressing enter in name or stereotype field causes a save action
