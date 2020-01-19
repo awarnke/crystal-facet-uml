@@ -2,6 +2,7 @@
 
 #include "sketch_area/gui_sketch_result_list.h"
 #include "util/geometry/geometry_rectangle.h"
+#include "util/string/utf8stringbuf.h"
 #include "trace.h"
 #include "tslog.h"
 #include <gdk/gdk.h>
@@ -11,6 +12,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_ )
     TRACE_BEGIN();
 
     (*this_).visible = false;
+    (*this_).result_count = 0;
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
     TRACE_END();
@@ -25,12 +27,10 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
     TRACE_END();
 }
 
-/*
 static const double BLACK_R = 0.0;
 static const double BLACK_G = 0.0;
 static const double BLACK_B = 0.0;
 static const double BLACK_A = 1.0;
-*/
 
 void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr )
 {
@@ -40,29 +40,24 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
 
     if ( (*this_).visible )
     {
-        /*
-        int32_t left;
-        int32_t top;
-        uint32_t width;
-        uint32_t height;
+        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
-        left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        height = shape_int_rectangle_get_height( &((*this_).bounds) );
-        */
+        char count_buf[16] = "\0";
+        utf8stringbuf_t count_str = UTF8STRINGBUF( count_buf );
+        assert( utf8stringbuf_append_int( count_str, (*this_).result_count ) == UTF8ERROR_SUCCESS );
 
-        /*
         cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
-        cairo_rectangle ( cr, left+10, top+10, width-20, height-20 );
+        cairo_rectangle ( cr, left, top, width, height );
         cairo_fill (cr);
 
         cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
         cairo_move_to ( cr, 10, 10+14 );
-        cairo_show_text ( cr, "gui_sketch_result_list_t" );
+        cairo_show_text ( cr, "results:" );
         cairo_move_to ( cr, 10, 10+2*14 );
-        cairo_show_text ( cr, "not yet implemented" );
-        */
+        cairo_show_text ( cr, utf8stringbuf_get_string( count_str ) );
     }
 
     TRACE_END();

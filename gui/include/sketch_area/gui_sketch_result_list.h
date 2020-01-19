@@ -23,6 +23,8 @@
 struct gui_sketch_result_list_struct {
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
+
+    uint32_t result_count;  /*!< total number of found results */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
@@ -102,14 +104,6 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
 void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
- * \brief gets the address of the diagram within the painter input data of gui_sketch_result_list_t
- *
- *  \param this_ pointer to own object attributes
- *  \return pointer to diagram
- */
-static inline data_diagram_t *gui_sketch_result_list_get_diagram_ptr ( gui_sketch_result_list_t *this_ );
-
-/*!
  *  \brief gets the object-id of the object at a given position.
  *
  *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,
@@ -121,32 +115,10 @@ static inline data_diagram_t *gui_sketch_result_list_get_diagram_ptr ( gui_sketc
  *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
  */
 static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
-                                                          int32_t x,
-                                                          int32_t y,
-                                                          data_id_t* out_selected_id
-                                                        );
-
-/*!
- *  \brief gets the order value at a given position
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object id for which to determine the list order.
- *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
- *  \param x x-position
- *  \param y y-position
- *  \return the list order value at the given location
- */
-static inline layout_order_t gui_sketch_result_list_get_order_at_pos ( gui_sketch_result_list_t *this_, data_id_t obj_id, int32_t x, int32_t y );
-
-/*!
- *  \brief moves an object to an order (without modifying the database)
- *
- *  \param this_ pointer to own object attributes
- *  \param obj_id object id which to move (modify the x-/y- or list order).
- *                The object may be of type DATA_TABLE_CLASSIFIER, DATA_TABLE_FEATURE or DATA_TABLE_RELATIONSHIP.
- *  \param order layout_order_t, where to move the object to
- */
-static inline void gui_sketch_result_list_move_object_to_order ( gui_sketch_result_list_t *this_, data_id_t obj_id, layout_order_t *order );
+                                                                 int32_t x,
+                                                                 int32_t y,
+                                                                 data_id_t* out_selected_id
+                                                               );
 
 #include "gui_sketch_result_list.inl"
 

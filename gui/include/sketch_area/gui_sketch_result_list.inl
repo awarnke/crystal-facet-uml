@@ -6,6 +6,7 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
                                                      data_small_set_t *list_of_diagrams,
                                                      data_database_reader_t *db_reader )
 {
+    (*this_).result_count = data_small_set_get_count( list_of_diagrams );
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
@@ -32,31 +33,12 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
     (*this_).visible = visible;
 }
 
-static inline data_diagram_t *gui_sketch_result_list_get_diagram_ptr ( gui_sketch_result_list_t *this_ )
-{
-    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_get_diagram_ptr");
-    return NULL;
-}
-
 static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
                                                           int32_t x,
                                                           int32_t y,
                                                           data_id_t* out_selected_id )
 {
-}
-
-static inline layout_order_t gui_sketch_result_list_get_order_at_pos ( gui_sketch_result_list_t *this_, data_id_t obj_id, int32_t x, int32_t y )
-{
-    layout_order_t result;
-    layout_order_init_empty( &result );
-    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_get_order_at_pos");
-    return result;
-}
-
-static inline void gui_sketch_result_list_move_object_to_order ( gui_sketch_result_list_t *this_, data_id_t obj_id, layout_order_t *order )
-{
-    assert( NULL != order );
-    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_move_object_to_order");
+    TSLOG_ERROR("Not yet implemented: gui_sketch_result_list_get_object_id_at_pos");
 }
 
 
