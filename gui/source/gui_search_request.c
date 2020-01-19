@@ -105,11 +105,12 @@ void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t too
     TRACE_END();
 }
 
-void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data )
+void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpointer data )
 {
     TRACE_BEGIN();
     gui_search_request_t *this_ = data;
     assert( NULL != this_ );
+    /* note: button may bei either the text entry widget or the search button widget */
 
     const char* text;
     text = gtk_entry_get_text( GTK_ENTRY( (*this_).search_entry ) );

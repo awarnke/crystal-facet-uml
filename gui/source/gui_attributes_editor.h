@@ -117,9 +117,19 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ );
 gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
 
 /*!
+ *  \brief callback that informs that enter was pressed
+ */
+void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user_data );
+
+/*!
  *  \brief callback that informs that the focus of a widget is lost
  */
 gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data );
+
+/*!
+ *  \brief callback that informs that enter was pressed
+ */
+void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointer user_data );
 
 /*!
  *  \brief callback that informs that the type in the combo box changed

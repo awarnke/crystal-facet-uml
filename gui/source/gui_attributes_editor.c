@@ -248,6 +248,20 @@ gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, Gdk
     return false;  /* all callbacks shall receive this signal */
 }
 
+void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( widget == GTK_ENTRY( (*this_).name_entry ) );
+
+    gui_attributes_editor_private_name_commit_changes( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
+}
+
 gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widget, GdkEvent *event, gpointer user_data )
 {
     TRACE_BEGIN();
@@ -261,6 +275,20 @@ gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widge
     TRACE_TIMESTAMP();
     TRACE_END();
     return false;  /* all callbacks shall receive this signal */
+}
+
+void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointer user_data )
+{
+    TRACE_BEGIN();
+    gui_attributes_editor_t *this_;
+    this_ = (gui_attributes_editor_t*) user_data;
+    assert ( NULL != this_ );
+    assert ( widget == GTK_ENTRY( (*this_).stereotype_entry ) );
+
+    gui_attributes_editor_private_stereotype_commit_changes( this_ );
+
+    TRACE_TIMESTAMP();
+    TRACE_END();
 }
 
 void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer user_data )

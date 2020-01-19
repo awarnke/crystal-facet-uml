@@ -67,18 +67,30 @@ void gui_search_request_hide ( gui_search_request_t *this_ );
 
 /*!
  *  \brief callback that informs that the chosen tool changed
+ *
+ *  \param widget widget that triggered the callback
+ *  \param tool the new, selected tool
+ *  \param data pointer to own object attributes
  */
 void gui_search_request_tool_changed_callback( GtkWidget *widget, gui_tool_t tool, gpointer data );
 
 /*!
  *  \brief callback that informs that the search button was pressed
+ *         or that enter was pressed in the text entry widget
+ *
+ *  \param trigger_widget widget that triggered the callback, either the search button or the search text entry field
+ *  \param data pointer to own object attributes
  */
-void gui_search_request_search_btn_callback( GtkWidget* button, gpointer data );
+void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpointer data );
 
 /* ================================ MODEL CHANGED CALLBACKS ================================ */
 
 /*!
  *  \brief callback that informs that the data of an object changed
+ *
+ *  \param widget proxy-widget that proxies the data module as source of the callback trigger
+ *  \param msg pointer to a record explaining what data is changed
+ *  \param user_data pointer to own object attributes
  */
 void gui_search_request_data_changed_callback( GtkWidget *widget, data_change_message_t *msg, gpointer user_data );
 
