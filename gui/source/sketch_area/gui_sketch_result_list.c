@@ -47,7 +47,12 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
 
         char count_buf[16] = "\0";
         utf8stringbuf_t count_str = UTF8STRINGBUF( count_buf );
-        assert( utf8stringbuf_append_int( count_str, (*this_).result_count ) == UTF8ERROR_SUCCESS );
+        utf8error_t u8err = utf8stringbuf_append_int( count_str, (*this_).result_count );
+        if ( u8err != UTF8ERROR_SUCCESS )
+        {
+            assert(false);
+            TSLOG_WARNING( "utf8stringbuf_append_int failed in gui_sketch_result_list_draw." );
+        }
 
         cairo_set_source_rgba( cr, 0.8, 0.8, 0.8, 1.0 );
         cairo_rectangle ( cr, left, top, width, height );
