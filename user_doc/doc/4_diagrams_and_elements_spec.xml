@@ -168,7 +168,7 @@
                             <entry><para>-</para></entry>
                             <entry><para>Represents a group of requirements, can be used for SysML Composite Requirements
                                     </para></entry>
-^                        </row>
+                        </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>

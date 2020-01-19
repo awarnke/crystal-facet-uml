@@ -84,7 +84,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Find diagrams that contain the searched object ids.</para></listitem>
+                <listitem><para>Find diagrams that contain the searched element (see <xref linkend="draw_search"/>)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -297,6 +297,20 @@
             at the same time improves understandability by focusing on one aspect/topic per diagram.
         </para>
 
+        <section id="draw_search">
+            <title>Search</title>
+            <para>
+
+                <inlinemediaobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.pdf" width="1cm"/></imageobject>
+                    <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
+                </inlinemediaobject>
+                <itemizedlist>
+                <listitem><para>To find a list of diagrams containing a given element, enter the ID (e.g. C0001) into the search field and press enter.</para></listitem>
+                </itemizedlist>
+            </para>
+
+        </section>
         <section id="draw_navigate">
             <title>Navigate</title>
             <para>
