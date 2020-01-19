@@ -131,6 +131,10 @@ void gui_search_request_search_start_callback( GtkWidget* trigger_widget, gpoint
     {
         gui_search_runner_run ( (*this_).search_runner, text );
     }
+    else
+    {
+        assert(false);
+    }
 
     TRACE_END();
 }

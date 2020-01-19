@@ -43,14 +43,14 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         data_id_init_by_string ( &search_id, search_string );
         data_id_trace ( &search_id );
 
+        gui_simple_message_to_user_hide( (*this_).message_to_user );
+
+        data_small_set_init( &((*this_).temp_result_set) );
+        const int64_t search_row_id = data_id_get_row_id(&search_id);
+        data_error_t d_err = DATA_ERROR_NONE;
+
         if ( data_id_is_valid( &search_id ))
         {
-            gui_simple_message_to_user_hide( (*this_).message_to_user );
-
-            data_small_set_init( &((*this_).temp_result_set) );
-            const int64_t search_row_id = data_id_get_row_id(&search_id);
-            data_error_t d_err = DATA_ERROR_NONE;
-
             switch ( data_id_get_table(&search_id) )
             {
                 case DATA_TABLE_CLASSIFIER:
@@ -144,13 +144,6 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                 }
                 break;
             }
-
-            if ( d_err == DATA_ERROR_NONE )
-            {
-                gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_set) );
-            }
-
-            data_small_set_destroy( &((*this_).temp_result_set) );
         }
         else
         {
@@ -160,6 +153,10 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                               0 /* pos of error */
                                                             );
         }
+
+        gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_set) );
+
+        data_small_set_destroy( &((*this_).temp_result_set) );
     }
     else
     {
