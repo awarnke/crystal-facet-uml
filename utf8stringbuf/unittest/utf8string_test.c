@@ -508,12 +508,12 @@ static void testParseInt(void)
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_SUCCESS, u8err );
     TEST_ASSERT_EQUAL_INT( 0, number );
 
-    u8err = utf8string_parse_int( "-9223372036854775808", &byte_length, &number );
+    u8err = utf8string_parse_int( "-9223372036854775809", &byte_length, &number );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
     TEST_ASSERT_EQUAL_INT( 20, byte_length );
     TEST_ASSERT( LONG_MIN == number );
 
-    u8err = utf8string_parse_int( "+9223372036854775807", &byte_length, &number );
+    u8err = utf8string_parse_int( "+9223372036854775808", &byte_length, &number );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_OUT_OF_RANGE, u8err );
     TEST_ASSERT_EQUAL_INT( 20, byte_length );
     TEST_ASSERT( LONG_MAX == number );

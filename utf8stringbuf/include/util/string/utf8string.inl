@@ -233,9 +233,11 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
     utf8error_t result = UTF8ERROR_SUCCESS;
     if (( this_ != NULL )&&( out_number != NULL )) {
         char *endptr;
-        long int parseResult = strtol( this_, &endptr, 10 /* base */);
-        if (( parseResult==LONG_MAX )||( parseResult==LONG_MIN )) {
-            if ( errno == ERANGE ) {
+        errno=0;
+        long long parseResult = strtoll( this_, &endptr, 10 /* base */);
+        if ((parseResult==0)||(parseResult==LLONG_MIN)||(parseResult==LLONG_MAX))
+        {
+            if (( errno == ERANGE )||( errno == EINVAL )) {
                 result = UTF8ERROR_OUT_OF_RANGE;
             }
         }
@@ -253,7 +255,7 @@ static inline utf8error_t utf8string_parse_int( const char *this_, unsigned int 
         {
             result = UTF8ERROR_NOT_FOUND;
         }
-        *out_number = parseResult;
+        *out_number = parseResult;            
     }
     else {
         result = UTF8ERROR_NULL_PARAM;
