@@ -1,3 +1,10 @@
+crystal-facet-uml (1.18.1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * when exporting xhtml and docbook files, windows pathnames are supported
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 20 Jan 2020 21:30:00 +0100
+
 crystal-facet-uml (1.18.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

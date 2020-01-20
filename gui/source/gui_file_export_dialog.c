@@ -160,7 +160,11 @@ void gui_file_export_dialog_response_callback( GtkDialog *dialog, gint response_
             assert( db_path != NULL );
             const unsigned int db_path_len = utf8string_get_length( db_path );
             const int db_path_suffix = utf8string_find_last_str( db_path, "." );
-            const int db_path_start_filename = utf8string_find_last_str( db_path, "/" );
+            const int db_path_start_filename_unix = utf8string_find_last_str( db_path, "/" );
+            const int db_path_start_filename_win = utf8string_find_last_str( db_path, "\\" );
+            const int db_path_start_filename = ( db_path_start_filename_unix < db_path_start_filename_win ) 
+                                               ? db_path_start_filename_win
+                                               : db_path_start_filename_unix;
             const int start = (( db_path_start_filename == -1 ) ? 0 : (db_path_start_filename+1) );
             const int length = (( db_path_suffix < start ) ? (db_path_len-start) : (db_path_suffix-start) );
             char temp_filename_buf[64];
