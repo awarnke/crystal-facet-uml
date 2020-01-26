@@ -89,7 +89,7 @@ static inline int utf8codepoint_is_unicode( const utf8codepoint_t this_ );
 /*!
  * \brief Determines if this_ object is valid.
  *
- * Utf8 can encode any integer from 0x00000000 to 0x7fffffff. For all these integers,
+ * Utf8 can encode any integer from 0x00000000 to 0x0010ffff. For all these integers,
  * this function will return 1. Only illegal byte sequences in the input byte array will
  * result in 0.
  * \n

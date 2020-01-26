@@ -1,13 +1,15 @@
 ideas for future versions:
   @gui
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
-      do not redraw 3 times when changing 3 attributes simultaneously.
+      do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] Add Search Feature
+  [ ] Bug: When using the program remotely via an X-server, the "focus lost" message of the description entry is lost
+      and causes changed text to not be stored.
   @pencil
   [ ] Support Diagram-Types: Profile
   [ ] exception+error flows to leave an interruptable area (activity diagrams)

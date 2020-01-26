@@ -580,15 +580,15 @@ static void testCopyWithCutUtf8(void)
     equal = utf8stringbuf_equals_str( dynTestBuf1, "" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
-    /* check utf8stringbuf_copy_str, \xC2\xA2 and \xFC\xA4\xAD\xA2\xAD\xA2 are other characters in utf8 */
+    /* check utf8stringbuf_copy_str, \xC2\xA2 but not \xFC\xA4\xAD\xA2\xAD\xA2 are other characters in utf8 */
     error = utf8stringbuf_copy_str( dynTestBuf2, "\xC2\xA2\xFC\xA4\xAD\xA2\xAD\xA2" );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
-    equal = utf8stringbuf_equals_str( dynTestBuf2, "\xC2\xA2" );
+    equal = utf8stringbuf_equals_str( dynTestBuf2, "\xC2\xA2\xFC\xA4\xAD\xA2\xAD" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( dynTestBuf2, "\xC2\xA2_\xFC\xA4\xAD\xA2\xAD\xA2" );
     TEST_ASSERT_EQUAL_INT( UTF8ERROR_TRUNCATED, error );
-    equal = utf8stringbuf_equals_str( dynTestBuf2, "\xC2\xA2_" );
+    equal = utf8stringbuf_equals_str( dynTestBuf2, "\xC2\xA2_\xFC\xA4\xAD\xA2" );
     TEST_ASSERT_EQUAL_INT( 1, equal );
 
     error = utf8stringbuf_copy_str( dynTestBuf2, "\xC2\xA2_\xC2\xA2_\xC2\xA2" );

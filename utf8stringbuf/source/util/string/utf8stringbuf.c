@@ -21,26 +21,24 @@ const char *utf8stringbuf_private_format_64_bit_hex = "%" PRIx64;
  *  \fn utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source )
  *  \private
  */
-/* function to write a code point as utf8, returns the number of bytes written or an error code */
-static inline int utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source );
+/* function to write a code point as utf8, returns the number of bytes written and an error code */
+static inline utf8error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len );
 
 /* utf8 sequences longer or equal 2 bytes start with a byte with 2 highest bits set: 0xc0 */
 /* utf8 sequences longer or equal 3 bytes start with a byte with 3 highest bits set: 0xe0 */
-/* utf8 sequences longer or equal 4 bytes start with a byte with 4 highest bits set: 0xf0 */
-/* utf8 sequences longer or equal 5 bytes start with a byte with 5 highest bits set: 0xf8 */
-/* utf8 sequences longer or equal 6 bytes start with a byte with 6 highest bits set: 0xfc */
-static const unsigned char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[7] = { 0, 0, 0xc0, 0xe0, 0xf0, 0xf8, 0xfc };
+/* utf8 sequences           equal 4 bytes start with a byte with 4 highest bits set: 0xf0 */
+static const unsigned char utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[5] = { 0, 0, 0xc0, 0xe0, 0xf0 };
 
 /* Note: There is some magic in the design of utf8 which makes the implementation of this function quite short */
 unsigned int utf8_string_buf_private_make_null_termination( utf8stringbuf_t this_ ) {
     unsigned int truncatedLength;
     int clearAtEnd = 1;
 
-    for ( int searchBackwards = 2; searchBackwards <= 6; searchBackwards ++ ) {
+    for ( int searchBackwards = 2; searchBackwards <= 4; searchBackwards ++ ) {
         if ( searchBackwards > this_.size ) {
             break;
         }
-        char pattern = utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[searchBackwards];
+        const char pattern = utf8stringbuf_private_pattern_to_detect_half_utf8_sequences[searchBackwards];
         if ( ( this_.buf[this_.size-searchBackwards] & pattern ) == pattern ) {
             clearAtEnd = searchBackwards;
             break;
@@ -124,29 +122,26 @@ utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const cha
 }
 
 utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix ) {
-    int result;
+    utf8error_t result;
     unsigned int start = utf8stringbuf_get_length( this_ );
-    int appendLen = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix );
-    if ( appendLen >= 0 ) {
+    int appendLen;
+    result = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix, &appendLen );
+    if ( result == UTF8ERROR_SUCCESS ) {
         this_.buf[start+appendLen] = '\0';
-        result = UTF8ERROR_SUCCESS;
-    }
-    else {
-        result = (utf8error_t) appendLen;
     }
     return result;
 }
 
 utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *appendix ) {
-    int result = UTF8ERROR_NULL_PARAM;
+    utf8error_t result = UTF8ERROR_NULL_PARAM;
     if ( appendix != NULL ) {
         unsigned int start = utf8stringbuf_get_length( this_ );
         result = UTF8ERROR_SUCCESS;
         for( ; appendix[0]!=L'\0'; appendix = &(appendix[1]) ) {
-            int appendLen = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix[0] );
-            if ( appendLen < 0 ) {
-                result = (utf8error_t) appendLen;
-                if ( result == UTF8ERROR_TRUNCATED ) {
+            int appendLen;
+            result |= utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix[0], &appendLen );
+            if ( result != UTF8ERROR_SUCCESS ) {
+                if ( ( result & UTF8ERROR_TRUNCATED ) != 0 ) {
                     break;
                 }
             }
@@ -157,15 +152,17 @@ utf8error_t utf8stringbuf_append_wstr( utf8stringbuf_t this_, const wchar_t *app
     return result;
 }
 
-static inline int utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source ) {
-    int result = UTF8ERROR_TRUNCATED;
+static inline utf8error_t utf8stringbuf_private_write_char( char *destination, unsigned int max_size, const uint32_t source, int *out_len ) {
+    *out_len = 0;
+    utf8error_t result = UTF8ERROR_TRUNCATED;
     if ( source <= 0x7ff ) {
         if ( source <= 0x7f ) {
             /* 1 byte character */
             /* check if there is enough space for the character */
             if ( max_size >= 1 ) {
                 destination[0] = source;
-                result = 1;
+                *out_len = 1;
+                result = UTF8ERROR_SUCCESS;
             }
         }
         else {
@@ -173,19 +170,21 @@ static inline int utf8stringbuf_private_write_char( char *destination, unsigned 
             if ( max_size >= 2 ) {
                 destination[0] = 0xc0 | ( source >> 6 );
                 destination[1] = 0x80 | ( source & 0x3f );
-                result = 2;
+                *out_len = 2;
+                result = UTF8ERROR_SUCCESS;
             }
         }
     }
     else {
-        if ( source <= 0x1fffff ) {
+        if ( source <= 0x10ffff ) {
             if ( source <= 0xffff ) {
                 /* 3 byte character */
                 if ( max_size >= 3 ) {
                     destination[0] = 0xe0 | ( source >> 12 );
                     destination[1] = 0x80 | (( source >> 6 ) & 0x3f );
                     destination[2] = 0x80 | ( source & 0x3f );
-                    result = 3;
+                    *out_len = 3;
+                    result = UTF8ERROR_SUCCESS;
                 }
             }
             else {
@@ -195,40 +194,14 @@ static inline int utf8stringbuf_private_write_char( char *destination, unsigned 
                     destination[1] = 0x80 | (( source >> 12 ) & 0x3f );
                     destination[2] = 0x80 | (( source >> 6 ) & 0x3f );
                     destination[3] = 0x80 | ( source & 0x3f );
-                    result = 4;
+                    *out_len = 4;
+                    result = UTF8ERROR_SUCCESS;
                 }
             }
         }
         else {
-            if ( source <= 0x3ffffff ) {
-                /* 5 byte character */
-                if ( max_size >= 5 ) {
-                    destination[0] = 0xf8 | ( source >> 24 );
-                    destination[1] = 0x80 | (( source >> 18 ) & 0x3f );
-                    destination[2] = 0x80 | (( source >> 12 ) & 0x3f );
-                    destination[3] = 0x80 | (( source >> 6 ) & 0x3f );
-                    destination[4] = 0x80 | ( source & 0x3f );
-                    result = 5;
-                }
-            }
-            else {
-                if ( source <= 0x7fffffff ) {
-                    /* 6 byte character */
-                    if ( max_size >= 6 ) {
-                        destination[0] = 0xfc | ( source >> 30 );
-                        destination[1] = 0x80 | (( source >> 24 ) & 0x3f );
-                        destination[2] = 0x80 | (( source >> 18 ) & 0x3f );
-                        destination[3] = 0x80 | (( source >> 12 ) & 0x3f );
-                        destination[4] = 0x80 | (( source >> 6 ) & 0x3f );
-                        destination[5] = 0x80 | ( source & 0x3f );
-                        result = 6;
-                    }
-                }
-                else {
-                    /* note: utf8 can not encode more than 31 bits per character. */
-                    result = UTF8ERROR_NOT_A_CODEPOINT;
-                }
-            }
+            /* note: utf8 can not encode more than 21 bits per character, and even there only 0-0x10ffff is allowed. */
+            result = UTF8ERROR_NOT_A_CODEPOINT;
         }
     }
     return result;

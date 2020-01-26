@@ -62,14 +62,14 @@ static void testInit1(void)
     TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x7fffffff );
-    TEST_ASSERT_EQUAL_INT( 6, utf8codepoint_get_length( code_point1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
     TEST_ASSERT_EQUAL_INT( 0x7fffffff, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0x20ffff );
-    TEST_ASSERT_EQUAL_INT( 5, utf8codepoint_get_length( code_point1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
     TEST_ASSERT_EQUAL_INT( 0x20ffff, utf8codepoint_get_char( code_point1 ) );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid( code_point1 ) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid( code_point1 ) );
 
     code_point1 = utf8codepoint( 0xffffffff );
     TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length( code_point1 ) );
@@ -216,42 +216,13 @@ static void testIntToUtf8ToInt(void) {
     TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
     TEST_ASSERT_EQUAL_INT( 0x10ffff, utf8codepoint_get_char(result) );
 
-    utf8stringbuf_clear( dynTestBuf1 );
-    utf8stringbuf_append_char( dynTestBuf1, 0x1fffff );
-    result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 4, utf8codepoint_get_length(result) );
+    char invalid_1fffff[5] = "\xF7\xBF\xBF\xBF";
+    utf8stringbuf_t invalidBuf = UTF8STRINGBUF(invalid_1fffff);
+
+    result = utf8stringbuf_get_char_at( invalidBuf, 0 );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_is_valid(result) );
+    TEST_ASSERT_EQUAL_INT( 0, utf8codepoint_get_length(result) );
     TEST_ASSERT_EQUAL_INT( 0x1fffff, utf8codepoint_get_char(result) );
-
-    /* 5 byte code points */
-    utf8stringbuf_clear( dynTestBuf1 );
-    utf8stringbuf_append_char( dynTestBuf1, 0x200000 );
-    result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 5, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x200000, utf8codepoint_get_char(result) );
-
-    utf8stringbuf_clear( dynTestBuf1 );
-    utf8stringbuf_append_char( dynTestBuf1, 0x3ffffff );
-    result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 5, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x3ffffff, utf8codepoint_get_char(result) );
-
-    /* 6 byte code points */
-    utf8stringbuf_clear( dynTestBuf1 );
-    utf8stringbuf_append_char( dynTestBuf1, 0x4000000 );
-    result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 6, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x4000000, utf8codepoint_get_char(result) );
-
-    utf8stringbuf_clear( dynTestBuf1 );
-    utf8stringbuf_append_char( dynTestBuf1, 0x7fffffff );
-    result = utf8stringbuf_get_char_at( dynTestBuf1, 0 );
-    TEST_ASSERT_EQUAL_INT( 1, utf8codepoint_is_valid(result) );
-    TEST_ASSERT_EQUAL_INT( 6, utf8codepoint_get_length(result) );
-    TEST_ASSERT_EQUAL_INT( 0x7fffffff, utf8codepoint_get_char(result) );
 }
 
 static void testUnicode(void)

@@ -1,3 +1,10 @@
+crystal-facet-uml (1.18.2) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * internal: utf8 handling is limited to 21 bits (0-0x10ffff) (2003 standard)
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 20 Jan 2020 21:30:00 +0100
+
 crystal-facet-uml (1.18.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
