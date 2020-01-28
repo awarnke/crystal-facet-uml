@@ -57,11 +57,11 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
         /* load diagram */
         db_err = data_database_reader_get_diagram_by_id ( db_reader, diagram_id, &((*this_).diagram) );
 
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
         }
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading a diagram" );
         }
@@ -79,11 +79,11 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
                                                                       &((*this_).visible_classifier_count)
                                                                     );
 
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading visible classifiers of a diagram" );
         }
@@ -101,11 +101,11 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
                                                                    &((*this_).feature_count)
                                                                  );
 
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading features of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading features of a diagram" );
         }
@@ -123,11 +123,11 @@ void data_visible_set_load( data_visible_set_t *this_, int64_t diagram_id, data_
                                                                         &((*this_).relationship_count)
                                                                       );
 
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }
-        if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_ARRAY_BUFFER_EXCEEDED & db_err) )
+        if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_ARRAY_BUFFER_EXCEEDED) )
         {
             TSLOG_ERROR( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at loading relationships of a diagram" );
         }

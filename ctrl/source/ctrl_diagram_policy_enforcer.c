@@ -206,7 +206,7 @@ ctrl_error_t ctrl_diagram_policy_enforcer_private_delete_unreferenced_classifier
                                                                    true /* = add_to_latest_undo_set */
                                                                  );
 
-    if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & my_ctrl_result ))
+    if ( CTRL_ERROR_NONE != ( my_ctrl_result & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
     {
         TSLOG_ANOMALY( "The classifier cannot be deleted because it is still referenced." );
     }

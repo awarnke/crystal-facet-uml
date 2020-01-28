@@ -126,7 +126,6 @@ static void open_invalid_file(void)
 
     /* open an existing non-db file */
     ctrl_err = ctrl_controller_switch_database ( &controller, DATABASE_FILENAME );
-    /*TEST_ASSERT_EQUAL_INT( CTRL_ERROR_NO_DB & DATA_ERROR_MASK, ctrl_err & DATA_ERROR_MASK );*/
     TEST_ASSERT_EQUAL_INT( CTRL_ERROR_AT_DB, ctrl_err );
 
     isopen = data_database_is_open( &database );

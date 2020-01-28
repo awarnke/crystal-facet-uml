@@ -286,7 +286,7 @@ void gui_toolbox_private_delete_set( gui_toolbox_t *this_, const data_small_set_
                                                  GUI_SIMPLE_MESSAGE_CONTENT_NO_SELECTION
                                                );
     }
-    else if ( 0 != ( CTRL_ERROR_MASK & CTRL_ERROR_OBJECT_STILL_REFERENCED & ctrl_err ))
+    else if ( CTRL_ERROR_NONE != ( ctrl_err & CTRL_ERROR_OBJECT_STILL_REFERENCED ))
     {
         gui_simple_message_to_user_show_message( (*this_).message_to_user,
                                                  GUI_SIMPLE_MESSAGE_TYPE_ERROR,

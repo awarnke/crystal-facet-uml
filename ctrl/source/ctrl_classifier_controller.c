@@ -230,7 +230,7 @@ ctrl_error_t ctrl_classifier_controller_delete_classifier( ctrl_classifier_contr
 
                 data_classifier_destroy( &old_classifier );
             }
-            else if ( 0 != ( DATA_ERROR_MASK & DATA_ERROR_OBJECT_STILL_REFERENCED & data_result ))
+            else if ( DATA_ERROR_NONE != ( data_result & DATA_ERROR_OBJECT_STILL_REFERENCED ))
             {
                 /* report this unexpected error */
                 TSLOG_ERROR( "The classifier cannot be deleted because it is still referenced." );

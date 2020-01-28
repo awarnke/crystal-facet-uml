@@ -499,7 +499,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err= data_database_reader_get_classifier_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_classifier_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a classifier" );
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
@@ -532,7 +532,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err= data_database_reader_get_feature_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_feature_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a feature" );
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
@@ -565,7 +565,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err= data_database_reader_get_relationship_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_relationship_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a relationship" );
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,
@@ -609,7 +609,7 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
                 db_err= data_database_reader_get_diagram_by_id ( (*this_).db_reader, data_id_get_row_id(&id), &((*this_).private_diagram_cache) );
                 data_id_replace( &((*this_).selected_object_id), &id );
 
-                if ( DATA_ERROR_NONE != (DATA_ERROR_MASK & DATA_ERROR_STRING_BUFFER_EXCEEDED & db_err) )
+                if ( DATA_ERROR_NONE != (db_err & DATA_ERROR_STRING_BUFFER_EXCEEDED) )
                 {
                     TSLOG_ERROR( "DATA_ERROR_STRING_BUFFER_EXCEEDED at loading a diagram" );
                     gui_simple_message_to_user_show_message_with_string( (*this_).message_to_user,

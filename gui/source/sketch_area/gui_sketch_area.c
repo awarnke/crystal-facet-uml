@@ -195,7 +195,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
                                                                  &((*this_).private_temp_diagram_buf),
                                                                  &count
                                                                );
-        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
+        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
         {
             TRACE_INFO( "database not open.");
         }
@@ -262,7 +262,7 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
                                                                  &((*this_).private_temp_diagram_buf),
                                                                  &c_count
                                                                );
-        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
+        if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_NO_DB ) )
         {
             TRACE_INFO( "database not open.");
         }
