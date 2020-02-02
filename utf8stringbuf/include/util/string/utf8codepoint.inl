@@ -56,59 +56,66 @@ static inline utf8codepoint_t utf8codepoint( uint32_t code_point ) {
 
 static inline utf8codepoint_t utf8codepoint_init( const char *that, unsigned int max_size ) {
     utf8codepoint_t result = { UTF8CODEPOINT_INVALID_LEN, 0x0, };
-    if ( that != NULL ) {
-        if ( max_size > 0 ) {
-            const unsigned char firstByte = (const unsigned char) (that[0]);
-            if (( 0x80 & firstByte ) == 0x00 ) {
-                /* 7-bit ASCII character */
-                result.byte_length = 1;
-                result.code_point = firstByte;
-            }
-            else if ( firstByte < 0xe0 ) {
-                if ( max_size >= 2 ) {
-                    const unsigned char secondByte = (const unsigned char) (that[1]);
-                    if (( ( 0xe0 & firstByte ) == 0xc0 ) && ( ( 0xc0 & secondByte ) == 0x80 ))
-                    {
-                        /* first and second byte are valid */
-                        result.byte_length = 2;
-                        result.code_point = (((uint32_t)(firstByte & 0x1f))<<6)
-                                            |(secondByte & 0x3f);
-                    }
+    if (( that != NULL )&&( max_size > 0 ))
+    {
+        const unsigned char firstByte = (const unsigned char) (that[0]);
+        if (( 0x80 & firstByte ) == 0x00 )
+        {
+            /* 7-bit ASCII character */
+            result.byte_length = 1;
+            result.code_point = firstByte;
+        }
+        else if ( firstByte < 0xe0 )
+        {
+            if ( max_size >= 2 )
+            {
+                const unsigned char secondByte = (const unsigned char) (that[1]);
+                if (( ( 0xe0 & firstByte ) == 0xc0 ) && ( ( 0xc0 & secondByte ) == 0x80 ))
+                {
+                    /* first and second byte are valid */
+                    result.byte_length = 2;
+                    result.code_point = (((uint32_t)(firstByte & 0x1f))<<6)
+                                        |(secondByte & 0x3f);
                 }
             }
-            else if ( firstByte < 0xf0 ) {
-                if ( max_size >= 3 ) {
-                    const unsigned char secondByte = (const unsigned char) (that[1]);
-                    const unsigned char thirdByte = (const unsigned char) (that[2]);
-                    if (( ( 0xc0 & secondByte ) == 0x80 ) && ( ( 0xc0 & thirdByte ) == 0x80 ))
-                    {
-                        /* second and third bytes are valid */
-                        result.byte_length = 3;
-                        result.code_point = (((uint32_t)(firstByte & 0x0f))<<12)
-                                          |(((uint32_t)(secondByte & 0x3f))<<6)
-                                          |(thirdByte & 0x3f);
-                    }
+        }
+        else if ( firstByte < 0xf0 )
+        {
+            if ( max_size >= 3 )
+            {
+                const unsigned char secondByte = (const unsigned char) (that[1]);
+                const unsigned char thirdByte = (const unsigned char) (that[2]);
+                if (( ( 0xc0 & secondByte ) == 0x80 ) && ( ( 0xc0 & thirdByte ) == 0x80 ))
+                {
+                    /* second and third bytes are valid */
+                    result.byte_length = 3;
+                    result.code_point = (((uint32_t)(firstByte & 0x0f))<<12)
+                                        |(((uint32_t)(secondByte & 0x3f))<<6)
+                                        |(thirdByte & 0x3f);
                 }
             }
-            else if ( firstByte < 0xf8 ) {
-                if ( max_size >= 4 ) {
-                    const unsigned char secondByte = (const unsigned char) (that[1]);
-                    const unsigned char thirdByte = (const unsigned char) (that[2]);
-                    const unsigned char fourthByte = (const unsigned char) (that[3]);
-                    if (( ( 0xc0 & secondByte ) == 0x80 )
-                       && ( ( 0xc0 & thirdByte ) == 0x80 )
-                       && ( ( 0xc0 & fourthByte ) == 0x80 ))
-                    {
-                        /* second, third and fourth bytes are valid */
-                        result.byte_length = 4;
-                        result.code_point = (((uint32_t)(firstByte & 0x07))<<18)
+        }
+        else if ( firstByte < 0xf8 )
+        {
+            if ( max_size >= 4 )
+            {
+                const unsigned char secondByte = (const unsigned char) (that[1]);
+                const unsigned char thirdByte = (const unsigned char) (that[2]);
+                const unsigned char fourthByte = (const unsigned char) (that[3]);
+                if (( ( 0xc0 & secondByte ) == 0x80 )
+                   && ( ( 0xc0 & thirdByte ) == 0x80 )
+                   && ( ( 0xc0 & fourthByte ) == 0x80 ))
+                {
+                    /* second, third and fourth bytes are valid */
+                    result.byte_length = 4;
+                    result.code_point = (((uint32_t)(firstByte & 0x07))<<18)
                                         |(((uint32_t)(secondByte & 0x3f))<<12)
                                         |(((uint32_t)(thirdByte & 0x3f))<<6)
                                         |(fourthByte & 0x3f);
-                        if ( result.code_point > 0x10ffff ) {
-                            /* invalid */
-                            result.byte_length = UTF8CODEPOINT_INVALID_LEN;
-                        }
+                    if ( result.code_point > 0x10ffff )
+                    {
+                        /* invalid */
+                        result.byte_length = UTF8CODEPOINT_INVALID_LEN;
                     }
                 }
             }

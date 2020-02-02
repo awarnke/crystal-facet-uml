@@ -13,6 +13,10 @@
             <imageobject><imagedata fileref="screenshot_1.png"/></imageobject>
         </mediaobject>
     </para>
+    <para>
+        Similar to a crystal which shows different facets of the same thing, this application
+        shows different views of the same system.
+    </para>
 
     <section>
         <title>Goal</title>

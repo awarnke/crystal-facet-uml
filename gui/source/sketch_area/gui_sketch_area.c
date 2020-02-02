@@ -705,6 +705,9 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
     if ( (*evt).button == 1 ) {
         TRACE_INFO("press");
 
+        /* cause the text edit widgets to lose the focus so that these can store the latest changes */
+        gtk_widget_grab_focus( widget );
+
         /* get position */
         int32_t x;
         int32_t y;
@@ -1017,8 +1020,6 @@ gboolean gui_sketch_area_button_press_callback( GtkWidget* widget, GdkEventButto
             }
             break;
         }
-
-        gtk_widget_grab_focus( widget );  /* causes the text edit widgets to lose the focus */
     }
 
     TRACE_TIMESTAMP();

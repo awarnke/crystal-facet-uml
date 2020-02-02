@@ -3,12 +3,12 @@ ideas for future versions:
   [ ] performance optimization: redraw only when shown(=visible) items have changed;
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
-  [ ] next to the about button, a help button is needed hat can provide context-sensitive information.
+  [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  [ ] Add Search Feature
-  [ ] Bug: When using the program remotely via an X-server, the "focus lost" message of the description entry is lost
+  [ ] Add Search-for-name Feature
+  [ ] Issue: When using the program remotely via an X-server, the "focus lost" message of the description entry is sometimes lost
       and causes changed text to not be stored.
   @pencil
   [ ] Support Diagram-Types: Profile
@@ -28,7 +28,6 @@ ideas for future versions:
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
-  [ ] simplify error handling, too complex is: if ( DATA_ERROR_NONE != ( db_err & DATA_ERROR_MASK & DATA_ERROR_NO_DB ) )
   @ctrl
   [ ] export XMI format
   [ ] import XMI format

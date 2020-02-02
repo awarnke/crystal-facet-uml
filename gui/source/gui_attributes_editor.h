@@ -36,6 +36,7 @@ struct gui_attributes_editor_struct {
     data_classifier_t private_classifier_cache;  /*!< own instance of a classifier cache */
     data_feature_t private_feature_cache;  /*!< own instance of a feature cache */
     data_relationship_t private_relationship_cache;  /*!< own instance of a relationship cache */
+    data_id_t latest_created_id;  /*!<  id of the latest created object, allows to check if the selected object is new */
 
     gui_attributes_editor_types_t type_lists;  /*!< own instance of type lists */
 

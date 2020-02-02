@@ -49,6 +49,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).controller = controller;
     (*this_).database = database;
     (*this_).message_to_user = message_to_user;
+    data_id_init_void( &((*this_).latest_created_id) );
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
     data_classifier_init_empty( &((*this_).private_classifier_cache) );
     data_feature_init_empty( &((*this_).private_feature_cache) );
@@ -72,6 +73,7 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     data_classifier_destroy( &((*this_).private_classifier_cache) );
     data_feature_destroy( &((*this_).private_feature_cache) );
     data_relationship_destroy( &((*this_).private_relationship_cache) );
+    data_id_destroy( &((*this_).latest_created_id) );
 
     gui_attributes_editor_types_destroy( &((*this_).type_lists) );
 
@@ -420,6 +422,16 @@ void gui_attributes_editor_selected_object_changed_callback( GtkWidget *widget, 
 
         /* update all widgets now */
         gui_attributes_editor_update_widgets( this_ );
+
+        /* select the name so that typing replaces it immediately */
+        /* latest_created_id allows to check if selected id new */
+        if ( data_id_equals( &((*this_).latest_created_id), &((*this_).selected_object_id) ) )
+        {
+            gtk_widget_grab_focus( GTK_WIDGET((*this_).name_entry) );
+            /* the grab focus may cause focus-lost signals - which update the widgets */
+            gtk_editable_select_region( GTK_EDITABLE((*this_).name_entry), 0, -1 );
+            TRACE_INFO( "gui_attributes_editor called gtk_widget_grab_focus" );
+        }
     }
 
     TRACE_TIMESTAMP();
@@ -447,6 +459,7 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
     }
     else if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
+        data_id_reinit_void( &((*this_).latest_created_id) );
         data_id_t nothing;
         data_id_init_void( &nothing );
         gui_attributes_editor_private_load_object( this_, nothing );  /* clear cached data */
@@ -459,6 +472,14 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
         gui_attributes_editor_private_load_object( this_, id );  /* checks if object still exists */
         gui_attributes_editor_update_widgets ( this_ );
     }
+    else if ( evt_type == DATA_CHANGE_EVENT_TYPE_CREATE )
+    {
+        /* diagram elements should not be remembered, only the new classifier is important */
+        if ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &id ) )
+        {
+            (*this_).latest_created_id = id;
+        }
+    };
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -1460,6 +1481,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( classifier_type_list ), 0, class_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( classifier_type_list ) );
             if ( index != -1 ) {
+                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
@@ -1479,6 +1501,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 const int index2 = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( lifeline_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( lifeline_type_list ) );
                 if ( index2 != -1 ) {
+                    /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index2 );
                 }
                 gtk_widget_show ( GTK_WIDGET ( type_widget ) );
@@ -1493,6 +1516,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
                 const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( feature_type_list ), 0, feature_type );
                 gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( feature_type_list ) );
                 if ( index != -1 ) {
+                    /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                     gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
                 }
                 gtk_widget_show ( GTK_WIDGET ( type_widget ) );
@@ -1511,6 +1535,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( relationship_type_list ), 0, relationship_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( relationship_type_list ) );
             if ( index != -1 ) {
+                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );
@@ -1540,6 +1565,7 @@ void gui_attributes_editor_private_type_update_view ( gui_attributes_editor_t *t
             const int index = gtk_helper_tree_model_get_index( GTK_TREE_MODEL( diagram_type_list ), 0, diag_type );
             gtk_combo_box_set_model( GTK_COMBO_BOX( type_widget ), GTK_TREE_MODEL( diagram_type_list ) );
             if ( index != -1 ) {
+                /* this set_active call is critical because it causes a callback to gui_attributes_editor_type_changed_callback */
                 gtk_combo_box_set_active ( GTK_COMBO_BOX( type_widget ), index );
             }
             gtk_widget_show ( GTK_WIDGET ( type_widget ) );

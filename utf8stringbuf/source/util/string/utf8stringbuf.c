@@ -123,7 +123,7 @@ utf8error_t utf8stringbuf_copy_region_from_str( utf8stringbuf_t this_, const cha
 
 utf8error_t utf8stringbuf_append_char( utf8stringbuf_t this_, const uint32_t appendix ) {
     utf8error_t result;
-    unsigned int start = utf8stringbuf_get_length( this_ );
+    const unsigned int start = utf8stringbuf_get_length( this_ );
     int appendLen;
     result = utf8stringbuf_private_write_char( &(this_.buf[start]), this_.size - start - 1, appendix, &appendLen );
     if ( result == UTF8ERROR_SUCCESS ) {
