@@ -3,7 +3,7 @@ crystal-facet-uml (1.18.2) UNRELEASED; urgency=medium
   [ Andreas Warnke ]
   * internal: utf8 handling is limited to 21 bits (0-0x10ffff) (2003 standard)
   * internal: all error codes are positive bitmasks now
-  * name entry is immetiatly possibly after object creation
+  * name entry is immediately possible after object creation
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 20 Jan 2020 21:30:00 +0100
 

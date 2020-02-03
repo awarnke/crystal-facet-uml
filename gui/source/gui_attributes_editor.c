@@ -50,6 +50,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).database = database;
     (*this_).message_to_user = message_to_user;
     data_id_init_void( &((*this_).latest_created_id) );
+    data_id_init_void( &((*this_).second_latest_id) );
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
     data_classifier_init_empty( &((*this_).private_classifier_cache) );
     data_feature_init_empty( &((*this_).private_feature_cache) );
@@ -73,6 +74,7 @@ void gui_attributes_editor_destroy ( gui_attributes_editor_t *this_ )
     data_classifier_destroy( &((*this_).private_classifier_cache) );
     data_feature_destroy( &((*this_).private_feature_cache) );
     data_relationship_destroy( &((*this_).private_relationship_cache) );
+    data_id_destroy( &((*this_).second_latest_id) );
     data_id_destroy( &((*this_).latest_created_id) );
 
     gui_attributes_editor_types_destroy( &((*this_).type_lists) );
@@ -425,7 +427,8 @@ void gui_attributes_editor_selected_object_changed_callback( GtkWidget *widget, 
 
         /* select the name so that typing replaces it immediately */
         /* latest_created_id allows to check if selected id new */
-        if ( data_id_equals( &((*this_).latest_created_id), &((*this_).selected_object_id) ) )
+        if ( ( data_id_equals( &((*this_).latest_created_id), &((*this_).selected_object_id) ) )
+           || ( data_id_equals( &((*this_).second_latest_id), &((*this_).selected_object_id) ) ) )
         {
             gtk_widget_grab_focus( GTK_WIDGET((*this_).name_entry) );
             /* the grab focus may cause focus-lost signals - which update the widgets */
@@ -460,6 +463,7 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
     else if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
     {
         data_id_reinit_void( &((*this_).latest_created_id) );
+        data_id_reinit_void( &((*this_).second_latest_id) );
         data_id_t nothing;
         data_id_init_void( &nothing );
         gui_attributes_editor_private_load_object( this_, nothing );  /* clear cached data */
@@ -477,6 +481,7 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
         /* diagram elements should not be remembered, only the new classifier is important */
         if ( DATA_TABLE_DIAGRAMELEMENT != data_id_get_table( &id ) )
         {
+            (*this_).second_latest_id = (*this_).latest_created_id;
             (*this_).latest_created_id = id;
         }
     };
