@@ -7,44 +7,11 @@
 static inline bool data_database_reader_is_open( data_database_reader_t *this_ )
 {
     bool result;
-    //data_error_t locking_error;
-    //locking_error = data_database_reader_private_lock( this_ );
     result = (*this_).is_open;
-    //locking_error |= data_database_reader_private_unlock( this_ );
     return result;
 }
 
 /* ================================ private ================================ */
-
-//static inline data_error_t data_database_reader_private_lock ( data_database_reader_t *this_ )
-//{
-//    data_error_t result = DATA_ERROR_NONE;
-//    int perr;
-//
-//    perr = pthread_mutex_lock ( &((*this_).private_lock) );
-//    if ( perr != 0 )
-//    {
-//        TSLOG_ERROR_INT( "pthread_mutex_lock() failed:", perr );
-//        result = DATA_ERROR_AT_MUTEX;
-//    }
-//
-//    return result;
-//}
-
-//static inline data_error_t data_database_reader_private_unlock ( data_database_reader_t *this_ )
-//{
-//    data_error_t result = DATA_ERROR_NONE;
-//    int perr;
-//
-//    perr = pthread_mutex_unlock ( &((*this_).private_lock) );
-//    if ( perr != 0 )
-//    {
-//        TSLOG_ERROR_INT( "pthread_mutex_unlock() failed:", perr );
-//        result = DATA_ERROR_AT_MUTEX;
-//    }
-//
-//    return result;
-//}
 
 static inline data_error_t data_database_reader_private_prepare_statement ( data_database_reader_t *this_,
                                                                             const char *string_statement,

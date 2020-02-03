@@ -36,8 +36,6 @@ struct data_database_writer_struct {
     data_database_t *database;  /*!< pointer to external database */
     data_database_reader_t *db_reader;  /*!< pointer to external database reader which may be queried within write-transactions */
 
-    /* no lock needed: the writer is used single-threaded - or is at least synchronized by the ctrl module */
-    //pthread_mutex_t private_lock; /*!< lock to ensure that string buffers are exclusively used */
     data_database_sql_builder_t sql_builder; /*!< own instance of an object that builds sql strings */
 
     data_database_listener_t me_as_listener;  /*!< own instance of data_database_listener_t which wraps data_database_writer_db_change_callback */
@@ -480,22 +478,6 @@ data_error_t data_database_writer_private_transaction_commit ( data_database_wri
  *  \return DATA_ERROR_NONE in case of success, an error id otherwise
  */
 data_error_t data_database_writer_private_transaction_issue_command ( data_database_writer_t *this_, const char* sql_statement );
-
-/*!
- *  \brief gets a lock to protect data in data_database_writer_t from concurrent access.
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-//static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ );
-
-/*!
- *  \brief releases the lock.
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-//static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
 
 #include "storage/data_database_writer.inl"
 

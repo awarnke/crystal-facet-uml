@@ -30,8 +30,6 @@
 struct data_database_reader_struct {
     data_database_t *database;  /*!< pointer to external database */
 
-    /* this application is executed by a single thread. Even if in future this would change, every thread should get its own database reader. */
-    //pthread_mutex_t private_lock;  /*!< lock to ensure that prepared statements are executed exclusively by 1 thread from bind() to last step() */
     bool is_open;  /*!< the prepared statements are only initialized if the database is open */
     sqlite3_stmt *private_prepared_query_diagram_by_id;
     sqlite3_stmt *private_prepared_query_diagrams_by_parent_id;
@@ -390,22 +388,6 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
  *  \return DATA_ERROR_NONE in case of success
  */
 data_error_t data_database_reader_private_close ( data_database_reader_t *this_ );
-
-/*!
- *  \brief gets a lock to protect data in data_database_reader_t from concurrent access.
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-//static inline data_error_t data_database_reader_private_lock ( data_database_reader_t *this_ );
-
-/*!
- *  \brief releases the lock.
- *
- *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
- */
-//static inline data_error_t data_database_reader_private_unlock ( data_database_reader_t *this_ );
 
 /*!
  *  \brief creates a prepared statement.

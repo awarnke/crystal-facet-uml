@@ -11,18 +11,10 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
 {
     TRACE_BEGIN();
     assert( NULL != database );
-    //int perr;
     data_error_t result = DATA_ERROR_NONE;
 
     (*this_).database = database;
     (*this_).is_open = false;
-
-    //perr = pthread_mutex_init ( &((*this_).private_lock), NULL );
-    //if ( perr != 0 )
-    //{
-    //    TSLOG_ERROR_INT( "pthread_mutex_init() failed:", perr );
-    //    result |= DATA_ERROR_AT_MUTEX;
-    //}
 
     data_database_listener_init ( &((*this_).me_as_listener), this_, (void (*)(void*,data_database_listener_signal_t)) &data_database_reader_db_change_callback );
     data_database_add_db_listener( database, &((*this_).me_as_listener) );
@@ -40,7 +32,6 @@ data_error_t data_database_reader_init ( data_database_reader_t *this_, data_dat
 data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
 {
     TRACE_BEGIN();
-    //int perr;
     data_error_t result = DATA_ERROR_NONE;
 
     if ( (*this_).is_open )
@@ -49,13 +40,6 @@ data_error_t data_database_reader_destroy ( data_database_reader_t *this_ )
     }
 
     data_database_remove_db_listener( (*this_).database, &((*this_).me_as_listener) );
-
-    //perr = pthread_mutex_destroy ( &((*this_).private_lock) );
-    //if ( perr != 0 )
-    //{
-    //    TSLOG_ERROR_INT( "pthread_mutex_destroy() failed:", perr );
-    //    result |= DATA_ERROR_AT_MUTEX;
-    //}
 
     (*this_).database = NULL;
 
@@ -180,8 +164,6 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( (*this_).is_open )
     {
         prepared_statement = (*this_).private_prepared_query_diagram_by_id;
@@ -227,8 +209,6 @@ data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *th
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -245,8 +225,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -309,8 +287,6 @@ data_error_t data_database_reader_get_diagrams_by_parent_id ( data_database_read
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -327,8 +303,6 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -384,8 +358,6 @@ data_error_t data_database_reader_get_diagrams_by_classifier_id ( data_database_
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -399,8 +371,6 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -449,8 +419,6 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
         result |= DATA_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
-
-    //result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -543,8 +511,6 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( (*this_).is_open )
     {
         prepared_statement = (*this_).private_prepared_query_classifier_by_id;
@@ -588,8 +554,6 @@ data_error_t data_database_reader_get_classifier_by_id ( data_database_reader_t 
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -602,8 +566,6 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -648,8 +610,6 @@ data_error_t data_database_reader_get_classifier_by_name ( data_database_reader_
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -666,8 +626,6 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -741,8 +699,6 @@ data_error_t data_database_reader_get_classifiers_by_diagram_id ( data_database_
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -800,8 +756,6 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( (*this_).is_open )
     {
         prepared_statement = (*this_).private_prepared_query_diagramelement_by_id;
@@ -846,8 +800,6 @@ data_error_t data_database_reader_get_diagramelement_by_id ( data_database_reade
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -864,8 +816,6 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -920,8 +870,6 @@ data_error_t data_database_reader_get_diagramelements_by_diagram_id ( data_datab
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -938,8 +886,6 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -993,8 +939,6 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
         result |= DATA_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
-
-    //result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -1074,8 +1018,6 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( (*this_).is_open )
     {
         prepared_statement = (*this_).private_prepared_query_feature_by_id;
@@ -1118,8 +1060,6 @@ data_error_t data_database_reader_get_feature_by_id ( data_database_reader_t *th
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1136,8 +1076,6 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1191,8 +1129,6 @@ data_error_t data_database_reader_get_features_by_classifier_id ( data_database_
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1209,8 +1145,6 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1264,8 +1198,6 @@ data_error_t data_database_reader_get_features_by_diagram_id ( data_database_rea
         result |= DATA_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
     }
-
-    //result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR( result );
     return result;
@@ -1378,8 +1310,6 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( (*this_).is_open )
     {
         prepared_statement = (*this_).private_prepared_query_relationship_by_id;
@@ -1432,8 +1362,6 @@ data_error_t data_database_reader_get_relationship_by_id ( data_database_reader_
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1450,8 +1378,6 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1515,8 +1441,6 @@ data_error_t data_database_reader_get_relationships_by_classifier_id ( data_data
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1533,8 +1457,6 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1598,8 +1520,6 @@ data_error_t data_database_reader_get_relationships_by_feature_id ( data_databas
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1616,8 +1536,6 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
     data_error_t result = DATA_ERROR_NONE;
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1683,8 +1601,6 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
         TRACE_INFO( "Database not open, cannot request data." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR( result );
     return result;
 }
@@ -1696,123 +1612,121 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
 
-    //result |= data_database_reader_private_lock( this_ );
-
     if ( ! (*this_).is_open )
     {
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID ),
                                                                    &((*this_).private_prepared_query_diagram_by_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID ),
                                                                    &((*this_).private_prepared_query_diagrams_by_parent_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL ),
                                                                    &((*this_).private_prepared_query_diagrams_by_parent_id_null)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_diagrams_by_classifier_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID ),
                                                                    &((*this_).private_prepared_query_diagram_ids_by_parent_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL ),
                                                                    &((*this_).private_prepared_query_diagram_ids_by_parent_id_null)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID ),
                                                                    &((*this_).private_prepared_query_classifier_by_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME ),
                                                                    &((*this_).private_prepared_query_classifier_by_name)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_classifiers_by_diagram_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENT_BY_ID ),
                                                                    &((*this_).private_prepared_query_diagramelement_by_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_diagramelements_by_diagram_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_DIAGRAMELEMENTS_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_diagramelements_by_classifier_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_FEATURE_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_FEATURE_BY_ID ),
                                                                    &((*this_).private_prepared_query_feature_by_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_features_by_classifier_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_features_by_diagram_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIP_BY_ID ),
                                                                    &((*this_).private_prepared_query_relationship_by_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_CLASSIFIER_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_classifier_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_FEATURE_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_feature_id)
-        );
+                                                                 );
 
         result |= data_database_reader_private_prepare_statement ( this_,
                                                                    DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID,
                                                                    sizeof( DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID ),
                                                                    &((*this_).private_prepared_query_relationships_by_diagram_id)
-        );
+                                                                 );
 
         (*this_).is_open = true;
     }
@@ -1822,8 +1736,6 @@ data_error_t data_database_reader_private_open ( data_database_reader_t *this_ )
         TSLOG_WARNING( "Database is already open." );
     }
 
-    //result |= data_database_reader_private_unlock( this_ );
-
     TRACE_END_ERR(result);
     return result;
 }
@@ -1832,8 +1744,6 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
-
-    //result |= data_database_reader_private_lock( this_ );
 
     if ( (*this_).is_open )
     {
@@ -1882,8 +1792,6 @@ data_error_t data_database_reader_private_close ( data_database_reader_t *this_ 
         result |= DATA_ERROR_INVALID_REQUEST;
         TSLOG_WARNING( "Database was not open." );
     }
-
-    //result |= data_database_reader_private_unlock( this_ );
 
     TRACE_END_ERR(result);
     return result;
