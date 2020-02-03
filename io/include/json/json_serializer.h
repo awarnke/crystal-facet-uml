@@ -124,7 +124,7 @@ data_error_t json_serializer_append_relationship ( json_serializer_t *this_,
  *  \param object a pointer to the feature to serialize
  *  \param out stringbuffer where to write the result to
  *  \return UTF8ERROR_SUCCESS in case of success,
- *          negative value if stringbuffer exceeded
+ *          DATA_ERROR_STRING_BUFFER_EXCEEDED if stringbuffer exceeded
  */
 utf8error_t json_serializer_private_append_feature ( json_serializer_t *this_, data_feature_t *object, utf8stringbuf_t out );
 

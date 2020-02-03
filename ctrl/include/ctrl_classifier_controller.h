@@ -92,7 +92,7 @@ ctrl_error_t ctrl_classifier_controller_create_classifier ( ctrl_classifier_cont
  *  \param obj_id id of the classifier record to be deleted.
  *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
  *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_classifier ( ctrl_classifier_controller_t *this_,
                                                             int64_t obj_id,
@@ -232,7 +232,7 @@ ctrl_error_t ctrl_classifier_controller_create_feature ( ctrl_classifier_control
  *  \param obj_id id of the feature record to be deleted.
  *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
  *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_feature ( ctrl_classifier_controller_t *this_,
                                                          int64_t obj_id,
@@ -330,7 +330,7 @@ ctrl_error_t ctrl_classifier_controller_create_relationship ( ctrl_classifier_co
  *  \param obj_id id of the relationship record to be deleted.
  *  \param add_to_latest_undo_set true if this delete-action shall be merged to the last set of actions in the undo_redo_list_t,
  *                                false if a new boundary shall be created in the undo_redo_list_t.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 ctrl_error_t ctrl_classifier_controller_delete_relationship ( ctrl_classifier_controller_t *this_,
                                                               int64_t obj_id,

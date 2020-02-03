@@ -77,7 +77,7 @@ void data_database_writer_db_change_callback ( data_database_writer_t *this_, da
  *  \param this_ pointer to own object attributes
  *  \param diagram data of the new diagram record to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_, const data_diagram_t *diagram, int64_t* out_new_id );
 
@@ -89,7 +89,7 @@ data_error_t data_database_writer_create_diagram ( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagram record to be deleted.
  *  \param out_old_diagram storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_diagram ( data_database_writer_t *this_, int64_t obj_id, data_diagram_t *out_old_diagram );
 
@@ -156,7 +156,7 @@ data_error_t data_database_writer_update_diagram_parent_id ( data_database_write
  *  \param this_ pointer to own object attributes
  *  \param classifier data of the new classifier record to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_classifier( data_database_writer_t *this_, const data_classifier_t *classifier, int64_t* out_new_id );
 
@@ -168,7 +168,7 @@ data_error_t data_database_writer_create_classifier( data_database_writer_t *thi
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
  *  \param out_old_classifier storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_classifier( data_database_writer_t *this_, int64_t obj_id, data_classifier_t *out_old_classifier );
 
@@ -257,7 +257,7 @@ data_error_t data_database_writer_update_classifier_list_order ( data_database_w
  *  \param this_ pointer to own object attributes
  *  \param diagramelement data of the new diagramelement record to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_diagramelement( data_database_writer_t *this_, const data_diagramelement_t *diagramelement, int64_t* out_new_id );
 
@@ -267,7 +267,7 @@ data_error_t data_database_writer_create_diagramelement( data_database_writer_t 
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the diagramelement record to be deleted.
  *  \param out_old_diagramelement storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_diagramelement( data_database_writer_t *this_, int64_t obj_id, data_diagramelement_t *out_old_diagramelement );
 
@@ -301,7 +301,7 @@ data_error_t data_database_writer_update_diagramelement_focused_feature_id ( dat
  *  \param this_ pointer to own object attributes
  *  \param feature data of the new feature record to be created. The id should be DATA_ID_VOID_ID unless a feature with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_feature ( data_database_writer_t *this_, const data_feature_t *feature, int64_t* out_new_id );
 
@@ -311,7 +311,7 @@ data_error_t data_database_writer_create_feature ( data_database_writer_t *this_
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the feature record to be deleted.
  *  \param out_old_feature storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_feature ( data_database_writer_t *this_, int64_t obj_id, data_feature_t *out_old_feature );
 
@@ -378,7 +378,7 @@ data_error_t data_database_writer_update_feature_list_order ( data_database_writ
  *  \param this_ pointer to own object attributes
  *  \param relationship data of the new relationship record to be created. The id should be DATA_ID_VOID_ID unless a relationship with known, unique id shall be created.
  *  \param out_new_id storage, where the id of the newly created record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_create_relationship ( data_database_writer_t *this_, const data_relationship_t *relationship, int64_t* out_new_id );
 
@@ -388,7 +388,7 @@ data_error_t data_database_writer_create_relationship ( data_database_writer_t *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the relationship record to be deleted.
  *  \param out_old_relationship storage, where the contents of the deleted, old record is stored. NULL if old data shall not be returned.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_writer_delete_relationship ( data_database_writer_t *this_, int64_t obj_id, data_relationship_t *out_old_relationship );
 
@@ -485,7 +485,7 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
  *  \brief gets a lock to protect data in data_database_writer_t from concurrent access.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 //static inline data_error_t data_database_writer_private_lock ( data_database_writer_t *this_ );
 
@@ -493,7 +493,7 @@ data_error_t data_database_writer_private_transaction_issue_command ( data_datab
  *  \brief releases the lock.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 //static inline data_error_t data_database_writer_private_unlock ( data_database_writer_t *this_ );
 

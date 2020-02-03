@@ -174,7 +174,7 @@ data_error_t data_database_private_notify_db_listeners( data_database_t *this_, 
  *  \brief gets a lock to protect data in data_database_t from concurrent access.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline data_error_t data_database_private_lock ( data_database_t *this_ );
 
@@ -182,7 +182,7 @@ static inline data_error_t data_database_private_lock ( data_database_t *this_ )
  *  \brief releases the lock.
  *
  *  \param this_ pointer to own object attributes
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 static inline data_error_t data_database_private_unlock ( data_database_t *this_ );
 

@@ -62,7 +62,7 @@ static inline char* data_database_sql_builder_get_string_ptr ( data_database_sql
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram diagram to be created. The id should be DATA_ID_VOID_ID unless a diagram with known, unique id shall be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagram_command ( data_database_sql_builder_t *this_, const data_diagram_t *diagram );
 
@@ -71,7 +71,7 @@ data_error_t data_database_sql_builder_build_create_diagram_command ( data_datab
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be deleted
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_delete_diagram_command ( data_database_sql_builder_t *this_, int64_t diagram_id );
 
@@ -81,7 +81,7 @@ data_error_t data_database_sql_builder_build_delete_diagram_command ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_name new name of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_name );
 
@@ -91,7 +91,7 @@ data_error_t data_database_sql_builder_build_update_diagram_name_cmd ( data_data
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_description new description of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, const char *new_diagram_description );
 
@@ -101,7 +101,7 @@ data_error_t data_database_sql_builder_build_update_diagram_description_cmd ( da
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_type new type of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, data_diagram_type_t new_diagram_type );
 
@@ -111,7 +111,7 @@ data_error_t data_database_sql_builder_build_update_diagram_type_cmd ( data_data
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_list_order new list_order of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int32_t new_diagram_list_order );
 
@@ -121,7 +121,7 @@ data_error_t data_database_sql_builder_build_update_diagram_list_order_cmd ( dat
  *  \param this_ pointer to own object attributes
  *  \param diagram_id id of the diagram to be updated
  *  \param new_diagram_parent_id new parent_id of the diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data_database_sql_builder_t *this_, int64_t diagram_id, int64_t new_diagram_parent_id );
 
@@ -132,7 +132,7 @@ data_error_t data_database_sql_builder_build_update_diagram_parent_id_cmd ( data
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier classifier to be created. The id should be DATA_ID_VOID_ID unless a classifier with known, unique id shall be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_classifier_command ( data_database_sql_builder_t *this_, const data_classifier_t *classifier );
 
@@ -159,7 +159,7 @@ data_error_t data_database_sql_builder_build_update_classifier_stereotype_cmd ( 
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_name new name of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_name );
 
@@ -169,7 +169,7 @@ data_error_t data_database_sql_builder_build_update_classifier_name_cmd ( data_d
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_description new description of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_description_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, const char *new_classifier_description );
 
@@ -179,7 +179,7 @@ data_error_t data_database_sql_builder_build_update_classifier_description_cmd (
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_main_type new description of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, data_classifier_type_t new_classifier_main_type );
 
@@ -189,7 +189,7 @@ data_error_t data_database_sql_builder_build_update_classifier_main_type_cmd ( d
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_x_order new x_order of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_x_order );
 
@@ -199,7 +199,7 @@ data_error_t data_database_sql_builder_build_update_classifier_x_order_cmd ( dat
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_y_order new y_order of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_y_order );
 
@@ -209,7 +209,7 @@ data_error_t data_database_sql_builder_build_update_classifier_y_order_cmd ( dat
  *  \param this_ pointer to own object attributes
  *  \param classifier_id id of the classifier to be updated
  *  \param new_classifier_list_order new list_order of the classifier
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( data_database_sql_builder_t *this_, int64_t classifier_id, int32_t new_classifier_list_order );
 
@@ -220,7 +220,7 @@ data_error_t data_database_sql_builder_build_update_classifier_list_order_cmd ( 
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement diagramelement to be created. The id should be DATA_ID_VOID_ID unless a diagramelement with known, unique id shall be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_diagramelement_command ( data_database_sql_builder_t *this_, const data_diagramelement_t *diagramelement );
 
@@ -229,7 +229,7 @@ data_error_t data_database_sql_builder_build_create_diagramelement_command ( dat
  *
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be deleted.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_delete_diagramelement_command ( data_database_sql_builder_t *this_, int64_t diagramelement_id );
 
@@ -239,7 +239,7 @@ data_error_t data_database_sql_builder_build_delete_diagramelement_command ( dat
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_display_flags new display_flags of the diagramelement
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagramelement_display_flags_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, data_diagramelement_flag_t new_display_flags );
 
@@ -249,7 +249,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_display_flags
  *  \param this_ pointer to own object attributes
  *  \param diagramelement_id id of the diagramelement to be updated
  *  \param new_focused_feature_id new focused_feature_id of the diagramelement
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_diagramelement_focused_feature_id_cmd ( data_database_sql_builder_t *this_, int64_t diagramelement_id, int64_t new_focused_feature_id );
 
@@ -260,7 +260,7 @@ data_error_t data_database_sql_builder_build_update_diagramelement_focused_featu
  *
  *  \param this_ pointer to own object attributes
  *  \param feature feature to be created. The id should be DATA_ID_VOID_ID unless a feature with known, unique id shall be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_feature_command ( data_database_sql_builder_t *this_, const data_feature_t *feature );
 
@@ -269,7 +269,7 @@ data_error_t data_database_sql_builder_build_create_feature_command ( data_datab
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be deleted
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_delete_feature_command ( data_database_sql_builder_t *this_, int64_t feature_id );
 
@@ -279,7 +279,7 @@ data_error_t data_database_sql_builder_build_delete_feature_command ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_type new type of the feature
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, data_feature_type_t new_feature_type );
 
@@ -289,7 +289,7 @@ data_error_t data_database_sql_builder_build_update_feature_main_type_cmd ( data
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_key new key of the feature
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_key );
 
@@ -299,7 +299,7 @@ data_error_t data_database_sql_builder_build_update_feature_key_cmd ( data_datab
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_value new value of the feature
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_value );
 
@@ -309,7 +309,7 @@ data_error_t data_database_sql_builder_build_update_feature_value_cmd ( data_dat
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_description new description of the feature
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_feature_description_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, const char *new_feature_description );
 
@@ -319,7 +319,7 @@ data_error_t data_database_sql_builder_build_update_feature_description_cmd ( da
  *  \param this_ pointer to own object attributes
  *  \param feature_id id of the feature to be updated
  *  \param new_feature_list_order new list_order of the feature
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( data_database_sql_builder_t *this_, int64_t feature_id, int32_t new_feature_list_order );
 
@@ -330,7 +330,7 @@ data_error_t data_database_sql_builder_build_update_feature_list_order_cmd ( dat
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship relationship to be created. The id should be DATA_ID_VOID_ID unless a relationship with known, unique id shall be created.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_create_relationship_command ( data_database_sql_builder_t *this_, const data_relationship_t *relationship );
 
@@ -339,7 +339,7 @@ data_error_t data_database_sql_builder_build_create_relationship_command ( data_
  *
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be deleted
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_delete_relationship_command ( data_database_sql_builder_t *this_, int64_t relationship_id );
 
@@ -349,7 +349,7 @@ data_error_t data_database_sql_builder_build_delete_relationship_command ( data_
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_type new type of the relationship
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, data_relationship_type_t new_relationship_type );
 
@@ -359,7 +359,7 @@ data_error_t data_database_sql_builder_build_update_relationship_main_type_cmd (
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_name new name of the relationship
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_name );
 
@@ -369,7 +369,7 @@ data_error_t data_database_sql_builder_build_update_relationship_name_cmd ( data
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_description new description of the relationship
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_relationship_description_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, const char *new_relationship_description );
 
@@ -379,7 +379,7 @@ data_error_t data_database_sql_builder_build_update_relationship_description_cmd
  *  \param this_ pointer to own object attributes
  *  \param relationship_id id of the relationship to be updated
  *  \param new_relationship_list_order new list_order of the relationship
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_sql_builder_build_update_relationship_list_order_cmd ( data_database_sql_builder_t *this_, int64_t relationship_id, int32_t new_relationship_list_order );
 

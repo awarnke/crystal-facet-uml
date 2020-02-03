@@ -63,7 +63,7 @@ data_error_t data_database_consistency_checker_destroy ( data_database_consisten
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of circular-referencing diagrams (invalid diagrams.parent_id).
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_circular_diagram_parents ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -75,7 +75,7 @@ data_error_t data_database_consistency_checker_find_circular_diagram_parents ( d
  *  \param out_diagram_id_pair array of diagram-id-pairs read from the database (in case of success).
  *                             The second id of the pair is the parent id - without check if this parent record exists.
  *  \param out_diagram_id_pair_count number of diagram records stored in out_diagram
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_database_consistency_checker_t *this_,
@@ -90,7 +90,7 @@ data_error_t data_database_consistency_checker_private_get_diagram_ids ( data_da
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of unreferenced diagramelements (invalid diagramelements.diagram_id or diagramelements.classifier_id).
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_nonreferencing_diagramelements ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -100,7 +100,7 @@ data_error_t data_database_consistency_checker_find_nonreferencing_diagramelemen
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of diagramelements where the focused_feature_id is not NULL but points to invalid feature.
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_invalid_focused_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -110,7 +110,7 @@ data_error_t data_database_consistency_checker_find_invalid_focused_features ( d
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of unreferenced classifiers (no references from diagramelements.classifier_id).
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -120,7 +120,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_classifiers ( d
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of unreferenced features (invalid features.classifier_id).
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_unreferenced_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -130,7 +130,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_features ( data
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of unreferenced relationships (invalid relationships.from_classifier_id or relationships.to_classifier_id).
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_unreferenced_relationships ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -140,7 +140,7 @@ data_error_t data_database_consistency_checker_find_unreferenced_relationships (
  *  \param this_ pointer to own object attributes
  *  \param io_set the set of invalid feature relationships, where to/from_feature_id is not existing or not in line with to/from_classifier_id.
  *                io_set must not be NULL. io_set shall be initialized already.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error (e.g. DATA_ERROR_NO_DB if database not open).
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error (e.g. DATA_ERROR_NO_DB if database not open).
  */
 data_error_t data_database_consistency_checker_find_invalid_relationship_features ( data_database_consistency_checker_t *this_, data_small_set_t *io_set );
 
@@ -149,7 +149,7 @@ data_error_t data_database_consistency_checker_find_invalid_relationship_feature
  *
  *  \param this_ pointer to own object attributes
  *  \param obj_id id of the classifier record to be deleted.
- *  \return DATA_ERROR_NONE in case of success, a negative value in case of error.
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
 data_error_t data_database_consistency_checker_kill_classifier( data_database_consistency_checker_t *this_, int64_t obj_id );
 
