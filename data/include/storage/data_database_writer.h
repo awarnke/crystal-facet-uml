@@ -27,7 +27,6 @@
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
-//#include <pthread.h>
 
 /*!
  *  \brief all data attributes needed for the database functions
