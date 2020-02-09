@@ -8,8 +8,6 @@ ideas for future versions:
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] Add Search-for-name Feature
-  [ ] Issue: When using the program remotely via an X-server, the "focus lost" message of the description entry is sometimes lost
-      and causes changed text to not be stored.
   [ ] when changing sets of objects (cut/copy/paste/delete/redo/undo...) print understandable statistics
   @pencil
   [ ] Support Diagram-Types: Profile

@@ -23,6 +23,16 @@
 #include <gtk/gtk.h>
 
 /*!
+ *  \brief enumeration on tools
+ */
+enum gui_attributes_editor_sync_dir_enum {
+    GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI = 0,  /*!< default sync direction: data changes update gui widgets */
+    GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB,  /*!< gui widgets must not be updated till user changes are written back to db */
+};
+
+typedef enum gui_attributes_editor_sync_dir_enum gui_attributes_editor_sync_dir_t;
+
+/*!
  *  \brief attributes of the gui_attributes_editor_t
  */
 struct gui_attributes_editor_struct {
@@ -30,6 +40,7 @@ struct gui_attributes_editor_struct {
     ctrl_controller_t *controller;  /*!< pointer to external controller */
     data_database_t *database;  /*!< pointer to external data_database_t */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external gui_simple_message_to_user_t */
+    gui_attributes_editor_sync_dir_t sync_dir;  /*!< flag that indicates if changes to database shall overwrite user input */
 
     data_id_t selected_object_id;  /*!< id of the object which is currently edited */
     data_diagram_t private_diagram_cache;  /*!< own instance of a diagram cache */
@@ -197,17 +208,9 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
  *
  *  If the type is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
+ *  \param this_ obj_type new object type to be set. This has to be read out from the type selection widgets by the caller
  */
-void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_ );
-
-/*!
- *  \brief commits shortlist selection of objects type to the controller.
- *
- *  If the type is not modified, nothing happens.
- *  \param this_ pointer to own object attributes
- *  \param shortlist_index index of the selected item in the shortlist
- */
-void gui_attributes_editor_private_type_commit_shortlist_action ( gui_attributes_editor_t *this_, uint32_t shortlist_index );
+void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_, int obj_type );
 
 /*!
  *  \brief commits changes to the objects description to the controller.

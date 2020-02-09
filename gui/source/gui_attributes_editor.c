@@ -49,6 +49,7 @@ void gui_attributes_editor_init ( gui_attributes_editor_t *this_,
     (*this_).controller = controller;
     (*this_).database = database;
     (*this_).message_to_user = message_to_user;
+    (*this_).sync_dir = GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI;
     data_id_init_void( &((*this_).latest_created_id) );
     data_id_init_void( &((*this_).second_latest_id) );
     data_diagram_init_empty( &((*this_).private_diagram_cache) );
@@ -97,11 +98,19 @@ void gui_attributes_editor_update_widgets ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
-    gui_attributes_editor_private_id_update_view( this_ );
-    gui_attributes_editor_private_name_update_view ( this_ );
-    gui_attributes_editor_private_stereotype_update_view( this_ );
-    gui_attributes_editor_private_description_update_view( this_ );
-    gui_attributes_editor_private_type_update_view( this_ );
+    if ( (*this_).sync_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
+    {
+        gui_attributes_editor_private_id_update_view( this_ );
+        gui_attributes_editor_private_name_update_view ( this_ );
+        gui_attributes_editor_private_stereotype_update_view( this_ );
+        gui_attributes_editor_private_description_update_view( this_ );
+        gui_attributes_editor_private_type_update_view( this_ );
+    }
+    else
+    {
+        /* widgets are not updated in GUI TO DB mode */
+        TSLOG_WARNING( "gui_attributes_editor_update_widgets called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
+    }
 
     TRACE_END();
 }
@@ -110,9 +119,24 @@ void gui_attributes_editor_commit_changes ( gui_attributes_editor_t *this_ )
 {
     TRACE_BEGIN();
 
+    const gui_attributes_editor_sync_dir_t original_dir = (*this_).sync_dir;
+    if ( (*this_).sync_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
+    {
+        TSLOG_EVENT( "gui_attributes_editor entering state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
+        (*this_).sync_dir = GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB;
+    }
+
     gui_attributes_editor_private_name_commit_changes ( this_ );
     gui_attributes_editor_private_stereotype_commit_changes ( this_ );
     gui_attributes_editor_private_description_commit_changes ( this_ );
+
+    if ( original_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
+    {
+        TSLOG_EVENT( "gui_attributes_editor leaving state GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB." );
+        (*this_).sync_dir = GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI;
+        gui_attributes_editor_private_load_object( this_, (*this_).selected_object_id );
+        gui_attributes_editor_update_widgets( this_ );
+    }
 
     TRACE_END();
 }
@@ -232,6 +256,8 @@ void gui_attributes_editor_trace ( const gui_attributes_editor_t *this_ )
         TRACE_INFO_STR( "- visible description:", text );
     }
 
+    TRACE_INFO_STR( "- sync mode:", ((*this_).sync_dir==GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI)?"db-2-gui":"GUI_TO_DB" );
+
     TRACE_END();
 }
 
@@ -245,7 +271,8 @@ gboolean gui_attributes_editor_name_focus_lost_callback ( GtkWidget *widget, Gdk
     assert ( NULL != this_ );
     assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).name_entry ) );
 
-    gui_attributes_editor_private_name_commit_changes( this_ );
+    //gui_attributes_editor_private_name_commit_changes( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -260,7 +287,8 @@ void gui_attributes_editor_name_enter_callback ( GtkEntry *widget, gpointer user
     assert ( NULL != this_ );
     assert ( widget == GTK_ENTRY( (*this_).name_entry ) );
 
-    gui_attributes_editor_private_name_commit_changes( this_ );
+    //gui_attributes_editor_private_name_commit_changes( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -274,7 +302,8 @@ gboolean gui_attributes_editor_stereotype_focus_lost_callback ( GtkWidget *widge
     assert ( NULL != this_ );
     assert ( GTK_ENTRY( widget ) == GTK_ENTRY( (*this_).stereotype_entry ) );
 
-    gui_attributes_editor_private_stereotype_commit_changes( this_ );
+    //gui_attributes_editor_private_stereotype_commit_changes( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -289,7 +318,8 @@ void gui_attributes_editor_stereotype_enter_callback ( GtkEntry *widget, gpointe
     assert ( NULL != this_ );
     assert ( widget == GTK_ENTRY( (*this_).stereotype_entry ) );
 
-    gui_attributes_editor_private_stereotype_commit_changes( this_ );
+    //gui_attributes_editor_private_stereotype_commit_changes( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -303,10 +333,19 @@ void gui_attributes_editor_type_changed_callback ( GtkComboBox *widget, gpointer
     assert ( NULL != this_ );
     assert ( GTK_COMBO_BOX( widget ) == GTK_COMBO_BOX( (*this_).type_combo_box ) );
 
+    /* get type id from widget */
+    GtkComboBox *type_widget;
+    int obj_type;
+    int index;
+    type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
+    index = gtk_combo_box_get_active ( type_widget );
+    TRACE_INFO_INT( "selected:", index );
+    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
+
     /* commit possibly changed texts before causing update events */
     gui_attributes_editor_commit_changes( this_ );
 
-    gui_attributes_editor_private_type_commit_changes( this_ );
+    gui_attributes_editor_private_type_commit_changes( this_, obj_type );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -320,9 +359,6 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     assert ( NULL != this_ );
     assert ( GTK_ICON_VIEW( iconview ) == GTK_ICON_VIEW( (*this_).type_icon_grid ) );
 
-    /* commit possibly changed texts before causing update events */
-    gui_attributes_editor_commit_changes( this_ );
-
     /* get index from path */
     assert( NULL != path );
     assert( gtk_tree_path_get_depth(path) == 1);
@@ -330,8 +366,13 @@ void gui_attributes_editor_type_shortlist_callback ( GtkIconView *iconview, GtkT
     assert( NULL != indices );
     const uint32_t index = indices[0];
     TRACE_INFO_INT( "selected:", index );
+    int obj_type;
+    obj_type = gtk_helper_tree_model_get_id( gtk_icon_view_get_model( (*this_).type_icon_grid ), 0, index );
 
-    gui_attributes_editor_private_type_commit_shortlist_action ( this_, index );
+    /* commit possibly changed texts before causing update events */
+    gui_attributes_editor_commit_changes( this_ );
+
+    gui_attributes_editor_private_type_commit_changes ( this_, obj_type );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -345,7 +386,8 @@ gboolean gui_attributes_editor_description_focus_lost_callback ( GtkWidget *widg
     assert ( NULL != this_ );
     assert ( GTK_TEXT_VIEW( widget ) == GTK_TEXT_VIEW( (*this_).description_text_view ) );
 
-    gui_attributes_editor_private_description_commit_changes( this_ );
+    gui_attributes_editor_commit_changes ( this_ );
+    //gui_attributes_editor_private_description_commit_changes( this_ );
 
     TRACE_TIMESTAMP();
     TRACE_END();
@@ -473,8 +515,12 @@ void gui_attributes_editor_data_changed_callback( GtkWidget *widget, data_change
     {
         /* DO NOT STORE DATA IN A DATA CHANGED CALLBACK - MAY CAUSE ENDLESS RECURSION */
         data_change_message_trace( msg );
-        gui_attributes_editor_private_load_object( this_, id );  /* checks if object still exists */
-        gui_attributes_editor_update_widgets ( this_ );
+        if ( (*this_).sync_dir == GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
+        {
+            /* overwrite/update displayed values */
+            gui_attributes_editor_private_load_object( this_, id );  /* checks if object still exists */
+            gui_attributes_editor_update_widgets ( this_ );
+        }
     }
     else if ( evt_type == DATA_CHANGE_EVENT_TYPE_CREATE )
     {
@@ -498,6 +544,10 @@ void gui_attributes_editor_private_load_object ( gui_attributes_editor_t *this_,
 
     /* before overwriting the current data, trace this_: */
     gui_attributes_editor_trace( this_ );
+    if ( (*this_).sync_dir != GUI_ATTRIBUTES_EDITOR_SYNC_DIR_DB_TO_GUI )
+    {
+        TSLOG_WARNING( "gui_attributes_editor_private_load_object called in GUI_ATTRIBUTES_EDITOR_SYNC_DIR_GUI_TO_DB mode!" );
+    }
 
     switch ( data_id_get_table(&id) )
     {
@@ -919,124 +969,9 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
     TRACE_END();
 }
 
-void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_ )
+void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_, int obj_type )
 {
     TRACE_BEGIN();
-
-    GtkComboBox *type_widget;
-    int obj_type;
-    int index;
-    type_widget = GTK_COMBO_BOX( (*this_).type_combo_box );
-    index = gtk_combo_box_get_active ( type_widget );
-    obj_type = gtk_helper_tree_model_get_id( gtk_combo_box_get_model( type_widget ), 0, index );
-
-    TRACE_INFO_INT( "obj_type:", obj_type );
-
-    ctrl_error_t ctrl_err;
-    switch ( data_id_get_table( &((*this_).selected_object_id) ) )
-    {
-        case DATA_TABLE_VOID:
-        {
-            /* nothing to do */
-            TRACE_INFO( "no object selected where type can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_CLASSIFIER:
-        {
-            data_classifier_type_t unchanged_main_type;
-            unchanged_main_type = data_classifier_get_main_type( &((*this_).private_classifier_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_classifier_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_FEATURE:
-        {
-            data_feature_type_t unchanged_main_type;
-            unchanged_main_type = data_feature_get_main_type( &((*this_).private_feature_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_feature_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_RELATIONSHIP:
-        {
-            data_relationship_type_t unchanged_main_type;
-            unchanged_main_type = data_relationship_get_main_type( &((*this_).private_relationship_cache) );
-            if ( obj_type != unchanged_main_type )
-            {
-                ctrl_classifier_controller_t *class_ctrl;
-                class_ctrl = ctrl_controller_get_classifier_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_classifier_controller_update_relationship_main_type ( class_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update main type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAMELEMENT:
-        {
-            /* (*this_).selected_object_id should not be of type DATA_TABLE_DIAGRAMELEMENT */
-            TSLOG_WARNING( "no object selected where type can be updated." );
-        }
-        break;
-
-        case DATA_TABLE_DIAGRAM:
-        {
-            data_diagram_type_t unchanged_type;
-            unchanged_type = data_diagram_get_diagram_type( &((*this_).private_diagram_cache) );
-            if ( obj_type != unchanged_type )
-            {
-                ctrl_diagram_controller_t *diag_ctrl;
-                diag_ctrl = ctrl_controller_get_diagram_control_ptr ( (*this_).controller );
-
-                ctrl_err = ctrl_diagram_controller_update_diagram_type ( diag_ctrl, data_id_get_row_id( &((*this_).selected_object_id) ), obj_type );
-                if ( CTRL_ERROR_NONE != ctrl_err )
-                {
-                    TSLOG_ERROR_HEX( "update type failed:", ctrl_err );
-                }
-            }
-        }
-        break;
-
-        default:
-        {
-            TSLOG_ERROR( "invalid data in data_id_t." );
-        }
-        break;
-    }
-
-    TRACE_END();
-}
-
-void gui_attributes_editor_private_type_commit_shortlist_action ( gui_attributes_editor_t *this_, uint32_t shortlist_index )
-{
-    TRACE_BEGIN();
-
-    int obj_type;
-    obj_type = gtk_helper_tree_model_get_id( gtk_icon_view_get_model( (*this_).type_icon_grid ), 0, shortlist_index );
 
     TRACE_INFO_INT( "obj_type:", obj_type );
 
