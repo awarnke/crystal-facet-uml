@@ -20,6 +20,7 @@
 #include "set/data_small_set.h"
 #include "data_feature.h"
 #include "data_relationship.h"
+#include "set/data_search_result.h"
 #include <sqlite3.h>
 #include <stdbool.h>
 #include <stdint.h>
