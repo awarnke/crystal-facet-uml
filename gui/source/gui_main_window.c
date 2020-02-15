@@ -300,8 +300,9 @@ void gui_main_window_init ( gui_main_window_t *this_,
     (*this_).search_label = gtk_label_new ( "Search ID:" );
 #if ((( GTK_MAJOR_VERSION == 3 ) && ( GTK_MINOR_VERSION >= 16 ))||( GTK_MAJOR_VERSION > 3 ))
     gtk_label_set_xalign (GTK_LABEL( (*this_).search_label ), 1.0 ); /* align right */
+    gtk_label_set_yalign (GTK_LABEL( (*this_).search_label ), 0.5 ); /* align middle-height */
 #else
-    gtk_misc_set_alignment (GTK_MISC( (*this_).search_label ), 1.0, 0.0 );
+    gtk_misc_set_alignment (GTK_MISC( (*this_).search_label ), 1.0, 0.5 );
 #endif
     (*this_).search_entry = gtk_entry_new();
     (*this_).search_button = gtk_button_new();
