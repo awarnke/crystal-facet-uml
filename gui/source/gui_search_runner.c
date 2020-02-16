@@ -154,6 +154,15 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                             );
         }
 
+        /*
+        data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
+                                                                     const char *textfragment,
+                                                                     int max_out_results,
+                                                                     data_search_result_t *out_results,
+                                                                     int* out_result_count
+                                                                   );
+        */
+
         gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_set) );
 
         data_small_set_destroy( &((*this_).temp_result_set) );

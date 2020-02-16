@@ -9,6 +9,7 @@
  *  \brief Searches and reads records from the database
  */
 
+#include "storage/data_database_listener.h"
 #include "storage/data_database_listener_signal.h"
 #include "storage/data_database.h"
 #include "data_diagram.h"

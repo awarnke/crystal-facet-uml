@@ -25,6 +25,8 @@ data_error_t data_database_text_search_init ( data_database_text_search_t *this_
         result |= data_database_text_search_private_open( this_ );
     }
 
+    data_rules_init ( &((*this_).data_rules) );
+
     TRACE_END_ERR(result);
     return result;
 }
@@ -33,6 +35,8 @@ data_error_t data_database_text_search_destroy ( data_database_text_search_t *th
 {
     TRACE_BEGIN();
     data_error_t result = DATA_ERROR_NONE;
+
+    data_rules_destroy ( &((*this_).data_rules) );
 
     if ( (*this_).is_open )
     {
@@ -84,16 +88,120 @@ void data_database_text_search_db_change_callback ( data_database_text_search_t 
     TRACE_END();
 }
 
+data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
+                                                                     const char *textfragment,
+                                                                     bool apply_filter_rules,
+                                                                     unsigned int max_out_results,
+                                                                     data_search_result_t *out_results,
+                                                                     unsigned int* out_result_count )
+
+{
+    TRACE_BEGIN();
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
+    data_error_t result = DATA_ERROR_NONE;
+
+    unsigned int max_results = max_out_results;
+    data_search_result_t *result_arr = out_results;
+    unsigned int result_count;
+    result |= data_database_text_search_private_get_diagrams_by_textfragment ( this_,
+                                                                               textfragment,
+                                                                               apply_filter_rules,
+                                                                               max_results,
+                                                                               result_arr,
+                                                                               &result_count
+                                                                             );
+
+    max_results -= result_count;
+    result_arr = &(result_arr[result_count]);
+    result |= data_database_text_search_private_get_classifiers_by_textfragment ( this_,
+                                                                                  textfragment,
+                                                                                  apply_filter_rules,
+                                                                                  max_results,
+                                                                                  result_arr,
+                                                                                  &result_count
+                                                                                );
+
+    max_results -= result_count;
+    result_arr = &(result_arr[result_count]);
+    result |= data_database_text_search_private_get_features_by_textfragment ( this_,
+                                                                               textfragment,
+                                                                               apply_filter_rules,
+                                                                               max_results,
+                                                                               result_arr,
+                                                                               &result_count
+                                                                             );
+
+    max_results -= result_count;
+    result_arr = &(result_arr[result_count]);
+    result |= data_database_text_search_private_get_relationships_by_textfragment ( this_,
+                                                                                    textfragment,
+                                                                                    apply_filter_rules,
+                                                                                    max_results,
+                                                                                    result_arr,
+                                                                                    &result_count
+                                                                                  );
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 /* ================================ DIAGRAM ================================ */
+
+/*!
+ *  \brief predefined search statement to find diagrams by textfragment
+ *
+ *  note: name is needed for debugging only
+ */
+static const char data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT[] =
+    "SELECT id,name "
+    "FROM diagrams "
+    "WHERE name LIKE ? ESCAPE \"\\\" "
+    "OR description LIKE ? ESCAPE \"\\\";";
+
+
+data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
+                                                                              const char *textfragment,
+                                                                              bool apply_filter_rules,
+                                                                              unsigned int max_out_results,
+                                                                              data_search_result_t *out_results,
+                                                                              unsigned int* out_result_count )
+
+{
+    TRACE_BEGIN();
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
+    data_error_t result = DATA_ERROR_NONE;
+
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+    *out_result_count = 0;
+
+//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_textfragment );
+
+    TRACE_END_ERR( result );
+    return result;
+}
 
 
 /* ================================ CLASSIFIER ================================ */
 
 /*!
- *  \brief predefined search statement to find a classifier by name
+ *  \brief predefined search statement to find classifiers by textfragment
+ *
+ *  note: classifiers.name is needed for debugging only
  */
-static const char data_database_text_search_SELECT_CLASSIFIER_BY_NAME[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order FROM classifiers WHERE name=?;";
+static const char data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT[] =
+    "SELECT classifiers.id,classifiers.name,diagrams.id "
+    "FROM classifiers "
+    "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "INNER JOIN diagrams ON diagramelements.diagram_id=diagrams.id "
+    "WHERE classifiers.name LIKE ? ESCAPE \"\\\" "
+    "OR classifiers.stereotype LIKE ? ESCAPE \"\\\" "
+    "OR classifiers.description LIKE ? ESCAPE \"\\\" "
+    "GROUP BY classifiers.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -135,50 +243,69 @@ static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
  */
 static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
 
-data_error_t data_database_text_search_get_classifier_by_name ( data_database_text_search_t *this_, const char *name, data_classifier_t *out_classifier )
+data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
+                                                                                 const char *textfragment,
+                                                                                 bool apply_filter_rules,
+                                                                                 unsigned int max_out_results,
+                                                                                 data_search_result_t *out_results,
+                                                                                 unsigned int* out_result_count )
+
 {
     TRACE_BEGIN();
-    assert( NULL != out_classifier );
-    assert( NULL != name );
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
     data_error_t result = DATA_ERROR_NONE;
+
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
+    *out_result_count = 0;
 
     if ( (*this_).is_open )
     {
-        prepared_statement = (*this_).private_prepared_query_classifier_by_name;
+        prepared_statement = (*this_).private_prepared_query_classifier_ids_by_textfragment;
 
-        result |= data_database_text_search_private_bind_text_to_statement( this_, prepared_statement, name );
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
 
-        TRACE_INFO( "sqlite3_step()" );
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_ROW != sqlite_err )
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_results); row_index ++ )
         {
-            TSLOG_EVENT( "sqlite3_step did not find a row." );
-            result |= DATA_ERROR_DB_STRUCTURE;
-        }
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_results))
+            {
+                *out_result_count = row_index+1;
+                /*
+                data_feature_t *current_feature;
+                current_feature = &((*out_results)[row_index]);
 
-        if ( SQLITE_ROW == sqlite_err )
-        {
-            result |= data_classifier_init( out_classifier,
-                                            sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
-                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_STEREOTYPE_COLUMN ),
-                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
-                                            (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_DESCRIPTION_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_X_ORDER_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_Y_ORDER_COLUMN ),
-                                            sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_LIST_ORDER_COLUMN )
-                                          );
+                result |= data_feature_init( current_feature,
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
+                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
+                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
+                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN )
+                );
 
-            data_classifier_trace( out_classifier );
-        }
-
-        sqlite_err = sqlite3_step( prepared_statement );
-        if ( SQLITE_DONE != sqlite_err )
-        {
-            TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
-            result |= DATA_ERROR_DB_STRUCTURE;
+                data_feature_trace( current_feature );
+                */
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_results))
+            {
+                TSLOG_ANOMALY_INT( "out_results[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
         }
     }
     else
@@ -191,13 +318,100 @@ data_error_t data_database_text_search_get_classifier_by_name ( data_database_te
     return result;
 }
 
+
 /* ================================ DIAGRAMELEMENT ================================ */
 
 
 /* ================================ FEATURE ================================ */
 
+/*!
+ *  \brief predefined search statement to find features by textfragment
+ *
+ *  note: features.key is needed for debugging only
+ */
+static const char data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT[] =
+    "SELECT DISTINCT features.id,features.key,features.main_type,features.classifier_id,"
+    "classifiers.main_type,diagrams.id,diagrams.diagram_type "
+    "FROM features "
+    "INNER JOIN classifiers ON features.classifier_id=classifiers.id "
+    "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "INNER JOIN diagrams ON diagramelements.diagram_id=diagrams.id "
+    "WHERE features.key LIKE ? ESCAPE \"\\\" "
+    "OR features.value LIKE ? ESCAPE \"\\\" "
+    "OR features.description LIKE ? ESCAPE \"\\\" "
+    "GROUP BY features.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
+
+data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
+                                                                              const char *textfragment,
+                                                                              bool apply_filter_rules,
+                                                                              unsigned int max_out_results,
+                                                                              data_search_result_t *out_results,
+                                                                              unsigned int* out_result_count )
+
+{
+    TRACE_BEGIN();
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
+    data_error_t result = DATA_ERROR_NONE;
+
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+    *out_result_count = 0;
+
+//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_feature_ids_by_textfragment );
+
+
+    TRACE_END_ERR( result );
+    return result;
+}
+
 
 /* ================================ RELATIONSHIP ================================ */
+
+/*!
+ *  \brief predefined search statement to find relationships by textfragment
+ *
+ *  note: relationships.name is needed for debugging only
+ */
+static const char data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT[] =
+    "SELECT DISTINCT relationships.id,relationships.name,relationships.main_type,"
+    "relationships.from_classifier_id,relationships.to_classifier_id,"
+    "relationships.from_feature_id,relationships.to_feature_id,"
+    "diagrams.id,diagrams.diagram_type "
+    "FROM relationships "
+    "INNER JOIN diagramelements AS source "
+    "ON source.classifier_id=relationships.from_classifier_id "
+    "INNER JOIN diagramelements AS dest "
+    "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id==source.diagram_id) "
+    "INNER JOIN diagrams ON source.diagram_id=diagrams.id "
+    "WHERE relationships.name LIKE ? ESCAPE \"\\\" "
+    "OR relationships.description LIKE ? ESCAPE \"\\\" "
+    "GROUP BY relationships.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
+
+data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
+                                                                                   const char *textfragment,
+                                                                                   bool apply_filter_rules,
+                                                                                   unsigned int max_out_results,
+                                                                                   data_search_result_t *out_results,
+                                                                                   unsigned int* out_result_count )
+
+{
+    TRACE_BEGIN();
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
+    data_error_t result = DATA_ERROR_NONE;
+
+    int sqlite_err;
+    sqlite3_stmt *prepared_statement;
+    *out_result_count = 0;
+
+//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_ids_by_textfragment );
+
+    TRACE_END_ERR( result );
+    return result;
+}
 
 
 /* ================================ private ================================ */
@@ -210,9 +424,24 @@ data_error_t data_database_text_search_private_open ( data_database_text_search_
     if ( ! (*this_).is_open )
     {
         result |= data_database_text_search_private_prepare_statement ( this_,
-                                                                        data_database_text_search_SELECT_CLASSIFIER_BY_NAME,
-                                                                        sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_NAME ),
-                                                                        &((*this_).private_prepared_query_classifier_by_name)
+                                                                        data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT,
+                                                                        sizeof( data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT ),
+                                                                        &((*this_).private_prepared_query_diagram_ids_by_textfragment)
+                                                                      );
+        result |= data_database_text_search_private_prepare_statement ( this_,
+                                                                        data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT,
+                                                                        sizeof( data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT ),
+                                                                        &((*this_).private_prepared_query_classifier_ids_by_textfragment)
+                                                                      );
+        result |= data_database_text_search_private_prepare_statement ( this_,
+                                                                        data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT,
+                                                                        sizeof( data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT ),
+                                                                        &((*this_).private_prepared_query_feature_ids_by_textfragment)
+                                                                      );
+        result |= data_database_text_search_private_prepare_statement ( this_,
+                                                                        data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT,
+                                                                        sizeof( data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT ),
+                                                                        &((*this_).private_prepared_query_relationship_ids_by_textfragment)
                                                                       );
 
         (*this_).is_open = true;
@@ -234,7 +463,10 @@ data_error_t data_database_text_search_private_close ( data_database_text_search
 
     if ( (*this_).is_open )
     {
-        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_by_name );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_feature_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_classifier_ids_by_textfragment );
+        result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_textfragment );
 
         (*this_).is_open = false;
     }

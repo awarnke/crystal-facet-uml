@@ -163,9 +163,9 @@ static inline data_error_t data_database_reader_private_bind_text_to_statement (
     }
 
     TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
-    TRACE_INFO_STR( "sqlite3_bind_text():", text );
     /* SQLITE_STATIC vs SQLITE_TRANSIENT: This function is used to perform a SELECT statement. */
     /* During the SELECT, the text string is not modified. This is guaranteed by data_database_reader. */
+    TRACE_INFO_STR( "sqlite3_bind_text():", text );
     sqlite_err = sqlite3_bind_text( statement_ptr, FIRST_SQL_BIND_PARAM, text, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {

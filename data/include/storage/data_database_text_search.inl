@@ -14,9 +14,9 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
 /* ================================ private ================================ */
 
 static inline data_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
-                                                                            const char *string_statement,
-                                                                            int string_size,
-                                                                            sqlite3_stmt **out_statement_ptr )
+                                                                                 const char *string_statement,
+                                                                                 unsigned int string_size,
+                                                                                 sqlite3_stmt **out_statement_ptr )
 {
     assert( NULL != string_statement );
     assert( NULL != out_statement_ptr );
@@ -64,14 +64,17 @@ static inline data_error_t data_database_text_search_private_finalize_statement 
     return result;
 }
 
-static inline data_error_t data_database_text_search_private_bind_text_to_statement ( data_database_text_search_t *this_,
-                                                                                 sqlite3_stmt *statement_ptr,
-                                                                                 const char *text )
+static inline data_error_t data_database_text_search_private_bind_two_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                           sqlite3_stmt *statement_ptr,
+                                                                                           const char *text_1,
+                                                                                           const char *text_2 )
 {
     assert( NULL != statement_ptr );
-    assert( NULL != text );
+    assert( NULL != text_1 );
+    assert( NULL != text_2 );
     data_error_t result = DATA_ERROR_NONE;
     static const int FIRST_SQL_BIND_PARAM = 1;
+    static const int SECOND_SQL_BIND_PARAM = 2;
     int sqlite_err;
 
     sqlite_err = sqlite3_reset( statement_ptr );
@@ -82,10 +85,68 @@ static inline data_error_t data_database_text_search_private_bind_text_to_statem
     }
 
     TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
-    TRACE_INFO_STR( "sqlite3_bind_text():", text );
     /* SQLITE_STATIC vs SQLITE_TRANSIENT: This function is used to perform a SELECT statement. */
     /* During the SELECT, the text string is not modified. This is guaranteed by data_database_text_search. */
-    sqlite_err = sqlite3_bind_text( statement_ptr, FIRST_SQL_BIND_PARAM, text, -1, SQLITE_STATIC );
+    TRACE_INFO_STR( "sqlite3_bind_text():", text_1 );
+    sqlite_err = sqlite3_bind_text( statement_ptr, FIRST_SQL_BIND_PARAM, text_1, -1, SQLITE_STATIC );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+    TRACE_INFO_STR( "sqlite3_bind_text():", text_2 );
+    sqlite_err = sqlite3_bind_text( statement_ptr, SECOND_SQL_BIND_PARAM, text_2, -1, SQLITE_STATIC );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    return result;
+}
+
+static inline data_error_t data_database_text_search_private_bind_three_texts_to_statement ( data_database_text_search_t *this_,
+                                                                                             sqlite3_stmt *statement_ptr,
+                                                                                             const char *text_1,
+                                                                                             const char *text_2,
+                                                                                             const char *text_3 )
+{
+    assert( NULL != statement_ptr );
+    assert( NULL != text_1 );
+    assert( NULL != text_2 );
+    assert( NULL != text_3 );
+    data_error_t result = DATA_ERROR_NONE;
+    static const int FIRST_SQL_BIND_PARAM = 1;
+    static const int SECOND_SQL_BIND_PARAM = 2;
+    static const int THIRD_SQL_BIND_PARAM = 3;
+    int sqlite_err;
+
+    sqlite_err = sqlite3_reset( statement_ptr );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_reset() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+
+    TRACE_INFO_STR( "sqlite3_bind_text():", sqlite3_sql(statement_ptr) );
+    /* SQLITE_STATIC vs SQLITE_TRANSIENT: This function is used to perform a SELECT statement. */
+    /* During the SELECT, the text string is not modified. This is guaranteed by data_database_text_search. */
+    TRACE_INFO_STR( "sqlite3_bind_text():", text_1 );
+    sqlite_err = sqlite3_bind_text( statement_ptr, FIRST_SQL_BIND_PARAM, text_1, -1, SQLITE_STATIC );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+    TRACE_INFO_STR( "sqlite3_bind_text():", text_2 );
+    sqlite_err = sqlite3_bind_text( statement_ptr, SECOND_SQL_BIND_PARAM, text_2, -1, SQLITE_STATIC );
+    if ( SQLITE_OK != sqlite_err )
+    {
+        TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );
+        result |= DATA_ERROR_AT_DB;
+    }
+    TRACE_INFO_STR( "sqlite3_bind_text():", text_3 );
+    sqlite_err = sqlite3_bind_text( statement_ptr, THIRD_SQL_BIND_PARAM, text_3, -1, SQLITE_STATIC );
     if ( SQLITE_OK != sqlite_err )
     {
         TSLOG_ERROR_INT( "sqlite3_bind_text() failed:", sqlite_err );

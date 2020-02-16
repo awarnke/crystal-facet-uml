@@ -90,29 +90,35 @@ void data_database_reader_db_change_callback ( data_database_reader_t *this_, da
  *  \brief predefined search statement to find a diagram by id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_BY_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE id=?;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order "
+    "FROM diagrams WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find diagrams by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order "
+    "FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagrams by NULL parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_PARENT_ID_NULL[] =
-    "SELECT id,parent_id,diagram_type,name,description,list_order FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
+    "SELECT id,parent_id,diagram_type,name,description,list_order "
+    "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagrams by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAMS_BY_CLASSIFIER_ID[] =
-    "SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
+    /*"SELECT DISTINCT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"*/
+    "SELECT diagrams.id,diagrams.parent_id,diagrams.diagram_type,"
     "diagrams.name,diagrams.description,diagrams.list_order "
-    "FROM diagrams INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
-    "WHERE diagramelements.classifier_id=? ORDER BY diagrams.list_order ASC;";
-    /* Note: DISTINCT works here because all returend values are only from the diagrams table */
+    "FROM diagrams "
+    "INNER JOIN diagramelements ON diagramelements.diagram_id=diagrams.id "
+    "WHERE diagramelements.classifier_id=? "
+    "GROUP BY diagrams.id "  /* filter duplicates if a classifier exists twice in a diagram */
+    "ORDER BY diagrams.list_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -148,13 +154,15 @@ static const int RESULT_DIAGRAM_LIST_ORDER_COLUMN = 5;
  *  \brief predefined search statement to find diagram ids by parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID[] =
-    "SELECT id FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
+    "SELECT id "
+    "FROM diagrams WHERE parent_id=? ORDER BY list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find diagram ids by NULL parent-id
  */
 static const char DATA_DATABASE_READER_SELECT_DIAGRAM_IDS_BY_PARENT_ID_NULL[] =
-    "SELECT id FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
+    "SELECT id "
+    "FROM diagrams WHERE parent_id IS NULL ORDER BY list_order ASC;";
 
 data_error_t data_database_reader_get_diagram_by_id ( data_database_reader_t *this_, int64_t id, data_diagram_t *out_diagram )
 {
@@ -430,13 +438,15 @@ data_error_t data_database_reader_get_diagram_ids_by_parent_id ( data_database_r
  *  \brief predefined search statement to find a classifier by id
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_ID[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order FROM classifiers WHERE id=?;";
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order "
+    "FROM classifiers WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find a classifier by name
  */
 static const char DATA_DATABASE_READER_SELECT_CLASSIFIER_BY_NAME[] =
-    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order FROM classifiers WHERE name=?;";
+    "SELECT id,main_type,stereotype,name,description,x_order,y_order,list_order "
+    "FROM classifiers WHERE name=?;";
 
 /*!
  *  \brief predefined search statement to find classifier by diagram-id
@@ -445,8 +455,10 @@ static const char DATA_DATABASE_READER_SELECT_CLASSIFIERS_BY_DIAGRAM_ID[] =
     "SELECT classifiers.id,classifiers.main_type,classifiers.stereotype,"
     "classifiers.name,classifiers.description,classifiers.x_order,classifiers.y_order,classifiers.list_order,"
     "diagramelements.id,diagramelements.display_flags,diagramelements.focused_feature_id "
-    "FROM classifiers INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
-    "WHERE diagramelements.diagram_id=? ORDER BY classifiers.list_order ASC;";
+    "FROM classifiers "
+    "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
+    "WHERE diagramelements.diagram_id=? "
+    "ORDER BY classifiers.list_order ASC;";
 
 /*!
  *  \brief the column id of the result where this parameter is stored: id
@@ -950,7 +962,8 @@ data_error_t data_database_reader_get_diagramelements_by_classifier_id ( data_da
  *  \brief predefined search statement to find a feature by id
  */
 static const char DATA_DATABASE_READER_SELECT_FEATURE_BY_ID[] =
-    "SELECT id,main_type,classifier_id,key,value,description,list_order FROM features WHERE id=?;";
+    "SELECT id,main_type,classifier_id,key,value,description,list_order "
+    "FROM features WHERE id=?;";
 
 /*!
  *  \brief predefined search statement to find features by diagram-id
@@ -961,13 +974,13 @@ static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_DIAGRAM_ID[] =
     "diagramelements.id " /* diagramelements.id needed only for debugging */
     "FROM features INNER JOIN diagramelements ON diagramelements.classifier_id=features.classifier_id "
     "WHERE diagramelements.diagram_id=? GROUP BY features.id ORDER BY features.list_order ASC;";
-    /* Note: DISTINCT does not work here because returend values are from different tables --> GROUP BY */
 
 /*!
  *  \brief predefined search statement to find features by classifier-id
  */
 static const char DATA_DATABASE_READER_SELECT_FEATURES_BY_CLASSIFIER_ID[] =
-    "SELECT id,main_type,classifier_id,key,value,description,list_order FROM features "
+    "SELECT id,main_type,classifier_id,key,value,description,list_order "
+    "FROM features "
     "WHERE classifier_id=? ORDER BY list_order ASC;";
 
 /*!
@@ -1225,9 +1238,10 @@ static const char DATA_DATABASE_READER_SELECT_RELATIONSHIPS_BY_DIAGRAM_ID[] =
     "INNER JOIN diagramelements AS source "
     "ON source.classifier_id=relationships.from_classifier_id "
     "INNER JOIN diagramelements AS dest "
-    "ON dest.classifier_id=relationships.to_classifier_id "
-    "WHERE source.diagram_id=? OR dest.diagram_id=? GROUP BY relationships.id ORDER BY relationships.list_order ASC;";
-    /* Note: DISTINCT does not work here because returend values are from different tables --> GROUP BY */
+    "ON (dest.classifier_id=relationships.to_classifier_id)AND(dest.diagram_id==source.diagram_id) "
+    "WHERE source.diagram_id=? "
+    "GROUP BY relationships.id "
+    "ORDER BY relationships.list_order ASC;";
 
 /*!
  *  \brief predefined search statement to find relationships by classifier-id
@@ -1541,7 +1555,7 @@ data_error_t data_database_reader_get_relationships_by_diagram_id ( data_databas
     {
         prepared_statement = (*this_).private_prepared_query_relationships_by_diagram_id;
 
-        result |= data_database_reader_private_bind_two_ids_to_statement( this_, prepared_statement, diagram_id, diagram_id );
+        result |= data_database_reader_private_bind_id_to_statement( this_, prepared_statement, diagram_id );
 
         *out_relationship_count = 0;
         sqlite_err = SQLITE_ROW;
