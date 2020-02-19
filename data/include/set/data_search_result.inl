@@ -2,44 +2,102 @@
 
 #include <assert.h>
 
-static inline void data_search_result_init ( data_search_result_t *this_, data_id_t match_id, data_id_t diagram_id )
+static inline void data_search_result_init_diagram ( data_search_result_t *this_, 
+                                                     int64_t match_id,                                                
+                                                     int match_type,                                                
+                                                     const char* match_name )
 {
-    assert ( DATA_TABLE_DIAGRAM != data_id_get_table( &diagram_id ) );
+    assert( NULL != match_name );
+    utf8error_t strerr;
 
-    (*this_).match_object_id = match_id;
+    data_id_init( &((*this_).match_object_id), DATA_TABLE_DIAGRAM, match_id );
+    (*this_).match_type = match_type;
+    (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        /* just the read-only name of a search result - truncation should not matter */
+        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+    }
+    
     data_id_init_void( &((*this_).src_classifier_id) );
     data_id_init_void( &((*this_).dst_classifier_id) );
-    (*this_).diagram_id = diagram_id;
+    data_id_init( &((*this_).diagram_id), DATA_TABLE_DIAGRAM, match_id );
+}
+
+static inline void data_search_result_init_classifier ( data_search_result_t *this_, 
+                                                        int64_t match_id,                                                
+                                                        int match_type,                                                
+                                                        const char* match_name,
+                                                        int64_t diagram_id  )
+{
+    assert( NULL != match_name );
+    utf8error_t strerr;
+
+    data_id_init( &((*this_).match_object_id), DATA_TABLE_CLASSIFIER, match_id );
+    (*this_).match_type = match_type;
+    (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        /* just the read-only name of a search result - truncation should not matter */
+        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+    }
+    
+    data_id_init_void( &((*this_).src_classifier_id) );
+    data_id_init_void( &((*this_).dst_classifier_id) );
+    data_id_init( &((*this_).diagram_id), DATA_TABLE_DIAGRAM, diagram_id );
 }
 
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
-                                                     data_id_t match_id,
-                                                     data_id_t classifier_id,
-                                                     data_id_t diagram_id )
+                                                     int64_t match_id,
+                                                     int match_type,                                                
+                                                     const char* match_name,
+                                                     int64_t classifier_id,
+                                                     int64_t diagram_id )
 {
-    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &classifier_id ) );
-    assert ( DATA_TABLE_DIAGRAM != data_id_get_table( &diagram_id ) );
+    assert( NULL != match_name );
+    utf8error_t strerr;
 
-    (*this_).match_object_id = match_id;
-    (*this_).src_classifier_id = classifier_id;
+    data_id_init( &((*this_).match_object_id), DATA_TABLE_FEATURE, match_id );
+    (*this_).match_type = match_type;
+    (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        /* just the read-only name of a search result - truncation should not matter */
+        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+    }
+    
+    data_id_init( &((*this_).src_classifier_id), DATA_TABLE_CLASSIFIER, classifier_id );
     data_id_init_void( &((*this_).dst_classifier_id) );
-    (*this_).diagram_id = diagram_id;
+    data_id_init( &((*this_).diagram_id), DATA_TABLE_DIAGRAM, diagram_id );
 }
 
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
-                                                          data_id_t match_id,
-                                                          data_id_t from_classifier_id,
-                                                          data_id_t to_classifier_id,
-                                                          data_id_t diagram_id )
+                                                          int64_t match_id,
+                                                          int match_type,                                                
+                                                          const char* match_name,
+                                                          int64_t from_classifier_id,
+                                                          int64_t to_classifier_id,
+                                                          int64_t diagram_id )
 {
-    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &from_classifier_id ) );
-    assert ( DATA_TABLE_CLASSIFIER != data_id_get_table( &to_classifier_id ) );
-    assert ( DATA_TABLE_DIAGRAM != data_id_get_table( &diagram_id ) );
+    assert( NULL != match_name );
+    utf8error_t strerr;
 
-    (*this_).match_object_id = match_id;
-    (*this_).src_classifier_id = from_classifier_id;
-    (*this_).dst_classifier_id = to_classifier_id;
-    (*this_).diagram_id = diagram_id;
+    data_id_init( &((*this_).match_object_id), DATA_TABLE_RELATIONSHIP, match_id );
+    (*this_).match_type = match_type;
+    (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
+    strerr = utf8stringbuf_copy_str( (*this_).match_object_name, match_name );
+    if ( strerr != UTF8ERROR_SUCCESS )
+    {
+        /* just the read-only name of a search result - truncation should not matter */
+        TSLOG_ANOMALY_INT( "utf8stringbuf_copy_str() failed:", strerr );
+    }
+    
+    data_id_init( &((*this_).src_classifier_id), DATA_TABLE_CLASSIFIER, from_classifier_id );
+    data_id_init( &((*this_).dst_classifier_id), DATA_TABLE_CLASSIFIER, to_classifier_id );
+    data_id_init( &((*this_).diagram_id), DATA_TABLE_DIAGRAM, diagram_id );
 }
 
 static inline void data_search_result_destroy ( data_search_result_t *this_ )
@@ -73,6 +131,7 @@ static inline data_id_t *data_search_result_get_diagram_id_ptr ( data_search_res
 static inline void data_search_result_trace ( const data_search_result_t *this_ )
 {
     data_id_trace( &((*this_).match_object_id) );
+    TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).match_object_name) );
     data_id_trace( &((*this_).src_classifier_id) );
     data_id_trace( &((*this_).dst_classifier_id) );
     data_id_trace( &((*this_).diagram_id) );

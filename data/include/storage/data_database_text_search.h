@@ -95,7 +95,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
                                                                      const char *textfragment,
                                                                      bool apply_filter_rules,
                                                                      unsigned int max_out_results,
-                                                                     data_search_result_t *out_results,
+                                                                     data_search_result_t (*out_results)[],
                                                                      unsigned int* out_result_count
                                                                    );
 
@@ -115,7 +115,7 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
                                                                               unsigned int max_out_results,
-                                                                              data_search_result_t *out_results,
+                                                                              data_search_result_t (*out_results)[],
                                                                               unsigned int* out_result_count
                                                                             );
 
@@ -135,7 +135,7 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
                                                                                  const char *textfragment,
                                                                                  bool apply_filter_rules,
                                                                                  unsigned int max_out_results,
-                                                                                 data_search_result_t *out_results,
+                                                                                 data_search_result_t (*out_results)[],
                                                                                  unsigned int* out_result_count
                                                                                );
 
@@ -155,7 +155,7 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
                                                                               unsigned int max_out_results,
-                                                                              data_search_result_t *out_results,
+                                                                              data_search_result_t (*out_results)[],
                                                                               unsigned int* out_result_count
                                                                             );
 
@@ -175,7 +175,7 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
                                                                                    const char *textfragment,
                                                                                    bool apply_filter_rules,
                                                                                    unsigned int max_out_results,
-                                                                                   data_search_result_t *out_results,
+                                                                                   data_search_result_t (*out_results)[],
                                                                                    unsigned int* out_result_count
                                                                                  );
 

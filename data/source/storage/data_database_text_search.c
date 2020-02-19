@@ -92,7 +92,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
                                                                      const char *textfragment,
                                                                      bool apply_filter_rules,
                                                                      unsigned int max_out_results,
-                                                                     data_search_result_t *out_results,
+                                                                     data_search_result_t (*out_results)[],
                                                                      unsigned int* out_result_count )
 
 {
@@ -103,7 +103,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
     data_error_t result = DATA_ERROR_NONE;
 
     unsigned int max_results = max_out_results;
-    data_search_result_t *result_arr = out_results;
+    data_search_result_t (*result_arr)[] = out_results;
     unsigned int result_count;
     result |= data_database_text_search_private_get_diagrams_by_textfragment ( this_,
                                                                                textfragment,
@@ -114,7 +114,8 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
                                                                              );
 
     max_results -= result_count;
-    result_arr = &(result_arr[result_count]);
+    result_arr = (data_search_result_t(*)[]) &((*result_arr)[result_count]);
+    /* equals (result_arr+result_count) - but clear array / poiner semantics */
     result |= data_database_text_search_private_get_classifiers_by_textfragment ( this_,
                                                                                   textfragment,
                                                                                   apply_filter_rules,
@@ -124,7 +125,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
                                                                                 );
 
     max_results -= result_count;
-    result_arr = &(result_arr[result_count]);
+    result_arr = (data_search_result_t(*)[]) &((*result_arr)[result_count]);
     result |= data_database_text_search_private_get_features_by_textfragment ( this_,
                                                                                textfragment,
                                                                                apply_filter_rules,
@@ -134,7 +135,7 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
                                                                              );
 
     max_results -= result_count;
-    result_arr = &(result_arr[result_count]);
+    result_arr = (data_search_result_t(*)[]) &((*result_arr)[result_count]);
     result |= data_database_text_search_private_get_relationships_by_textfragment ( this_,
                                                                                     textfragment,
                                                                                     apply_filter_rules,
@@ -155,17 +156,32 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
  *  note: name is needed for debugging only
  */
 static const char data_database_text_search_SELECT_DIAGRAM_BY_TEXTFRAGMENT[] =
-    "SELECT id,name "
+    "SELECT id,diagram_type,name "
     "FROM diagrams "
     "WHERE name LIKE ? ESCAPE \"\\\" "
     "OR description LIKE ? ESCAPE \"\\\";";
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_DIAGRAM_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagram_type
+ */
+static const int RESULT_DIAGRAM_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_DIAGRAM_NAME_COLUMN = 2;
 
 
 data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
                                                                               unsigned int max_out_results,
-                                                                              data_search_result_t *out_results,
+                                                                              data_search_result_t (*out_results)[],
                                                                               unsigned int* out_result_count )
 
 {
@@ -179,7 +195,52 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
     sqlite3_stmt *prepared_statement;
     *out_result_count = 0;
 
-//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_diagram_ids_by_textfragment );
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_diagram_ids_by_textfragment;
+
+        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
+
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_results); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_results))
+            {
+                *out_result_count = row_index+1;
+                data_search_result_t *current_result;
+                current_result = &((*out_results)[row_index]);
+
+                data_search_result_init_diagram( current_result, 
+                                                 sqlite3_column_int64( prepared_statement, RESULT_DIAGRAM_ID_COLUMN ),
+                                                 sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
+                                                 (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN )
+                                               );
+
+                data_search_result_trace( current_result );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_results))
+            {
+                TSLOG_ANOMALY_INT( "out_results[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
 
     TRACE_END_ERR( result );
     return result;
@@ -194,7 +255,7 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
  *  note: classifiers.name is needed for debugging only
  */
 static const char data_database_text_search_SELECT_CLASSIFIER_BY_TEXTFRAGMENT[] =
-    "SELECT classifiers.id,classifiers.name,diagrams.id "
+    "SELECT classifiers.id,classifiers.main_type,classifiers.name,diagrams.id "
     "FROM classifiers "
     "INNER JOIN diagramelements ON diagramelements.classifier_id=classifiers.id "
     "INNER JOIN diagrams ON diagramelements.diagram_id=diagrams.id "
@@ -214,40 +275,20 @@ static const int RESULT_CLASSIFIER_ID_COLUMN = 0;
 static const int RESULT_CLASSIFIER_MAIN_TYPE_COLUMN = 1;
 
 /*!
- *  \brief the column id of the result where this parameter is stored: stereotype
- */
-static const int RESULT_CLASSIFIER_STEREOTYPE_COLUMN = 2;
-
-/*!
  *  \brief the column id of the result where this parameter is stored: name
  */
-static const int RESULT_CLASSIFIER_NAME_COLUMN = 3;
+static const int RESULT_CLASSIFIER_NAME_COLUMN = 2;
 
 /*!
- *  \brief the column id of the result where this parameter is stored: description
+ *  \brief the column id of the result where this parameter is stored: diagrams.id
  */
-static const int RESULT_CLASSIFIER_DESCRIPTION_COLUMN = 4;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: x_order
- */
-static const int RESULT_CLASSIFIER_X_ORDER_COLUMN = 5;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: y_order
- */
-static const int RESULT_CLASSIFIER_Y_ORDER_COLUMN = 6;
-
-/*!
- *  \brief the column id of the result where this parameter is stored: list_order
- */
-static const int RESULT_CLASSIFIER_LIST_ORDER_COLUMN = 7;
+static const int RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN = 3;
 
 data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
                                                                                  const char *textfragment,
                                                                                  bool apply_filter_rules,
                                                                                  unsigned int max_out_results,
-                                                                                 data_search_result_t *out_results,
+                                                                                 data_search_result_t (*out_results)[],
                                                                                  unsigned int* out_result_count )
 
 {
@@ -280,22 +321,17 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
             if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_results))
             {
                 *out_result_count = row_index+1;
-                /*
-                data_feature_t *current_feature;
-                current_feature = &((*out_results)[row_index]);
+                data_search_result_t *current_result;
+                current_result = &((*out_results)[row_index]);
 
-                result |= data_feature_init( current_feature,
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
-                                             sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_VALUE_COLUMN ),
-                                             (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_DESCRIPTION_COLUMN ),
-                                             sqlite3_column_int( prepared_statement, RESULT_FEATURE_LIST_ORDER_COLUMN )
-                );
+                data_search_result_init_classifier( current_result, 
+                                                    sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_ID_COLUMN ),
+                                                    sqlite3_column_int( prepared_statement, RESULT_CLASSIFIER_MAIN_TYPE_COLUMN ),
+                                                    (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
+                                                    sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN )
+                                                  );
 
-                data_feature_trace( current_feature );
-                */
+                data_search_result_trace( current_result );
             }
             if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_results))
             {
@@ -318,9 +354,7 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
     return result;
 }
 
-
 /* ================================ DIAGRAMELEMENT ================================ */
-
 
 /* ================================ FEATURE ================================ */
 
@@ -330,7 +364,7 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
  *  note: features.key is needed for debugging only
  */
 static const char data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT[] =
-    "SELECT DISTINCT features.id,features.key,features.main_type,features.classifier_id,"
+    "SELECT DISTINCT features.id,features.main_type,features.key,features.classifier_id,"
     "classifiers.main_type,diagrams.id,diagrams.diagram_type "
     "FROM features "
     "INNER JOIN classifiers ON features.classifier_id=classifiers.id "
@@ -341,11 +375,46 @@ static const char data_database_text_search_SELECT_FEATURE_BY_TEXTFRAGMENT[] =
     "OR features.description LIKE ? ESCAPE \"\\\" "
     "GROUP BY features.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
 
+/*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_FEATURE_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: main_type
+ */
+static const int RESULT_FEATURE_MAIN_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: key
+ */
+static const int RESULT_FEATURE_KEY_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifiers.id
+ */
+static const int RESULT_FEATURE_CLASSIFIER_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: classifiers.main_type
+ */
+static const int RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagrams.id
+ */
+static const int RESULT_FEATURE_DIAGRAM_ID_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagrams.diagram_type
+ */
+static const int RESULT_FEATURE_DIAGRAM_TYPE_COLUMN = 6;
+
 data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
                                                                               unsigned int max_out_results,
-                                                                              data_search_result_t *out_results,
+                                                                              data_search_result_t (*out_results)[],
                                                                               unsigned int* out_result_count )
 
 {
@@ -359,7 +428,57 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
     sqlite3_stmt *prepared_statement;
     *out_result_count = 0;
 
-//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_feature_ids_by_textfragment );
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_feature_ids_by_textfragment;
+
+        result |= data_database_text_search_private_bind_three_texts_to_statement( this_, prepared_statement, textfragment, textfragment, textfragment );
+
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_results); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_results))
+            {
+                *out_result_count = row_index+1;
+                data_search_result_t *current_result;
+                current_result = &((*out_results)[row_index]);
+
+                data_search_result_init_feature( current_result, 
+                                                 sqlite3_column_int64( prepared_statement, RESULT_FEATURE_ID_COLUMN ),
+                                                 sqlite3_column_int( prepared_statement, RESULT_FEATURE_MAIN_TYPE_COLUMN ),
+                                                 (const char*) sqlite3_column_text( prepared_statement, RESULT_FEATURE_KEY_COLUMN ),
+                                                 sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
+                                                 sqlite3_column_int64( prepared_statement, RESULT_FEATURE_DIAGRAM_ID_COLUMN )
+                                               );
+                
+                TRACE_INFO_INT( "- c_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN ) );
+                TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN ) );
+
+                data_search_result_trace( current_result );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_results))
+            {
+                TSLOG_ANOMALY_INT( "out_results[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
 
 
     TRACE_END_ERR( result );
@@ -375,7 +494,7 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
  *  note: relationships.name is needed for debugging only
  */
 static const char data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT[] =
-    "SELECT DISTINCT relationships.id,relationships.name,relationships.main_type,"
+    "SELECT DISTINCT relationships.id,relationships.main_type,relationships.name,"
     "relationships.from_classifier_id,relationships.to_classifier_id,"
     "relationships.from_feature_id,relationships.to_feature_id,"
     "diagrams.id,diagrams.diagram_type "
@@ -389,11 +508,56 @@ static const char data_database_text_search_SELECT_RELATIONSHIP_BY_TEXTFRAGMENT[
     "OR relationships.description LIKE ? ESCAPE \"\\\" "
     "GROUP BY relationships.id,diagrams.id;";  /* no duplicates if a classifier is twice in a diagram */
 
+    /*!
+ *  \brief the column id of the result where this parameter is stored: id
+ */
+static const int RESULT_RELATIONSHIP_ID_COLUMN = 0;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: main_type
+ */
+static const int RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN = 1;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: name
+ */
+static const int RESULT_RELATIONSHIP_NAME_COLUMN = 2;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: from_classifier_id
+ */
+static const int RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN = 3;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: to_classifier_id
+ */
+static const int RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN = 4;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: from_feature_id
+ */
+static const int RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN = 5;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: to_feature_id
+ */
+static const int RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN = 6;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagrams.id
+ */
+static const int RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN = 7;
+
+/*!
+ *  \brief the column id of the result where this parameter is stored: diagrams.diagram_type
+ */
+static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
+
 data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
                                                                                    const char *textfragment,
                                                                                    bool apply_filter_rules,
                                                                                    unsigned int max_out_results,
-                                                                                   data_search_result_t *out_results,
+                                                                                   data_search_result_t (*out_results)[],
                                                                                    unsigned int* out_result_count )
 
 {
@@ -407,7 +571,59 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
     sqlite3_stmt *prepared_statement;
     *out_result_count = 0;
 
-//            result |= data_database_text_search_private_finalize_statement( this_, (*this_).private_prepared_query_relationship_ids_by_textfragment );
+    if ( (*this_).is_open )
+    {
+        prepared_statement = (*this_).private_prepared_query_relationship_ids_by_textfragment;
+
+        result |= data_database_text_search_private_bind_two_texts_to_statement( this_, prepared_statement, textfragment, textfragment );
+
+        sqlite_err = SQLITE_ROW;
+        for ( uint32_t row_index = 0; (SQLITE_ROW == sqlite_err) && (row_index <= max_out_results); row_index ++ )
+        {
+            TRACE_INFO( "sqlite3_step()" );
+            sqlite_err = sqlite3_step( prepared_statement );
+            if (( SQLITE_ROW != sqlite_err )&&( SQLITE_DONE != sqlite_err ))
+            {
+                TSLOG_ERROR_INT( "sqlite3_step failed:", sqlite_err );
+                result |= DATA_ERROR_AT_DB;
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index < max_out_results))
+            {
+                *out_result_count = row_index+1;
+                data_search_result_t *current_result;
+                current_result = &((*out_results)[row_index]);
+
+                data_search_result_init_relationship( current_result, 
+                                                    sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_ID_COLUMN ),
+                                                    sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_MAIN_TYPE_COLUMN ),
+                                                    (const char*) sqlite3_column_text( prepared_statement, RESULT_RELATIONSHIP_NAME_COLUMN ),
+                                                    sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_CLASSIFIER_ID_COLUMN ),
+                                                    sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
+                                                    sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN )
+                                                  );
+                
+                TRACE_INFO_INT( "- from_feat:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) );
+                TRACE_INFO_INT( "- to_feat:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) );
+                TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN ) );
+
+                data_search_result_trace( current_result );
+            }
+            if (( SQLITE_ROW == sqlite_err )&&(row_index >= max_out_results))
+            {
+                TSLOG_ANOMALY_INT( "out_results[] full:", (row_index+1) );
+                result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+            }
+            if ( SQLITE_DONE == sqlite_err )
+            {
+                TRACE_INFO( "sqlite3_step finished: SQLITE_DONE" );
+            }
+        }
+    }
+    else
+    {
+        result |= DATA_ERROR_NO_DB;
+        TRACE_INFO( "Database not open, cannot request data." );
+    }
 
     TRACE_END_ERR( result );
     return result;
