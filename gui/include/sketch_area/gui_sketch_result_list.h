@@ -11,11 +11,19 @@
 #include "gui_marked_set.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
+#include "set/data_search_result.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
 #include <gtk/gtk.h>
 #include <stdbool.h>
 #include <stdint.h>
+
+/*!
+ *  \brief constants for maximum values of gui_sketch_result_list_t
+ */
+enum gui_sketch_result_list__max_enum {
+    GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE = 64,  /*!< maximum number of search results */
+};
 
 /*!
  *  \brief attributes of the result list
@@ -24,7 +32,8 @@ struct gui_sketch_result_list_struct {
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
-    uint32_t result_count;  /*!< total number of found results */
+    uint32_t result_count;  /*!< total number of found results, max GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE */
+    data_search_result_t result_list[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;

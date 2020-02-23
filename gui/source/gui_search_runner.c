@@ -45,6 +45,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
 
         gui_simple_message_to_user_hide( (*this_).message_to_user );
 
+        (*this_).temp_result_list_length = 0;
         data_small_set_init( &((*this_).temp_result_set) );
         const int64_t search_row_id = data_id_get_row_id(&search_id);
         data_error_t d_err = DATA_ERROR_NONE;
@@ -55,7 +56,15 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
+                    data_search_result_t half_initialized;
+                    data_search_result_init_classifier( &half_initialized,
+                                                        search_row_id,
+                                                        0 /* match_type is unknown */,
+                                                        "" /* match_name */,
+                                                        DATA_ID_VOID_ID /* diagram_id */
+                                                      );
                     gui_search_runner_private_add_diagrams_of_classifier( this_, search_row_id, &((*this_).temp_result_set) );
+                    data_search_result_destroy( &half_initialized );
                 }
                 break;
 
@@ -68,9 +77,18 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     if ( d_err == DATA_ERROR_NONE )
                     {
                         int64_t classifier_id = data_feature_get_classifier_id( &((*this_).temp_feature) );
+                        data_search_result_t half_initialized;
+                        data_search_result_init_feature( &half_initialized,
+                                                         data_feature_get_id( &((*this_).temp_feature) ),
+                                                         data_feature_get_main_type( &((*this_).temp_feature) ),
+                                                         data_feature_get_key_ptr( &((*this_).temp_feature) ),
+                                                         classifier_id,
+                                                         DATA_ID_VOID_ID /* diagram_id */
+                                                       );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
 
                         data_feature_destroy( &((*this_).temp_feature) );
+                        data_search_result_destroy( &half_initialized );
                     }
                     else
                     {
@@ -88,9 +106,19 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     if ( d_err == DATA_ERROR_NONE )
                     {
                         int64_t classifier_id = data_relationship_get_from_classifier_id( &((*this_).temp_relationship) );
+                        data_search_result_t half_initialized;
+                        data_search_result_init_relationship( &half_initialized,
+                                                              data_relationship_get_id( &((*this_).temp_relationship) ),
+                                                              data_relationship_get_main_type( &((*this_).temp_relationship) ),
+                                                              data_relationship_get_name_ptr( &((*this_).temp_relationship) ),
+                                                              classifier_id,
+                                                              data_relationship_get_to_classifier_id( &((*this_).temp_relationship) ),
+                                                              DATA_ID_VOID_ID /* diagram_id */
+                                                            );
                         gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
 
                         data_relationship_destroy( &((*this_).temp_relationship) );
+                        data_search_result_destroy( &half_initialized );
                     }
                     else
                     {
@@ -107,12 +135,20 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                           );
                     if ( d_err == DATA_ERROR_NONE )
                     {
+                        data_search_result_t half_initialized;
+                        data_search_result_init_classifier( &half_initialized,
+                                                            data_diagramelement_get_classifier_id(&((*this_).temp_diagramelement)),
+                                                            0 /* match_type is unknown */,
+                                                            "" /* match_name */,
+                                                            data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
+                                                          );
                         d_err = data_small_set_add_row_id ( &((*this_).temp_result_set),
                                                             DATA_TABLE_DIAGRAM,
                                                             data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
                                                           );
 
                         data_diagramelement_destroy( &((*this_).temp_diagramelement) );
+                        data_search_result_destroy( &half_initialized );
                     }
                     else
                     {
@@ -127,9 +163,16 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                     d_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, search_row_id, &((*this_).temp_diagrams[0]) );
                     if ( d_err == DATA_ERROR_NONE )
                     {
+                        data_search_result_t half_initialized;
+                        data_search_result_init_diagram( &half_initialized,
+                                                         search_row_id,
+                                                         0 /* match_type is unknown */,
+                                                         "" /* match_name */
+                                                       );
                         d_err = data_small_set_add_obj ( &((*this_).temp_result_set), search_id );
 
                         data_diagram_destroy( &((*this_).temp_diagrams[0]) );
+                        data_search_result_destroy( &half_initialized );
                     }
                     else
                     {
@@ -166,7 +209,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
          *  \param out_result_count number of objects stored in out_results
          *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
          *          E.g. DATA_ERROR_NO_DB if the database is not open.
-         * 
+         *
         data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
                                                                              const char *textfragment,
                                                                              bool apply_filter_rules,
