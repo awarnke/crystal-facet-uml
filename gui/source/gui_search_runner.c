@@ -1,6 +1,7 @@
 /* File: gui_search_runner.c; Copyright and License: see below */
 
 #include "gui_search_runner.h"
+#include "set/data_search_result_list.h"
 #include "trace.h"
 #include "tslog.h"
 #include <assert.h>

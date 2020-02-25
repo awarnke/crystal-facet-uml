@@ -26,7 +26,7 @@ struct universal_array_list_struct {
     /* internal */
     unsigned int max_elements;
     size_t element_size;
-    ptrdiff_t step_size /*!< bytes from one array element to the next */
+    ptrdiff_t step_size; /*!< bytes from one array element to the next */
     void (*copy_ctor)(void* to_instance, void* from_instance); /* the copy constructor of an element, needed to add */
     void (*dtor)(void* instance); /* the destructor of an element, needed to remove and clear */
 };

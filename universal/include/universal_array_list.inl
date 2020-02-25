@@ -6,7 +6,7 @@
 
 static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                unsigned int max_elements,
-                                               void (*elements)[],
+                                               void *elements,
                                                size_t element_size,
                                                ptrdiff_t step_size,
                                                void (*copy_ctor)(void* to_instance, void* from_instance),
@@ -27,7 +27,7 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
 static inline void universal_array_list_destroy ( universal_array_list_t *this_ )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     universal_array_list_clear( this_ );
 }
@@ -35,7 +35,7 @@ static inline void universal_array_list_destroy ( universal_array_list_t *this_ 
 static inline void universal_array_list_trace ( const universal_array_list_t *this_ )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     TRACE_INFO( "universal_array_list_t" );
     TRACE_INFO_INT( "- length:", (*this_).length );
@@ -53,7 +53,7 @@ static inline bool universal_array_list_is_empty ( const universal_array_list_t 
 static inline int universal_array_list_add ( universal_array_list_t *this_, void* element )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     int result;
 
@@ -83,13 +83,13 @@ static inline int universal_array_list_add ( universal_array_list_t *this_, void
 static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_, unsigned int index )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     void *result;
 
     if ( index < (*this_).length )
     {
-        result = (*this_).elements + ((*this_).step_size * index);
+        result = ((char*)(*this_).elements) + ((*this_).step_size * index);
     }
     else
     {
@@ -102,13 +102,13 @@ static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_
 static inline void const *universal_array_list_get_const ( const universal_array_list_t *this_, unsigned int index )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     void const *result;
 
     if ( index < (*this_).length )
     {
-        result = (*this_).elements + ((*this_).step_size * index);
+        result = ((char*)(*this_).elements) + ((*this_).step_size * index);
     }
     else
     {
@@ -121,7 +121,7 @@ static inline void const *universal_array_list_get_const ( const universal_array
 static inline void universal_array_list_clear ( universal_array_list_t *this_ )
 {
     assert( (*this_).length <= (*this_).max_elements );
-    assert( elements != NULL );
+    assert( (*this_).elements != NULL );
 
     if ( (*this_).dtor != NULL )
     {

@@ -13,7 +13,34 @@
 #include <stdint.h>
 #include <stdbool.h>
 
-typedef struct universial_array_list_t data_search_result_list_t;
+typedef struct universal_array_list_t data_search_result_list_t;
+
+#define DATA_SEARCH_RESULT_LIST_INIT( THIS, ARRAY ) universal_array_list_init( (universal_array_list_t*)THIS, \
+sizeof(ARRAY)/sizeof(data_search_result_t), &ARRAY, sizeof(data_search_result_t), &(ARRAY[1])-&(ARRAY[0]), data_search_result_copy, NULL );
+
+static inline void data_search_result_list_destroy ( data_search_result_list_t *this_ )
+{ universal_array_list_destroy((universal_array_list_t*)this_); }
+
+static inline void data_search_result_list_trace ( const data_search_result_list_t *this_ )
+{ universal_array_list_trace((universal_array_list_t*)this_); }
+
+static inline bool data_search_result_list_is_empty ( const data_search_result_list_t *this_ )
+{ return universal_array_list_is_empty((universal_array_list_t*)this_); }
+
+static inline int data_search_result_list_add ( data_search_result_list_t *this_, data_search_result_t* element )
+{ return universal_array_list_add((universal_array_list_t*)this_,element); }
+
+static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index )
+{ return (data_search_result_list_t*)universal_array_list_get_ptr((universal_array_list_t*)this_,index); }
+
+static inline void const *data_search_result_list_get_const ( const data_search_result_list_t *this_, unsigned int index )
+{ return (data_search_result_list_t const*)universal_array_list_get_const((universal_array_list_t*)this_,index); }
+
+static inline void data_search_result_list_clear ( data_search_result_list_t *this_ )
+{ universal_array_list_clear((universal_array_list_t*)this_); }
+
+static inline uint32_t data_search_result_list_get_length ( const data_search_result_list_t *this_ )
+{ return universal_array_list_get_length((universal_array_list_t*)this_); }
 
 #endif  /* DATA_SEARCH_RESULT_LIST_H */
 
