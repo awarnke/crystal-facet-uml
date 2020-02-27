@@ -12,6 +12,7 @@
 #include "storage/data_database_reader.h"
 #include "set/data_small_set.h"
 #include "set/data_search_result.h"
+#include "set/data_search_result_list.h"
 #include "data_diagramelement.h"
 #include "data_feature.h"
 #include "data_relationship.h"
@@ -33,8 +34,8 @@ struct gui_search_runner_struct {
     gui_sketch_area_t *result_consumer;  /*!< pointer to external gui_sketch_area_t which is informed on search results */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
-    uint32_t temp_result_list_length;  /*!< length of the result list */
-    //data_search_result_t temp_result_list[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list */
+    data_search_result_t temp_result_list_buf[GUI_SEARCH_RUNNER_MAX_RESULTS];  /*!< memory for the result list */
+    data_search_result_list_t temp_result_list;
     data_small_set_t temp_result_set;  /*!< memory for the result set */
     data_diagram_t temp_diagrams[GUI_SEARCH_RUNNER_MAX_DIAGRAMS];  /*!< memory to read a set of diagrams */
     data_diagramelement_t temp_diagramelement;  /*!< memory to read a diagram element */

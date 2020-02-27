@@ -9,11 +9,16 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                void *elements,
                                                size_t element_size,
                                                ptrdiff_t step_size,
-                                               void (*copy_ctor)(void* to_instance, void* from_instance),
+                                               void (*copy_ctor)(void* to_instance, const void* from_instance),
                                                void (*dtor)(void* instance) )
 {
+    TRACE_INFO_INT( "- max_elements:", max_elements );
+    TRACE_INFO_INT( "- element_size:", element_size );
+    TRACE_INFO_INT( "- step_size:", step_size );
     assert( element_size <= step_size );
+    assert( (element_size+sizeof(int)) > step_size );  /* something is wrong if there is more padding than an int */
     assert( elements != NULL );
+    assert( max_elements != 0 );  /* a list of size 0 could be valid - but most likely this function is called with wrong arguments */
 
     (*this_).length = 0;
     (*this_).elements = elements;

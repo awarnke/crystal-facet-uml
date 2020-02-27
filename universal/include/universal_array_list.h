@@ -27,7 +27,7 @@ struct universal_array_list_struct {
     unsigned int max_elements;
     size_t element_size;
     ptrdiff_t step_size; /*!< bytes from one array element to the next */
-    void (*copy_ctor)(void* to_instance, void* from_instance); /* the copy constructor of an element, needed to add */
+    void (*copy_ctor)(void* to_instance, const void* from_instance); /* the copy constructor of an element, needed to add */
     void (*dtor)(void* instance); /* the destructor of an element, needed to remove and clear */
 };
 
@@ -49,7 +49,7 @@ static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                void *elements,
                                                size_t element_size,
                                                ptrdiff_t step_size,
-                                               void (*copy_ctor)(void* to_instance, void* from_instance),
+                                               void (*copy_ctor)(void* to_instance, const void* from_instance),
                                                void (*dtor)(void* instance)
                                              );
 
@@ -87,7 +87,7 @@ static inline int universal_array_list_add ( universal_array_list_t *this_, void
  *  \brief returns an element
  *
  *  \param this_ pointer to own object attributes
- *  \param index index to be returned. 0 <= index < universal_array_list_get_length(this_)
+ *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
 static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_, unsigned int index );
@@ -96,7 +96,7 @@ static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_
  *  \brief returns a const element
  *
  *  \param this_ pointer to own object attributes
- *  \param index index to be returned. 0 <= index < universal_array_list_get_length(this_)
+ *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
 static inline void const *universal_array_list_get_const ( const universal_array_list_t *this_, unsigned int index );

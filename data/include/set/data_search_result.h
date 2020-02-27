@@ -43,9 +43,9 @@ typedef struct data_search_result_struct data_search_result_t;
  *  \param match_name matching object name, must not be NULL
  *  \param diagram_id diagram id where the matching object is visible
  */
-static inline void data_search_result_init_diagram ( data_search_result_t *this_, 
-                                                     int64_t match_id,                                                
-                                                     int match_type,                                                
+static inline void data_search_result_init_diagram ( data_search_result_t *this_,
+                                                     int64_t match_id,
+                                                     int match_type,
                                                      const char* match_name
                                                    );
 
@@ -58,11 +58,11 @@ static inline void data_search_result_init_diagram ( data_search_result_t *this_
  *  \param match_name matching object name, must not be NULL
  *  \param diagram_id diagram id where the matching object is visible
  */
-static inline void data_search_result_init_classifier ( data_search_result_t *this_, 
-                                                        int64_t match_id,                                                
-                                                        int match_type,                                                
+static inline void data_search_result_init_classifier ( data_search_result_t *this_,
+                                                        int64_t match_id,
+                                                        int match_type,
                                                         const char* match_name,
-                                                        int64_t diagram_id 
+                                                        int64_t diagram_id
                                                       );
 
 /*!
@@ -77,7 +77,7 @@ static inline void data_search_result_init_classifier ( data_search_result_t *th
  */
 static inline void data_search_result_init_feature ( data_search_result_t *this_,
                                                      int64_t match_id,
-                                                     int match_type,                                                
+                                                     int match_type,
                                                      const char* match_name,
                                                      int64_t classifier_id,
                                                      int64_t diagram_id
@@ -96,12 +96,20 @@ static inline void data_search_result_init_feature ( data_search_result_t *this_
  */
 static inline void data_search_result_init_relationship ( data_search_result_t *this_,
                                                           int64_t match_id,
-                                                          int match_type,                                                
+                                                          int match_type,
                                                           const char* match_name,
                                                           int64_t from_classifier_id,
                                                           int64_t to_classifier_id,
                                                           int64_t diagram_id
                                                         );
+
+/*!
+ *  \brief initializes the data_search_result_t struct with a copy
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param original pointer to object attributes to copy
+ */
+static inline void data_search_result_copy ( data_search_result_t *this_, const data_search_result_t *original );
 
 /*!
  *  \brief destroys the data_search_result_t struct

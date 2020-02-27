@@ -19,6 +19,7 @@ void gui_search_runner_init ( gui_search_runner_t *this_,
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
     (*this_).result_consumer = result_consumer;
+    DATA_SEARCH_RESULT_LIST_INIT( &((*this_).temp_result_list), (*this_).temp_result_list_buf );
 
     TRACE_END();
 }
@@ -46,7 +47,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
 
         gui_simple_message_to_user_hide( (*this_).message_to_user );
 
-        (*this_).temp_result_list_length = 0;
+        data_search_result_list_clear( &((*this_).temp_result_list) );
         data_small_set_init( &((*this_).temp_result_set) );
         const int64_t search_row_id = data_id_get_row_id(&search_id);
         data_error_t d_err = DATA_ERROR_NONE;
