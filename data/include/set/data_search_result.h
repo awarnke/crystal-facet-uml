@@ -135,6 +135,62 @@ static inline data_id_t data_search_result_get_match_id ( const data_search_resu
 static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_result_t *this_ );
 
 /*!
+ *  \brief gets a pointer on the match object id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the match object
+ */
+static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief gets the src classifier id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the src classifier object
+ */
+static inline data_id_t data_search_result_get_src_classifier_id ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief gets a pointer on the src classifier object id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the src classifier object
+ */
+static inline data_id_t *data_search_result_get_src_classifier_id_ptr ( data_search_result_t *this_ );
+
+/*!
+ *  \brief gets a pointer on the src classifier object id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the src classifier object
+ */
+static inline const data_id_t *data_search_result_get_src_classifier_id_const ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief gets the dst classifier id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the dst classifier object
+ */
+static inline data_id_t data_search_result_get_dst_classifier_id ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief gets a pointer on the dst classifier object id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the dst classifier object
+ */
+static inline data_id_t *data_search_result_get_dst_classifier_id_ptr ( data_search_result_t *this_ );
+
+/*!
+ *  \brief gets a pointer on the dst classifier object id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the dst classifier object
+ */
+static inline const data_id_t *data_search_result_get_dst_classifier_id_const ( const data_search_result_t *this_ );
+
+/*!
  *  \brief gets the diagram id
  *
  *  \param this_ pointer to own object attributes
@@ -149,6 +205,14 @@ static inline data_id_t data_search_result_get_diagram_id ( const data_search_re
  *  \return the id of the diagram
  */
 static inline data_id_t *data_search_result_get_diagram_id_ptr ( data_search_result_t *this_ );
+
+/*!
+ *  \brief gets a pointer on the diagram id
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the id of the diagram
+ */
+static inline const data_id_t *data_search_result_get_diagram_id_const ( const data_search_result_t *this_ );
 
 /*!
  *  \brief traces match_id and diagram_id and if set, the classifier ids

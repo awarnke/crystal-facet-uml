@@ -12,6 +12,7 @@
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
+#include "set/data_search_result_list.h"
 #include "ctrl_controller.h"
 #include "layout/layout_order.h"
 #include <gtk/gtk.h>
@@ -32,8 +33,8 @@ struct gui_sketch_result_list_struct {
     bool visible;  /*!< is the result list visible */
     shape_int_rectangle_t bounds;  /*!< bounding box of the result list */
 
-    uint32_t result_count;  /*!< total number of found results, max GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE */
-    data_search_result_t result_list[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
+    data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
+    data_search_result_list_t result_list;
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
@@ -56,11 +57,11 @@ void gui_sketch_result_list_destroy ( gui_sketch_result_list_t *this_ );
  *  \brief fetches the diagram data from the database
  *
  *  \param this_ pointer to own object attributes
- *  \param list_of_diagrams list of diagram ids to load
+ *  \param result_list list of search results and their diagram ids to load
  *  \param db_reader pointer to a database reader object
  */
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
-                                                     data_small_set_t *list_of_diagrams,
+                                                     const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader
                                                    );
 

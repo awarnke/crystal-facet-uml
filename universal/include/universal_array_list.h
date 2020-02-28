@@ -81,7 +81,16 @@ static inline bool universal_array_list_is_empty ( const universal_array_list_t 
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
  *  \return -1 if list is full, 0 on success
  */
-static inline int universal_array_list_add ( universal_array_list_t *this_, void* element );
+static inline int universal_array_list_add ( universal_array_list_t *this_, const void* element );
+
+/*!
+ *  \brief adds all elements of that to universal_array_list_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that list of element to be added.
+ *  \return -1 if list is full, 0 on success
+ */
+static inline int universal_array_list_add_all ( universal_array_list_t *this_, const universal_array_list_t *that );
 
 /*!
  *  \brief returns an element
@@ -114,7 +123,7 @@ static inline void universal_array_list_clear ( universal_array_list_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \return number of object-ids in the set, the number is less or equal to universal_array_list_MAX_SET_SIZE
  */
-static inline uint32_t universal_array_list_get_length ( const universal_array_list_t *this_ );
+static inline unsigned int universal_array_list_get_length ( const universal_array_list_t *this_ );
 
 #include "universal_array_list.inl"
 

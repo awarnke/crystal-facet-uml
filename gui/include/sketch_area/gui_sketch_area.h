@@ -27,6 +27,8 @@
 #include "set/data_visible_set.h"
 #include "set/data_id_pair.h"
 #include "set/data_small_set.h"
+#include "set/data_search_result.h"
+#include "set/data_search_result_list.h"
 #include "ctrl_controller.h"
 #include "pencil_diagram_maker.h"
 #include <gtk/gtk.h>
@@ -112,9 +114,9 @@ void gui_sketch_area_destroy ( gui_sketch_area_t *this_ );
  *  \brief shows the list of search results
  *
  *  \param this_ pointer to own object attributes
- *  \param list_of_diagrams list of diagram ids to be shown
+ *  \param result_list list of search results including their diagram ids to be displayed
  */
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set_t *list_of_diagrams );
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list );
 
 /*!
  *  \brief loads the cards, nav_tree and result_list data to be shown
@@ -128,10 +130,10 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
  *  \brief loads the cards and result_list data to be shown in seach mode
  *
  *  \param this_ pointer to own object attributes
- *  \param diagram_list list of diagram ids to be displayed
+ *  \param result_list list of search results including their diagram ids to be displayed
  *  \param back_diagram_id id of the previously visible diagram or DATA_ID_VOID_ID for none
  */
-void gui_sketch_area_private_load_data_set ( gui_sketch_area_t *this_, data_small_set_t *diagram_list, int64_t back_diagram_id );
+void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, int64_t back_diagram_id );
 
 /*!
  *  \brief re-loads the cards, nav_tree and result_list data to be shown

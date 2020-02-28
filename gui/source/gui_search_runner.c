@@ -48,7 +48,6 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         gui_simple_message_to_user_hide( (*this_).message_to_user );
 
         data_search_result_list_clear( &((*this_).temp_result_list) );
-        data_small_set_init( &((*this_).temp_result_set) );
         const int64_t search_row_id = data_id_get_row_id(&search_id);
         data_error_t d_err = DATA_ERROR_NONE;
 
@@ -65,7 +64,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                         "" /* match_name */,
                                                         DATA_ID_VOID_ID /* diagram_id */
                                                       );
-                    gui_search_runner_private_add_diagrams_of_classifier( this_, search_row_id, &((*this_).temp_result_set) );
+                    gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
                     data_search_result_destroy( &half_initialized );
                 }
                 break;
@@ -87,7 +86,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                          classifier_id,
                                                          DATA_ID_VOID_ID /* diagram_id */
                                                        );
-                        gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
+                        gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
 
                         data_feature_destroy( &((*this_).temp_feature) );
                         data_search_result_destroy( &half_initialized );
@@ -117,7 +116,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                               data_relationship_get_to_classifier_id( &((*this_).temp_relationship) ),
                                                               DATA_ID_VOID_ID /* diagram_id */
                                                             );
-                        gui_search_runner_private_add_diagrams_of_classifier( this_, classifier_id, &((*this_).temp_result_set) );
+                        gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
 
                         data_relationship_destroy( &((*this_).temp_relationship) );
                         data_search_result_destroy( &half_initialized );
@@ -144,10 +143,11 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                             "" /* match_name */,
                                                             data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
                                                           );
-                        d_err = data_small_set_add_row_id ( &((*this_).temp_result_set),
-                                                            DATA_TABLE_DIAGRAM,
-                                                            data_diagramelement_get_diagram_id(&((*this_).temp_diagramelement))
-                                                          );
+                        int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
+                        if ( err != 0 )
+                        {
+                            d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                        }
 
                         data_diagramelement_destroy( &((*this_).temp_diagramelement) );
                         data_search_result_destroy( &half_initialized );
@@ -171,7 +171,11 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                          0 /* match_type is unknown */,
                                                          "" /* match_name */
                                                        );
-                        d_err = data_small_set_add_obj ( &((*this_).temp_result_set), search_id );
+                        int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
+                        if ( err != 0 )
+                        {
+                            d_err = DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                        }
 
                         data_diagram_destroy( &((*this_).temp_diagrams[0]) );
                         data_search_result_destroy( &half_initialized );
@@ -221,9 +225,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                                            );
          */
 
-        gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_set) );
-
-        data_small_set_destroy( &((*this_).temp_result_set) );
+        gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_list) );
+        data_search_result_list_clear( &((*this_).temp_result_list) );
     }
     else
     {
@@ -233,14 +236,28 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
     TRACE_END();
 }
 
-void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_, int64_t classifier_id, data_small_set_t *io_set )
+void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t *this_,
+                                                            data_search_result_t *classifier_template,
+                                                            data_search_result_list_t *io_list
+                                                          )
 {
     TRACE_BEGIN();
+    assert( classifier_template != NULL );
+    assert( io_list != NULL );
     data_error_t d_err = DATA_ERROR_NONE;
 
+    int64_t classifier_row_id;
+    if ( DATA_TABLE_CLASSIFIER == data_id_get_table( data_search_result_get_match_id_const( classifier_template )))
+    {
+        classifier_row_id = data_id_get_row_id( data_search_result_get_match_id_const( classifier_template ));
+    }
+    else
+    {
+        classifier_row_id = data_id_get_row_id( data_search_result_get_src_classifier_id_const( classifier_template ));
+    }
     uint32_t diagram_count;
     d_err = data_database_reader_get_diagrams_by_classifier_id ( (*this_).db_reader,
-                                                                 classifier_id,
+                                                                 classifier_row_id,
                                                                  GUI_SEARCH_RUNNER_MAX_DIAGRAMS,
                                                                  &((*this_).temp_diagrams),
                                                                  &diagram_count
@@ -255,21 +272,13 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
         assert ( diagram_count <= GUI_SEARCH_RUNNER_MAX_DIAGRAMS );
         for ( uint32_t idx = 0; idx < diagram_count; idx ++ )
         {
-            data_id_t current_id;
-            data_id_init( &current_id, DATA_TABLE_DIAGRAM, data_diagram_get_id ( &((*this_).temp_diagrams[idx]) ));
-            d_err = data_small_set_add_obj ( io_set, current_id );
-            if ( d_err == DATA_ERROR_DUPLICATE_ID )
+            const int64_t diagram_row_id = data_diagram_get_id ( &((*this_).temp_diagrams[idx]) );
+            data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
+            int err = data_search_result_list_add( io_list, classifier_template );
+            if ( err != 0 )
             {
-                /* not a bug: a duplicate diagram is caused by a classifier that exists twice in a diagram */
-                d_err = DATA_ERROR_NONE;
-            }
-            else if ( d_err == DATA_ERROR_ARRAY_BUFFER_EXCEEDED )
-            {
-                TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting diagram ids to a set" );
-            }
-            else if ( d_err != DATA_ERROR_NONE )
-            {
-                TSLOG_WARNING_HEX( "other error at inserting diagram ids to a set", d_err );
+                d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
             }
 
             data_diagram_destroy( &((*this_).temp_diagrams[idx]) );

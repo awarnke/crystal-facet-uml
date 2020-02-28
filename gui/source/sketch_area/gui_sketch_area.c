@@ -112,15 +112,15 @@ void gui_sketch_area_destroy( gui_sketch_area_t *this_ )
     TRACE_END();
 }
 
-void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, data_small_set_t *list_of_diagrams )
+void gui_sketch_area_show_result_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list )
 {
     TRACE_BEGIN();
-    assert( NULL != list_of_diagrams );
+    assert( NULL != result_list );
 
     /* load new data */
-    gui_sketch_result_list_load_data( &((*this_).result_list), list_of_diagrams, (*this_).db_reader );
+    gui_sketch_result_list_load_data( &((*this_).result_list), result_list, (*this_).db_reader );
     int64_t go_back_id = gui_sketch_area_get_focused_diagram_id( this_ );
-    gui_sketch_area_private_load_data_set ( this_, list_of_diagrams, go_back_id );
+    gui_sketch_area_private_load_data_list ( this_, result_list, go_back_id );
 
     /* notify listener */
     data_id_t void_id;
@@ -340,23 +340,24 @@ void gui_sketch_area_private_refocus_and_reload_data ( gui_sketch_area_t *this_ 
     TRACE_END();
 }
 
-void gui_sketch_area_private_load_data_set ( gui_sketch_area_t *this_, data_small_set_t *diagram_list, int64_t back_diagram_id )
+void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const data_search_result_list_t *result_list, int64_t back_diagram_id )
 {
     TRACE_BEGIN();
-    assert( NULL != diagram_list );
+    assert( NULL != result_list );
 
     /* even in search mode, load the focused card whcih is not displayed */
     gui_sketch_area_private_load_data ( this_, back_diagram_id );
 
     assert ( (*this_).card_num == GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD );
 
-    const uint32_t d_count = data_small_set_get_count( diagram_list );
+    const uint32_t d_count = data_search_result_list_get_length( result_list );
 
     for ( uint32_t index = 0; index < d_count; index ++ )
     {
         if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
         {
-            const data_id_t diag_id = data_small_set_get_id( diagram_list, index );
+            const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
+            const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
             int64_t diag_row_id = data_id_get_row_id( &diag_id );
             {
                 gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );

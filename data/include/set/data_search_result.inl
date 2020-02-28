@@ -127,12 +127,52 @@ static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_resul
     return &((*this_).match_object_id);
 }
 
+static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ )
+{
+    return &((*this_).match_object_id);
+}
+
+static inline data_id_t data_search_result_get_src_classifier_id ( const data_search_result_t *this_ )
+{
+    return (*this_).src_classifier_id;
+}
+
+static inline data_id_t *data_search_result_get_src_classifier_id_ptr ( data_search_result_t *this_ )
+{
+    return &((*this_).src_classifier_id);
+}
+
+static inline const data_id_t *data_search_result_get_src_classifier_id_const ( const data_search_result_t *this_ )
+{
+    return &((*this_).src_classifier_id);
+}
+
+static inline data_id_t data_search_result_get_dst_classifier_id ( const data_search_result_t *this_ )
+{
+    return (*this_).dst_classifier_id;
+}
+
+static inline data_id_t *data_search_result_get_dst_classifier_id_ptr ( data_search_result_t *this_ )
+{
+    return &((*this_).dst_classifier_id);
+}
+
+static inline const data_id_t *data_search_result_get_dst_classifier_id_const ( const data_search_result_t *this_ )
+{
+    return &((*this_).dst_classifier_id);
+}
+
 static inline data_id_t data_search_result_get_diagram_id ( const data_search_result_t *this_ )
 {
     return (*this_).diagram_id;
 }
 
 static inline data_id_t *data_search_result_get_diagram_id_ptr ( data_search_result_t *this_ )
+{
+    return &((*this_).diagram_id);
+}
+
+static inline const data_id_t *data_search_result_get_diagram_id_const ( const data_search_result_t *this_ )
 {
     return &((*this_).diagram_id);
 }

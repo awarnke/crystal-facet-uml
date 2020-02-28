@@ -12,7 +12,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_ )
     TRACE_BEGIN();
 
     (*this_).visible = false;
-    (*this_).result_count = 0;
+    DATA_SEARCH_RESULT_LIST_INIT( &((*this_).result_list), (*this_).result_list_buf );
     shape_int_rectangle_init( &((*this_).bounds), 0, 0, 0, 0 );
 
     TRACE_END();
@@ -47,7 +47,7 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
 
         char count_buf[16] = "\0";
         utf8stringbuf_t count_str = UTF8STRINGBUF( count_buf );
-        utf8error_t u8err = utf8stringbuf_append_int( count_str, (*this_).result_count );
+        utf8error_t u8err = utf8stringbuf_append_int( count_str, data_search_result_list_get_length( &((*this_).result_list) ));
         if ( u8err != UTF8ERROR_SUCCESS )
         {
             assert(false);

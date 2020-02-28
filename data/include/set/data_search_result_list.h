@@ -8,8 +8,7 @@
  *  \file
  *  \brief Defines a list of search result entries.
  *
- *  Wraps universal_array_list_t, does some type convertions
- *
+ *  Wraps universal_array_list_t, does some type convertions.
  *  If universal_array_list_t would be a template, this type-wrapper file would not be needed.
  */
 
@@ -57,8 +56,18 @@ static inline bool data_search_result_list_is_empty ( const data_search_result_l
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
  *  \return -1 if list is full, 0 on success
  */
-static inline int data_search_result_list_add ( data_search_result_list_t *this_, data_search_result_t* element )
+static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element )
 { return universal_array_list_add((universal_array_list_t*)this_,element); }
+
+/*!
+ *  \brief adds all elements of that to data_search_result_list_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param that list of element to be added.
+ *  \return -1 if list is full, 0 on success
+ */
+static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that )
+{ return universal_array_list_add_all((universal_array_list_t*)this_,(const universal_array_list_t*)that); }
 
 /*!
  *  \brief returns an element
@@ -94,7 +103,7 @@ static inline void data_search_result_list_clear ( data_search_result_list_t *th
  *  \param this_ pointer to own object attributes
  *  \return number of object-ids in the set, the number is less or equal to universal_array_list_MAX_SET_SIZE
  */
-static inline uint32_t data_search_result_list_get_length ( const data_search_result_list_t *this_ )
+static inline unsigned int data_search_result_list_get_length ( const data_search_result_list_t *this_ )
 { return universal_array_list_get_length((universal_array_list_t*)this_); }
 
 #endif  /* DATA_SEARCH_RESULT_LIST_H */

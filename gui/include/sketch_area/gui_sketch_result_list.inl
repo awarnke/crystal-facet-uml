@@ -3,10 +3,13 @@
 #include "tslog.h"
 
 static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *this_,
-                                                     data_small_set_t *list_of_diagrams,
+                                                     const data_search_result_list_t *result_list,
                                                      data_database_reader_t *db_reader )
 {
-    (*this_).result_count = data_small_set_get_count( list_of_diagrams );
+    assert( result_list != NULL );
+    assert( db_reader != NULL );
+    data_search_result_list_clear( &((*this_).result_list) );
+    data_search_result_list_add_all( &((*this_).result_list), result_list );
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
