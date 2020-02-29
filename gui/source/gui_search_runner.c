@@ -9,15 +9,22 @@
 void gui_search_runner_init ( gui_search_runner_t *this_,
                               gui_simple_message_to_user_t *message_to_user,
                               data_database_reader_t *db_reader,
+                              data_database_t *database,
                               gui_sketch_area_t *result_consumer )
 {
     TRACE_BEGIN();
     assert ( message_to_user != NULL );
     assert ( db_reader != NULL );
+    assert ( database != NULL );
     assert ( result_consumer != NULL );
 
     (*this_).message_to_user = message_to_user;
     (*this_).db_reader = db_reader;
+    const data_error_t d_err = data_database_text_search_init ( &((*this_).db_searcher), database );
+    if ( DATA_ERROR_NONE != d_err )
+    {
+        TSLOG_WARNING_HEX( "data_database_text_search_t could not be constructed.", d_err );
+    }
     (*this_).result_consumer = result_consumer;
     DATA_SEARCH_RESULT_LIST_INIT( &((*this_).temp_result_list), (*this_).temp_result_list_buf );
 
@@ -30,6 +37,11 @@ void gui_search_runner_destroy ( gui_search_runner_t *this_ )
 
     (*this_).message_to_user = NULL;
     (*this_).db_reader = NULL;
+    const data_error_t d_err = data_database_text_search_destroy ( &((*this_).db_searcher) );
+    if ( DATA_ERROR_NONE != d_err )
+    {
+        TSLOG_WARNING_HEX( "data_database_text_search_t could not be destructed.", d_err );
+    }
     (*this_).result_consumer = NULL;
 
     TRACE_END();
@@ -203,27 +215,16 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                                                             );
         }
 
-        /*
-         *
-         *  \brief reads a set of objects from the database
-         *
-         *  \param this_ pointer to own object attributes
-         *  \param textfragment text pattern for the objects which to search in the database
-         *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
-         *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
-         *  \param out_results the object ids found in the database
-         *  \param out_result_count number of objects stored in out_results
-         *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
-         *          E.g. DATA_ERROR_NO_DB if the database is not open.
-         *
-        data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
-                                                                             const char *textfragment,
-                                                                             bool apply_filter_rules,
-                                                                             unsigned int max_out_results,
-                                                                             data_search_result_t (*out_results)[],
-                                                                             unsigned int* out_result_count
-                                                                           );
-         */
+        /* free text search */
+        d_err = data_database_text_search_get_objects_by_textfragment ( &((*this_).db_searcher),
+                                                                        search_string,
+                                                                        true /*apply_filter_rules*/,
+                                                                        &((*this_).temp_result_list)
+                                                                      );
+        if ( DATA_ERROR_NONE != d_err )
+        {
+            TSLOG_ERROR_HEX( "data_database_text_search_t could not search.", d_err );
+        }
 
         gui_sketch_area_show_result_list ( (*this_).result_consumer, &((*this_).temp_result_list) );
         data_search_result_list_clear( &((*this_).temp_result_list) );

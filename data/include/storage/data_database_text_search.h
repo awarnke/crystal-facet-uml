@@ -22,6 +22,7 @@
 #include "data_feature.h"
 #include "data_relationship.h"
 #include "set/data_search_result.h"
+#include "set/data_search_result_list.h"
 #include "data_rules.h"
 #include <sqlite3.h>
 #include <stdbool.h>
@@ -91,12 +92,28 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
+static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
+                                                                                    const char *textfragment,
+                                                                                    bool apply_filter_rules,
+                                                                                    unsigned int max_out_results,
+                                                                                    data_search_result_t (*out_results)[],
+                                                                                    unsigned int* out_result_count
+                                                                                  );
+
+/*!
+ *  \brief reads a set of objects from the database
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param textfragment text pattern for the objects which to search in the database
+ *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
+ *  \param io_results the list where to append the object ids found in the database
+ *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
+ *          E.g. DATA_ERROR_NO_DB if the database is not open.
+ */
 data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
                                                                      const char *textfragment,
                                                                      bool apply_filter_rules,
-                                                                     unsigned int max_out_results,
-                                                                     data_search_result_t (*out_results)[],
-                                                                     unsigned int* out_result_count
+                                                                     data_search_result_list_t *io_results
                                                                    );
 
 /*!
@@ -105,18 +122,14 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
- *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_results the object ids found in the database
- *  \param out_result_count number of objects stored in out_results
+ *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
-                                                                              unsigned int max_out_results,
-                                                                              data_search_result_t (*out_results)[],
-                                                                              unsigned int* out_result_count
+                                                                              data_search_result_list_t *io_results
                                                                             );
 
 /*!
@@ -125,18 +138,14 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
- *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_results the object ids found in the database
- *  \param out_result_count number of objects stored in out_results
+ *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
                                                                                  const char *textfragment,
                                                                                  bool apply_filter_rules,
-                                                                                 unsigned int max_out_results,
-                                                                                 data_search_result_t (*out_results)[],
-                                                                                 unsigned int* out_result_count
+                                                                                 data_search_result_list_t *io_results
                                                                                );
 
 /*!
@@ -145,18 +154,14 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
- *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_results the object ids found in the database
- *  \param out_result_count number of objects stored in out_results
+ *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
                                                                               bool apply_filter_rules,
-                                                                              unsigned int max_out_results,
-                                                                              data_search_result_t (*out_results)[],
-                                                                              unsigned int* out_result_count
+                                                                              data_search_result_list_t *io_results
                                                                             );
 
 /*!
@@ -165,18 +170,14 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
  *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
- *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
- *  \param out_results the object ids found in the database
- *  \param out_result_count number of objects stored in out_results
+ *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
                                                                                    const char *textfragment,
                                                                                    bool apply_filter_rules,
-                                                                                   unsigned int max_out_results,
-                                                                                   data_search_result_t (*out_results)[],
-                                                                                   unsigned int* out_result_count
+                                                                                   data_search_result_list_t *io_results
                                                                                  );
 
 /*!
@@ -217,7 +218,9 @@ static inline data_error_t data_database_text_search_private_prepare_statement (
  *  \param statement_ptr pointer to a statement object
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  */
-static inline data_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_, sqlite3_stmt *statement_ptr );
+static inline data_error_t data_database_text_search_private_finalize_statement ( data_database_text_search_t *this_,
+                                                                                  sqlite3_stmt *statement_ptr
+                                                                                );
 
 /*!
  *  \brief binds two strings to a prepared statement (after reset).

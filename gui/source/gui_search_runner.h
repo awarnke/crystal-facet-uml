@@ -10,6 +10,7 @@
 
 #include "sketch_area/gui_sketch_area.h"
 #include "storage/data_database_reader.h"
+#include "storage/data_database_text_search.h"
 #include "set/data_small_set.h"
 #include "set/data_search_result.h"
 #include "set/data_search_result_list.h"
@@ -31,6 +32,7 @@ enum gui_search_runner_max_enum {
  */
 struct gui_search_runner_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
+    data_database_text_search_t db_searcher;  /*!< own instance of a database freetext searcher */
     gui_sketch_area_t *result_consumer;  /*!< pointer to external gui_sketch_area_t which is informed on search results */
     gui_simple_message_to_user_t *message_to_user;  /*!< pointer to external message-displayer */
 
@@ -50,11 +52,13 @@ typedef struct gui_search_runner_struct gui_search_runner_t;
  *  \param this_ pointer to own object attributes
  *  \param message_to_user pointer to external message-displayer
  *  \param db_reader pointer to external database reader
+ *  \param database pointer to external database - used to create a data_database_text_search_t
  *  \param result_consumer pointer to external gui_sketch_area_t which is informed on search results
  */
 void gui_search_runner_init ( gui_search_runner_t *this_,
                               gui_simple_message_to_user_t *message_to_user,
                               data_database_reader_t *db_reader,
+                              data_database_t *database,
                               gui_sketch_area_t *result_consumer
                             );
 

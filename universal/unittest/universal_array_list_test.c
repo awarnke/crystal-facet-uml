@@ -135,14 +135,14 @@ static void test_max_size(void)
 
 void copy_ctor (double* to_instance, const double* from_instance)
 {
-    ctor_calls++;
     *to_instance = *from_instance;
+    ctor_calls++;
 }
 
 void dtor (double* instance)
 {
-    dtor_calls++;
     *instance = 0.0;
+    dtor_calls++;
 }
 
 static void test_element_lifecycle(void)

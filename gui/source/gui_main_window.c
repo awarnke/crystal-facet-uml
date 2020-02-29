@@ -313,6 +313,7 @@ void gui_main_window_init ( gui_main_window_t *this_,
     gui_search_runner_init( &((*this_).search_runner),
                             &((*this_).message_to_user),
                             db_reader,
+                            database,
                             &((*this_).sketcharea_data)
                           );
     gui_search_request_init( &((*this_).search_request),

@@ -26,6 +26,19 @@ sizeof(ARRAY)/sizeof(data_search_result_t), &(ARRAY), sizeof(data_search_result_
 (void (*)(void *, const void *))data_search_result_copy, NULL );
 
 /*!
+ *  \brief initializes the data_search_result_list_t struct
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param max_elements maximum number of elements that fit into the array
+ *  \param elements pointer to array of elements
+ */
+static inline void data_search_result_list_init ( data_search_result_list_t *this_,
+                                                  unsigned int max_elements,
+                                                  data_search_result_t (*elements)[] )
+{ universal_array_list_init( (universal_array_list_t*)this_, max_elements, (void*)elements, sizeof(data_search_result_t),
+  sizeof(data_search_result_t), (void (*)(void *, const void *))data_search_result_copy, NULL); }
+
+/*!
  *  \brief destroys the data_search_result_list_t struct and all contained elements
  *
  *  \param this_ pointer to own object attributes

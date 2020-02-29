@@ -11,6 +11,31 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
     return result;
 }
 
+static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
+                                                                                    const char *textfragment,
+                                                                                    bool apply_filter_rules,
+                                                                                    unsigned int max_out_results,
+                                                                                    data_search_result_t (*out_results)[],
+                                                                                    unsigned int* out_result_count )
+{
+    assert( NULL != out_results );
+    assert( NULL != out_result_count );
+    assert( NULL != textfragment );
+    data_error_t result = DATA_ERROR_NONE;
+
+    data_search_result_list_t out_list;
+    data_search_result_list_init ( &out_list, max_out_results, out_results );
+
+    result = data_database_text_search_get_objects_by_textfragment ( this_,
+                                                                     textfragment,
+                                                                     apply_filter_rules,
+                                                                     &out_list
+                                                                   );
+
+    *out_result_count = data_search_result_list_get_length( &out_list );
+    return result;
+}
+
 /* ================================ private ================================ */
 
 static inline data_error_t data_database_text_search_private_prepare_statement ( data_database_text_search_t *this_,
