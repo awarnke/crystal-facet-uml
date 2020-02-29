@@ -208,11 +208,7 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         }
         else
         {
-            gui_simple_message_to_user_show_message_with_int( (*this_).message_to_user,
-                                                              GUI_SIMPLE_MESSAGE_TYPE_WARNING,
-                                                              GUI_SIMPLE_MESSAGE_CONTENT_INVALID_INPUT_DATA,
-                                                              0 /* pos of error */
-                                                            );
+            TSLOG_EVENT_STR( "User search input is not an id", search_string );
         }
 
         /* free text search */

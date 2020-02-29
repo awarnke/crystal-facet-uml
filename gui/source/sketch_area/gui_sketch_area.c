@@ -345,31 +345,49 @@ void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const da
     TRACE_BEGIN();
     assert( NULL != result_list );
 
-    /* even in search mode, load the focused card whcih is not displayed */
+    /* even in search mode, load the focused card which is not displayed */
     gui_sketch_area_private_load_data ( this_, back_diagram_id );
 
     assert ( (*this_).card_num == GUI_SKETCH_AREA_CONST_FIRST_RESULT_CARD );
 
-    const uint32_t d_count = data_search_result_list_get_length( result_list );
+    data_small_set_t duplicate_filter;
+    data_small_set_init( &duplicate_filter );
+    unsigned int dropped_duplicates = 0;
+    unsigned int dropped_too_many = 0;
 
+    const uint32_t d_count = data_search_result_list_get_length( result_list );
     for ( uint32_t index = 0; index < d_count; index ++ )
     {
         if ( (*this_).card_num < GUI_SKETCH_AREA_CONST_MAX_CARDS )
         {
             const data_search_result_t *diag_rec = data_search_result_list_get_const( result_list, index );
             const data_id_t diag_id = data_search_result_get_diagram_id( diag_rec );
-            int64_t diag_row_id = data_id_get_row_id( &diag_id );
+            if ( data_small_set_contains( &duplicate_filter, diag_id ) )
             {
-                gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
-                gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_row_id, (*this_).db_reader );
+                dropped_duplicates ++;
             }
-            (*this_).card_num ++;
+            else
+            {
+                int64_t diag_row_id = data_id_get_row_id( &diag_id );
+                {
+                    gui_sketch_card_init( &((*this_).cards[(*this_).card_num]) );
+                    gui_sketch_card_load_data( &((*this_).cards[(*this_).card_num]), diag_row_id, (*this_).db_reader );
+                }
+                (*this_).card_num ++;
+                data_small_set_add_obj( &duplicate_filter, diag_id );
+            }
         }
         else
         {
-            TSLOG_ERROR_INT( "more diagrams in set than fit into cards array!", d_count );
+            dropped_too_many ++;
         }
     }
+
+    if ( (dropped_duplicates + dropped_too_many) > 0 )
+    {
+        TRACE_INFO_INT_INT( "dropped_duplicates, dropped_too_many:", dropped_duplicates, dropped_too_many );
+    }
+    data_small_set_destroy( &duplicate_filter );
 
     TRACE_END();
 }

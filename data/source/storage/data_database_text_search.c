@@ -7,6 +7,16 @@
 #include <sqlite3.h>
 #include <assert.h>
 
+/*!
+ *  \brief translation table to encode strings for usage in LIKE search string literals
+ */
+const char *const DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE[] = {
+    "%", "\\%",
+    "_", "\\_",
+    "\\", "\\\\",
+    NULL,
+};
+
 data_error_t data_database_text_search_init ( data_database_text_search_t *this_, data_database_t *database )
 {
     TRACE_BEGIN();
@@ -98,26 +108,41 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
     assert( NULL != textfragment );
     data_error_t result = DATA_ERROR_NONE;
 
+    /* escape-encode textfragment */
+    utf8error_t u8err = UTF8ERROR_SUCCESS;
+    char like_search_buf[48] = "";
+    utf8stringbuf_t like_search = UTF8STRINGBUF( like_search_buf );
+    u8err |= utf8stringbuf_append_str( like_search, "%" );
+    utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
+    u8err |= utf8stringbuf_append_str( escape_me, textfragment );
+    u8err |= utf8stringbuf_replace_all( escape_me, DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
+    u8err |= utf8stringbuf_append_str( like_search, "%" );
+    TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
+    if ( u8err != UTF8ERROR_SUCCESS )
+    {
+        TSLOG_WARNING_STR( "error at escaping the search string", textfragment );
+    }
+
     result |= data_database_text_search_private_get_diagrams_by_textfragment ( this_,
-                                                                               textfragment,
+                                                                               utf8stringbuf_get_string( like_search ),
                                                                                apply_filter_rules,
                                                                                io_results
                                                                              );
 
     result |= data_database_text_search_private_get_classifiers_by_textfragment ( this_,
-                                                                                  textfragment,
+                                                                                  utf8stringbuf_get_string( like_search ),
                                                                                   apply_filter_rules,
                                                                                   io_results
                                                                                 );
 
     result |= data_database_text_search_private_get_features_by_textfragment ( this_,
-                                                                               textfragment,
+                                                                               utf8stringbuf_get_string( like_search ),
                                                                                apply_filter_rules,
                                                                                io_results
                                                                              );
 
     result |= data_database_text_search_private_get_relationships_by_textfragment ( this_,
-                                                                                    textfragment,
+                                                                                    utf8stringbuf_get_string( like_search ),
                                                                                     apply_filter_rules,
                                                                                     io_results
                                                                                   );

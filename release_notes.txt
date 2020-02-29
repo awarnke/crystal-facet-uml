@@ -1,3 +1,10 @@
+crystal-facet-uml (1.19.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * free text search
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sun, 01 Mar 2020 20:30:00 +0200
+
 crystal-facet-uml (1.18.2) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

@@ -7,7 +7,6 @@ ideas for future versions:
   [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
-  [ ] Add Search-for-name Feature
   [ ] when changing sets of objects (cut/copy/paste/delete/redo/undo...) print understandable statistics
   @pencil
   [ ] Support Diagram-Types: Profile
