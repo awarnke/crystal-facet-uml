@@ -11,9 +11,9 @@ static void test_notifier_list_insert_and_remove(void);
 static void test_notifier_list_full(void);
 
 struct test_data_struct {
-    int32_t guard_1;
+    uint32_t guard_1;
     data_change_notifier_t notifier;
-    int32_t guard_2;
+    uint32_t guard_2;
     int32_t max_list_len;
     int32_t max_test_len;
     GObject test_object[DATA_CHANGE_NOTIFIER_MAX_LISTENERS+1];
@@ -36,8 +36,8 @@ static void set_up(void)
     data_change_notifier_init( &(data.notifier) );
     data.max_list_len = DATA_CHANGE_NOTIFIER_MAX_LISTENERS;
     data.max_test_len = DATA_CHANGE_NOTIFIER_MAX_LISTENERS+1;
-    data.guard_1 = 0x4343f9f5;
-    data.guard_2 = 0xf6de0043;
+    data.guard_1 = 0x4343f9f5u;
+    data.guard_2 = 0xf6de0043u;
 }
 
 static void tear_down(void)
@@ -109,8 +109,8 @@ static void test_notifier_list_full(void)
     TEST_ASSERT_EQUAL_INT( DATA_ERROR_INVALID_REQUEST, result );
 
     /* check that memory was not overwritten */
-    TEST_ASSERT_EQUAL_INT( 0x4343f9f5, data.guard_1 );
-    TEST_ASSERT_EQUAL_INT( 0xf6de0043, data.guard_2 );
+    TEST_ASSERT_EQUAL_INT( 0x4343f9f5u, data.guard_1 );
+    TEST_ASSERT_EQUAL_INT( 0xf6de0043u, data.guard_2 );
 }
 
 

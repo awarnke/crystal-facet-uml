@@ -21,8 +21,14 @@ if (!(COND)) \
 {fprintf(stderr,"TEST FAILED (!(%s)) at %s:%d\n",#COND,__FILE__,__LINE__);exit(-1);}
 
 #define TEST_ASSERT_EQUAL_INT(EXPECTED,ACTUAL)\
-{const int exp = (EXPECTED); const int act = (ACTUAL); if (exp!=act) \
-{fprintf(stderr,"TEST FAILED ((%s)==%d!=%d==(%s)) at %s:%d\n",\
+{const long long exp = (EXPECTED); const long long act = (ACTUAL); if (exp!=act) \
+{fprintf(stderr,"TEST FAILED ((%s)==%lld!=%lld==(%s)) at %s:%d\n",\
+#EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
+}
+
+#define TEST_ASSERT_EQUAL_PTR(EXPECTED,ACTUAL)\
+{const void *exp = (EXPECTED); const void *act = (ACTUAL); if (exp!=act) \
+{fprintf(stderr,"TEST FAILED ((%s)==%p!=%p==(%s)) at %s:%d\n",\
 #EXPECTED,exp,act,#ACTUAL,__FILE__,__LINE__);exit(-1);} \
 }
 

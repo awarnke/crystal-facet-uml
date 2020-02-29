@@ -3,6 +3,7 @@
 #include "trace.h"
 #include "tslog.h"
 #include <assert.h>
+#include <string.h>
 
 static inline void universal_array_list_init ( universal_array_list_t *this_,
                                                unsigned int max_elements,
@@ -60,7 +61,7 @@ static inline int universal_array_list_add ( universal_array_list_t *this_, cons
     assert( (*this_).length <= (*this_).max_elements );
     assert( (*this_).elements != NULL );
 
-    int result;
+    int err_result;
 
     if ( (*this_).length < (*this_).max_elements )
     {
@@ -75,27 +76,28 @@ static inline int universal_array_list_add ( universal_array_list_t *this_, cons
         {
             memcpy( pos, element, (*this_).element_size );
         }
-        result = 0;
+        err_result = 0;
     }
     else
     {
-        result = -1;
+        err_result = -1;
     }
 
-    return result;
+    return err_result;
 }
 
 static inline int universal_array_list_add_all ( universal_array_list_t *this_, const universal_array_list_t *that )
 {
     assert( that != NULL );
 
-    int result = 0;
-    for ( unsigned int idx = 0; (idx < universal_array_list_get_length(that))&&(result == 0); idx ++ )
+    int err_result = 0;
+    const unsigned int len = universal_array_list_get_length(that);
+    for ( unsigned int idx = 0; (idx < len)&&(err_result == 0); idx ++ )
     {
-        result = universal_array_list_add( this_, universal_array_list_get_const( that, idx ) );
+        err_result = universal_array_list_add( this_, universal_array_list_get_const( that, idx ) );
     }
 
-    return result;
+    return err_result;
 }
 
 static inline void *universal_array_list_get_ptr ( universal_array_list_t *this_, unsigned int index )
@@ -126,7 +128,7 @@ static inline void const *universal_array_list_get_const ( const universal_array
 
     if ( index < (*this_).length )
     {
-        result = ((char*)(*this_).elements) + ((*this_).step_size * index);
+        result = ((const char*)(*this_).elements) + ((*this_).step_size * index);
     }
     else
     {
