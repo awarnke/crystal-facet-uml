@@ -143,6 +143,22 @@ static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_resul
 static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ );
 
 /*!
+ *  \brief gets the match object type
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the type of the match object
+ */
+static inline int data_search_result_get_match_type ( const data_search_result_t *this_ );
+
+/*!
+ *  \brief gets the match object name
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return the name of the match object, possibly empty but not NULL
+ */
+static inline const char* data_search_result_get_match_name_const ( const data_search_result_t *this_ );
+
+/*!
  *  \brief gets the src classifier id
  *
  *  \param this_ pointer to own object attributes

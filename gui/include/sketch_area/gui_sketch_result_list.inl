@@ -10,6 +10,7 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
     assert( db_reader != NULL );
     data_search_result_list_clear( &((*this_).result_list) );
     data_search_result_list_add_all( &((*this_).result_list), result_list );
+    /*data_search_result_list_trace( &((*this_).result_list) );*/
 }
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )

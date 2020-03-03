@@ -34,33 +34,29 @@ sizeof(ARRAY)/sizeof(data_search_result_t), &(ARRAY), sizeof(data_search_result_
  */
 static inline void data_search_result_list_init ( data_search_result_list_t *this_,
                                                   unsigned int max_elements,
-                                                  data_search_result_t (*elements)[] )
-{ universal_array_list_init( (universal_array_list_t*)this_, max_elements, (void*)elements, sizeof(data_search_result_t),
-  sizeof(data_search_result_t), (void (*)(void *, const void *))data_search_result_copy, NULL); }
+                                                  data_search_result_t (*elements)[]
+                                                );
 
 /*!
  *  \brief destroys the data_search_result_list_t struct and all contained elements
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_search_result_list_destroy ( data_search_result_list_t *this_ )
-{ universal_array_list_destroy((universal_array_list_t*)this_); }
+static inline void data_search_result_list_destroy ( data_search_result_list_t *this_ );
 
 /*!
  *  \brief prints the data_search_result_list_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_search_result_list_trace ( const data_search_result_list_t *this_ )
-{ universal_array_list_trace((universal_array_list_t*)this_); }
+static inline void data_search_result_list_trace ( const data_search_result_list_t *this_ );
 
 /*!
  *  \brief checks if data_search_result_list_t is empty
  *
  *  \param this_ pointer to own object attributes
  */
-static inline bool data_search_result_list_is_empty ( const data_search_result_list_t *this_ )
-{ return universal_array_list_is_empty((universal_array_list_t*)this_); }
+static inline bool data_search_result_list_is_empty ( const data_search_result_list_t *this_ );
 
 /*!
  *  \brief adds an element to data_search_result_list_t
@@ -69,8 +65,7 @@ static inline bool data_search_result_list_is_empty ( const data_search_result_l
  *  \param element element to be added. Only a valid object can be added, NULL is not allowed.
  *  \return -1 if list is full, 0 on success
  */
-static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element )
-{ return universal_array_list_add((universal_array_list_t*)this_,element); }
+static inline int data_search_result_list_add ( data_search_result_list_t *this_, const data_search_result_t* element );
 
 /*!
  *  \brief adds all elements of that to data_search_result_list_t
@@ -79,8 +74,7 @@ static inline int data_search_result_list_add ( data_search_result_list_t *this_
  *  \param that list of element to be added.
  *  \return -1 if list is full, 0 on success
  */
-static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that )
-{ return universal_array_list_add_all((universal_array_list_t*)this_,(const universal_array_list_t*)that); }
+static inline int data_search_result_list_add_all ( data_search_result_list_t *this_, const data_search_result_list_t *that );
 
 /*!
  *  \brief returns an element
@@ -89,8 +83,7 @@ static inline int data_search_result_list_add_all ( data_search_result_list_t *t
  *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
-static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index )
-{ return (data_search_result_list_t*)universal_array_list_get_ptr((universal_array_list_t*)this_,index); }
+static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_search_result_list_t *this_, unsigned int index );
 
 /*!
  *  \brief returns a const element
@@ -99,16 +92,14 @@ static inline data_search_result_list_t *data_search_result_list_get_ptr ( data_
  *  \param index index to be returned. 0 \<= index \< universal_array_list_get_length(this_)
  *  \return pointer to the element, NULL if index is invalid
  */
-static inline void const *data_search_result_list_get_const ( const data_search_result_list_t *this_, unsigned int index )
-{ return (data_search_result_list_t const*)universal_array_list_get_const((universal_array_list_t*)this_,index); }
+static inline void const *data_search_result_list_get_const ( const data_search_result_list_t *this_, unsigned int index );
 
 /*!
  *  \brief clears the data_search_result_list_t and all contained elements
  *
  *  \param this_ pointer to own object attributes
  */
-static inline void data_search_result_list_clear ( data_search_result_list_t *this_ )
-{ universal_array_list_clear((universal_array_list_t*)this_); }
+static inline void data_search_result_list_clear ( data_search_result_list_t *this_ );
 
 /*!
  *  \brief returns the size of the set
@@ -116,8 +107,9 @@ static inline void data_search_result_list_clear ( data_search_result_list_t *th
  *  \param this_ pointer to own object attributes
  *  \return number of object-ids in the set, the number is less or equal to universal_array_list_MAX_SET_SIZE
  */
-static inline unsigned int data_search_result_list_get_length ( const data_search_result_list_t *this_ )
-{ return universal_array_list_get_length((universal_array_list_t*)this_); }
+static inline unsigned int data_search_result_list_get_length ( const data_search_result_list_t *this_ );
+
+#include "set/data_search_result_list.inl"
 
 #endif  /* DATA_SEARCH_RESULT_LIST_H */
 

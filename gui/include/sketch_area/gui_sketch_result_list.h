@@ -8,7 +8,9 @@
  *  \brief Draws a list showing search results
  */
 
+#include "sketch_area/gui_sketch_marker.h"
 #include "gui_marked_set.h"
+#include "gui_resources.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
@@ -35,6 +37,11 @@ struct gui_sketch_result_list_struct {
 
     data_search_result_t result_list_buf[GUI_SKETCH_RESULT_LIST_MAX_ARRAY_SIZE];  /*!< list of results */
     data_search_result_list_t result_list;
+
+    /* helper classes to perform drawing */
+    PangoFontDescription *standard_font_description;  /*!< text description of standard text */
+    gui_sketch_marker_t sketch_marker;
+    gui_resources_t *resources;  /*!< pointer to external resources */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
@@ -43,8 +50,9 @@ typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
  *  \brief initializes the gui_sketch_result_list_t struct
  *
  *  \param this_ pointer to own object attributes
+ *  \param resources pointer to a graphics resource provider
  */
-void gui_sketch_result_list_init ( gui_sketch_result_list_t *this_ );
+void gui_sketch_result_list_init ( gui_sketch_result_list_t *this_, gui_resources_t *resources );
 
 /*!
  *  \brief destroys the gui_sketch_result_list_t struct
@@ -129,6 +137,26 @@ static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_resu
                                                                  int32_t y,
                                                                  data_id_t* out_selected_id
                                                                );
+
+/*!
+ *  \brief draws a type-icon and a result-label
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param icon_1 the icon to draw
+ *  \param label_1 the label to draw - using the pango library for i18n suppoprt
+ *  \param x abscissae
+ *  \param y ordinate
+ *  \param layout the pango font rendering object for i18n suppoprt
+ *  \param cr the cairo drawing engine
+ */
+void gui_sketch_result_list_private_draw_icon_and_label( gui_sketch_result_list_t *this_,
+                                                         const GdkPixbuf *icon_1,
+                                                         const char *label_1,
+                                                         int x,
+                                                         int y,
+                                                         PangoLayout *layout,
+                                                         cairo_t *cr
+                                                       );
 
 #include "gui_sketch_result_list.inl"
 

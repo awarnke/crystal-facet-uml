@@ -104,7 +104,7 @@ static inline void data_search_result_copy ( data_search_result_t *this_, const 
 {
     assert( NULL != original );
 
-    (*this_) = (*original);
+    *this_ = *original;
     /* repair the overwritten pointers */
     (*this_).match_object_name = utf8stringbuf_init( sizeof((*this_).private_match_name_buffer), (*this_).private_match_name_buffer );
 }
@@ -130,6 +130,16 @@ static inline data_id_t *data_search_result_get_match_id_ptr ( data_search_resul
 static inline const data_id_t *data_search_result_get_match_id_const ( const data_search_result_t *this_ )
 {
     return &((*this_).match_object_id);
+}
+
+static inline int data_search_result_get_match_type ( const data_search_result_t *this_ )
+{
+    return (*this_).match_type;
+}
+
+static inline const char* data_search_result_get_match_name_const ( const data_search_result_t *this_ )
+{
+    return utf8stringbuf_get_string( (*this_).match_object_name );
 }
 
 static inline data_id_t data_search_result_get_src_classifier_id ( const data_search_result_t *this_ )

@@ -48,7 +48,7 @@ void gui_sketch_area_init( gui_sketch_area_t *this_,
     (*this_).card_num = 0;
     (*this_).marker = marker;
     gui_sketch_nav_tree_init( &((*this_).nav_tree), resources );
-    gui_sketch_result_list_init( &((*this_).result_list) );
+    gui_sketch_result_list_init( &((*this_).result_list), resources );
     gui_sketch_drag_state_init ( &((*this_).drag_state) );
     gui_sketch_overlay_init( &((*this_).overlay) );
     gui_sketch_background_init( &((*this_).background), resources );
@@ -344,6 +344,8 @@ void gui_sketch_area_private_load_data_list ( gui_sketch_area_t *this_, const da
 {
     TRACE_BEGIN();
     assert( NULL != result_list );
+
+    data_search_result_list_trace(result_list);
 
     /* even in search mode, load the focused card which is not displayed */
     gui_sketch_area_private_load_data ( this_, back_diagram_id );

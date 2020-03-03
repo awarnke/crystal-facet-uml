@@ -84,7 +84,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>Find diagrams that contain the searched element (see <xref linkend="draw_search"/>)</para></listitem>
+                <listitem><para>Find diagrams that contain the searched elements (see <xref linkend="draw_search"/>)</para></listitem>
                 </itemizedlist>
             </para>
 
@@ -306,7 +306,7 @@
                     <imageobject><imagedata fileref="../../gui/source/resources/tool_search.png"/></imageobject>
                 </inlinemediaobject>
                 <itemizedlist>
-                <listitem><para>To find a list of diagrams containing a given element, enter the ID (e.g. C0001) into the search field and press enter.</para></listitem>
+                <listitem><para>Enter the ID of an element (e.g. C0001) or a part of its name or description to find diagrams containing this element.</para></listitem>
                 </itemizedlist>
             </para>
 

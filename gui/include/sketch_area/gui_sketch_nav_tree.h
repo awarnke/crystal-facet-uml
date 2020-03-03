@@ -8,9 +8,9 @@
  *  \brief Shows a tree view
  */
 
-#include "gui_marked_set.h"
 #include "sketch_area/gui_sketch_marker.h"
 #include "sketch_area/gui_sketch_action.h"
+#include "gui_marked_set.h"
 #include "gui_resources.h"
 #include "gui_error.h"
 #include "util/shape/shape_int_rectangle.h"
@@ -293,7 +293,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
  *  \param cr the cairo drawing engine
  */
 void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
-                                                      GdkPixbuf *icon_1,
+                                                      const GdkPixbuf *icon_1,
                                                       const char *label_1,
                                                       int x,
                                                       int y,

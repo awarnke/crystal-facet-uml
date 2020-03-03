@@ -13,6 +13,7 @@ static const uint32_t NAV_TREE_FIRST_LINE = 1;
 void gui_sketch_nav_tree_init( gui_sketch_nav_tree_t *this_, gui_resources_t *resources )
 {
     TRACE_BEGIN();
+    assert( resources != NULL );
 
     (*this_).ancestors_count = 0;
     (*this_).siblings_count = 0;
@@ -62,7 +63,7 @@ void gui_sketch_nav_tree_destroy( gui_sketch_nav_tree_t *this_ )
 
     gui_sketch_nav_tree_invalidate_data( this_ );
 
-    shape_int_rectangle_destroy(&((*this_).bounds));
+    shape_int_rectangle_destroy( &((*this_).bounds) );
 
     TRACE_END();
 }
@@ -525,15 +526,10 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 
     if ( (*this_).visible )
     {
-        int32_t left;
-        int32_t top;
-        uint32_t width;
-        uint32_t height;
-
-        left = shape_int_rectangle_get_left( &((*this_).bounds) );
-        top = shape_int_rectangle_get_top( &((*this_).bounds) );
-        width = shape_int_rectangle_get_width( &((*this_).bounds) );
-        height = shape_int_rectangle_get_height( &((*this_).bounds) );
+        const int32_t left = shape_int_rectangle_get_left( &((*this_).bounds) );
+        const int32_t top = shape_int_rectangle_get_top( &((*this_).bounds) );
+        const uint32_t width = shape_int_rectangle_get_width( &((*this_).bounds) );
+        const uint32_t height = shape_int_rectangle_get_height( &((*this_).bounds) );
 
         /* draw the background */
         {
@@ -573,7 +569,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                     cr
                                                   );
 
-                    GdkPixbuf *ancestors_folder_icon;
+                    const GdkPixbuf *ancestors_folder_icon;
                     if ( anc_index == 1 )
                     {
                         ancestors_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
@@ -605,7 +601,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                 cr
                                               );
 
-                GdkPixbuf *siblings_folder_icon;
+                const GdkPixbuf *siblings_folder_icon;
                 if ( sib_index == (*this_).siblings_self_index )
                 {
                     siblings_folder_icon = gui_resources_get_navigate_open_folder( (*this_).resources );
@@ -671,6 +667,8 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
                                                                  cr
                                                                );
             }
+
+            g_object_unref(layout);
         }
     }
 
@@ -678,7 +676,7 @@ void gui_sketch_nav_tree_draw ( gui_sketch_nav_tree_t *this_, gui_marked_set_t *
 }
 
 void gui_sketch_nav_tree_private_draw_icon_and_label( gui_sketch_nav_tree_t *this_,
-                                                      GdkPixbuf *icon_1,
+                                                      const GdkPixbuf *icon_1,
                                                       const char *label_1,
                                                       int x,
                                                       int y,
