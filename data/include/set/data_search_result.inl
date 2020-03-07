@@ -189,9 +189,9 @@ static inline const data_id_t *data_search_result_get_diagram_id_const ( const d
 
 static inline void data_search_result_trace ( const data_search_result_t *this_ )
 {
-    data_id_trace( &((*this_).match_object_id) );
     TRACE_INFO_STR( "- name:", utf8stringbuf_get_string((*this_).match_object_name) );
     TRACE_INFO_INT( "- type:", (*this_).match_type );
+    data_id_trace( &((*this_).match_object_id) );
     data_id_trace( &((*this_).src_classifier_id) );
     data_id_trace( &((*this_).dst_classifier_id) );
     data_id_trace( &((*this_).diagram_id) );
