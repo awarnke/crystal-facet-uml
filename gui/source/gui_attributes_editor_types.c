@@ -14,6 +14,7 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
     assert( NULL != resources );
 
     (*this_).resources = resources;
+    gui_resource_selector_init ( &((*this_).selector), resources );
 
     {
         GtkTreeIter iter;
@@ -284,6 +285,8 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
 void gui_attributes_editor_types_destroy ( gui_attributes_editor_types_t *this_ )
 {
     TRACE_BEGIN();
+
+    gui_resource_selector_destroy ( &((*this_).selector) );
 
     g_object_unref((*this_).no_types);
     (*this_).no_types = NULL;

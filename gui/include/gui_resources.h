@@ -47,6 +47,7 @@ struct gui_resources_struct {
     GdkPixbuf *background_column;
 
     const GdkPixbuf *type_undef;
+
     const GdkPixbuf *type_diag_activity;
     const GdkPixbuf *type_diag_block;
     const GdkPixbuf *type_diag_box;

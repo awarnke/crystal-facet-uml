@@ -30,6 +30,7 @@ void gui_sketch_result_list_init( gui_sketch_result_list_t *this_, gui_resources
 
     gui_sketch_marker_init( &((*this_).sketch_marker) );
     (*this_).resources = resources;
+    gui_resource_selector_init( &((*this_).selector), resources );
 
     TRACE_END();
 }
@@ -38,6 +39,7 @@ void gui_sketch_result_list_destroy( gui_sketch_result_list_t *this_ )
 {
     TRACE_BEGIN();
 
+    gui_resource_selector_destroy( &((*this_).selector) );
     (*this_).resources = NULL;
     gui_sketch_marker_destroy( &((*this_).sketch_marker) );
 
@@ -91,13 +93,16 @@ void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_s
             for ( unsigned int idx = 0; idx < count; idx ++ )
             {
                 const data_search_result_t *result = data_search_result_list_get_const( &((*this_).result_list), idx );
-                const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
+                //const GdkPixbuf *undef_icon = gui_resources_get_type_undef( (*this_).resources );
+                const int type = data_search_result_get_match_type( result );
+                const data_table_t table = data_id_get_table( data_search_result_get_match_id_const( result ) );
+                const GdkPixbuf *icon = gui_resource_selector_get_icon ( &((*this_).selector), table, type );
                 cairo_set_source_rgba( cr, BLACK_R, BLACK_G, BLACK_B, BLACK_A );
                 gui_sketch_result_list_private_draw_icon_and_label( this_,
-                                                                    undef_icon,
+                                                                    icon,
                                                                     data_search_result_get_match_name_const( result ),
-                                                                    8,
-                                                                    8+20*idx,
+                                                                    4,
+                                                                    4+28*idx,
                                                                     layout,
                                                                     cr
                                                                   );

@@ -208,7 +208,7 @@ void gui_attributes_editor_private_stereotype_commit_changes ( gui_attributes_ed
  *
  *  If the type is not modified, nothing happens.
  *  \param this_ pointer to own object attributes
- *  \param this_ obj_type new object type to be set. This has to be read out from the type selection widgets by the caller
+ *  \param obj_type obj_type new object type to be set. This has to be read out from the type selection widgets by the caller
  */
 void gui_attributes_editor_private_type_commit_changes ( gui_attributes_editor_t *this_, int obj_type );
 

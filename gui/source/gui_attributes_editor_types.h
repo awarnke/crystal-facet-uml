@@ -9,6 +9,7 @@
  */
 
 #include "gui_resources.h"
+#include "gui_resource_selector.h"
 #include "data_classifier.h"
 #include "data_diagram.h"
 #include "data_feature.h"
@@ -20,6 +21,7 @@
  */
 struct gui_attributes_editor_types_struct {
     gui_resources_t *resources;  /*!< pointer to external resource provider */
+    gui_resource_selector_t selector;  /*!< own instance of a resource selector */
 
     GtkListStore *no_types;  /* a list representing only n/a */
     GtkListStore *diagram_types;

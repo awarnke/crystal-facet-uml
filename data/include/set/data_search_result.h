@@ -41,7 +41,6 @@ typedef struct data_search_result_struct data_search_result_t;
  *  \param match_id matching diagram id
  *  \param match_type matching objects type, stored as int
  *  \param match_name matching object name, must not be NULL
- *  \param diagram_id diagram id where the matching object is visible
  */
 static inline void data_search_result_init_diagram ( data_search_result_t *this_,
                                                      int64_t match_id,

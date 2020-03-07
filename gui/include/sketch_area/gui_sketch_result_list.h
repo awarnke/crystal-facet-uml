@@ -11,6 +11,7 @@
 #include "sketch_area/gui_sketch_marker.h"
 #include "gui_marked_set.h"
 #include "gui_resources.h"
+#include "gui_resource_selector.h"
 #include "util/shape/shape_int_rectangle.h"
 #include "storage/data_database.h"
 #include "set/data_search_result.h"
@@ -42,6 +43,7 @@ struct gui_sketch_result_list_struct {
     PangoFontDescription *standard_font_description;  /*!< text description of standard text */
     gui_sketch_marker_t sketch_marker;
     gui_resources_t *resources;  /*!< pointer to external resources */
+    gui_resource_selector_t selector;  /*!< own instance of a resource selector */
 };
 
 typedef struct gui_sketch_result_list_struct gui_sketch_result_list_t;
