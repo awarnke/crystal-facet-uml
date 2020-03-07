@@ -68,7 +68,8 @@ static inline void gui_resource_selector_get_all_diagram_types ( const gui_resou
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
-    *out_types = &((*this_).type_name_icon_list) + (*this_).diagram_types_start;
+    const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).diagram_types_start]);
+    *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;
     *out_length = (*this_).diagram_types_length;
 }
 
@@ -78,7 +79,8 @@ static inline void gui_resource_selector_get_all_classifier_types ( const gui_re
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
-    *out_types = &((*this_).type_name_icon_list) + (*this_).classifier_types_start;
+    const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).classifier_types_start]);
+    *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;
     *out_length = (*this_).classifier_types_length;
 }
 
@@ -88,7 +90,8 @@ static inline void gui_resource_selector_get_all_feature_types ( const gui_resou
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
-    *out_types = &((*this_).type_name_icon_list) + (*this_).feature_types_start;
+    const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).feature_types_start]);
+    *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;
     *out_length = (*this_).feature_types_length;
 }
 
@@ -98,7 +101,8 @@ static inline void gui_resource_selector_get_all_relationship_types ( const gui_
 {
     assert( out_types != NULL );
     assert( out_length != NULL );
-    *out_types = &((*this_).type_name_icon_list) + (*this_).relationship_types_start;
+    const gui_type_resource_t *start_element_ptr = &((*this_).type_name_icon_list[(*this_).relationship_types_start]);
+    *out_types = (const gui_type_resource_t((*)[])) start_element_ptr;
     *out_length = (*this_).relationship_types_length;
 }
 

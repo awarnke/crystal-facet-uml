@@ -24,7 +24,7 @@ union gui_type_resource_union {
     data_feature_type_t feature;  /*!<  type id in case the element type is DATA_TABLE_FEATURE */
     data_classifier_type_t classifier;  /*!<  type id in case the element type is DATA_TABLE_CLASSIFIER */
     data_diagram_type_t diagram;  /*!<  type id in case the element type is DATA_TABLE_DIAGRAM */
-    int any;  /*!<  type id in case the element type is unknown/not of interest */
+    int as_int;  /*!<  type id in case the element type is unknown/not of interest */
 };
 
 /*!
