@@ -24,6 +24,18 @@ void gui_attributes_editor_types_init ( gui_attributes_editor_types_t *this_, gu
         gtk_list_store_set ( (*this_).no_types, &iter, 0, 0x0, 1, "-- n/a --", 2, icon_undef_type, -1 );
     }
 
+
+    const gui_type_resource_t ((*types)[]);
+    unsigned int types_len;
+
+    gui_resource_selector_get_all_diagram_types ( &((*this_).selector), &types, &types_len );
+
+    gui_resource_selector_get_all_classifier_types ( &((*this_).selector), &types, &types_len );
+
+    gui_resource_selector_get_all_feature_types ( &((*this_).selector), &types, &types_len );
+
+    gui_resource_selector_get_all_relationship_types ( &((*this_).selector), &types, &types_len );
+
     {
         GtkTreeIter iter;
         (*this_).diagram_types = gtk_list_store_new( 3, G_TYPE_INT, G_TYPE_STRING, GDK_TYPE_PIXBUF );
