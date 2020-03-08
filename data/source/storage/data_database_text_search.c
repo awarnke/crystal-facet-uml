@@ -223,6 +223,8 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN )
                                                );
 
+                /* there is no filter for diagrams, apply_filter_rules is ignored */
+
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
                 {
@@ -326,6 +328,8 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
                                                     (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
                                                     sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN )
                                                   );
+
+                /* there is no filter for classifiers, apply_filter_rules is ignored */
 
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
@@ -452,11 +456,20 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
                 TRACE_INFO_INT( "- c_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN ) );
                 TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN ) );
 
-                int err_full = data_search_result_list_add( io_results, &current_result );
-                if ( err_full != 0 )
+                bool filter = false;
+                if ( apply_filter_rules )
                 {
-                    TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                    result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    /* TODO */
+                }
+
+                if ( ! filter )
+                {
+                    int err_full = data_search_result_list_add( io_results, &current_result );
+                    if ( err_full != 0 )
+                    {
+                        TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    }
                 }
 
                 data_search_result_trace( &current_result );
@@ -592,11 +605,20 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
                 TRACE_INFO_INT( "- to_feat:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) );
                 TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN ) );
 
-                int err_full = data_search_result_list_add( io_results, &current_result );
-                if ( err_full != 0 )
+                bool filter = false;
+                if ( apply_filter_rules )
                 {
-                    TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
-                    result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    /* TODO */
+                }
+
+                if ( ! filter )
+                {
+                    int err_full = data_search_result_list_add( io_results, &current_result );
+                    if ( err_full != 0 )
+                    {
+                        TSLOG_ANOMALY_INT( "io_results list full:", data_search_result_list_get_length( io_results ) );
+                        result |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    }
                 }
 
                 data_search_result_trace( &current_result );

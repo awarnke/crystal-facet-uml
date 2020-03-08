@@ -271,11 +271,20 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
         {
             const int64_t diagram_row_id = data_diagram_get_id ( &((*this_).temp_diagrams[idx]) );
             data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
-            int err = data_search_result_list_add( io_list, classifier_template );
-            if ( err != 0 )
+
+            bool filter = false;
             {
-                d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
-                TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                /* TODO */
+            }
+
+            if ( ! filter )
+            {
+            int err = data_search_result_list_add( io_list, classifier_template );
+                if ( err != 0 )
+                {
+                    d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;
+                    TSLOG_WARNING( "DATA_ERROR_ARRAY_BUFFER_EXCEEDED at inserting search result to list" );
+                }
             }
 
             data_diagram_destroy( &((*this_).temp_diagrams[idx]) );
