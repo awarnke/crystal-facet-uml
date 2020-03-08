@@ -124,21 +124,18 @@ static inline void gui_sketch_result_list_set_visible( gui_sketch_result_list_t 
 void gui_sketch_result_list_draw ( gui_sketch_result_list_t *this_, gui_marked_set_t *marker, cairo_t *cr );
 
 /*!
- *  \brief gets the object-id of the object at a given position.
- *
- *  Either it gets the real, de-referenced object at a given position, e.g. a diagram_t or a classifier_t,
- *  or the visible object at a given position, e.g. a diagram_t or a diagramelement_t.
+ *  \brief determines the object at a given position and returns the diagram-id in which it appears.
  *
  *  \param this_ pointer to own object attributes
  *  \param x x-position
  *  \param y y-position
- *  \param out_selected_id the object id at the given location. The id is invalid if there is no object at the given location.
+ *  \param out_selected_id the diagram id of the object at the given location. The id is invalid if there is no object at the given location.
  */
-static inline void gui_sketch_result_list_get_object_id_at_pos ( gui_sketch_result_list_t *this_,
-                                                                 int32_t x,
-                                                                 int32_t y,
-                                                                 data_id_t* out_selected_id
-                                                               );
+static inline void gui_sketch_result_list_get_diagram_id_at_pos ( gui_sketch_result_list_t *this_,
+                                                                  int32_t x,
+                                                                  int32_t y,
+                                                                  data_id_t* out_selected_id
+                                                                );
 
 /*!
  *  \brief draws a type-icon and a result-label

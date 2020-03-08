@@ -29,6 +29,10 @@ static inline data_id_t gui_sketch_area_get_diagram_id_at_pos ( gui_sketch_area_
     {
         gui_sketch_nav_tree_get_object_id_at_pos( &((*this_).nav_tree), x, y, &result );
     }
+    else if ( gui_sketch_result_list_is_visible( &((*this_).result_list) ) )
+    {
+        gui_sketch_result_list_get_diagram_id_at_pos ( &((*this_).result_list), x, y, &result );
+    }
 
     for ( int idx = 0; idx < (*this_).card_num; idx ++ )
     {
