@@ -33,7 +33,7 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_, const data_vi
 
         if ( is_feat_scenario )
         {
-            /* a scenario-typed feature that belongs to a different diagram is always filtered */
+            /* a scenario-typed feature(=lifeline) that belongs to a different diagram is always filtered */
             bool is_foreign_scenario = true;
             const uint32_t vc_count = data_visible_set_get_visible_classifier_count ( diagram_set );
             for ( uint32_t vc_idx = 0; vc_idx < vc_count; vc_idx ++ )  /* SEARCH */

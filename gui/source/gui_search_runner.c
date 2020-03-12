@@ -69,15 +69,28 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
             {
                 case DATA_TABLE_CLASSIFIER:
                 {
-                    data_search_result_t half_initialized;
-                    data_search_result_init_classifier( &half_initialized,
-                                                        search_row_id,
-                                                        0 /* match_type is unknown */,
-                                                        "" /* match_name */,
-                                                        DATA_ID_VOID_ID /* diagram_id */
-                                                      );
-                    gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
-                    data_search_result_destroy( &half_initialized );
+                    d_err = data_database_reader_get_classifier_by_id ( (*this_).db_reader,
+                                                                        search_row_id,
+                                                                        &((*this_).temp_classifier)
+                                                                      );
+                    if ( d_err == DATA_ERROR_NONE )
+                    {
+                        data_search_result_t half_initialized;
+                        data_search_result_init_classifier( &half_initialized,
+                                                            search_row_id,
+                                                            data_classifier_get_main_type( &((*this_).temp_classifier) ),
+                                                            data_classifier_get_name_ptr( &((*this_).temp_classifier) ),
+                                                            DATA_ID_VOID_ID /* diagram_id */
+                                                        );
+                        gui_search_runner_private_add_diagrams_of_classifier( this_, &half_initialized, &((*this_).temp_result_list) );
+
+                        data_classifier_destroy( &((*this_).temp_classifier) );
+                        data_search_result_destroy( &half_initialized );
+                    }
+                    else
+                    {
+                        TRACE_INFO( "classifier does not exist or database not open." );
+                    }
                 }
                 break;
 
@@ -180,8 +193,8 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
                         data_search_result_t half_initialized;
                         data_search_result_init_diagram( &half_initialized,
                                                          search_row_id,
-                                                         0 /* match_type is unknown */,
-                                                         "" /* match_name */
+                                                         data_diagram_get_diagram_type( &((*this_).temp_diagrams[0]) ),
+                                                         data_diagram_get_name_ptr( &((*this_).temp_diagrams[0]) )
                                                        );
                         int err = data_search_result_list_add( &((*this_).temp_result_list), &half_initialized );
                         if ( err != 0 )
@@ -214,7 +227,6 @@ void gui_search_runner_run ( gui_search_runner_t *this_, const char* search_stri
         /* free text search */
         d_err = data_database_text_search_get_objects_by_textfragment ( &((*this_).db_searcher),
                                                                         search_string,
-                                                                        true /*apply_filter_rules*/,
                                                                         &((*this_).temp_result_list)
                                                                       );
         if ( DATA_ERROR_NONE != d_err )
@@ -273,13 +285,32 @@ void gui_search_runner_private_add_diagrams_of_classifier ( gui_search_runner_t 
             data_id_reinit( data_search_result_get_diagram_id_ptr( classifier_template ), DATA_TABLE_DIAGRAM, diagram_row_id );
 
             bool filter = false;
+            switch ( data_id_get_table( data_search_result_get_match_id_const( classifier_template ) ) )
             {
-                /* TODO */
+                case DATA_TABLE_FEATURE:
+                {
+                    /* if a user searches explicitly for a feature-id, which feature/classifiers should be filtered? */
+                    /* and how? till here, the classifier type is not yet loaded. */
+                }
+                break;
+
+                case DATA_TABLE_RELATIONSHIP:
+                {
+                    /* if a user searches explicitly for a relationship-id, which ones should be filtered? */
+                    /* and how? till here, the classifier type is not yet loaded. */
+                }
+                break;
+
+                default:
+                {
+                    /* do not filter classifiers (or other things?) */
+                }
+                break;
             }
 
             if ( ! filter )
             {
-            int err = data_search_result_list_add( io_list, classifier_template );
+                const int err = data_search_result_list_add( io_list, classifier_template );
                 if ( err != 0 )
                 {
                     d_err |= DATA_ERROR_ARRAY_BUFFER_EXCEEDED;

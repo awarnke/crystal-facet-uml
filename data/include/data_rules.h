@@ -7,6 +7,24 @@
 /*!
  *  \file
  *  \brief Defines constraints, invariants and recommendations for uml/sysml models
+ *
+ *  There are several levels of constraints:
+ *  - On the deepest level, the database structure itself, there exist must-have rules, checked by the data_database_consistency_checker.
+ *    For example a relationship must have a valid classifier at each end.
+ *  - On the next level, there are must-have rules about which model element is existant in which diagram (implemented here in data_rules).
+ *    For example a relationship exists in a diagram only if source and destination classifiers are contained in the diagram.
+ *  - On the third level, there are nice-to-have guidelines about what could be hidden but which is possibly not consistent
+ *    between versions of crystal_facet_uml, between usage and export/import functions (implemented here in data_rules).
+ *    For example a list-diagram-type may hide relationships, an actor-classifier may hide ports.
+ *  - Another level is implemented in the pencil package, which decides if to hide elements,
+ *    like containment relationships if the containment is visible by inclusion already.
+ *  .
+ *
+ *  Which method implements a guideline and which implements a rule is annotated in the corresponding dogygen comment.
+ *  A rule-of-thumb is:
+ *  - If a condition makes no sense, a rule states that it must not be.
+ *  - If a condition is currently not wanted but could be changed in the future, a guideline proposes to avoid it.
+ *  .
  */
 
 #include "set/data_visible_set.h"
@@ -42,6 +60,8 @@ static inline void data_rules_destroy ( data_rules_t *this_ );
 /*!
  *  \brief gets the default classifier type of the given diagram type
  *
+ *  This method implements a guideline.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \return default classifier type in the given diagram_type.
@@ -54,6 +74,8 @@ static inline data_classifier_type_t data_rules_get_default_classifier_type ( co
 /*!
  *  \brief gets the default relationship type of the given source(from) classifier type
  *
+ *  This method implements a guideline.
+ *
  *  \param this_ pointer to own object attributes
  *  \param from_classifier_type the classifier type where the relation starts from
  *  \return default relationship type of the given from(source) classifier type.
@@ -65,6 +87,8 @@ static inline data_relationship_type_t data_rules_get_default_relationship_type 
 
 /*!
  *  \brief gets the default feature type of the given parent classifier type
+ *
+ *  This method implements a guideline.
  *
  *  \param this_ pointer to own object attributes
  *  \param parent_classifier_type the classifier type for which to create a feature
@@ -80,6 +104,8 @@ static inline data_feature_type_t data_rules_get_default_feature_type ( const da
 /*!
  *  \brief determines if the feature shall be visible in the diagram of the data_visible_set_t
  *
+ *  This method implements a combination of guidelines and rules.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
  *  \param feature_id the id of the feature
@@ -93,6 +119,8 @@ bool data_rules_diagram_shows_feature ( const data_rules_t *this_,
 
 /*!
  *  \brief determines if the relationship shall be visible in the diagram of the data_visible_set_t
+ *
+ *  This method implements a combination of guidelines and rules.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_set the data_visible_set_t containing the cached diagram data for pencil
@@ -111,6 +139,8 @@ bool data_rules_diagram_shows_relationship ( const data_rules_t *this_,
 /*!
  *  \brief determines if the diagram type is scenario-based
  *
+ *  This method implements a definition of "scenario".
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \return true if the feature type is DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM
@@ -125,6 +155,8 @@ static inline bool data_rules_diagram_is_scenario ( const data_rules_t *this_, d
 /*!
  *  \brief determines if the classifier type has unconditional features
  *
+ *  This method implements a guideline.
+ *
  *  \param this_ pointer to own object attributes
  *  \param classifier_type the classifier type
  *  \return true if the classifier type may have features, false otherwise. false also if classifier_type is invalid.
@@ -133,6 +165,8 @@ static inline bool data_rules_classifier_has_uncond_features ( const data_rules_
 
 /*!
  *  \brief determines if the feature type is scenario-conditional
+ *
+ *  This method implements a definition of "scenario".
  *
  *  \param this_ pointer to own object attributes
  *  \param feature_type the feature type
@@ -143,6 +177,8 @@ static inline bool data_rules_feature_is_scenario_cond ( const data_rules_t *thi
 /*!
  *  \brief determines if the unconditional features shall be visible in the given diagram
  *
+ *  This method implements a guideline.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \return true if an unconditional feature (non-lifeline) shall be visible, false otherwise.
@@ -151,6 +187,8 @@ static inline bool data_rules_diagram_shows_uncond_features ( const data_rules_t
 
 /*!
  *  \brief determines if the scenario-specific features shall be visible in the given diagram
+ *
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
@@ -161,7 +199,9 @@ static inline bool data_rules_diagram_shows_scenario_features ( const data_rules
 /*!
  *  \brief determines if the visible classifier has the feature
  *
- *  This method does not take into account if the diagram shows this kind of feature
+ *  This method does not take into account if the diagram shows this kind of feature.
+ *
+ *  This method implements a combination of guidelines and rules.
  *
  *  \param this_ pointer to own object attributes
  *  \param vis_classifier the visible classifier
@@ -180,6 +220,8 @@ static inline bool data_rules_vis_classifier_has_feature ( const data_rules_t *t
 /*!
  *  \brief determines if the relationship type is scenario-conditional
  *
+ *  This method implements a definition of "scenario".
+ *
  *  \param this_ pointer to own object attributes
  *  \param from_feature_type the feature type of the source end, DATA_FEATURE_TYPE_VOID if source is not a feature
  *  \param to_feature_type the feature type of the destination end, DATA_FEATURE_TYPE_VOID if destination is not a feature
@@ -193,6 +235,8 @@ static inline bool data_rules_relationship_is_scenario_cond ( const data_rules_t
 /*!
  *  \brief determines if the unconditional relationships shall be visible in the given diagram
  *
+ *  This method implements a guideline.
+ *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type
  *  \return true if an unconditional relationship (non-lifeline start+end) shall be visible, false otherwise.
@@ -201,6 +245,8 @@ static inline bool data_rules_diagram_shows_uncond_relationships ( const data_ru
 
 /*!
  *  \brief determines if the scenario-specific relationships shall be visible in the given diagram
+ *
+ *  This method implements a rule.
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_type the diagram type

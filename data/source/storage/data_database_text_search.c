@@ -100,7 +100,6 @@ void data_database_text_search_db_change_callback ( data_database_text_search_t 
 
 data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
                                                                      const char *textfragment,
-                                                                     bool apply_filter_rules,
                                                                      data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
@@ -125,25 +124,21 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
 
     result |= data_database_text_search_private_get_diagrams_by_textfragment ( this_,
                                                                                utf8stringbuf_get_string( like_search ),
-                                                                               apply_filter_rules,
                                                                                io_results
                                                                              );
 
     result |= data_database_text_search_private_get_classifiers_by_textfragment ( this_,
                                                                                   utf8stringbuf_get_string( like_search ),
-                                                                                  apply_filter_rules,
                                                                                   io_results
                                                                                 );
 
     result |= data_database_text_search_private_get_features_by_textfragment ( this_,
                                                                                utf8stringbuf_get_string( like_search ),
-                                                                               apply_filter_rules,
                                                                                io_results
                                                                              );
 
     result |= data_database_text_search_private_get_relationships_by_textfragment ( this_,
                                                                                     utf8stringbuf_get_string( like_search ),
-                                                                                    apply_filter_rules,
                                                                                     io_results
                                                                                   );
 
@@ -182,7 +177,6 @@ static const int RESULT_DIAGRAM_NAME_COLUMN = 2;
 
 data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
-                                                                              bool apply_filter_rules,
                                                                               data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
@@ -222,8 +216,6 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
                                                  sqlite3_column_int( prepared_statement, RESULT_DIAGRAM_TYPE_COLUMN ),
                                                  (const char*) sqlite3_column_text( prepared_statement, RESULT_DIAGRAM_NAME_COLUMN )
                                                );
-
-                /* there is no filter for diagrams, apply_filter_rules is ignored */
 
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
@@ -287,7 +279,6 @@ static const int RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN = 3;
 
 data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
                                                                                  const char *textfragment,
-                                                                                 bool apply_filter_rules,
                                                                                  data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
@@ -328,8 +319,6 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
                                                     (const char*) sqlite3_column_text( prepared_statement, RESULT_CLASSIFIER_NAME_COLUMN ),
                                                     sqlite3_column_int64( prepared_statement, RESULT_CLASSIFIER_DIAGRAM_ID_COLUMN )
                                                   );
-
-                /* there is no filter for classifiers, apply_filter_rules is ignored */
 
                 int err_full = data_search_result_list_add( io_results, &current_result );
                 if ( err_full != 0 )
@@ -411,7 +400,6 @@ static const int RESULT_FEATURE_DIAGRAM_TYPE_COLUMN = 6;
 
 data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
-                                                                              bool apply_filter_rules,
                                                                               data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
@@ -453,13 +441,25 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
                                                  sqlite3_column_int64( prepared_statement, RESULT_FEATURE_CLASSIFIER_ID_COLUMN ),
                                                  sqlite3_column_int64( prepared_statement, RESULT_FEATURE_DIAGRAM_ID_COLUMN )
                                                );
-                TRACE_INFO_INT( "- c_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN ) );
-                TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN ) );
+                const data_feature_type_t f_type = data_search_result_get_match_type( &current_result );
+                const data_classifier_type_t c_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_CLASSIFIER_MAIN_TYPE_COLUMN );
+                const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_FEATURE_DIAGRAM_TYPE_COLUMN );
+                TRACE_INFO_INT( "- c_type:", c_type );
+                TRACE_INFO_INT( "- d_type:", d_type );
 
                 bool filter = false;
-                if ( apply_filter_rules )
+                const bool is_scenario_feat = data_rules_feature_is_scenario_cond( &((*this_).data_rules), f_type );
+                if ( is_scenario_feat )
                 {
-                    /* TODO */
+                    /* text search never returns lifelines, independant of data_rules_diagram_shows_scenario_features */
+                    filter = true;
+                }
+                else
+                {
+                    /* evaluate filter */
+                    const bool vis_by_classifier = data_rules_classifier_has_uncond_features ( &((*this_).data_rules), c_type );
+                    const bool vis_by_diagram = data_rules_diagram_shows_uncond_features ( &((*this_).data_rules), d_type );
+                    filter = !( vis_by_classifier && vis_by_diagram );
                 }
 
                 if ( ! filter )
@@ -558,7 +558,6 @@ static const int RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN = 8;
 
 data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
                                                                                    const char *textfragment,
-                                                                                   bool apply_filter_rules,
                                                                                    data_search_result_list_t *io_results )
 {
     TRACE_BEGIN();
@@ -568,6 +567,7 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
 
     int sqlite_err;
     sqlite3_stmt *prepared_statement;
+    unsigned int dropped_scenario_rel = 0;
 
     if ( (*this_).is_open )
     {
@@ -601,14 +601,31 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
                                                       sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_CLASSIFIER_ID_COLUMN ),
                                                       sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_ID_COLUMN )
                                                     );
-                TRACE_INFO_INT( "- from_feat:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN ) );
-                TRACE_INFO_INT( "- to_feat:", sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN ) );
-                TRACE_INFO_INT( "- d_type:", sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN ) );
+                const int64_t from_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_FROM_FEATURE_ID_COLUMN );
+                const int64_t to_feat = sqlite3_column_int64( prepared_statement, RESULT_RELATIONSHIP_TO_FEATURE_ID_COLUMN );
+                const data_diagram_type_t d_type = sqlite3_column_int( prepared_statement, RESULT_RELATIONSHIP_DIAGRAM_TYPE_COLUMN );
+                TRACE_INFO_INT( "- from_feat:", from_feat );
+                TRACE_INFO_INT( "- to_feat:", to_feat );
+                TRACE_INFO_INT( "- d_type:", d_type );
 
                 bool filter = false;
-                if ( apply_filter_rules )
+                const bool is_scenario_diag = data_rules_diagram_is_scenario ( &((*this_).data_rules), d_type );
+                /*const bool is_scenario_rel = data_rules_relationship_is_scenario_cond( &((*this_).data_rules), from_feature_type, to_feature_type);*/
+                if ( is_scenario_diag )
                 {
-                    /* TODO */
+                    /* there could be valid relationships that are visible and match the search. */
+                    /* but it is quite difficult to determine if the relationship is visible in the current diagram */
+                    /* --> drop the result and write a not to the log */
+                    dropped_scenario_rel ++;
+                    filter = true;
+                }
+                else
+                {
+                    /* there could be hidden scenario-typed relationships in a non-scenario diagram. */
+                    /* but it is quite difficult to determine if the relationship is scenario-only */
+                    /* --> show the result anyway */
+                    const bool vis_by_diagram = data_rules_diagram_shows_uncond_relationships ( &((*this_).data_rules), d_type );
+                    filter = ! vis_by_diagram;
                 }
 
                 if ( ! filter )
@@ -630,6 +647,13 @@ data_error_t data_database_text_search_private_get_relationships_by_textfragment
     {
         result |= DATA_ERROR_NO_DB;
         TRACE_INFO( "Database not open, cannot request data." );
+    }
+
+    if ( dropped_scenario_rel != 0 )
+    {
+        TSLOG_ANOMALY_INT( "Full text search does not work on relationships in scenario based diagrams. Possibly missed relationships:",
+                           dropped_scenario_rel
+                         );
     }
 
     TRACE_END_ERR( result );

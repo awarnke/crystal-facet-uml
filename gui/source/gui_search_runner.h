@@ -42,6 +42,7 @@ struct gui_search_runner_struct {
     data_diagramelement_t temp_diagramelement;  /*!< memory to read a diagram element */
     data_feature_t temp_feature;  /*!< memory to read a feature */
     data_relationship_t temp_relationship;  /*!< memory to read a relationship */
+    data_classifier_t temp_classifier;  /*!< memory to read a classifier */
 };
 
 typedef struct gui_search_runner_struct gui_search_runner_t;

@@ -85,7 +85,6 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param max_out_results size of the array where to store the results. If size is too small for the actual result set, this is an error.
  *  \param out_results the object ids found in the database
  *  \param out_result_count number of objects stored in out_results
@@ -94,7 +93,6 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
  */
 static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
                                                                                     const char *textfragment,
-                                                                                    bool apply_filter_rules,
                                                                                     unsigned int max_out_results,
                                                                                     data_search_result_t (*out_results)[],
                                                                                     unsigned int* out_result_count
@@ -105,14 +103,12 @@ static inline data_error_t data_database_text_search_get_objects_by_text_fragmen
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_get_objects_by_textfragment ( data_database_text_search_t *this_,
                                                                      const char *textfragment,
-                                                                     bool apply_filter_rules,
                                                                      data_search_result_list_t *io_results
                                                                    );
 
@@ -121,14 +117,12 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
-                                                                              bool apply_filter_rules,
                                                                               data_search_result_list_t *io_results
                                                                             );
 
@@ -137,14 +131,12 @@ data_error_t data_database_text_search_private_get_diagrams_by_textfragment ( da
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_classifiers_by_textfragment ( data_database_text_search_t *this_,
                                                                                  const char *textfragment,
-                                                                                 bool apply_filter_rules,
                                                                                  data_search_result_list_t *io_results
                                                                                );
 
@@ -153,14 +145,12 @@ data_error_t data_database_text_search_private_get_classifiers_by_textfragment (
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_features_by_textfragment ( data_database_text_search_t *this_,
                                                                               const char *textfragment,
-                                                                              bool apply_filter_rules,
                                                                               data_search_result_list_t *io_results
                                                                             );
 
@@ -169,14 +159,12 @@ data_error_t data_database_text_search_private_get_features_by_textfragment ( da
  *
  *  \param this_ pointer to own object attributes
  *  \param textfragment text pattern for the objects which to search in the database
- *  \param apply_filter_rules true if search results not matching to the rules set shall be filtered
  *  \param io_results the list where to append the object ids found in the database
  *  \return DATA_ERROR_NONE in case of success, an error code in case of error.
  *          E.g. DATA_ERROR_NO_DB if the database is not open.
  */
 data_error_t data_database_text_search_private_get_relationships_by_textfragment ( data_database_text_search_t *this_,
                                                                                    const char *textfragment,
-                                                                                   bool apply_filter_rules,
                                                                                    data_search_result_list_t *io_results
                                                                                  );
 

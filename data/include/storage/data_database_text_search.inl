@@ -13,7 +13,6 @@ static inline bool data_database_text_search_is_open( data_database_text_search_
 
 static inline data_error_t data_database_text_search_get_objects_by_text_fragment ( data_database_text_search_t *this_,
                                                                                     const char *textfragment,
-                                                                                    bool apply_filter_rules,
                                                                                     unsigned int max_out_results,
                                                                                     data_search_result_t (*out_results)[],
                                                                                     unsigned int* out_result_count )
@@ -28,7 +27,6 @@ static inline data_error_t data_database_text_search_get_objects_by_text_fragmen
 
     result = data_database_text_search_get_objects_by_textfragment ( this_,
                                                                      textfragment,
-                                                                     apply_filter_rules,
                                                                      &out_list
                                                                    );
 
