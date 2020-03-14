@@ -104,6 +104,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
 {
     TRACE_BEGIN();
     assert ( NULL != target_folder );
+    TRACE_INFO_STR("target_folder:", target_folder );
     int result = 0;
 
     /* draw current diagram */
@@ -239,6 +240,8 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
     TRACE_BEGIN();
     assert ( NULL != target_folder );
     assert ( NULL != document_file_name );
+    TRACE_INFO_STR("target_folder:", target_folder );
+    TRACE_INFO_STR("document_file_name:", document_file_name );
     int export_err = 0;
     FILE *output;
 
