@@ -1,3 +1,11 @@
+crystal-facet-uml (1.19.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * free text search
+  * small memory leak in nav-tree-view fixed
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0200
+
 crystal-facet-uml (1.18.1-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
