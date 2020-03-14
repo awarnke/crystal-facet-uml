@@ -111,11 +111,19 @@ data_error_t data_database_text_search_get_objects_by_textfragment ( data_databa
     utf8error_t u8err = UTF8ERROR_SUCCESS;
     char like_search_buf[48] = "";
     utf8stringbuf_t like_search = UTF8STRINGBUF( like_search_buf );
-    u8err |= utf8stringbuf_append_str( like_search, "%" );
-    utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
-    u8err |= utf8stringbuf_append_str( escape_me, textfragment );
-    u8err |= utf8stringbuf_replace_all( escape_me, DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
-    u8err |= utf8stringbuf_append_str( like_search, "%" );
+    if ( 0 != utf8string_get_length( textfragment ) )
+    {
+        u8err |= utf8stringbuf_append_str( like_search, "%" );
+        utf8stringbuf_t escape_me = utf8stringbuf_get_end( like_search );
+        u8err |= utf8stringbuf_append_str( escape_me, textfragment );
+        u8err |= utf8stringbuf_replace_all( escape_me, DATA_DATABASE_TEXT_SEARCH_SQL_ENCODE );
+        u8err |= utf8stringbuf_append_str( like_search, "%" );
+    }
+    else
+    {
+        /* no wildcards and no excaping if search string is empty */
+        utf8stringbuf_clear( like_search );
+    }
     TRACE_INFO_STR( "LIKE SEARCH:", utf8stringbuf_get_string( like_search ) );
     if ( u8err != UTF8ERROR_SUCCESS )
     {

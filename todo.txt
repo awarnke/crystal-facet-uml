@@ -4,7 +4,7 @@ ideas for future versions:
       do not redraw 3 times when changing 3 attributes simultaneously. (especially at undo/redo)
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
-  [ ] rename relation ship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
+  [ ] rename relationship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] when changing sets of objects (cut/copy/paste/delete/redo/undo...) print understandable statistics

@@ -232,7 +232,6 @@ void gui_sketch_area_private_load_data ( gui_sketch_area_t *this_, int64_t main_
     gui_sketch_card_load_data( &((*this_).cards[GUI_SKETCH_AREA_CONST_FOCUSED_CARD]), main_diagram_id, (*this_).db_reader );
     (*this_).card_num = 1;
     gui_sketch_nav_tree_load_data( &((*this_).nav_tree), main_diagram_id, (*this_).db_reader );
-    gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
     gui_marked_set_set_focused_diagram( (*this_).marker, main_diagram_id );
 
     gui_tool_t selected_tool;
@@ -1647,6 +1646,14 @@ void gui_sketch_area_data_changed_callback( GtkWidget *widget, data_change_messa
     gui_sketch_area_t *this_ = data;
     assert( NULL != this_ );
     assert ( NULL != widget );
+
+    data_change_event_type_t evt_type;
+    evt_type = data_change_message_get_event ( msg );
+
+    if ( evt_type == DATA_CHANGE_EVENT_TYPE_DB_CLOSED )
+    {
+        gui_sketch_result_list_invalidate_data( &((*this_).result_list) );
+    }
 
     /* load/reload data to be drawn */
     gui_sketch_area_private_refocus_and_reload_data( this_ );

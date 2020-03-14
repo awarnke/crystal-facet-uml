@@ -14,6 +14,7 @@ static inline void gui_sketch_result_list_load_data( gui_sketch_result_list_t *t
 
 static inline void gui_sketch_result_list_invalidate_data( gui_sketch_result_list_t *this_ )
 {
+    data_search_result_list_clear( &((*this_).result_list) );
 }
 
 static inline shape_int_rectangle_t gui_sketch_result_list_get_bounds( gui_sketch_result_list_t *this_ )
