@@ -115,14 +115,24 @@ static const char XHTML_DTD[]
 = "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.1//EN\" \"http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd\">\n";
 static const char XHTML_DOC_START[]
 = "<html xmlns=\"http://www.w3.org/1999/xhtml\">\n";
-static const char XHTML_DOC_TITLE_START[]
-= "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" /><title>";
-static const char XHTML_DOC_TITLE_END[]
-= "</title></head>\n"
-"    <body>\n";
+static const char XHTML_HEAD_START[]
+= "    <head><meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\" />";
+static const char XHTML_HEAD_TITLE_START[]
+= "        <title>";
+static const char XHTML_HEAD_TITLE_END[]
+= "</title>\n";
+static const char XHTML_HEAD_CSS_START[]
+= "        <link rel=\"stylesheet\" type=\"text/css\" href=\"";
+static const char XHTML_HEAD_CSS_END[]
+= ".css\" />\n";
+static const char XHTML_HEAD_END[]
+= "    </head>\n";
+static const char XHTML_BODY_START[]
+= "    <body>\n";
+static const char XHTML_BODY_END[]
+= "    </body>\n";
 static const char XHTML_DOC_END[]
-= "    </body>\n"
-"</html>\n";
+= "</html>\n";
 
 enum XHTML_SECT_MAX { XHTML_SECT_MAX_DEPTH = 6, };
 static const char XHTML_SECT_START[]
@@ -135,9 +145,9 @@ static const char *XHTML_SECT_TITLE_START[XHTML_SECT_MAX_DEPTH]
 static const char *XHTML_SECT_TITLE_END[XHTML_SECT_MAX_DEPTH]
 = {"</h1>\n","</h2>\n","</h3>\n","</h4>\n","</h5>\n","</h6>\n"};
 static const char XHTML_SECT_PARA_START[]
-= "            <p class=\"description\">\n";
+= "            <p><div class=\"description\">\n";
 static const char XHTML_SECT_IMG_START[]
-= "                <div class=\"mediaobject\"><img src=\"";
+= "                </div><div class=\"mediaobject\"><img src=\"";
 static const char XHTML_SECT_IMG_END[]
 = ".png\"/></div>\n";
 static const char XHTML_SECT_PARA_END[]
@@ -148,7 +158,7 @@ static const char XHTML_SECT_END[]
 static const char XHTML_DIV_PARA_START[]
 = "            <p class=\"element\">\n";
 static const char XHTML_DIV_BOLD_START[]
-= "                <b>";
+= "                <b class=\"elementname\">";
 static const char XHTML_DIV_BOLD_END[]
 = "</b>";
 static const char XHTML_DIV_PARA_END[]
@@ -166,6 +176,27 @@ static const char TXT_COLON_SPACE[] = ": ";
 static const char TXT_ARROW_SPACE[] = "--> ";
 static const char TXT_SPACE_ARROW_SPACE[] = " --> ";
 
+/* IO_FILE_FORMAT_CSS */
+static const char CSS_ALL[]
+="body {\n"
+"    background-color: rgb(255,255,255);\n"
+"    font-family: Helvetica,Arial,sans-serif;\n"
+"}\n"
+".description {\n"
+"    background-color:rgb(216,255,240);\n"
+"    padding:6px;\n"
+"    margin:2px;\n"
+"    border:1px solid #44CC88;\n"
+"}\n"
+".title {\n"
+"    color:rgb(192,128,0);\n"
+"}\n"
+".element {\n"
+"    background-color:rgb(240,240,240);\n"
+"}\n"
+".elementname {\n"
+"    color:rgb(0,128,80);\n"
+"}\n";
 
 int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title )
 {
@@ -191,9 +222,15 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_ENC );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DTD );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_START );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_TITLE_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_TITLE_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_TITLE_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_TITLE_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_CSS_START );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_CSS_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_BODY_START );
         }
         break;
 
@@ -740,6 +777,33 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
     return export_err;
 }
 
+int io_format_writer_write_stylesheet( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_CSS:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, CSS_ALL );
+        }
+        break;
+
+        default:
+        {
+            /* no stylesheet file */
+            TSLOG_ERROR("error: format is not stylesheet.");
+            export_err = -1;
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int io_format_writer_write_footer( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
@@ -756,6 +820,7 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_BODY_END );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_END );
         }
         break;

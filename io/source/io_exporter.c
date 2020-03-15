@@ -84,6 +84,7 @@ int io_exporter_export_files( io_exporter_t *this_,
         if ( ( export_type & IO_FILE_FORMAT_XHTML ) != 0 )
         {
             export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_XHTML, target_folder, document_file_name );
+            export_err |= io_exporter_private_export_document_file( this_, IO_FILE_FORMAT_CSS, target_folder, document_file_name );
         }
     }
     else /* target_folder == NULL */
@@ -263,6 +264,12 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         }
         break;
 
+        case IO_FILE_FORMAT_CSS:
+        {
+            utf8stringbuf_append_str( (*this_).temp_filename, ".css" );
+        }
+        break;
+
         default:
         {
             utf8stringbuf_append_str( (*this_).temp_filename, ".unknown_format" );
@@ -283,9 +290,16 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
 
         /* write file */
         io_format_writer_init( &((*this_).temp_format_writer ), export_type, output );
-        write_err = io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
-        write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, &((*this_).temp_format_writer) );
-        write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
+        if ( IO_FILE_FORMAT_CSS == export_type )
+        {
+            write_err = io_format_writer_write_stylesheet( &((*this_).temp_format_writer) );
+        }
+        else
+        {
+            write_err = io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
+            write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, &((*this_).temp_format_writer) );
+            write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
+        }
         io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
         if ( 0 != write_err )

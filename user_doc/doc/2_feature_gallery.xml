@@ -107,4 +107,18 @@
         </para>
     </section>
 
+    <section>
+        <title>More Examples</title>
+        <para>
+            There are further examples available as html:
+            <itemizedlist>
+            <listitem><para><ulink url="http://www.awarnke.keepfree.de/crystal_facet_uml/quality/quality.xhtml"/></para></listitem>
+            </itemizedlist>
+            And in crystal_facet_uml binary format:
+            <itemizedlist>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/tree/master/example_diagrams"/></para></listitem>
+            <listitem><para><ulink url="https://github.com/awarnke/crystal_facet_uml/tree/master/architecture/doc"/></para></listitem>
+            </itemizedlist>
+        </para>
+    </section>
 </section>

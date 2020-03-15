@@ -23,6 +23,7 @@ enum io_file_format_enum {
     IO_FILE_FORMAT_TXT = 0x0010,  /*!< utf8 encoded text */
     IO_FILE_FORMAT_DOCBOOK = 0x0100,  /*!< docbook */
     IO_FILE_FORMAT_XHTML = 0x0200,  /*!< xhtml */
+    IO_FILE_FORMAT_CSS = 0x0400,  /*!< css for xhtml */
 };
 
 typedef enum io_file_format_enum io_file_format_t;

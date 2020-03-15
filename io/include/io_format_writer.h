@@ -161,6 +161,14 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ );
 int io_format_writer_write_footer( io_format_writer_t *this_ );
 
 /*!
+ *  \brief writes a css stylesheet file
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
+
+/*!
  *  \brief writes a string to a file, unencoded
  *
  *  \param this_ pointer to own object attributes
