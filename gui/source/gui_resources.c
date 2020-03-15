@@ -244,6 +244,117 @@ void gui_resources_init ( gui_resources_t *this_ )
 void gui_resources_destroy ( gui_resources_t *this_ )
 {
     TRACE_BEGIN();
+
+    g_object_unref ((*this_).crystal_facet_uml);
+
+    g_object_unref ((*this_).edit_attributes_sect);
+
+    g_object_unref ((*this_).edit_commit);
+    g_object_unref ((*this_).edit_copy);
+    g_object_unref ((*this_).edit_cut);
+    g_object_unref ((*this_).edit_delete);
+    g_object_unref ((*this_).edit_paste);
+    g_object_unref ((*this_).edit_instantiate);
+    g_object_unref ((*this_).edit_highlight);
+    g_object_unref ((*this_).edit_redo);
+    g_object_unref ((*this_).edit_undo);
+    g_object_unref ((*this_).edit_reset);
+
+    g_object_unref ((*this_).file_export);
+    g_object_unref ((*this_).file_new_window);
+    g_object_unref ((*this_).file_use_db);
+
+    g_object_unref ((*this_).message_error);
+    g_object_unref ((*this_).message_info);
+    g_object_unref ((*this_).message_warn);
+
+    g_object_unref ((*this_).message_user_doc);
+
+    g_object_unref ((*this_).tool_search);
+    g_object_unref ((*this_).tool_navigate);
+    g_object_unref ((*this_).tool_create);
+    g_object_unref ((*this_).tool_edit);
+
+    g_object_unref ((*this_).navigate_breadcrumb_folder);
+    g_object_unref ((*this_).navigate_closed_folder);
+    g_object_unref ((*this_).navigate_create_child);
+    g_object_unref ((*this_).navigate_create_sibling);
+    g_object_unref ((*this_).navigate_open_folder);
+
+    g_object_unref ((*this_).background_column);
+
+    g_object_unref ((*this_).type_undef);
+
+    g_object_unref ((*this_).type_diag_activity);
+    g_object_unref ((*this_).type_diag_block);
+    g_object_unref ((*this_).type_diag_box);
+    g_object_unref ((*this_).type_diag_class);
+    g_object_unref ((*this_).type_diag_communication);
+    g_object_unref ((*this_).type_diag_component);
+    g_object_unref ((*this_).type_diag_composite);
+    g_object_unref ((*this_).type_diag_deployment);
+    g_object_unref ((*this_).type_diag_internal);
+    g_object_unref ((*this_).type_diag_list);
+    g_object_unref ((*this_).type_diag_overview);
+    g_object_unref ((*this_).type_diag_package);
+    g_object_unref ((*this_).type_diag_parametric);
+    g_object_unref ((*this_).type_diag_profile);
+    g_object_unref ((*this_).type_diag_requirement);
+    g_object_unref ((*this_).type_diag_sequence);
+    g_object_unref ((*this_).type_diag_state);
+    g_object_unref ((*this_).type_diag_timing);
+    g_object_unref ((*this_).type_diag_usecase);
+
+    g_object_unref ((*this_).type_clas_accept);
+    g_object_unref ((*this_).type_clas_actor);
+    g_object_unref ((*this_).type_clas_artifact);
+    g_object_unref ((*this_).type_clas_block);
+    g_object_unref ((*this_).type_clas_boundary);
+    g_object_unref ((*this_).type_clas_class);
+    g_object_unref ((*this_).type_clas_comment);
+    g_object_unref ((*this_).type_clas_component);
+    g_object_unref ((*this_).type_clas_constraint);
+    g_object_unref ((*this_).type_clas_decision);
+    g_object_unref ((*this_).type_clas_deephistory);
+    g_object_unref ((*this_).type_clas_diagram);
+    g_object_unref ((*this_).type_clas_final);
+    g_object_unref ((*this_).type_clas_fork);
+    g_object_unref ((*this_).type_clas_history);
+    g_object_unref ((*this_).type_clas_initial);
+    g_object_unref ((*this_).type_clas_join);
+    g_object_unref ((*this_).type_clas_node);
+    g_object_unref ((*this_).type_clas_package);
+    g_object_unref ((*this_).type_clas_part);
+    g_object_unref ((*this_).type_clas_region);
+    g_object_unref ((*this_).type_clas_requirement);
+    g_object_unref ((*this_).type_clas_send);
+    g_object_unref ((*this_).type_clas_state);
+    g_object_unref ((*this_).type_clas_time);
+    g_object_unref ((*this_).type_clas_usecase);
+
+    g_object_unref ((*this_).type_feat_life);
+    g_object_unref ((*this_).type_feat_operation);
+    g_object_unref ((*this_).type_feat_port);
+    g_object_unref ((*this_).type_feat_property);
+    g_object_unref ((*this_).type_feat_provide);
+    g_object_unref ((*this_).type_feat_require);
+
+    g_object_unref ((*this_).type_rel_aggregate);
+    g_object_unref ((*this_).type_rel_associate);
+    g_object_unref ((*this_).type_rel_compose);
+    g_object_unref ((*this_).type_rel_contain);
+    g_object_unref ((*this_).type_rel_depend);
+    g_object_unref ((*this_).type_rel_deploy);
+    g_object_unref ((*this_).type_rel_extend);
+    g_object_unref ((*this_).type_rel_generalize);
+    g_object_unref ((*this_).type_rel_include);
+    g_object_unref ((*this_).type_rel_manifest);
+    g_object_unref ((*this_).type_rel_realize);
+    g_object_unref ((*this_).type_rel_refine);
+    g_object_unref ((*this_).type_rel_return);
+    g_object_unref ((*this_).type_rel_sync);
+    g_object_unref ((*this_).type_rel_trace);
+
     TRACE_END();
 }
 
