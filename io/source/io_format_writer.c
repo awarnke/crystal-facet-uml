@@ -19,6 +19,33 @@ static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
     NULL,  /* end translation table */
 };
 
+/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
+static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS[] = {
+    "<", "&lt;",
+    ">", "&gt;",
+    "\"", "&quot;",
+    "&", "&amp;",
+    "\n\n", "<br />\n",
+    "\n+", "<br />+",  /* markdown list */
+    "\n-", "<br />-",  /* markdown list or heading */
+    "\n*", "<br />*",  /* markdown list */
+    "\n0", "<br />0",  /* markdown list */
+    "\n1", "<br />1",  /* markdown list */
+    "\n2", "<br />2",  /* markdown list */
+    "\n3", "<br />3",  /* markdown list */
+    "\n4", "<br />4",  /* markdown list */
+    "\n5", "<br />5",  /* markdown list */
+    "\n6", "<br />6",  /* markdown list */
+    "\n7", "<br />7",  /* markdown list */
+    "\n8", "<br />8",  /* markdown list */
+    "\n9", "<br />9",  /* markdown list */
+    "\n>", "<br />&gt;",  /* markdown citation */
+    "\n=", "<br />=",  /* markdown heading */
+    "\n#", "<br />#",  /* markdown heading */
+    "\n ", "<br />&nbsp;",  /* markdown list-entry continuation */
+    NULL,  /* end translation table */
+};
+
 void io_format_writer_init ( io_format_writer_t *this_,
                              io_file_format_t export_type,
                              FILE *output )
@@ -32,6 +59,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
 
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
+    (*this_).fmt_xhtml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS;
 
     TRACE_END();
 }
@@ -343,7 +371,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_END[index_of_depth] );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_description );
+            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, diag_description );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_END );
@@ -453,7 +481,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
             export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_BOLD_END );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_descr );
+            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, classifier_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_CLASSIFIER,
@@ -542,7 +570,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= io_format_writer_private_write_xml_enc ( this_, feature_value );
             }
             export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, feature_descr );
+            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, feature_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_FEATURE,
@@ -637,7 +665,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= io_format_writer_private_write_xml_enc ( this_, TXT_SPACE_ARROW_SPACE );
             export_err |= io_format_writer_private_write_xml_enc ( this_, dest_classifier_name );
             export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, relation_descr );
+            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, relation_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_RELATIONSHIP,

@@ -1,7 +1,8 @@
 crystal-facet-uml (1.x.x) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
-  * t.b.d.
+  * xhtml output generates a css file
+  * xhtml output keeps linebreaks in selected cases
 
  -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0200
 
