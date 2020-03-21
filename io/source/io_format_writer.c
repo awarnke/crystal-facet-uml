@@ -20,6 +20,33 @@ static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
 };
 
 /* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
+static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS[] = {
+    "<", "&lt;",
+    ">", "&gt;",
+    "\"", "&quot;",
+    "&", "&amp;",
+    "\n\n", "</para>\n<para>",
+    "\n+", "</para>\n<para>+",  /* markdown list */
+    "\n-", "</para>\n<para>-",  /* markdown list or heading */
+    "\n*", "</para>\n<para>*",  /* markdown list */
+    "\n0", "</para>\n<para>0",  /* markdown list */
+    "\n1", "</para>\n<para>1",  /* markdown list */
+    "\n2", "</para>\n<para>2",  /* markdown list */
+    "\n3", "</para>\n<para>3",  /* markdown list */
+    "\n4", "</para>\n<para>4",  /* markdown list */
+    "\n5", "</para>\n<para>5",  /* markdown list */
+    "\n6", "</para>\n<para>6",  /* markdown list */
+    "\n7", "</para>\n<para>7",  /* markdown list */
+    "\n8", "</para>\n<para>8",  /* markdown list */
+    "\n9", "</para>\n<para>9",  /* markdown list */
+    "\n>", "</para>\n<para>&gt;",  /* markdown citation */
+    "\n=", "</para>\n<para>=",  /* markdown heading */
+    "\n#", "</para>\n<para>#",  /* markdown heading */
+    "\n ", "</para>\n<para>&nbsp;",  /* markdown list-entry continuation */
+    NULL,  /* end translation table */
+};
+
+/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
 static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS[] = {
     "<", "&lt;",
     ">", "&gt;",
@@ -60,6 +87,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
     (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
     (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
     (*this_).fmt_xhtml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS;
+    (*this_).fmt_db_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS;
 
     TRACE_END();
 }
@@ -73,6 +101,17 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
     TRACE_END();
 }
 
+/* GENERAL STRUCTURE */
+/*
+ *    <THING>_START
+ *    <THING>_MIDDLE            #optional, if dynamic content needs to be added to the start
+ *    <THING>_TITLE_START       #alternative to TITLE: NAME
+ *    <THING>_TITLE_END         #alternative to TITLE: NAME
+ *    ...                       #optional text
+ *    <THING>_<OTHERSUB>_START  #optional if there ore other sub-things
+ *    <THING>_<OTHERSUB>_END    #optional if there ore other sub-things
+ *    <THING>_END
+ */
 /* IO_FILE_FORMAT_DOCBOOK */
 
 static const char DOCBOOK_ENC[]
@@ -86,52 +125,54 @@ static const char DOCBOOK_DOC_TITLE_END[]
 static const char DOCBOOK_DOC_END[]
 = "</book>\n";
 
-static const char DOCBOOK_CHAPTER_START[]
+static const char DOCBOOK_TOP_DIAGRAM_START[]
 = "    <chapter xml:id=\"";
-static const char DOCBOOK_CHAPTER_MIDDLE[]
+static const char DOCBOOK_TOP_DIAGRAM_MIDDLE[]
 = "\">\n";
-static const char DOCBOOK_CHAPTER_END[]
+static const char DOCBOOK_TOP_DIAGRAM_END[]
 = "    </chapter>\n";
-static const char DOCBOOK_SECT_START[]
+static const char DOCBOOK_DIAGRAM_START[]
 = "    <section xml:id=\"";
-static const char DOCBOOK_SECT_MIDDLE[]
+static const char DOCBOOK_DIAGRAM_MIDDLE[]
 = "\">\n";
-static const char DOCBOOK_SECT_TITLE_START[]
+static const char DOCBOOK_DIAGRAM_TITLE_START[]
 = "        <title>";
-static const char DOCBOOK_SECT_TITLE_END[]
+static const char DOCBOOK_DIAGRAM_TITLE_END[]
 = "</title>\n";
-static const char DOCBOOK_SECT_PARA_START[]
-= "        <para>\n";
-static const char DOCBOOK_SECT_IMG_START[]
-="\n            <mediaobject>\n"
+static const char DOCBOOK_DIAGRAM_IMG_START[]
+= "\n        <para>\n"
+"            <mediaobject>\n"
 "                <imageobject><imagedata fileref=\"";
-static const char DOCBOOK_SECT_IMG_MIDDLE[]
+static const char DOCBOOK_DIAGRAM_IMG_MIDDLE[]
 = ".pdf\" width=\"12cm\"/></imageobject>\n"
 "                <imageobject><imagedata fileref=\"";
-static const char DOCBOOK_SECT_IMG_END[]
+static const char DOCBOOK_DIAGRAM_IMG_END[]
 = ".png\"/></imageobject>\n"
-"            </mediaobject>\n";
-static const char DOCBOOK_SECT_PARA_END[]
-= "        </para>\n";
-static const char DOCBOOK_SECT_END[]
+"            </mediaobject>\n"
+"        </para>\n";
+static const char DOCBOOK_DIAGRAM_END[]
 = "    </section>\n";
 
-static const char DOCBOOK_VARLIST_START[]
+static const char DOCBOOK_DESCRIPTION_START[]
+= "        <para>\n";
+static const char DOCBOOK_DESCRIPTION_END[]
+= "        </para>\n";
+
+static const char DOCBOOK_ELEMENT_LIST_START[]
 = "        <variablelist>\n";
-static const char DOCBOOK_VARLIST_ENTRY_START[]
-= "            <varlistentry>\n"
-"                <term>\n";
-static const char DOCBOOK_VARLIST_ENTRY_MIDDLE[]
+static const char DOCBOOK_ELEMENT_START[]
+= "            <varlistentry>\n";
+static const char DOCBOOK_ELEMENT_NAME_START[]
+= "                <term>\n";
+static const char DOCBOOK_ELEMENT_NAME_END[]
 = "\n                </term>\n"
-"                <listitem>\n";
-static const char DOCBOOK_VARLIST_ENTRY_PARA_START[]
-= "                    <para>\n";
-static const char DOCBOOK_VARLIST_ENTRY_PARA_END[]
-= "\n                    </para>\n";
-static const char DOCBOOK_VARLIST_ENTRY_END[]
-= "                </listitem>\n"
+"                <listitem>\n"
+"                    <para>\n";
+static const char DOCBOOK_ELEMENT_END[]
+= "\n                    </para>\n"
+"                </listitem>\n"
 "            </varlistentry>\n";
-static const char DOCBOOK_VARLIST_END[]
+static const char DOCBOOK_ELEMENT_LIST_END[]
 = "        </variablelist>\n";
 
 
@@ -162,34 +203,35 @@ static const char XHTML_BODY_END[]
 static const char XHTML_DOC_END[]
 = "</html>\n";
 
-enum XHTML_SECT_MAX { XHTML_SECT_MAX_DEPTH = 6, };
-static const char XHTML_SECT_START[]
+enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
+static const char XHTML_DIAGRAM_START[]
 = "        <div id=\"";
-static const char XHTML_SECT_MIDDLE[]
+static const char XHTML_DIAGRAM_MIDDLE[]
 = "\">\n";
-static const char *XHTML_SECT_TITLE_START[XHTML_SECT_MAX_DEPTH]
+static const char *XHTML_DIAGRAM_TITLE_START[XHTML_DIAGRAM_MAX_DEPTH]
 = {"            <h1 class=\"title\">","            <h2 class=\"title\">","            <h3 class=\"title\">",
    "            <h4 class=\"title\">","            <h5 class=\"title\">","            <h6 class=\"title\">"};
-static const char *XHTML_SECT_TITLE_END[XHTML_SECT_MAX_DEPTH]
+static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
 = {"</h1>\n","</h2>\n","</h3>\n","</h4>\n","</h5>\n","</h6>\n"};
-static const char XHTML_SECT_PARA_START[]
-= "            <p><div class=\"description\">\n";
-static const char XHTML_SECT_IMG_START[]
-= "                </div><div class=\"mediaobject\"><img src=\"";
-static const char XHTML_SECT_IMG_END[]
+static const char XHTML_DIAGRAM_IMG_START[]
+= "                <div class=\"mediaobject\"><img src=\"";
+static const char XHTML_DIAGRAM_IMG_END[]
 = ".png\"/></div>\n";
-static const char XHTML_SECT_PARA_END[]
-= "            </p>\n";
-static const char XHTML_SECT_END[]
+static const char XHTML_DIAGRAM_END[]
 = "        </div>\n";
 
-static const char XHTML_DIV_PARA_START[]
+static const char XHTML_DESCRIPTION_START[]
+= "            <div class=\"description\"><p>\n";
+static const char XHTML_DESCRIPTION_END[]
+= "            </p></div>\n";
+
+static const char XHTML_ELEMENT_START[]
 = "            <p class=\"element\">\n";
-static const char XHTML_DIV_BOLD_START[]
-= "                <b class=\"elementname\">";
-static const char XHTML_DIV_BOLD_END[]
-= "</b>";
-static const char XHTML_DIV_PARA_END[]
+static const char XHTML_ELEMENT_NAME_START[]
+= "                <strong class=\"elementname\">";
+static const char XHTML_ELEMENT_NAME_END[]
+= "</strong>";
+static const char XHTML_ELEMENT_END[]
 = "\n            </p>\n";
 
 /* IO_FILE_FORMAT_TXT */
@@ -293,17 +335,17 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_CHAPTER_START : DOCBOOK_SECT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
             export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_CHAPTER_MIDDLE : DOCBOOK_SECT_MIDDLE );
+            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_START );
             export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_MIDDLE );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_MIDDLE );
         }
         break;
 
@@ -349,33 +391,33 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_TITLE_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_TITLE_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_TITLE_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_description );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_TITLE_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_START );
+            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, diag_description );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_MIDDLE );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_MIDDLE );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_IMG_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
             unsigned int index_of_depth = (*this_).current_tree_depth - 1;
-            index_of_depth = ( index_of_depth >= XHTML_SECT_MAX_DEPTH ) ? ( XHTML_SECT_MAX_DEPTH-1 ) : index_of_depth;
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_START[index_of_depth] );
+            index_of_depth = ( index_of_depth >= XHTML_DIAGRAM_MAX_DEPTH ) ? ( XHTML_DIAGRAM_MAX_DEPTH-1 ) : index_of_depth;
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_START[index_of_depth] );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_TITLE_END[index_of_depth] );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_END[index_of_depth] );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DESCRIPTION_START );
             export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, diag_description );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DESCRIPTION_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_IMG_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_IMG_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_IMG_END );
         }
         break;
 
@@ -417,14 +459,14 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_LIST_START );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
         }
         break;
 
@@ -461,26 +503,26 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_MIDDLE );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_descr );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
+            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, classifier_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_CLASSIFIER,
                                                                     classifier_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_BOLD_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_NAME_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
             export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_BOLD_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_NAME_END );
             export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, classifier_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
@@ -536,33 +578,28 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, feature_key );
             if ( 0 != feature_value_len )
             {
                 export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
                 export_err |= io_format_writer_private_write_xml_enc ( this_, feature_value );
             }
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_MIDDLE );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, feature_descr );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
+            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, feature_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_FEATURE,
                                                                     feature_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, feature_key );
             if ( 0 != feature_value_len )
             {
@@ -576,7 +613,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                                                                     DATA_TABLE_FEATURE,
                                                                     feature_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
         }
         break;
 
@@ -637,30 +674,25 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, relation_name );
             export_err |= io_format_writer_private_write_xml_enc ( this_, TXT_SPACE_ARROW_SPACE );
             export_err |= io_format_writer_private_write_xml_enc ( this_, dest_classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_MIDDLE );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, relation_descr );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
+            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, relation_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_RELATIONSHIP,
                                                                     relation_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, relation_name );
             export_err |= io_format_writer_private_write_xml_enc ( this_, TXT_SPACE_ARROW_SPACE );
             export_err |= io_format_writer_private_write_xml_enc ( this_, dest_classifier_name );
@@ -671,7 +703,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                                                                     DATA_TABLE_RELATIONSHIP,
                                                                     relation_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
         }
         break;
 
@@ -734,15 +766,14 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_ENTRY_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_VARLIST_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_SECT_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_LIST_END );
+            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIV_PARA_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
         }
         break;
 
@@ -774,13 +805,13 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_CHAPTER_END : DOCBOOK_SECT_END );
+            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_SECT_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_END );
         }
         break;
 
@@ -870,7 +901,6 @@ int io_format_writer_write_footer( io_format_writer_t *this_ )
     TRACE_END_ERR( export_err );
     return export_err;
 }
-
 
 int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t *this_,
                                                              const char *indent,

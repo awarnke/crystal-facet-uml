@@ -36,6 +36,7 @@ struct io_format_writer_struct {
     utf8stringbuf_t temp_output;  /*!< temporary output string buffer to convert strings */
     const char * const * xml_encode_table;  /*!< table for xml encode string replacements */
     const char * const * fmt_xhtml_encode_table;  /*!< table for formatted xhtml encode string replacements */
+    const char * const * fmt_db_encode_table;  /*!< table for formatted docbook encode string replacements */
 };
 
 typedef struct io_format_writer_struct io_format_writer_t;
@@ -195,6 +196,15 @@ static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *t
  *  \result 0 in case of success, -1 otherwise
  */
 static inline int io_format_writer_private_write_fmt_xhtml_enc ( io_format_writer_t *this_, const char *text );
+
+/*!
+ *  \brief writes a string to a file as formatted docbook encoded
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param text string to write
+ *  \result 0 in case of success, -1 otherwise
+ */
+static inline int io_format_writer_private_write_fmt_db_enc ( io_format_writer_t *this_, const char *text );
 
 /*!
  *  \brief prints a multiline string with indentation prefix

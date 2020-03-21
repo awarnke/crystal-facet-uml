@@ -23,6 +23,7 @@ ideas for future versions:
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
   [ ] make the docbook and xhtml export formats more flexible to change the style, e.g. css
+  [ ] BUG: exporting documents to xhtml via command line option does not export the main document if paths are relative
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
