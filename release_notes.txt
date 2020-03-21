@@ -1,4 +1,4 @@
-crystal-facet-uml (1.x.x) UNRELEASED; urgency=medium
+crystal-facet-uml (1.19.1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * xhtml output generates a css file
@@ -6,7 +6,7 @@ crystal-facet-uml (1.x.x) UNRELEASED; urgency=medium
   * bugfix: exporting docbook and xhtml via command line arguments
     works again, as in 1.16.1 (Closes: #1)
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 33 Mar 2020 12:30:00 +0200
 
 crystal-facet-uml (1.19.0) UNRELEASED; urgency=medium
 

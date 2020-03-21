@@ -216,7 +216,7 @@ static const char *XHTML_DIAGRAM_TITLE_END[XHTML_DIAGRAM_MAX_DEPTH]
 static const char XHTML_DIAGRAM_IMG_START[]
 = "                <div class=\"mediaobject\"><img src=\"";
 static const char XHTML_DIAGRAM_IMG_END[]
-= ".png\"/></div>\n";
+= ".png\" alt=\"\" /></div>\n";
 static const char XHTML_DIAGRAM_END[]
 = "        </div>\n";
 
@@ -225,14 +225,18 @@ static const char XHTML_DESCRIPTION_START[]
 static const char XHTML_DESCRIPTION_END[]
 = "            </p></div>\n";
 
+static const char XHTML_ELEMENT_LIST_START[]
+= "            <div class=\"element\">\n";
 static const char XHTML_ELEMENT_START[]
-= "            <p class=\"element\">\n";
+= "            <p>\n";
 static const char XHTML_ELEMENT_NAME_START[]
 = "                <strong class=\"elementname\">";
 static const char XHTML_ELEMENT_NAME_END[]
 = "</strong>";
 static const char XHTML_ELEMENT_END[]
 = "\n            </p>\n";
+static const char XHTML_ELEMENT_LIST_END[]
+= "            </div>\n";
 
 /* IO_FILE_FORMAT_TXT */
 
@@ -466,7 +470,7 @@ int io_format_writer_start_classifier( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_LIST_START );
         }
         break;
 
@@ -519,6 +523,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 
         case IO_FILE_FORMAT_XHTML:
         {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_NAME_START );
             export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
             export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
@@ -529,6 +534,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
                                                                     DATA_TABLE_CLASSIFIER,
                                                                     classifier_id
                                                                   );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
         }
         break;
 
@@ -773,7 +779,7 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_LIST_END );
         }
         break;
 
