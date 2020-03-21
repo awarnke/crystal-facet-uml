@@ -58,14 +58,26 @@ void io_exporter_destroy( io_exporter_t *this_ );
  *  \param this_ pointer to own object attributes
  *  \param export_type image file format
  *  \param target_folder path name to a folder where to store the images
- *  \param document_file_name name of the central/main document file (without filename-suffix)
+ *  \param document_file_path path to the central/main document file
  *  \result 0 in case of success, -1 otherwise
  */
 int io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
                               const char* target_folder,
-                              const char* document_file_name
+                              const char* document_file_path
                             );
+
+/*!
+ *  \brief extracts the base file name without extension from the given path
+ *  \param this_ pointer to own object attributes
+ *  \param path path name to a file from which to extract the base file name
+ *  \param out_base_filename name of the file - without path and without filename-suffix
+ *  \result 0 in case of success, -1 otherwise, e.g if filename is empty or too long
+ */
+int io_exporter_private_get_filename( io_exporter_t *this_,
+                                      const char* path,
+                                      utf8stringbuf_t out_base_filename
+                                    );
 
 /*!
  *  \brief renders diagrams and exports these to picture (or text) files

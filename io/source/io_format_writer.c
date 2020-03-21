@@ -42,7 +42,7 @@ static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS[] = {
     "\n>", "</para>\n<para>&gt;",  /* markdown citation */
     "\n=", "</para>\n<para>=",  /* markdown heading */
     "\n#", "</para>\n<para>#",  /* markdown heading */
-    "\n ", "</para>\n<para>&nbsp;",  /* markdown list-entry continuation */
+    "\n ", "</para>\n<para>&#xA0;",  /* markdown list-entry continuation */
     NULL,  /* end translation table */
 };
 

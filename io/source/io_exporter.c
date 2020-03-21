@@ -43,10 +43,18 @@ void io_exporter_destroy( io_exporter_t *this_ )
 int io_exporter_export_files( io_exporter_t *this_,
                               io_file_format_t export_type,
                               const char* target_folder,
-                              const char* document_file_name )
+                              const char* document_file_path )
 {
     TRACE_BEGIN();
+    assert ( NULL != target_folder );
+    assert ( NULL != document_file_path );
     int export_err = 0;
+
+    /* transform file path to name */
+    char temp_filename_buf[48];
+    utf8stringbuf_t temp_filename = UTF8STRINGBUF(temp_filename_buf);
+    int err = io_exporter_private_get_filename( this_, document_file_path, temp_filename );
+    const char *const document_file_name = (err==0) ? utf8stringbuf_get_string(temp_filename) : "document";
 
     if ( NULL != target_folder )
     {
@@ -95,6 +103,32 @@ int io_exporter_export_files( io_exporter_t *this_,
 
     TRACE_END_ERR(export_err);
     return export_err;
+}
+
+int io_exporter_private_get_filename( io_exporter_t *this_,
+                                      const char* path,
+                                      utf8stringbuf_t out_base_filename )
+{
+    TRACE_BEGIN();
+    assert ( NULL != path );
+    int err = 0;
+
+    const unsigned int path_len = utf8string_get_length( path );
+    const int path_suffix = utf8string_find_last_str( path, "." );
+    const int path_start_filename_unix = utf8string_find_last_str( path, "/" );
+    const int path_start_filename_win = utf8string_find_last_str( path, "\\" );
+    const int path_start_filename = ( path_start_filename_unix < path_start_filename_win )
+                                    ? path_start_filename_win
+                                    : path_start_filename_unix;
+    const int start = (( path_start_filename == -1 ) ? 0 : (path_start_filename+1) );
+    const int length = (( path_suffix < start ) ? (path_len-start) : (path_suffix-start) );
+
+    utf8stringbuf_clear( out_base_filename );
+    utf8error_t u8err = utf8stringbuf_copy_region_from_str( out_base_filename, path, start, length );
+
+    err = (( u8err==UTF8ERROR_SUCCESS )&&(utf8stringbuf_get_length( out_base_filename )>0)) ? 0 : -1;
+    TRACE_END_ERR(err);
+    return err;
 }
 
 int io_exporter_private_export_image_files( io_exporter_t *this_,
