@@ -73,35 +73,8 @@ static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS[] = 
     NULL,  /* end translation table */
 };
 
-void io_format_writer_init ( io_format_writer_t *this_,
-                             io_file_format_t export_type,
-                             FILE *output )
-{
-    TRACE_BEGIN();
-    assert( NULL != output );
-
-    (*this_).export_type = export_type;
-    (*this_).output = output;
-    (*this_).current_tree_depth = 0;
-
-    (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
-    (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
-    (*this_).fmt_xhtml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS;
-    (*this_).fmt_db_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS;
-
-    TRACE_END();
-}
-
-void io_format_writer_destroy( io_format_writer_t *this_ )
-{
-    TRACE_BEGIN();
-
-    (*this_).output = NULL;
-
-    TRACE_END();
-}
-
 /* GENERAL STRUCTURE */
+
 /*
  *    <THING>_START
  *    <THING>_MIDDLE            #optional, if dynamic content needs to be added to the start
@@ -112,6 +85,7 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
  *    <THING>_<OTHERSUB>_END    #optional if there ore other sub-things
  *    <THING>_END
  */
+
 /* IO_FILE_FORMAT_DOCBOOK */
 
 static const char DOCBOOK_ENC[]
@@ -174,7 +148,6 @@ static const char DOCBOOK_ELEMENT_END[]
 "            </varlistentry>\n";
 static const char DOCBOOK_ELEMENT_LIST_END[]
 = "        </variablelist>\n";
-
 
 /* IO_FILE_FORMAT_XHTML */
 
@@ -251,6 +224,7 @@ static const char TXT_ARROW_SPACE[] = "--> ";
 static const char TXT_SPACE_ARROW_SPACE[] = " --> ";
 
 /* IO_FILE_FORMAT_CSS */
+
 static const char CSS_ALL[]
 ="body {\n"
 "    background-color: rgb(255,255,255);\n"
@@ -270,7 +244,70 @@ static const char CSS_ALL[]
 "}\n"
 ".elementname {\n"
 "    color:rgb(0,128,80);\n"
+"}\n"
+"h1 {\n"
+"    counter-reset: cnt-head-two;\n"
+"}\n"
+"h2::before {\n"
+"    counter-increment: cnt-head-two;\n"
+"    content: counter(cnt-head-two) \"\\0000a0 \";\n"
+"}\n"
+"h2 {\n"
+"    counter-reset: cnt-head-three;\n"
+"}\n"
+"h3::before {\n"
+"    counter-increment: cnt-head-three;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \"\\0000a0 \";\n"
+"}\n"
+"h3 {\n"
+"    counter-reset: cnt-head-four;\n"
+"}\n"
+"h4::before {\n"
+"    counter-increment: cnt-head-four;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \"\\0000a0 \";\n"
+"}\n"
+"h4 {\n"
+"    counter-reset: cnt-head-five;\n"
+"}\n"
+"h5::before {\n"
+"    counter-increment: cnt-head-five;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \"\\0000a0 \";\n"
+"}\n"
+"h5 {\n"
+"    counter-reset: cnt-head-six;\n"
+"}\n"
+"h6::before {\n"
+"    counter-increment: cnt-head-six;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \".\" counter(cnt-head-six) \"\\0000a0 \";\n"
 "}\n";
+
+void io_format_writer_init ( io_format_writer_t *this_,
+                             io_file_format_t export_type,
+                             FILE *output )
+{
+    TRACE_BEGIN();
+    assert( NULL != output );
+
+    (*this_).export_type = export_type;
+    (*this_).output = output;
+    (*this_).current_tree_depth = 0;
+
+    (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
+    (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
+    (*this_).fmt_xhtml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS;
+    (*this_).fmt_db_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS;
+
+    TRACE_END();
+}
+
+void io_format_writer_destroy( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+
+    (*this_).output = NULL;
+
+    TRACE_END();
+}
 
 int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title )
 {
