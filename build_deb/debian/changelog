@@ -1,10 +1,22 @@
+crystal-facet-uml (1.20.0-1) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * xhtml output generates a css file to allow defining own color schemes
+  * xhtml output keeps linebreaks in selected (md) cases
+  * bugfix: exporting docbook and xhtml via command line arguments
+    works again, as in 1.16.1 (Closes: #1)
+  * exported xhtml passes https://validator.w3.org/check (for quality.cfu1)
+  * exported xhtml/css shows chapter numbers
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 23 Mar 2020 18:30:00 +0100
+
 crystal-facet-uml (1.19.0-1) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * free text search
   * small memory leak in nav-tree-view fixed
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0100
 
 crystal-facet-uml (1.18.1-1) UNRELEASED; urgency=medium
 
