@@ -1,4 +1,4 @@
-crystal-facet-uml (1.19.1) UNRELEASED; urgency=medium
+crystal-facet-uml (1.20.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]
   * xhtml output generates a css file to allow defining own color schemes
@@ -8,7 +8,7 @@ crystal-facet-uml (1.19.1) UNRELEASED; urgency=medium
   * exported xhtml passes https://validator.w3.org/check (for quality.cfu1)
   * exported xhtml/css shows chapter numbers
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 33 Mar 2020 12:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Mon, 23 Mar 2020 18:30:00 +0100
 
 crystal-facet-uml (1.19.0) UNRELEASED; urgency=medium
 
@@ -16,7 +16,7 @@ crystal-facet-uml (1.19.0) UNRELEASED; urgency=medium
   * free text search
   * small memory leak in nav-tree-view fixed
 
- -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0200
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Sat, 14 Mar 2020 12:30:00 +0100
 
 crystal-facet-uml (1.18.2) UNRELEASED; urgency=medium
 
