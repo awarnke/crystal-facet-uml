@@ -212,7 +212,7 @@
                                 Diagram Reference</para></entry>
                             <entry><para>UML</para></entry>
                             <entry><para>Interaction Overview / unconditional features</para></entry>
-                            <entry><para></para></entry>
+                            <entry><para>Hint: To easily find the referenced diagram, name the reference identical to the diagram.</para></entry>
                         </row>
                         <row>
                             <entry><para>
