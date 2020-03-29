@@ -5,7 +5,9 @@ ideas for future versions:
   [ ] a "saveAs" or export-as-cfu1 command should allow to copy the current db
   [ ] next to the about button, a help button is needed that can provide context-sensitive information.
   [ ] rename relationship types so that "source"-"rel-type-name"-"destination" is a correct sentence, see e.g. Realization/Generalization
-  < > when opening the second database, the root diagram cannot be focused immediately 
+  [ ] when opening the second database, the root diagram cannot be focused immediately
+  [ ] show a progress bar while exporting diagrams
+  [ ] update seach result view when changing the database (e.g. by undo)
   @gui+ctrl
   [ ] When undoing/redoing things, switch to a diagram where you see the changes
   [ ] when changing sets of objects (cut/copy/paste/delete/redo/undo...) print understandable statistics
@@ -26,11 +28,14 @@ ideas for future versions:
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
+  [ ] diagrams need some kind of classification/stereotype like idea-for-future, rejected-alternative, ...
   @ctrl
   [ ] export XMI format
   [ ] import XMI format
-  @utf8stringbuf
-  [ ] combine the static string allocation with dynamic additional buffers for long strings
+  @universal+utf8stringbuf
+  [ ] combine the static string allocation with dynamic additional buffers for unexpectedly-long strings
+  [ ] combine the static array allocation with dynamic additional buffers for arrays of unpredictable lengths
+  [ ] add streaming support, e.g. to escape characters while writing to a file or to parse json before having received all data
   @main
   @ts_log/trace/test_fw
 

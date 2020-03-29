@@ -10,8 +10,8 @@
         This program creates diagrams that strive for compatibility to
 
         <itemizedlist>
-            <listitem><para>UML 2.5</para></listitem>
-            <listitem><para>SysML 1.5</para></listitem>
+            <listitem><para>UML 2.5<!-- latest: 2.5.1 --></para></listitem>
+            <listitem><para>SysML 1.5<!-- latest: 1.6 --></para></listitem>
             <listitem><para>MOF 1.4.1</para></listitem>
         </itemizedlist>
 
@@ -48,7 +48,7 @@
                         <row>
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
-                            <entry><para>Filter Features</para></entry>
+                            <entry><para>Diagram Context and Filter</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
                     </thead>
@@ -59,7 +59,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_block.png"/></imageobject></mediaobject>
                                 Block</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry>
                                 <para>Limitations: Compartment Order is "properties, operations"
                                     instead of "constraints, operations, receptions, parts, (bound) references, values, properties,
@@ -75,7 +75,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_constraint.png"/></imageobject></mediaobject>
                                 Constraint Property/Equation</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 10.2.2--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>Parametric / -</para></entry>
                             <entry><para>Limitations: Only the rounded-rect symbol is supported, ports are not completely inside the rounded-rect.</para></entry>
                         </row>
                         <row>
@@ -84,7 +84,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_node.png"/></imageobject></mediaobject>
                                 Node</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>Deployment / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -93,7 +93,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_component.png"/></imageobject></mediaobject>
                                 Component</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -102,7 +102,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_part.png"/></imageobject></mediaobject>
                                 Part</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -111,7 +111,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.png"/></imageobject></mediaobject>
                                 Interface</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -120,7 +120,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_package.png"/></imageobject></mediaobject>
                                 Package</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -129,7 +129,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_class.png"/></imageobject></mediaobject>
                                 Class</para></entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.4--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para>Limitations: No active classes</para></entry>
                         </row>
                         <row>
@@ -138,7 +138,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_part.png"/></imageobject></mediaobject>
                                 Object</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -147,7 +147,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_artifact.png"/></imageobject></mediaobject>
                                 Artifact</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -156,17 +156,17 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_comment.png"/></imageobject></mediaobject>
                                 Comment</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>* / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
                             <entry><para>
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.png"/></imageobject></mediaobject>
-                                Feature</para></entry>
-                            <entry><para>-</para></entry>
-                            <entry><para>-</para></entry>
-                            <entry><para>Represents a group of requirements, can be used for SysML Composite Requirements
+                                Feature/Composite Requirement</para></entry>
+                            <entry><para>SysML</para></entry>
+                            <entry><para>* / -</para></entry>
+                            <entry><para>Represents a group of requirements
                                     </para></entry>
                         </row>
                         <row>
@@ -175,7 +175,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_requirement.png"/></imageobject></mediaobject>
                                 Requirement</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 16.2--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>* / -</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -184,7 +184,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_actor.png"/></imageobject></mediaobject>
                                 Actor</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Use Case, Sequence / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -193,7 +193,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_usecase.png"/></imageobject></mediaobject>
                                 Use Case</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>Use Case / -</para></entry>
                             <entry><para>Limitations: No SysML extension points</para></entry>
                         </row>
                         <row>
@@ -202,7 +202,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_boundary.png"/></imageobject></mediaobject>
                                 System Boundary</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Use Case / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -211,7 +211,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_diagram.png"/></imageobject></mediaobject>
                                 Diagram Reference</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Interaction Overview / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -220,7 +220,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
                                 Activity</para></entry>
                             <entry><para>UML 2.5 (ch15.2)</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>Activity / -</para></entry>
                             <entry><para>Limitations: Object Node Pin notation not supported, draw the object between activities</para></entry>
                         </row>
                         <row>
@@ -229,7 +229,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_region.png"/></imageobject></mediaobject>
                                 Interruptable Region</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -238,7 +238,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_fork.png"/></imageobject></mediaobject>
                                 Fork</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -247,7 +247,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_join.png"/></imageobject></mediaobject>
                                 Join</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -256,7 +256,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_accept.png"/></imageobject></mediaobject>
                                 Accept Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -265,7 +265,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_time.png"/></imageobject></mediaobject>
                                 Accept Time Event</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -274,7 +274,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_send.png"/></imageobject></mediaobject>
                                 Send Signal</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -283,7 +283,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_decision.png"/></imageobject></mediaobject>
                                 Decision/Choice</para></entry>
                             <entry><para>UML 2.5 (ch14.2.4,15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity, State / unconditional features</para></entry>
                             <entry><para>In activity diagrams, this is called decision, in statesmachines it is called choice</para>
                             </entry>
                         </row>
@@ -293,7 +293,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_initial.png"/></imageobject></mediaobject>
                                 Initial Node</para></entry>
                             <entry><para>UML 2.5 (ch14.2.4)<!--spec 2.5 chapter 14.2.4-->, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity, State / unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityInitial and FlowInitial</para>
                                 <para>Limitations: There is no separate entryPoint state-type</para>
                             </entry>
@@ -304,7 +304,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_final.png"/></imageobject></mediaobject>
                                 Final Node</para></entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity, State / unconditional features</para></entry>
                             <entry><para>Limitations: There is no distinction in ActivityFinal and FlowFinal</para>
                                 <para>Limitations: There is no separate exitPoint and terminate state-type</para>
                             </entry>
@@ -315,7 +315,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_state.png"/></imageobject></mediaobject>
                                 State</para></entry>
                             <entry><para>UML 2.5 (ch14.2), SysML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>State, Timing / -</para></entry>
                             <entry><para>Limitations: No symbol for hidden decompositions, no regions (swimlanes) in composite states</para>
                                 <para>Limitations: entry/exit/do list</para>
                                 <para>Limitations: entryPoint and exitPoint states cannot be drawn on parent state border line</para></entry>
@@ -326,7 +326,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_history.png"/></imageobject></mediaobject>
                                 Shallow History</para></entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>State / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -335,7 +335,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_clas_deephistory.png"/></imageobject></mediaobject>
                                 Deep History</para></entry>
                             <entry><para>UML 2.5 (ch14.2.4), SysML</para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>State / unconditional features</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -344,7 +344,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 Value Type</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>- / -</para></entry>
                             <entry><para>not supported.</para>
                                 <para>Limitations: Compartment Order of Classifiers is "properties, operations"
                                     instead of "operations, properties, stereotype-tagged-values"
@@ -357,7 +357,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 Enumeration</para></entry>
                             <entry><para>UML, SysML</para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>- / -</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a class instead.</para></entry>
                         </row>
                         <row>
@@ -366,7 +366,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 ActivityParameterNode</para></entry>
                             <entry><para>SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>-</para></entry>
+                            <entry><para>- / -</para></entry>
                             <entry><para>not supported.</para></entry>
                         </row>
                         <row>
@@ -375,7 +375,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 MergeNode/Junction</para></entry>
                             <entry><para>UML 2.5 (ch15.3), SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity, State / unconditional features</para></entry>
                             <entry><para>In activity diagrams, it is called merge, in state diagrams junction node. This is not supported.</para>
                                 <para>Note: You may directly connect the arrows to the target activity/state.</para>
                             </entry>
@@ -386,7 +386,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 ActivityPartition</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 11.2.1--></para></entry>
-                            <entry><para>unconditional features</para></entry>
+                            <entry><para>Activity / unconditional features</para></entry>
                             <entry><para>not supported.</para><para>Note: Use a parent activity instead.</para></entry>
                         </row>
                     </tbody>
@@ -534,7 +534,7 @@
                         <row>
                             <entry><para></para></entry>
                             <entry><para>Spec</para></entry>
-                            <entry><para>Diagram Types</para></entry>
+                            <entry><para>Diagram Context</para></entry>
                             <entry><para>Comment</para></entry>
                         </row>
                     </thead>
@@ -554,7 +554,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_contain.png"/></imageobject></mediaobject>
                                 Containment</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>Deployment, Package</para></entry>
+                            <entry><para>Deployment, Package, Internal Block, Composite Structure, Activity, State</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -572,7 +572,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_manifest.png"/></imageobject></mediaobject>
                                 Manifest</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>Deploy</para></entry>
+                            <entry><para>Deployment</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -581,7 +581,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
                                 Communication Path</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>Component, Use Case</para></entry>
+                            <entry><para>Component, Composite Structure, Block, Internal Block</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -590,7 +590,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
                                 Association</para></entry>
                             <entry><para>UML<!--spec 2.5 chapter 11.5-->, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>Class Diag</para></entry>
+                            <entry><para>Class, Use Case</para></entry>
                             <entry>
                                 <para>Note: SysML calls this ReferenceAssociation</para>
                                 <para>Limitations: no AssociationClass(SysML: ParticipantProperty) exists.</para>
@@ -605,7 +605,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_aggregate.png"/></imageobject></mediaobject>
                                 Aggregation</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>Class Diag</para></entry>
+                            <entry><para>Class</para></entry>
                             <entry>
                                 <para>Note: SysML calls this SharedAssociation</para>
                             </entry>
@@ -616,7 +616,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_compose.png"/></imageobject></mediaobject>
                                 Composition</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1--></para></entry>
-                            <entry><para>Class Diag</para></entry>
+                            <entry><para>Class</para></entry>
                             <entry>
                                 <para>Note: SysML calls this PartAssociation</para>
                             </entry>
@@ -627,7 +627,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_generalize.png"/></imageobject></mediaobject>
                                 Generalization</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 8.2.1, 14.2--></para></entry>
-                            <entry><para>Class Diag, Use Case</para></entry>
+                            <entry><para>Class, Use Case(?)</para></entry>
                             <entry><para>Limitations: no Generalization-Sets supported</para></entry>
                         </row>
                         <row>
@@ -636,7 +636,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_realize.png"/></imageobject></mediaobject>
                                 Realization</para></entry>
                             <entry><para>UML</para></entry>
-                            <entry><para>Class Diag</para></entry>
+                            <entry><para>Class</para></entry>
                             <entry><para></para></entry>
                         </row>
 
@@ -645,7 +645,7 @@
                                 <mediaobject><imageobject><imagedata fileref="../../gui/source/resources/type_rel_trace.pdf" width="1cm"/></imageobject>
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_trace.png"/></imageobject></mediaobject>
                                 Trace</para></entry>
-                            <entry><para>SysML<!-- see also https://re-magazine.ireb.org/articles/modeling-requirements-with-sysml -->^</para></entry>
+                            <entry><para>SysML<!-- see also https://re-magazine.ireb.org/articles/modeling-requirements-with-sysml --></para></entry>
                             <entry><para>Requirement</para></entry>
                             <entry><para></para></entry>
                         </row>
@@ -700,7 +700,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_associate.png"/></imageobject></mediaobject>
                                 Async. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence</para></entry>
+                            <entry><para>Sequence, Timing, Communication</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -709,7 +709,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_sync.png"/></imageobject></mediaobject>
                                 Sync. Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence</para></entry>
+                            <entry><para>Sequence, Timing, Communication</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -718,7 +718,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_rel_return.png"/></imageobject></mediaobject>
                                 Return Call</para></entry>
                             <entry><para>UML, SysML (?)</para></entry>
-                            <entry><para>Sequence</para></entry>
+                            <entry><para>Sequence, Timing, Communication</para></entry>
                             <entry><para></para></entry>
                         </row>
                         <row>
@@ -727,7 +727,7 @@
                                 <imageobject><imagedata fileref="../../gui/source/resources/type_undef.png"/></imageobject></mediaobject>
                                 Connector</para></entry>
                             <entry><para>UML, SysML<!--spec 1.5 chapter 14.2--></para></entry>
-                            <entry><para>Internal Block Diag.</para></entry>
+                            <entry><para>Internal Block</para></entry>
                             <entry><para>not supported.</para>
                                 <para>Limitations: No Bi-directional Connectors</para><para>Note: SysML calls this BindingConnector</para>
                                 <para>Note: Use a Communication Path instead.</para>
