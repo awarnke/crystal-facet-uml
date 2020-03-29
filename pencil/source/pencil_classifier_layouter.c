@@ -254,6 +254,11 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
                     }
                 }
             }
+            /* check overlap to diagram boundary */
+            if ( ! geometry_rectangle_is_containing ( (*this_).diagram_draw_area, &probe_parent_bounds ) )
+            {
+                illegal_overlap = true;
+            }
 
             /* cancel or commit */
             if ( ! illegal_overlap )

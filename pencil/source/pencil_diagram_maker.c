@@ -101,18 +101,6 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
     {
         layout_visible_classifier_t *classifier_layout;
         classifier_layout = pencil_layout_data_get_classifier_ptr( layout_data, index );
-        /*
-        const data_visible_classifier_t *visible_classifier;
-        visible_classifier = layout_visible_classifier_get_data_const ( classifier_layout );
-
-        const data_classifier_t *classifier;
-        const data_diagramelement_t *diagramelement;
-        classifier = data_visible_classifier_get_classifier_const( visible_classifier );
-        diagramelement = data_visible_classifier_get_diagramelement_const( visible_classifier );
-
-        data_diagramelement_flag_t display_flags;
-        display_flags = data_diagramelement_get_display_flags( diagramelement );
-        */
 
         pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 
