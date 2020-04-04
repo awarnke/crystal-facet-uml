@@ -778,21 +778,14 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     pencil_classifier_layouter_private_propose_grow_processing_order ( this_, &sorted_classifiers );
 
     /* small-move and grow the classifiers */
-    //uint32_t count_sorted;
-    //count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
+    const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
 
     /* move and grow */
-    /*
-    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
+    for ( uint32_t clas_sort_idx = 0; clas_sort_idx < count_sorted; clas_sort_idx ++ )
     {
-        uint32_t rel_idx;
-        rel_idx = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
+        const uint32_t clasfy_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, clas_sort_idx );
 
-        layout_relationship_t *the_relationship;
-        the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
-        pencil_classifier_layouter_private_try_embrace_child( this_, the_relationship );
     }
-    */
 
     /* doublecheck if title can be layed out with less lines */
 
@@ -808,32 +801,23 @@ void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_c
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
-    uint32_t count_clasfy;
-    count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    const uint32_t count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
-        layout_visible_classifier_t *the_classifier;
-        the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
-        geometry_rectangle_t *classifier_bounds;
-        classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
+        const layout_visible_classifier_t *const the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        const geometry_rectangle_t *const classifier_bounds = layout_visible_classifier_get_bounds_const( the_classifier );
 
-        int64_t simpleness = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
-
-        /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
+        int64_t move_need = 0;
         {
-            double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
-            double classifier_area = geometry_rectangle_get_area( classifier_bounds );
-            if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
-            {
-                simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
-            }
+            const double classifier_area = geometry_rectangle_get_area( classifier_bounds );
+            move_need = classifier_area;
         }
 
         int insert_error;
-        insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+        insert_error = universal_array_index_sorter_insert( out_sorted, index, INT64_MAX - move_need );
         if ( 0 != insert_error )
         {
-            TSLOG_WARNING( "not all rectangles are moved" );
+            TSLOG_WARNING( "not all rectangles are grown" );
         }
     }
 
