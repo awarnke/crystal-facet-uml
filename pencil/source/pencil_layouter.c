@@ -205,6 +205,9 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* parent classifiers embrace their children */
         pencil_classifier_layouter_embrace_children( &((*this_).pencil_classifier_layouter) );
 
+        /* classifiers shall grab more space if there is space left (beautify) */
+        pencil_classifier_layouter_local_move_and_grow_for_gaps( &((*this_).pencil_classifier_layouter), font_layout );
+
         /* calculate the feature shapes */
         pencil_feature_layouter_do_layout( &((*this_).feature_layouter), font_layout );
 
@@ -215,7 +218,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         }
         else if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diag_type )
         {
-            /* calculate the relationship shapes for a communication diagram */
+            /* calculate the relationship shapes for a communication diagram (scenario-relations only) */
             pencil_relationship_layouter_layout_for_communication( &((*this_).pencil_relationship_layouter) );
         }
         else
@@ -230,6 +233,7 @@ void pencil_layouter_layout_elements ( pencil_layouter_t *this_, PangoLayout *fo
         /* layout labels of features and relationships */
         pencil_feat_label_layouter_do_layout( &((*this_).feature_label_layouter), font_layout );
         pencil_rel_label_layouter_do_layout( &((*this_).relationship_label_layouter), font_layout );
+
     }
 
     TRACE_END();

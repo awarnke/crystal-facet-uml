@@ -134,7 +134,7 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solution_move_dx array of solutions: proposal to move in x direction
  *  \param out_solution_move_dy array of solutions: proposal to move in y direction
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
+ *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
 void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_layouter_t *this_,
                                                             const universal_array_index_sorter_t *sorted,
@@ -151,7 +151,7 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
  *  \param this_ pointer to own object attributes
  *  \param sorted sorting order by which to move classifiers; must not be NULL.
  *  \param sort_index index (in sorted classifiers) of the current classifier for which to select a solution
- *  \param solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
+ *  \param solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  *  \param solution_move_dx array of solutions: proposal to move in x direction
  *  \param solution_move_dy array of solutions: proposal to move in y direction
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
@@ -165,7 +165,13 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
                                                           uint32_t *out_index_of_best
                                                         );
 
-universal_array_index_sorter_t sorted_classifiers;
+/*!
+ *  \brief move and grow classifiers so that they have nice distances to neighbours and children/parents
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
+ */
+void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
 
 /*!
  *  \brief defines classifier bounds for list diagrams

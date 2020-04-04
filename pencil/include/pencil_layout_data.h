@@ -141,7 +141,7 @@ static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_la
  *  \brief gets the layouted visible_classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
+ *  \param index index of the layouted classifier to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
 static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index );
@@ -150,7 +150,7 @@ static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr
  *  \brief gets the layouted visible_classifier
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted classifier to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
+ *  \param index index of the layouted classifier to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
 static inline const layout_visible_classifier_t *pencil_layout_data_get_classifier_const ( const pencil_layout_data_t *this_, uint32_t index );
@@ -168,7 +168,7 @@ static inline uint32_t pencil_layout_data_get_feature_count ( const pencil_layou
  *  \brief gets the layouted feature
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted feature to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_FEATURES.
+ *  \param index index of the layouted feature to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_FEATURES.
  *  \return pointer to layout_feature_t.
  */
 static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layout_data_t *this_, uint32_t index );
@@ -177,7 +177,7 @@ static inline layout_feature_t *pencil_layout_data_get_feature_ptr ( pencil_layo
  *  \brief gets the layouted feature
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted feature to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_FEATURES.
+ *  \param index index of the layouted feature to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_FEATURES.
  *  \return pointer to layout_feature_t.
  */
 static inline const layout_feature_t *pencil_layout_data_get_feature_const ( const pencil_layout_data_t *this_, uint32_t index );
@@ -188,7 +188,7 @@ static inline const layout_feature_t *pencil_layout_data_get_feature_const ( con
  *  \brief gets the visibility of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the relationship visibility to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
+ *  \param index index of the relationship visibility to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
  *  \return true if visible.
  */
 static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility ( const pencil_layout_data_t *this_, uint32_t index );
@@ -197,7 +197,7 @@ static inline pencil_visibility_t pencil_layout_data_get_relationship_visibility
  *  \brief sets the visibility of a relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the relationship visibility to set; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
+ *  \param index index of the relationship visibility to set; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
  *  \param visible true if visible.
  */
 static inline void pencil_layout_data_set_relationship_visibility ( pencil_layout_data_t *this_, uint32_t index, pencil_visibility_t visible );
@@ -213,7 +213,7 @@ static inline uint32_t pencil_layout_data_get_relationship_count ( const pencil_
  *  \brief gets the layouted relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted relationship to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
+ *  \param index index of the layouted relationship to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
  *  \return pointer to layout_relationship_t.
  */
 static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( pencil_layout_data_t *this_, uint32_t index );
@@ -222,7 +222,7 @@ static inline layout_relationship_t *pencil_layout_data_get_relationship_ptr ( p
  *  \brief gets the layouted relationship
  *
  *  \param this_ pointer to own object attributes
- *  \param index index of the layouted relationship to retrieve; 0 <= index < PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
+ *  \param index index of the layouted relationship to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS.
  *  \return pointer to layout_relationship_t.
  */
 static inline const layout_relationship_t *pencil_layout_data_get_relationship_const ( const pencil_layout_data_t *this_, uint32_t index );

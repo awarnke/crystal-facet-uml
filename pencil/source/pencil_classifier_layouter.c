@@ -766,6 +766,41 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
     TRACE_END();
 }
 
+void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
+{
+    TRACE_BEGIN();
+    assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
+
+    universal_array_index_sorter_t sorted_classifiers;
+    universal_array_index_sorter_init( &sorted_classifiers );
+
+    /* sort the classifiers by their size */
+    //pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
+
+    /* small-move and grow the classifiers */
+    //uint32_t count_sorted;
+    //count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
+
+    /* move and grow */
+    /*
+    for ( uint32_t rel_sort_idx = 0; rel_sort_idx < count_sorted; rel_sort_idx ++ )
+    {
+        uint32_t rel_idx;
+        rel_idx = universal_array_index_sorter_get_array_index( &sorted_relationships, rel_sort_idx );
+
+        layout_relationship_t *the_relationship;
+        the_relationship = pencil_layout_data_get_relationship_ptr( (*this_).layout_data, rel_idx );
+        pencil_classifier_layouter_private_try_embrace_child( this_, the_relationship );
+    }
+    */
+
+    /* doublecheck if title can be layed out with less lines */
+
+    universal_array_index_sorter_destroy( &sorted_classifiers );
+
+    TRACE_END();
+}
+
 void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *this_, PangoLayout *font_layout )
 {
     TRACE_BEGIN();

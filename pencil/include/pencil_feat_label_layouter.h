@@ -80,7 +80,7 @@ void pencil_feat_label_layouter_private_propose_processing_order ( pencil_feat_l
  *  \param font_layout structure to layout fonts
  *  \param solutions_max maximum number (array size) of solutions to propose
  *  \param out_solutions array of solutions
- *  \param out_solutions_count number of proposed solutions; 1 <= out_solutions_count < solutions_max
+ *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
 void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_layouter_t *this_,
                                                             layout_feature_t *current_feature,
