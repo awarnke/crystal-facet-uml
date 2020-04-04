@@ -334,7 +334,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
     universal_array_index_sorter_init( &sorted );
 
     /* sort the classifiers by their movement-needs */
-    pencil_classifier_layouter_private_propose_processing_order ( this_, &sorted );
+    pencil_classifier_layouter_private_propose_move_processing_order ( this_, &sorted );
 
     /* move the classifiers */
     uint32_t count_sorted;
@@ -348,14 +348,14 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         double solution_move_dy[5];
 
         /* propose options */
-        pencil_classifier_layouter_private_propose_solutions ( this_,
-                                                               &sorted,
-                                                               sort_index,
-                                                               SOLUTIONS_MAX,
-                                                               solution_move_dx,
-                                                               solution_move_dy,
-                                                               &solutions_count
-                                                             );
+        pencil_classifier_layouter_private_propose_move_solutions ( this_,
+                                                                    &sorted,
+                                                                    sort_index,
+                                                                    SOLUTIONS_MAX,
+                                                                    solution_move_dx,
+                                                                    solution_move_dy,
+                                                                    &solutions_count
+                                                                  );
 
         /* select best option */
         uint32_t index_of_best;
@@ -365,14 +365,14 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         }
         else
         {
-            pencil_classifier_layouter_private_select_solution ( this_,
-                                                                 &sorted,
-                                                                 sort_index,
-                                                                 solutions_count,
-                                                                 solution_move_dx,
-                                                                 solution_move_dy,
-                                                                 &index_of_best
-                                                               );
+            pencil_classifier_layouter_private_select_move_solution ( this_,
+                                                                      &sorted,
+                                                                      sort_index,
+                                                                      solutions_count,
+                                                                      solution_move_dx,
+                                                                      solution_move_dy,
+                                                                      &index_of_best
+                                                                    );
         }
 
         /* perform best option */
@@ -389,7 +389,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_propose_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
 {
     TRACE_BEGIN();
     assert ( NULL != out_sorted );
@@ -476,13 +476,13 @@ enum pencil_classifier_layouter_private_move_enum {
     PENCIL_CLASSIFIER_LAYOUTER_PRIVATE_MOVE_MAX = 5,  /*!< constant defining the total number of available options */
 };
 
-void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_layouter_t *this_,
-                                                            const universal_array_index_sorter_t *sorted,
-                                                            uint32_t sort_index,
-                                                            uint32_t solutions_max,
-                                                            double out_solution_move_dx[],
-                                                            double out_solution_move_dy[],
-                                                            uint32_t *out_solutions_count )
+void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifier_layouter_t *this_,
+                                                                 const universal_array_index_sorter_t *sorted,
+                                                                 uint32_t sort_index,
+                                                                 uint32_t solutions_max,
+                                                                 double out_solution_move_dx[],
+                                                                 double out_solution_move_dy[],
+                                                                 uint32_t *out_solutions_count )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -654,13 +654,13 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
     TRACE_END();
 }
 
-void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layouter_t *this_,
-                                                          const universal_array_index_sorter_t *sorted,
-                                                          uint32_t sort_index,
-                                                          uint32_t solutions_count,
-                                                          const double solution_move_dx[],
-                                                          const double solution_move_dy[],
-                                                          uint32_t *out_index_of_best )
+void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier_layouter_t *this_,
+                                                               const universal_array_index_sorter_t *sorted,
+                                                               uint32_t sort_index,
+                                                               uint32_t solutions_count,
+                                                               const double solution_move_dx[],
+                                                               const double solution_move_dy[],
+                                                               uint32_t *out_index_of_best )
 {
     TRACE_BEGIN();
     assert ( NULL != sorted );
@@ -774,8 +774,8 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
 
-    /* sort the classifiers by their size */
-    //pencil_classifier_layouter_private_propose_embracing_order ( this_, &sorted_relationships );
+    /* sort the classifiers by their need to grow or move */
+    pencil_classifier_layouter_private_propose_grow_processing_order ( this_, &sorted_classifiers );
 
     /* small-move and grow the classifiers */
     //uint32_t count_sorted;
@@ -797,6 +797,45 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     /* doublecheck if title can be layed out with less lines */
 
     universal_array_index_sorter_destroy( &sorted_classifiers );
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted )
+{
+    TRACE_BEGIN();
+    assert ( NULL != out_sorted );
+    assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
+
+    /* sort the classifiers by their movement-needs */
+    uint32_t count_clasfy;
+    count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    {
+        layout_visible_classifier_t *the_classifier;
+        the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        geometry_rectangle_t *classifier_bounds;
+        classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
+
+        int64_t simpleness = 0;  /* the lower the number, the ealier the classifier will be processed. Unit is area(=square-length). */
+
+        /* reduce simpleness by own size: the bigger the object, the earlier it should be moved */
+        {
+            double default_classifier_area = geometry_dimensions_get_area( (*this_).default_classifier_size );
+            double classifier_area = geometry_rectangle_get_area( classifier_bounds );
+            if (( default_classifier_area > 0.000000001 )&&( classifier_area > 0.000000001 ))
+            {
+                simpleness -= default_classifier_area * ( classifier_area / ( classifier_area + default_classifier_area ));
+            }
+        }
+
+        int insert_error;
+        insert_error = universal_array_index_sorter_insert( out_sorted, index, simpleness );
+        if ( 0 != insert_error )
+        {
+            TSLOG_WARNING( "not all rectangles are moved" );
+        }
+    }
 
     TRACE_END();
 }

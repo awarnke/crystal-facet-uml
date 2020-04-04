@@ -123,7 +123,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
  *  \param this_ pointer to own object attributes
  *  \param out_sorted sorting order by which to move classifiers; must not be NULL, shall be initialized to empty.
  */
-void pencil_classifier_layouter_private_propose_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
+void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief propose multiple solutions to move one classifiers
@@ -136,14 +136,14 @@ void pencil_classifier_layouter_private_propose_processing_order ( pencil_classi
  *  \param out_solution_move_dy array of solutions: proposal to move in y direction
  *  \param out_solutions_count number of proposed solutions; 1 &lt;= out_solutions_count &lt; solutions_max
  */
-void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_layouter_t *this_,
-                                                            const universal_array_index_sorter_t *sorted,
-                                                            uint32_t sort_index,
-                                                            uint32_t solutions_max,
-                                                            double out_solution_move_dx[],
-                                                            double out_solution_move_dy[],
-                                                            uint32_t *out_solutions_count
-                                                          );
+void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifier_layouter_t *this_,
+                                                                 const universal_array_index_sorter_t *sorted,
+                                                                 uint32_t sort_index,
+                                                                 uint32_t solutions_max,
+                                                                 double out_solution_move_dx[],
+                                                                 double out_solution_move_dy[],
+                                                                 uint32_t *out_solutions_count
+                                                               );
 
 /*!
  *  \brief selects one solution to move a classifier
@@ -156,14 +156,14 @@ void pencil_classifier_layouter_private_propose_solutions ( pencil_classifier_la
  *  \param solution_move_dy array of solutions: proposal to move in y direction
  *  \param out_index_of_best index (of solution) of the best solution; must not be NULL.
  */
-void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layouter_t *this_,
-                                                          const universal_array_index_sorter_t *sorted,
-                                                          uint32_t sort_index,
-                                                          uint32_t solutions_count,
-                                                          const double solution_move_dx[],
-                                                          const double solution_move_dy[],
-                                                          uint32_t *out_index_of_best
-                                                        );
+void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier_layouter_t *this_,
+                                                               const universal_array_index_sorter_t *sorted,
+                                                               uint32_t sort_index,
+                                                               uint32_t solutions_count,
+                                                               const double solution_move_dx[],
+                                                               const double solution_move_dy[],
+                                                               uint32_t *out_index_of_best
+                                                             );
 
 /*!
  *  \brief move and grow classifiers so that they have nice distances to neighbours and children/parents
@@ -172,6 +172,14 @@ void pencil_classifier_layouter_private_select_solution ( pencil_classifier_layo
  *  \param font_layout pango layout object to determine the font metrics if re-layouting titles
  */
 void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_layouter_t *this_, PangoLayout *font_layout );
+
+/*!
+ *  \brief determine order by which to grow classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param out_sorted sorting order by which to grow classifiers; must not be NULL, shall be initialized to empty.
+ */
+void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
  *  \brief defines classifier bounds for list diagrams
