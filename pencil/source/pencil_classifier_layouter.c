@@ -790,23 +790,12 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
 
         /*
          * GOAL : we need the following data to perform local_move_and_grow_for_gaps
+         * list of fully contained children
+         * STRATEGY : first move+grow x+y, then re-layout the titles
          */
-        double outer_gap_left;
-        double outer_gap_right;
-        double outer_gap_top;
-        double outer_gap_bottom;
-        double inner_gap_left;
-        double inner_gap_right;
-        double inner_gap_top;
-        double inner_gap_bottom;
-        /*
-        list of fully contained children
-        *  STRATEGY : first move+grow x, then re-layout the titles, then move+grow y
-        */
 
         geometry_rectangle_t max_outer_bounds;
         geometry_rectangle_t min_inner_space;
-
         pencil_classifier_layouter_private_get_gaps_to_classifiers( this_, classifier_idx, &max_outer_bounds, &min_inner_space );
 
     }
@@ -876,6 +865,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                              0.0,
                              0.0
                            );
+    const double SMALL_GAP = 0.00001;
 
     /* check all classifiers */
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
@@ -887,7 +877,12 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
         const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ref_classifier, probe_classifier );
         bool finished = false;
 
-        if ( is_ancestor )
+        if ( index == ref_classifier_idx )
+        {
+            /* this is myself, nothing to do */
+            finished = true;
+        }
+        else if ( is_ancestor )
         {
             const geometry_rectangle_t *const probe_space = layout_visible_classifier_get_space_const( probe_classifier );
             /* probe is ancestor to ref */
@@ -942,16 +937,18 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 if ( probe_bottom < ref_top )
                 {
                     const double delta_y = ref_top - probe_bottom;
-
+                    TSLOG_WARNING("unfunushed");
                 }
                 else if ( probe_top > ref_bottom )
                 {
                     const double delta_y = probe_top - ref_bottom;
+                    TSLOG_WARNING("unfunushed");
 
                 }
                 else
                 {
-
+                    /* probe is to the left */
+                    geometry_rectangle_set_left( out_max_outer_bounds, probe_right+SMALL_GAP );
                 }
             }
             else if ( probe_left > ref_right )
@@ -960,33 +957,39 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 if ( probe_bottom < ref_top )
                 {
                     const double delta_y = ref_top - probe_bottom;
+                    TSLOG_WARNING("unfunushed");
 
                 }
                 else if ( probe_top > ref_bottom )
                 {
                     const double delta_y = probe_top - ref_bottom;
+                    TSLOG_WARNING("unfunushed");
 
                 }
                 else
                 {
-
+                    /* probe is to the right */
+                    const double current_left = geometry_rectangle_get_left( out_max_outer_bounds );
+                    geometry_rectangle_set_width( out_max_outer_bounds, probe_left-SMALL_GAP-current_left );
                 }
             }
             else
             {
                 if ( probe_bottom < ref_top )
                 {
-                    const double delta_y = ref_top - probe_bottom;
-
+                    /* probe is to the top */
+                    geometry_rectangle_set_top( out_max_outer_bounds, probe_bottom+SMALL_GAP );
                 }
                 else if ( probe_top > ref_bottom )
                 {
-                    const double delta_y = probe_top - ref_bottom;
-
+                    /* probe in to the bottom */
+                    const double current_top = geometry_rectangle_get_top( out_max_outer_bounds );
+                    geometry_rectangle_set_height( out_max_outer_bounds, probe_top-SMALL_GAP-current_top );
                 }
                 else
                 {
-
+                    /* something went wrong, there is already an overlap */
+                    TRACE_INFO_INT_INT( "unexpected: There is already an overlap between two classifiers.", ref_classifier_idx, index );
                 }
             }
         }

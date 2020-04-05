@@ -271,6 +271,38 @@ static inline void geometry_rectangle_shift ( geometry_rectangle_t *this_, doubl
 static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, double delta_width, double delta_height );
 
 /*!
+ *  \brief sets the left coordinate of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param left new left value
+ */
+static inline void geometry_rectangle_set_left ( geometry_rectangle_t *this_, double left );
+
+/*!
+ *  \brief sets the top coordinate of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param top new top value
+ */
+static inline void geometry_rectangle_set_top ( geometry_rectangle_t *this_, double top );
+
+/*!
+ *  \brief sets the width of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param width new width value
+ */
+static inline void geometry_rectangle_set_width ( geometry_rectangle_t *this_, double width );
+
+/*!
+ *  \brief sets the height of geometry_rectangle_t
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param height new heigth value
+ */
+static inline void geometry_rectangle_set_height ( geometry_rectangle_t *this_, double height );
+
+/*!
  *  \brief prints the geometry_rectangle_t struct to the trace output
  *
  *  \param this_ pointer to own object attributes

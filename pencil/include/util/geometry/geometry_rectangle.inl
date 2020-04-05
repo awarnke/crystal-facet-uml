@@ -300,6 +300,26 @@ static inline void geometry_rectangle_expand ( geometry_rectangle_t *this_, doub
     }
 }
 
+static inline void geometry_rectangle_set_left ( geometry_rectangle_t *this_, double left )
+{
+    (*this_).left = left;
+}
+
+static inline void geometry_rectangle_set_top ( geometry_rectangle_t *this_, double top )
+{
+    (*this_).top = top;
+}
+
+static inline void geometry_rectangle_set_width ( geometry_rectangle_t *this_, double width )
+{
+    (*this_).width = width;
+}
+
+static inline void geometry_rectangle_set_height ( geometry_rectangle_t *this_, double height )
+{
+    (*this_).height = height;
+}
+
 static inline void geometry_rectangle_trace ( const geometry_rectangle_t *this_ )
 {
     TRACE_INFO( "geometry_rectangle_t" );
