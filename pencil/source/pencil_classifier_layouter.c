@@ -799,6 +799,7 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
         double inner_gap_top;
         double inner_gap_bottom;
         list of fully contained children
+        *  STRATEGY : first move+grow x, then re-layout the titles, then move+grow y
         */
     }
 
