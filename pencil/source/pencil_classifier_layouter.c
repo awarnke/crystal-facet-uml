@@ -785,19 +785,41 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     {
         const uint32_t classifier_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, classifier_sort_idx );
         layout_visible_classifier_t * the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, classifier_idx );
+        const geometry_rectangle_t *const classifier_bounds = layout_visible_classifier_get_bounds_const( the_classifier );
+        const geometry_rectangle_t *const classifier_space = layout_visible_classifier_get_space_const( the_classifier );
 
-        geometry_rectangle_t * classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
-
-        /*
-         * GOAL : we need the following data to perform local_move_and_grow_for_gaps
-         * list of fully contained children
-         * STRATEGY : first move+grow x+y, then re-layout the titles
-         */
-
+        /* determine the space there is */
         geometry_rectangle_t max_outer_bounds;
         geometry_rectangle_t min_inner_space;
         pencil_classifier_layouter_private_get_gaps_to_classifiers( this_, classifier_idx, &max_outer_bounds, &min_inner_space );
 
+        const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
+        /* propose a move and a grow */
+        const double TAKE_RATIO = 0.3;
+        double additional_width = (geometry_rectangle_get_width( &max_outer_bounds ) - (2.0*gap) - geometry_rectangle_get_width( classifier_bounds ))
+                                  * TAKE_RATIO;
+        if ( additional_width < 0.0 )
+        {
+            additional_width = 0.0;
+        }
+        double additional_height = (geometry_rectangle_get_height( &max_outer_bounds ) - (2.0*gap) - geometry_rectangle_get_height( classifier_bounds ))
+                                   * TAKE_RATIO;
+        if ( additional_height < 0.0 )
+        {
+            additional_height = 0.0;
+        }
+        const double delta_x = geometry_rectangle_get_center_x( &max_outer_bounds ) - geometry_rectangle_get_center_x( classifier_bounds );
+        const double delta_y = geometry_rectangle_get_center_y( &max_outer_bounds ) - geometry_rectangle_get_center_y( classifier_bounds );
+        const double descendant_add_dx = geometry_rectangle_get_center_x( &min_inner_space ) - geometry_rectangle_get_center_x( classifier_space );
+        const double descendant_add_dy = geometry_rectangle_get_center_y( &min_inner_space ) - geometry_rectangle_get_center_y( classifier_space );
+
+        /* move descendants */
+        pencil_classifier_layouter_private_move_embraced_descendants( this_, classifier_idx, delta_x+descendant_add_dx, delta_y+descendant_add_dy );
+
+        /* move and resize self */
+        layout_visible_classifier_shift ( the_classifier, delta_x, delta_y );
+        layout_visible_classifier_expand ( the_classifier, additional_width, additional_height );
     }
 
     /* doublecheck if title can be layed out with less lines */
@@ -937,13 +959,12 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 if ( probe_bottom < ref_top )
                 {
                     const double delta_y = ref_top - probe_bottom;
-                    TSLOG_WARNING("unfunushed");
+                    TSLOG_ANOMALY("unfinished");
                 }
                 else if ( probe_top > ref_bottom )
                 {
                     const double delta_y = probe_top - ref_bottom;
-                    TSLOG_WARNING("unfunushed");
-
+                    TSLOG_ANOMALY("unfinished");
                 }
                 else
                 {
@@ -957,14 +978,12 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 if ( probe_bottom < ref_top )
                 {
                     const double delta_y = ref_top - probe_bottom;
-                    TSLOG_WARNING("unfunushed");
-
+                    TSLOG_ANOMALY("unfinished");
                 }
                 else if ( probe_top > ref_bottom )
                 {
                     const double delta_y = probe_top - ref_bottom;
-                    TSLOG_WARNING("unfunushed");
-
+                    TSLOG_ANOMALY("unfinished");
                 }
                 else
                 {

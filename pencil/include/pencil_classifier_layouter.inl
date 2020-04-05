@@ -28,6 +28,37 @@ static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_o
     }
 }
 
+static inline void pencil_classifier_layouter_private_move_embraced_descendants( pencil_classifier_layouter_t *this_,
+                                                                                 uint32_t ancestor_index,
+                                                                                 double delta_x,
+                                                                                 double delta_y )
+{
+    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    assert ( ancestor_index < count_classifiers );
+
+    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, ancestor_index );
+    const geometry_rectangle_t *const ancestor_space = layout_visible_classifier_get_space_const( ancestor );
+
+    /* check all classifiers */
+    for ( uint32_t index = 0; index < count_classifiers; index ++ )
+    {
+        if ( index != ancestor_index )
+        {
+            /* this is not myself */
+            layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+            const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor, probe_classifier );
+            if ( is_descendant )
+            {
+                const geometry_rectangle_t *const probe_bounds = layout_visible_classifier_get_bounds_const( probe_classifier );
+                if ( geometry_rectangle_is_containing( ancestor_space, probe_bounds ) )
+                {
+                    layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
+                }
+            }
+        }
+    }
+}
+
 
 /*
 Copyright 2018-2020 Andreas Warnke

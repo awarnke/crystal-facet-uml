@@ -198,6 +198,21 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                                                                );
 
 /*!
+ *  \brief moves all descendants that are embraced
+ *         (descendant-bounds are within ancestor-space)
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ancestor_index the index of the ancestor classifier
+ *  \param delta_x distance to move in x direction
+ *  \param delta_y distance to move in y direction
+ */
+static inline void pencil_classifier_layouter_private_move_embraced_descendants( pencil_classifier_layouter_t *this_,
+                                                                                 uint32_t ancestor_index,
+                                                                                 double delta_x,
+                                                                                 double delta_y
+                                                                               );
+
+/*!
  *  \brief defines classifier bounds for list diagrams
  *
  *  \param this_ pointer to own object attributes
