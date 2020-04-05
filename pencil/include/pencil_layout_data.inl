@@ -108,7 +108,9 @@ static inline const layout_relationship_t *pencil_layout_data_get_relationship_c
     return &((*this_).relationship_layout[index]);
 }
 
-static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant )
+static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_,
+                                                    const layout_visible_classifier_t *ancestor,
+                                                    const layout_visible_classifier_t *descendant )
 {
     assert ( NULL != ancestor );
     assert ( NULL != descendant );
@@ -123,7 +125,8 @@ static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *
     return data_visible_set_is_ancestor_by_index ( (*this_).input_data, ancestor_index, descendant_index );
 }
 
-static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
+static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_,
+                                                            const layout_visible_classifier_t *classifier )
 {
     assert ( NULL != classifier );
 
@@ -135,7 +138,8 @@ static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_
     return data_visible_set_count_ancestors_of_index ( (*this_).input_data, classifier_index );
 }
 
-static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier )
+static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_,
+                                                              const layout_visible_classifier_t *classifier )
 {
     assert ( NULL != classifier );
 

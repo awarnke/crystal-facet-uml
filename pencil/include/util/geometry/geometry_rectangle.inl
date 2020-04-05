@@ -57,15 +57,11 @@ static inline int geometry_rectangle_init_by_intersect ( geometry_rectangle_t *t
     assert( NULL != rect_b );
 
     int result = 0;
-    double rect_a_right;
-    double rect_a_bottom;
-    double rect_b_right;
-    double rect_b_bottom;
 
-    rect_a_right = (*rect_a).left + (*rect_a).width;
-    rect_a_bottom = (*rect_a).top + (*rect_a).height;
-    rect_b_right = (*rect_b).left + (*rect_b).width;
-    rect_b_bottom = (*rect_b).top + (*rect_b).height;
+    const double rect_a_right = (*rect_a).left + (*rect_a).width;
+    const double rect_a_bottom = (*rect_a).top + (*rect_a).height;
+    const double rect_b_right = (*rect_b).left + (*rect_b).width;
+    const double rect_b_bottom = (*rect_b).top + (*rect_b).height;
 
     (*this_).left = fmax( (*rect_a).left, (*rect_b).left );
     (*this_).top = fmax( (*rect_a).top, (*rect_b).top );
@@ -98,15 +94,11 @@ static inline int geometry_rectangle_init_by_bounds ( geometry_rectangle_t *this
     assert( NULL != rect_b );
 
     int result = 0;
-    double rect_a_right;
-    double rect_a_bottom;
-    double rect_b_right;
-    double rect_b_bottom;
 
-    rect_a_right = (*rect_a).left + (*rect_a).width;
-    rect_a_bottom = (*rect_a).top + (*rect_a).height;
-    rect_b_right = (*rect_b).left + (*rect_b).width;
-    rect_b_bottom = (*rect_b).top + (*rect_b).height;
+    const double rect_a_right = (*rect_a).left + (*rect_a).width;
+    const double rect_a_bottom = (*rect_a).top + (*rect_a).height;
+    const double rect_b_right = (*rect_b).left + (*rect_b).width;
+    const double rect_b_bottom = (*rect_b).top + (*rect_b).height;
 
     (*this_).left = fmin( (*rect_a).left, (*rect_b).left );
     (*this_).top = fmin( (*rect_a).top, (*rect_b).top );
@@ -121,15 +113,11 @@ static inline bool geometry_rectangle_is_intersecting ( const geometry_rectangle
     assert( NULL != that );
 
     bool result;
-    double rect_this_right;
-    double rect_this_bottom;
-    double rect_that_right;
-    double rect_that_bottom;
 
-    rect_this_right = (*this_).left + (*this_).width + 0.000000001;  /* touching is intersecting */
-    rect_this_bottom = (*this_).top + (*this_).height + 0.000000001;
-    rect_that_right = (*that).left + (*that).width + 0.000000001;
-    rect_that_bottom = (*that).top + (*that).height + 0.000000001;
+    const double rect_this_right = (*this_).left + (*this_).width + 0.000000001;  /* touching is intersecting */
+    const double rect_this_bottom = (*this_).top + (*this_).height + 0.000000001;
+    const double rect_that_right = (*that).left + (*that).width + 0.000000001;
+    const double rect_that_bottom = (*that).top + (*that).height + 0.000000001;
 
     if ( ( rect_this_right < (*that).left )
         || ( rect_this_bottom < (*that).top )
@@ -151,15 +139,11 @@ static inline bool geometry_rectangle_is_containing ( const geometry_rectangle_t
     assert( NULL != that );
 
     bool result;
-    double rect_this_right;
-    double rect_this_bottom;
-    double rect_that_right;
-    double rect_that_bottom;
 
-    rect_this_right = (*this_).left + (*this_).width;
-    rect_this_bottom = (*this_).top + (*this_).height;
-    rect_that_right = (*that).left + (*that).width;
-    rect_that_bottom = (*that).top + (*that).height;
+    const double rect_this_right = (*this_).left + (*this_).width;
+    const double rect_this_bottom = (*this_).top + (*this_).height;
+    const double rect_that_right = (*that).left + (*that).width;
+    const double rect_that_bottom = (*that).top + (*that).height;
 
     if ( ( (*this_).left < (*that).left + 0.000000001 ) /* touching is containing */
         && ( (*this_).top < (*that).top + 0.000000001 )

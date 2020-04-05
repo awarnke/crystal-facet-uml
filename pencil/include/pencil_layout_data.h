@@ -235,7 +235,10 @@ static inline const layout_relationship_t *pencil_layout_data_get_relationship_c
  *  \param descendant the descendant classifier
  *  \return true if there is a DATA_RELATIONSHIP_TYPE_UML_CONTAINMENT relationship from ancestor to descendant within the data_visible_set object
  */
-static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_, layout_visible_classifier_t *ancestor, layout_visible_classifier_t *descendant );
+static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *this_,
+                                                    const layout_visible_classifier_t *ancestor,
+                                                    const layout_visible_classifier_t *descendant
+                                                  );
 
 /*!
  *  \brief counts the number of ancestors of a classifier
@@ -244,7 +247,9 @@ static inline bool pencil_layout_data_is_ancestor ( const pencil_layout_data_t *
  *  \param classifier the classifier of which to count ancestors
  *  \return number of ancestors of classifier which are listed in this_.
  */
-static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
+static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_data_t *this_,
+                                                            const layout_visible_classifier_t *classifier
+                                                          );
 
 /*!
  *  \brief counts the number of descendants of a classifier
@@ -253,7 +258,9 @@ static inline uint32_t pencil_layout_data_count_ancestors ( const pencil_layout_
  *  \param classifier the classifier of which to count decendants
  *  \return number of descendants of classifier which are listed in this_.
  */
-static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_, layout_visible_classifier_t *classifier );
+static inline uint32_t pencil_layout_data_count_descendants ( const pencil_layout_data_t *this_,
+                                                              const layout_visible_classifier_t *classifier
+                                                            );
 
 /* ================================ misc ================================ */
 

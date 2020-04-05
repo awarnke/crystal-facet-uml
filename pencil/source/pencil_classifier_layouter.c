@@ -790,6 +790,7 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
 
         /*
          * GOAL : we need the following data to perform local_move_and_grow_for_gaps
+         */
         double outer_gap_left;
         double outer_gap_right;
         double outer_gap_top;
@@ -798,9 +799,16 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
         double inner_gap_right;
         double inner_gap_top;
         double inner_gap_bottom;
+        /*
         list of fully contained children
         *  STRATEGY : first move+grow x, then re-layout the titles, then move+grow y
         */
+
+        geometry_rectangle_t max_outer_bounds;
+        geometry_rectangle_t min_inner_space;
+
+        pencil_classifier_layouter_private_get_gaps_to_classifiers( this_, classifier_idx, &max_outer_bounds, &min_inner_space );
+
     }
 
     /* doublecheck if title can be layed out with less lines */
@@ -817,8 +825,8 @@ void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_c
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
-    const uint32_t count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
-    for ( uint32_t index = 0; index < count_clasfy; index ++ )
+    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
         const layout_visible_classifier_t *const the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
         const geometry_rectangle_t *const classifier_bounds = layout_visible_classifier_get_bounds_const( the_classifier );
@@ -834,6 +842,153 @@ void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_c
         if ( 0 != insert_error )
         {
             TSLOG_WARNING( "not all rectangles are grown" );
+        }
+    }
+
+    TRACE_END();
+}
+
+void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_classifier_layouter_t *this_,
+                                                                 uint32_t ref_classifier_idx,
+                                                                 geometry_rectangle_t* out_max_outer_bounds,
+                                                                 geometry_rectangle_t* out_min_inner_space )
+{
+    TRACE_BEGIN();
+
+    assert ( out_max_outer_bounds != NULL );
+    assert ( out_min_inner_space != NULL );
+
+    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    assert ( ref_classifier_idx < count_classifiers );
+    const layout_visible_classifier_t *const ref_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, ref_classifier_idx );
+    const geometry_rectangle_t *const ref_classifier_bounds = layout_visible_classifier_get_bounds_const( ref_classifier );
+    const geometry_rectangle_t *const ref_classifier_space = layout_visible_classifier_get_space_const( ref_classifier );
+    const double ref_left = geometry_rectangle_get_left( ref_classifier_bounds );
+    const double ref_right = geometry_rectangle_get_right( ref_classifier_bounds );
+    const double ref_top = geometry_rectangle_get_top( ref_classifier_bounds );
+    const double ref_bottom = geometry_rectangle_get_bottom( ref_classifier_bounds );
+
+    /* init out params */
+    geometry_rectangle_copy( out_max_outer_bounds, (*this_).diagram_draw_area );
+    geometry_rectangle_init( out_min_inner_space,
+                             geometry_rectangle_get_center_x( ref_classifier_space ),
+                             geometry_rectangle_get_center_y( ref_classifier_space ),
+                             0.0,
+                             0.0
+                           );
+
+    /* check all classifiers */
+    for ( uint32_t index = 0; index < count_classifiers; index ++ )
+    {
+        const layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        const geometry_rectangle_t *const probe_bounds = layout_visible_classifier_get_bounds_const( probe_classifier );
+
+        const bool is_ancestor = pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, ref_classifier );
+        const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ref_classifier, probe_classifier );
+        bool finished = false;
+
+        if ( is_ancestor )
+        {
+            const geometry_rectangle_t *const probe_space = layout_visible_classifier_get_space_const( probe_classifier );
+            /* probe is ancestor to ref */
+            if ( geometry_rectangle_is_containing( probe_space, ref_classifier_bounds ) )
+            {
+                /* currently, ref is within the ancestors(probe) space, this shall not change */
+                geometry_rectangle_init_by_intersect( out_max_outer_bounds, out_max_outer_bounds, probe_space );
+                finished = true;
+            }
+            else
+            {
+                /* handle probe like any non-related classifier */
+                finished = false;
+            }
+        }
+        else if ( is_descendant )
+        {
+            /* probe is decendant of ref */
+            if ( geometry_rectangle_is_containing( ref_classifier_space, probe_bounds ) )
+            {
+                /* currently, probe is within the ancestors(ref) space, this shall not change */
+                geometry_rectangle_init_by_bounds( out_min_inner_space, out_min_inner_space, probe_bounds );
+                finished = true;
+            }
+            else
+            {
+                /* handle probe like any non-related classifier */
+                finished = false;
+            }
+
+        }
+
+        if ( ! finished )
+        {
+            if ( ! geometry_rectangle_is_intersecting( probe_bounds, out_max_outer_bounds ) )
+            {
+                /* nothing to do */
+                finished = true;
+            }
+        }
+
+        if ( ! finished )
+        {
+            /* probe is unrelated to ref */
+            const double probe_left = geometry_rectangle_get_left( probe_bounds );
+            const double probe_right = geometry_rectangle_get_right( probe_bounds );
+            const double probe_top = geometry_rectangle_get_top( probe_bounds );
+            const double probe_bottom = geometry_rectangle_get_bottom( probe_bounds );
+            if ( probe_right < ref_left )
+            {
+                const double delta_x = ref_left - probe_right;
+                if ( probe_bottom < ref_top )
+                {
+                    const double delta_y = ref_top - probe_bottom;
+
+                }
+                else if ( probe_top > ref_bottom )
+                {
+                    const double delta_y = probe_top - ref_bottom;
+
+                }
+                else
+                {
+
+                }
+            }
+            else if ( probe_left > ref_right )
+            {
+                const double delta_x = probe_left - ref_right;
+                if ( probe_bottom < ref_top )
+                {
+                    const double delta_y = ref_top - probe_bottom;
+
+                }
+                else if ( probe_top > ref_bottom )
+                {
+                    const double delta_y = probe_top - ref_bottom;
+
+                }
+                else
+                {
+
+                }
+            }
+            else
+            {
+                if ( probe_bottom < ref_top )
+                {
+                    const double delta_y = ref_top - probe_bottom;
+
+                }
+                else if ( probe_top > ref_bottom )
+                {
+                    const double delta_y = probe_top - ref_bottom;
+
+                }
+                else
+                {
+
+                }
+            }
         }
     }
 

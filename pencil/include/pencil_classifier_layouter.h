@@ -182,6 +182,22 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
 void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_classifier_layouter_t *this_, universal_array_index_sorter_t *out_sorted );
 
 /*!
+ *  \brief determines the gaps between a reference classifier and all other classifiers
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param ref_classifier_idx the index of the reference classifier in (*this_).layout_data
+ *  \param out_max_outer_bounds the maximum rectangle that does not intersect other classifiers.
+ *                              In case there are several solutions, a solution is preferred that grows in all directions.
+ *  \param out_min_inner_space the minimum rectangle that encompasses all child classifiers.
+ *                             Only embraced child classifiers are evaluated, no features.
+ */
+void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_classifier_layouter_t *this_,
+                                                                 uint32_t ref_classifier_idx,
+                                                                 geometry_rectangle_t* out_max_outer_bounds,
+                                                                 geometry_rectangle_t* out_min_inner_space
+                                                               );
+
+/*!
  *  \brief defines classifier bounds for list diagrams
  *
  *  \param this_ pointer to own object attributes
