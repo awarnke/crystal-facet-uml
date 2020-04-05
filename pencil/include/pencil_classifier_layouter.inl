@@ -36,7 +36,7 @@ static inline void pencil_classifier_layouter_private_move_embraced_descendants(
     const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
     assert ( ancestor_index < count_classifiers );
 
-    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, ancestor_index );
+    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_classifier_const( (*this_).layout_data, ancestor_index );
     const geometry_rectangle_t *const ancestor_space = layout_visible_classifier_get_space_const( ancestor );
 
     /* check all classifiers */

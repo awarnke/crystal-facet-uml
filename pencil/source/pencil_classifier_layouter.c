@@ -792,11 +792,14 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
         geometry_rectangle_t max_outer_bounds;
         geometry_rectangle_t min_inner_space;
         pencil_classifier_layouter_private_get_gaps_to_classifiers( this_, classifier_idx, &max_outer_bounds, &min_inner_space );
+        //assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_bounds ) );
+        //assert( geometry_rectangle_is_containing( classifier_bounds, classifier_space ) );
+        //assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );
 
         const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
 
         /* propose a move and a grow */
-        const double TAKE_RATIO = 0.3;
+        const double TAKE_RATIO = 1.0 /*0.33333*/;
         double additional_width = (geometry_rectangle_get_width( &max_outer_bounds ) - (2.0*gap) - geometry_rectangle_get_width( classifier_bounds ))
                                   * TAKE_RATIO;
         if ( additional_width < 0.0 )
@@ -815,10 +818,10 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
         const double descendant_add_dy = geometry_rectangle_get_center_y( &min_inner_space ) - geometry_rectangle_get_center_y( classifier_space );
 
         /* move descendants */
-        pencil_classifier_layouter_private_move_embraced_descendants( this_, classifier_idx, delta_x+descendant_add_dx, delta_y+descendant_add_dy );
+        pencil_classifier_layouter_private_move_embraced_descendants( this_, classifier_idx, delta_x/*+descendant_add_dx*/, delta_y/*+descendant_add_dy*/ );
 
         /* move and resize self */
-        layout_visible_classifier_shift ( the_classifier, delta_x, delta_y );
+        layout_visible_classifier_shift ( the_classifier, delta_x-(additional_width/2.0), delta_y-(additional_height/2.0) );
         layout_visible_classifier_expand ( the_classifier, additional_width, additional_height );
     }
 
@@ -871,7 +874,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
 
     const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
     assert ( ref_classifier_idx < count_classifiers );
-    const layout_visible_classifier_t *const ref_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, ref_classifier_idx );
+    const layout_visible_classifier_t *const ref_classifier = pencil_layout_data_get_classifier_const( (*this_).layout_data, ref_classifier_idx );
     const geometry_rectangle_t *const ref_classifier_bounds = layout_visible_classifier_get_bounds_const( ref_classifier );
     const geometry_rectangle_t *const ref_classifier_space = layout_visible_classifier_get_space_const( ref_classifier );
     const double ref_left = geometry_rectangle_get_left( ref_classifier_bounds );
@@ -892,7 +895,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
     /* check all classifiers */
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
-        const layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        const layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_const( (*this_).layout_data, index );
         const geometry_rectangle_t *const probe_bounds = layout_visible_classifier_get_bounds_const( probe_classifier );
 
         const bool is_ancestor = pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, ref_classifier );
