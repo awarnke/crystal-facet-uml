@@ -781,10 +781,25 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     const uint32_t count_sorted = universal_array_index_sorter_get_count( &sorted_classifiers );
 
     /* move and grow */
-    for ( uint32_t clas_sort_idx = 0; clas_sort_idx < count_sorted; clas_sort_idx ++ )
+    for ( uint32_t classifier_sort_idx = 0; classifier_sort_idx < count_sorted; classifier_sort_idx ++ )
     {
-        const uint32_t clasfy_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, clas_sort_idx );
+        const uint32_t classifier_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, classifier_sort_idx );
+        layout_visible_classifier_t * the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, classifier_idx );
 
+        geometry_rectangle_t * classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
+
+        /*
+         * GOAL : we need the following data to perform local_move_and_grow_for_gaps
+        double outer_gap_left;
+        double outer_gap_right;
+        double outer_gap_top;
+        double outer_gap_bottom;
+        double inner_gap_left;
+        double inner_gap_right;
+        double inner_gap_top;
+        double inner_gap_bottom;
+        list of fully contained children
+        */
     }
 
     /* doublecheck if title can be layed out with less lines */
