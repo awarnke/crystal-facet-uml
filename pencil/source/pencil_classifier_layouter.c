@@ -771,6 +771,9 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     TRACE_BEGIN();
     assert( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
 
+    const double TAKE_RATIO = 0.3 /*0.33333*/;
+    const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+
     universal_array_index_sorter_t sorted_classifiers;
     universal_array_index_sorter_init( &sorted_classifiers );
 
@@ -792,14 +795,17 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
         geometry_rectangle_t max_outer_bounds;
         geometry_rectangle_t min_inner_space;
         pencil_classifier_layouter_private_get_gaps_to_classifiers( this_, classifier_idx, &max_outer_bounds, &min_inner_space );
-        //assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_bounds ) );
-        //assert( geometry_rectangle_is_containing( classifier_bounds, classifier_space ) );
-        //assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );
-
-        const double gap = pencil_size_get_preferred_object_distance( (*this_).pencil_size );
+        geometry_rectangle_trace( (*this_).diagram_draw_area );
+        geometry_rectangle_trace( &max_outer_bounds );
+        geometry_rectangle_trace( classifier_bounds );
+        geometry_rectangle_trace( classifier_space );
+        geometry_rectangle_trace( &min_inner_space );
+        assert( geometry_rectangle_is_containing( (*this_).diagram_draw_area, &max_outer_bounds ) );
+        assert( geometry_rectangle_is_containing( &max_outer_bounds, classifier_bounds ) );
+        //assert( geometry_rectangle_is_containing( classifier_bounds, classifier_space ) );  // not true for e.g. decision nodes
+        assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );
 
         /* propose a move and a grow */
-        const double TAKE_RATIO = 1.0 /*0.33333*/;
         double additional_width = (geometry_rectangle_get_width( &max_outer_bounds ) - (2.0*gap) - geometry_rectangle_get_width( classifier_bounds ))
                                   * TAKE_RATIO;
         if ( additional_width < 0.0 )
@@ -956,6 +962,10 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
             const double probe_right = geometry_rectangle_get_right( probe_bounds );
             const double probe_top = geometry_rectangle_get_top( probe_bounds );
             const double probe_bottom = geometry_rectangle_get_bottom( probe_bounds );
+            const double max_out_left = geometry_rectangle_get_left( out_max_outer_bounds );
+            const double max_out_right = geometry_rectangle_get_right( out_max_outer_bounds );
+            const double max_out_top = geometry_rectangle_get_top( out_max_outer_bounds );
+            const double max_out_bottom = geometry_rectangle_get_bottom( out_max_outer_bounds );
             if ( probe_right < ref_left )
             {
                 const double delta_x = ref_left - probe_right;
@@ -973,6 +983,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 {
                     /* probe is to the left */
                     geometry_rectangle_set_left( out_max_outer_bounds, probe_right+SMALL_GAP );
+                    geometry_rectangle_set_width( out_max_outer_bounds, max_out_right-probe_right-SMALL_GAP );
                 }
             }
             else if ( probe_left > ref_right )
@@ -991,8 +1002,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 else
                 {
                     /* probe is to the right */
-                    const double current_left = geometry_rectangle_get_left( out_max_outer_bounds );
-                    geometry_rectangle_set_width( out_max_outer_bounds, probe_left-SMALL_GAP-current_left );
+                    geometry_rectangle_set_width( out_max_outer_bounds, probe_left-SMALL_GAP-max_out_left );
                 }
             }
             else
@@ -1001,12 +1011,12 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
                 {
                     /* probe is to the top */
                     geometry_rectangle_set_top( out_max_outer_bounds, probe_bottom+SMALL_GAP );
+                    geometry_rectangle_set_height( out_max_outer_bounds, max_out_bottom-probe_bottom-SMALL_GAP );
                 }
                 else if ( probe_top > ref_bottom )
                 {
                     /* probe in to the bottom */
-                    const double current_top = geometry_rectangle_get_top( out_max_outer_bounds );
-                    geometry_rectangle_set_height( out_max_outer_bounds, probe_top-SMALL_GAP-current_top );
+                    geometry_rectangle_set_height( out_max_outer_bounds, probe_top-SMALL_GAP-max_out_top );
                 }
                 else
                 {
