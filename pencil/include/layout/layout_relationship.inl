@@ -137,33 +137,33 @@ static inline int64_t layout_relationship_get_relationship_id ( const layout_rel
     return data_relationship_get_id( (*this_).data );
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_from_bounds_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_from_symbol_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 
     if ( NULL != (*this_).from_feature )
     {
-        result = layout_feature_get_bounds_ptr( (*this_).from_feature );
+        result = layout_feature_get_symbol_box_const( (*this_).from_feature );
     }
     else
     {
-        result = layout_visible_classifier_get_bounds_ptr( (*this_).from_classifier );
+        result = layout_visible_classifier_get_symbol_box_const( (*this_).from_classifier );
     }
 
     return result;
 }
 
-static inline const geometry_rectangle_t *layout_relationship_get_to_bounds_const ( const layout_relationship_t *this_ )
+static inline const geometry_rectangle_t *layout_relationship_get_to_symbol_box_const ( const layout_relationship_t *this_ )
 {
     const geometry_rectangle_t *result;
 
     if ( NULL != (*this_).to_feature )
     {
-        result = layout_feature_get_bounds_ptr( (*this_).to_feature );
+        result = layout_feature_get_symbol_box_const( (*this_).to_feature );
     }
     else
     {
-        result = layout_visible_classifier_get_bounds_ptr( (*this_).to_classifier );
+        result = layout_visible_classifier_get_symbol_box_const( (*this_).to_classifier );
     }
 
     return result;

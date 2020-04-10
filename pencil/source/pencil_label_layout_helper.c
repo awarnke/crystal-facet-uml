@@ -70,15 +70,15 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             layout_visible_classifier_t *probe_classifier;
             probe_classifier = pencil_layout_data_get_visible_classifier_ptr( layout_data, clasfy_index );
 
-            geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
-            if ( geometry_rectangle_is_intersecting( current_solution, classifier_bounds ) )
+            const geometry_rectangle_t *const classifier_symbol_box
+                = layout_visible_classifier_get_symbol_box_const( probe_classifier );
+            if ( geometry_rectangle_is_intersecting( current_solution, classifier_symbol_box ) )
             {
-                debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_bounds ); /* low debt */
+                debts_of_current += geometry_rectangle_get_intersect_area( current_solution, classifier_symbol_box ); /* low debt */
             }
 
-            geometry_rectangle_t *classifier_label_box;
-            classifier_label_box = layout_visible_classifier_get_label_box_ptr( probe_classifier );
+            const geometry_rectangle_t *const classifier_label_box
+                = layout_visible_classifier_get_label_box_const( probe_classifier );
             if ( geometry_rectangle_is_intersecting( current_solution, classifier_label_box ) )
             {
                 debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, classifier_label_box ); /* medium debt */
@@ -93,15 +93,15 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
             layout_feature_t *probe_feature;
             probe_feature = pencil_layout_data_get_feature_ptr( layout_data, feat_index );
 
-            geometry_rectangle_t *feature_bounds;
-            feature_bounds = layout_feature_get_bounds_ptr( probe_feature );
-            if ( geometry_rectangle_is_intersecting( current_solution, feature_bounds ) )
+            const geometry_rectangle_t *const feature_symbol_box
+                = layout_feature_get_symbol_box_const( probe_feature );
+            if ( geometry_rectangle_is_intersecting( current_solution, feature_symbol_box ) )
             {
-                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_bounds ); /* medium debt */
+                debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_symbol_box ); /* medium debt */
             }
 
-            geometry_rectangle_t *feature_label_box;
-            feature_label_box = layout_feature_get_label_box_ptr( probe_feature );
+            const geometry_rectangle_t *const feature_label_box
+                = layout_feature_get_label_box_const( probe_feature );
             if ( geometry_rectangle_is_intersecting( current_solution, feature_label_box ) )
             {
                 debts_of_current += 100.0 * geometry_rectangle_get_intersect_area( current_solution, feature_label_box ); /* medium debt */

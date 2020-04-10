@@ -60,7 +60,8 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
         layout_visible_classifier_t *layout_classifier;
         layout_classifier = layout_feature_get_classifier_ptr ( feature_layout );
 
-        geometry_rectangle_t *c_bounds = layout_visible_classifier_get_bounds_ptr ( layout_classifier );
+        const geometry_rectangle_t *const c_symbol_box
+            = layout_visible_classifier_get_symbol_box_const ( layout_classifier );
         switch ( data_feature_get_main_type (the_feature) )
         {
             case DATA_FEATURE_TYPE_LIFELINE:
@@ -69,7 +70,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
                 pencil_feature_layouter_private_layout_lifeline ( this_,
                                                                   diagram_draw_area,
                                                                   diag_type,
-                                                                  c_bounds,
+                                                                  c_symbol_box,
                                                                   feature_layout
                                                                 );
             }
@@ -79,7 +80,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             {
                 /* layout port feature onto parent classifier box */
                 pencil_feature_layouter_private_layout_port ( this_,
-                                                              c_bounds,
+                                                              c_symbol_box,
                                                               the_feature,
                                                               font_layout,
                                                               feature_layout
@@ -92,7 +93,7 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             {
                 /* layout interface feature close to parent classifier */
                 pencil_feature_layouter_private_layout_interface ( this_,
-                                                                   c_bounds,
+                                                                   c_symbol_box,
                                                                    the_feature,
                                                                    font_layout,
                                                                    feature_layout
@@ -117,8 +118,8 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
             default:
             {
                 TSLOG_ERROR("invalid feature type in pencil_feature_layouter_do_layout");
-                layout_feature_set_bounds ( feature_layout, c_bounds );
-                layout_feature_set_label_box ( feature_layout, c_bounds );
+                layout_feature_set_symbol_box ( feature_layout, c_symbol_box );
+                layout_feature_set_label_box ( feature_layout, c_symbol_box );
                 layout_feature_set_icon_direction ( feature_layout, GEOMETRY_DIRECTION_CENTER );
             }
             break;
@@ -131,12 +132,12 @@ void pencil_feature_layouter_do_layout ( pencil_feature_layouter_t *this_, Pango
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
                                                        const geometry_rectangle_t *diagram_space,
                                                        data_diagram_type_t diagram_type,
-                                                       const geometry_rectangle_t *classifier_bounds,
+                                                       const geometry_rectangle_t *classifier_symbol_box,
                                                        layout_feature_t *out_feature_layout )
 {
     TRACE_BEGIN();
     assert ( NULL != diagram_space );
-    assert ( NULL != classifier_bounds );
+    assert ( NULL != classifier_symbol_box );
     assert ( NULL != out_feature_layout );
 
     /* get preferred object distance */
@@ -146,9 +147,9 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
     if ( DATA_DIAGRAM_TYPE_UML_TIMING_DIAGRAM == diagram_type )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_RIGHT );
-        double c_right = geometry_rectangle_get_right( classifier_bounds );
-        double c_top = geometry_rectangle_get_top( classifier_bounds );
-        double c_height = geometry_rectangle_get_height( classifier_bounds );
+        double c_right = geometry_rectangle_get_right( classifier_symbol_box );
+        double c_top = geometry_rectangle_get_top( classifier_symbol_box );
+        double c_height = geometry_rectangle_get_height( classifier_symbol_box );
         double dda_right = geometry_rectangle_get_right ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
@@ -157,15 +158,15 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                   dda_right - c_right - obj_dist,
                                   0.25 * c_height
                                 );
-        layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
+        layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
         layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
     else if ( DATA_DIAGRAM_TYPE_UML_SEQUENCE_DIAGRAM == diagram_type )
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_DOWN );
-        double c_bottom = geometry_rectangle_get_bottom( classifier_bounds );
-        double c_left = geometry_rectangle_get_left( classifier_bounds );
-        double c_width = geometry_rectangle_get_width( classifier_bounds );
+        double c_bottom = geometry_rectangle_get_bottom( classifier_symbol_box );
+        double c_left = geometry_rectangle_get_left( classifier_symbol_box );
+        double c_width = geometry_rectangle_get_width( classifier_symbol_box );
         double dda_bottom = geometry_rectangle_get_bottom ( diagram_space );
         geometry_rectangle_t lifeline_bounds;
         geometry_rectangle_init ( &lifeline_bounds,
@@ -174,27 +175,27 @@ void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t
                                   0.25 * c_width,
                                   dda_bottom - c_bottom - obj_dist
                                 );
-        layout_feature_set_bounds ( out_feature_layout, &lifeline_bounds );
+        layout_feature_set_symbol_box ( out_feature_layout, &lifeline_bounds );
         layout_feature_set_label_box ( out_feature_layout, &lifeline_bounds );
     }
     else /*if ( DATA_DIAGRAM_TYPE_UML_COMMUNICATION_DIAGRAM == diagram_type )*/
     {
         layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );
-        layout_feature_set_bounds ( out_feature_layout, classifier_bounds );
-        layout_feature_set_label_box ( out_feature_layout, classifier_bounds );
+        layout_feature_set_symbol_box ( out_feature_layout, classifier_symbol_box );
+        layout_feature_set_label_box ( out_feature_layout, classifier_symbol_box );
     }
 
     TRACE_END();
 }
 
 void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
-                                                   const geometry_rectangle_t *classifier_bounds,
+                                                   const geometry_rectangle_t *classifier_symbol_box,
                                                    const data_feature_t *the_feature,
                                                    PangoLayout *font_layout,
                                                    layout_feature_t *out_feature_layout )
 {
     TRACE_BEGIN();
-    assert ( NULL != classifier_bounds );
+    assert ( NULL != classifier_symbol_box );
     assert ( NULL != the_feature );
     assert ( NULL != font_layout );
     assert ( NULL != out_feature_layout );
@@ -208,7 +209,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
 
     /* determine the coordinates of the box-line */
     geometry_rectangle_t classifier_box;
-    geometry_rectangle_copy( &classifier_box, classifier_bounds );
+    geometry_rectangle_copy( &classifier_box, classifier_symbol_box );
     geometry_rectangle_shift( &classifier_box, gap, gap );
     geometry_rectangle_expand( &classifier_box, -2.0*gap, -2.0*gap );
 
@@ -261,7 +262,7 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
                               port_icon_size,
                               port_icon_size
                             );
-    layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+    layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );
 
@@ -269,13 +270,13 @@ void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *th
 }
 
 void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_t *this_,
-                                                        const geometry_rectangle_t *classifier_bounds,
+                                                        const geometry_rectangle_t *classifier_symbol_box,
                                                         const data_feature_t *the_feature,
                                                         PangoLayout *font_layout,
                                                         layout_feature_t *out_feature_layout )
 {
     TRACE_BEGIN();
-    assert ( NULL != classifier_bounds );
+    assert ( NULL != classifier_symbol_box );
     assert ( NULL != the_feature );
     assert ( NULL != font_layout );
     assert ( NULL != out_feature_layout );
@@ -300,12 +301,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             y_pos_rel = (list_order - (INT32_MIN/2)) / ((double)(INT32_MIN/2));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_right( classifier_bounds ) + interface_distance,
-                                      geometry_rectangle_get_top( classifier_bounds ) + y_pos_rel * ( geometry_rectangle_get_height( classifier_bounds ) - interface_icon_size ),
+                                      geometry_rectangle_get_right( classifier_symbol_box ) + interface_distance,
+                                      geometry_rectangle_get_top( classifier_symbol_box ) + y_pos_rel * ( geometry_rectangle_get_height( classifier_symbol_box ) - interface_icon_size ),
                                       interface_icon_size,
                                       interface_icon_size
                                     );
-            layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_RIGHT );
         }
@@ -315,12 +316,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             x_pos_rel = (list_order) / ((double)(INT32_MIN/2));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_left( classifier_bounds ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_bounds ) - interface_icon_size ),
-                                      geometry_rectangle_get_top( classifier_bounds ) - interface_distance - interface_icon_size,
+                                      geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
+                                      geometry_rectangle_get_top( classifier_symbol_box ) - interface_distance - interface_icon_size,
                                       interface_icon_size,
                                       interface_icon_size
                                     );
-            layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_UP );
         }
@@ -333,12 +334,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             y_pos_rel = (list_order) / ((double)(INT32_MAX/2));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_left( classifier_bounds ) - interface_distance - interface_icon_size,
-                                      geometry_rectangle_get_top( classifier_bounds ) + y_pos_rel * ( geometry_rectangle_get_height( classifier_bounds ) - interface_icon_size ),
+                                      geometry_rectangle_get_left( classifier_symbol_box ) - interface_distance - interface_icon_size,
+                                      geometry_rectangle_get_top( classifier_symbol_box ) + y_pos_rel * ( geometry_rectangle_get_height( classifier_symbol_box ) - interface_icon_size ),
                                       interface_icon_size,
                                       interface_icon_size
                                     );
-            layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_LEFT );
         }
@@ -348,12 +349,12 @@ void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_
             x_pos_rel = (list_order - (INT32_MAX/2)) / ((double)(INT32_MAX/2));
             geometry_rectangle_t f_bounds;
             geometry_rectangle_init ( &f_bounds,
-                                      geometry_rectangle_get_left( classifier_bounds ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_bounds ) - interface_icon_size ),
-                                      geometry_rectangle_get_bottom( classifier_bounds ) + interface_distance,
+                                      geometry_rectangle_get_left( classifier_symbol_box ) + x_pos_rel * ( geometry_rectangle_get_width( classifier_symbol_box ) - interface_icon_size ),
+                                      geometry_rectangle_get_bottom( classifier_symbol_box ) + interface_distance,
                                       interface_icon_size,
                                       interface_icon_size
                                     );
-            layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+            layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
             layout_feature_set_label_box ( out_feature_layout, &f_bounds );
             layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_DOWN );
         }
@@ -451,7 +452,7 @@ void pencil_feature_layouter_private_layout_prop_or_op ( pencil_feature_layouter
                               geometry_dimensions_get_width( &f_min_bounds ),
                               geometry_dimensions_get_height( &f_min_bounds )
                             );
-    layout_feature_set_bounds ( out_feature_layout, &f_bounds );
+    layout_feature_set_symbol_box ( out_feature_layout, &f_bounds );
     layout_feature_set_label_box ( out_feature_layout, &f_bounds );
     layout_feature_set_icon_direction ( out_feature_layout, GEOMETRY_DIRECTION_CENTER );  /* dummy direction */
 

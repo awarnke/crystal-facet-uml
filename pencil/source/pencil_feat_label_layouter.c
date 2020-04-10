@@ -53,7 +53,7 @@ void pencil_feat_label_layouter_do_layout ( pencil_feat_label_layouter_t *this_,
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         layout_feature_t *current_feature;
         current_feature = pencil_layout_data_get_feature_ptr( (*this_).layout_data, index );
-        geometry_point_t feature_middle = layout_feature_get_middle ( current_feature );
+        geometry_point_t feature_middle = layout_feature_get_symbol_middle ( current_feature );
 
         /* declaration of list of options */
         uint32_t solutions_count = 0;
@@ -161,7 +161,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
     {
         /* the label-box is identical to the feature bounds */
         assert( solutions_max >= 1 );
-        geometry_rectangle_copy( &(out_solutions[0]), layout_feature_get_bounds_ptr ( current_feature ) );
+        geometry_rectangle_copy( &(out_solutions[0]), layout_feature_get_symbol_box_const ( current_feature ) );
         *out_solutions_count = 1;
     }
     else
@@ -180,7 +180,7 @@ void pencil_feat_label_layouter_private_propose_solutions ( pencil_feat_label_la
         const double half_height = text_height/2.0;
 
         const double gap = pencil_size_get_standard_object_border( (*this_).pencil_size );
-        const geometry_rectangle_t * bounds = layout_feature_get_bounds_ptr ( current_feature );
+        const geometry_rectangle_t *const  bounds = layout_feature_get_symbol_box_const ( current_feature );
         const double left = geometry_rectangle_get_left( bounds );
         const double top = geometry_rectangle_get_top( bounds );
         const double center_x = geometry_rectangle_get_center_x( bounds );

@@ -19,7 +19,7 @@
  *  \brief visibility, shape and location of a feature
  */
 struct layout_feature_struct {
-    geometry_rectangle_t bounds;  /*!< bounds of a feature. In case the feature is a symbol, the label_box may be outside. */
+    geometry_rectangle_t symbol_box;  /*!< In case the feature is a symbol, the label_box may be outside of symbol_box. Oterwise it is the bounding boy of the feature */
     geometry_direction_t icon_direction;  /*!< icon direction, a hint for drawing the icon of a feature, e.g. lifelines and required interfaces. */
     geometry_rectangle_t label_box;  /*!< bounding box of the label of the feature. For operations and properties, this is identical to the bounding box */
     const data_feature_t *data;  /*!< pointer to the data object of the feature */
@@ -56,36 +56,36 @@ static inline void layout_feature_destroy ( layout_feature_t *this_ );
 static inline bool layout_feature_is_valid ( const layout_feature_t *this_ );
 
 /*!
+ *  \brief gets the symbol_box of the feature
+ *
+ *  \param this_ pointer to own object attributes
+ *  \return pointer to geometry_rectangle_t.
+ */
+static inline geometry_rectangle_t *layout_feature_get_symbol_box_ptr ( layout_feature_t *this_ );
+
+/*!
  *  \brief gets the bounding box of the feature
  *
  *  \param this_ pointer to own object attributes
  *  \return pointer to geometry_rectangle_t.
  */
-static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ );
+static inline const geometry_rectangle_t *layout_feature_get_symbol_box_const ( const layout_feature_t *this_ );
 
 /*!
- *  \brief gets the bounding box of the feature
+ *  \brief gets the middle location of the feature's symbol
  *
  *  \param this_ pointer to own object attributes
- *  \return pointer to geometry_rectangle_t.
+ *  \return point of middle of symbol_box.
  */
-static inline const geometry_rectangle_t *layout_feature_get_bounds_const ( const layout_feature_t *this_ );
+static inline geometry_point_t layout_feature_get_symbol_middle ( const layout_feature_t *this_ );
 
 /*!
- *  \brief gets the middle location of the feature
+ *  \brief sets the symbol_box of the feature
  *
  *  \param this_ pointer to own object attributes
- *  \return point of middle of bounds.
+ *  \param feature_symbol_box coordinates of new bounding box
  */
-static inline geometry_point_t layout_feature_get_middle ( const layout_feature_t *this_ );
-
-/*!
- *  \brief sets the bounding box of the feature
- *
- *  \param this_ pointer to own object attributes
- *  \param feature_bounds coordinates of new bounding box
- */
-static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds );
+static inline void layout_feature_set_symbol_box ( layout_feature_t *this_, const geometry_rectangle_t *feature_symbol_box );
 
 /*!
  *  \brief gets the icon direction of the layout feature

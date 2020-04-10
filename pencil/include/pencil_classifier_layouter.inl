@@ -49,8 +49,8 @@ static inline void pencil_classifier_layouter_private_move_embraced_descendants(
             const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor, probe_classifier );
             if ( is_descendant )
             {
-                const geometry_rectangle_t *const probe_bounds = layout_visible_classifier_get_bounds_const( probe_classifier );
-                if ( geometry_rectangle_is_containing( ancestor_space, probe_bounds ) )
+                const geometry_rectangle_t *const probe_symbol_box = layout_visible_classifier_get_symbol_box_const( probe_classifier );
+                if ( geometry_rectangle_is_containing( ancestor_space, probe_symbol_box ) )
                 {
                     layout_visible_classifier_shift ( probe_classifier, delta_x, delta_y );
                 }

@@ -48,7 +48,7 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
     assert( NULL != cr );
 
     const data_feature_t *the_feature = layout_feature_get_data_const( layouted_feature );
-    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+    const geometry_rectangle_t *const feature_symbol_box = layout_feature_get_symbol_box_const( layouted_feature );
 
     if ( data_feature_is_valid( the_feature ) )
     {
@@ -119,17 +119,15 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 #ifdef PENCIL_LAYOUT_DATA_DRAW_FOR_DEBUG
         /* draw the rectangles */
         {
-            const geometry_rectangle_t *feature_bounds;
-            feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
-            const geometry_rectangle_t *feature_label_box;
-            feature_label_box = layout_feature_get_label_box_ptr( layouted_feature );
+            const geometry_rectangle_t *const feature_label_box
+                = layout_feature_get_label_box_const ( layouted_feature );
 
             cairo_set_source_rgba( cr, 0.5, 0.7, 1.0, 0.5 );
             cairo_rectangle ( cr,
-                              geometry_rectangle_get_left ( feature_bounds ),
-                              geometry_rectangle_get_top ( feature_bounds ),
-                              geometry_rectangle_get_width ( feature_bounds ),
-                              geometry_rectangle_get_height ( feature_bounds )
+                              geometry_rectangle_get_left ( feature_symbol_box ),
+                              geometry_rectangle_get_top ( feature_symbol_box ),
+                              geometry_rectangle_get_width ( feature_symbol_box ),
+                              geometry_rectangle_get_height ( feature_symbol_box )
                             );
             cairo_rectangle ( cr,
                               geometry_rectangle_get_left ( feature_label_box ),
@@ -143,12 +141,12 @@ void pencil_feature_painter_draw ( pencil_feature_painter_t *this_,
 
         if ( mark_selected )
         {
-            pencil_marker_mark_selected_rectangle( &((*this_).marker), *feature_bounds, cr );
+            pencil_marker_mark_selected_rectangle( &((*this_).marker), *feature_symbol_box, cr );
         }
 
         if ( mark_focused )
         {
-            pencil_marker_mark_focused_rectangle( &((*this_).marker), *feature_bounds, cr );
+            pencil_marker_mark_focused_rectangle( &((*this_).marker), *feature_symbol_box, cr );
         }
     }
     else
@@ -170,12 +168,12 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     assert( NULL != layouted_feature );
     assert( NULL != cr );
 
-    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+    const geometry_rectangle_t *const feature_symbol_box = layout_feature_get_symbol_box_const( layouted_feature );
 
-    double left = geometry_rectangle_get_left ( feature_bounds );
-    double top = geometry_rectangle_get_top ( feature_bounds );
-    double width = geometry_rectangle_get_width ( feature_bounds );
-    double height = geometry_rectangle_get_height ( feature_bounds );
+    double left = geometry_rectangle_get_left ( feature_symbol_box );
+    double top = geometry_rectangle_get_top ( feature_symbol_box );
+    double width = geometry_rectangle_get_width ( feature_symbol_box );
+    double height = geometry_rectangle_get_height ( feature_symbol_box );
 
     double dashes[2];
     dashes[0] = 2.0 * pencil_size_get_line_dash_length( pencil_size );
@@ -185,7 +183,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     if ( GEOMETRY_DIRECTION_RIGHT == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lineline in timing diagrams */
-        double center_y = geometry_rectangle_get_center_y ( feature_bounds );
+        double center_y = geometry_rectangle_get_center_y ( feature_symbol_box );
 
         cairo_move_to ( cr, left, center_y );
         cairo_line_to ( cr, left + width, center_y );
@@ -194,7 +192,7 @@ void pencil_feature_painter_private_draw_lifeline_icon ( pencil_feature_painter_
     else if ( GEOMETRY_DIRECTION_DOWN == layout_feature_get_icon_direction( layouted_feature ) )
     {
         /* lifeline in sequence diagrams */
-        double center_x = geometry_rectangle_get_center_x ( feature_bounds );
+        double center_x = geometry_rectangle_get_center_x ( feature_symbol_box );
 
         cairo_move_to ( cr, center_x, top );
         cairo_line_to ( cr, center_x, top + height );
@@ -230,12 +228,12 @@ void pencil_feature_painter_private_draw_port_icon ( pencil_feature_painter_t *t
     assert( NULL != layouted_feature );
     assert( NULL != cr );
 
-    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+    const geometry_rectangle_t *const symbol_box_bounds = layout_feature_get_symbol_box_const( layouted_feature );
 
-    const double left = geometry_rectangle_get_left ( feature_bounds );
-    const double top = geometry_rectangle_get_top ( feature_bounds );
-    const double width = geometry_rectangle_get_width ( feature_bounds );
-    const double height = geometry_rectangle_get_height ( feature_bounds );
+    const double left = geometry_rectangle_get_left ( symbol_box_bounds );
+    const double top = geometry_rectangle_get_top ( symbol_box_bounds );
+    const double width = geometry_rectangle_get_width ( symbol_box_bounds );
+    const double height = geometry_rectangle_get_height ( symbol_box_bounds );
 
     //double gap = pencil_size_get_standard_object_border( pencil_size );
 
@@ -259,12 +257,12 @@ void pencil_feature_painter_private_draw_interface_icon ( pencil_feature_painter
     assert( NULL != layouted_feature );
     assert( NULL != cr );
 
-    const geometry_rectangle_t *feature_bounds = layout_feature_get_bounds_ptr( layouted_feature );
+    const geometry_rectangle_t *const symbol_box_bounds = layout_feature_get_symbol_box_const( layouted_feature );
 
-    const double left = geometry_rectangle_get_left ( feature_bounds );
-    const double top = geometry_rectangle_get_top ( feature_bounds );
-    const double width = geometry_rectangle_get_width ( feature_bounds );
-    const double height = geometry_rectangle_get_height ( feature_bounds );
+    const double left = geometry_rectangle_get_left ( symbol_box_bounds );
+    const double top = geometry_rectangle_get_top ( symbol_box_bounds );
+    const double width = geometry_rectangle_get_width ( symbol_box_bounds );
+    const double height = geometry_rectangle_get_height ( symbol_box_bounds );
 
     double bottom = top + height;
     double right = left + width;

@@ -93,7 +93,7 @@ void pencil_classifier_composer_draw ( const pencil_classifier_composer_t *this_
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param proposed_bounds proposed bounds calculated for aesthetics
  *  \param minimum_feature_space minimum space needed by the contained features
- *  \param io_classifier_layout output is bounds, space and label_box. Must not be NULL.
+ *  \param io_classifier_layout output is symbol box, space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_composer_t *this_,
                                                  const data_visible_classifier_t *visible_classifier,
@@ -107,13 +107,13 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 /*!
  *  \brief determines the inner drawing space for contained classifiers and features - and the label_box
  *
- *  This method returns values assuming title and ornaments are included. classifier_bounds is expected to be fix.
+ *  This method returns values assuming title and ornaments are included. classifier_symbol_box is expected to be fix.
  *
  *  \param this_ pointer to own object attributes
  *  \param visible_classifier pointer to the data to be drawn
  *  \param pencil_size set of sizes and colors for drawing lines and text
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
- *  \param io_classifier_layout input is bounds, output is space and label_box. Must not be NULL.
+ *  \param io_classifier_layout input is symbol box, output is space and label_box. Must not be NULL.
  */
 void pencil_classifier_composer_set_space_and_label ( const pencil_classifier_composer_t *this_,
                                                       const data_visible_classifier_t *visible_classifier,

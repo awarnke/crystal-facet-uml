@@ -144,10 +144,10 @@ void pencil_relationship_layouter_private_propose_processing_order ( pencil_rela
 
         /* determine simpleness by distance between source and destination */
         {
-            const geometry_rectangle_t *source_rect;
-            const geometry_rectangle_t *dest_rect;
-            source_rect = layout_relationship_get_from_bounds_const ( current_relation );
-            dest_rect = layout_relationship_get_to_bounds_const ( current_relation );
+            const geometry_rectangle_t *const source_rect
+                = layout_relationship_get_from_symbol_box_const ( current_relation );
+            const geometry_rectangle_t *const dest_rect
+                = layout_relationship_get_to_symbol_box_const ( current_relation );
 
             simpleness -= fabs ( geometry_rectangle_get_center_x(source_rect) - geometry_rectangle_get_center_x(dest_rect) );
             simpleness -= fabs ( geometry_rectangle_get_center_y(source_rect) - geometry_rectangle_get_center_y(dest_rect) );
@@ -192,10 +192,10 @@ void pencil_relationship_layouter_private_propose_solutions ( pencil_relationshi
 
     /* propose connections between source and destination */
     {
-        const geometry_rectangle_t *source_rect;
-        const geometry_rectangle_t *dest_rect;
-        source_rect = layout_relationship_get_from_bounds_const ( current_relation );
-        dest_rect = layout_relationship_get_to_bounds_const ( current_relation );
+        const geometry_rectangle_t *const source_rect
+            = layout_relationship_get_from_symbol_box_const ( current_relation );
+        const geometry_rectangle_t *const dest_rect
+            = layout_relationship_get_to_symbol_box_const ( current_relation );
 
         uint32_t solutions_by_ZN;
         uint32_t solutions_by_L7;
@@ -298,15 +298,15 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
             layout_visible_classifier_t *probe_classifier;
             probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
-            geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
-            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_bounds ) )
+            const geometry_rectangle_t *const classifier_symbol_box
+                = layout_visible_classifier_get_symbol_box_const( probe_classifier );
+            if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_symbol_box ) )
             {
                 debts_of_current += 100000.0;
             }
 
-            geometry_rectangle_t *classifier_label_box;
-            classifier_label_box = layout_visible_classifier_get_label_box_ptr( probe_classifier );
+            const geometry_rectangle_t *const classifier_label_box
+                = layout_visible_classifier_get_label_box_const( probe_classifier );
             if ( geometry_connector_is_intersecting_rectangle( current_solution, classifier_label_box ) )
             {
                 debts_of_current += 10000.0;
@@ -792,38 +792,38 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         {
             layout_visible_classifier_t *the_classifier;
             the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
-            geometry_rectangle_t *classifier_bounds;
-            classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
+            const geometry_rectangle_t *const classifier_symbol_box
+                = layout_visible_classifier_get_symbol_box_const( the_classifier );
 
-            if ( geometry_rectangle_is_intersecting( search_rect, classifier_bounds ) )
+            if ( geometry_rectangle_is_intersecting( search_rect, classifier_symbol_box ) )
             {
                 if ( horizontal_line )
                 {
-                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > smaller_probe ) )
+                    if ( ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > smaller_probe ) )
                     {
-                        smaller_probe = geometry_rectangle_get_top(classifier_bounds) - min_gap;
+                        smaller_probe = geometry_rectangle_get_top(classifier_symbol_box) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_top(classifier_bounds) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_bottom(classifier_bounds) + min_gap > greater_probe ) )
+                    if ( ( geometry_rectangle_get_top(classifier_symbol_box) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap > greater_probe ) )
                     {
-                        greater_probe = geometry_rectangle_get_bottom(classifier_bounds) + min_gap;
+                        greater_probe = geometry_rectangle_get_bottom(classifier_symbol_box) + min_gap;
                         hit = true;
                     }
                 }
                 else
                 {
-                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < smaller_probe )
-                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > smaller_probe ) )
+                    if ( ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < smaller_probe )
+                        && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > smaller_probe ) )
                     {
-                        smaller_probe = geometry_rectangle_get_left(classifier_bounds) - min_gap;
+                        smaller_probe = geometry_rectangle_get_left(classifier_symbol_box) - min_gap;
                         hit = true;
                     }
-                    if ( ( geometry_rectangle_get_left(classifier_bounds) - min_gap < greater_probe )
-                        && ( geometry_rectangle_get_right(classifier_bounds) + min_gap > greater_probe ) )
+                    if ( ( geometry_rectangle_get_left(classifier_symbol_box) - min_gap < greater_probe )
+                        && ( geometry_rectangle_get_right(classifier_symbol_box) + min_gap > greater_probe ) )
                     {
-                        greater_probe = geometry_rectangle_get_right(classifier_bounds) + min_gap;
+                        greater_probe = geometry_rectangle_get_right(classifier_symbol_box) + min_gap;
                         hit = true;
                     }
                 }
@@ -1020,10 +1020,10 @@ void pencil_relationship_layouter_layout_for_sequence( pencil_relationship_layou
             double y_value = ( (draw_bottom - draw_top) * y_value_rel ) + draw_top;
 
             /* get source and destination rectangles */
-            const geometry_rectangle_t *source_rect;
-            const geometry_rectangle_t *dest_rect;
-            source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
-            dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
+            const geometry_rectangle_t *const source_rect
+                = layout_relationship_get_from_symbol_box_const ( the_relationship );
+            const geometry_rectangle_t *const dest_rect
+                = layout_relationship_get_to_symbol_box_const ( the_relationship );
 
             /* calculate coordinates */
             /*double src_left = geometry_rectangle_get_left(source_rect);*/
@@ -1122,8 +1122,8 @@ void pencil_relationship_layouter_layout_for_timing( pencil_relationship_layoute
             /* get source and destination rectangles */
             const geometry_rectangle_t *source_rect;
             const geometry_rectangle_t *dest_rect;
-            source_rect = layout_relationship_get_from_bounds_const ( the_relationship );
-            dest_rect = layout_relationship_get_to_bounds_const ( the_relationship );
+            source_rect = layout_relationship_get_from_symbol_box_const ( the_relationship );
+            dest_rect = layout_relationship_get_to_symbol_box_const ( the_relationship );
 
             /* calculate coordinates */
             double src_left = geometry_rectangle_get_left(source_rect);

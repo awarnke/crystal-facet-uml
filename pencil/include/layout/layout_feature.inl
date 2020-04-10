@@ -9,7 +9,7 @@ static inline void layout_feature_init ( layout_feature_t *this_,
     assert ( NULL != feature_data );
     assert ( NULL != classifier );
 
-    geometry_rectangle_init_empty( &((*this_).bounds) );
+    geometry_rectangle_init_empty( &((*this_).symbol_box) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).icon_direction = GEOMETRY_DIRECTION_CENTER;
     (*this_).data = feature_data;
@@ -18,7 +18,7 @@ static inline void layout_feature_init ( layout_feature_t *this_,
 
 static inline void layout_feature_destroy ( layout_feature_t *this_ )
 {
-    geometry_rectangle_destroy( &((*this_).bounds) );
+    geometry_rectangle_destroy( &((*this_).symbol_box) );
     geometry_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
 }
@@ -39,29 +39,29 @@ static inline bool layout_feature_is_valid ( const layout_feature_t *this_ )
     return result;
 }
 
-static inline geometry_rectangle_t *layout_feature_get_bounds_ptr ( layout_feature_t *this_ )
+static inline geometry_rectangle_t *layout_feature_get_symbol_box_ptr ( layout_feature_t *this_ )
 {
-    return &((*this_).bounds);
+    return &((*this_).symbol_box);
 }
 
-static inline const geometry_rectangle_t *layout_feature_get_bounds_const ( const layout_feature_t *this_ )
+static inline const geometry_rectangle_t *layout_feature_get_symbol_box_const ( const layout_feature_t *this_ )
 {
-    return &((*this_).bounds);
+    return &((*this_).symbol_box);
 }
 
-static inline geometry_point_t layout_feature_get_middle ( const layout_feature_t *this_ )
+static inline geometry_point_t layout_feature_get_symbol_middle ( const layout_feature_t *this_ )
 {
     geometry_point_t result;
     geometry_point_init( &result,
-                         geometry_rectangle_get_center_x( &((*this_).bounds) ),
-                         geometry_rectangle_get_center_y( &((*this_).bounds) )
+                         geometry_rectangle_get_center_x( &((*this_).symbol_box) ),
+                         geometry_rectangle_get_center_y( &((*this_).symbol_box) )
                        );
     return result;
 }
 
-static inline void layout_feature_set_bounds ( layout_feature_t *this_, const geometry_rectangle_t *feature_bounds )
+static inline void layout_feature_set_symbol_box ( layout_feature_t *this_, const geometry_rectangle_t *feature_symbol_box )
 {
-    geometry_rectangle_replace( &((*this_).bounds), feature_bounds );
+    geometry_rectangle_replace( &((*this_).symbol_box), feature_symbol_box );
 }
 
 static inline geometry_direction_t layout_feature_get_icon_direction ( const layout_feature_t *this_ )

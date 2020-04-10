@@ -80,55 +80,55 @@ void pencil_feature_layouter_calculate_features_bounds ( pencil_feature_layouter
                                                        );
 
 /*!
- *  \brief determines the bounding box of a lifeline
+ *  \brief determines the symbol box of a lifeline
  *
  *  \param this_ pointer to own object attributes
  *  \param diagram_space drawing space of the diagram
  *  \param diagram_type diagram type of the diagram
- *  \param classifier_bounds bounding box of the classifier
+ *  \param classifier_symbol_box symbol box of the classifier
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_lifeline ( pencil_feature_layouter_t *this_,
                                                        const geometry_rectangle_t *diagram_space,
                                                        data_diagram_type_t diagram_type,
-                                                       const geometry_rectangle_t *classifier_bounds,
+                                                       const geometry_rectangle_t *classifier_symbol_box,
                                                        layout_feature_t *out_feature_layout
                                                      );
 
 /*!
- *  \brief determines the bounding box of a port
+ *  \brief determines the symbol box of a port
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_bounds bounding box of the classifier
+ *  \param classifier_symbol_box symbol box of the classifier
  *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_port ( pencil_feature_layouter_t *this_,
-                                                   const geometry_rectangle_t *classifier_bounds,
+                                                   const geometry_rectangle_t *classifier_symbol_box,
                                                    const data_feature_t *the_feature,
                                                    PangoLayout *font_layout,
                                                    layout_feature_t *out_feature_layout
                                                  );
 
 /*!
- *  \brief determines the bounding box of a provided or required interface
+ *  \brief determines the symbol box of a provided or required interface
  *
  *  \param this_ pointer to own object attributes
- *  \param classifier_bounds bounding box of the classifier
+ *  \param classifier_symbol_box symbol box of the classifier
  *  \param the_feature the feature data to be layouted
  *  \param font_layout pango layout object to determine the font metrics in the current cairo drawing context
  *  \param out_feature_layout output parameter: feature layout coordinates
  */
 void pencil_feature_layouter_private_layout_interface ( pencil_feature_layouter_t *this_,
-                                                        const geometry_rectangle_t *classifier_bounds,
+                                                        const geometry_rectangle_t *classifier_symbol_box,
                                                         const data_feature_t *the_feature,
                                                         PangoLayout *font_layout,
                                                         layout_feature_t *out_feature_layout
                                                       );
 
 /*!
- *  \brief determines the bounding box of a property or operation
+ *  \brief determines the symbol box of a property or operation
  *
  *  \param this_ pointer to own object attributes
  *  \param classifier_space space area in the classifier

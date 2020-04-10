@@ -6,7 +6,7 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
 {
     assert ( NULL != visible_classifier_data );
 
-    geometry_rectangle_init_empty( &((*this_).bounds) );
+    geometry_rectangle_init_empty( &((*this_).symbol_box) );
     geometry_rectangle_init_empty( &((*this_).space) );
     geometry_rectangle_init_empty( &((*this_).label_box) );
     (*this_).label_h_anchor = GEOMETRY_H_ALIGN_CENTER;  /* most labels are centered */
@@ -16,7 +16,7 @@ static inline void layout_visible_classifier_init ( layout_visible_classifier_t 
 
 static inline void layout_visible_classifier_destroy ( layout_visible_classifier_t *this_ )
 {
-    geometry_rectangle_destroy( &((*this_).bounds) );
+    geometry_rectangle_destroy( &((*this_).symbol_box) );
     geometry_rectangle_destroy( &((*this_).space) );
     geometry_rectangle_destroy( &((*this_).label_box) );
     (*this_).data = NULL;
@@ -36,19 +36,19 @@ static inline bool layout_visible_classifier_is_valid ( const layout_visible_cla
     return result;
 }
 
-static inline geometry_rectangle_t *layout_visible_classifier_get_bounds_ptr ( layout_visible_classifier_t *this_ )
+static inline geometry_rectangle_t *layout_visible_classifier_get_symbol_box_ptr ( layout_visible_classifier_t *this_ )
 {
-    return &((*this_).bounds);
+    return &((*this_).symbol_box);
 }
 
-static inline const geometry_rectangle_t *layout_visible_classifier_get_bounds_const ( const layout_visible_classifier_t *this_ )
+static inline const geometry_rectangle_t *layout_visible_classifier_get_symbol_box_const ( const layout_visible_classifier_t *this_ )
 {
-    return &((*this_).bounds);
+    return &((*this_).symbol_box);
 }
 
-static inline void layout_visible_classifier_set_bounds ( layout_visible_classifier_t *this_, const geometry_rectangle_t *bounds )
+static inline void layout_visible_classifier_set_symbol_box ( layout_visible_classifier_t *this_, const geometry_rectangle_t *symbol_box )
 {
-    geometry_rectangle_replace( &((*this_).bounds), bounds );
+    geometry_rectangle_replace( &((*this_).symbol_box), symbol_box );
 }
 
 static inline geometry_rectangle_t *layout_visible_classifier_get_space_ptr ( layout_visible_classifier_t *this_ )
@@ -91,14 +91,14 @@ static inline void layout_visible_classifier_set_label_anchor ( layout_visible_c
 
 static inline void layout_visible_classifier_shift ( layout_visible_classifier_t *this_, double delta_x, double delta_y )
 {
-    geometry_rectangle_shift( &((*this_).bounds), delta_x, delta_y );
+    geometry_rectangle_shift( &((*this_).symbol_box), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).space), delta_x, delta_y );
     geometry_rectangle_shift( &((*this_).label_box), delta_x, delta_y );
 }
 
 static inline void layout_visible_classifier_expand ( layout_visible_classifier_t *this_, double delta_width, double delta_height )
 {
-    geometry_rectangle_expand( &((*this_).bounds), delta_width, delta_height );
+    geometry_rectangle_expand( &((*this_).symbol_box), delta_width, delta_height );
     geometry_rectangle_expand( &((*this_).space), delta_width, delta_height );
     /* the label moves according to the defined anchor */
     double dx = geometry_h_align_get_left ( &((*this_).label_h_anchor), 0.0, 0.0, delta_width );

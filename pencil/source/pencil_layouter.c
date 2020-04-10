@@ -384,12 +384,12 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
         {
             const layout_visible_classifier_t *visible_classifier;
             visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), index );
-            const geometry_rectangle_t *classifier_bounds;
-            const geometry_rectangle_t *classifier_space;
-            classifier_bounds = layout_visible_classifier_get_bounds_const ( visible_classifier );
-            classifier_space = layout_visible_classifier_get_space_const ( visible_classifier );
+            const geometry_rectangle_t *const classifier_symbol_box
+                = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
+            const geometry_rectangle_t *const classifier_space
+                = layout_visible_classifier_get_space_const ( visible_classifier );
 
-            if ( geometry_rectangle_contains( classifier_bounds, x, y ) )
+            if ( geometry_rectangle_contains( classifier_symbol_box, x, y ) )
             {
                 if ( geometry_rectangle_contains( classifier_space, x, y ) )
                 {
@@ -440,22 +440,21 @@ pencil_error_t pencil_layouter_private_get_feature_id_at_pos ( const pencil_layo
     pencil_error_t result = PENCIL_ERROR_OUT_OF_BOUNDS;
 
     /* check all contained features */
-    uint32_t f_count;
-    f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+    const uint32_t f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
     {
-        const layout_feature_t *the_feature;
-        the_feature = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
-        const geometry_rectangle_t *feature_bounds;
-        feature_bounds = layout_feature_get_bounds_const ( the_feature );
+        const layout_feature_t *const the_feature
+            = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+        const geometry_rectangle_t *const feature_symbol_box
+            = layout_feature_get_symbol_box_const ( the_feature );
 
-        if ( geometry_rectangle_contains( feature_bounds, x, y ) )
+        if ( geometry_rectangle_contains( feature_symbol_box, x, y ) )
         {
             /* feature is found */
-            const data_feature_t *data_feature;
-            data_feature = layout_feature_get_data_const ( the_feature );
-            const layout_visible_classifier_t *layout_classifier;
-            layout_classifier = layout_feature_get_classifier_const ( the_feature );
+            const data_feature_t *const data_feature
+                = layout_feature_get_data_const ( the_feature );
+            const layout_visible_classifier_t *const layout_classifier
+                = layout_feature_get_classifier_const ( the_feature );
             if (( PENCIL_TYPE_FILTER_LIFELINE == filter )
                 &&( DATA_FEATURE_TYPE_LIFELINE == data_feature_get_main_type( data_feature ) ))
             {
@@ -670,27 +669,27 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         classfy_count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
         for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
         {
-            const layout_visible_classifier_t *visible_classfy;
-            visible_classfy = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
+            const layout_visible_classifier_t *visible_classifier;
+            visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
             int64_t classfy_id;
-            classfy_id = layout_visible_classifier_get_classifier_id ( visible_classfy );
+            classfy_id = layout_visible_classifier_get_classifier_id ( visible_classifier );
             if ( parent_classifier_id == classfy_id )
             {
                 if ( NULL == closest_parent_instance )
                 {
-                    closest_parent_instance = visible_classfy;
+                    closest_parent_instance = visible_classifier;
                 }
                 else
                 {
-                    const geometry_rectangle_t *classfy_bounds;
-                    const geometry_rectangle_t *closest_parent_bounds;
-                    classfy_bounds = layout_visible_classifier_get_bounds_const ( visible_classfy );
-                    closest_parent_bounds = layout_visible_classifier_get_bounds_const ( closest_parent_instance );
-                    double classfy_distance = geometry_rectangle_calc_chess_distance( classfy_bounds, x, y );
-                    double closest_parent_distance = geometry_rectangle_calc_chess_distance( closest_parent_bounds, x, y );
+                    const geometry_rectangle_t *const classfier_symbol_box
+                        = layout_visible_classifier_get_symbol_box_const ( visible_classifier );
+                    const geometry_rectangle_t *const closest_parent_symbol_box
+                        = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );
+                    const double classfy_distance = geometry_rectangle_calc_chess_distance( classfier_symbol_box, x, y );
+                    double closest_parent_distance = geometry_rectangle_calc_chess_distance( closest_parent_symbol_box, x, y );
                     if ( classfy_distance < closest_parent_distance )
                     {
-                        closest_parent_instance = visible_classfy;
+                        closest_parent_instance = visible_classifier;
                     }
                 }
             }
@@ -706,27 +705,26 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                     int32_t max_order_above = INT32_MIN;
                     int32_t min_order_below = INT32_MAX;
                     /* iterate over all contained features */
-                    uint32_t f_count;
-                    f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
+                    const uint32_t f_count = pencil_layout_data_get_feature_count( &((*this_).layout_data) );
                     for ( uint32_t f_idx = 0; f_idx < f_count; f_idx ++ )
                     {
                         /* check if feature belongs to same parent classifier */
-                        const layout_feature_t *the_feature;
-                        the_feature = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
-                        const layout_visible_classifier_t *vis_classfy;
-                        vis_classfy = layout_feature_get_classifier_const ( the_feature );
+                        const layout_feature_t *const the_feature
+                            = pencil_layout_data_get_feature_const ( &((*this_).layout_data), f_idx );
+                        const layout_visible_classifier_t *const vis_classfy
+                            = layout_feature_get_classifier_const ( the_feature );
                         if ( closest_parent_instance == vis_classfy )
                         {
                             /* check if feature is not the moved one */
-                            const data_feature_t *data_feature;
-                            data_feature = layout_feature_get_data_const ( the_feature );
+                            const data_feature_t *const data_feature
+                                = layout_feature_get_data_const ( the_feature );
                             if ( data_feature_get_id ( feature_ptr ) != data_feature_get_id ( data_feature ) )
                             {
-                                int32_t list_order;
-                                list_order = data_feature_get_list_order( data_feature );
-                                const geometry_rectangle_t *feature_bounds;
-                                feature_bounds = layout_feature_get_bounds_const ( the_feature );
-                                if ( y < geometry_rectangle_get_center_y( feature_bounds ) )
+                                const int32_t list_order
+                                    = data_feature_get_list_order( data_feature );
+                                const geometry_rectangle_t *const feature_symbol_box
+                                    = layout_feature_get_symbol_box_const ( the_feature );
+                                if ( y < geometry_rectangle_get_center_y( feature_symbol_box ) )
                                 {
                                     if ( list_order < min_order_below ) { min_order_below = list_order; }
                                 }
@@ -771,12 +769,12 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
                 case DATA_FEATURE_TYPE_PROVIDED_INTERFACE:  /* or */
                 case DATA_FEATURE_TYPE_REQUIRED_INTERFACE:
                 {
-                    const geometry_rectangle_t *closest_parent_bounds;
-                    closest_parent_bounds = layout_visible_classifier_get_bounds_const ( closest_parent_instance );
+                    const geometry_rectangle_t *const closest_parent_symbol_box
+                        = layout_visible_classifier_get_symbol_box_const ( closest_parent_instance );
                     double center_x;
                     double center_y;
-                    center_x = geometry_rectangle_get_center_x( closest_parent_bounds );
-                    center_y = geometry_rectangle_get_center_y( closest_parent_bounds );
+                    center_x = geometry_rectangle_get_center_x( closest_parent_symbol_box );
+                    center_y = geometry_rectangle_get_center_y( closest_parent_symbol_box );
                     double delta_x;
                     double delta_y;
                     delta_x = ( x < center_x ) ? (center_x - x) : (x - center_x);
