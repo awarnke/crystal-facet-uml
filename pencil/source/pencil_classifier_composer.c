@@ -448,23 +448,23 @@ void pencil_classifier_composer_set_all_bounds ( const pencil_classifier_compose
 
     /* determine border sizes of the classifier-shape */
     draw_classifier_contour_get_shape_border_dimensions( &((*this_).draw_classifier_contour),
-                                               classifier_type,
-                                               pencil_size,
-                                               &top_border,
-                                               &left_border,
-                                               &bottom_border,
-                                               &right_border
-                                             );
+                                                         classifier_type,
+                                                         pencil_size,
+                                                         &top_border,
+                                                         &left_border,
+                                                         &bottom_border,
+                                                         &right_border
+                                                       );
 
     /* determine stereotype and name dimensions */
     draw_classifier_label_get_stereotype_and_name_dimensions( &((*this_).draw_classifier_label),
-                                                   visible_classifier,
-                                                   proposed_bounds,
-                                                   pencil_size,
-                                                   font_layout,
-                                                   &text_width,
-                                                   &text_height
-                                                 );
+                                                              visible_classifier,
+                                                              proposed_bounds,
+                                                              pencil_size,
+                                                              font_layout,
+                                                              &text_width,
+                                                              &text_height
+                                                            );
 
     /* get the symbol and label boxes and inner space rectangles to modify */
     geometry_rectangle_t *out_classifier_symbol_box;
