@@ -96,11 +96,11 @@ void pencil_diagram_maker_private_draw_classifiers ( pencil_diagram_maker_t *thi
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_layout_data_get_classifier_count ( layout_data );
+    count = pencil_layout_data_get_visible_classifier_count ( layout_data );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_layout_data_get_classifier_ptr( layout_data, index );
+        classifier_layout = pencil_layout_data_get_visible_classifier_ptr( layout_data, index );
 
         pencil_size_t *pencil_size = pencil_layouter_get_pencil_size_ptr( &((*this_).layouter) );
 

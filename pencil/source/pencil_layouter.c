@@ -120,11 +120,11 @@ void pencil_layouter_define_grid ( pencil_layouter_t *this_, geometry_rectangle_
 
     /* iterate over all classifiers */
     uint32_t count;
-    count = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
+    count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
     for ( uint32_t index = 0; index < count; index ++ )
     {
         layout_visible_classifier_t *visible_classifier;
-        visible_classifier = pencil_layout_data_get_classifier_ptr ( &((*this_).layout_data), index );
+        visible_classifier = pencil_layout_data_get_visible_classifier_ptr ( &((*this_).layout_data), index );
         const data_classifier_t *classifier_data;
         classifier_data = layout_visible_classifier_get_classifier_const( visible_classifier );
 
@@ -377,13 +377,13 @@ pencil_error_t pencil_layouter_private_get_classifier_id_at_pos ( const pencil_l
     {
         /* iterate over all classifiers */
         uint32_t count;
-        count = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
+        count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
         double surrounding_classifier_area = geometry_rectangle_get_area( diagram_draw_area );
 
         for ( uint32_t index = 0; index < count; index ++ )
         {
             const layout_visible_classifier_t *visible_classifier;
-            visible_classifier = pencil_layout_data_get_classifier_const ( &((*this_).layout_data), index );
+            visible_classifier = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), index );
             const geometry_rectangle_t *classifier_bounds;
             const geometry_rectangle_t *classifier_space;
             classifier_bounds = layout_visible_classifier_get_bounds_const ( visible_classifier );
@@ -667,11 +667,11 @@ pencil_error_t pencil_layouter_get_feature_order_at_pos ( const pencil_layouter_
         /* iterate over all classifiers, search the closest_parent_instance */
         const layout_visible_classifier_t *closest_parent_instance = NULL;
         uint32_t classfy_count;
-        classfy_count = pencil_layout_data_get_classifier_count ( &((*this_).layout_data) );
+        classfy_count = pencil_layout_data_get_visible_classifier_count ( &((*this_).layout_data) );
         for ( uint32_t classfy_index = 0; classfy_index < classfy_count; classfy_index ++ )
         {
             const layout_visible_classifier_t *visible_classfy;
-            visible_classfy = pencil_layout_data_get_classifier_const ( &((*this_).layout_data), classfy_index );
+            visible_classfy = pencil_layout_data_get_visible_classifier_const ( &((*this_).layout_data), classfy_index );
             int64_t classfy_id;
             classfy_id = layout_visible_classifier_get_classifier_id ( visible_classfy );
             if ( parent_classifier_id == classfy_id )

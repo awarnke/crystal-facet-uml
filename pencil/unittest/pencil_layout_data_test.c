@@ -159,7 +159,7 @@ static void test_empty_model(void)
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, empty_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) )
-    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_visible_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( ! pencil_layout_data_is_valid( &testee ) );
@@ -169,7 +169,7 @@ static void test_empty_model(void)
 
     pencil_layout_data_reinit( &testee, fake_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_visible_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 0, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
@@ -189,7 +189,7 @@ static void test_normal_model(void)
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 15, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 15, pencil_layout_data_get_visible_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 30*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( 20*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
@@ -208,7 +208,7 @@ static void test_too_big_model(void)
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_ASSERT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( DATA_VISIBLE_SET_MAX_CLASSIFIERS, pencil_layout_data_get_visible_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_FEATURES, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( PENCIL_LAYOUT_DATA_MAX_RELATIONSHIPS, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );
@@ -234,7 +234,7 @@ static void test_inconsistent_model(void)
     static pencil_layout_data_t testee;
     pencil_layout_data_init( &testee, fake_input_data );
     TEST_ASSERT( NULL != pencil_layout_data_get_diagram_ptr ( &testee ) );
-    TEST_ASSERT_EQUAL_INT( 5, pencil_layout_data_get_classifier_count ( &testee ) );
+    TEST_ASSERT_EQUAL_INT( 5, pencil_layout_data_get_visible_classifier_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( (5-1)*DUPLICATE_PARENT_CLASSIFIER, pencil_layout_data_get_feature_count ( &testee ) );
     TEST_ASSERT_EQUAL_INT( (5-3)*DUPLICATE_FROM_CLASSIFIER*DUPLICATE_TO_CLASSIFIER, pencil_layout_data_get_relationship_count ( &testee ) );
     TEST_ASSERT ( pencil_layout_data_is_valid( &testee ) );

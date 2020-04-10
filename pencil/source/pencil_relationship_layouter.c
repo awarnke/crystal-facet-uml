@@ -292,11 +292,11 @@ void pencil_relationship_layouter_private_select_solution ( pencil_relationship_
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
-        count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+        count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             layout_visible_classifier_t *probe_classifier;
-            probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, clasfy_index );
+            probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, clasfy_index );
 
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
@@ -782,7 +782,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
 
     /* iterate over all classifiers */
     uint32_t count_classifiers;
-    count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     const uint32_t max_list_iteration = count_classifiers;  /* in the worst case, each iteration moves the probes by one classifier */
     bool hit = true;  /* whenever the probes hit a rectangle, hit is set to true */
     for ( uint32_t list_iteration = 0; (list_iteration < max_list_iteration) && hit; list_iteration ++ )
@@ -791,7 +791,7 @@ void pencil_relationship_layouter_private_find_space_for_line ( pencil_relations
         for ( uint32_t classifier_index = 0; classifier_index < count_classifiers; classifier_index ++ )
         {
             layout_visible_classifier_t *the_classifier;
-            the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, classifier_index );
+            the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_index );
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
 

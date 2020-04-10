@@ -56,11 +56,11 @@ void pencil_classifier_layouter_estimate_bounds ( pencil_classifier_layouter_t *
 
     /* store the classifier bounds into input_data_layouter_t */
     uint32_t count_clasfy;
-    count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
         layout_visible_classifier_t *classifier_layout;
-        classifier_layout = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
+        classifier_layout = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
         const data_visible_classifier_t *visible_classifier2;
         visible_classifier2 = layout_visible_classifier_get_data_const ( classifier_layout );
 
@@ -230,11 +230,11 @@ void pencil_classifier_layouter_private_try_embrace_child( pencil_classifier_lay
             /* check what else would be embraced */
             bool illegal_overlap = false;
             uint32_t count_clasfy;
-            count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+            count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
             for ( uint32_t c_index = 0; c_index < count_clasfy; c_index ++ )
             {
                 layout_visible_classifier_t *probe_classifier;
-                probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, c_index );
+                probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, c_index );
 
                 if (( probe_classifier != from_classifier )&&( probe_classifier != to_classifier ))
                 {
@@ -380,7 +380,7 @@ void pencil_classifier_layouter_move_to_avoid_overlaps ( pencil_classifier_layou
         index = universal_array_index_sorter_get_array_index( &sorted, sort_index );
         /* move the classifier */
         layout_visible_classifier_t *the_classifier;
-        the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
         layout_visible_classifier_shift( the_classifier, solution_move_dx[index_of_best], solution_move_dy[index_of_best] );
     }
 
@@ -397,11 +397,11 @@ void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_c
 
     /* sort the classifiers by their movement-needs */
     uint32_t count_clasfy;
-    count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_clasfy; index ++ )
     {
         layout_visible_classifier_t *the_classifier;
-        the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
         geometry_rectangle_t *classifier_bounds;
         classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
 
@@ -427,7 +427,7 @@ void pencil_classifier_layouter_private_propose_move_processing_order ( pencil_c
         for ( uint32_t probe_index = 0; probe_index < count_clasfy; probe_index ++ )
         {
             layout_visible_classifier_t *probe_classifier;
-            probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, probe_index );
+            probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, probe_index );
             geometry_rectangle_t *probe_bounds;
             probe_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );
 
@@ -497,7 +497,7 @@ void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifi
     uint32_t index;
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
     layout_visible_classifier_t *the_classifier;
-    the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+    the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
     geometry_rectangle_t *classifier_bounds;
     classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
     double top;
@@ -562,7 +562,7 @@ void pencil_classifier_layouter_private_propose_move_solutions ( pencil_classifi
         uint32_t probe_index;
         probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
         layout_visible_classifier_t *the_probe;
-        the_probe = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, probe_index );
+        the_probe = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, probe_index );
         geometry_rectangle_t *probe_bounds;
         probe_bounds = layout_visible_classifier_get_bounds_ptr( the_probe );
         double probe_top;
@@ -680,7 +680,7 @@ void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier
     uint32_t index;
     index = universal_array_index_sorter_get_array_index( sorted, sort_index );
     layout_visible_classifier_t *the_classifier;
-    the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+    the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
     geometry_rectangle_t *classifier_bounds;
     classifier_bounds = layout_visible_classifier_get_bounds_ptr( the_classifier );
 
@@ -722,7 +722,7 @@ void pencil_classifier_layouter_private_select_move_solution ( pencil_classifier
                 probe_index = universal_array_index_sorter_get_array_index( sorted, probe_sort_index );
 
                 layout_visible_classifier_t *the_probe;
-                the_probe = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, probe_index );
+                the_probe = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, probe_index );
                 geometry_rectangle_t *probe_bounds;
                 probe_bounds = layout_visible_classifier_get_bounds_ptr( the_probe );
 
@@ -787,7 +787,7 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
     for ( uint32_t classifier_sort_idx = 0; classifier_sort_idx < count_sorted; classifier_sort_idx ++ )
     {
         const uint32_t classifier_idx = universal_array_index_sorter_get_array_index( &sorted_classifiers, classifier_sort_idx );
-        layout_visible_classifier_t * the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, classifier_idx );
+        layout_visible_classifier_t * the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, classifier_idx );
 
         /* only if the classifier has children */
         const uint32_t child_count = pencil_layout_data_count_descendants ( (*this_).layout_data, the_classifier );
@@ -851,10 +851,10 @@ void pencil_classifier_layouter_private_propose_grow_processing_order ( pencil_c
     assert ( (unsigned int) UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE >= (unsigned int) DATA_VISIBLE_SET_MAX_CLASSIFIERS );
 
     /* sort the classifiers by their movement-needs */
-    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
-        const layout_visible_classifier_t *const the_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+        const layout_visible_classifier_t *const the_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
         const geometry_rectangle_t *const classifier_bounds = layout_visible_classifier_get_bounds_const( the_classifier );
 
         int64_t move_need = 0;
@@ -884,9 +884,9 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
     assert ( out_max_outer_bounds != NULL );
     assert ( out_min_inner_space != NULL );
 
-    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     assert ( ref_classifier_idx < count_classifiers );
-    const layout_visible_classifier_t *const ref_classifier = pencil_layout_data_get_classifier_const( (*this_).layout_data, ref_classifier_idx );
+    const layout_visible_classifier_t *const ref_classifier = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, ref_classifier_idx );
     const geometry_rectangle_t *const ref_classifier_bounds = layout_visible_classifier_get_bounds_const( ref_classifier );
     const geometry_rectangle_t *const ref_classifier_space = layout_visible_classifier_get_space_const( ref_classifier );
     const double ref_left = geometry_rectangle_get_left( ref_classifier_bounds );
@@ -907,7 +907,7 @@ void pencil_classifier_layouter_private_get_gaps_to_classifiers( const pencil_cl
     /* check all classifiers */
     for ( uint32_t index = 0; index < count_classifiers; index ++ )
     {
-        const layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_const( (*this_).layout_data, index );
+        const layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, index );
         const geometry_rectangle_t *const probe_bounds = layout_visible_classifier_get_bounds_const( probe_classifier );
 
         const bool is_ancestor = pencil_layout_data_is_ancestor ( (*this_).layout_data, probe_classifier, ref_classifier );
@@ -1125,7 +1125,7 @@ void pencil_classifier_layouter_layout_for_list( pencil_classifier_layouter_t *t
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
         layout_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
+        visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* get the bounds to modify */
         geometry_rectangle_t *classifier_bounds;
@@ -1190,7 +1190,7 @@ void pencil_classifier_layouter_layout_for_sequence( pencil_classifier_layouter_
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
         layout_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
+        visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;
@@ -1255,7 +1255,7 @@ void pencil_classifier_layouter_layout_for_timing( pencil_classifier_layouter_t 
         uint32_t index = universal_array_index_sorter_get_array_index( &sorted_classifiers, sort_idx );
 
         layout_visible_classifier_t *visible_classifier2;
-        visible_classifier2 = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, index );
+        visible_classifier2 = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, index );
 
         /* get the bounds and inner space rectangles to modify */
         geometry_rectangle_t *classifier_bounds;

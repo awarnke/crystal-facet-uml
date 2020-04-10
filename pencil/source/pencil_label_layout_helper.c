@@ -64,11 +64,11 @@ void pencil_label_layout_helper_select_solution ( pencil_label_layout_helper_t *
 
         /* iterate over all classifiers */
         uint32_t count_clasfy;
-        count_clasfy = pencil_layout_data_get_classifier_count ( layout_data );
+        count_clasfy = pencil_layout_data_get_visible_classifier_count ( layout_data );
         for ( uint32_t clasfy_index = 0; clasfy_index < count_clasfy; clasfy_index ++ )
         {
             layout_visible_classifier_t *probe_classifier;
-            probe_classifier = pencil_layout_data_get_classifier_ptr( layout_data, clasfy_index );
+            probe_classifier = pencil_layout_data_get_visible_classifier_ptr( layout_data, clasfy_index );
 
             geometry_rectangle_t *classifier_bounds;
             classifier_bounds = layout_visible_classifier_get_bounds_ptr( probe_classifier );

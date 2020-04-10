@@ -9,11 +9,11 @@ static inline void pencil_classifier_layouter_private_sort_classifiers_by_list_o
     assert ( ((uint32_t)UNIVERSAL_ARRAY_INDEX_SORTER_MAX_ARRAY_SIZE) >= ((uint32_t)DATA_VISIBLE_SET_MAX_CLASSIFIERS) );
 
     universal_array_index_sorter_reinit( out_sorted_classifiers );
-    const uint32_t count_clasfy = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    const uint32_t count_clasfy = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     for ( uint32_t c_idx = 0; c_idx < count_clasfy; c_idx ++ )
     {
         const layout_visible_classifier_t *const visible_classifier_probe
-            = pencil_layout_data_get_classifier_ptr ( (*this_).layout_data, c_idx );
+            = pencil_layout_data_get_visible_classifier_ptr ( (*this_).layout_data, c_idx );
 
         const data_classifier_t *const classifier_probe
             = layout_visible_classifier_get_classifier_const( visible_classifier_probe );
@@ -33,10 +33,10 @@ static inline void pencil_classifier_layouter_private_move_embraced_descendants(
                                                                                  double delta_x,
                                                                                  double delta_y )
 {
-    const uint32_t count_classifiers = pencil_layout_data_get_classifier_count ( (*this_).layout_data );
+    const uint32_t count_classifiers = pencil_layout_data_get_visible_classifier_count ( (*this_).layout_data );
     assert ( ancestor_index < count_classifiers );
 
-    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_classifier_const( (*this_).layout_data, ancestor_index );
+    const layout_visible_classifier_t *const ancestor = pencil_layout_data_get_visible_classifier_const( (*this_).layout_data, ancestor_index );
     const geometry_rectangle_t *const ancestor_space = layout_visible_classifier_get_space_const( ancestor );
 
     /* check all classifiers */
@@ -45,7 +45,7 @@ static inline void pencil_classifier_layouter_private_move_embraced_descendants(
         if ( index != ancestor_index )
         {
             /* this is not myself */
-            layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_classifier_ptr( (*this_).layout_data, index );
+            layout_visible_classifier_t *const probe_classifier = pencil_layout_data_get_visible_classifier_ptr( (*this_).layout_data, index );
             const bool is_descendant = pencil_layout_data_is_ancestor ( (*this_).layout_data, ancestor, probe_classifier );
             if ( is_descendant )
             {

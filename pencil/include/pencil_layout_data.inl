@@ -30,20 +30,20 @@ static inline const layout_diagram_t *pencil_layout_data_get_diagram_const ( con
 
 /* ================================ classifiers ================================ */
 
-static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_layout_data_t *this_ )
+static inline uint32_t pencil_layout_data_get_visible_classifier_count ( const pencil_layout_data_t *this_ )
 {
     assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     return (*this_).visible_classifier_count;
 }
 
-static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index )
+static inline layout_visible_classifier_t *pencil_layout_data_get_visible_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index )
 {
     assert( index < (*this_).visible_classifier_count );
     assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );
     return &((*this_).visible_classifier_layout[index]);
 }
 
-static inline const layout_visible_classifier_t *pencil_layout_data_get_classifier_const ( const pencil_layout_data_t *this_, uint32_t index )
+static inline const layout_visible_classifier_t *pencil_layout_data_get_visible_classifier_const ( const pencil_layout_data_t *this_, uint32_t index )
 {
     assert( index < (*this_).visible_classifier_count );
     assert ( (*this_).visible_classifier_count <= PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS );

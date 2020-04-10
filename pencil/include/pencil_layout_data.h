@@ -135,7 +135,7 @@ static inline const layout_diagram_t *pencil_layout_data_get_diagram_const ( con
  *
  *  \param this_ pointer to own object attributes
  */
-static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_layout_data_t *this_ );
+static inline uint32_t pencil_layout_data_get_visible_classifier_count ( const pencil_layout_data_t *this_ );
 
 /*!
  *  \brief gets the layouted visible_classifier
@@ -144,7 +144,7 @@ static inline uint32_t pencil_layout_data_get_classifier_count ( const pencil_la
  *  \param index index of the layouted classifier to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
-static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index );
+static inline layout_visible_classifier_t *pencil_layout_data_get_visible_classifier_ptr ( pencil_layout_data_t *this_, uint32_t index );
 
 /*!
  *  \brief gets the layouted visible_classifier
@@ -153,7 +153,7 @@ static inline layout_visible_classifier_t *pencil_layout_data_get_classifier_ptr
  *  \param index index of the layouted classifier to retrieve; 0 &lt;= index &lt; PENCIL_LAYOUT_DATA_MAX_CLASSIFIERS.
  *  \return pointer to layout_visible_classifier_t.
  */
-static inline const layout_visible_classifier_t *pencil_layout_data_get_classifier_const ( const pencil_layout_data_t *this_, uint32_t index );
+static inline const layout_visible_classifier_t *pencil_layout_data_get_visible_classifier_const ( const pencil_layout_data_t *this_, uint32_t index );
 
 /* ================================ features ================================ */
 
