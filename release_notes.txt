@@ -1,3 +1,10 @@
+crystal-facet-uml (1.21.0) UNRELEASED; urgency=medium
+
+  [ Andreas Warnke ]
+  * containers embrace their children keeping wider gaps
+
+ -- Andreas Warnke <cfu@andreaswarnke.de>  Apr, 11 Apr 2020 18:30:00 +0200
+
 crystal-facet-uml (1.20.0) UNRELEASED; urgency=medium
 
   [ Andreas Warnke ]

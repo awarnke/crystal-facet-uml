@@ -798,7 +798,16 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
             //assert( geometry_rectangle_is_containing( classifier_symbol_box, classifier_space ) );  // not true for e.g. decision nodes
             assert( geometry_rectangle_is_containing( classifier_space, &min_inner_space ) );
 
-            /* propose a move and a grow */
+            /* propose a move */
+            const double delta_x_mv = geometry_rectangle_get_center_x( &max_outer_bounds ) - geometry_rectangle_get_center_x( classifier_symbol_box );
+            const double delta_y_mv = geometry_rectangle_get_center_y( &max_outer_bounds ) - geometry_rectangle_get_center_y( classifier_symbol_box );
+            const double descendant_add_dx = geometry_rectangle_get_center_x( classifier_space ) - geometry_rectangle_get_center_x( &min_inner_space );
+            const double descendant_add_dy = geometry_rectangle_get_center_y( classifier_space ) - geometry_rectangle_get_center_y( &min_inner_space );
+
+            /* move descendants */
+            pencil_classifier_layouter_private_move_embraced_descendants( this_, classifier_idx, delta_x_mv+descendant_add_dx, delta_y_mv+descendant_add_dy );
+
+            /* propose a grow */
             double additional_width = (geometry_rectangle_get_width( &max_outer_bounds ) - (2.0*gap) - geometry_rectangle_get_width( classifier_symbol_box ))
                                     * MAX_TAKE_RATIO;
             if ( additional_width < 0.0 )
@@ -811,23 +820,23 @@ void pencil_classifier_layouter_local_move_and_grow_for_gaps( pencil_classifier_
             {
                 additional_height = 0.0;
             }
-            const double delta_x_mv = geometry_rectangle_get_center_x( &max_outer_bounds ) - geometry_rectangle_get_center_x( classifier_symbol_box );
-            const double delta_y_mv = geometry_rectangle_get_center_y( &max_outer_bounds ) - geometry_rectangle_get_center_y( classifier_symbol_box );
             const double delta_x = delta_x_mv - (0.5*additional_width);
             const double delta_y = delta_y_mv - (0.5*additional_height);
-            const double descendant_add_dx = geometry_rectangle_get_center_x( classifier_space ) - geometry_rectangle_get_center_x( &min_inner_space );
-            const double descendant_add_dy = geometry_rectangle_get_center_y( classifier_space ) - geometry_rectangle_get_center_y( &min_inner_space );
-
-            /* move descendants */
-            pencil_classifier_layouter_private_move_embraced_descendants( this_, classifier_idx, delta_x+descendant_add_dx, delta_y+descendant_add_dy );
 
             /* move and resize self */
             layout_visible_classifier_shift ( the_classifier, delta_x, delta_y );
             layout_visible_classifier_expand ( the_classifier, additional_width, additional_height );
+
+            /* doublecheck if title can be layed out with less lines: */
+            /* update inner space and label_box */
+            pencil_classifier_composer_set_space_and_label( &((*this_).classifier_composer),
+                                                            layout_visible_classifier_get_data_const( the_classifier ),
+                                                            (*this_).pencil_size,
+                                                            font_layout,
+                                                            the_classifier
+                                                          );
         }
     }
-
-    /* doublecheck if title can be layed out with less lines */
 
     universal_array_index_sorter_destroy( &sorted_classifiers );
 
