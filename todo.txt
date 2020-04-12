@@ -21,7 +21,6 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
   [ ] activity diagrams need swimlanes/partitions
-  [ ] improve layouting of containments, e.g. consider arrows and more gap-space
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
