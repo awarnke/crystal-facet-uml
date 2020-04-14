@@ -3,7 +3,7 @@
 VERSIONSTR=${META_VERSION_STR}
 
 echo "Building Source Package Version $VERSIONSTR"
-if [ -z ${VERSIONSTR}]; then exit; fi
+if [ -z ${VERSIONSTR} ]; then exit; fi
 echo "based on latest git commit. (Remember to commit your latest changes!)"
 echo "----"
 echo "clean up possibly broken previous build"
