@@ -21,6 +21,8 @@ ideas for future versions:
   [ ] more relationship types needed: undirected ---- communication-path
   [ ] sequence diagrams need if/loop-boxes
   [ ] activity diagrams need swimlanes/partitions
+  [ ] yellow marked text overlaps the comment-edge symbol
+  [ ] component and artifact icons steal space from the "inner space" of the element
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
