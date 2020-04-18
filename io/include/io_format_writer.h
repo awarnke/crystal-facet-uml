@@ -70,6 +70,47 @@ void io_format_writer_destroy( io_format_writer_t *this_ );
 int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title );
 
 /*!
+ *  \brief starts a table-of-contents sublist
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ );
+
+/*!
+ *  \brief starts a table-of-contents entry, consisting of an entry and an optional sublist
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_start_toc_entry ( io_format_writer_t *this_ );
+
+/*!
+ *  \brief writes a table-of-contents entry
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param diag_ptr pointer to diagram that shall be written
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_diagram_t *diag_ptr );
+
+/*!
+ *  \brief end a table-of-contents entry, consisting of an entry and an optional sublist
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_end_toc_entry ( io_format_writer_t *this_ );
+
+/*!
+ *  \brief end a table-of-contents sublist
+ *
+ *  \param this_ pointer to own object attributes
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ );
+
+/*!
  *  \brief writes a diagram start
  *
  *  This starts a section that contains a diagram and a list of classifiers

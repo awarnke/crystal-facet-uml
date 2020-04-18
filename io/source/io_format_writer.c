@@ -151,6 +151,7 @@ static const char DOCBOOK_ELEMENT_LIST_END[]
 
 /* IO_FILE_FORMAT_XHTML */
 
+enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
 static const char XHTML_ENC[]
 = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"no\"?>\n";
 static const char XHTML_DTD[]
@@ -175,8 +176,22 @@ static const char XHTML_BODY_END[]
 = "    </body>\n";
 static const char XHTML_DOC_END[]
 = "</html>\n";
+static const char XHTML_TOC_SUBLIST_START[]
+= "        <ul>\n";
+static const char *XHTML_TOC_SUBLIST_ENTRY_START[XHTML_DIAGRAM_MAX_DEPTH]
+= {"            <li class=\"toc1\">\n","            <li class=\"toc2\">\n","            <li class=\"toc3\">\n",
+   "            <li class=\"toc4\">\n","            <li class=\"toc5\">\n","            <li class=\"toc6\">\n"};
+static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_START[]
+= "                <a href=\"#";
+static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE[]
+= "\">";
+static const char XHTML_TOC_SUBLIST_ENTRY_TITLE_END[]
+= "</a>\n";
+static const char XHTML_TOC_SUBLIST_ENTRY_END[]
+= "            </li>\n";
+static const char XHTML_TOC_SUBLIST_END[]
+= "        </ul>\n";
 
-enum XHTML_DIAGRAM_MAX { XHTML_DIAGRAM_MAX_DEPTH = 6, };
 static const char XHTML_DIAGRAM_START[]
 = "        <div id=\"";
 static const char XHTML_DIAGRAM_MIDDLE[]
@@ -229,6 +244,55 @@ static const char CSS_ALL[]
 ="body {\n"
 "    background-color: rgb(255,255,255);\n"
 "    font-family: Helvetica,Arial,sans-serif;\n"
+"}\n"
+".toc1 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: small;\n"
+"    counter-reset: cnt-head-two;\n"
+"}\n"
+".toc2::before {\n"
+"    counter-increment: cnt-head-two;\n"
+"    content: counter(cnt-head-two) \"\\0000a0 \";\n"
+"}\n"
+".toc2 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: small;\n"
+"    counter-reset: cnt-head-three;\n"
+"}\n"
+".toc3::before {\n"
+"    counter-increment: cnt-head-three;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \"\\0000a0 \";\n"
+"}\n"
+".toc3 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: x-small;\n"
+"    counter-reset: cnt-head-four;\n"
+"}\n"
+".toc4::before {\n"
+"    counter-increment: cnt-head-four;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \"\\0000a0 \";\n"
+"}\n"
+".toc4 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: x-small;\n"
+"    counter-reset: cnt-head-five;\n"
+"}\n"
+".toc5::before {\n"
+"    counter-increment: cnt-head-five;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \"\\0000a0 \";\n"
+"}\n"
+".toc5 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: xx-small;\n"
+"    counter-reset: cnt-head-six;\n"
+"}\n"
+".toc6::before {\n"
+"    counter-increment: cnt-head-six;\n"
+"    content: counter(cnt-head-two) \".\" counter(cnt-head-three) \".\" counter(cnt-head-four) \".\" counter(cnt-head-five) \".\" counter(cnt-head-six) \"\\0000a0 \";\n"
+"}\n"
+".toc6 {\n"
+"    color:rgb(192,128,0);\n"
+"    font-size: xx-small;\n"
 "}\n"
 ".description {\n"
 "    background-color:rgb(216,255,240);\n"
@@ -363,6 +427,149 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
     return export_err;
 }
 
+int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    int export_err = 0;
+
+    /* increase tree depth */
+    (*this_).current_tree_depth ++;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_START );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
+                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
+                : ((*this_).current_tree_depth-1);
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_diagram_t *diag_ptr )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    assert ( NULL != diag_ptr );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            const char *const diag_name = data_diagram_get_name_ptr(diag_ptr);
+            const int64_t diag_id = data_diagram_get_id(diag_ptr);
+
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
+            export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
+            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_END );
+        }
+        break;
+
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_END );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
+{
+    TRACE_BEGIN();
+    assert ( NULL != (*this_).output );
+    int export_err = 0;
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_XHTML:
+        {
+            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_END );
+        }
+        break;
+
+        default:
+        {
+            /* nothing to do, only xhtml provides a table of contents */
+        }
+        break;
+    }
+
+    /* decrease tree depth */
+    (*this_).current_tree_depth --;
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
 int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
 {
     TRACE_BEGIN();
@@ -422,11 +629,9 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     assert ( NULL != (*this_).output );
     int export_err = 0;
 
-    const char *diag_name;
-    diag_name = data_diagram_get_name_ptr( diag_ptr );
-    const char *diag_description;
-    diag_description = data_diagram_get_description_ptr( diag_ptr );
-    int64_t diag_id = data_diagram_get_id(diag_ptr);
+    const char *const diag_name = data_diagram_get_name_ptr( diag_ptr );
+    const char *const diag_description = data_diagram_get_description_ptr( diag_ptr );
+    const int64_t diag_id = data_diagram_get_id(diag_ptr);
 
     switch ( (*this_).export_type )
     {
@@ -448,8 +653,9 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 
         case IO_FILE_FORMAT_XHTML:
         {
-            unsigned int index_of_depth = (*this_).current_tree_depth - 1;
-            index_of_depth = ( index_of_depth >= XHTML_DIAGRAM_MAX_DEPTH ) ? ( XHTML_DIAGRAM_MAX_DEPTH-1 ) : index_of_depth;
+            const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
+                ? (XHTML_DIAGRAM_MAX_DEPTH-1)
+                : ((*this_).current_tree_depth-1);
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_START[index_of_depth] );
             export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
             export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_END[index_of_depth] );
@@ -536,9 +742,9 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     assert ( NULL != (*this_).output );
     int export_err = 0;
 
-    const char *classifier_name = data_classifier_get_name_ptr(classifier_ptr);
-    const char *classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
-    int64_t classifier_id = data_classifier_get_id(classifier_ptr);
+    const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
+    const char *const classifier_descr = data_classifier_get_description_ptr(classifier_ptr);
+    const int64_t classifier_id = data_classifier_get_id(classifier_ptr);
 
     switch ( (*this_).export_type )
     {
@@ -611,11 +817,11 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     assert ( NULL != (*this_).output );
     int export_err = 0;
 
-    const char *feature_key = data_feature_get_key_ptr( feature_ptr );
-    const char *feature_value = data_feature_get_value_ptr( feature_ptr );
-    size_t feature_value_len = strlen(feature_value);
-    const char *feature_descr = data_feature_get_description_ptr( feature_ptr );
-    int64_t feature_id = data_feature_get_id( feature_ptr );
+    const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
+    const char *const feature_value = data_feature_get_value_ptr( feature_ptr );
+    const size_t feature_value_len = strlen(feature_value);
+    const char *const feature_descr = data_feature_get_description_ptr( feature_ptr );
+    const int64_t feature_id = data_feature_get_id( feature_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -708,10 +914,10 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     assert ( NULL != (*this_).output );
     int export_err = 0;
 
-    const char *relation_name = data_relationship_get_name_ptr( relation_ptr );
-    int64_t relation_id = data_relationship_get_id( relation_ptr );
-    const char *relation_descr = data_relationship_get_description_ptr( relation_ptr );
-    const char *dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
+    const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
+    const int64_t relation_id = data_relationship_get_id( relation_ptr );
+    const char *const relation_descr = data_relationship_get_description_ptr( relation_ptr );
+    const char *const dest_classifier_name = data_classifier_get_name_ptr( dest_classifier_ptr );
 
     switch ( (*this_).export_type )
     {
@@ -954,7 +1160,7 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
     assert( NULL != (*this_).output );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
-    size_t indent_length = strlen( indent );
+    const size_t indent_length = strlen( indent );
 
     if ( NULL != multiline_string )
     {

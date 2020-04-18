@@ -45,6 +45,7 @@ crystal_facet_uml exports diagrams as
 </itemizedlist>
 
 crystal_facet_uml can also be started from command line
+to export all diagrams automatically or
 to check and repair database files.
 
 </para>

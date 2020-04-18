@@ -11,6 +11,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
+enum io_exporter_max_enum {
+    IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH = 16,
+};
+
 void io_exporter_init ( io_exporter_t *this_,
                         data_database_reader_t *db_reader )
 {
@@ -61,27 +65,27 @@ int io_exporter_export_files( io_exporter_t *this_,
 
         if ( ( export_type & IO_FILE_FORMAT_SVG ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 16, IO_FILE_FORMAT_SVG, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_SVG, target_folder );
         }
 
         if ( ( export_type & ( IO_FILE_FORMAT_PDF | IO_FILE_FORMAT_DOCBOOK ) ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 16, IO_FILE_FORMAT_PDF, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PDF, target_folder );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_PS ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 16, IO_FILE_FORMAT_PS, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PS, target_folder );
         }
 
         if ( ( export_type & ( IO_FILE_FORMAT_PNG | IO_FILE_FORMAT_DOCBOOK | IO_FILE_FORMAT_XHTML ) ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 16, IO_FILE_FORMAT_PNG, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_PNG, target_folder );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_TXT ) != 0 )
         {
-            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, 16, IO_FILE_FORMAT_TXT, target_folder );
+            export_err |= io_exporter_private_export_image_files( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, IO_FILE_FORMAT_TXT, target_folder );
         }
 
         if ( ( export_type & IO_FILE_FORMAT_DOCBOOK ) != 0 )
@@ -331,7 +335,8 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         else
         {
             write_err = io_format_writer_write_header( &((*this_).temp_format_writer), document_file_name );
-            write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, 16, &((*this_).temp_format_writer) );
+            write_err |= io_exporter_private_export_table_of_contents( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
+            write_err |= io_exporter_private_export_document_part( this_, DATA_ID_VOID_ID, IO_EXPORTER_MAX_DIAGRAM_TREE_DEPTH, &((*this_).temp_format_writer) );
             write_err |= io_format_writer_write_footer( &((*this_).temp_format_writer) );
         }
         io_format_writer_destroy( &((*this_).temp_format_writer ) );
@@ -410,12 +415,11 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
         }
         else
         {
-            for ( uint32_t pos = 0; pos < data_small_set_get_count( &the_set ); pos ++ )
+            const uint32_t child_count = data_small_set_get_count( &the_set );
+            for ( uint32_t pos = 0; pos < child_count; pos ++ )
             {
-                data_id_t probe;
-                probe = data_small_set_get_id( &the_set, pos );
-                int64_t probe_row_id;
-                probe_row_id = data_id_get_row_id( &probe );
+                data_id_t probe = data_small_set_get_id( &the_set, pos );
+                const int64_t probe_row_id = data_id_get_row_id( &probe );
 
                 export_err |= io_exporter_private_export_document_part( this_, probe_row_id, max_recursion-1, format_writer );
 
@@ -430,6 +434,78 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
     {
         /* write doc part */
         export_err |= io_format_writer_end_diagram( format_writer );
+    }
+
+    TRACE_END_ERR( export_err );
+    return export_err;
+}
+
+int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
+                                                  int64_t diagram_id,
+                                                  uint32_t max_recursion,
+                                                  io_format_writer_t *format_writer )
+{
+    TRACE_BEGIN();
+    assert ( NULL != format_writer );
+    int export_err = 0;
+
+    /* write entry for current diagram */
+    if ( DATA_ID_VOID_ID != diagram_id )
+    {
+        export_err |= io_format_writer_start_toc_entry( format_writer );
+
+        /* load data to be drawn */
+        data_error_t db_err;
+        db_err = data_database_reader_get_diagram_by_id ( (*this_).db_reader, diagram_id, &((*this_).temp_diagram) );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            TSLOG_ERROR("error reading database.");
+            export_err |= -1;
+        }
+        else
+        {
+            export_err |= io_format_writer_write_toc_entry ( format_writer, &((*this_).temp_diagram) );
+            data_diagram_destroy( &((*this_).temp_diagram) );
+        }
+    }
+
+    /* recursion to children */
+    if (( export_err == 0 )&&( max_recursion > 0 ))
+    {
+        data_error_t db_err;
+        data_small_set_t the_set;
+        data_small_set_init( &the_set );
+        db_err = data_database_reader_get_diagram_ids_by_parent_id ( (*this_).db_reader, diagram_id, &the_set );
+        if ( db_err != DATA_ERROR_NONE )
+        {
+            TSLOG_ERROR("error reading database.");
+            export_err |= -1;
+        }
+        else
+        {
+            const uint32_t child_count = data_small_set_get_count( &the_set );
+            if ( child_count != 0 )
+            {
+                export_err |= io_format_writer_start_toc_sublist( format_writer );
+                for ( uint32_t pos = 0; pos < child_count; pos ++ )
+                {
+                    data_id_t probe = data_small_set_get_id( &the_set, pos );
+                    const int64_t probe_row_id = data_id_get_row_id( &probe );
+
+                    export_err |= io_exporter_private_export_table_of_contents( this_, probe_row_id, max_recursion-1, format_writer );
+
+                    data_id_destroy( &probe );
+                }
+                export_err |= io_format_writer_end_toc_sublist ( format_writer );
+            }
+        }
+        data_small_set_destroy( &the_set );
+    }
+
+    /* end toc entry */
+    if ( DATA_ID_VOID_ID != diagram_id )
+    {
+        export_err |= io_format_writer_end_toc_entry( format_writer );
     }
 
     TRACE_END_ERR( export_err );

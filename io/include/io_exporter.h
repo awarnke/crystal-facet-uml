@@ -32,6 +32,7 @@ struct io_exporter_struct {
     io_format_writer_t temp_format_writer;  /*!< possibly uninitialized memory for a format writer */
     char temp_filename_buf[512];  /*!< buffer space for temporary filename construction */
     utf8stringbuf_t temp_filename;  /*!< buffer space for temporary filename construction */
+    data_diagram_t temp_diagram;  /*!< buffer space for temporary diagram data */
 };
 
 typedef struct io_exporter_struct io_exporter_t;
@@ -122,6 +123,20 @@ int io_exporter_private_export_document_part( io_exporter_t *this_,
                                               uint32_t max_recursion,
                                               io_format_writer_t *format_writer
                                             );
+
+/*!
+ *  \brief creates a table of contents
+ *  \param this_ pointer to own object attributes
+ *  \param diagram_id id of the diagram to export; DATA_ID_VOID_ID to export all root diagrams
+ *  \param max_recursion if greater than 0 and children exist, this function calls itself recursively
+ *  \param format_writer writer to format the data and stream it out to a file
+ *  \result 0 in case of success, -1 otherwise
+ */
+int io_exporter_private_export_table_of_contents( io_exporter_t *this_,
+                                                  int64_t diagram_id,
+                                                  uint32_t max_recursion,
+                                                  io_format_writer_t *format_writer
+                                                );
 
 /*!
  *  \brief appends all characters that are valid within a filename to filename

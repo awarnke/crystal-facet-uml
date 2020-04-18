@@ -26,10 +26,12 @@ ideas for future versions:
   @io
   [ ] export formats: extend export formats by latex, doxygen, asciidoc, rtf(?), pdf
   [ ] how to exclude diagrams from export? some are unimportant and exist just for completeness
+  [ ] links from each element to all diagrams where it is contained missing
   @data
   [ ] some diagrams exist for completeness only - but do not contain important information. These shall be greyed out.
   [ ] performance optimization: possibly the feature and relationship filter on a visible_set is slow?
   [ ] diagrams need some kind of classification/stereotype like idea-for-future, rejected-alternative, ...
+  [ ] some way to compare two database files / and/or to merge
   @ctrl
   [ ] export XMI format
   [ ] import XMI format
