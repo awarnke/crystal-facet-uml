@@ -1,9 +1,9 @@
-/* File: io_format_writer.inl; Copyright and License: see below */
+/* File: xml_writer.inl; Copyright and License: see below */
 
 #include <assert.h>
 #include "util/string/utf8error.h"
 
-static inline int io_format_writer_private_write_plain ( io_format_writer_t *this_, const char *text )
+static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );
@@ -13,7 +13,7 @@ static inline int io_format_writer_private_write_plain ( io_format_writer_t *thi
     return ( (out_count != text_len) ? -1 : 0 );
 }
 
-static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *this_, const char *text )
+static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );
@@ -26,7 +26,7 @@ static inline int io_format_writer_private_write_xml_enc ( io_format_writer_t *t
     return ( ((out_count != text_len)||( UTF8ERROR_SUCCESS != strerr)) ? -1 : 0 );
 }
 
-static inline int io_format_writer_private_write_fmt_xhtml_enc ( io_format_writer_t *this_, const char *text )
+static inline int xml_writer_write_fmt_xhtml_enc ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );
@@ -39,7 +39,7 @@ static inline int io_format_writer_private_write_fmt_xhtml_enc ( io_format_write
     return ( ((out_count != text_len)||( UTF8ERROR_SUCCESS != strerr)) ? -1 : 0 );
 }
 
-static inline int io_format_writer_private_write_fmt_db_enc ( io_format_writer_t *this_, const char *text )
+static inline int xml_writer_write_fmt_db_enc ( xml_writer_t *this_, const char *text )
 {
     assert ( NULL != text );
     assert ( NULL != (*this_).output );

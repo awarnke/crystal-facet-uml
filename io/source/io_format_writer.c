@@ -3,75 +3,9 @@
 #include "io_format_writer.h"
 #include "trace.h"
 #include "tslog.h"
-#include <gtk/gtk.h>
-#include <cairo-svg.h>
-#include <cairo-pdf.h>
-#include <cairo-ps.h>
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
-
-static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS[] = {
-    "<", "&lt;",
-    ">", "&gt;",
-    "\"", "&quot;",
-    "&", "&amp;",
-    NULL,  /* end translation table */
-};
-
-/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
-static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS[] = {
-    "<", "&lt;",
-    ">", "&gt;",
-    "\"", "&quot;",
-    "&", "&amp;",
-    "\n\n", "</para>\n<para>",
-    "\n+", "</para>\n<para>+",  /* markdown list */
-    "\n-", "</para>\n<para>-",  /* markdown list or heading */
-    "\n*", "</para>\n<para>*",  /* markdown list */
-    "\n0", "</para>\n<para>0",  /* markdown list */
-    "\n1", "</para>\n<para>1",  /* markdown list */
-    "\n2", "</para>\n<para>2",  /* markdown list */
-    "\n3", "</para>\n<para>3",  /* markdown list */
-    "\n4", "</para>\n<para>4",  /* markdown list */
-    "\n5", "</para>\n<para>5",  /* markdown list */
-    "\n6", "</para>\n<para>6",  /* markdown list */
-    "\n7", "</para>\n<para>7",  /* markdown list */
-    "\n8", "</para>\n<para>8",  /* markdown list */
-    "\n9", "</para>\n<para>9",  /* markdown list */
-    "\n>", "</para>\n<para>&gt;",  /* markdown citation */
-    "\n=", "</para>\n<para>=",  /* markdown heading */
-    "\n#", "</para>\n<para>#",  /* markdown heading */
-    "\n ", "</para>\n<para>&#xA0;",  /* markdown list-entry continuation */
-    NULL,  /* end translation table */
-};
-
-/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
-static const char * const IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS[] = {
-    "<", "&lt;",
-    ">", "&gt;",
-    "\"", "&quot;",
-    "&", "&amp;",
-    "\n\n", "<br />\n",
-    "\n+", "<br />+",  /* markdown list */
-    "\n-", "<br />-",  /* markdown list or heading */
-    "\n*", "<br />*",  /* markdown list */
-    "\n0", "<br />0",  /* markdown list */
-    "\n1", "<br />1",  /* markdown list */
-    "\n2", "<br />2",  /* markdown list */
-    "\n3", "<br />3",  /* markdown list */
-    "\n4", "<br />4",  /* markdown list */
-    "\n5", "<br />5",  /* markdown list */
-    "\n6", "<br />6",  /* markdown list */
-    "\n7", "<br />7",  /* markdown list */
-    "\n8", "<br />8",  /* markdown list */
-    "\n9", "<br />9",  /* markdown list */
-    "\n>", "<br />&gt;",  /* markdown citation */
-    "\n=", "<br />=",  /* markdown heading */
-    "\n#", "<br />#",  /* markdown heading */
-    "\n ", "<br />&nbsp;",  /* markdown list-entry continuation */
-    NULL,  /* end translation table */
-};
 
 /* GENERAL STRUCTURE */
 
@@ -353,13 +287,9 @@ void io_format_writer_init ( io_format_writer_t *this_,
     assert( NULL != output );
 
     (*this_).export_type = export_type;
-    (*this_).output = output;
     (*this_).current_tree_depth = 0;
 
-    (*this_).temp_output = utf8stringbuf_init( sizeof( (*this_).temp_output_buffer), (*this_).temp_output_buffer );
-    (*this_).xml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_XML_STRINGS;
-    (*this_).fmt_xhtml_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_XHTML_STRINGS;
-    (*this_).fmt_db_encode_table = IO_FORMAT_WRITER_PRIVATE_ENCODE_FMT_DB_STRINGS;
+    xml_writer_init( &((*this_).xml_writer), output );
 
     TRACE_END();
 }
@@ -368,7 +298,7 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
 
-    (*this_).output = NULL;
+    xml_writer_destroy( &((*this_).xml_writer) );
 
     TRACE_END();
 }
@@ -376,7 +306,6 @@ void io_format_writer_destroy( io_format_writer_t *this_ )
 int io_format_writer_write_header( io_format_writer_t *this_, const char *document_title )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     assert ( NULL != document_title );
     int export_err = 0;
 
@@ -384,28 +313,28 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ENC );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_TITLE_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ENC );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_TITLE_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_TITLE_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ENC );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DTD );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_START );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_START );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_TITLE_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_TITLE_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_CSS_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, document_title );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_CSS_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_HEAD_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_BODY_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ENC );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DTD );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), document_title );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_CSS_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_HEAD_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_START );
         }
         break;
 
@@ -430,7 +359,6 @@ int io_format_writer_write_header( io_format_writer_t *this_, const char *docume
 int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     /* increase tree depth */
@@ -440,7 +368,7 @@ int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_START );
         }
         break;
 
@@ -458,7 +386,6 @@ int io_format_writer_start_toc_sublist ( io_format_writer_t *this_ )
 int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
@@ -468,7 +395,7 @@ int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
             const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
                 ? (XHTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_START[index_of_depth] );
         }
         break;
 
@@ -486,7 +413,6 @@ int io_format_writer_start_toc_entry ( io_format_writer_t *this_ )
 int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_diagram_t *diag_ptr )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     assert ( NULL != diag_ptr );
     int export_err = 0;
 
@@ -497,11 +423,11 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
             const char *const diag_name = data_diagram_get_name_ptr(diag_ptr);
             const int64_t diag_id = data_diagram_get_id(diag_ptr);
 
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_START );
             export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_MIDDLE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_TITLE_END );
         }
         break;
 
@@ -520,14 +446,13 @@ int io_format_writer_write_toc_entry ( io_format_writer_t *this_, const data_dia
 int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_ENTRY_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_ENTRY_END );
         }
         break;
 
@@ -545,14 +470,13 @@ int io_format_writer_end_toc_entry ( io_format_writer_t *this_ )
 int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_TOC_SUBLIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_TOC_SUBLIST_END );
         }
         break;
 
@@ -573,7 +497,6 @@ int io_format_writer_end_toc_sublist ( io_format_writer_t *this_ )
 int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     /* increase tree depth */
@@ -583,17 +506,17 @@ int io_format_writer_start_diagram( io_format_writer_t *this_, int64_t diag_id )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_START : DOCBOOK_DIAGRAM_START );
             export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_MIDDLE : DOCBOOK_DIAGRAM_MIDDLE );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_START );
             export_err |= io_format_writer_private_write_plain_id ( this_, DATA_TABLE_DIAGRAM, diag_id );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_MIDDLE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_MIDDLE );
         }
         break;
 
@@ -626,7 +549,6 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     TRACE_BEGIN();
     assert ( NULL != diag_ptr );
     assert ( NULL != diagram_file_base_name );
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     const char *const diag_name = data_diagram_get_name_ptr( diag_ptr );
@@ -637,17 +559,17 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_TITLE_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_TITLE_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_START );
-            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, diag_description );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_MIDDLE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DIAGRAM_IMG_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= xml_writer_write_fmt_db_enc ( &((*this_).xml_writer), diag_description );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_MIDDLE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_END );
         }
         break;
 
@@ -656,27 +578,27 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             const unsigned int index_of_depth = ((*this_).current_tree_depth > XHTML_DIAGRAM_MAX_DEPTH)
                 ? (XHTML_DIAGRAM_MAX_DEPTH-1)
                 : ((*this_).current_tree_depth-1);
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_START[index_of_depth] );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diag_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_TITLE_END[index_of_depth] );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DESCRIPTION_START );
-            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, diag_description );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DESCRIPTION_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_IMG_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, diagram_file_base_name );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_IMG_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_START[index_of_depth] );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_END[index_of_depth] );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_START );
+            export_err |= xml_writer_write_fmt_xhtml_enc ( &((*this_).xml_writer), diag_description );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_END );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, diag_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), diag_name );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     TXT_ID_INDENT_COLUMN - strlen(diag_name),
                                                                     DATA_TABLE_DIAGRAM,
                                                                     diag_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
             export_err |= io_format_writer_private_write_indent_multiline_string( this_,
                                                                                   TXT_SINGLE_INDENT,
                                                                                   diag_description
@@ -699,27 +621,26 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
 int io_format_writer_start_classifier( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_LIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_START );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_LIST_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_START );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
         }
         break;
 
@@ -739,7 +660,6 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
 {
     TRACE_BEGIN();
     assert ( NULL != classifier_ptr );
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     const char *const classifier_name = data_classifier_get_name_ptr(classifier_ptr);
@@ -750,47 +670,47 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
-            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, classifier_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+            export_err |= xml_writer_write_fmt_db_enc ( &((*this_).xml_writer), classifier_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_CLASSIFIER,
                                                                     classifier_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_NAME_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_NAME_END );
-            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, classifier_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
+            export_err |= xml_writer_write_fmt_xhtml_enc ( &((*this_).xml_writer), classifier_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_CLASSIFIER,
                                                                     classifier_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
-            export_err |= io_format_writer_private_write_plain ( this_, classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), classifier_name );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     TXT_ID_INDENT_COLUMN - strlen(classifier_name),
                                                                     DATA_TABLE_CLASSIFIER,
                                                                     classifier_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
             export_err |= io_format_writer_private_write_indent_multiline_string( this_,
                                                                                   TXT_SINGLE_INDENT,
                                                                                   classifier_descr
@@ -814,7 +734,6 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
 {
     TRACE_BEGIN();
     assert ( NULL != feature_ptr );
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     const char *const feature_key = data_feature_get_key_ptr( feature_ptr );
@@ -827,53 +746,53 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
             {
-                export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-                export_err |= io_format_writer_private_write_xml_enc ( this_, feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
-            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, feature_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+            export_err |= xml_writer_write_fmt_db_enc ( &((*this_).xml_writer), feature_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_FEATURE,
                                                                     feature_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
             {
-                export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-                export_err |= io_format_writer_private_write_xml_enc ( this_, feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, feature_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+            export_err |= xml_writer_write_fmt_xhtml_enc ( &((*this_).xml_writer), feature_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_FEATURE,
                                                                     feature_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_SPACE_INDENT );
-            export_err |= io_format_writer_private_write_plain ( this_, feature_key );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE_INDENT );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), feature_key );
             if ( 0 != feature_value_len )
             {
-                export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-                export_err |= io_format_writer_private_write_plain ( this_, feature_value );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), feature_value );
             }
 
             size_t feature_key_len = strlen(feature_key);
@@ -884,7 +803,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                                                                     DATA_TABLE_FEATURE,
                                                                     feature_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
             export_err |= io_format_writer_private_write_indent_multiline_string( this_,
                                                                                   TXT_DOUBLE_INDENT,
                                                                                   feature_descr
@@ -911,7 +830,6 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     TRACE_BEGIN();
     assert ( NULL != relation_ptr );
     assert ( NULL != dest_classifier_ptr );
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     const char *const relation_name = data_relationship_get_name_ptr( relation_ptr );
@@ -923,56 +841,56 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_START );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, relation_name );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, TXT_SPACE_ARROW_SPACE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, dest_classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_NAME_END );
-            export_err |= io_format_writer_private_write_fmt_db_enc ( this_, relation_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_START );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
+            export_err |= xml_writer_write_fmt_db_enc ( &((*this_).xml_writer), relation_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_RELATIONSHIP,
                                                                     relation_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_START );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, relation_name );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, TXT_SPACE_ARROW_SPACE );
-            export_err |= io_format_writer_private_write_xml_enc ( this_, dest_classifier_name );
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_COLON_SPACE );
-            export_err |= io_format_writer_private_write_fmt_xhtml_enc ( this_, relation_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_START );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
+            export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
+            export_err |= xml_writer_write_fmt_xhtml_enc ( &((*this_).xml_writer), relation_descr );
             export_err |= io_format_writer_private_write_indent_id( this_,
                                                                     1,
                                                                     DATA_TABLE_RELATIONSHIP,
                                                                     relation_id
                                                                   );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
 
         case IO_FILE_FORMAT_TXT:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_SPACE_INDENT );
-            export_err |= io_format_writer_private_write_plain ( this_, relation_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE_INDENT );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), relation_name );
 
             size_t relation_name_len = strlen(relation_name);
             /* print arrow */
             if ( relation_name_len == 0 )
             {
-                export_err |= io_format_writer_private_write_plain ( this_, TXT_ARROW_SPACE );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_ARROW_SPACE );
             }
             else
             {
-                export_err |= io_format_writer_private_write_plain ( this_, TXT_SPACE_ARROW_SPACE );
+                export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             }
 
-            export_err |= io_format_writer_private_write_plain ( this_, dest_classifier_name );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), dest_classifier_name );
 
             /* print id */
             size_t dest_classifier_name_len = strlen( dest_classifier_name );
@@ -985,7 +903,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
                                                                     relation_id
                                                                   );
 
-            export_err |= io_format_writer_private_write_plain ( this_, TXT_NEWLINE );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_NEWLINE );
             export_err |= io_format_writer_private_write_indent_multiline_string( this_,
                                                                                   TXT_DOUBLE_INDENT,
                                                                                   relation_descr
@@ -1008,21 +926,20 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
 int io_format_writer_end_classifier( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_ELEMENT_LIST_END );
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DESCRIPTION_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_ELEMENT_LIST_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_LIST_END );
         }
         break;
 
@@ -1047,20 +964,19 @@ int io_format_writer_end_classifier( io_format_writer_t *this_ )
 int io_format_writer_end_diagram( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), ((*this_).current_tree_depth==1) ? DOCBOOK_TOP_DIAGRAM_END : DOCBOOK_DIAGRAM_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DIAGRAM_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_END );
         }
         break;
 
@@ -1088,14 +1004,13 @@ int io_format_writer_end_diagram( io_format_writer_t *this_ )
 int io_format_writer_write_stylesheet( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_CSS:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, CSS_ALL );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), CSS_ALL );
         }
         break;
 
@@ -1115,21 +1030,20 @@ int io_format_writer_write_stylesheet( io_format_writer_t *this_ )
 int io_format_writer_write_footer( io_format_writer_t *this_ )
 {
     TRACE_BEGIN();
-    assert ( NULL != (*this_).output );
     int export_err = 0;
 
     switch ( (*this_).export_type )
     {
         case IO_FILE_FORMAT_DOCBOOK:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, DOCBOOK_DOC_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DOC_END );
         }
         break;
 
         case IO_FILE_FORMAT_XHTML:
         {
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_BODY_END );
-            export_err |= io_format_writer_private_write_plain ( this_, XHTML_DOC_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_BODY_END );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DOC_END );
         }
         break;
 
@@ -1157,10 +1071,11 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
 {
     TRACE_BEGIN();
     assert( NULL != indent );
-    assert( NULL != (*this_).output );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
     const size_t indent_length = strlen( indent );
+    FILE* const output = (*this_).xml_writer.output;  /* TODO - do not directly access members */
+    assert( output != NULL );
 
     if ( NULL != multiline_string )
     {
@@ -1204,7 +1119,9 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
             if ( end_of_line )
             {
                 /* print indent pattern */
-                out_count = fwrite( indent, 1 /* size of char */, indent_length, (*this_).output );
+                //result |= xml_writer_write_plain ( &((*this_).xml_writer), indent );
+
+                out_count = fwrite( indent, 1 /* size of char */, indent_length, output );
                 if ( out_count != indent_length )
                 {
                     TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_length - out_count );
@@ -1212,7 +1129,7 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
                 }
 
                 /* print next line */
-                out_count = fwrite( line_start, 1 /* size of char */, line_length, (*this_).output );
+                out_count = fwrite( line_start, 1 /* size of char */, line_length, output );
                 if ( out_count != line_length )
                 {
                     TSLOG_ERROR_INT( "not all bytes could be written. missing:", line_length - out_count );
@@ -1220,7 +1137,7 @@ int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t 
                 }
 
                 /* print newline */
-                out_count = fwrite( TXT_NEWLINE, 1 /* size of char */, strlen(TXT_NEWLINE), (*this_).output );
+                out_count = fwrite( TXT_NEWLINE, 1 /* size of char */, strlen(TXT_NEWLINE), output );
                 if ( out_count != strlen(TXT_NEWLINE) )
                 {
                     TSLOG_ERROR_INT( "not all bytes could be written. missing:", strlen(TXT_NEWLINE) - out_count );
@@ -1244,18 +1161,19 @@ int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
                                                int64_t row_id )
 {
     TRACE_BEGIN();
-    assert( NULL != (*this_).output );
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_ID_INDENT_COLUMN );
     assert( indent_width <= TXT_ID_INDENT_COLUMN );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
+    FILE* const output = (*this_).xml_writer.output;  /* TODO - do not directly access members */
+    assert( output != NULL );
 
     /* indent */
     if ( indent_width > 0 )
     {
-        out_count = fwrite( &TXT_ID_INDENT_SPACES, 1, indent_width, (*this_).output );
+        out_count = fwrite( &TXT_ID_INDENT_SPACES, 1, indent_width, output );
         if ( out_count != indent_width )
         {
             TSLOG_ERROR_INT( "not all bytes could be written. missing:", indent_width - out_count );
@@ -1275,12 +1193,13 @@ int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
         utf8stringbuf_append_str( id_str, "]" );
 
         unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
+        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, output );
         if ( out_count != len )
         {
             TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
             result = -1;
         }
+        //result |= xml_writer_write_plain ( &((*this_).xml_writer), utf8stringbuf_get_string(id_str) );
     }
 
     TRACE_END_ERR( result );
@@ -1290,11 +1209,12 @@ int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
 int io_format_writer_private_write_plain_id ( io_format_writer_t *this_, data_table_t table, int64_t row_id )
 {
     TRACE_BEGIN();
-    assert( NULL != (*this_).output );
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
+    FILE* const output = (*this_).xml_writer.output;  /* TODO - do not directly access members */
+    assert( output != NULL );
 
     /* print id */
     {
@@ -1306,12 +1226,13 @@ int io_format_writer_private_write_plain_id ( io_format_writer_t *this_, data_ta
         data_id_to_utf8stringbuf( &the_id, id_str );
 
         unsigned int len = utf8stringbuf_get_length(id_str);
-        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, (*this_).output );
+        out_count = fwrite( utf8stringbuf_get_string(id_str), 1, len, output );
         if ( out_count != len )
         {
             TSLOG_ERROR_INT( "not all bytes could be written. missing:", len - out_count );
             result = -1;
         }
+        //result |= xml_writer_write_plain ( &((*this_).xml_writer), utf8stringbuf_get_string(id_str) );
     }
 
     TRACE_END_ERR( result );
