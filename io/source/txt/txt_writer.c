@@ -33,22 +33,6 @@ void txt_writer_destroy( txt_writer_t *this_ )
     TRACE_END();
 }
 
-int txt_writer_write_plain ( txt_writer_t *this_, const char *text )
-{
-    TRACE_BEGIN();
-    int export_err = 0;
-    assert ( NULL != text );
-    assert ( NULL != (*this_).output );
-
-    const size_t text_len = strlen(text);
-    size_t out_count;
-    out_count = fwrite( text, 1 /* size of char */, text_len, (*this_).output );
-    export_err = (out_count != text_len) ? -1 : 0;
-
-    TRACE_END_ERR( export_err );
-    return ( export_err );
-}
-
 int txt_writer_write_indent_multiline_string ( txt_writer_t *this_,
                                                const char *indent,
                                                const char *multiline_string )
@@ -145,12 +129,16 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
     assert( DATA_TABLE_VOID != table );
     assert( DATA_ID_VOID_ID != row_id );
     assert( sizeof(TXT_ID_INDENT_SPACES) == 1+TXT_WRITER_INDENT_COLUMN );
-    assert( indent_width <= TXT_WRITER_INDENT_COLUMN );
     int result = 0;
     size_t out_count;  /* checks if the number of written characters matches the expectation */
     assert( (*this_).output != NULL );
 
     /* indent */
+    if ( indent_width > TXT_WRITER_INDENT_COLUMN )
+    {
+        TSLOG_ERROR_INT( "more spaces requested than available. missing:", indent_width - TXT_WRITER_INDENT_COLUMN );
+        indent_width = TXT_WRITER_INDENT_COLUMN;
+    }
     if ( indent_width > 0 )
     {
         out_count = fwrite( &TXT_ID_INDENT_SPACES, 1, indent_width, (*this_).output );

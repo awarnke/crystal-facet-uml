@@ -49,7 +49,7 @@ void txt_writer_destroy( txt_writer_t *this_ );
  *  \param text string to write
  *  \result 0 in case of success, -1 otherwise
  */
-int txt_writer_write_plain ( txt_writer_t *this_, const char *text );
+static inline int txt_writer_write_plain ( txt_writer_t *this_, const char *text );
 
 /*!
  *  \brief prints a multiline string with indentation prefix
@@ -95,6 +95,8 @@ int txt_writer_write_indent_id ( txt_writer_t *this_,
  *  \result 0 in case of success, -1 otherwise
  */
 int txt_writer_write_plain_id ( txt_writer_t *this_, data_table_t table, int64_t row_id );
+
+#include "txt_writer.inl"
 
 #endif  /* TXT_WRITER_H */
 
