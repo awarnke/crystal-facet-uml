@@ -12,12 +12,13 @@
 #include "io_file_format.h"
 #include "xml/xml_writer.h"
 #include "txt/txt_writer.h"
+#include "md/md_filter.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
+#include "storage/data_database_reader.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
-#include <gtk/gtk.h>
 
 /*!
  *  \brief attributes of the document exporter
@@ -26,6 +27,7 @@ struct io_format_writer_struct {
     io_file_format_t export_type;  /*!< format of output document */
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to io_format_writer_start_diagram */
 
+    md_filter_t md_filter;  /*!< own instance of an md filter */
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
     txt_writer_t txt_writer;  /*!< own instance of a txt writer */
 };
@@ -36,10 +38,12 @@ typedef struct io_format_writer_struct io_format_writer_t;
  *  \brief initializes the document exporter
  *
  *  \param this_ pointer to own object attributes
+ *  \param db_reader pointer to a database reader object
  *  \param export_type image file format
  *  \param output file object where to write the document to
  */
 void io_format_writer_init( io_format_writer_t *this_,
+                            data_database_reader_t *db_reader,  /*!< pointer to external database reader */
                             io_file_format_t export_type,
                             FILE *output
                           );

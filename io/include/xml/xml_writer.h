@@ -9,13 +9,10 @@
  *  \brief writes strings to an xml stream
  */
 
-#include "io_file_format.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
-#include "set/data_visible_set.h"
-#include "util/geometry/geometry_rectangle.h"
+#include "data_table.h"
 #include "util/string/utf8stringbuf.h"
-#include <gtk/gtk.h>
 
 /*!
  *  \brief constants for max string sizes
@@ -64,6 +61,16 @@ void xml_writer_destroy( xml_writer_t *this_ );
 static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text );
 
 /*!
+ *  \brief writes buffer (stringview) to a file, unencoded
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param start buffer to write, not 0-terminated
+ *  \param length length of the buffer to write
+ *  \result 0 in case of success, -1 otherwise
+ */
+static inline int xml_writer_write_plain_buf ( xml_writer_t *this_, const char *start, size_t length );
+
+/*!
  *  \brief prints an id
  *
  *  if the id is invalid, nothing is printed.
@@ -73,7 +80,7 @@ static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text
  *  \param row_id row identifier
  *  \result 0 in case of success, -1 otherwise
  */
-int xml_writer_private_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t row_id );
+int xml_writer_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t row_id );
 
 /*!
  *  \brief writes a string to a file, xml encoded
@@ -85,22 +92,14 @@ int xml_writer_private_write_plain_id ( xml_writer_t *this_, data_table_t table,
 static inline int xml_writer_write_xml_enc ( xml_writer_t *this_, const char *text );
 
 /*!
- *  \brief writes a string to a file as formatted xhtml encoded
+ *  \brief writes a buffer (stringview) to a file, xml encoded
  *
  *  \param this_ pointer to own object attributes
- *  \param text string to write
+ *  \param start buffer to write, not 0-terminated
+ *  \param length length of the buffer to write
  *  \result 0 in case of success, -1 otherwise
  */
-static inline int xml_writer_write_fmt_xhtml_enc ( xml_writer_t *this_, const char *text );
-
-/*!
- *  \brief writes a string to a file as formatted docbook encoded
- *
- *  \param this_ pointer to own object attributes
- *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
- */
-static inline int xml_writer_write_fmt_db_enc ( xml_writer_t *this_, const char *text );
+static inline int xml_writer_write_xml_enc_buf ( xml_writer_t *this_, const char *start, size_t length );
 
 #include "xml_writer.inl"
 

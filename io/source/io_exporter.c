@@ -216,7 +216,7 @@ int io_exporter_private_export_image_files( io_exporter_t *this_,
                 int write_err;
 
                 /* write file */
-                io_format_writer_init( &((*this_).temp_format_writer ), IO_FILE_FORMAT_TXT, text_output );
+                io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, IO_FILE_FORMAT_TXT, text_output );
                 write_err = io_diagram_text_exporter_write_all ( &((*this_).diagram_text_exporter), &((*this_).temp_format_writer ) );
                 io_format_writer_destroy( &((*this_).temp_format_writer ) );
 
@@ -327,7 +327,7 @@ int io_exporter_private_export_document_file( io_exporter_t *this_,
         int write_err;
 
         /* write file */
-        io_format_writer_init( &((*this_).temp_format_writer ), export_type, output );
+        io_format_writer_init( &((*this_).temp_format_writer ), (*this_).db_reader, export_type, output );
         if ( IO_FILE_FORMAT_CSS == export_type )
         {
             write_err = io_format_writer_write_stylesheet( &((*this_).temp_format_writer) );
