@@ -63,8 +63,10 @@ static const char DOCBOOK_DIAGRAM_END[]
 
 static const char DOCBOOK_DESCRIPTION_START[]
 = "        <para>\n";
+static const char DOCBOOK_DESCRIPTION_MIDDLE[]
+= "\n        </para>\n        <para>\n";
 static const char DOCBOOK_DESCRIPTION_END[]
-= "        </para>\n";
+= "\n        </para>\n";
 
 static const char DOCBOOK_ELEMENT_LIST_START[]
 = "        <variablelist>\n";
@@ -144,8 +146,10 @@ static const char XHTML_DIAGRAM_END[]
 
 static const char XHTML_DESCRIPTION_START[]
 = "            <div class=\"description\"><p>\n";
+static const char XHTML_DESCRIPTION_MIDDLE[]
+= "\n            <br />\n";
 static const char XHTML_DESCRIPTION_END[]
-= "            </p></div>\n";
+= "\n            </p></div>\n";
 
 static const char XHTML_ELEMENT_LIST_START[]
 = "            <div class=\"element\">\n";
@@ -292,7 +296,35 @@ void io_format_writer_init ( io_format_writer_t *this_,
 
     txt_writer_init( &((*this_).txt_writer), output );
     xml_writer_init( &((*this_).xml_writer), output );
-    md_filter_init( &((*this_).md_filter), db_reader, &((*this_).xml_writer) );
+
+    switch ( (*this_).export_type )
+    {
+        case IO_FILE_FORMAT_DOCBOOK:
+        {
+            md_filter_init( &((*this_).md_filter),
+                            db_reader,
+                            DOCBOOK_DESCRIPTION_MIDDLE,
+                            &((*this_).xml_writer)
+                          );
+        }
+        break;
+
+        case IO_FILE_FORMAT_XHTML:
+        {
+            md_filter_init( &((*this_).md_filter),
+                            db_reader,
+                            XHTML_DESCRIPTION_MIDDLE,
+                            &((*this_).xml_writer)
+                          );
+        }
+        break;
+
+        default:
+        {
+            md_filter_init( &((*this_).md_filter), db_reader, "\n", &((*this_).xml_writer) );
+        }
+        break;
+    }
 
     TRACE_END();
 }
@@ -568,7 +600,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_TITLE_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_START );
-            export_err |= md_filter_write_fmt_db_enc ( &((*this_).md_filter), diag_description );
+            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DESCRIPTION_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_DIAGRAM_IMG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
@@ -587,7 +619,7 @@ int io_format_writer_write_diagram( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diag_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_TITLE_END[index_of_depth] );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_START );
-            export_err |= md_filter_write_fmt_xhtml_enc ( &((*this_).md_filter), diag_description );
+            export_err |= md_filter_transform ( &((*this_).md_filter), diag_description );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DESCRIPTION_END );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_DIAGRAM_IMG_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), diagram_file_base_name );
@@ -679,7 +711,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_write_fmt_db_enc ( &((*this_).md_filter), classifier_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_CLASSIFIER,
                                                              classifier_id
@@ -695,7 +727,7 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
-            export_err |= md_filter_write_fmt_xhtml_enc ( &((*this_).md_filter), classifier_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_CLASSIFIER,
                                                              classifier_id
@@ -758,7 +790,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_write_fmt_db_enc ( &((*this_).md_filter), feature_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_FEATURE,
                                                              feature_id
@@ -777,7 +809,7 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-            export_err |= md_filter_write_fmt_xhtml_enc ( &((*this_).md_filter), feature_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_FEATURE,
                                                              feature_id
@@ -848,7 +880,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_write_fmt_db_enc ( &((*this_).md_filter), relation_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_RELATIONSHIP,
                                                              relation_id
@@ -864,7 +896,7 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-            export_err |= md_filter_write_fmt_xhtml_enc ( &((*this_).md_filter), relation_descr );
+            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
                                                              DATA_TABLE_RELATIONSHIP,
                                                              relation_id

@@ -27,7 +27,7 @@ struct md_filter_struct {
     data_database_reader_t *db_reader;  /*!< pointer to external database reader */
     xml_writer_t *sink;  /*!< output sink */
 
-    const char * const * fmt_xhtml_encode_table;  /*!< table for formatted xhtml encode string replacements */
+    const char * tag_linebreak;  /*!< tag for linebreak */
     const char * const * fmt_db_encode_table;  /*!< table for formatted docbook encode string replacements */
 };
 
@@ -38,9 +38,14 @@ typedef struct md_filter_struct md_filter_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
+ *  \param tag_linebreak tag for linebreaks
  *  \param sink stream sink where to write the output to
  */
-void md_filter_init( md_filter_t *this_, data_database_reader_t *db_reader, xml_writer_t *sink );
+void md_filter_init( md_filter_t *this_,
+                     data_database_reader_t *db_reader,
+                     const char * tag_linebreak,
+                     xml_writer_t *sink
+                   );
 
 /*!
  *  \brief destroys the document exporter
@@ -48,24 +53,6 @@ void md_filter_init( md_filter_t *this_, data_database_reader_t *db_reader, xml_
  *  \param this_ pointer to own object attributes
  */
 void md_filter_destroy( md_filter_t *this_ );
-
-/*!
- *  \brief writes a string to a file as formatted xhtml encoded
- *
- *  \param this_ pointer to own object attributes
- *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
- */
-int md_filter_write_fmt_xhtml_enc ( md_filter_t *this_, const char *text );
-
-/*!
- *  \brief writes a string to a file as formatted docbook encoded
- *
- *  \param this_ pointer to own object attributes
- *  \param text string to write
- *  \result 0 in case of success, -1 otherwise
- */
-int md_filter_write_fmt_db_enc ( md_filter_t *this_, const char *text );
 
 /*!
  *  \brief parses the string, enriches it by links and paragraph-breaks and writes it to the sink
