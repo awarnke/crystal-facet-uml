@@ -67,7 +67,8 @@ FILE(GLOB commonSource gui/source/*.c
                        pencil/source/draw/*.c
                        io/source/*.c
                        io/source/json/*.c
-                       io/source/xml/*.c)
+                       io/source/xml/*.c
+                       io/source/txt/*.c)
 FILE(GLOB appSource    main/source/*.c)
 FILE(GLOB utestSource  main/unittest/*.c
                        data/unittest/*.c

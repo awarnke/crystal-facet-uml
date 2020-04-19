@@ -11,19 +11,13 @@
 
 #include "io_file_format.h"
 #include "xml/xml_writer.h"
+#include "txt/txt_writer.h"
 #include "data_diagram.h"
 #include "data_classifier.h"
 #include "set/data_visible_set.h"
 #include "util/geometry/geometry_rectangle.h"
 #include "util/string/utf8stringbuf.h"
 #include <gtk/gtk.h>
-
-/*!
- *  \brief constants for max string sizes
- */
-enum io_format_writer_max_enum {
-    IO_DOCUMENT_EXPORTER_MAX_STRING_SIZE = DATA_DIAGRAM_MAX_DESCRIPTION_LENGTH + DATA_CLASSIFIER_MAX_DESCRIPTION_LENGTH,
-};
 
 /*!
  *  \brief attributes of the document exporter
@@ -33,6 +27,7 @@ struct io_format_writer_struct {
     uint32_t current_tree_depth;  /*!< tree depth in diagram tree, starts at 0, increases with every call to io_format_writer_start_diagram */
 
     xml_writer_t xml_writer;  /*!< own instance of an xml writer */
+    txt_writer_t txt_writer;  /*!< own instance of a txt writer */
 };
 
 typedef struct io_format_writer_struct io_format_writer_t;
@@ -206,51 +201,6 @@ int io_format_writer_write_footer( io_format_writer_t *this_ );
  *  \result 0 in case of success, -1 otherwise
  */
 int io_format_writer_write_stylesheet( io_format_writer_t *this_ );
-
-/*!
- *  \brief prints a multiline string with indentation prefix
- *
- *  if the string is empty, no character is written. If the last line is not empty, an additional newline is appended.
- *  newline, return and return-newline are recognized as line breaks.
- *
- *  \param this_ pointer to own object attributes
- *  \param indent pattern, by which each line is indented; must not be NULL
- *  \param multiline_string string to write to out
- *  \result 0 in case of success, -1 otherwise
- */
-int io_format_writer_private_write_indent_multiline_string ( io_format_writer_t *this_,
-                                                             const char *indent,
-                                                             const char *multiline_string
-                                                           );
-
-/*!
- *  \brief prints an id with indentation prefix and surrounding brackets
- *
- *  if the id is invalid, nothing is printed.
- *
- *  \param this_ pointer to own object attributes
- *  \param indent_width number of space-characters, by which each line is indented. Negative values cause a zero-indent.
- *  \param table table identifier
- *  \param row_id row identifier
- *  \result 0 in case of success, -1 otherwise
- */
-int io_format_writer_private_write_indent_id ( io_format_writer_t *this_,
-                                               int indent_width,
-                                               data_table_t table,
-                                               int64_t row_id
-                                             );
-
-/*!
- *  \brief prints an id
- *
- *  if the id is invalid, nothing is printed.
- *
- *  \param this_ pointer to own object attributes
- *  \param table table identifier
- *  \param row_id row identifier
- *  \result 0 in case of success, -1 otherwise
- */
-int io_format_writer_private_write_plain_id ( io_format_writer_t *this_, data_table_t table, int64_t row_id );
 
 #endif  /* IO_FORMAT_WRITER_H */
 

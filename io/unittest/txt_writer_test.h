@@ -1,18 +1,18 @@
-/* File: io_format_writer_test.h; Copyright and License: see below */
+/* File: txt_writer_test.h; Copyright and License: see below */
 
-#ifndef IO_FORMAT_WRITER_TEST_H
-#define IO_FORMAT_WRITER_TEST_H
+#ifndef TXT_WRITER_TEST_H
+#define TXT_WRITER_TEST_H
 
 /*!
  *  \file
- *  \brief UNITTEST for io_format_writer
+ *  \brief UNITTEST for txt_writer
  */
 
 #include <test_suite.h>
 
-test_suite_t io_format_writer_test_get_list(void);
+test_suite_t txt_writer_test_get_list(void);
 
-#endif  /* IO_FORMAT_WRITER_TEST_H */
+#endif  /* TXT_WRITER_TEST_H */
 
 
 /*

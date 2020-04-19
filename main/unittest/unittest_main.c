@@ -16,7 +16,7 @@
 #include "geometry_connector_test.h"
 #include "geometry_non_linear_scale_test.h"
 #include "gui_sketch_nav_tree_test.h"
-#include "io_format_writer_test.h"
+#include "txt_writer_test.h"
 #include "json_tokenizer_test.h"
 #include "json_import_to_database_test.h"
 #include "pencil_layout_data_test.h"
@@ -104,7 +104,7 @@ int main (int argc, char *argv[]) {
         test_runner_run_suite( &runner, geometry_rectangle_test_get_list() );
         test_runner_run_suite( &runner, geometry_connector_test_get_list() );
         test_runner_run_suite( &runner, geometry_non_linear_scale_test_get_list() );
-        test_runner_run_suite( &runner, io_format_writer_test_get_list() );
+        test_runner_run_suite( &runner, txt_writer_test_get_list() );
         test_runner_run_suite( &runner, json_tokenizer_test_get_list() );
         test_runner_run_suite( &runner, pencil_layout_data_test_get_list() );
         test_runner_run_suite( &runner, universal_array_index_sorter_test_get_list() );

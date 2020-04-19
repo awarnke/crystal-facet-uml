@@ -64,6 +64,18 @@ void xml_writer_destroy( xml_writer_t *this_ );
 static inline int xml_writer_write_plain ( xml_writer_t *this_, const char *text );
 
 /*!
+ *  \brief prints an id
+ *
+ *  if the id is invalid, nothing is printed.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param table table identifier
+ *  \param row_id row identifier
+ *  \result 0 in case of success, -1 otherwise
+ */
+int xml_writer_private_write_plain_id ( xml_writer_t *this_, data_table_t table, int64_t row_id );
+
+/*!
  *  \brief writes a string to a file, xml encoded
  *
  *  \param this_ pointer to own object attributes
