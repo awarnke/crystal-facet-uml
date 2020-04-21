@@ -12,6 +12,7 @@
 #include "xml/xml_writer.h"
 #include "util/string/utf8stringbuf.h"
 #include "storage/data_database_reader.h"
+#include "data_diagram.h"
 
 /*!
  *  \brief constants for max string sizes
@@ -28,7 +29,11 @@ struct md_filter_struct {
     xml_writer_t *sink;  /*!< output sink */
 
     const char * tag_linebreak;  /*!< tag for linebreak */
-    const char * const * fmt_db_encode_table;  /*!< table for formatted docbook encode string replacements */
+    const char * tag_xref_start;  /*!< tag for xref_start */
+    const char * tag_xref_middle;  /*!< tag for xref_middle */
+    const char * tag_xref_end;  /*!< tag for xref_end */
+
+    data_diagram_t temp_diagram;  /*!< memory for temporary diagram storage */
 };
 
 typedef struct md_filter_struct md_filter_t;
@@ -38,12 +43,18 @@ typedef struct md_filter_struct md_filter_t;
  *
  *  \param this_ pointer to own object attributes
  *  \param db_reader pointer to a database reader object
- *  \param tag_linebreak tag for linebreaks
+ *  \param tag_linebreak tag for linebreak
+ *  \param tag_xref_start tag for xref_start
+ *  \param tag_xref_middle tag for xref_middle
+ *  \param tag_xref_end tag for xref_end
  *  \param sink stream sink where to write the output to
  */
 void md_filter_init( md_filter_t *this_,
                      data_database_reader_t *db_reader,
                      const char * tag_linebreak,
+                     const char * tag_xref_start,
+                     const char * tag_xref_middle,
+                     const char * tag_xref_end,
                      xml_writer_t *sink
                    );
 

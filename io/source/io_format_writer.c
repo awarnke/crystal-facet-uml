@@ -65,6 +65,12 @@ static const char DOCBOOK_DESCRIPTION_START[]
 = "        <para>\n";
 static const char DOCBOOK_DESCRIPTION_MIDDLE[]
 = "\n        </para>\n        <para>\n";
+static const char DOCBOOK_DESCRIPTION_XREF_START[]
+= "<xref linkend=\"";
+static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
+= "\"/><!--";
+static const char DOCBOOK_DESCRIPTION_XREF_END[]
+= "-->";
 static const char DOCBOOK_DESCRIPTION_END[]
 = "\n        </para>\n";
 
@@ -148,6 +154,12 @@ static const char XHTML_DESCRIPTION_START[]
 = "            <div class=\"description\"><p>\n";
 static const char XHTML_DESCRIPTION_MIDDLE[]
 = "\n            <br />\n";
+static const char XHTML_DESCRIPTION_XREF_START[]
+= "<a href=\"#";
+static const char XHTML_DESCRIPTION_XREF_MIDDLE[]
+= "\">";
+static const char XHTML_DESCRIPTION_XREF_END[]
+= "</a>";
 static const char XHTML_DESCRIPTION_END[]
 = "\n            </p></div>\n";
 
@@ -304,6 +316,9 @@ void io_format_writer_init ( io_format_writer_t *this_,
             md_filter_init( &((*this_).md_filter),
                             db_reader,
                             DOCBOOK_DESCRIPTION_MIDDLE,
+                            DOCBOOK_DESCRIPTION_XREF_START,
+                            DOCBOOK_DESCRIPTION_XREF_MIDDLE,
+                            DOCBOOK_DESCRIPTION_XREF_END,
                             &((*this_).xml_writer)
                           );
         }
@@ -314,6 +329,9 @@ void io_format_writer_init ( io_format_writer_t *this_,
             md_filter_init( &((*this_).md_filter),
                             db_reader,
                             XHTML_DESCRIPTION_MIDDLE,
+                            XHTML_DESCRIPTION_XREF_START,
+                            XHTML_DESCRIPTION_XREF_MIDDLE,
+                            XHTML_DESCRIPTION_XREF_END,
                             &((*this_).xml_writer)
                           );
         }
@@ -321,7 +339,7 @@ void io_format_writer_init ( io_format_writer_t *this_,
 
         default:
         {
-            md_filter_init( &((*this_).md_filter), db_reader, "\n", &((*this_).xml_writer) );
+            md_filter_init( &((*this_).md_filter), db_reader, "\n", "", ": ", "", &((*this_).xml_writer) );
         }
         break;
     }

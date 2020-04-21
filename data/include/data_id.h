@@ -60,6 +60,22 @@ static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t 
 static inline void data_id_init_by_string ( data_id_t *this_, const char* string_to_parse );
 
 /*!
+ *  \brief initializes the data_id_t struct
+ *
+ *  In case of error, data_id_is_valid() is false afterwards.
+ *
+ *  \param this_ pointer to own object attributes
+ *  \param string_to_parse a pointer to a 0-terminated character sequence or NULL
+ *  \param start index of start position where to parse
+ *  \param out_length number of bytes (not codepoints) read, 0 in case of an error
+ */
+static inline void data_id_init_by_string_region ( data_id_t *this_,
+                                                   const char* string_to_parse,
+                                                   size_t start,
+                                                   size_t *out_length
+                                                 );
+
+/*!
  *  \brief re-initializes the data_id_t struct
  *
  *  \param this_ pointer to own object attributes

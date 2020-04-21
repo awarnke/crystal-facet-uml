@@ -12,6 +12,15 @@ static inline void data_id_init ( data_id_t *this_, data_table_t table, int64_t 
 
 static inline void data_id_init_by_string ( data_id_t *this_, const char* string_to_parse )
 {
+    size_t dummy_length;
+    data_id_init_by_string_region ( this_, string_to_parse, 0, &dummy_length );
+}
+
+static inline void data_id_init_by_string_region ( data_id_t *this_,
+                                                   const char* string_to_parse,
+                                                   size_t start,
+                                                   size_t *out_length )
+{
     if ( string_to_parse == NULL )
     {
         (*this_).table = DATA_TABLE_VOID;
@@ -19,33 +28,33 @@ static inline void data_id_init_by_string ( data_id_t *this_, const char* string
     }
     else
     {
-        switch ( string_to_parse[0] )
+        switch ( string_to_parse[start] )
         {
-            case 'C':
+            case DATA_TABLE_ALPHANUM_CLASSIFIER:
             {
                 (*this_).table = DATA_TABLE_CLASSIFIER;
             }
             break;
 
-            case 'F':
+            case DATA_TABLE_ALPHANUM_FEATURE:
             {
                 (*this_).table = DATA_TABLE_FEATURE;
             }
             break;
 
-            case 'R':
+            case DATA_TABLE_ALPHANUM_RELATIONSHIP:
             {
                 (*this_).table = DATA_TABLE_RELATIONSHIP;
             }
             break;
 
-            case 'E':
+            case DATA_TABLE_ALPHANUM_DIAGRAMELEMENT:
             {
                 (*this_).table = DATA_TABLE_DIAGRAMELEMENT;
             }
             break;
 
-            case 'D':
+            case DATA_TABLE_ALPHANUM_DIAGRAM:
             {
                 (*this_).table = DATA_TABLE_DIAGRAM;
             }
@@ -64,16 +73,18 @@ static inline void data_id_init_by_string ( data_id_t *this_, const char* string
         }
         else
         {
-            const char* int_to_parse = string_to_parse+1;
+            const char* int_to_parse = string_to_parse+start+1;
             unsigned int byte_length;
             int64_t number;
             utf8error_t u8err = utf8string_parse_int( int_to_parse, &byte_length, &number );
             if (( u8err == UTF8ERROR_SUCCESS )&&( byte_length >= 4 )) {
                 (*this_).row_id = number;
+                *out_length = byte_length+1;
             }
             else {
                 (*this_).table = DATA_TABLE_VOID;
                 (*this_).row_id = DATA_ID_VOID_ID;
+                *out_length = 0;
             }
         }
     }
@@ -125,34 +136,6 @@ static inline int64_t data_id_get_row_id ( const data_id_t *this_ )
 
 static inline void data_id_trace ( const data_id_t *this_ )
 {
-#if 0
-    TRACE_INFO( "data_id_t" );
-    switch ( (*this_).table )
-    {
-        case DATA_TABLE_VOID:
-            TRACE_INFO("- table: DATA_TABLE_VOID");
-            break;
-        case DATA_TABLE_CLASSIFIER:
-            TRACE_INFO("- table: DATA_TABLE_CLASSIFIER");
-            break;
-        case DATA_TABLE_FEATURE:
-            TRACE_INFO("- table: DATA_TABLE_FEATURE");
-            break;
-        case DATA_TABLE_RELATIONSHIP:
-            TRACE_INFO("- table: DATA_TABLE_RELATIONSHIP");
-            break;
-        case DATA_TABLE_DIAGRAMELEMENT:
-            TRACE_INFO("- table: DATA_TABLE_DIAGRAMELEMENT");
-            break;
-        case DATA_TABLE_DIAGRAM:
-            TRACE_INFO("- table: DATA_TABLE_DIAGRAM");
-            break;
-        default:
-            TSLOG_ERROR("- table: out of range");
-            break;
-    }
-    TRACE_INFO_INT( "- row_id:", (*this_).row_id );
-#endif
     const char prefix[] = "data_id_t: ";
     char id_buf[sizeof(prefix)+DATA_ID_MAX_UTF8STRING_LENGTH];
     utf8stringbuf_t id_str = UTF8STRINGBUF( id_buf );

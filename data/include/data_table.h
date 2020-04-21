@@ -10,6 +10,17 @@
  */
 
 /*!
+ *  \brief alphanumerical prefix for a string represantation of a table
+ */
+enum data_table_alphanum_enum {
+    DATA_TABLE_ALPHANUM_CLASSIFIER = 'C',  /*!< \see data_classifier_t */
+    DATA_TABLE_ALPHANUM_FEATURE = 'F',  /*!< \see data_feature_t */
+    DATA_TABLE_ALPHANUM_RELATIONSHIP = 'R',  /*!< \see data_relationship_t */
+    DATA_TABLE_ALPHANUM_DIAGRAMELEMENT = 'E',  /*!< \see data_diagramelement_t */
+    DATA_TABLE_ALPHANUM_DIAGRAM = 'D',  /*!< \see data_diagram_t */
+};
+
+/*!
  *  \brief id for a database table in which an object is stored
  *
  *  A data_table_t and an id allow to uniquely specify any object in the database
