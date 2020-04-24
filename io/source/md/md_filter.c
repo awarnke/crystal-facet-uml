@@ -8,62 +8,6 @@
 #include <assert.h>
 
 /* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
-// static const char * const MD_FILTER_PRIVATE_ENCODE_FMT_DB_STRINGS[] = {
-//     "<", "&lt;",
-//     ">", "&gt;",
-//     "\"", "&quot;",
-//     "&", "&amp;",
-//     "\n\n", "</para>\n<para>",
-//     "\n+", "</para>\n<para>+",  /* markdown list */
-//     "\n-", "</para>\n<para>-",  /* markdown list or heading */
-//     "\n*", "</para>\n<para>*",  /* markdown list */
-//     "\n0", "</para>\n<para>0",  /* markdown list */
-//     "\n1", "</para>\n<para>1",  /* markdown list */
-//     "\n2", "</para>\n<para>2",  /* markdown list */
-//     "\n3", "</para>\n<para>3",  /* markdown list */
-//     "\n4", "</para>\n<para>4",  /* markdown list */
-//     "\n5", "</para>\n<para>5",  /* markdown list */
-//     "\n6", "</para>\n<para>6",  /* markdown list */
-//     "\n7", "</para>\n<para>7",  /* markdown list */
-//     "\n8", "</para>\n<para>8",  /* markdown list */
-//     "\n9", "</para>\n<para>9",  /* markdown list */
-//     "\n>", "</para>\n<para>&gt;",  /* markdown citation */
-//     "\n=", "</para>\n<para>=",  /* markdown heading */
-//     "\n#", "</para>\n<para>#",  /* markdown heading */
-//     "\n ", "</para>\n<para>&#xA0;",  /* markdown list-entry continuation */
-//     "\n|", "</para>\n<para>|",  /* markdown table */
-//     NULL,  /* end translation table */
-// };
-
-/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
-// static const char * const MD_FILTER_PRIVATE_ENCODE_FMT_XHTML_STRINGS[] = {
-//     "<", "&lt;",
-//     ">", "&gt;",
-//     "\"", "&quot;",
-//     "&", "&amp;",
-//     "\n\n", "<br />\n",
-//     "\n+", "<br />+",  /* markdown list */
-//     "\n-", "<br />-",  /* markdown list or heading */
-//     "\n*", "<br />*",  /* markdown list */
-//     "\n0", "<br />0",  /* markdown list */
-//     "\n1", "<br />1",  /* markdown list */
-//     "\n2", "<br />2",  /* markdown list */
-//     "\n3", "<br />3",  /* markdown list */
-//     "\n4", "<br />4",  /* markdown list */
-//     "\n5", "<br />5",  /* markdown list */
-//     "\n6", "<br />6",  /* markdown list */
-//     "\n7", "<br />7",  /* markdown list */
-//     "\n8", "<br />8",  /* markdown list */
-//     "\n9", "<br />9",  /* markdown list */
-//     "\n>", "<br />&gt;",  /* markdown citation */
-//     "\n=", "<br />=",  /* markdown heading */
-//     "\n#", "<br />#",  /* markdown heading */
-//     "\n ", "<br />&nbsp;",  /* markdown list-entry continuation */
-//     "\n|", "<br />|",  /* markdown table */
-//     NULL,  /* end translation table */
-// };
-
-/* Note, this is no full markdown syntax support - but it helps keeping markdown in shape */
 static const char MD_FILTER_LINEBREAK = '\n';
 static const char MD_FILTER_LINK_AS_ID[] = "#id";
 static const char MD_FILTER_LINK_AS_NAME[] = "#name";
@@ -117,12 +61,35 @@ int md_filter_transform ( md_filter_t *this_, const char *text )
 
     for ( unsigned int text_current_byte = 0; text_current_byte < text_byte_length; text_current_byte ++ )
     {
-        char current = text[text_current_byte];  /* note: only in case current<=0x7f this is a valid code point */
+        const char current = text[text_current_byte];  /* note: only in case current<=0x7f this is a valid code point */
+        const char peeknext = text[text_current_byte+1];  /* note: only in case current<=0x7f this is a valid code point, 0 at string end */
         if ( current == MD_FILTER_LINEBREAK )
         {
-            write_err |= xml_writer_write_xml_enc_buf( (*this_).sink, &(text[text_start_byte]), text_current_byte-text_start_byte );
-            write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_linebreak );
-            text_start_byte = text_current_byte+1;
+            if (( peeknext == MD_FILTER_LINEBREAK )
+                || ( peeknext == '+' )  /* list */
+                || ( peeknext == '*' )  /* list */
+                || ( peeknext == '-' )  /* list or heading */
+                || ( peeknext == '=' )  /* heading */
+                || ( peeknext == '#' )  /* heading */
+                || ( peeknext == '0' )  /* ordered list */
+                || ( peeknext == '1' )  /* ordered list */
+                || ( peeknext == '2' )  /* ordered list */
+                || ( peeknext == '3' )  /* ordered list */
+                || ( peeknext == '4' )  /* ordered list */
+                || ( peeknext == '5' )  /* ordered list */
+                || ( peeknext == '6' )  /* ordered list */
+                || ( peeknext == '7' )  /* ordered list */
+                || ( peeknext == '8' )  /* ordered list */
+                || ( peeknext == '9' )  /* ordered list */
+                || ( peeknext == '>' )  /* citation */
+                /*|| ( peeknext == ' ' )*/  /* list continuation */
+                || ( peeknext == '|' ))  /* table */
+        
+            {
+                write_err |= xml_writer_write_xml_enc_buf( (*this_).sink, &(text[text_start_byte]), text_current_byte-text_start_byte );
+                write_err |= xml_writer_write_plain ( (*this_).sink, (*this_).tag_linebreak );
+                text_start_byte = text_current_byte+1;
+            }
         }
         else if ( current == DATA_TABLE_ALPHANUM_DIAGRAM /* = 'D' */)
         {

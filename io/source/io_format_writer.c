@@ -61,19 +61,6 @@ static const char DOCBOOK_DIAGRAM_IMG_END[]
 static const char DOCBOOK_DIAGRAM_END[]
 = "    </section>\n";
 
-static const char DOCBOOK_DESCRIPTION_START[]
-= "        <para>\n";
-static const char DOCBOOK_DESCRIPTION_MIDDLE[]
-= "\n        </para>\n        <para>\n";
-static const char DOCBOOK_DESCRIPTION_XREF_START[]
-= "<xref linkend=\"";
-static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
-= "\"/><!--";
-static const char DOCBOOK_DESCRIPTION_XREF_END[]
-= "-->";
-static const char DOCBOOK_DESCRIPTION_END[]
-= "\n        </para>\n";
-
 static const char DOCBOOK_ELEMENT_LIST_START[]
 = "        <variablelist>\n";
 static const char DOCBOOK_ELEMENT_START[]
@@ -84,12 +71,30 @@ static const char DOCBOOK_ELEMENT_NAME_END[]
 = "\n                </term>\n"
 "                <listitem>\n"
 "                    <para>\n";
+static const char DOCBOOK_ELEMENT_ID_START[]
+= "                <token>";
+static const char DOCBOOK_ELEMENT_ID_END[]
+= "<token>\n";
 static const char DOCBOOK_ELEMENT_END[]
 = "\n                    </para>\n"
 "                </listitem>\n"
 "            </varlistentry>\n";
 static const char DOCBOOK_ELEMENT_LIST_END[]
 = "        </variablelist>\n";
+
+static const char DOCBOOK_DESCRIPTION_START[]
+= "        <para>\n";
+static const char DOCBOOK_DESCRIPTION_MIDDLE[]
+= "\n        </para>\n        <para>\n";
+static const char DOCBOOK_DESCRIPTION_XREF_START[]
+= "<xref linkend=\"";
+static const char DOCBOOK_DESCRIPTION_XREF_MIDDLE[]
+= "\"/>: ";
+static const char DOCBOOK_DESCRIPTION_XREF_END[]
+= "";
+static const char DOCBOOK_DESCRIPTION_END[]
+= "\n        </para>\n";
+
 
 /* IO_FILE_FORMAT_XHTML */
 
@@ -150,6 +155,23 @@ static const char XHTML_DIAGRAM_IMG_END[]
 static const char XHTML_DIAGRAM_END[]
 = "        </div>\n";
 
+static const char XHTML_ELEMENT_LIST_START[]
+= "            <div class=\"element\">\n";
+static const char XHTML_ELEMENT_START[]
+= "            <p>\n";
+static const char XHTML_ELEMENT_NAME_START[]
+= "                <strong class=\"elementname\">";
+static const char XHTML_ELEMENT_NAME_END[]
+= "</strong>";
+static const char XHTML_ELEMENT_ID_START[]
+= "                <emphasis class=\"elementid\">";
+static const char XHTML_ELEMENT_ID_END[]
+= "</emphasis>\n";
+static const char XHTML_ELEMENT_END[]
+= "\n            </p>\n";
+static const char XHTML_ELEMENT_LIST_END[]
+= "            </div>\n";
+
 static const char XHTML_DESCRIPTION_START[]
 = "            <div class=\"description\"><p>\n";
 static const char XHTML_DESCRIPTION_MIDDLE[]
@@ -162,19 +184,6 @@ static const char XHTML_DESCRIPTION_XREF_END[]
 = "</a>";
 static const char XHTML_DESCRIPTION_END[]
 = "\n            </p></div>\n";
-
-static const char XHTML_ELEMENT_LIST_START[]
-= "            <div class=\"element\">\n";
-static const char XHTML_ELEMENT_START[]
-= "            <p>\n";
-static const char XHTML_ELEMENT_NAME_START[]
-= "                <strong class=\"elementname\">";
-static const char XHTML_ELEMENT_NAME_END[]
-= "</strong>";
-static const char XHTML_ELEMENT_END[]
-= "\n            </p>\n";
-static const char XHTML_ELEMENT_LIST_END[]
-= "            </div>\n";
 
 /* IO_FILE_FORMAT_TXT */
 
@@ -729,11 +738,13 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_START );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_CLASSIFIER,
-                                                             classifier_id
-                                                           );
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -745,11 +756,13 @@ int io_format_writer_write_classifier( io_format_writer_t *this_, const data_cla
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_NAME_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_CLASSIFIER,
-                                                             classifier_id
-                                                           );
+                                                     DATA_TABLE_CLASSIFIER,
+                                                     classifier_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), classifier_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -808,11 +821,13 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_FEATURE,
-                                                             feature_id
-                                                           );
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -827,11 +842,13 @@ int io_format_writer_write_feature( io_format_writer_t *this_, const data_featur
                 export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), feature_value );
             }
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_FEATURE,
-                                                             feature_id
-                                                           );
+                                                     DATA_TABLE_FEATURE,
+                                                     feature_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), feature_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
@@ -898,11 +915,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_NAME_END );
-            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_RELATIONSHIP,
-                                                             relation_id
-                                                           );
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relation_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), DOCBOOK_ELEMENT_END );
         }
         break;
@@ -913,12 +932,13 @@ int io_format_writer_write_relationship( io_format_writer_t *this_,
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), relation_name );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), TXT_SPACE_ARROW_SPACE );
             export_err |= xml_writer_write_xml_enc ( &((*this_).xml_writer), dest_classifier_name );
-            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), TXT_COLON_SPACE );
-            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_START );
             export_err |= xml_writer_write_plain_id( &((*this_).xml_writer),
-                                                             DATA_TABLE_RELATIONSHIP,
-                                                             relation_id
-                                                           );
+                                                     DATA_TABLE_RELATIONSHIP,
+                                                     relation_id
+                                                   );
+            export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_ID_END );
+            export_err |= md_filter_transform ( &((*this_).md_filter), relation_descr );
             export_err |= xml_writer_write_plain ( &((*this_).xml_writer), XHTML_ELEMENT_END );
         }
         break;
