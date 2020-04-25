@@ -7,10 +7,8 @@ mouse_droid/mouse_droid.xhtml: mouse_droid.cfu1
 mouse_droid/mouse_droid.pdf: mouse_droid.cfu1
 	mkdir -p mouse_droid
 	crystal_facet_uml -e mouse_droid.cfu1 docbook mouse_droid
-	cd mouse_droid
-	[! -f /home/pi/Downloads/docbook.xsd] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
-	dblatex mouse_droid.xml
-	cd ..
+	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd mouse_droid/mouse_droid.xml
+	(cd mouse_droid && dblatex mouse_droid.xml)
 
 quality/quality.xhtml: quality.cfu1
 	mkdir -p quality
@@ -19,10 +17,8 @@ quality/quality.xhtml: quality.cfu1
 quality/quality.pdf: quality.cfu1
 	mkdir -p quality
 	crystal_facet_uml -e quality.cfu1 docbook quality
-	cd quality
-	[! -f /home/pi/Downloads/docbook.xsd] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd mouse_droid/quality.xml
-	dblatex quality.xml
-	cd ..
+	[ ! -f /home/pi/Downloads/docbook.xsd ] || xmllint --noout --schema /home/pi/Downloads/docbook.xsd quality/quality.xml
+	(cd quality && dblatex quality.xml)
 
 pencil_tests/pencil_tests.xhtml: pencil_tests.cfu1
 	mkdir -p pencil_tests
